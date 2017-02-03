@@ -1,10 +1,7 @@
 package gigantic;
 
-public class Gigantic {
+import org.bukkit.plugin.java.JavaPlugin;
 
-	public static void main(String[] args) {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
+public class Gigantic extends JavaPlugin{
 
 }
