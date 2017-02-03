@@ -1,8 +1,20 @@
 package com.github.unchama.gigantic;
 
-final public class TableName {
-	static final String playerdata = "playerdata";
-	static final String gachadata = "gachadata";
-	static final String donatedata = "donatedata";
-	static final String msgachadata = "msgachadata";
+public enum TableName {
+	PLAYERDATA("playerdata"),
+	GACHADATA("gachadata"),
+	DONATEDATA("donatedata"),
+	MSGACHADATA("msgachadata"),
+	;
+
+	private String tablename;
+
+	TableName(String tablename){
+		this.tablename = tablename;
+	}
+
+
+	public String getTableName(){
+		return this.tablename;
+	}
 }

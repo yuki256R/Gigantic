@@ -16,16 +16,7 @@ public final class Gigantic extends JavaPlugin{
 	//メンテナンス用クラス
 	public static Maintenance maintenance;
 
-	//テーブル名用クラス(オブジェクト生成不要）
-	public static TableName tablename;
-
-	//ワールド名用クラス（オブジェクト生成不要）
-	public static WorldName worldname;
-
-
-
-	//SQLデータ用クラス
-	//public static Sql sql;
+	//
 
 
 	@Override
