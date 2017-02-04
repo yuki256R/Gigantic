@@ -1,0 +1,11 @@
+/bin/
+
+#Eclipse
+.classpath
+*.prefs
+
+#IntelliJ IDEA
+.idea/
+*.iml
+/bin/
+/bin/
