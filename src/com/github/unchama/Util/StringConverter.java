@@ -1,4 +1,4 @@
-package com.github.unchama.Util;
+package com.github.unchama.util;
 
 public class StringConverter {
 
