@@ -3,7 +3,7 @@ package com.github.unchama.gigantic;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.github.unchama.Util.StringConverter;
+import com.github.unchama.util.StringConverter;
 
 
 

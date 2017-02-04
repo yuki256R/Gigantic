@@ -16,7 +16,6 @@ public final class Gigantic extends JavaPlugin{
 	//メンテナンス用クラス
 	public static Maintenance maintenance;
 
-	//
 
 
 	@Override

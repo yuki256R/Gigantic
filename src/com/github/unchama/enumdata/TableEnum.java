@@ -1,6 +1,6 @@
-package com.github.unchama.gigantic;
+package com.github.unchama.enumdata;
 
-public enum TableName {
+public enum TableEnum {
 	PLAYERDATA("playerdata"),
 	GACHADATA("gachadata"),
 	DONATEDATA("donatedata"),
@@ -9,7 +9,7 @@ public enum TableName {
 
 	private String tablename;
 
-	TableName(String tablename){
+	TableEnum(String tablename){
 		this.tablename = tablename;
 	}
 
