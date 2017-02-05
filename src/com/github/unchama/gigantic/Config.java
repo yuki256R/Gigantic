@@ -1,18 +1,18 @@
 package com.github.unchama.gigantic;
 
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.github.unchama.util.StringConverter;
 
 
 
-public class Config {
+public class Config{
 	FileConfiguration fc;
-	private Gigantic plugin;
+	Gigantic plugin;
 
-	public Config(Gigantic plugin){
-		this.plugin = plugin;
+
+	public Config(){
+		this.plugin = Gigantic.plugin;
 		//plugin.ymlがない時にDefaultのファイルを生成
 		plugin.saveDefaultConfig();
 		//コンフィグのロード
@@ -26,7 +26,7 @@ public class Config {
 
 		//データが空であれば警告
 		if(ans == null){
-			plugin.getServer().getConsoleSender().sendMessage(ChatColor.RED + "config内に" + s + "値が宣言されていません．");
+			plugin.getLogger().warning("config内に" + s + "値が宣言されていません．");
 		}
 		//データを返す
 		return ans;
@@ -60,14 +60,14 @@ public class Config {
 		s = getString("debugmode");
 
 		if(s==null){
-			plugin.getServer().getConsoleSender().sendMessage(ChatColor.RED + "config内にDEBUG値が宣言されていません．");
+			plugin.getLogger().warning("config内にDEBUG値が宣言されていません．");
 			flag = false;
 		}else{
 			flag = StringConverter.toBoolean(s);
 			if(flag){
-				plugin.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "Giganticをデバッグモードで起動します");
+				plugin.getLogger().fine("Giganticをデバッグモードで起動します");
 			}else{
-				plugin.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Giganticを通常モードで起動します");
+				plugin.getLogger().fine("Giganticを通常モードで起動します");
 			}
 		}
 		return flag;

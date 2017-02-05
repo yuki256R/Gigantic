@@ -24,12 +24,14 @@ public final class Gigantic extends JavaPlugin{
 
 	@Override
 	public void onEnable(){
+		//必ず最初に宣言
 		plugin = this;
-		config = new Config(plugin);
-		debugmode = new Debugmode(config);
-		maintenance = new Maintenance();
-		sql = new Sql(this,config.getURL(), config.getDB(), config.getID(), config.getPW());
-	}
+		//必ず最初にconfigデータを読み込む
+		config = new Config();
 
+		debugmode = new Debugmode();
+		maintenance = new Maintenance();
+		sql = new Sql();
+	}
 
 }

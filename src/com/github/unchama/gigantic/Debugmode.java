@@ -4,8 +4,8 @@ public class Debugmode {
 
 	private Boolean flag;
 
-	public Debugmode(Config config){
-		flag = config.getDebugMode();
+	public Debugmode(){
+		this.flag = Gigantic.config.getDebugMode();
 	}
 
 	public Boolean state(){
