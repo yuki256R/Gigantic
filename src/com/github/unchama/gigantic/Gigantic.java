@@ -1,7 +1,10 @@
 package com.github.unchama.gigantic;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.unchama.enumdata.CommandEnum;
 import com.github.unchama.sql.Sql;
 
 public final class Gigantic extends JavaPlugin{
@@ -32,6 +35,13 @@ public final class Gigantic extends JavaPlugin{
 		debugmode = new Debugmode();
 		maintenance = new Maintenance();
 		sql = new Sql();
+
+
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
+		return CommandEnum.getCommandbyName(cmd.getName()).onCommand(sender, cmd, label, args);
 	}
 
 }
