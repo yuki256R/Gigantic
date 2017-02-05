@@ -37,6 +37,7 @@ public final class Gigantic extends JavaPlugin{
 		sql = new Sql();
 
 
+		getLogger().info("SeichiAssist is Enabled!");
 	}
 
 	@Override

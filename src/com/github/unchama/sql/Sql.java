@@ -86,6 +86,9 @@ public class Sql{
 		return true;
 	}
 	/**初期処理時でのテーブル読み込み
+	 *playerdataはオンラインのプレイヤーについて読み込み処理
+	 *gachadata及び
+	 *msgachadataは常に初期読み込み
 	 *
 	 * @return
 	 */
