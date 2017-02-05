@@ -3,9 +3,11 @@ package com.github.unchama.gigantic;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.enumdata.CommandEnum;
 import com.github.unchama.sql.Sql;
+import com.github.unchama.task.MinuteTaskRunnable;
 
 public final class Gigantic extends JavaPlugin{
 
@@ -24,6 +26,7 @@ public final class Gigantic extends JavaPlugin{
 	//SQL用クラス
 	public static Sql sql;
 
+	public static BukkitTask task;
 
 	@Override
 	public void onEnable(){
@@ -35,9 +38,19 @@ public final class Gigantic extends JavaPlugin{
 		debugmode = new Debugmode();
 		maintenance = new Maintenance();
 		sql = new Sql();
-
-
+		//1分毎のタスクを実行
+		task = new MinuteTaskRunnable().runTaskTimer(this,0,1200);
 		getLogger().info("SeichiAssist is Enabled!");
+	}
+
+	@Override
+	public void onDisable(){
+		//taskを終了
+		task.cancel();
+		//sql接続終了処理
+		sql.onDisable();
+
+		getLogger().info("SeichiAssist is Disabled!");
 	}
 
 	@Override

@@ -233,4 +233,10 @@ public class Sql{
 		}
 		return true;
 	}
+
+
+	public void onDisable() {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 }
