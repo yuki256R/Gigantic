@@ -1,18 +1,11 @@
 package com.github.unchama.event;
 
-import org.bukkit.event.Event;
-import org.bukkit.event.HandlerList;
+public class HalfHourEvent extends CustomEvent {
 
-public class HalfHourEvent extends Event {
-    private static final HandlerList handlers = new HandlerList();
 
-	@Override
-	public HandlerList getHandlers() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	public HalfHourEvent(){
+
 	}
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
+
 }

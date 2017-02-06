@@ -2,7 +2,7 @@ package com.github.unchama.gigantic;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import com.github.unchama.util.StringConverter;
+import com.github.unchama.util.Converter;
 
 
 
@@ -63,7 +63,7 @@ public class Config{
 			plugin.getLogger().warning("config内にDEBUG値が宣言されていません．");
 			flag = false;
 		}else{
-			flag = StringConverter.toBoolean(s);
+			flag = Converter.toBoolean(s);
 			if(flag){
 				plugin.getLogger().fine("Giganticをデバッグモードで起動します");
 			}else{

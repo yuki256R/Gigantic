@@ -9,6 +9,7 @@ import com.github.unchama.enumdata.CommandEnum;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
 
+
 public final class Gigantic extends JavaPlugin{
 
 	//自身のインスタンスを生成
@@ -39,7 +40,7 @@ public final class Gigantic extends JavaPlugin{
 		maintenance = new Maintenance();
 		sql = new Sql();
 		//1分毎のタスクを実行
-		task = new MinuteTaskRunnable().runTaskTimer(this,0,1200);
+		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
 		getLogger().info("SeichiAssist is Enabled!");
 	}
 
