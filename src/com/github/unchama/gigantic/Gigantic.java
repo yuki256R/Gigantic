@@ -42,12 +42,8 @@ public final class Gigantic extends JavaPlugin{
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
 
-
 		debugmode = new Debugmode();
 		maintenance = new Maintenance();
-
-
-
 
 		//1分毎のタスクを実行
 		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
