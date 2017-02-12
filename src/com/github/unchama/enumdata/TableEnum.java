@@ -46,7 +46,7 @@ public enum TableEnum {
 			break;
 
 		}
-		return null;
+		return false;
 	}
 	public String getUniqueCreateCommand(){
 		String command = "";
@@ -71,6 +71,7 @@ public enum TableEnum {
 		String command = "";
 		switch(this){
 		case PLAYERDATA:
+			/*
 			command =
 					"add column if not exists effectflag tinyint default 0" +
 					",add column if not exists minestackflag boolean default true" +
@@ -87,6 +88,7 @@ public enum TableEnum {
 					",add column if not exists displayTypeLv boolean default true" +
 					",add column if not exists displayTitleNo int default 0" +
 					",add column if not exists TitleFlags text default null" ;
+					*/
 			break;
 		case DONATEDATA:
 			break;

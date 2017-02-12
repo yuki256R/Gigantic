@@ -1,9 +1,5 @@
 package com.github.unchama.player;
 
-import java.util.BitSet;
-import java.util.List;
-
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 
@@ -32,8 +28,9 @@ public class GPlayer{
 	//MineStack
 	//public MineStack minestack;
 
-	public MineStack minestack = new MineStack();
+	//public MineStack minestack = new MineStack();
 	//MineStackFlag
+	/*
 	public boolean minestackflag;
 	//プレイ時間差分計算用int
 	public int servertick;
@@ -103,5 +100,5 @@ public class GPlayer{
 	private int build_count;
 	//設置ブロックサーバー統合フラグ
 	private byte build_count_flg;
-
+*/
 }

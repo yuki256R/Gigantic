@@ -93,10 +93,9 @@ public class Sql{
 	 * @return
 	 */
 	private boolean initloadTable() {
-		//全てのテーブルを作成する
+		//全てのテーブルの読み込み処理を行う
 		for(TableEnum table : TableEnum.values()){
 			if(table.getInitLoadFlag()){
-
 			}
 		}
 		return false;
@@ -233,10 +232,29 @@ public class Sql{
 		}
 		return true;
 	}
-
+	/**
+	 * コネクション切断処理
+	 *
+	 * @return 成否
+	 */
+	private boolean disconnect(){
+	    if (con != null){
+	    	try{
+	    		stmt.close();
+				con.close();
+	    	}catch (SQLException e){
+	    		e.printStackTrace();
+	    		return false;
+	    	}
+	    }
+	    return true;
+	}
 
 	public void onDisable() {
-		// TODO 自動生成されたメソッド・スタブ
+		//sql切断
+		if(!disconnect()){
+			plugin.getLogger().warning("データベース切断に失敗しました");
+		}
 
 	}
 }

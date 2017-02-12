@@ -110,6 +110,7 @@ public enum ItemEnum {
 	GOLD_BLOCK("金ブロック"),
 	IRON_BLOCK("鉄ブロック"),
 	DOUBLE_STEP("石ハーフブロック"),
+	/*
 	DOUBLE_SANDSTONE_SLAB(Material.DOUBLE_STEP,"砂岩ハーフブロック",1),
 	DOUBLE_WOODEN_SLAB(Material.DOUBLE_STEP,"オークの木材ハーフブロック",2),
 	DOUBLE_COBBLESTONE_SLAB(Material.DOUBLE_STEP,"丸石ハーフブロック",3),
@@ -117,6 +118,7 @@ public enum ItemEnum {
 	DOUBLE_STONE_SLAB(Material.DOUBLE_STEP,"石レンガハーフブロック",5),
 	DOUBLE_NETHER_SLAB(Material.DOUBLE_STEP,"ネザーレンガハーフブロック",6),
 	DOUBLE_QUARTZ_SLAB(Material.DOUBLE_STEP,"ネザー水晶ハーフブロック",7),
+	*/
 	STEP("石ハーフブロック"),
 	SANDSTONE_SLAB(Material.STEP,"砂岩ハーフブロック",1),
 	WOODEN_SLAB(Material.STEP,"オーク木材のハーフブロック",2),

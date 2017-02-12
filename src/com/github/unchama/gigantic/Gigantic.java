@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.enumdata.CommandEnum;
+import com.github.unchama.enumdata.ListenerEnum;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
 
@@ -41,7 +42,13 @@ public final class Gigantic extends JavaPlugin{
 		sql = new Sql();
 		//1分毎のタスクを実行
 		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
+
+		//リスナーを登録
+		ListenerEnum.registEvents(plugin);
+
+
 		getLogger().info("SeichiAssist is Enabled!");
+
 	}
 
 	@Override
