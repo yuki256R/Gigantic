@@ -27,8 +27,11 @@ public final class Gigantic extends JavaPlugin{
 
 	//SQL用クラス
 	public static Sql sql;
-
+	//タスク用クラス
 	public static BukkitTask task;
+
+	//ユーザー用クラス
+	public static UserManager usermanager;
 
 	@Override
 	public void onEnable(){
@@ -36,10 +39,16 @@ public final class Gigantic extends JavaPlugin{
 		plugin = this;
 		//必ず最初にconfigデータを読み込む
 		config = new Config();
+		//configの次に必ずsqlを読み込む
+		sql = new Sql();
+
 
 		debugmode = new Debugmode();
 		maintenance = new Maintenance();
-		sql = new Sql();
+
+
+
+
 		//1分毎のタスクを実行
 		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
 

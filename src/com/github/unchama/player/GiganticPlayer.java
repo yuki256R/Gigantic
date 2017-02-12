@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 
 
-public class GPlayer{
+public class GiganticPlayer{
 	private BaseData basedata;
 	private SqlData sqldata;
 	private SeichiData seichidata;
@@ -12,7 +12,7 @@ public class GPlayer{
 
 
 
-	public GPlayer(Player player){
+	public GiganticPlayer(Player player){
 		basedata = new BaseData(player);
 		sqldata = new SqlData();
 		seichidata = new SeichiData();

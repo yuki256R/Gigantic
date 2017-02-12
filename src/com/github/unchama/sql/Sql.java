@@ -255,6 +255,7 @@ public class Sql{
 		if(!disconnect()){
 			plugin.getLogger().warning("データベース切断に失敗しました");
 		}
-
 	}
+
+
 }
