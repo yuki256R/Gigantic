@@ -11,6 +11,7 @@ import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.UserManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.Debug;
 
 public class MinuteListener implements Listener{
@@ -34,7 +35,8 @@ public class MinuteListener implements Listener{
 		}
 		//run process one by one
 		for(GiganticPlayer gp : gmap.values()){
-
+			MineBoostManager m = gp.getMineBoostManager();
+			m.forwardOneMinute();
 		}
 	}
 }

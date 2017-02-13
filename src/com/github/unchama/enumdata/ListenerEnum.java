@@ -6,11 +6,13 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.listener.HalfHourListener;
 import com.github.unchama.listener.MinuteListener;
 import com.github.unchama.listener.PlayerJoinListener;
+import com.github.unchama.listener.PlayerQuitListener;
 
 public enum ListenerEnum {
 	PLAYERJOIN(new PlayerJoinListener()),
+	PLAYERQUIT(new PlayerQuitListener()),
 	MINUTE(new MinuteListener()),
-	HALFHOUR(new HalfHourListener())
+	HALFHOUR(new HalfHourListener()),
 	;
 	private Listener listener;
 

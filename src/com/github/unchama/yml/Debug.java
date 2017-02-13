@@ -6,9 +6,23 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import com.github.unchama.enumdata.DebugEnum;
-
 public final class Debug extends Yml{
+	enum DebugEnum {
+		ALL(false),
+		MINEBOOST(false),
+		;
+		private Boolean flag;
+
+		private DebugEnum(Boolean flag){
+			this.flag = flag;
+		}
+
+		public Boolean getDefaultFlag(){
+			return flag;
+		}
+
+	}
+
 	private static HashMap<String,Boolean> debugmap = new HashMap<String,Boolean>();
 
 	public Debug() {
