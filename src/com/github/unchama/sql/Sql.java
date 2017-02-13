@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.github.unchama.enumdata.TableEnum;
-import com.github.unchama.gigantic.Config;
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.yml.Config;
 
 public class Sql{
 	private Gigantic plugin;

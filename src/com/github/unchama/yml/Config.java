@@ -31,13 +31,11 @@ public class Config extends Yml{
 	}
 
 	@Override
-	public String getFileName() {
-		return "config";
+	public void saveDefaultFile() {
+		if (!file.exists()) {
+			plugin.saveResource(filename, false);
+		}
 	}
 
-	@Override
-	public void saveDefault() {
-		plugin.saveDefaultConfig();
-	}
 
 }

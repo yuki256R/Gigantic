@@ -9,6 +9,8 @@ import com.github.unchama.enumdata.CommandEnum;
 import com.github.unchama.enumdata.ListenerEnum;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
+import com.github.unchama.yml.Config;
+import com.github.unchama.yml.Debug;
 
 
 public final class Gigantic extends JavaPlugin{
@@ -20,7 +22,7 @@ public final class Gigantic extends JavaPlugin{
 	public static Config config;
 
 	//デバッグ用クラス
-	public static Debugmode debugmode;
+	public static Debug debug;
 
 	//メンテナンス用クラス
 	public static Maintenance maintenance;
@@ -42,7 +44,7 @@ public final class Gigantic extends JavaPlugin{
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
 
-		debugmode = new Debugmode();
+		debug = new Debug();
 		maintenance = new Maintenance();
 
 		//1分毎のタスクを実行
