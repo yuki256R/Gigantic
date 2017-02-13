@@ -1,24 +1,79 @@
 package com.github.unchama.player;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
+
+import com.github.unchama.player.mineboost.MineBoostManager;
+
+
+
+
 
 
 
 public class GiganticPlayer{
-	private BaseData basedata;
-	private SqlData sqldata;
-	private SeichiData seichidata;
-	private Option option;
+
+	enum ManagerType{
+		/**
+		 * Managerを追加するときはここに書く．
+		 */
+		MINEBOOST(MineBoostManager.class),
+		POTION_EFFECT(PotionEffectManager.class),
+
+		;
+
+		private Class<? extends DataManager> managerClass;
+
+		ManagerType(Class<? extends DataManager> managerClass){
+			this.managerClass = managerClass;
+		}
+
+		public Class<? extends DataManager> getManagerClass(){
+			return managerClass;
+		}
+
+	}
+
+
+
+
+	private Profile profile;
+	private Boolean loaded;
+
+	private HashMap<ManagerType,DataManager> managermap = new HashMap<ManagerType,DataManager>();
 
 
 
 	public GiganticPlayer(Player player){
-		basedata = new BaseData(player);
-		sqldata = new SqlData();
-		seichidata = new SeichiData();
+		this.profile = new Profile(player);
+		this.loaded = true;
+		for(ManagerType mt : ManagerType.values()){
+			try {
+				this.managermap.put(mt,mt.getManagerClass().getConstructor().newInstance(this));
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 
+	public MineBoostManager getMineBoostManager(){
+		return (MineBoostManager) managermap.get(ManagerType.MINEBOOST);
+	}
+
+	public PotionEffectManager getPotionEffectManager(){
+		return (PotionEffectManager) managermap.get(ManagerType.POTION_EFFECT);
+	}
+
+
+
+
+
+	/*
 	//３０分間のデータを保存する．
 	public MineBlock halfhourblock;
 
@@ -30,7 +85,7 @@ public class GiganticPlayer{
 
 	//public MineStack minestack = new MineStack();
 	//MineStackFlag
-	/*
+
 	public boolean minestackflag;
 	//プレイ時間差分計算用int
 	public int servertick;

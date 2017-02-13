@@ -5,7 +5,7 @@ public class MineBlock{
 	public int before;
 	public int increase;
 
-	MineBlock(){
+	public MineBlock(){
 		after = 0;
 		before = 0;
 		increase = 0;

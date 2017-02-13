@@ -70,7 +70,7 @@ public class Sql{
 			plugin.getLogger().warning("データベース作成に失敗しました");
 			return false;
 		}
-
+		/*
 		//TABLE作成
 		if(!createTable()){
 			plugin.getLogger().warning("テーブル作成に失敗しました");
@@ -82,7 +82,7 @@ public class Sql{
 			plugin.getLogger().warning("テーブルの初期ロードに失敗しました");
 			return false;
 		}
-
+		*/
 		return true;
 	}
 	/**初期処理時でのテーブル読み込み

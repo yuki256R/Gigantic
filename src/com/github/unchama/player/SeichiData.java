@@ -5,19 +5,19 @@ public class SeichiData {
 	private int level;
 	private PassiveData passivedata;
 	private GachaData gachadata;
-	private MineBoostData mineboostdata;
+//	private MineBoostData mineboostdata;
 	private PocketData pocketdata;
 
 	public SeichiData(){
 		setLevel(1);
 		gachadata = new GachaData();
-		mineboostdata = new MineBoostData();
+//		mineboostdata = new MineBoostData();
 		pocketdata = new PocketData();
 	}
 
-	public MineBoostData getMineboostdata() {
-		return mineboostdata;
-	}
+//	public MineBoostData getMineboostdata() {
+//		return mineboostdata;
+//	}
 
 	public PocketData getPocketData(){
 		return pocketdata;

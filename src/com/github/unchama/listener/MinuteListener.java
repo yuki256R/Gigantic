@@ -18,7 +18,7 @@ public class MinuteListener implements Listener{
 	private Debug debug = Gigantic.debug;
 	private HashMap<UUID,GiganticPlayer> gmap = UserManager.gmap;
 
-	/**MineBoost付与
+	/**MineBoost
 	 *
 	 * @param event
 	 */
@@ -26,5 +26,15 @@ public class MinuteListener implements Listener{
 	public void MineBoostEvent(MinuteEvent event){
 		Boolean debugflag = debug.getFlag(DebugEnum.MINEBOOST);
 
+		if(debugflag)plugin.getLogger().info("MineBoost is Starting...");
+
+		if(gmap.isEmpty()){
+			plugin.getLogger().info("Nobady is here");
+			return;
+		}
+		//run process one by one
+		for(GiganticPlayer gp : gmap.values()){
+
+		}
 	}
 }
