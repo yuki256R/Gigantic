@@ -36,7 +36,7 @@ public final class Debug extends Yml{
 			OutputStream out = new FileOutputStream(file);
 			for(DebugEnum de : DebugEnum.values()){
 				String s = de.name() + ": " + de.getDefaultFlag().toString();
-				//s += System.getProperty("line.separator");
+				s += System.getProperty("line.separator");
 				out.write(s.getBytes());
 			}
 			out.close();

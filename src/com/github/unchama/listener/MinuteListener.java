@@ -24,9 +24,7 @@ public class MinuteListener implements Listener{
 	 */
 	@EventHandler
 	public void MineBoostEvent(MinuteEvent event){
+		Boolean debugflag = debug.getFlag(DebugEnum.MINEBOOST);
 
-		if(debug.getFlag(DebugEnum.MINEBOOST)){
-
-		}
 	}
 }

@@ -15,7 +15,8 @@ public abstract class Yml {
 
 	public Yml() {
 		this.plugin = Gigantic.plugin;
-		this.filename = this.getClass().getTypeName().toLowerCase() + ".yml";
+		String classname = this.getClass().getTypeName().toLowerCase();
+		this.filename = classname.replaceFirst("com.github.unchama.yml.", "") + ".yml";
 		this.file = new File(plugin.getDataFolder(), filename);
 		saveDefaultFile();
 		this.fc = loadFile();
