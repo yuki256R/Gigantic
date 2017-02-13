@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 public final class Debug extends Yml{
-	enum DebugEnum {
+	public enum DebugEnum {
 		ALL(false),
 		MINEBOOST(false),
 		;

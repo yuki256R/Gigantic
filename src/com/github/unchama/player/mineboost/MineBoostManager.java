@@ -15,6 +15,12 @@ public class MineBoostManager extends DataManager{
 		this.messageflag = false;
 	}
 
+	public void forwardOneMinute() {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+
+
 
 
 
