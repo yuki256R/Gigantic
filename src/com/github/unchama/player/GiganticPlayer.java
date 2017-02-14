@@ -5,11 +5,8 @@ import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
+import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
-
-
-
-
 
 
 
@@ -21,6 +18,7 @@ public class GiganticPlayer{
 		 */
 		MINEBOOST(MineBoostManager.class),
 		POTION_EFFECT(PotionEffectManager.class),
+		MINEBLOCK(MineBlockManager.class),
 
 		;
 
@@ -59,8 +57,15 @@ public class GiganticPlayer{
 			}
 		}
 	}
-
-
+	
+	public Profile getProfile(){
+		return this.profile;
+	}
+	
+	public Boolean isLoaded(){
+		return this.loaded;
+	}
+	
 	public MineBoostManager getMineBoostManager(){
 		return (MineBoostManager) managermap.get(ManagerType.MINEBOOST);
 	}
@@ -69,6 +74,9 @@ public class GiganticPlayer{
 		return (PotionEffectManager) managermap.get(ManagerType.POTION_EFFECT);
 	}
 
+	public MineBlockManager getMineBlockManager(){
+		return (MineBlockManager) managermap.get(ManagerType.MINEBLOCK);
+	}
 
 
 
