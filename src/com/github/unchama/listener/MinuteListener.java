@@ -21,11 +21,12 @@ public class MinuteListener implements Listener{
 
 
 
+
 	/**MineBoost
 	 *
 	 * @param event
 	 */
-	@EventHandler()
+	@EventHandler
 	public void MineBoostEvent(MinuteEvent event){
 
 		Boolean debugflag = debug.getFlag(DebugEnum.MINEBOOST);
@@ -33,7 +34,7 @@ public class MinuteListener implements Listener{
 		if(debugflag)plugin.getLogger().info("MineBoost is Starting...");
 
 		if(gmap.isEmpty()){
-			plugin.getLogger().info("Nobady is here");
+			if(debugflag)plugin.getLogger().info("Nobady is here");
 			return;
 		}
 		//run process one by one

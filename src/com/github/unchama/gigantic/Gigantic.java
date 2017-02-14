@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
-import com.github.unchama.enumdata.CommandEnum;
+import com.github.unchama.command.CommandEnum;
 import com.github.unchama.enumdata.ListenerEnum;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;

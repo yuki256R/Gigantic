@@ -1,4 +1,4 @@
-package com.github.unchama.enumdata;
+package com.github.unchama.command;
 
 import org.bukkit.command.TabExecutor;
 

@@ -42,5 +42,13 @@ public class UserManager {
 		SqlManager.saveGiganticPlayer(uuid,gp);
 	}
 
+	public static GiganticPlayer getGiganticPlayer(Player player){
+		GiganticPlayer gplayer = gmap.get(player.getUniqueId());
+		if(gplayer == null){
+			plugin.getLogger().warning(player.getName() + " is not joined");
+		}
+		return gplayer;
+	}
+
 
 }

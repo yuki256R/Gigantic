@@ -3,7 +3,6 @@ package com.github.unchama.player;
 
 public class SeichiData {
 	private int level;
-	private PassiveData passivedata;
 	private GachaData gachadata;
 //	private MineBoostData mineboostdata;
 	private PocketData pocketdata;
@@ -23,9 +22,7 @@ public class SeichiData {
 		return pocketdata;
 	}
 
-	public PassiveData getPassivedata() {
-		return passivedata;
-	}
+
 
 	public GachaData getGachadata() {
 		return gachadata;
