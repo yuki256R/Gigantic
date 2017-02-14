@@ -12,7 +12,7 @@ import com.github.unchama.player.mineboost.MineBoostManager;
 
 public class GiganticPlayer{
 
-	enum ManagerType{
+	enum DataManagerType{
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
@@ -24,7 +24,7 @@ public class GiganticPlayer{
 
 		private Class<? extends DataManager> managerClass;
 
-		ManagerType(Class<? extends DataManager> managerClass){
+		DataManagerType(Class<? extends DataManager> managerClass){
 			this.managerClass = managerClass;
 		}
 
@@ -40,14 +40,14 @@ public class GiganticPlayer{
 	private Profile profile;
 	private Boolean loaded;
 
-	private HashMap<ManagerType,DataManager> managermap = new HashMap<ManagerType,DataManager>();
+	private HashMap<DataManagerType,DataManager> managermap = new HashMap<DataManagerType,DataManager>();
 
 
 
 	public GiganticPlayer(Player player){
 		this.profile = new Profile(player);
 		this.loaded = true;
-		for(ManagerType mt : ManagerType.values()){
+		for(DataManagerType mt : DataManagerType.values()){
 			try {
 				this.managermap.put(mt,mt.getManagerClass().getConstructor().newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
@@ -57,25 +57,25 @@ public class GiganticPlayer{
 			}
 		}
 	}
-	
+
 	public Profile getProfile(){
 		return this.profile;
 	}
-	
+
 	public Boolean isLoaded(){
 		return this.loaded;
 	}
-	
+
 	public MineBoostManager getMineBoostManager(){
-		return (MineBoostManager) managermap.get(ManagerType.MINEBOOST);
+		return (MineBoostManager) managermap.get(DataManagerType.MINEBOOST);
 	}
 
 	public PotionEffectManager getPotionEffectManager(){
-		return (PotionEffectManager) managermap.get(ManagerType.POTION_EFFECT);
+		return (PotionEffectManager) managermap.get(DataManagerType.POTION_EFFECT);
 	}
 
 	public MineBlockManager getMineBlockManager(){
-		return (MineBlockManager) managermap.get(ManagerType.MINEBLOCK);
+		return (MineBlockManager) managermap.get(DataManagerType.MINEBLOCK);
 	}
 
 

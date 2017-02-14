@@ -1,26 +1,49 @@
 package com.github.unchama.sql;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
-import com.github.unchama.enumdata.TableEnum;
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.sql.mineblock.MineBlockTableManager;
 import com.github.unchama.yml.Config;
 
 public class Sql{
-	private Gigantic plugin;
-	private Config config;
+	enum TableManagerType{
+		MINEBLOCK(MineBlockTableManager.class),
+		;
+		private Class<? extends TableManager> managerClass;
+
+		TableManagerType(Class<? extends TableManager> managerClass){
+			this.managerClass = managerClass;
+		}
+
+		public Class<? extends TableManager> getManagerClass(){
+			return managerClass;
+		}
+				/**sqlのテーブル名を取得する
+		 *
+		 * @return
+		 */
+		public String getTableName(){
+			return this.name().toLowerCase();
+		}
+	}
+	Gigantic plugin;
+	Config config;
 	private final String url;
 	private final String db;
 	private final String id;
 	private final String pw;
-
-	public static String exc;
-	public static Connection con = null;
+	private String exc;
+	private Connection con = null;
 	private Statement stmt = null;
+
+	private HashMap<TableManagerType,TableManager> managermap = new HashMap<TableManagerType,TableManager>();
 
 	private ResultSet rs = null;
 
@@ -33,8 +56,11 @@ public class Sql{
 		this.id = config.getID();
 		this.pw = config.getPW();
 
+
+		//SQL接続，データベース作成
 		if(!init()){
 			plugin.getLogger().warning("データベース初期処理にエラーが発生しました");
+			plugin.getPluginLoader().disablePlugin(plugin);
 		}
 	}
 
@@ -46,7 +72,6 @@ public class Sql{
 	 * @param id ユーザーID
 	 * @param pw ユーザーPW
 	 * @param db データベースネーム
-	 * @param table テーブルネーム
 	 * @return
 	 */
 
@@ -70,35 +95,14 @@ public class Sql{
 			plugin.getLogger().warning("データベース作成に失敗しました");
 			return false;
 		}
-		/*
-		//TABLE作成
-		if(!createTable()){
-			plugin.getLogger().warning("テーブル作成に失敗しました");
+
+		//Table
+		if(!createTableManager()){
+			plugin.getLogger().warning("テーブルマネージャーの初期化に失敗しました");
 			return false;
 		}
 
-		//必要データは読み込み
-		if(!initloadTable()){
-			plugin.getLogger().warning("テーブルの初期ロードに失敗しました");
-			return false;
-		}
-		*/
 		return true;
-	}
-	/**初期処理時でのテーブル読み込み
-	 *playerdataはオンラインのプレイヤーについて読み込み処理
-	 *gachadata及び
-	 *msgachadataは常に初期読み込み
-	 *
-	 * @return
-	 */
-	private boolean initloadTable() {
-		//全てのテーブルの読み込み処理を行う
-		for(TableEnum table : TableEnum.values()){
-			if(table.getInitLoadFlag()){
-			}
-		}
-		return false;
 	}
 
 
@@ -136,13 +140,12 @@ public class Sql{
 		}
 		return true;
 	}
-
 	/**
 	 * データベース作成
 	 *
 	 * @return 成否
 	 */
-	public boolean createDB(){
+	private boolean createDB(){
 		if(db==null){
 			return false;
 		}
@@ -151,6 +154,28 @@ public class Sql{
 				+ " character set utf8 collate utf8_general_ci";
 		return putCommand(command);
 	}
+	/**createtableStatement
+	 *
+	 * @return
+	 */
+	private boolean createTableManager(){
+		//各テーブル用メソッドに受け渡し
+		for(TableManagerType mt : TableManagerType.values()){
+			if(!this.managermap.isEmpty() || this.managermap != null){
+				managermap.clear();
+			}
+			try {
+				this.managermap.put(mt,mt.getManagerClass().getConstructor().newInstance(this));
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/**コマンド出力関数
 	 *
 	 * @param command
@@ -168,76 +193,107 @@ public class Sql{
 			return false;
 		}
 	}
-	/**接続確認
+	/**再接続処理
 	 *
-	 * @return 成否
 	 */
-	//接続正常ならtrue、そうでなければ再接続試行後正常でtrue、だめならfalseを返す
-	public boolean checkConnection(){
-		try {
-			if(con.isClosed()){
-				plugin.getLogger().warning("sqlConnectionクローズを検出。再接続試行");
-				con = (Connection) DriverManager.getConnection(url, id, pw);
-			}
-			if(stmt.isClosed()){
-				plugin.getLogger().warning("sqlStatementクローズを検出。再接続試行");
-				stmt = con.createStatement();
-				//connectDB();
-			}
-	    } catch (SQLException e) {
-	    	e.printStackTrace();
-	    	//イクセプションった時に接続再試行
-	    	plugin.getLogger().warning("sqlExceptionを検出。再接続試行");
-	    	if(connectMySQL()){
-	    		plugin.getLogger().info("sqlコネクション正常");
-	    		return true;
-	    	}else{
-	    		plugin.getLogger().warning("sqlコネクション不良を検出");
-	    		return false;
-	    	}
+	private void reconnectMySQL() {
+		int maxcount = 5;
+		int count = 0;
+
+		do{
+			plugin.getLogger().warning("Reconnecting...(" + Integer.toString(count) + "times)...");
+			this.connectMySQL();
+			count++;
+		}while(count < maxcount || this.isClosed());
+
+		boolean endflag = false;
+		//Table
+		if(!createTableManager()){
+			plugin.getLogger().warning("テーブルマネージャーの初期化に失敗しました");
+			endflag = true;
 		}
-		return true;
+		if(this.isClosed()){
+			plugin.getLogger().warning("再接続処理に失敗しました");
+			endflag = true;
+		}
+
+		if(endflag){
+			plugin.getPluginLoader().disablePlugin(plugin);
+		}
 	}
 
-	/**全テーブル生成
+	/**コネクションのクローズ判定
 	 *
-	 * @return
+	 * @return 可否
 	 */
-	public boolean createTable(){
+	private boolean isClosed() {
+		try {
+			if(con.isClosed()){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (SQLException e) {
+			plugin.getLogger().warning("Connection is Closed by Fatal Error");
+			e.printStackTrace();
+			return true;
+		}
+	}
+
+
+	/*
 		String command;
 		//全てのテーブルを作成する
-		for(TableEnum table : TableEnum.values()){
+		for(TableManagerType mt : TableManagerType.values()){
 			//テーブル生成コマンド
 			command =
 					"CREATE TABLE IF NOT EXISTS "
-					+ db + "." + table.getTableName();
+					+ db + "." + mt.getTableName();
 			//ユニークカラムの作成コマンド追加
-			command += table.getUniqueCreateCommand();
+			command += mt.getUniqueCreateCommand();
 			//一度コマンドを送信
 			if(!putCommand(command)){
-				plugin.getLogger().warning(table.getTableName() + "テーブル<作成>に失敗しました．");
+				plugin.getLogger().warning(mt.getTableName() + "テーブル<作成>に失敗しました．");
 				return false;
 			}
 
 			//テーブルのカラムを追加するコマンド
 			command =
-					"alter table " + db + "." + table.getTableName() + " ";
+					"alter table " + db + "." + mt.getTableName() + " ";
 			//カラム追加情報の入力コマンド
-			command += table.getColumnDataCommand();
+			command += mt.getColumnDataCommand();
 
 			if(!putCommand(command)){
-				plugin.getLogger().warning(table.getTableName() + "テーブル<カラム追加>に失敗しました．");
+				plugin.getLogger().warning(mt.getTableName() + "テーブル<カラム追加>に失敗しました．");
 				return false;
 			}
 		}
-		return true;
+		return true;*/
+
+	/**接続確認
+	 *
+	 * @return
+	 */
+	public void checkConnection(){
+		if(this.isClosed()){
+			reconnectMySQL();
+		}
+		try {
+			if(stmt.isClosed()){
+				plugin.getLogger().warning("Statement is Closed. Creating Statement...");
+				stmt = con.createStatement();
+			}
+	    } catch (SQLException e) {
+	    	e.printStackTrace();
+	    	plugin.getPluginLoader().disablePlugin(plugin);
+		}
 	}
 	/**
 	 * コネクション切断処理
 	 *
 	 * @return 成否
 	 */
-	private boolean disconnect(){
+	public boolean disconnect(){
 	    if (con != null){
 	    	try{
 	    		stmt.close();
@@ -255,6 +311,14 @@ public class Sql{
 		if(!disconnect()){
 			plugin.getLogger().warning("データベース切断に失敗しました");
 		}
+	}
+
+	/**
+	 *
+	 * @return Connection
+	 */
+	public Connection getConnection(){
+		return con;
 	}
 
 
