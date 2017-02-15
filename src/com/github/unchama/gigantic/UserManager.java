@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
-import com.github.unchama.sql.SqlManager;
 
 public class UserManager {
 	private static Gigantic plugin = Gigantic.plugin;
@@ -25,13 +24,10 @@ public class UserManager {
 	public static void join(Player player){
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp;
-
-		//sqlにデータが保存されているか判定する．
-		if(SqlManager.isSaved(uuid)){
-			gp = SqlManager.loadGiganticPlayer(uuid);
-		}else{
-			gp = new GiganticPlayer(player);
+		if(gmap.containsKey(uuid)){
+			//TODO
 		}
+		gp = new GiganticPlayer(player);
 		gmap.put(uuid, gp);
 	}
 

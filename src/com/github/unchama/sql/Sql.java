@@ -13,6 +13,7 @@ import com.github.unchama.yml.Config;
 
 public class Sql{
 	static enum TableManagerType{
+		GIGANTIC(GiganticTableManager.class),
 		MINEBLOCK(MineBlockTableManager.class),
 		;
 		private Class<? extends TableManager> managerClass;
@@ -298,9 +299,21 @@ public class Sql{
 	public Connection getConnection(){
 		return con;
 	}
-	
+
 	public String getDataBaseName(){
 		return this.db;
 	}
+
+	/**getTableManagerMethod
+	 */
+
+	public GiganticTableManager getGiganticTableManager(){
+		return (GiganticTableManager) this.managermap.get(TableManagerType.GIGANTIC);
+	}
+	public MineBlockTableManager getMineBlockTableManager(){
+		return (MineBlockTableManager) this.managermap.get(TableManagerType.MINEBLOCK);
+	}
+
+
 
 }

@@ -1,42 +1,36 @@
 package com.github.unchama.sql;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.GiganticPlayer;
 
 
 
 public abstract class TableManager {
 	protected Gigantic plugin = Gigantic.plugin;
 	private Sql sql;
-	private String db;
+	protected final String db;
 	private Connection con;
-	private Statement stmt;
-	private String tablename;
+	protected Statement stmt;
+	protected ResultSet rs;
+	protected final String table;
 
 	public TableManager(){
-		sql = Gigantic.sql;
-		db = sql.getDataBaseName();
-		con = sql.getConnection();
-		this.tablename = Sql.TableManagerType.getTableNamebyClass(this.getClass());
-		sql.checkConnection();
-		try {
-			stmt = con.createStatement();
-		} catch (SQLException e) {
-			plugin.getLogger().warning("Unknow Error:TableManager");
-			e.printStackTrace();
-		}
+		this.sql = Gigantic.sql;
+		this.db = sql.getDataBaseName();
+		this.con = sql.getConnection();
+		this.table = Sql.TableManagerType.getTableNamebyClass(this.getClass());
+		this.checkStatement();
 		this.createTable();
 	}
-	
+
 	abstract Boolean createTable();
-	
-	protected String getTableName(){
-		return this.tablename;
-	}
-	
+	abstract Boolean load(GiganticPlayer gp);
+
 	protected void checkStatement(){
 		try {
 			if(stmt.isClosed()){
@@ -49,11 +43,8 @@ public abstract class TableManager {
 			e.printStackTrace();
 		}
 	}
-	
-	protected String getDataBaseName(){
-		return this.db;
-	}
-	
+
+
 	/**コマンド出力関数
 	 *
 	 * @param command
@@ -65,7 +56,7 @@ public abstract class TableManager {
 			stmt.executeUpdate(command);
 			return true;
 		}catch (SQLException e) {
-			plugin.getLogger().warning("Failed to send Command in " + this.getTableName() + " Table");
+			plugin.getLogger().warning("Failed to send Command in " + table + " Table");
 			e.printStackTrace();
 			return false;
 		}

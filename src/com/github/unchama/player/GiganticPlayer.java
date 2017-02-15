@@ -2,11 +2,13 @@ package com.github.unchama.player;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.util.Converter;
 
 
 
@@ -16,9 +18,11 @@ public class GiganticPlayer{
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
+		GIGANTIC(GiganticManager.class),
+		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
 		POTION_EFFECT(PotionEffectManager.class),
-		MINEBLOCK(MineBlockManager.class),
+
 
 		;
 
@@ -36,8 +40,8 @@ public class GiganticPlayer{
 
 
 
-
-	private Profile profile;
+	public final String name;
+	public final UUID uuid;
 	private Boolean loaded;
 
 	private HashMap<DataManagerType,DataManager> managermap = new HashMap<DataManagerType,DataManager>();
@@ -45,21 +49,18 @@ public class GiganticPlayer{
 
 
 	public GiganticPlayer(Player player){
-		this.profile = new Profile(player);
+		this.name = Converter.toString(player);
+		this.uuid = player.getUniqueId();
 		this.loaded = true;
 		for(DataManagerType mt : DataManagerType.values()){
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor().newInstance(this));
+				this.managermap.put(mt,mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public Profile getProfile(){
-		return this.profile;
 	}
 
 	public Boolean isLoaded(){
@@ -76,6 +77,10 @@ public class GiganticPlayer{
 
 	public MineBlockManager getMineBlockManager(){
 		return (MineBlockManager) managermap.get(DataManagerType.MINEBLOCK);
+	}
+
+	public GiganticManager getGiganticManager(){
+		return (GiganticManager) managermap.get(DataManagerType.GIGANTIC);
 	}
 
 

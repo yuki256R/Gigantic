@@ -1,26 +1,18 @@
 package com.github.unchama.sql;
 
 import java.sql.SQLException;
-import java.util.HashMap;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineblock.BlockType;
-import com.github.unchama.player.mineblock.MineBlock;
 
-public class MineBlockTableManager extends TableManager{
-	private HashMap<BlockType,MineBlock> datamap;
 
-	public MineBlockTableManager(){
-		super();
-	}
-
+public class GiganticTableManager extends TableManager{
 	@Override
 	Boolean createTable() {
 		String command;
 		//create Table
 		command =
 				"CREATE TABLE IF NOT EXISTS "
-				+db + "." + table;
+				+ db + "." + table;
 		//Unique Column add
 		command += "(uuid varchar(128) unique)";
 		//send
@@ -32,13 +24,13 @@ public class MineBlockTableManager extends TableManager{
 		//Column add
 		command =
 				"alter table " + db + "." + table + " ";
-		//MineBlock add
-		for(BlockType bt : BlockType.values()){
-			command += "add column if not exists " +
-						bt.name() + " bigint unsigned default 0,";
-		}
+		//name add
+		command += "add column if not exists name varchar(30) default null";
+		/*//loginflag add
+		command += ",add column if not exists loginflag boolean default false";
+		*/
 		//index add
-		command += "add index if not exists uuid_index(uuid)";
+		command += ",add index if not exists uuid_index(uuid)";
 
 		//send
 		if(!sendCommand(command)){
@@ -78,7 +70,8 @@ public class MineBlockTableManager extends TableManager{
  			//新しくuuidとnameを設定し行を作成
  			//insert into playerdata (name,uuid) VALUES('unchima','UNCHAMA')
  			command = "insert into " + db + "." + table
- 	 				+ " (uuid) values('" + struuid+ "')";
+ 	 				+ " (name,uuid) values('" + gp.name
+ 	 				+ "','" + struuid+ "')";
  			if(!sendCommand(command)){
  				plugin.getLogger().warning("Failed to create new row (player:" + gp.name + ")");
  				return false;
@@ -101,10 +94,18 @@ public class MineBlockTableManager extends TableManager{
 
  		}else if(count == 1){
  			//uuidが存在するときの処理
- 			/*TODO
+ 			/*
  			new LoadPlayerDataTaskRunnable(p).runTaskTimerAsynchronously(plugin, 20, 20);
  			new PlayerDataUpdateOnJoinRunnable(p).runTaskTimer(plugin, 30, 20);
  			*/
+ 			//update name
+ 			command = "update " + db + "." + table
+ 					+ " set name = '" + gp.name + "'"
+ 					+ " where uuid like '" + struuid + "'";
+ 			if(!sendCommand(command)){
+ 				plugin.getLogger().warning("Failed to update name (player:" + gp.name + ")");
+ 				return false;
+ 			}
  			return true;
  		}else{
  			//mysqlに該当するplayerdataが2個以上ある時エラーを吐く
@@ -112,10 +113,5 @@ public class MineBlockTableManager extends TableManager{
  			return false;
  		}
 	}
-
-
-	/*public HashMap<BlockType,MineBlock> loadDataMap(){
-		String command;
-	}*/
 
 }
