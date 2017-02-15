@@ -11,16 +11,19 @@ import com.github.unchama.sql.Sql;
 public class MineBlockManager extends DataManager{
 
 	Sql sql = Gigantic.sql;
-
-
-	private HashMap<Material,MineBlock> datamap= new HashMap<Material,MineBlock>();
+	private HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
 
 
 	//new Player Instance
 	public MineBlockManager(){
-		for(Material m : BlockType.getmaterialMap().keySet()){
-			datamap.put(m,new MineBlock());
+		for(BlockType bt : BlockType.values()){
+			datamap.put(bt,new MineBlock());
 		}
+	}
+	
+	//load Player Instance
+	public MineBlockManager(HashMap<BlockType,MineBlock> datamap){
+		this.datamap = datamap;
 	}
 
 
@@ -35,6 +38,7 @@ public class MineBlockManager extends DataManager{
 	 */
 	public void increase(Material material, int breaknum) {
 		double ratio = BlockType.getIncreaseRatio(material);
-		datamap.get(material).increase(breaknum * ratio);
+		BlockType bt = BlockType.getmaterialMap().get(material);
+		datamap.get(bt).increase(breaknum * ratio);
 	}
 }

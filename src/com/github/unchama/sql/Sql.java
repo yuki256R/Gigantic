@@ -9,11 +9,10 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.sql.mineblock.MineBlockTableManager;
 import com.github.unchama.yml.Config;
 
 public class Sql{
-	enum TableManagerType{
+	static enum TableManagerType{
 		MINEBLOCK(MineBlockTableManager.class),
 		;
 		private Class<? extends TableManager> managerClass;
@@ -25,12 +24,21 @@ public class Sql{
 		public Class<? extends TableManager> getManagerClass(){
 			return managerClass;
 		}
-				/**sqlのテーブル名を取得する
+		/**sqlのテーブル名を取得する
 		 *
 		 * @return
 		 */
 		public String getTableName(){
 			return this.name().toLowerCase();
+		}
+
+		public static String getTableNamebyClass(Class<? extends TableManager> _class) {
+			for(TableManagerType mt : TableManagerType.values()){
+				if(mt.getManagerClass().equals(_class)){
+					return mt.getTableName();
+				}
+			}
+			return "example";
 		}
 	}
 	Gigantic plugin;
@@ -152,7 +160,7 @@ public class Sql{
 		String command;
 		command = "CREATE DATABASE IF NOT EXISTS " + db
 				+ " character set utf8 collate utf8_general_ci";
-		return putCommand(command);
+		return sendCommand(command);
 	}
 	/**createtableStatement
 	 *
@@ -181,7 +189,7 @@ public class Sql{
 	 * @param command
 	 * @return
 	 */
-	private boolean putCommand(String command){
+	private boolean sendCommand(String command){
 		checkConnection();
 		try {
 			stmt.executeUpdate(command);
@@ -240,36 +248,6 @@ public class Sql{
 		}
 	}
 
-
-	/*
-		String command;
-		//全てのテーブルを作成する
-		for(TableManagerType mt : TableManagerType.values()){
-			//テーブル生成コマンド
-			command =
-					"CREATE TABLE IF NOT EXISTS "
-					+ db + "." + mt.getTableName();
-			//ユニークカラムの作成コマンド追加
-			command += mt.getUniqueCreateCommand();
-			//一度コマンドを送信
-			if(!putCommand(command)){
-				plugin.getLogger().warning(mt.getTableName() + "テーブル<作成>に失敗しました．");
-				return false;
-			}
-
-			//テーブルのカラムを追加するコマンド
-			command =
-					"alter table " + db + "." + mt.getTableName() + " ";
-			//カラム追加情報の入力コマンド
-			command += mt.getColumnDataCommand();
-
-			if(!putCommand(command)){
-				plugin.getLogger().warning(mt.getTableName() + "テーブル<カラム追加>に失敗しました．");
-				return false;
-			}
-		}
-		return true;*/
-
 	/**接続確認
 	 *
 	 * @return
@@ -320,6 +298,9 @@ public class Sql{
 	public Connection getConnection(){
 		return con;
 	}
-
+	
+	public String getDataBaseName(){
+		return this.db;
+	}
 
 }
