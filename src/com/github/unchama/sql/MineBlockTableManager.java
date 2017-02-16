@@ -9,8 +9,8 @@ import com.github.unchama.player.mineblock.MineBlock;
 
 public class MineBlockTableManager extends TableManager{
 
-	public MineBlockTableManager(){
-		super();
+	public MineBlockTableManager(Sql sql){
+		super(sql);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class MineBlockTableManager extends TableManager{
 	@Override
 	public Boolean load(GiganticPlayer gp) {
 
-		HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().getDataMap();
 
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -147,6 +147,8 @@ public class MineBlockTableManager extends TableManager{
 
 		return true;
 	}
+
+
 }
 
 

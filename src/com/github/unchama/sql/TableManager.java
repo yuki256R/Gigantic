@@ -15,12 +15,12 @@ public abstract class TableManager {
 	private Sql sql;
 	protected final String db;
 	private Connection con;
-	protected Statement stmt;
+	protected Statement stmt = null;
 	protected ResultSet rs;
 	protected final String table;
 
-	public TableManager(){
-		this.sql = Gigantic.sql;
+	public TableManager(Sql sql){
+		this.sql = sql;
 		this.db = sql.getDataBaseName();
 		this.con = sql.getConnection();
 		this.table = Sql.TableManagerType.getTableNamebyClass(this.getClass());
@@ -34,8 +34,8 @@ public abstract class TableManager {
 
 	protected void checkStatement(){
 		try {
-			if(stmt.isClosed()){
-				plugin.getLogger().warning("Statement is Closed. Creating Statement...");
+			if(stmt == null || stmt.isClosed()){
+				plugin.getLogger().warning("(" + table + ")Statement is Closed. Creating Statement...");
 				stmt = con.createStatement();
 			}
 		} catch (SQLException e) {

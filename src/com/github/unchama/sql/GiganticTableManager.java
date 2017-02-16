@@ -6,6 +6,11 @@ import com.github.unchama.player.GiganticPlayer;
 
 
 public class GiganticTableManager extends TableManager{
+
+	public GiganticTableManager(Sql sql){
+		super(sql);
+	}
+
 	@Override
 	Boolean createTable() {
 		String command;

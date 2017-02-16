@@ -168,13 +168,13 @@ public class Sql{
 	 * @return
 	 */
 	private boolean createTableManager(){
+		if(!this.managermap.isEmpty() || this.managermap != null){
+			managermap.clear();
+		}
 		//各テーブル用メソッドに受け渡し
 		for(TableManagerType mt : TableManagerType.values()){
-			if(!this.managermap.isEmpty() || this.managermap != null){
-				managermap.clear();
-			}
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor().newInstance(this));
+				this.managermap.put(mt,mt.getManagerClass().getConstructor(Sql.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
@@ -258,7 +258,7 @@ public class Sql{
 			reconnectMySQL();
 		}
 		try {
-			if(stmt.isClosed()){
+			if(stmt == null || stmt.isClosed()){
 				plugin.getLogger().warning("Statement is Closed. Creating Statement...");
 				stmt = con.createStatement();
 			}

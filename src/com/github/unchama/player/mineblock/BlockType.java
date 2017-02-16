@@ -56,7 +56,7 @@ public enum BlockType{
 	GLOWSTONE("グロウストーン"),
 	MONSTER_EGGS("紙魚入り石"),
 	SMOOTH_BRICK("石レンガ"),
-	HUGE_MUSHROOM_1("キノコブロック",new ArrayList<Material>(Arrays.asList(
+	HUGE_MUSHROOM("キノコブロック",new ArrayList<Material>(Arrays.asList(
 			Material.HUGE_MUSHROOM_1,
 			Material.HUGE_MUSHROOM_2
 			))),

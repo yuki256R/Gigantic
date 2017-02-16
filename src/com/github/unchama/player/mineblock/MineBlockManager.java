@@ -29,7 +29,7 @@ public class MineBlockManager extends DataManager{
 
 
 	public void setDataMap(HashMap<BlockType,MineBlock> datamap){
-		this.datamap = datamap;
+		this.datamap = new HashMap<BlockType,MineBlock>(datamap);
 	}
 
 	public void increase(Material material){

@@ -40,8 +40,6 @@ public class MinuteListener implements Listener{
 		//run process one by one
 		for(GiganticPlayer gp : gmap.values()){
 			gp.getMineBoostManager().forwardOneMinute();
-
-
 		}
 	}
 }
