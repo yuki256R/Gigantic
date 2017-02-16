@@ -94,10 +94,6 @@ public class GiganticTableManager extends TableManager{
 
  		}else if(count == 1){
  			//uuidが存在するときの処理
- 			/*
- 			new LoadPlayerDataTaskRunnable(p).runTaskTimerAsynchronously(plugin, 20, 20);
- 			new PlayerDataUpdateOnJoinRunnable(p).runTaskTimer(plugin, 30, 20);
- 			*/
  			//update name
  			command = "update " + db + "." + table
  					+ " set name = '" + gp.name + "'"
@@ -113,5 +109,15 @@ public class GiganticTableManager extends TableManager{
  			return false;
  		}
 	}
+
+	@Override
+	public Boolean save(GiganticPlayer gp) {
+		//String command = "";
+		//final String struuid = gp.uuid.toString().toLowerCase();
+
+		//no data that should be saved
+		return true;
+	}
+
 
 }

@@ -8,7 +8,6 @@ import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
 
 public class MineBlockTableManager extends TableManager{
-	private HashMap<BlockType,MineBlock> datamap;
 
 	public MineBlockTableManager(){
 		super();
@@ -35,7 +34,7 @@ public class MineBlockTableManager extends TableManager{
 		//MineBlock add
 		for(BlockType bt : BlockType.values()){
 			command += "add column if not exists " +
-						bt.name() + " bigint unsigned default 0,";
+						bt.getColumnName() + " double unsigned default 0,";
 		}
 		//index add
 		command += "add index if not exists uuid_index(uuid)";
@@ -50,15 +49,16 @@ public class MineBlockTableManager extends TableManager{
 
 	@Override
 	public Boolean load(GiganticPlayer gp) {
+
+		HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
 		int count = -1;
- 		//uuidがsqlデータ内に存在するか検索
- 		//command:
- 		//select count(*) from playerdata where uuid = 'struuid'
+
  		command = "select count(*) as count from " + db + "." + table
  				+ " where uuid = '" + struuid + "'";
- 		//sqlコネクションチェック(mysql接続が切れたときの為のフェイルセーフ機構(ダメならリログすれば直る))
+
  		this.checkStatement();
  		try{
 			rs = stmt.executeQuery(command);
@@ -73,38 +73,41 @@ public class MineBlockTableManager extends TableManager{
 		}
 
  		if(count == 0){
- 			//uuidが存在しない時の処理
+ 			//uuid is not exist
 
- 			//新しくuuidとnameを設定し行を作成
- 			//insert into playerdata (name,uuid) VALUES('unchima','UNCHAMA')
+ 			//new uuid line create
  			command = "insert into " + db + "." + table
  	 				+ " (uuid) values('" + struuid+ "')";
  			if(!sendCommand(command)){
  				plugin.getLogger().warning("Failed to create new row (player:" + gp.name + ")");
  				return false;
  			}
- 			/*
- 			//初見さんにLv1メッセージを送信
- 			p.sendMessage(SeichiAssist.config.getLvMessage(1));
- 			//初見さんであることを全体告知
- 			plugin.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW + "【初見キタ】" + p.getName() + "のプレイヤーデータ作成完了");
- 			Util.sendEveryMessage(ChatColor.LIGHT_PURPLE+""+ChatColor.BOLD+name+"さんは初参加です。整地鯖へヨウコソ！" + ChatColor.RESET +" - " + ChatColor.YELLOW + ChatColor.UNDERLINE +  "http://seichi.click");
- 			Util.sendEverySound(Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
- 			//初見プレイヤーに木の棒、エリトラ、ピッケルを配布
- 			p.getInventory().addItem(new ItemStack(Material.STICK));
- 			p.getInventory().addItem(new ItemStack(Material.ELYTRA));
- 			p.getInventory().addItem(new ItemStack(Material.DIAMOND_PICKAXE));
- 			p.getInventory().addItem(new ItemStack(Material.DIAMOND_SPADE));
- 			MebiusListener.give(p);
- 			*/
+
+ 			//datamap put
+ 			for(BlockType bt : BlockType.values()){
+ 				datamap.put(bt, new MineBlock());
+ 			}
+ 			gp.getMineBlockManager().setDataMap(datamap);
  			return true;
 
  		}else if(count == 1){
  			//uuidが存在するときの処理
- 			/*TODO
- 			new LoadPlayerDataTaskRunnable(p).runTaskTimerAsynchronously(plugin, 20, 20);
- 			new PlayerDataUpdateOnJoinRunnable(p).runTaskTimer(plugin, 30, 20);
- 			*/
+ 			command = "select * from " + db + "." + table
+ 					+ " where uuid = '" + struuid + "'";
+			try {
+				rs = stmt.executeQuery(command);
+				while (rs.next()) {
+					for(BlockType bt : BlockType.values()){
+						double n = rs.getDouble(bt.getColumnName());
+						datamap.put(bt, new MineBlock(n));
+					}
+				}
+			} catch (SQLException e) {
+				plugin.getLogger().warning("Failed to read count (player:" + gp.name + ")");
+				e.printStackTrace();
+				return false;
+			}
+			gp.getMineBlockManager().setDataMap(datamap);
  			return true;
  		}else{
  			//mysqlに該当するplayerdataが2個以上ある時エラーを吐く
@@ -114,8 +117,51 @@ public class MineBlockTableManager extends TableManager{
 	}
 
 
-	/*public HashMap<BlockType,MineBlock> loadDataMap(){
-		String command;
-	}*/
+	@Override
+	public Boolean save(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().getDataMap();
+		int size = datamap.size();
+		int i = 0;
+		this.checkStatement();
 
+		command = "update " + db + "." + table
+				+ " set ";
+		for(BlockType bt : datamap.keySet()){
+			i++;
+			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "'";
+			if(i != size){
+				command += ",";
+			}
+		}
+		command += " where uuid = '" + struuid + "'";
+
+		try {
+			stmt.executeUpdate(command);
+		}catch (SQLException e) {
+			plugin.getLogger().warning("Failed to update MineBlock Data of Player:" + gp.name);
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

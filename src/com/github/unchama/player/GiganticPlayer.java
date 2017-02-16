@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.util.Converter;
@@ -21,7 +22,6 @@ public class GiganticPlayer{
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
-		POTION_EFFECT(PotionEffectManager.class),
 
 
 		;
@@ -39,6 +39,7 @@ public class GiganticPlayer{
 	}
 
 
+	Gigantic plugin = Gigantic.plugin;
 
 	public final String name;
 	public final UUID uuid;
@@ -58,7 +59,9 @@ public class GiganticPlayer{
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
+				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
 				e.printStackTrace();
+				plugin.getPluginLoader().disablePlugin(plugin);
 			}
 		}
 	}
@@ -71,16 +74,26 @@ public class GiganticPlayer{
 		return (MineBoostManager) managermap.get(DataManagerType.MINEBOOST);
 	}
 
-	public PotionEffectManager getPotionEffectManager(){
-		return (PotionEffectManager) managermap.get(DataManagerType.POTION_EFFECT);
-	}
-
 	public MineBlockManager getMineBlockManager(){
 		return (MineBlockManager) managermap.get(DataManagerType.MINEBLOCK);
 	}
 
 	public GiganticManager getGiganticManager(){
 		return (GiganticManager) managermap.get(DataManagerType.GIGANTIC);
+	}
+
+	public void save() {
+		for(DataManagerType mt : this.managermap.keySet()){
+			try {
+				mt.getManagerClass().getMethod("save").invoke(mt);
+			} catch (IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException
+					| SecurityException e) {
+				plugin.getLogger().warning("Failed to save data of player:" + this.name);
+				e.printStackTrace();
+				plugin.getPluginLoader().disablePlugin(plugin);
+			}
+		}
 	}
 
 

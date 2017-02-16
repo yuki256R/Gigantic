@@ -32,8 +32,6 @@ public final class Gigantic extends JavaPlugin{
 	//タスク用クラス
 	public static BukkitTask task;
 
-	//ユーザー用クラス
-	public static UserManager usermanager;
 
 	@Override
 	public void onEnable(){

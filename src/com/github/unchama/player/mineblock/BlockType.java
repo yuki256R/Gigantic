@@ -116,6 +116,9 @@ public enum BlockType{
 		}
 	}
 
+	public String getColumnName(){
+		return this.name();
+	}
 	public String getjpname(){
 		return this.jpname;
 	}

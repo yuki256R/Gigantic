@@ -14,7 +14,15 @@ public class MineBlock {
 		this.n = 0.0;
 	}
 
+	//load Player Instance
+	public MineBlock(double n){
+		this.n = n;
+	}
+
 	public void increase(double increase){
 		this.n += increase;
+	}
+	public double getNum(){
+		return n;
 	}
 }

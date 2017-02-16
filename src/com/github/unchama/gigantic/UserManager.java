@@ -3,6 +3,7 @@ package com.github.unchama.gigantic;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
@@ -25,7 +26,9 @@ public class UserManager {
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp;
 		if(gmap.containsKey(uuid)){
-			//TODO
+			plugin.getLogger().warning("Player:" + player.getName() + "was already joined");
+			player.sendMessage(ChatColor.RED + "既にログインしています．一度ログアウトを行い，時間が経ってからログインし直してください．");
+			return;
 		}
 		gp = new GiganticPlayer(player);
 		gmap.put(uuid, gp);
@@ -35,7 +38,8 @@ public class UserManager {
 	public static void quit(Player player){
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp = gmap.get(uuid);
-		SqlManager.saveGiganticPlayer(uuid,gp);
+		gp.save();
+		gmap.remove(uuid);
 	}
 
 	public static GiganticPlayer getGiganticPlayer(Player player){

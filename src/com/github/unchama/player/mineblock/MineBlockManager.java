@@ -10,7 +10,7 @@ import com.github.unchama.sql.MineBlockTableManager;
 
 public class MineBlockManager extends DataManager{
 
-	private HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+	private HashMap<BlockType,MineBlock> datamap = null;
 	MineBlockTableManager tm;
 
 
@@ -18,11 +18,8 @@ public class MineBlockManager extends DataManager{
 	public MineBlockManager(GiganticPlayer gp){
 		super(gp);
 		this.tm = sql.getMineBlockTableManager();
-		if(!tm.load(gp.uuid)){
-			plugin.getLogger().warning("Failed to load MineBlock of player:" + gp.name);
-		}
-		for(BlockType bt : BlockType.values()){
-			datamap.put(bt,new MineBlock());
+		if(!tm.load(gp)){
+			plugin.getLogger().warning("Failed to load MineBlock of Player:" + gp.name);
 		}
 	}
 
@@ -31,7 +28,9 @@ public class MineBlockManager extends DataManager{
 
 
 
-
+	public void setDataMap(HashMap<BlockType,MineBlock> datamap){
+		this.datamap = datamap;
+	}
 
 	public void increase(Material material){
 		this.increase(material,1);
@@ -45,5 +44,24 @@ public class MineBlockManager extends DataManager{
 		double ratio = BlockType.getIncreaseRatio(material);
 		BlockType bt = BlockType.getmaterialMap().get(material);
 		datamap.get(bt).increase(breaknum * ratio);
+	}
+
+
+
+
+
+
+	@Override
+	public void save() {
+		tm.save(gp);
+	}
+
+
+
+
+
+
+	public HashMap<BlockType, MineBlock> getDataMap() {
+		return datamap;
 	}
 }
