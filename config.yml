@@ -5,7 +5,7 @@
 # xamppの設定を変えていなければデフォルトの値で問題ありません
 host: 'localhost'
 port: '3306'
-db: 'seichiassist'
+db: 'gigantic'
 id: 'root'
 pw: ''
 
