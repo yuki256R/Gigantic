@@ -13,4 +13,5 @@ public abstract class DataManager{
 	}
 
 	public abstract void save();
+	public abstract void load();
 }

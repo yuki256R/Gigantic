@@ -31,6 +31,7 @@ public class UserManager {
 			return;
 		}
 		gp = new GiganticPlayer(player);
+		gp.load();
 		gmap.put(uuid, gp);
 	}
 

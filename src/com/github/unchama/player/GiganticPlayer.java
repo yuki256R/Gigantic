@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.util.Converter;
@@ -86,6 +87,20 @@ public class GiganticPlayer{
 		for(DataManagerType mt : this.managermap.keySet()){
 			try {
 				mt.getManagerClass().getMethod("save").invoke(mt);
+			} catch (IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException
+					| SecurityException e) {
+				plugin.getLogger().warning("Failed to save data of player:" + this.name);
+				e.printStackTrace();
+				plugin.getPluginLoader().disablePlugin(plugin);
+			}
+		}
+	}
+
+	public void load() {
+		for(DataManagerType mt : this.managermap.keySet()){
+			try {
+				mt.getManagerClass().getMethod("load").invoke(mt);
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException
 					| SecurityException e) {

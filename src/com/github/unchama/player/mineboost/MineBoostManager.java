@@ -26,6 +26,10 @@ public class MineBoostManager extends DataManager{
 	public void save() {
 	}
 
+	@Override
+	public void load() {
+	}
+
 
 
 

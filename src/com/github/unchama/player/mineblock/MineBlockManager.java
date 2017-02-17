@@ -18,9 +18,6 @@ public class MineBlockManager extends DataManager{
 	public MineBlockManager(GiganticPlayer gp){
 		super(gp);
 		this.tm = sql.getMineBlockTableManager();
-		if(!tm.load(gp)){
-			plugin.getLogger().warning("Failed to load MineBlock of Player:" + gp.name);
-		}
 	}
 
 
@@ -54,6 +51,11 @@ public class MineBlockManager extends DataManager{
 	@Override
 	public void save() {
 		tm.save(gp);
+	}
+	
+	@Override
+	public void load(){
+		tm.load(gp);
 	}
 
 
