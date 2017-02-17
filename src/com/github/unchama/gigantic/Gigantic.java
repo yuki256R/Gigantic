@@ -42,15 +42,17 @@ public final class Gigantic extends JavaPlugin{
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
 
+
 		debug = new Debug();
 		maintenance = new Maintenance();
+
+		UserManager.onEnable();
 
 		//1分毎のタスクを実行
 		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
 
 		//リスナーを登録
 		ListenerEnum.registEvents(plugin);
-
 
 		getLogger().info("SeichiAssist is Enabled!");
 
@@ -60,6 +62,10 @@ public final class Gigantic extends JavaPlugin{
 	public void onDisable(){
 		//taskを終了
 		task.cancel();
+
+		//Userdata保存処理
+		UserManager.onDisable();
+
 		//sql接続終了処理
 		sql.onDisable();
 

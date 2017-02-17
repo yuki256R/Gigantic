@@ -19,7 +19,7 @@ public class MineBlockTableManager extends TableManager{
 		//create Table
 		command =
 				"CREATE TABLE IF NOT EXISTS "
-				+db + "." + table;
+				+ db + "." + table;
 		//Unique Column add
 		command += "(uuid varchar(128) unique)";
 		//send
@@ -31,6 +31,8 @@ public class MineBlockTableManager extends TableManager{
 		//Column add
 		command =
 				"alter table " + db + "." + table + " ";
+		//name add
+		command += "add column if not exists name varchar(30) default null,";
 		//MineBlock add
 		for(BlockType bt : BlockType.values()){
 			command += "add column if not exists " +
@@ -77,7 +79,8 @@ public class MineBlockTableManager extends TableManager{
 
  			//new uuid line create
  			command = "insert into " + db + "." + table
- 	 				+ " (uuid) values('" + struuid+ "')";
+ 	 				+ " (name,uuid) values('" + gp.name
+ 	 				+ "','" + struuid+ "')";
  			if(!sendCommand(command)){
  				plugin.getLogger().warning("Failed to create new row (player:" + gp.name + ")");
  				return false;
@@ -92,6 +95,15 @@ public class MineBlockTableManager extends TableManager{
 
  		}else if(count == 1){
  			//uuidが存在するときの処理
+ 			//update name
+ 			command = "update " + db + "." + table
+ 					+ " set name = '" + gp.name + "'"
+ 					+ " where uuid like '" + struuid + "'";
+ 			if(!sendCommand(command)){
+ 				plugin.getLogger().warning("Failed to update name (player:" + gp.name + ")");
+ 				return false;
+ 			}
+
  			command = "select * from " + db + "." + table
  					+ " where uuid = '" + struuid + "'";
 			try {

@@ -86,7 +86,7 @@ public class GiganticPlayer{
 	public void save() {
 		for(DataManagerType mt : this.managermap.keySet()){
 			try {
-				mt.getManagerClass().getMethod("save").invoke(mt);
+				mt.getManagerClass().getMethod("save").invoke(this.managermap.get(mt));
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException
 					| SecurityException e) {
@@ -100,11 +100,11 @@ public class GiganticPlayer{
 	public void load() {
 		for(DataManagerType mt : this.managermap.keySet()){
 			try {
-				mt.getManagerClass().getMethod("load").invoke(mt);
+				mt.getManagerClass().getMethod("load").invoke(this.managermap.get(mt));
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException
 					| SecurityException e) {
-				plugin.getLogger().warning("Failed to save data of player:" + this.name);
+				plugin.getLogger().warning("Failed to load data of player:" + this.name);
 				e.printStackTrace();
 				plugin.getPluginLoader().disablePlugin(plugin);
 			}

@@ -52,4 +52,19 @@ public class UserManager {
 	}
 
 
+	public static void onDisable() {
+		for(Player p : plugin.getServer().getOnlinePlayers()){
+			quit(p);
+		}
+
+	}
+
+
+	public static void onEnable() {
+		for(Player p : plugin.getServer().getOnlinePlayers()){
+			join(p);
+		}
+	}
+
+
 }

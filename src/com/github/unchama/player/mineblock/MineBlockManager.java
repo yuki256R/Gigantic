@@ -10,7 +10,7 @@ import com.github.unchama.sql.MineBlockTableManager;
 
 public class MineBlockManager extends DataManager{
 
-	private HashMap<BlockType,MineBlock> datamap = null;
+	private HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
 	MineBlockTableManager tm;
 
 
@@ -52,7 +52,7 @@ public class MineBlockManager extends DataManager{
 	public void save() {
 		tm.save(gp);
 	}
-	
+
 	@Override
 	public void load(){
 		tm.load(gp);
