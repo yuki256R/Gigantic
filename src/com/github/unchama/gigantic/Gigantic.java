@@ -1,12 +1,14 @@
 package com.github.unchama.gigantic;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.command.CommandEnum;
-import com.github.unchama.enumdata.ListenerEnum;
+import com.github.unchama.hook.GiganticPlaceholders;
+import com.github.unchama.listener.ListenerEnum;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
 import com.github.unchama.yml.Config;
@@ -53,6 +55,11 @@ public final class Gigantic extends JavaPlugin{
 
 		//リスナーを登録
 		ListenerEnum.registEvents(plugin);
+
+		//Hooking Placeholder
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+			new GiganticPlaceholders(plugin).hook();
+		}
 
 		getLogger().info("SeichiAssist is Enabled!");
 

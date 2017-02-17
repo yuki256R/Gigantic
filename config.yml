@@ -10,19 +10,16 @@ id: 'root'
 pw: ''
 
 
-
+# 機能：MineBoost設定
+# numofpeople:接続人数による増加
+# minutemine:1分間の整地量による増加
+#
+#
+#
 mineboost:
   rate:
     numofpeople: '0.5'
     minutemine: '0.01'
-
-
-
-
-
-
-
-
 
 # サーバ識別設定
 # 複数サーバ構成にする場合はこの値をサーバごとに変更します

@@ -25,11 +25,10 @@ public class MinuteListener implements Listener{
 	@EventHandler
 	public void MineBoostEvent(MinuteEvent event){
 
-		Boolean debugflag = debug.getFlag(DebugEnum.MINEBOOST);
 		//run process one by one
 		for(Player p : plugin.getServer().getOnlinePlayers()){
 			UserManager.getGiganticPlayer(p).getMineBoostManager().updataMinuteMine();
-			if(debugflag)p.sendMessage("updata MinuteMine for player:" + p.getName());
+			debug.sendMessage(p, DebugEnum.MINEBOOST, "updata MinuteMine for player:" + p.getName());
 		}
 	}
 }

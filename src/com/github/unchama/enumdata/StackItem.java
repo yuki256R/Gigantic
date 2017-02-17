@@ -10,7 +10,7 @@ import org.bukkit.Material;
  */
 
 
-public enum ItemEnum {
+public enum StackItem {
 //全てのアイテム列挙
 	//Material名が同じなら日本語名だけを引数とする．
 	STONE("石"),
@@ -673,16 +673,16 @@ public enum ItemEnum {
 	private final short durability;
 
 
-	private ItemEnum(String jpname){
+	private StackItem(String jpname){
 		this(null,jpname);
 	}
-	private ItemEnum(Material material,String jpname) {
+	private StackItem(Material material,String jpname) {
 		this(material,jpname,0);
 	}
-	private ItemEnum(Material material,String jpname,int durability) {
+	private StackItem(Material material,String jpname,int durability) {
 		this(material,jpname,(short)durability);
 	}
-	private ItemEnum(Material material,String jpname,short durability){
+	private StackItem(Material material,String jpname,short durability){
 		this.material = material;
 		this.jpname = jpname;
 		this.durability = durability;

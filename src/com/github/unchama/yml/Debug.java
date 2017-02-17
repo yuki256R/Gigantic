@@ -6,19 +6,28 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import net.md_5.bungee.api.ChatColor;
+
+import org.bukkit.entity.Player;
+
 public final class Debug extends Yml{
 	public enum DebugEnum {
-		MINEBOOST(false),
-		MINEBLOCK(false),
+		MINEBOOST(false,ChatColor.AQUA),
+		MINEBLOCK(false,ChatColor.RED),
 		;
 		private Boolean flag;
+		private ChatColor c;
 
-		private DebugEnum(Boolean flag){
+		private DebugEnum(Boolean flag,ChatColor c){
 			this.flag = flag;
+			this.c = c;
 		}
 
 		public Boolean getDefaultFlag(){
 			return flag;
+		}
+		public ChatColor getColor(){
+			return c;
 		}
 
 	}
@@ -30,8 +39,14 @@ public final class Debug extends Yml{
 	}
 
 
+	public void sendMessage(Player p,DebugEnum de,String message){
+		if(getFlag(de)){
+			p.sendMessage(de.getColor() + message);
+		}
+	}
 
-	public Boolean getFlag(DebugEnum de){
+
+	private Boolean getFlag(DebugEnum de){
 		return this.getBoolean(de.name());
 	}
 

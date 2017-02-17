@@ -18,14 +18,12 @@ public class PlayerStatisticListener implements Listener {
 
 	@EventHandler
 	public void StatisticIncrementListener(PlayerStatisticIncrementEvent event){
-		Boolean debugflag = debug.getFlag(DebugEnum.MINEBLOCK);
-
 		if(event.getStatistic().equals(Statistic.MINE_BLOCK)){
 			Material material = event.getMaterial();
 			if(BlockType.contains(material)){
 				Player p = event.getPlayer();
 				UserManager.getGiganticPlayer(p).getMineBlockManager().increase(material);
-				if(debugflag)p.sendMessage("called StatisticIncrementListener for player:" + p.getName());
+				debug.sendMessage(p, DebugEnum.MINEBLOCK,"called StatisticIncrementListener for player:" + p.getName());
 			}
 		}
 	}

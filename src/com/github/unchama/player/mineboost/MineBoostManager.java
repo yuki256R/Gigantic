@@ -15,7 +15,6 @@ import com.github.unchama.yml.Debug.DebugEnum;
 
 public class MineBoostManager extends DataManager{
 	Debug debug = Gigantic.debug;
-	boolean debugflag = debug.getFlag(DebugEnum.MINEBOOST);
 
 	private Boolean flag;
 	private Boolean messageflag;
@@ -37,6 +36,7 @@ public class MineBoostManager extends DataManager{
 
 	@Override
 	public void load() {
+		//no data to load
 	}
 
 
@@ -55,11 +55,11 @@ public class MineBoostManager extends DataManager{
 		}
 
 		boostlevel = 0;
-		if(debugflag)p.sendMessage("boostlevel=");
+		debug.sendMessage(p, DebugEnum.MINEBOOST,"boostlevel=");
 		for(BoostType bt : boostMap.keySet()){
 			MineBoost mb = boostMap.get(bt);
 			boostlevel += mb.getAmplifier();
-			if(debugflag)p.sendMessage("   " + bt.name() + ":" + mb.getAmplifier() + "+");
+			debug.sendMessage(p, DebugEnum.MINEBOOST,"   " + bt.name() + ":" + mb.getAmplifier());
 		}
 
 		if(boostlevel > 200){
@@ -71,7 +71,7 @@ public class MineBoostManager extends DataManager{
 		}else{
 			boostlevel--;
 			p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, (int)boostlevel, false, false), true);
-			if(debugflag)p.sendMessage("addPotionEffect:" + boostlevel + " for player:" + p.getName());
+			debug.sendMessage(p, DebugEnum.MINEBOOST, "addPotionEffect:" + boostlevel + " for player:" + p.getName());
 		}
 
 
