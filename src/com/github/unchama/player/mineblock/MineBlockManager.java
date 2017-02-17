@@ -10,7 +10,7 @@ import com.github.unchama.sql.MineBlockTableManager;
 
 public class MineBlockManager extends DataManager{
 
-	private HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+	public HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
 	MineBlockTableManager tm;
 
 
@@ -20,14 +20,6 @@ public class MineBlockManager extends DataManager{
 		this.tm = sql.getMineBlockTableManager();
 	}
 
-
-
-
-
-
-	public void setDataMap(HashMap<BlockType,MineBlock> datamap){
-		this.datamap = new HashMap<BlockType,MineBlock>(datamap);
-	}
 
 	public void increase(Material material){
 		this.increase(material,1);
@@ -42,10 +34,6 @@ public class MineBlockManager extends DataManager{
 		BlockType bt = BlockType.getmaterialMap().get(material);
 		datamap.get(bt).increase(breaknum * ratio);
 	}
-
-
-
-
 
 
 	@Override
@@ -63,7 +51,5 @@ public class MineBlockManager extends DataManager{
 
 
 
-	public HashMap<BlockType, MineBlock> getDataMap() {
-		return datamap;
-	}
+
 }

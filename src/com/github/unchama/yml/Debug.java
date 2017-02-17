@@ -8,8 +8,8 @@ import java.util.logging.Level;
 
 public final class Debug extends Yml{
 	public enum DebugEnum {
-		ALL(false),
 		MINEBOOST(false),
+		MINEBLOCK(false),
 		;
 		private Boolean flag;
 

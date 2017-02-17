@@ -52,7 +52,7 @@ public class MineBlockTableManager extends TableManager{
 	@Override
 	public Boolean load(GiganticPlayer gp) {
 
-		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().getDataMap();
+		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().datamap;
 
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -90,7 +90,6 @@ public class MineBlockTableManager extends TableManager{
  			for(BlockType bt : BlockType.values()){
  				datamap.put(bt, new MineBlock());
  			}
- 			gp.getMineBlockManager().setDataMap(datamap);
  			return true;
 
  		}else if(count == 1){
@@ -119,7 +118,6 @@ public class MineBlockTableManager extends TableManager{
 				e.printStackTrace();
 				return false;
 			}
-			gp.getMineBlockManager().setDataMap(datamap);
  			return true;
  		}else{
  			//mysqlに該当するplayerdataが2個以上ある時エラーを吐く
@@ -133,7 +131,7 @@ public class MineBlockTableManager extends TableManager{
 	public Boolean save(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
-		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().getDataMap();
+		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().datamap;
 		int size = datamap.size();
 		int i = 0;
 		this.checkStatement();

@@ -9,6 +9,21 @@ db: 'gigantic'
 id: 'root'
 pw: ''
 
+
+
+mineboost:
+  rate:
+    numofpeople: '0.5'
+    minutemine: '0.01'
+
+
+
+
+
+
+
+
+
 # サーバ識別設定
 # 複数サーバ構成にする場合はこの値をサーバごとに変更します
 servernum: '1'

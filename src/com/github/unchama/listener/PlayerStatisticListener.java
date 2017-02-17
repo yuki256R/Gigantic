@@ -2,21 +2,30 @@ package com.github.unchama.listener;
 
 import org.bukkit.Material;
 import org.bukkit.Statistic;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.UserManager;
 import com.github.unchama.player.mineblock.BlockType;
+import com.github.unchama.yml.Debug;
+import com.github.unchama.yml.Debug.DebugEnum;
 
 public class PlayerStatisticListener implements Listener {
+	Debug debug = Gigantic.debug;
 
 	@EventHandler
 	public void StatisticIncrementListener(PlayerStatisticIncrementEvent event){
+		Boolean debugflag = debug.getFlag(DebugEnum.MINEBLOCK);
+
 		if(event.getStatistic().equals(Statistic.MINE_BLOCK)){
 			Material material = event.getMaterial();
 			if(BlockType.contains(material)){
-				UserManager.getGiganticPlayer(event.getPlayer()).getMineBlockManager().increase(material);
+				Player p = event.getPlayer();
+				UserManager.getGiganticPlayer(p).getMineBlockManager().increase(material);
+				if(debugflag)p.sendMessage("called StatisticIncrementListener for player:" + p.getName());
 			}
 		}
 	}

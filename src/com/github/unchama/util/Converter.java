@@ -19,6 +19,14 @@ public class Converter {
 		}
 		return flag;
 	}
+	public static float toFloat(String s){
+		float f = Float.valueOf(s);
+		return f;
+	}
+
+
+
+
 
 	/**プレイヤー型からプレイヤーネームを返す
 	 *

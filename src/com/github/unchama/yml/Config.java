@@ -6,7 +6,7 @@ package com.github.unchama.yml;
 public class Config extends Yml{
 
 	public Config(){
-	}
+		}
 
 	public String getDB(){
 		return getString("db");
@@ -30,12 +30,22 @@ public class Config extends Yml{
 		return url;
 	}
 
+	public float getNumOfPeopleRate(){
+		return this.getFloat("mineboost.rate.numofpeople");
+	}
+
 	@Override
 	public void saveDefaultFile() {
 		if (!file.exists()) {
 			plugin.saveResource(filename, false);
+
 		}
 	}
+
+	public float getMinuteMineRate() {
+		return this.getFloat("mineboost.rate.minutemine");
+	}
+
 
 
 }

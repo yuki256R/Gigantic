@@ -3,7 +3,6 @@ package com.github.unchama.sql;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
@@ -48,13 +47,11 @@ public class Sql{
 	private final String db;
 	private final String id;
 	private final String pw;
-	private String exc;
 	private Connection con = null;
 	private Statement stmt = null;
 
 	private HashMap<TableManagerType,TableManager> managermap = new HashMap<TableManagerType,TableManager>();
 
-	private ResultSet rs = null;
 
 	//コンストラクタ
 	public Sql(){
@@ -197,7 +194,6 @@ public class Sql{
 			return true;
 		}catch (SQLException e) {
 			plugin.getLogger().warning("sqlクエリの実行に失敗しました。以下にエラーを表示します");
-			exc = e.getMessage();
 			e.printStackTrace();
 			return false;
 		}

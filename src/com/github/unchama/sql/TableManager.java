@@ -29,7 +29,7 @@ public abstract class TableManager {
 	}
 
 	abstract Boolean createTable();
-	abstract Boolean load(GiganticPlayer gp);
+	public abstract Boolean load(GiganticPlayer gp);
 	public abstract Boolean save(GiganticPlayer gp);
 
 	protected void checkStatement(){

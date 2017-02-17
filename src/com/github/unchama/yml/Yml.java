@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.util.Converter;
 
 public abstract class Yml {
 	Gigantic plugin;
@@ -48,7 +49,7 @@ public abstract class Yml {
 		String ans = fc.getString(s);
 
 		//データが空であれば警告
-		if(ans == null){
+		if(ans.equals(null)){
 			plugin.getLogger().warning( filename + "内に" + s + "値が宣言されていません．");
 		}
 		//データを返す
@@ -61,17 +62,12 @@ public abstract class Yml {
 	 * @return
 	 */
 	protected Boolean getBoolean(String s){
-		//ｷｰに対応するデータを読み込み
-		Boolean ans = fc.getBoolean(s);
-
-		//データが空であれば警告
-		if(ans == null){
-			plugin.getLogger().warning(filename + "内に" + s + "値が宣言されていません．");
-		}
-		//データを返す
-		return ans;
+		return Converter.toBoolean(getString(s));
 	}
 
 
+	protected float getFloat(String s){
+		return Converter.toFloat(getString(s));
+	}
 
 }
