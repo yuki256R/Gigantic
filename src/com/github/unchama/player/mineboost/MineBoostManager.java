@@ -10,11 +10,11 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock;
-import com.github.unchama.yml.Debug;
-import com.github.unchama.yml.Debug.DebugEnum;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MineBoostManager extends DataManager{
-	Debug debug = Gigantic.debug;
+	private DebugManager debug = Gigantic.yml.getDebugManager();
 
 	private Boolean flag;
 	private Boolean messageflag;

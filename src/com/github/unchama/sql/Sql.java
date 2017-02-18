@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.yml.Config;
+import com.github.unchama.yml.ConfigManager;
 
 public class Sql{
 	static enum TableManagerType{
@@ -42,7 +42,7 @@ public class Sql{
 		}
 	}
 	Gigantic plugin;
-	Config config;
+	ConfigManager config;
 	private final String url;
 	private final String db;
 	private final String id;
@@ -56,7 +56,7 @@ public class Sql{
 	//コンストラクタ
 	public Sql(){
 		this.plugin = Gigantic.plugin;
-		this.config = Gigantic.config;
+		this.config = Gigantic.yml.getConfigManager();
 		this.url = config.getURL();
 		this.db = config.getDB();
 		this.id = config.getID();

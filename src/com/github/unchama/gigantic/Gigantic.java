@@ -11,8 +11,7 @@ import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
-import com.github.unchama.yml.Config;
-import com.github.unchama.yml.Debug;
+import com.github.unchama.yml.Yml;
 
 
 public final class Gigantic extends JavaPlugin{
@@ -20,11 +19,8 @@ public final class Gigantic extends JavaPlugin{
 	//自身のインスタンスを生成
 	public static Gigantic plugin;
 
-	//コンフィグデータ用クラス
-	public static Config config;
-
-	//デバッグ用クラス
-	public static Debug debug;
+	//Ymlデータ用クラス
+	public static Yml yml;
 
 	//メンテナンス用クラス
 	public static Maintenance maintenance;
@@ -40,14 +36,14 @@ public final class Gigantic extends JavaPlugin{
 		//必ず最初に宣言
 		plugin = this;
 		//必ず最初にconfigデータを読み込む
-		config = new Config();
+		yml = new Yml();
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
 
 
-		debug = new Debug();
 		maintenance = new Maintenance();
 
+		//ユーザーに対する処理
 		UserManager.onEnable();
 
 		//1分毎のタスクを実行

@@ -10,7 +10,7 @@ import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.entity.Player;
 
-public final class Debug extends Yml{
+public final class DebugManager extends YmlManager{
 	public enum DebugEnum {
 		MINEBOOST(false,ChatColor.AQUA),
 		MINEBLOCK(false,ChatColor.RED),
@@ -34,7 +34,8 @@ public final class Debug extends Yml{
 
 	private static HashMap<String,Boolean> debugmap = new HashMap<String,Boolean>();
 
-	public Debug() {
+	public DebugManager() {
+		super();
 		init();
 	}
 

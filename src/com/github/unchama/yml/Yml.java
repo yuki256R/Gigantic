@@ -1,73 +1,67 @@
 package com.github.unchama.yml;
 
-import java.io.File;
-
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.util.Converter;
-
-public abstract class Yml {
-	Gigantic plugin;
-	File file;
-	String filename;
-	FileConfiguration fc;
-
-	public Yml() {
-		this.plugin = Gigantic.plugin;
-		String classname = this.getClass().getTypeName().toLowerCase();
-		this.filename = classname.replaceFirst("com.github.unchama.yml.", "") + ".yml";
-		this.file = new File(plugin.getDataFolder(), filename);
-		saveDefaultFile();
-		this.fc = loadFile();
-	}
-
-	/**デフォルトのファイルを生成する
-	 *
-	 */
-	protected abstract void saveDefaultFile();
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 
 
-	/**データフォルダーにあるfileを読み込む
-	 *
-	 * @param filename
-	 * @return
-	 */
-	private FileConfiguration loadFile(){
-		return YamlConfiguration.loadConfiguration(file);
-	}
+public class Yml {
+	enum YmlEnum{
+		CONFIG(ConfigManager.class),
+		DEBUG(DebugManager.class),
+		MAINMENU(MainMenuManager.class),
+		;
 
-	/**
-	 *
-	 * @param s
-	 * @return
-	 */
-	protected String getString(String s) {
-		//ｷｰに対応するデータを読み込み
-		String ans = fc.getString(s);
+		private Class<? extends YmlManager> managerClass;
 
-		//データが空であれば警告
-		if(ans.equals(null)){
-			plugin.getLogger().warning( filename + "内に" + s + "値が宣言されていません．");
+		YmlEnum(Class<? extends YmlManager> managerClass){
+			this.managerClass = managerClass;
 		}
-		//データを返す
-		return ans;
+
+		public Class<? extends YmlManager> getManagerClass(){
+			return managerClass;
+		}
+		/**sqlのテーブル名を取得する
+		 *
+		 * @return
+		 */
+		public String getYmlName(){
+			return this.name().toLowerCase() + ".yml";
+		}
+
+		public static String getTableNamebyClass(Class<? extends YmlManager> _class) {
+			for(YmlEnum ye : YmlEnum.values()){
+				if(ye.getManagerClass().equals(_class)){
+					return ye.getYmlName();
+				}
+			}
+			return "example";
+		}
 	}
 
-	/**
-	 *
-	 * @param s
-	 * @return
-	 */
-	protected Boolean getBoolean(String s){
-		return Converter.toBoolean(getString(s));
+	private static HashMap<YmlEnum,YmlManager> managermap = new HashMap<YmlEnum,YmlManager>();
+
+
+	public Yml(){
+		//instance作成
+		for(YmlEnum ye : YmlEnum.values()){
+			try {
+				this.managermap.put(ye,ye.getManagerClass().getConstructor().newInstance());
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-
-	protected float getFloat(String s){
-		return Converter.toFloat(getString(s));
+	public ConfigManager getConfigManager(){
+		return (ConfigManager) managermap.get(YmlEnum.CONFIG);
 	}
-
+	public DebugManager getDebugManager(){
+		return (DebugManager) managermap.get(YmlEnum.DEBUG);
+	}
+	public MainMenuManager getMainMenuManager(){
+		return (MainMenuManager) managermap.get(YmlEnum.MAINMENU);
+	}
 }

@@ -12,7 +12,7 @@ public class Converter {
 		Boolean flag;
 		if(s.equalsIgnoreCase("true")){
 			flag = true;
-		}else if(Integer.parseInt(s)==1){
+		}else if(s.equalsIgnoreCase("1")){
 			flag = true;
 		}else{
 			flag = false;
@@ -23,7 +23,9 @@ public class Converter {
 		float f = Float.valueOf(s);
 		return f;
 	}
-
+	public static int toInt(String s) {
+		return Integer.valueOf(s);
+	}
 
 
 
@@ -68,4 +70,5 @@ public class Converter {
 		*/
 		return time;
 	}
+
 }

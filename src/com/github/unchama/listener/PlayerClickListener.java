@@ -10,9 +10,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.yml.MainMenuManager;
 
 public class PlayerClickListener  implements Listener{
 	Gigantic plugin = Gigantic.plugin;
+	MainMenuManager mainmenu = Gigantic.yml.getMainMenuManager();
 
 	@EventHandler
 	public void onPlayerOpenMenuEvent(PlayerInteractEvent event){
@@ -39,10 +41,6 @@ public class PlayerClickListener  implements Listener{
 
 		//開く音を再生
 		player.playSound(player.getLocation(), Sound.BLOCK_FENCE_GATE_OPEN, 1, (float) 0.1);
-		/*Inventory inv = MenuInventoryData.getMenuData(player);
-		if(inv == null){
-			return;
-		}
-		player.openInventory(inv);*/
+		player.openInventory(mainmenu.getInventory(player));
 	}
 }

@@ -7,12 +7,12 @@ import org.bukkit.event.Listener;
 import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.UserManager;
-import com.github.unchama.yml.Debug;
-import com.github.unchama.yml.Debug.DebugEnum;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MinuteListener implements Listener{
 	private Gigantic plugin = Gigantic.plugin;
-	private Debug debug = Gigantic.debug;
+	private DebugManager debug = Gigantic.yml.getDebugManager();
 
 
 

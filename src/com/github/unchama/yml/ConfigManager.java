@@ -3,9 +3,10 @@ package com.github.unchama.yml;
 
 
 
-public class Config extends Yml{
+public class ConfigManager extends YmlManager{
 
-	public Config(){
+	public ConfigManager(){
+		super();
 		}
 
 	public String getDB(){
@@ -38,7 +39,6 @@ public class Config extends Yml{
 	public void saveDefaultFile() {
 		if (!file.exists()) {
 			plugin.saveResource(filename, false);
-
 		}
 	}
 
