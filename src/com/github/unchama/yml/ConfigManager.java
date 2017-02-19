@@ -45,6 +45,10 @@ public class ConfigManager extends YmlManager{
 	public float getMinuteMineRate() {
 		return this.getFloat("mineboost.rate.minutemine");
 	}
+	
+	public int getMaxSeichiLevel(){
+		return this.getInt("MaxSeichiLevel");
+	}
 
 
 

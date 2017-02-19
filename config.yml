@@ -21,6 +21,8 @@ mineboost:
     numofpeople: '0.5'
     minutemine: '0.01'
 
+# 整地レベル設定
+MaxSeichiLevel: '300'
 # サーバ識別設定
 # 複数サーバ構成にする場合はこの値をサーバごとに変更します
 servernum: '1'
