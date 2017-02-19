@@ -13,7 +13,7 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql{
 	static enum TableManagerType{
 		GIGANTIC(GiganticTableManager.class),
-		SEICHI(SeichiTableManager.class),
+		SEICHILEVEL(SeichiLevelTableManager.class),
 		MINEBLOCK(MineBlockTableManager.class),
 		;
 		private Class<? extends TableManager> managerClass;
@@ -310,8 +310,8 @@ public class Sql{
 	public MineBlockTableManager getMineBlockTableManager(){
 		return (MineBlockTableManager) this.managermap.get(TableManagerType.MINEBLOCK);
 	}
-	public SeichiTableManager getSeichiTableManager(){
-		return (SeichiTableManager) this.managermap.get(TableManagerType.SEICHI);
+	public SeichiLevelTableManager getSeichiTableManager(){
+		return (SeichiLevelTableManager) this.managermap.get(TableManagerType.SEICHILEVEL);
 	}
 
 

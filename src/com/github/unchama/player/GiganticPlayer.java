@@ -10,7 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
-import com.github.unchama.player.seichi.SeichiManager;
+import com.github.unchama.player.seichi.SeichiLevelManager;
 import com.github.unchama.util.Converter;
 
 
@@ -22,7 +22,7 @@ public class GiganticPlayer{
 		 * Managerを追加するときはここに書く．
 		 */
 		GIGANTIC(GiganticManager.class),
-		SEICHI(SeichiManager.class),
+		SEICHILEVEL(SeichiLevelManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
 
@@ -84,8 +84,8 @@ public class GiganticPlayer{
 	public GiganticManager getGiganticManager(){
 		return (GiganticManager) managermap.get(DataManagerType.GIGANTIC);
 	}
-	public SeichiManager getSeichiManager(){
-		return (SeichiManager) managermap.get(DataManagerType.SEICHI);
+	public SeichiLevelManager getSeichiManager(){
+		return (SeichiLevelManager) managermap.get(DataManagerType.SEICHILEVEL);
 	}
 
 	public void save() {

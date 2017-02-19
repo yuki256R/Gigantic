@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import com.github.unchama.player.GiganticPlayer;
 
 public abstract class PlayerTableManager extends TableManager{
-	
+
 	public PlayerTableManager(Sql sql) {
 		super(sql);
 		// TODO 自動生成されたコンストラクター・スタブ
@@ -13,12 +13,12 @@ public abstract class PlayerTableManager extends TableManager{
 
 	/**ex)
 	 * command = "add column if not exists name varchar(30) default null,"
-	 * 
+	 *
 	 * @return command
 	 */
 	abstract String addOriginalColumn();
 	/**set new player data
-	 * 
+	 *
 	 * @param gp
 	 * @return command
 	 */
@@ -28,7 +28,7 @@ public abstract class PlayerTableManager extends TableManager{
 			double n = rs.getDouble(bt.getColumnName());
 			datamap.put(bt, new MineBlock(n));
 		}
-	 * 
+	 *
 	 * @param gp
 	 * @throws SQLException
 	 */
@@ -36,19 +36,19 @@ public abstract class PlayerTableManager extends TableManager{
 	/**ex)
 		for(BlockType bt : datamap.keySet()){
 			i++;
-			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "'";
+			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
 		}
-	 * 
+	 *
 	 * @param gp
 	 * @return
 	 */
 	abstract String savePlayer(GiganticPlayer gp);
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	@Override
 	Boolean createTable() {
 		String command;
@@ -159,11 +159,11 @@ public abstract class PlayerTableManager extends TableManager{
 
 		command = "update " + db + "." + table
 				+ " set ";
-		
+
 		command += this.savePlayer(gp);
-		
+
 		command += " where uuid = '" + struuid + "'";
-		
+
 		command.replace(", where uuid", " where uuid");
 
 		try {
