@@ -29,18 +29,6 @@ public class MineBoostManager extends DataManager{
 		give();
 	}
 
-	@Override
-	public void save() {
-		//no data to save
-	}
-
-	@Override
-	public void load() {
-		//no data to load
-	}
-
-
-
 	private void give() {
 		Player p = plugin.getServer().getPlayer(gp.uuid);
 

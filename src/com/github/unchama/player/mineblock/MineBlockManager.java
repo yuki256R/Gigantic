@@ -6,12 +6,15 @@ import org.bukkit.Material;
 
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
 
-public class MineBlockManager extends DataManager{
+public class MineBlockManager extends DataManager implements UsingSql{
 
 	public HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+	public long allmineblock;
 	MineBlockTableManager tm;
+
 
 
 	//new Player Instance

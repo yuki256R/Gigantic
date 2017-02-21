@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
 
-public class UserManager {
+public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
 	//private static Sql sql = Gigantic.sql;
 

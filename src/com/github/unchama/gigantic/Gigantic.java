@@ -9,9 +9,9 @@ import org.bukkit.scheduler.BukkitTask;
 import com.github.unchama.command.CommandEnum;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
-import com.github.unchama.player.seichi.SeichiLevel;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
+import com.github.unchama.util.SeichiLevelUtil;
 import com.github.unchama.yml.Yml;
 
 
@@ -41,12 +41,12 @@ public final class Gigantic extends JavaPlugin{
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
 		//sqlの次に必ず初期化を行う
-		SeichiLevel.setLevelMap();
+		SeichiLevelUtil.setLevelMap();
 
 		maintenance = new Maintenance();
 
 		//ユーザーに対する処理
-		UserManager.onEnable();
+		PlayerManager.onEnable();
 
 		//1分毎のタスクを実行
 		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
@@ -69,7 +69,7 @@ public final class Gigantic extends JavaPlugin{
 		task.cancel();
 
 		//Userdata保存処理
-		UserManager.onDisable();
+		PlayerManager.onDisable();
 
 		//sql接続終了処理
 		sql.onDisable();

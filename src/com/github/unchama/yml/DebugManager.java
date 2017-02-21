@@ -14,6 +14,7 @@ public final class DebugManager extends YmlManager{
 	public enum DebugEnum {
 		MINEBOOST(false,ChatColor.AQUA),
 		MINEBLOCK(false,ChatColor.RED),
+		SEICHILEVEL(false,ChatColor.GREEN),
 		;
 		private Boolean flag;
 		private ChatColor c;
@@ -43,6 +44,18 @@ public final class DebugManager extends YmlManager{
 	public void sendMessage(Player p,DebugEnum de,String message){
 		if(getFlag(de)){
 			p.sendMessage(de.getColor() + message);
+		}
+	}
+
+	public void sendMessage(DebugEnum de , String message){
+		if(getFlag(de)){
+			plugin.getServer().broadcastMessage(message);
+		}
+	}
+
+	public void log(DebugEnum de, String message,Level level){
+		if(getFlag(de)){
+			plugin.getServer().getLogger().log(level, message);
 		}
 	}
 

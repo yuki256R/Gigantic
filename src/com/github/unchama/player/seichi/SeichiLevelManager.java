@@ -2,9 +2,11 @@ package com.github.unchama.player.seichi;
 
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.UsingSql;
 import com.github.unchama.sql.SeichiLevelTableManager;
+import com.github.unchama.util.SeichiLevelUtil;
 
-public class SeichiLevelManager extends DataManager{
+public class SeichiLevelManager extends DataManager implements UsingSql{
 	private SeichiLevel seichilevel;
 	SeichiLevelTableManager tm;
 
@@ -24,7 +26,7 @@ public class SeichiLevelManager extends DataManager{
 	}
 
 	public void setSeichiLevel(int level){
-		this.seichilevel = SeichiLevel.get(level);
+		this.seichilevel = SeichiLevelUtil.get(level);
 	}
 
 	public SeichiLevel getSeichiLevel() {

@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.UserManager;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -22,7 +22,7 @@ public class PlayerStatisticListener implements Listener {
 			Material material = event.getMaterial();
 			if(BlockType.contains(material)){
 				Player p = event.getPlayer();
-				UserManager.getGiganticPlayer(p).getMineBlockManager().increase(material);
+				PlayerManager.getGiganticPlayer(p).getMineBlockManager().increase(material);
 				debug.sendMessage(p, DebugEnum.MINEBLOCK,"called StatisticIncrementListener for player:" + p.getName());
 			}
 		}
