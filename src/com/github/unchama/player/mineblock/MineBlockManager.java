@@ -12,16 +12,17 @@ import com.github.unchama.sql.MineBlockTableManager;
 public class MineBlockManager extends DataManager implements UsingSql{
 
 	public HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
-	public long allmineblock;
+	public MineBlock all;
+	public int level;
 	MineBlockTableManager tm;
 
 
 
-	//new Player Instance
 	public MineBlockManager(GiganticPlayer gp){
 		super(gp);
 		this.tm = sql.getMineBlockTableManager();
 	}
+
 
 
 	public void increase(Material material){
@@ -35,7 +36,9 @@ public class MineBlockManager extends DataManager implements UsingSql{
 	public void increase(Material material, int breaknum) {
 		double ratio = BlockType.getIncreaseRatio(material);
 		BlockType bt = BlockType.getmaterialMap().get(material);
-		datamap.get(bt).increase(breaknum * ratio);
+		double inc = breaknum * ratio;
+		datamap.get(bt).increase(inc);
+		all.increase(inc);
 	}
 
 

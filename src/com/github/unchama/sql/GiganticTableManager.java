@@ -27,7 +27,7 @@ public class GiganticTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	void insertNewPlayer(GiganticPlayer gp) {
+	void newPlayer(GiganticPlayer gp) {
 			/*
 			//初見さんにLv1メッセージを送信
 			p.sendMessage(SeichiAssist.config.getLvMessage(1));
@@ -42,13 +42,13 @@ public class GiganticTableManager extends PlayerTableManager{
 			p.getInventory().addItem(new ItemStack(Material.DIAMOND_SPADE));
 			MebiusListener.give(p);
 			*/
-		
+
 	}
 
 	@Override
 	void loadPlayer(GiganticPlayer gp) throws SQLException {
 		// TODO 自動生成されたメソッド・スタブ
-		
+
 	}
 
 	@Override

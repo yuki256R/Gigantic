@@ -31,6 +31,31 @@ public class ConfigManager extends YmlManager{
 		return url;
 	}
 
+	public String getSeichiDB(){
+		return getString("seichiassist.db");
+	}
+	public String getSeichiTable() {
+		return getString("seichiassist.table");
+	}
+	public String getSeichiID(){
+		return getString("seichiassist.id");
+	}
+	public String getSeichiPW(){
+		return getString("seichiassist.pw");
+	}
+	public String getSeichiURL(){
+		String url = "jdbc:mysql://";
+		url += getString("seichiassist.host");
+		String port = getString("seichiassist.port");
+		if(port != null){
+			url += ":" + port;
+		}
+		return url;
+	}
+	public Boolean getOldDataFlag(){
+		return this.getBoolean("olddatabase");
+	}
+
 	public float getNumOfPeopleRate(){
 		return this.getFloat("mineboost.rate.numofpeople");
 	}
@@ -45,7 +70,7 @@ public class ConfigManager extends YmlManager{
 	public float getMinuteMineRate() {
 		return this.getFloat("mineboost.rate.minutemine");
 	}
-	
+
 	public int getMaxSeichiLevel(){
 		return this.getInt("MaxSeichiLevel");
 	}

@@ -6,16 +6,19 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
+import com.github.unchama.player.mineblock.MineBlockManager;
 
 public class MineBlockTableManager extends PlayerTableManager{
 
 	public MineBlockTableManager(Sql sql){
 		super(sql);
 	}
-	
+
 	@Override
 	String addOriginalColumn() {
 		String command = "";
+		//allblock add
+		command += "add column if not exists all double unsigned default 0,";
 		//MineBlock add
 		for(BlockType bt : BlockType.values()){
 			command += "add column if not exists " +
@@ -25,34 +28,41 @@ public class MineBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	void insertNewPlayer(GiganticPlayer gp) {
-		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().datamap;
+	void newPlayer(GiganticPlayer gp) {
+		MineBlockManager m = gp.getMineBlockManager();
+		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		//datamap put
 		for(BlockType bt : BlockType.values()){
 			datamap.put(bt, new MineBlock());
 		}
+
+		m.all = new MineBlock();
 	}
 
 	@Override
 	void loadPlayer(GiganticPlayer gp) throws SQLException {
-		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().datamap;
+		MineBlockManager m = gp.getMineBlockManager();
+		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		for(BlockType bt : BlockType.values()){
-			double n = rs.getDouble(bt.getColumnName());
-			datamap.put(bt, new MineBlock(n));
+			datamap.put(bt, new MineBlock(rs.getDouble(bt.getColumnName())));
 		}
+
+		m.all = new MineBlock(rs.getDouble("all"));
 	}
 
 	@Override
 	String savePlayer(GiganticPlayer gp) {
-		HashMap<BlockType,MineBlock> datamap = gp.getMineBlockManager().datamap;
+		MineBlockManager m = gp.getMineBlockManager();
+		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		String command = "";
 		for(BlockType bt : datamap.keySet()){
-			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "'";
+			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
 		}
+
+		command += "all = '" + m.all.getNum() + "',";
+
 		return command;
 	}
-
-
 }
 
 

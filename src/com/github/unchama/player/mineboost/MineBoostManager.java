@@ -26,10 +26,10 @@ public class MineBoostManager extends DataManager{
 	public MineBoostManager(GiganticPlayer gp){
 		super(gp);
 		this.updataNumberOfPeople();
-		give();
+		add();
 	}
 
-	private void give() {
+	private void add() {
 		Player p = plugin.getServer().getPlayer(gp.uuid);
 
 		if(p == null){
@@ -70,7 +70,7 @@ public class MineBoostManager extends DataManager{
 		short playernum = (short) plugin.getServer().getOnlinePlayers().size();
 		short amplifier = (short) (playernum * config.getNumOfPeopleRate());
 		boostMap.put(BoostType.NUMBER_OF_PEOPLE, new MineBoost(amplifier));
-		give();
+		add();
 	}
 
 	public void updataMinuteMine() {
@@ -80,7 +80,7 @@ public class MineBoostManager extends DataManager{
 		}
 		short amplifier = (short) (minenum * config.getMinuteMineRate());
 		boostMap.put(BoostType.MINUTE_MINE, new MineBoost(amplifier));
-		give();
+		add();
 	}
 
 

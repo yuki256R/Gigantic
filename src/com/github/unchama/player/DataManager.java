@@ -13,4 +13,5 @@ public abstract class DataManager{
 	protected DataManager(GiganticPlayer gp){
 		this.gp = gp;
 	}
+
 }

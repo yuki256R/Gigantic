@@ -4,12 +4,14 @@ import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
 
-public abstract class PlayerTableManager extends TableManager{
+public abstract class PlayerTableManager extends TableManager implements GiganticLoadable{
 
 	public PlayerTableManager(Sql sql) {
 		super(sql);
-		// TODO 自動生成されたコンストラクター・スタブ
 	}
+
+
+
 
 	/**ex)
 	 * command = "add column if not exists name varchar(30) default null,"
@@ -22,7 +24,7 @@ public abstract class PlayerTableManager extends TableManager{
 	 * @param gp
 	 * @return command
 	 */
-	abstract void insertNewPlayer(GiganticPlayer gp);
+	abstract void newPlayer(GiganticPlayer gp);
 	/**ex)
 		for(BlockType bt : BlockType.values()){
 			double n = rs.getDouble(bt.getColumnName());
@@ -115,8 +117,7 @@ public abstract class PlayerTableManager extends TableManager{
  				plugin.getLogger().warning("Failed to create new row (player:" + gp.name + ")");
  				return false;
  			}
-
- 			this.insertNewPlayer(gp);
+ 			this.newPlayer(gp);;
  			return true;
 
  		}else if(count == 1){

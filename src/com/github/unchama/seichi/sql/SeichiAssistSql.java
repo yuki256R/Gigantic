@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.seichi.sql;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -8,20 +8,23 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.ConfigManager;
 
-public class Sql{
-	static enum TableManagerType{
-		GIGANTIC(GiganticTableManager.class),
-		MINEBLOCK(MineBlockTableManager.class),
+public class SeichiAssistSql{
+	static enum SeichiTableManagerType{
+		PLAYERDATA(PlayerDataTableManager.class),
+		//DONATEDATA,
+		//MSGACHADATA,
+		//GACHADATA,
 		;
-		private Class<? extends TableManager> managerClass;
+		private Class<? extends SeichiTableManager> managerClass;
 
-		TableManagerType(Class<? extends TableManager> managerClass){
+		SeichiTableManagerType(Class<? extends SeichiTableManager> managerClass){
 			this.managerClass = managerClass;
 		}
 
-		public Class<? extends TableManager> getManagerClass(){
+		public Class<? extends SeichiTableManager> getManagerClass(){
 			return managerClass;
 		}
 		/**sqlのテーブル名を取得する
@@ -32,9 +35,9 @@ public class Sql{
 			return this.name().toLowerCase();
 		}
 
-		public static String getTableNamebyClass(Class<? extends TableManager> _class) {
-			for(TableManagerType mt : TableManagerType.values()){
-				if(mt.getManagerClass().equals(_class)){
+		public static String getTableNamebyClass(Class<? extends SeichiTableManager> class1) {
+			for(SeichiTableManagerType mt : SeichiTableManagerType.values()){
+				if(mt.getManagerClass().equals(class1)){
 					return mt.getTableName();
 				}
 			}
@@ -43,42 +46,33 @@ public class Sql{
 	}
 	Gigantic plugin;
 	ConfigManager config;
-	private final String url;
-	private final String db;
-	private final String id;
-	private final String pw;
+	private String url;
+	private String db;
+	private String id;
+	private String pw;
 	private Connection con = null;
 	private Statement stmt = null;
 
-	private HashMap<TableManagerType,TableManager> managermap = new HashMap<TableManagerType,TableManager>();
-
+	private HashMap<SeichiTableManagerType,SeichiTableManager> managermap = new HashMap<SeichiTableManagerType,SeichiTableManager>();
 
 	//コンストラクタ
-	public Sql(){
+	public SeichiAssistSql(){
 		this.plugin = Gigantic.plugin;
 		this.config = Gigantic.yml.getConfigManager();
-		this.url = config.getURL();
-		this.db = config.getDB();
-		this.id = config.getID();
-		this.pw = config.getPW();
+		if(!config.getOldDataFlag()){
+			return;
+		}
+		this.url = config.getSeichiURL();
+		this.db = config.getSeichiDB();
+		this.id = config.getSeichiID();
+		this.pw = config.getSeichiPW();
 
 
 		//SQL接続，データベース作成
 		if(!init()){
-			plugin.getLogger().warning("データベース初期処理にエラーが発生しました");
+			plugin.getLogger().warning("SeichiAssistデータベース初期処理にエラーが発生しました");
 			plugin.getPluginLoader().disablePlugin(plugin);
 		}
-	}
-
-
-	/**getTableManagerMethod
-	 */
-
-	public GiganticTableManager getGiganticTableManager(){
-		return (GiganticTableManager) this.managermap.get(TableManagerType.GIGANTIC);
-	}
-	public MineBlockTableManager getMineBlockTableManager(){
-		return (MineBlockTableManager) this.managermap.get(TableManagerType.MINEBLOCK);
 	}
 
 
@@ -95,49 +89,20 @@ public class Sql{
 
 	//初期処理を行う
 	private boolean init(){
-		//ドライバーインスタンス生成
-		if(!createDriverInstance()){
-			plugin.getLogger().warning("Mysqlドライバーのインスタンス生成に失敗しました");
-			return false;
-		}
 
 		//sql鯖への接続
 		if(!connectMySQL()){
 			plugin.getLogger().warning("SQL接続に失敗しました");
 			return false;
 		}
-
-		//DB作成
-		if(!createDB()){
-			plugin.getLogger().warning("データベース作成に失敗しました");
-			return false;
-		}
-
 		//Table
 		if(!createTableManager()){
-			plugin.getLogger().warning("テーブルマネージャーの初期化に失敗しました");
-			return false;
-		}
-
-		return true;
-	}
-
-
-	/**
-	 * ドライバーインスタンス生成
-	 *
-	 * @return 成否
-	 */
-	private boolean createDriverInstance(){
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException e) {
-			e.printStackTrace();
+			plugin.getLogger().warning("SeichiAssistテーブルマネージャーの初期化に失敗しました");
 			return false;
 		}
 		return true;
 	}
+
 	/**
 	 * SQL接続
 	 *
@@ -157,20 +122,6 @@ public class Sql{
 		}
 		return true;
 	}
-	/**
-	 * データベース作成
-	 *
-	 * @return 成否
-	 */
-	private boolean createDB(){
-		if(db==null){
-			return false;
-		}
-		String command;
-		command = "CREATE DATABASE IF NOT EXISTS " + db
-				+ " character set utf8 collate utf8_general_ci";
-		return sendCommand(command);
-	}
 	/**createtableStatement
 	 *
 	 * @return
@@ -180,7 +131,7 @@ public class Sql{
 			managermap.clear();
 		}
 		//各テーブル用メソッドに受け渡し
-		for(TableManagerType mt : TableManagerType.values()){
+		for(SeichiTableManagerType mt : SeichiTableManagerType.values()){
 			try {
 				this.managermap.put(mt,mt.getManagerClass().getConstructor(Sql.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
@@ -191,23 +142,6 @@ public class Sql{
 			}
 		}
 		return true;
-	}
-
-	/**コマンド出力関数
-	 *
-	 * @param command
-	 * @return
-	 */
-	private boolean sendCommand(String command){
-		checkConnection();
-		try {
-			stmt.executeUpdate(command);
-			return true;
-		}catch (SQLException e) {
-			plugin.getLogger().warning("sqlクエリの実行に失敗しました。以下にエラーを表示します");
-			e.printStackTrace();
-			return false;
-		}
 	}
 	/**再接続処理
 	 *
@@ -223,6 +157,7 @@ public class Sql{
 		}while(count < maxcount || this.isClosed());
 
 		boolean endflag = false;
+
 		if(this.isClosed()){
 			plugin.getLogger().warning("再接続処理に失敗しました");
 			endflag = true;
