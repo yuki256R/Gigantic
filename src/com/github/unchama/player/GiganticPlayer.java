@@ -12,6 +12,7 @@ import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.util.Converter;
 
+import javax.xml.crypto.Data;
 
 
 public class GiganticPlayer{
@@ -46,7 +47,7 @@ public class GiganticPlayer{
 	public final UUID uuid;
 	private Boolean loaded;
 
-	private HashMap<DataManagerType,DataManager> managermap = new HashMap<DataManagerType,DataManager>();
+	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
 
 
 
@@ -56,7 +57,7 @@ public class GiganticPlayer{
 		this.loaded = true;
 		for(DataManagerType mt : DataManagerType.values()){
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
+				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
@@ -71,22 +72,25 @@ public class GiganticPlayer{
 		return this.loaded;
 	}
 
-	public MineBoostManager getMineBoostManager(){
-		return (MineBoostManager) managermap.get(DataManagerType.MINEBOOST);
-	}
+//	public MineBoostManager getMineBoostManager(){
+//		return (MineBoostManager) managermap.get(DataManagerType.MINEBOOST);
+//	}
+//
+//	public MineBlockManager getMineBlockManager(){
+//		return (MineBlockManager) managermap.get(DataManagerType.MINEBLOCK);
+//	}
+//
+//	public GiganticManager getGiganticManager(){
+//		return (GiganticManager) managermap.get(DataManagerType.GIGANTIC);
+//	}
 
-	public MineBlockManager getMineBlockManager(){
-		return (MineBlockManager) managermap.get(DataManagerType.MINEBLOCK);
+	public <T extends DataManager> T getManager(Class<T> type){
+		return (T) managermap.get(type);
 	}
-
-	public GiganticManager getGiganticManager(){
-		return (GiganticManager) managermap.get(DataManagerType.GIGANTIC);
-	}
-
 	public void save() {
-		for(DataManagerType mt : this.managermap.keySet()){
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			try {
-				mt.getManagerClass().getMethod("save").invoke(this.managermap.get(mt));
+				mc.getMethod("save").invoke(this.managermap.get(mc));
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException
 					| SecurityException e) {
@@ -98,9 +102,9 @@ public class GiganticPlayer{
 	}
 
 	public void load() {
-		for(DataManagerType mt : this.managermap.keySet()){
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			try {
-				mt.getManagerClass().getMethod("load").invoke(this.managermap.get(mt));
+				mc.getMethod("load").invoke(this.managermap.get(mc));
 			} catch (IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException
 					| SecurityException e) {

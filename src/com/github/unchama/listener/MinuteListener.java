@@ -1,5 +1,6 @@
 package com.github.unchama.listener;
 
+import com.github.unchama.player.mineboost.MineBoostManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,7 +28,7 @@ public class MinuteListener implements Listener{
 
 		//run process one by one
 		for(Player p : plugin.getServer().getOnlinePlayers()){
-			PlayerManager.getGiganticPlayer(p).getMineBoostManager().updataMinuteMine();
+			PlayerManager.getGiganticPlayer(p).getManager(MineBoostManager.class).updataMinuteMine();
 			debug.sendMessage(p, DebugEnum.MINEBOOST, "updata MinuteMine for player:" + p.getName());
 		}
 	}
