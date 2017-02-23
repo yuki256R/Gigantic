@@ -2,6 +2,7 @@ package com.github.unchama.player.mineboost;
 
 import java.util.HashMap;
 
+import com.github.unchama.player.mineblock.MineBlockManager;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -75,7 +76,7 @@ public class MineBoostManager extends DataManager{
 
 	public void updataMinuteMine() {
 		float minenum = 0;
-		for(MineBlock mb : gp.getMineBlockManager().datamap.values()){
+		for(MineBlock mb : gp.getManager(MineBlockManager.class).datamap.values()){
 			minenum += mb.getDifOnAMinute();
 		}
 		short amplifier = (short) (minenum * config.getMinuteMineRate());
