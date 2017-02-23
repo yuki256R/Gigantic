@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.ConfigManager;
 
 public class SeichiAssistSql{
@@ -59,9 +58,6 @@ public class SeichiAssistSql{
 	public SeichiAssistSql(){
 		this.plugin = Gigantic.plugin;
 		this.config = Gigantic.yml.getConfigManager();
-		if(!config.getOldDataFlag()){
-			return;
-		}
 		this.url = config.getSeichiURL();
 		this.db = config.getSeichiDB();
 		this.id = config.getSeichiID();
@@ -133,7 +129,7 @@ public class SeichiAssistSql{
 		//各テーブル用メソッドに受け渡し
 		for(SeichiTableManagerType mt : SeichiTableManagerType.values()){
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor(Sql.class).newInstance(this));
+				this.managermap.put(mt,mt.getManagerClass().getConstructor(SeichiAssistSql.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {

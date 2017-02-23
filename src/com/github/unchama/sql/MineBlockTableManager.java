@@ -18,7 +18,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 	String addOriginalColumn() {
 		String command = "";
 		//allblock add
-		command += "add column if not exists all double unsigned default 0,";
+		command += "add column if not exists allmineblock double unsigned default 0,";
 		//MineBlock add
 		for(BlockType bt : BlockType.values()){
 			command += "add column if not exists " +

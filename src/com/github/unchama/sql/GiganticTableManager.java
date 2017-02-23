@@ -23,7 +23,7 @@ public class GiganticTableManager extends PlayerTableManager{
 	@Override
 	String addOriginalColumn() {
 		//loginflag??
-		return null;
+		return "";
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class GiganticTableManager extends PlayerTableManager{
 	@Override
 	String savePlayer(GiganticPlayer gp) {
 		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return "";
 	}
 
 

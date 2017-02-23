@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.github.unchama.command.CommandEnum;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
+import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
 import com.github.unchama.util.SeichiLevelUtil;
@@ -28,6 +29,9 @@ public final class Gigantic extends JavaPlugin{
 
 	//SQL用クラス
 	public static Sql sql;
+
+	//SeichiAssistSql用クラス
+	public static SeichiAssistSql seichisql;
 	//タスク用クラス
 	public static BukkitTask task;
 
@@ -40,6 +44,10 @@ public final class Gigantic extends JavaPlugin{
 		yml = new Yml();
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
+		//sqlの次に必ずSeichiAssistSqlを読み込む
+		if(yml.getConfigManager().getOldDataFlag()){
+			seichisql = new SeichiAssistSql();
+		}
 		//sqlの次に必ず初期化を行う
 		SeichiLevelUtil.setLevelMap();
 
