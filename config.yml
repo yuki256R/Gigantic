@@ -1,6 +1,10 @@
 ﻿# Gigantic 設定ファイル
 # このファイルを削除orリネームしてからサーバを起動するとデフォルトの設定ファイルが再生成されます(エラーが出たときは真っ先に試しましょう)
 
+# サーバ識別設定
+# 複数サーバ構成にする場合はこの値をサーバごとに変更します
+servernum: '1'
+
 # MySQLデータベースへの接続設定
 # xamppの設定を変えていなければデフォルトの値で問題ありません
 host: 'localhost'
@@ -9,9 +13,32 @@ db: 'gigantic'
 id: 'root'
 pw: ''
 
-# サーバ識別設定
-# 複数サーバ構成にする場合はこの値をサーバごとに変更します
-servernum: '1'
+# 引き継ぎ用データベースへの接続設定
+# 無ければfalseに設定する
+olddatabase : 'true'
+# SeichiAssistデータベース
+seichiassist:
+  host: 'localhost'
+  port: '3306'
+  db: 'seichiassist'
+  id: 'root'
+  pw: ''
+
+# 機能：MineBoost設定
+# numofpeople:接続人数による増加
+# minutemine:1分間の整地量による増加
+#
+#
+#
+mineboost:
+  rate:
+    numofpeople: '0.5'
+    minutemine: '0.01'
+
+# 整地レベル設定
+MaxSeichiLevel: '300'
+
+
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'

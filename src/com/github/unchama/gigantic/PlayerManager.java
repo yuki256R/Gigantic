@@ -7,13 +7,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.sql.Sql;
 
-public class UserManager {
+public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
-	private static Sql sql = Gigantic.sql;
+	//private static Sql sql = Gigantic.sql;
 
-	public static HashMap<UUID,GiganticPlayer> gmap = new HashMap<UUID,GiganticPlayer>();
+	private static HashMap<UUID,GiganticPlayer> gmap = new HashMap<UUID,GiganticPlayer>();
 
 
 
@@ -65,6 +64,7 @@ public class UserManager {
 			join(p);
 		}
 	}
+
 
 
 }

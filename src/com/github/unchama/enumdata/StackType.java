@@ -1,6 +1,6 @@
 package com.github.unchama.enumdata;
 
-public enum StackEnum {
+public enum StackType {
 	MINE(),
 	DROP(),
 	FARM(),

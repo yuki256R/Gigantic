@@ -6,28 +6,24 @@ import org.bukkit.Material;
 
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
 
-public class MineBlockManager extends DataManager{
+public class MineBlockManager extends DataManager implements UsingSql{
 
-	private HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+	public HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
+	public MineBlock all;
+	public int level;
 	MineBlockTableManager tm;
 
 
-	//new Player Instance
+
 	public MineBlockManager(GiganticPlayer gp){
 		super(gp);
 		this.tm = sql.getMineBlockTableManager();
 	}
 
 
-
-
-
-
-	public void setDataMap(HashMap<BlockType,MineBlock> datamap){
-		this.datamap = new HashMap<BlockType,MineBlock>(datamap);
-	}
 
 	public void increase(Material material){
 		this.increase(material,1);
@@ -40,12 +36,10 @@ public class MineBlockManager extends DataManager{
 	public void increase(Material material, int breaknum) {
 		double ratio = BlockType.getIncreaseRatio(material);
 		BlockType bt = BlockType.getmaterialMap().get(material);
-		datamap.get(bt).increase(breaknum * ratio);
+		double inc = breaknum * ratio;
+		datamap.get(bt).increase(inc);
+		all.increase(inc);
 	}
-
-
-
-
 
 
 	@Override
@@ -63,7 +57,5 @@ public class MineBlockManager extends DataManager{
 
 
 
-	public HashMap<BlockType, MineBlock> getDataMap() {
-		return datamap;
-	}
+
 }
