@@ -1,16 +1,20 @@
 package com.github.unchama.gigantic;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.command.CommandEnum;
-import com.github.unchama.enumdata.ListenerEnum;
+import com.github.unchama.hook.GiganticPlaceholders;
+import com.github.unchama.listener.ListenerEnum;
+import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
-import com.github.unchama.yml.Config;
-import com.github.unchama.yml.Debug;
+import com.github.unchama.util.SeichiLevelUtil;
+import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.Yml;
 
 
 public final class Gigantic extends JavaPlugin{
@@ -18,17 +22,17 @@ public final class Gigantic extends JavaPlugin{
 	//自身のインスタンスを生成
 	public static Gigantic plugin;
 
-	//コンフィグデータ用クラス
-	public static Config config;
-
-	//デバッグ用クラス
-	public static Debug debug;
+	//Ymlデータ用クラス
+	public static Yml yml;
 
 	//メンテナンス用クラス
 	public static Maintenance maintenance;
 
 	//SQL用クラス
 	public static Sql sql;
+
+	//SeichiAssistSql用クラス
+	public static SeichiAssistSql seichisql;
 	//タスク用クラス
 	public static BukkitTask task;
 
@@ -38,15 +42,20 @@ public final class Gigantic extends JavaPlugin{
 		//必ず最初に宣言
 		plugin = this;
 		//必ず最初にconfigデータを読み込む
-		config = new Config();
+		yml = new Yml();
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
+		//sqlの次に必ずSeichiAssistSqlを読み込む
+		if(yml.getManager(ConfigManager.class).getOldDataFlag()){
+			seichisql = new SeichiAssistSql();
+		}
+		//sqlの次に必ず初期化を行う
+		SeichiLevelUtil.setLevelMap();
 
-
-		debug = new Debug();
 		maintenance = new Maintenance();
 
-		UserManager.onEnable();
+		//ユーザーに対する処理
+		PlayerManager.onEnable();
 
 		//1分毎のタスクを実行
 		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
@@ -54,7 +63,12 @@ public final class Gigantic extends JavaPlugin{
 		//リスナーを登録
 		ListenerEnum.registEvents(plugin);
 
-		getLogger().info("SeichiAssist is Enabled!");
+		//Hooking Placeholder
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+			new GiganticPlaceholders(plugin).hook();
+		}
+
+		getLogger().info("Gigantic is Enabled!");
 
 	}
 
@@ -64,7 +78,7 @@ public final class Gigantic extends JavaPlugin{
 		task.cancel();
 
 		//Userdata保存処理
-		UserManager.onDisable();
+		PlayerManager.onDisable();
 
 		//sql接続終了処理
 		sql.onDisable();

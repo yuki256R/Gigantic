@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.seichi.sql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,25 +9,22 @@ import com.github.unchama.gigantic.Gigantic;
 
 
 
-public abstract class TableManager {
+public abstract class SeichiTableManager {
 	protected Gigantic plugin = Gigantic.plugin;
-	private Sql sql;
+	private SeichiAssistSql sql;
 	protected final String db;
 	private Connection con;
 	protected Statement stmt = null;
 	protected ResultSet rs;
 	protected final String table;
 
-	public TableManager(Sql sql){
+	public SeichiTableManager(SeichiAssistSql sql){
 		this.sql = sql;
 		this.db = sql.getDataBaseName();
 		this.con = sql.getConnection();
-		this.table = Sql.TableManagerType.getTableNamebyClass(this.getClass());
+		this.table = SeichiAssistSql.SeichiTableManagerType.getTableNamebyClass(this.getClass());
 		this.checkStatement();
-		this.createTable();
 	}
-
-	abstract Boolean createTable();
 
 
 	protected void checkStatement(){

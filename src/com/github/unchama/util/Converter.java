@@ -12,13 +12,23 @@ public class Converter {
 		Boolean flag;
 		if(s.equalsIgnoreCase("true")){
 			flag = true;
-		}else if(Integer.parseInt(s)==1){
+		}else if(s.equalsIgnoreCase("1")){
 			flag = true;
 		}else{
 			flag = false;
 		}
 		return flag;
 	}
+	public static float toFloat(String s){
+		float f = Float.valueOf(s);
+		return f;
+	}
+	public static int toInt(String s) {
+		return Integer.valueOf(s);
+	}
+
+
+
 
 	/**プレイヤー型からプレイヤーネームを返す
 	 *
@@ -60,4 +70,5 @@ public class Converter {
 		*/
 		return time;
 	}
+
 }

@@ -10,7 +10,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
+
 
 
 
@@ -23,6 +26,7 @@ public class GiganticPlayer{
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
+		SIDEBAR(SideBarManager.class)
 
 
 		;
@@ -44,19 +48,17 @@ public class GiganticPlayer{
 
 	public final String name;
 	public final UUID uuid;
-	private Boolean loaded;
 
-	private HashMap<DataManagerType,DataManager> managermap = new HashMap<DataManagerType,DataManager>();
+	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
 
 
 
 	public GiganticPlayer(Player player){
 		this.name = Converter.toString(player);
 		this.uuid = player.getUniqueId();
-		this.loaded = true;
 		for(DataManagerType mt : DataManagerType.values()){
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
+				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
@@ -67,46 +69,72 @@ public class GiganticPlayer{
 		}
 	}
 
-	public Boolean isLoaded(){
-		return this.loaded;
+	@SuppressWarnings("unchecked")
+	public <T extends DataManager> T getManager(Class<T> type){
+		return (T) managermap.get(type);
 	}
 
-	public MineBoostManager getMineBoostManager(){
-		return (MineBoostManager) managermap.get(DataManagerType.MINEBOOST);
-	}
-
-	public MineBlockManager getMineBlockManager(){
-		return (MineBlockManager) managermap.get(DataManagerType.MINEBLOCK);
-	}
-
-	public GiganticManager getGiganticManager(){
-		return (GiganticManager) managermap.get(DataManagerType.GIGANTIC);
-	}
 
 	public void save() {
-		for(DataManagerType mt : this.managermap.keySet()){
-			try {
-				mt.getManagerClass().getMethod("save").invoke(this.managermap.get(mt));
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException
-					| SecurityException e) {
-				plugin.getLogger().warning("Failed to save data of player:" + this.name);
-				e.printStackTrace();
-				plugin.getPluginLoader().disablePlugin(plugin);
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, UsingSql.class)){
+				try {
+					mc.getMethod("save").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to save data of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
 			}
 		}
 	}
 
 	public void load() {
-		for(DataManagerType mt : this.managermap.keySet()){
-			try {
-				mt.getManagerClass().getMethod("load").invoke(this.managermap.get(mt));
-			} catch (IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException
-					| SecurityException e) {
-				plugin.getLogger().warning("Failed to load data of player:" + this.name);
-				e.printStackTrace();
-				plugin.getPluginLoader().disablePlugin(plugin);
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, UsingSql.class)){
+				try {
+					mc.getMethod("load").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to load data of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
+			}
+		}
+	}
+
+	public void init() {
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, Initializable.class)){
+				try {
+					mc.getMethod("init").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
+			}
+		}
+	}
+
+	public void fin() {
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, Finalizable.class)){
+				try {
+					mc.getMethod("fin").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
 			}
 		}
 	}

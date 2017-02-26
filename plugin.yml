@@ -1,10 +1,15 @@
 name: Gigantic
 main: com.github.unchama.gigantic.Gigantic
-version: 1.0.0
+version: 0.0.3
+description: Gigantic Seichi Server Plugin
+softdepend: [PlaceholderAPI]
+
+
 
 commands:
   gacha:
       description: This is a gacha command.
       usage: /<command> <help>
-      permission: multiseichiplugin.seichi
+      aliases: [gc, seichigacha]
+      permission: gigantic.gacha
       permission-message: You don't have <permission>

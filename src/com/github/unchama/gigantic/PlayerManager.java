@@ -7,13 +7,12 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.sql.Sql;
 
-public class UserManager {
+public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
-	private static Sql sql = Gigantic.sql;
+	//private static Sql sql = Gigantic.sql;
 
-	public static HashMap<UUID,GiganticPlayer> gmap = new HashMap<UUID,GiganticPlayer>();
+	private static HashMap<UUID,GiganticPlayer> gmap = new HashMap<UUID,GiganticPlayer>();
 
 
 
@@ -31,24 +30,48 @@ public class UserManager {
 			return;
 		}
 		gp = new GiganticPlayer(player);
+		//一度全てのsqlデータをロードしておく．
 		gp.load();
+		//ロード後の初期化処理を行う
+		gp.init();
 		gmap.put(uuid, gp);
 	}
 
 
+	/**hashmap_remove
+	 *
+	 * @param player
+	 */
 	public static void quit(Player player){
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp = gmap.get(uuid);
+		//終了前最終処理を行う
+		gp.fin();
+		//最終データをsqlにセーブ
 		gp.save();
 		gmap.remove(uuid);
 	}
 
+	/**Player -> GiganticPlayer
+	 *
+	 * @param player
+	 * @return GiganticPlayer
+	 */
 	public static GiganticPlayer getGiganticPlayer(Player player){
 		GiganticPlayer gplayer = gmap.get(player.getUniqueId());
 		if(gplayer == null){
-			plugin.getLogger().warning(player.getName() + " is not joined");
+			plugin.getLogger().warning("can't get GP because" + player.getName() + " is not joined");
 		}
 		return gplayer;
+	}
+
+	/**GiganticPlayer -> Player
+	 *
+	 * @param GiganticPlayer
+	 * @return Player
+	 */
+	public static Player getPlayer(GiganticPlayer gp){
+		return plugin.getServer().getPlayer(gp.uuid);
 	}
 
 
@@ -65,6 +88,7 @@ public class UserManager {
 			join(p);
 		}
 	}
+
 
 
 }
