@@ -165,7 +165,7 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 
 		command += " where uuid = '" + struuid + "'";
 
-		command.replace(", where uuid", " where uuid");
+		command = command.replace(", where uuid", " where uuid");
 
 		try {
 			stmt.executeUpdate(command);

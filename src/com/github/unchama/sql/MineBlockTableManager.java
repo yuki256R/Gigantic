@@ -47,7 +47,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 			datamap.put(bt, new MineBlock(rs.getDouble(bt.getColumnName())));
 		}
 
-		m.all = new MineBlock(rs.getDouble("all"));
+		m.all = new MineBlock(rs.getDouble("allmineblock"));
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
 		}
 
-		command += "all = '" + m.all.getNum() + "',";
+		command += "allmineblock = '" + m.all.getNum() + "',";
 
 		return command;
 	}
