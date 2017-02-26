@@ -5,15 +5,15 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
-import com.github.unchama.event.DisplayNamechangeEvent;
 import com.github.unchama.event.SeichiLevelUpEvent;
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.Initializable;
 import com.github.unchama.player.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
 import com.github.unchama.util.SeichiLevelUtil;
 
-public class MineBlockManager extends DataManager implements UsingSql{
+public class MineBlockManager extends DataManager implements UsingSql,Initializable{
 
 	public HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
 	public MineBlock all;
@@ -43,9 +43,6 @@ public class MineBlockManager extends DataManager implements UsingSql{
 		double inc = breaknum * ratio;
 		datamap.get(bt).increase(inc);
 		all.increase(inc);
-		if(this.calcLevel()){
-			Bukkit.getServer().getPluginManager().callEvent(new DisplayNamechangeEvent(gp));
-		}
 	}
 
 
@@ -57,17 +54,12 @@ public class MineBlockManager extends DataManager implements UsingSql{
 	@Override
 	public void load(){
 		tm.load(gp);
+
+	}
+	@Override
+	public void init() {
 		this.calcLevel();
-		this.setDisplayName();
-
 	}
-
-	private void setDisplayName() {
-		Bukkit.getServer().getPluginManager().callEvent(new DisplayNamechangeEvent(gp));
-
-	}
-
-
 
 	private boolean calcLevel(){
 		boolean changeflag = false;
@@ -78,6 +70,10 @@ public class MineBlockManager extends DataManager implements UsingSql{
 		}
 		return changeflag;
 	}
+
+
+
+
 
 
 

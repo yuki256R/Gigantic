@@ -10,6 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
 
@@ -25,6 +26,7 @@ public class GiganticPlayer{
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
+		SIDEBAR(SideBarManager.class)
 
 
 		;
@@ -98,6 +100,38 @@ public class GiganticPlayer{
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to load data of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
+			}
+		}
+	}
+
+	public void init() {
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, Initializable.class)){
+				try {
+					mc.getMethod("init").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
+			}
+		}
+	}
+
+	public void fin() {
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, Finalizable.class)){
+				try {
+					mc.getMethod("fin").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
 					e.printStackTrace();
 					plugin.getPluginLoader().disablePlugin(plugin);
 				}
