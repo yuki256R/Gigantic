@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineblock.MineBlockManager;
 
 public class GiganticPlaceholders extends EZPlaceholderHook{
 	Gigantic plugin = Gigantic.plugin;
@@ -29,6 +30,8 @@ public class GiganticPlaceholders extends EZPlaceholderHook{
 		switch(identifier){
 		case "name":
 			return gp.name;
+		case "level":
+			return Integer.toString(gp.getManager(MineBlockManager.class).level);
 		default:
 			return "";
 		}

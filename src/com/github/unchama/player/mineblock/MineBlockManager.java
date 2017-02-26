@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
+import com.github.unchama.event.DisplayNamechangeEvent;
 import com.github.unchama.event.SeichiLevelUpEvent;
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -42,6 +43,9 @@ public class MineBlockManager extends DataManager implements UsingSql{
 		double inc = breaknum * ratio;
 		datamap.get(bt).increase(inc);
 		all.increase(inc);
+		if(this.calcLevel()){
+			Bukkit.getServer().getPluginManager().callEvent(new DisplayNamechangeEvent(gp));
+		}
 	}
 
 
@@ -54,13 +58,25 @@ public class MineBlockManager extends DataManager implements UsingSql{
 	public void load(){
 		tm.load(gp);
 		this.calcLevel();
+		this.setDisplayName();
+
 	}
 
-	private void calcLevel(){
-		if(SeichiLevelUtil.canLevelup(level,this.all.getNum())){
-			level ++;
+	private void setDisplayName() {
+		Bukkit.getServer().getPluginManager().callEvent(new DisplayNamechangeEvent(gp));
+
+	}
+
+
+
+	private boolean calcLevel(){
+		boolean changeflag = false;
+		while(SeichiLevelUtil.canLevelup(level,this.all.getNum())){
 			Bukkit.getServer().getPluginManager().callEvent(new SeichiLevelUpEvent(gp,level + 1));
+			level ++;
+			changeflag = true;
 		}
+		return changeflag;
 	}
 
 

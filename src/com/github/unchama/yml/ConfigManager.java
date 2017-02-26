@@ -75,6 +75,14 @@ public class ConfigManager extends YmlManager{
 		return this.getInt("MaxSeichiLevel");
 	}
 
+	public String getSeichiLevelUpMessage(int level){
+		return this.getString("seichi.levelupmessage");
+	}
+	public String getSeichiLevelMessage(int level) {
+		String message = this.fc.getString("seichi.levelmessage." + level);
+		return message != null ? message : null;
+	}
+
 
 
 }

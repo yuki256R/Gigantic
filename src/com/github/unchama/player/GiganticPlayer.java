@@ -46,7 +46,6 @@ public class GiganticPlayer{
 
 	public final String name;
 	public final UUID uuid;
-	private Boolean loaded;
 
 	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
 
@@ -55,7 +54,6 @@ public class GiganticPlayer{
 	public GiganticPlayer(Player player){
 		this.name = Converter.toString(player);
 		this.uuid = player.getUniqueId();
-		this.loaded = true;
 		for(DataManagerType mt : DataManagerType.values()){
 			try {
 				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
@@ -68,11 +66,6 @@ public class GiganticPlayer{
 			}
 		}
 	}
-
-	public Boolean isLoaded(){
-		return this.loaded;
-	}
-
 
 	@SuppressWarnings("unchecked")
 	public <T extends DataManager> T getManager(Class<T> type){

@@ -45,7 +45,7 @@ public class PlayerManager {
 	public static GiganticPlayer getGiganticPlayer(Player player){
 		GiganticPlayer gplayer = gmap.get(player.getUniqueId());
 		if(gplayer == null){
-			plugin.getLogger().warning(player.getName() + " is not joined");
+			plugin.getLogger().warning("can`t get GP because" + player.getName() + " is not joined");
 		}
 		return gplayer;
 	}
