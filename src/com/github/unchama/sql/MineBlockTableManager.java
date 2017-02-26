@@ -29,7 +29,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 
 	@Override
 	void newPlayer(GiganticPlayer gp) {
-		MineBlockManager m = gp.getMineBlockManager();
+		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		//datamap put
 		for(BlockType bt : BlockType.values()){
@@ -41,7 +41,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 
 	@Override
 	void loadPlayer(GiganticPlayer gp) throws SQLException {
-		MineBlockManager m = gp.getMineBlockManager();
+		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		for(BlockType bt : BlockType.values()){
 			datamap.put(bt, new MineBlock(rs.getDouble(bt.getColumnName())));
@@ -52,7 +52,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 
 	@Override
 	String savePlayer(GiganticPlayer gp) {
-		MineBlockManager m = gp.getMineBlockManager();
+		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		String command = "";
 		for(BlockType bt : datamap.keySet()){
