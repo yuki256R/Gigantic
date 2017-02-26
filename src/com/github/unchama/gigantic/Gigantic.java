@@ -67,7 +67,7 @@ public final class Gigantic extends JavaPlugin{
 			new GiganticPlaceholders(plugin).hook();
 		}
 
-		getLogger().info("SeichiAssist is Enabled!");
+		getLogger().info("Gigantic is Enabled!");
 
 	}
 
