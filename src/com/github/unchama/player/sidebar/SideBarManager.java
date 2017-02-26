@@ -16,7 +16,7 @@ public class SideBarManager extends DataManager implements Initializable{
 	public Scoreboard sidebar;
 
 
-	protected SideBarManager(GiganticPlayer gp) {
+	public SideBarManager(GiganticPlayer gp) {
 		super(gp);
 	}
 

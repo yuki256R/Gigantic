@@ -75,21 +75,6 @@ public class GiganticPlayer{
 	}
 
 
-	public void save() {
-		for(Class<? extends DataManager> mc : this.managermap.keySet()){
-			if(ClassUtil.isImplemented(mc, UsingSql.class)){
-				try {
-					mc.getMethod("save").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to save data of player:" + this.name);
-					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
-				}
-			}
-		}
-	}
 
 	public void load() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
@@ -106,7 +91,6 @@ public class GiganticPlayer{
 			}
 		}
 	}
-
 	public void init() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Initializable.class)){
@@ -122,6 +106,7 @@ public class GiganticPlayer{
 			}
 		}
 	}
+
 
 	public void fin() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
@@ -139,6 +124,21 @@ public class GiganticPlayer{
 		}
 	}
 
+	public void save() {
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(ClassUtil.isImplemented(mc, UsingSql.class)){
+				try {
+					mc.getMethod("save").invoke(this.managermap.get(mc));
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to save data of player:" + this.name);
+					e.printStackTrace();
+					plugin.getPluginLoader().disablePlugin(plugin);
+				}
+			}
+		}
+	}
 
 
 

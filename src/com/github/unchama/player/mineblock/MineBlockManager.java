@@ -54,8 +54,8 @@ public class MineBlockManager extends DataManager implements UsingSql,Initializa
 	@Override
 	public void load(){
 		tm.load(gp);
-
 	}
+
 	@Override
 	public void init() {
 		this.calcLevel();
