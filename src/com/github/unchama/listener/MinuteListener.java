@@ -1,6 +1,5 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.player.mineboost.MineBoostManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,12 +7,13 @@ import org.bukkit.event.Listener;
 import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MinuteListener implements Listener{
 	private Gigantic plugin = Gigantic.plugin;
-	private DebugManager debug = Gigantic.yml.getDebugManager();
+	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 
 

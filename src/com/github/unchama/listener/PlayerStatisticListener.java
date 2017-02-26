@@ -1,6 +1,5 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.player.mineblock.MineBlockManager;
 import org.bukkit.Material;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
@@ -11,11 +10,12 @@ import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.mineblock.BlockType;
+import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerStatisticListener implements Listener {
-	private DebugManager debug = Gigantic.yml.getDebugManager();
+	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	@EventHandler
 	public void StatisticIncrementListener(PlayerStatisticIncrementEvent event){

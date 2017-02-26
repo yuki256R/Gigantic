@@ -11,6 +11,7 @@ public enum ListenerEnum {
 	HALFHOUR(new HalfHourListener()),
 	STATISTIC(new PlayerStatisticListener()),
 	PLAYERCLICK(new PlayerClickListener()),
+	SEICHILEVEL(new SeichiLevelListener()),
 	;
 	private Listener listener;
 

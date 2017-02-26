@@ -28,6 +28,7 @@ public class GiganticTableManager extends PlayerTableManager{
 
 	@Override
 	void newPlayer(GiganticPlayer gp) {
+		
 			/*
 			//初見さんにLv1メッセージを送信
 			p.sendMessage(SeichiAssist.config.getLvMessage(1));

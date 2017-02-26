@@ -2,7 +2,6 @@ package com.github.unchama.player.mineboost;
 
 import java.util.HashMap;
 
-import com.github.unchama.player.mineblock.MineBlockManager;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -11,11 +10,12 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock;
+import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MineBoostManager extends DataManager{
-	private DebugManager debug = Gigantic.yml.getDebugManager();
+	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	private Boolean flag;
 	private Boolean messageflag;
