@@ -38,6 +38,15 @@ mineboost:
 # 整地レベル設定
 MaxSeichiLevel: '300'
 
+# 機能：整地レベルメッセージ設定
+# levelupmessage:レベルアップの度に表示
+# levelmessage:特定のレベルに上がると表示
+
+seichi:
+  levelupmessage: '§6整地レベルが%gp_level%になりました．'
+  levelmessage:
+    2: ''
+
 
 
 # 色々な設定、説明は割愛

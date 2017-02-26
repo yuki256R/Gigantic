@@ -65,7 +65,6 @@ public final class DebugManager extends YmlManager{
 
 
 	private void init() {
-
 		for(DebugEnum de : DebugEnum.values()){
 			Boolean defaultflag = getBoolean(de.name());
 				debugmap.put(de.name(), defaultflag);
