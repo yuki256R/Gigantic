@@ -78,6 +78,8 @@ public class GiganticPlayer{
 	public <T extends DataManager> T getManager(Class<T> type){
 		return (T) managermap.get(type);
 	}
+
+
 	public void save() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){

@@ -8,8 +8,8 @@ import com.github.unchama.yml.DebugManager;
 
 public final class SeichiLevelUtil {
 	private static HashMap<Integer,SeichiLevelData> levelmap = new HashMap<Integer,SeichiLevelData>();
-	static ConfigManager config = Gigantic.yml.getConfigManager();
-	DebugManager debug = Gigantic.yml.getDebugManager();
+	static ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 
 	public static void setLevelMap(){
@@ -22,6 +22,11 @@ public final class SeichiLevelUtil {
 				get_ap *= 2;
 			}
 		}
+	}
+
+	public static boolean canLevelup(int level,double d){
+		return ( levelmap.get(level).getNextMineBlock() <= (long) d &&
+			level < config.getMaxSeichiLevel() ) ? true : false;
 	}
 }
 class SeichiLevelData{

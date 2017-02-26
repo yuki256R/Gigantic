@@ -1,6 +1,5 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.player.mineboost.MineBoostManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -9,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.mineboost.MineBoostManager;
 
 public class PlayerJoinListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;

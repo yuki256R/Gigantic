@@ -50,13 +50,13 @@ public class Sql{
 	private Connection con = null;
 	private Statement stmt = null;
 
-	private HashMap<TableManagerType,TableManager> managermap = new HashMap<TableManagerType,TableManager>();
+	private HashMap<Class<? extends TableManager>,TableManager> managermap = new HashMap<Class<? extends TableManager>,TableManager>();
 
 
 	//コンストラクタ
 	public Sql(){
 		this.plugin = Gigantic.plugin;
-		this.config = Gigantic.yml.getConfigManager();
+		this.config = Gigantic.yml.getManager(ConfigManager.class);
 		this.url = config.getURL();
 		this.db = config.getDB();
 		this.id = config.getID();
@@ -71,17 +71,10 @@ public class Sql{
 	}
 
 
-	/**getTableManagerMethod
-	 */
-
-	public GiganticTableManager getGiganticTableManager(){
-		return (GiganticTableManager) this.managermap.get(TableManagerType.GIGANTIC);
+	@SuppressWarnings("unchecked")
+	public <T extends TableManager> T getManager(Class<T> type){
+		return (T) managermap.get(type);
 	}
-	public MineBlockTableManager getMineBlockTableManager(){
-		return (MineBlockTableManager) this.managermap.get(TableManagerType.MINEBLOCK);
-	}
-
-
 	/**
 	 * 接続関数
 	 *
@@ -182,7 +175,7 @@ public class Sql{
 		//各テーブル用メソッドに受け渡し
 		for(TableManagerType mt : TableManagerType.values()){
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor(Sql.class).newInstance(this));
+				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(Sql.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {

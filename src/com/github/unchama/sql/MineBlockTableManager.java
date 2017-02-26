@@ -18,7 +18,8 @@ public class MineBlockTableManager extends PlayerTableManager{
 	String addOriginalColumn() {
 		String command = "";
 		//allblock add
-		command += "add column if not exists allmineblock double unsigned default 0,";
+		command += "add column if not exists allmineblock double unsigned default 0,"
+				+ "add column if not exists level int unsigned default 1,";
 		//MineBlock add
 		for(BlockType bt : BlockType.values()){
 			command += "add column if not exists " +
@@ -37,6 +38,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 		}
 
 		m.all = new MineBlock();
+		m.level = 1;
 	}
 
 	@Override
@@ -48,6 +50,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 		}
 
 		m.all = new MineBlock(rs.getDouble("allmineblock"));
+		m.level = rs.getInt("level");
 	}
 
 	@Override
@@ -59,7 +62,9 @@ public class MineBlockTableManager extends PlayerTableManager{
 			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
 		}
 
-		command += "allmineblock = '" + m.all.getNum() + "',";
+		command += "allmineblock = '" + m.all.getNum() + "',"
+				+ "level = '" + m.level + "',";
+
 
 		return command;
 	}

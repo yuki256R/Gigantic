@@ -14,7 +14,7 @@ import com.github.unchama.yml.MainMenuManager;
 
 public class PlayerClickListener  implements Listener{
 	Gigantic plugin = Gigantic.plugin;
-	MainMenuManager mainmenu = Gigantic.yml.getMainMenuManager();
+	MainMenuManager mainmenu = Gigantic.yml.getManager(MainMenuManager.class);
 
 	@EventHandler
 	public void onPlayerOpenMenuEvent(PlayerInteractEvent event){

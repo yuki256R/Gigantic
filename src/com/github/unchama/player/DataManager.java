@@ -7,7 +7,7 @@ import com.github.unchama.yml.ConfigManager;
 public abstract class DataManager{
 	protected Sql sql = Gigantic.sql;
 	protected Gigantic plugin = Gigantic.plugin;
-	protected ConfigManager config = Gigantic.yml.getConfigManager();
+	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	protected GiganticPlayer gp;
 
 	protected DataManager(GiganticPlayer gp){
