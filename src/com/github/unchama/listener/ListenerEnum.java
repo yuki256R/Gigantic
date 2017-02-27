@@ -8,7 +8,6 @@ public enum ListenerEnum {
 	PLAYERJOIN(new PlayerJoinListener()),
 	PLAYERQUIT(new PlayerQuitListener()),
 	MINUTE(new MinuteListener()),
-	HALFHOUR(new HalfHourListener()),
 	STATISTIC(new PlayerStatisticListener()),
 	PLAYERCLICK(new PlayerClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
