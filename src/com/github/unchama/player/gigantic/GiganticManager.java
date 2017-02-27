@@ -6,6 +6,11 @@ import com.github.unchama.player.UsingSql;
 import com.github.unchama.sql.GiganticTableManager;
 
 public class GiganticManager extends DataManager implements UsingSql{
+	//累計プレイ時間
+	public long playtick;
+	//seichiassist読み込み済みフラグ
+	public boolean seichi_loaded;
+
 	GiganticTableManager tm;
 
 	public GiganticManager(GiganticPlayer gp){
