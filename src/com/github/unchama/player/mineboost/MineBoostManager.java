@@ -9,22 +9,26 @@ import org.bukkit.potion.PotionEffectType;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.Initializable;
 import com.github.unchama.player.mineblock.MineBlock;
+import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class MineBoostManager extends DataManager{
-	private DebugManager debug = Gigantic.yml.getDebugManager();
-
-	private Boolean flag;
-	private Boolean messageflag;
+public class MineBoostManager extends DataManager implements Initializable{
+	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	public HashMap<BoostType,MineBoost> boostMap = new HashMap<BoostType,MineBoost>();
 
-	private short boostlevel;
+
+	public int boostlevel;
 
 	public MineBoostManager(GiganticPlayer gp){
 		super(gp);
+
+	}
+	@Override
+	public void init() {
 		this.updataNumberOfPeople();
 		add();
 	}
@@ -58,7 +62,7 @@ public class MineBoostManager extends DataManager{
 		if(boostlevel <= 0){
 		}else{
 			boostlevel--;
-			p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, (int)boostlevel, false, false), true);
+			p.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, Integer.MAX_VALUE, boostlevel, false, false), true);
 			debug.sendMessage(p, DebugEnum.MINEBOOST, "addPotionEffect:" + boostlevel + " for player:" + p.getName());
 		}
 
@@ -75,13 +79,15 @@ public class MineBoostManager extends DataManager{
 
 	public void updataMinuteMine() {
 		float minenum = 0;
-		for(MineBlock mb : gp.getMineBlockManager().datamap.values()){
+		for(MineBlock mb : gp.getManager(MineBlockManager.class).datamap.values()){
 			minenum += mb.getDifOnAMinute();
 		}
 		short amplifier = (short) (minenum * config.getMinuteMineRate());
 		boostMap.put(BoostType.MINUTE_MINE, new MineBoost(amplifier));
 		add();
 	}
+
+
 
 
 

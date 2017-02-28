@@ -39,14 +39,14 @@ public class Yml {
 		}
 	}
 
-	private static HashMap<YmlEnum,YmlManager> managermap = new HashMap<YmlEnum,YmlManager>();
+	private static HashMap<Class<? extends YmlManager>,YmlManager> managermap = new HashMap<Class<? extends YmlManager>,YmlManager>();
 
 
 	public Yml(){
 		//instance作成
 		for(YmlEnum ye : YmlEnum.values()){
 			try {
-				this.managermap.put(ye,ye.getManagerClass().getConstructor().newInstance());
+				managermap.put(ye.managerClass,ye.getManagerClass().getConstructor().newInstance());
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
@@ -54,14 +54,8 @@ public class Yml {
 			}
 		}
 	}
-
-	public ConfigManager getConfigManager(){
-		return (ConfigManager) managermap.get(YmlEnum.CONFIG);
-	}
-	public DebugManager getDebugManager(){
-		return (DebugManager) managermap.get(YmlEnum.DEBUG);
-	}
-	public MainMenuManager getMainMenuManager(){
-		return (MainMenuManager) managermap.get(YmlEnum.MAINMENU);
+	@SuppressWarnings("unchecked")
+	public <T extends YmlManager> T getManager(Class<T> type){
+		return (T) managermap.get(type);
 	}
 }

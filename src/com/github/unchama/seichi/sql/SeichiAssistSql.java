@@ -52,12 +52,12 @@ public class SeichiAssistSql{
 	private Connection con = null;
 	private Statement stmt = null;
 
-	private HashMap<SeichiTableManagerType,SeichiTableManager> managermap = new HashMap<SeichiTableManagerType,SeichiTableManager>();
+	private HashMap<Class<? extends SeichiTableManager>,SeichiTableManager> managermap = new HashMap<Class<? extends SeichiTableManager>,SeichiTableManager>();
 
 	//コンストラクタ
 	public SeichiAssistSql(){
 		this.plugin = Gigantic.plugin;
-		this.config = Gigantic.yml.getConfigManager();
+		this.config = Gigantic.yml.getManager(ConfigManager.class);
 		this.url = config.getSeichiURL();
 		this.db = config.getSeichiDB();
 		this.id = config.getSeichiID();
@@ -71,7 +71,10 @@ public class SeichiAssistSql{
 		}
 	}
 
-
+	@SuppressWarnings("unchecked")
+	public <T extends SeichiTableManager> T getManager(Class<T> type){
+		return (T) managermap.get(type);
+	}
 	/**
 	 * 接続関数
 	 *
@@ -129,7 +132,7 @@ public class SeichiAssistSql{
 		//各テーブル用メソッドに受け渡し
 		for(SeichiTableManagerType mt : SeichiTableManagerType.values()){
 			try {
-				this.managermap.put(mt,mt.getManagerClass().getConstructor(SeichiAssistSql.class).newInstance(this));
+				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(SeichiAssistSql.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {

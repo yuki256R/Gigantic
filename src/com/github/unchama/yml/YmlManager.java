@@ -55,7 +55,7 @@ public abstract class YmlManager {
 		String ans = fc.getString(s);
 
 		//データが空であれば警告
-		if(ans.equals(null)){
+		if(ans==null){
 			plugin.getLogger().warning( filename + "内に" + s + "値が宣言されていません．");
 		}
 		//データを返す

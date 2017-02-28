@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.mineboost.MineBoostManager;
 
 public class PlayerJoinListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
@@ -19,7 +20,7 @@ public class PlayerJoinListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void updataGiganticPlayer(PlayerJoinEvent event){
 		for(Player p : plugin.getServer().getOnlinePlayers()){
-			PlayerManager.getGiganticPlayer(p).getMineBoostManager().updataNumberOfPeople();
+			PlayerManager.getGiganticPlayer(p).getManager(MineBoostManager.class).updataNumberOfPeople();
 		}
 	}
 

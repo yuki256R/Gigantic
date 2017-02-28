@@ -10,11 +10,11 @@ public class GiganticManager extends DataManager implements UsingSql{
 
 	public GiganticManager(GiganticPlayer gp){
 		super(gp);
-		this.tm = sql.getGiganticTableManager();
+		this.tm = sql.getManager(GiganticTableManager.class);
 	}
 
 	@Override
-	public void save() {
+	public void save(){
 		tm.save(gp);
 	}
 

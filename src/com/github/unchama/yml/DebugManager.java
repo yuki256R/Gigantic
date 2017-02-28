@@ -14,7 +14,6 @@ public final class DebugManager extends YmlManager{
 	public enum DebugEnum {
 		MINEBOOST(false,ChatColor.AQUA),
 		MINEBLOCK(false,ChatColor.RED),
-		SEICHILEVEL(false,ChatColor.GREEN),
 		;
 		private Boolean flag;
 		private ChatColor c;
@@ -66,7 +65,6 @@ public final class DebugManager extends YmlManager{
 
 
 	private void init() {
-
 		for(DebugEnum de : DebugEnum.values()){
 			Boolean defaultflag = getBoolean(de.name());
 				debugmap.put(de.name(), defaultflag);

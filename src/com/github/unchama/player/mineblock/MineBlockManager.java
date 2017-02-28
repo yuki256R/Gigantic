@@ -2,14 +2,18 @@ package com.github.unchama.player.mineblock;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
+import com.github.unchama.event.SeichiLevelUpEvent;
 import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.Initializable;
 import com.github.unchama.player.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
+import com.github.unchama.util.SeichiLevelUtil;
 
-public class MineBlockManager extends DataManager implements UsingSql{
+public class MineBlockManager extends DataManager implements UsingSql,Initializable{
 
 	public HashMap<BlockType,MineBlock> datamap = new HashMap<BlockType,MineBlock>();
 	public MineBlock all;
@@ -20,7 +24,7 @@ public class MineBlockManager extends DataManager implements UsingSql{
 
 	public MineBlockManager(GiganticPlayer gp){
 		super(gp);
-		this.tm = sql.getMineBlockTableManager();
+		this.tm = sql.getManager(MineBlockTableManager.class);
 	}
 
 
@@ -51,6 +55,25 @@ public class MineBlockManager extends DataManager implements UsingSql{
 	public void load(){
 		tm.load(gp);
 	}
+
+	@Override
+	public void init() {
+		this.calcLevel();
+	}
+
+	private boolean calcLevel(){
+		boolean changeflag = false;
+		while(SeichiLevelUtil.canLevelup(level,this.all.getNum())){
+			Bukkit.getServer().getPluginManager().callEvent(new SeichiLevelUpEvent(gp,level + 1));
+			level ++;
+			changeflag = true;
+		}
+		return changeflag;
+	}
+
+
+
+
 
 
 

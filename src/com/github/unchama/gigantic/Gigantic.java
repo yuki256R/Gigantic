@@ -13,6 +13,7 @@ import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.MinuteTaskRunnable;
 import com.github.unchama.util.SeichiLevelUtil;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.Yml;
 
 
@@ -45,7 +46,7 @@ public final class Gigantic extends JavaPlugin{
 		//configの次に必ずsqlを読み込む
 		sql = new Sql();
 		//sqlの次に必ずSeichiAssistSqlを読み込む
-		if(yml.getConfigManager().getOldDataFlag()){
+		if(yml.getManager(ConfigManager.class).getOldDataFlag()){
 			seichisql = new SeichiAssistSql();
 		}
 		//sqlの次に必ず初期化を行う
@@ -67,7 +68,7 @@ public final class Gigantic extends JavaPlugin{
 			new GiganticPlaceholders(plugin).hook();
 		}
 
-		getLogger().info("SeichiAssist is Enabled!");
+		getLogger().info("Gigantic is Enabled!");
 
 	}
 

@@ -1,5 +1,6 @@
 package com.github.unchama.listener;
 
+import com.github.unchama.player.mineboost.MineBoostManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,7 +21,7 @@ public class PlayerQuitListener implements Listener {
 	public void updataGiganticPlayer(PlayerQuitEvent event){
 		for(Player p : plugin.getServer().getOnlinePlayers()){
 			if(p.equals(event.getPlayer()))continue;
-			PlayerManager.getGiganticPlayer(p).getMineBoostManager().updataNumberOfPeople();
+			PlayerManager.getGiganticPlayer(p).getManager(MineBoostManager.class).updataNumberOfPeople();
 		}
 	}
 
