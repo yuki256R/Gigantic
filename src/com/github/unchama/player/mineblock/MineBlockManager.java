@@ -6,10 +6,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
 import com.github.unchama.event.SeichiLevelUpEvent;
-import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.Initializable;
-import com.github.unchama.player.UsingSql;
+import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Initializable;
+import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
 import com.github.unchama.util.SeichiLevelUtil;
 
@@ -70,6 +70,10 @@ public class MineBlockManager extends DataManager implements UsingSql,Initializa
 		}
 		return changeflag;
 	}
+
+
+
+
 
 
 

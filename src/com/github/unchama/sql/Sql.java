@@ -8,10 +8,11 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
 
 public class Sql{
-	static enum TableManagerType{
+	public static enum TableManagerType{
 		GIGANTIC(GiganticTableManager.class),
 		MINEBLOCK(MineBlockTableManager.class),
 		;

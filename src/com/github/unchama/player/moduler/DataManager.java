@@ -1,6 +1,7 @@
-package com.github.unchama.player;
+package com.github.unchama.player.moduler;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.ConfigManager;
 

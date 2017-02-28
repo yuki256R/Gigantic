@@ -10,6 +10,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.moduler.Initializable;
+import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -26,9 +30,7 @@ public class GiganticPlayer{
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
-		SIDEBAR(SideBarManager.class)
-
-
+		SIDEBAR(SideBarManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -48,6 +50,7 @@ public class GiganticPlayer{
 
 	public final String name;
 	public final UUID uuid;
+
 
 	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
 
@@ -75,7 +78,9 @@ public class GiganticPlayer{
 	}
 
 
-
+	/**
+	 *
+	 */
 	public void load() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
@@ -139,6 +144,8 @@ public class GiganticPlayer{
 			}
 		}
 	}
+
+
 
 
 

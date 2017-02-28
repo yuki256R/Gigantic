@@ -1,4 +1,4 @@
-package com.github.unchama.player;
+package com.github.unchama.player.moduler;
 
 
 /**DataManager用インターフェース

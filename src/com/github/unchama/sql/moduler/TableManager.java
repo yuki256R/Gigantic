@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.moduler;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.sql.Sql;
 
 
 
@@ -23,12 +24,20 @@ public abstract class TableManager {
 		this.db = sql.getDataBaseName();
 		this.con = sql.getConnection();
 		this.table = Sql.TableManagerType.getTableNamebyClass(this.getClass());
-		this.checkStatement();
+		this.createStatement();
 		this.createTable();
 	}
 
 	abstract Boolean createTable();
 
+
+	private void createStatement(){
+		try {
+			stmt = con.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	protected void checkStatement(){
 		try {

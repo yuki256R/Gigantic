@@ -6,9 +6,9 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.Initializable;
+import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Initializable;
 
 public class SideBarManager extends DataManager implements Initializable{
 

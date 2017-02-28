@@ -1,40 +1,46 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.moduler;
 
 import java.sql.SQLException;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 
-public abstract class PlayerTableManager extends TableManager implements GiganticLoadable{
+public abstract class PlayerFromSeichiTableManager extends TableManager implements GiganticLoadable{
 
-	public PlayerTableManager(Sql sql) {
+	public PlayerFromSeichiTableManager(Sql sql) {
 		super(sql);
 	}
-
-
-
 
 	/**ex)
 	 * command = "add column if not exists name varchar(30) default null,"
 	 *
 	 * @return command
 	 */
-	abstract String addOriginalColumn();
+	protected abstract String addOriginalColumn();
 	/**set new player data
 	 *
 	 * @param gp
 	 * @return command
 	 */
-	abstract void newPlayer(GiganticPlayer gp);
+	protected abstract void newPlayer(GiganticPlayer gp);
+	/**take over player from playerdata
+	 *
+	 * @param gp
+	 * @param mt
+	 */
+	protected abstract void takeoverPlayer(GiganticPlayer gp,PlayerDataTableManager mt);
 	/**ex)
-		for(BlockType bt : BlockType.values()){
-			double n = rs.getDouble(bt.getColumnName());
-			datamap.put(bt, new MineBlock(n));
+	for(BlockType bt : BlockType.values()){
+		double n = rs.getDouble(bt.getColumnName());
+		datamap.put(bt, new MineBlock(n));
 		}
 	 *
 	 * @param gp
 	 * @throws SQLException
 	 */
-	abstract void loadPlayer(GiganticPlayer gp)throws SQLException;
+	protected abstract void loadPlayer(GiganticPlayer gp)throws SQLException;
 	/**ex)
 		for(BlockType bt : datamap.keySet()){
 			i++;
@@ -44,12 +50,7 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 	 * @param gp
 	 * @return
 	 */
-	abstract String savePlayer(GiganticPlayer gp);
-
-
-
-
-
+	protected abstract String savePlayer(GiganticPlayer gp);
 
 	@Override
 	Boolean createTable() {
@@ -71,6 +72,8 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 				"alter table " + db + "." + table + " ";
 		//name add
 		command += "add column if not exists name varchar(30) default null,";
+		//loginflag add
+		command += "add column if not exists loginflag boolean default true,";
 		//original column
 		command += this.addOriginalColumn();
 		//index add
@@ -83,7 +86,6 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 		}
 		return true;
 	}
-
 	@Override
 	public Boolean load(GiganticPlayer gp) {
 		String command = "";
@@ -108,6 +110,7 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 
  		if(count == 0){
  			//uuid is not exist
+ 			PlayerDataTableManager tm = Gigantic.seichisql.getManager(PlayerDataTableManager.class);
 
  			//new uuid line create
  			command = "insert into " + db + "." + table
@@ -117,11 +120,19 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
  				plugin.getLogger().warning("Failed to create new row (player:" + gp.name + ")");
  				return false;
  			}
- 			this.newPlayer(gp);;
+ 			int existtype = tm.isExist(gp);
+ 			if(existtype == 1){
+ 				this.takeoverPlayer(gp,tm);
+ 			}else if(existtype == 0){
+ 				this.newPlayer(gp);
+ 			}else{
+ 				plugin.getLogger().warning("Failed to count player:" + gp.name + "in SeichiAssistPlayerData");
+ 				return false;
+ 			}
  			return true;
-
  		}else if(count == 1){
  			//uuidが存在するときの処理
+
  			//update name
  			command = "update " + db + "." + table
  					+ " set name = '" + gp.name + "'"
@@ -159,7 +170,7 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 		this.checkStatement();
 
 		command = "update " + db + "." + table
-				+ " set ";
+				+ " set loginflag = 'false',";
 
 		command += this.savePlayer(gp);
 
@@ -177,5 +188,6 @@ public abstract class PlayerTableManager extends TableManager implements Giganti
 
 		return true;
 	}
+
 
 }

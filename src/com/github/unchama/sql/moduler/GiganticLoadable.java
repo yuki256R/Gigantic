@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.moduler;
 
 import com.github.unchama.player.GiganticPlayer;
 

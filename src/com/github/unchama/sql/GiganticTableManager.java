@@ -8,6 +8,7 @@ import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.sql.moduler.PlayerTableManager;
 
 
 public class GiganticTableManager extends PlayerTableManager{
@@ -16,7 +17,7 @@ public class GiganticTableManager extends PlayerTableManager{
 		super(sql);
 	}
 	@Override
-	String addOriginalColumn() {
+	protected String addOriginalColumn() {
 		String command = "";
 		//playtick,seichiloadedflag add
 		command += "add column if not exists playtick bigint unsigned default 0,"
@@ -25,32 +26,22 @@ public class GiganticTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	void newPlayer(GiganticPlayer gp) {
+	protected void newPlayer(GiganticPlayer gp) {
 		GiganticManager m = gp.getManager(GiganticManager.class);
 
-		m.playtick = new MineBlock();
-		m.level = 1;
+		//m.playtick = new MineBlock();
+		//m.level = 1;
 	}
 
 	@Override
-	void loadPlayer(GiganticPlayer gp) throws SQLException {
+	protected void loadPlayer(GiganticPlayer gp) throws SQLException {
 		GiganticManager m = gp.getManager(GiganticManager.class);
 
 		m.playtick = rs.getLong("")
 	}
 
 	@Override
-	String savePlayer(GiganticPlayer gp) {
-		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		HashMap<BlockType,MineBlock> datamap = m.datamap;
-		String command = "";
-		for(BlockType bt : datamap.keySet()){
-			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
-		}
-
-		command += "allmineblock = '" + m.all.getNum() + "',"
-				+ "level = '" + m.level + "',";
-
+	protected String savePlayer(GiganticPlayer gp) {
 
 		return command;
 	}
