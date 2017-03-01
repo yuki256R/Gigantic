@@ -67,7 +67,6 @@ public class GiganticPlayer{
 					| NoSuchMethodException | SecurityException e) {
 				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
 				e.printStackTrace();
-				plugin.getPluginLoader().disablePlugin(plugin);
 			}
 		}
 	}
@@ -91,7 +90,6 @@ public class GiganticPlayer{
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to load data of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
@@ -106,7 +104,6 @@ public class GiganticPlayer{
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
@@ -123,23 +120,26 @@ public class GiganticPlayer{
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
 	}
-
-	public void save() {
+	/**プレイヤーデータを保存します．
+	 * このメソッドをプレイヤーのログアウト時に呼び出す場合は，loginflagをfalseにしてください．
+	 * 定期セーブ時に呼び出す場合はloginflagをtrueにしてください．
+	 * 
+	 * @param loginflag:
+	 */
+	public void save(boolean loginflag) {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
-					mc.getMethod("save").invoke(this.managermap.get(mc));
+					mc.getMethod("save").invoke(this.managermap.get(mc),loginflag);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}

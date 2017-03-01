@@ -47,8 +47,8 @@ public class MineBlockManager extends DataManager implements UsingSql,Initializa
 
 
 	@Override
-	public void save() {
-		tm.save(gp);
+	public void save(boolean loginflag) {
+		tm.save(gp,loginflag);
 	}
 
 	@Override

@@ -19,8 +19,8 @@ public class GiganticManager extends DataManager implements UsingSql{
 	}
 
 	@Override
-	public void save(){
-		tm.save(gp);
+	public void save(boolean loginflag){
+		tm.save(gp,loginflag);
 	}
 
 	@Override

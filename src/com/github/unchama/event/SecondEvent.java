@@ -7,6 +7,10 @@ public class SecondEvent extends CustomEvent{
 		this.second = second;
 	}
 
+	/**初期時間から経過した秒数を取得します．(１分毎にリセットします）
+	 * 
+	 * @return int
+	 */
 	public int getSecond(){
 		return second;
 	}

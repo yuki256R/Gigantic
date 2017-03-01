@@ -12,7 +12,10 @@ public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
 	//private static Sql sql = Gigantic.sql;
 
-	private static HashMap<UUID,GiganticPlayer> gmap = new HashMap<UUID,GiganticPlayer>();
+	//ロード済みのGiganticPlayerMap
+	public static HashMap<UUID,GiganticPlayer> gmap = new HashMap<UUID,GiganticPlayer>();
+	//ロード待機中のGiganticPlayerMap
+	public static HashMap<UUID,GiganticPlayer> waitingmap = new HashMap<UUID,GiganticPlayer>();
 
 
 
@@ -30,6 +33,9 @@ public class PlayerManager {
 			return;
 		}
 		gp = new GiganticPlayer(player);
+		waitingmap.put(uuid, gp);
+		
+		
 		//一度全てのsqlデータをロードしておく．
 		gp.load();
 		//ロード後の初期化処理を行う
@@ -48,7 +54,7 @@ public class PlayerManager {
 		//終了前最終処理を行う
 		gp.fin();
 		//最終データをsqlにセーブ
-		gp.save();
+		gp.save(false);
 		gmap.remove(uuid);
 	}
 

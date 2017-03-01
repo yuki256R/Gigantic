@@ -9,18 +9,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class AddPotionTaskRunnable extends BukkitRunnable{
+public class GiganticSaveTaskRunnable extends BukkitRunnable{
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	private List<Player> playerlist;
 	private int size;
 	private int count;
-
-	public AddPotionTaskRunnable(List<Player> playerlist){
+	
+	public GiganticSaveTaskRunnable(List<Player> playerlist) {
 		this.playerlist = new ArrayList<Player>(playerlist);
 		this.size = this.playerlist.size();
 		this.count = -1;
@@ -37,11 +38,9 @@ public class AddPotionTaskRunnable extends BukkitRunnable{
 				public void run() {
 					Player player = Bukkit.getServer().getPlayer(playerlist.get(count).getUniqueId());
 					if(player != null){
-						PlayerManager.getGiganticPlayer(player).getManager(MineBoostManager.class).updataMinuteMine();
-						debug.sendMessage(player, DebugEnum.MINEBOOST, "updata MinuteMine for player:" + player.getName());
+						PlayerManager.getGiganticPlayer(player).save(true);
 					}
 				}
-
 			});
 		}
 	}

@@ -156,12 +156,12 @@ public abstract class PlayerTableManager extends TableManager implements
 	}
 
 	@Override
-	public Boolean save(GiganticPlayer gp) {
+	public Boolean save(GiganticPlayer gp,boolean loginflag) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
 		this.checkStatement();
 
-		command = "update " + db + "." + table + " set loginflag = 'false',";
+		command = "update " + db + "." + table + " set loginflag = '" + Boolean.toString(loginflag) + "',";
 
 		command += this.savePlayer(gp);
 
