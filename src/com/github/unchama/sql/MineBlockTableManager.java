@@ -1,5 +1,6 @@
 package com.github.unchama.sql;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -30,7 +31,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected void newPlayer(GiganticPlayer gp) {
+	protected boolean newPlayer(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		//datamap put
@@ -40,11 +41,13 @@ public class MineBlockTableManager extends PlayerTableManager{
 
 		m.all = new MineBlock();
 		m.level = 1;
+		
+		return true;
 	}
 
 
 	@Override
-	protected void loadPlayer(GiganticPlayer gp) throws SQLException {
+	public void loadPlayer(GiganticPlayer gp,ResultSet rs) throws SQLException{
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		for(BlockType bt : BlockType.values()){

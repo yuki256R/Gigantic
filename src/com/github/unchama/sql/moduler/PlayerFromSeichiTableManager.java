@@ -35,11 +35,25 @@ public abstract class PlayerFromSeichiTableManager extends PlayerTableManager{
 		if(existtype == 1){
 			this.takeoverPlayer(gp,tm);
 		}else if(existtype == 0){
-			this.newPlayer(gp);
+			this.FirstJoinPlayer(gp);
 		}else{
 			plugin.getLogger().warning("Failed to count player:" + gp.name + "in SeichiAssistPlayerData");
+			return false;
 		}
+		return true;
 	}
+	/**PlayerDataからデータを引き継ぐメソッド
+	 * 
+	 * @param gp
+	 * @param tm
+	 */
+	protected abstract void takeoverPlayer(GiganticPlayer gp,PlayerDataTableManager tm);
+	/**PlayerDataなし完全の新規さんデータ生成
+	 * 
+	 * @param gp
+	 */
+	protected abstract void FirstJoinPlayer(GiganticPlayer gp);
+	
 	/**ex)
 		for(BlockType bt : BlockType.values()){
 			double n = rs.getDouble(bt.getColumnName());

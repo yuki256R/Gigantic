@@ -1,5 +1,6 @@
 package com.github.unchama.sql;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -26,24 +27,22 @@ public class GiganticTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected void newPlayer(GiganticPlayer gp) {
+	protected boolean newPlayer(GiganticPlayer gp) {
 		GiganticManager m = gp.getManager(GiganticManager.class);
-
-		//m.playtick = new MineBlock();
-		//m.level = 1;
+		return true;
 	}
 
 	@Override
-	protected void loadPlayer(GiganticPlayer gp) throws SQLException {
+	public void loadPlayer(GiganticPlayer gp,ResultSet rs){
 		GiganticManager m = gp.getManager(GiganticManager.class);
 
-		m.playtick = rs.getLong("")
+		return;
 	}
 
 	@Override
 	protected String savePlayer(GiganticPlayer gp) {
 
-		return command;
+		return "";
 	}
 	/*
 	@Override

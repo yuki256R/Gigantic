@@ -43,7 +43,7 @@ public abstract class PlayerTableManager extends TableManager implements
 	 * @param gp
 	 * @throws SQLException
 	 */
-	public abstract void loadPlayer(GiganticPlayer gp , ResultSet rs);
+	public abstract void loadPlayer(GiganticPlayer gp , ResultSet rs) throws SQLException;
 
 	/**
 	 * ex) for(BlockType bt : datamap.keySet()){ i++; command +=
