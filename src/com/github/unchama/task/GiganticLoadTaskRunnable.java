@@ -36,7 +36,7 @@ public class GiganticLoadTaskRunnable extends BukkitRunnable {
 	final String struuid;
 
 	/**
-	 * 
+	 *
 	 * @param tm PlayerTableManager
 	 * @param gp GiganticPlayer
 	 */
@@ -139,7 +139,7 @@ public class GiganticLoadTaskRunnable extends BukkitRunnable {
 				}
 				return flag == false ? true : false;
 			}
-			
+
 		});
 
 	}

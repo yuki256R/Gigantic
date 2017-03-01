@@ -319,13 +319,14 @@ public class Sql {
 		return this.db;
 	}
 
-	public void multiload(HashMap<UUID, GiganticPlayer> tmpmap) {
+	public void multiload(HashMap<UUID, GiganticPlayer> waitingmap) {
 		// 各テーブル用メソッドに受け渡し
 		for (TableManagerType mt : TableManagerType.values()) {
 			Class<? extends TableManager> clazz = mt.getManagerClass();
-			if(PlayerTableManager.class.isAssignableFrom(clazz)){
-				PlayerTableManager ptm = (PlayerTableManager) managermap.get(clazz);
-				ptm.multiload(tmpmap);
+			if (PlayerTableManager.class.isAssignableFrom(clazz)) {
+				PlayerTableManager ptm = (PlayerTableManager) managermap
+						.get(clazz);
+				ptm.multiload(new HashMap<UUID, GiganticPlayer>(waitingmap));
 			}
 		}
 	}

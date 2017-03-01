@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.GiganticLoadTaskRunnable;
@@ -91,6 +90,9 @@ public abstract class PlayerTableManager extends TableManager implements
 	}
 	public void multiload(HashMap<UUID, GiganticPlayer> tmpmap){
 
+		if(tmpmap.isEmpty()){
+			plugin.getLogger().warning("tmpmap is Empty");
+		}
 		String command = "";
 		this.checkStatement();
 		//select * from gigantic.mineblock where (uuid = '????' || uuid = '???')
@@ -105,22 +107,26 @@ public abstract class PlayerTableManager extends TableManager implements
 		//保存されているデータをロード
 		try {
 			rs = stmt.executeQuery(command);
+			int delay = 0;
 			while (rs.next()) {
 				//uuidを取得
 				UUID uuid = UUID.fromString(rs.getString("uuid"));
 				//GiganticPlayerを取得
 				GiganticPlayer gp = tmpmap.get(uuid);
-				//gpのデータを読み込み
-				this.loadPlayer(gp, rs);
-				//waitingmapから削除
-				PlayerManager.waitingmap.remove(uuid);
+				//rsの再取得の意味なし
+				new GiganticLoadTaskRunnable(this,gp).runTaskTimerAsynchronously(plugin, 10 + delay++, 20);
 				//tmpmapから削除
 				tmpmap.remove(uuid);
 			}
 			rs.close();
 		} catch (SQLException e) {
 			plugin.getLogger().warning("Failed to multiload in " + table + " Table");
+			plugin.getLogger().warning(command);
 			e.printStackTrace();
+		}
+
+		if(tmpmap.isEmpty()){
+			return;
 		}
 
 		//残りのプレイヤーは新規作成
@@ -131,10 +137,10 @@ public abstract class PlayerTableManager extends TableManager implements
 					+ "'),";
 			//新しいデータを生成
 			this.newPlayer(gp);
-			//waitingmapから削除
-			PlayerManager.waitingmap.remove(gp.uuid);
 		}
 		command = command.substring(0, command.length()-1);
+		plugin.getLogger().warning(command);
+
 		if (!sendCommand(command)) {
 			plugin.getLogger().warning(
 					"Failed to multi create new row in " + table + " Table");

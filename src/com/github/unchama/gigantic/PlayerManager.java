@@ -96,11 +96,12 @@ public class PlayerManager {
 			return;
 		}
 		// 一度全てのsqlデータをロードしておく．
-		Gigantic.sql.multiload(new HashMap<UUID, GiganticPlayer>(waitingmap));
+		Gigantic.sql.multiload(waitingmap);
 		// ロード後の初期化処理を行う
 		for(GiganticPlayer gp : waitingmap.values()){
-			gp.init();
 			gmap.put(gp.uuid, gp);
+			gp.init();
+			waitingmap.remove(gp.uuid);
 		}
 	}
 
