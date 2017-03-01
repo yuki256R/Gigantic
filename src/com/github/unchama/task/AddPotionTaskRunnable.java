@@ -13,6 +13,11 @@ import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**MineBoostにおける採掘速度上昇を全プレイヤーに付加します．
+ *
+ * @author tar0ss
+ *
+ */
 public class AddPotionTaskRunnable extends BukkitRunnable{
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

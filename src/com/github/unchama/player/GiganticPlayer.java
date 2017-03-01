@@ -127,7 +127,7 @@ public class GiganticPlayer{
 	/**プレイヤーデータを保存します．
 	 * このメソッドをプレイヤーのログアウト時に呼び出す場合は，loginflagをfalseにしてください．
 	 * 定期セーブ時に呼び出す場合はloginflagをtrueにしてください．
-	 * 
+	 *
 	 * @param loginflag:
 	 */
 	public void save(boolean loginflag) {
