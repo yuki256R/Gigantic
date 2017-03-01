@@ -1,11 +1,7 @@
 package com.github.unchama.player.sidebar;
 
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.DataManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.Initializable;
-import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.mineboost.MineBoostManager;
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,14 +10,14 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-<<<<<<< HEAD
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
-=======
-import java.util.HashMap;
->>>>>>> refs/remotes/unchama/master
+
+
 
 public class SideBarManager extends DataManager implements Initializable{
 
