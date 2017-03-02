@@ -94,16 +94,16 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 			}
 
 			private void checklogin() {
-				for (UUID uuid : loadmap.keySet()) {
-					GiganticPlayer gp = loadmap.get(uuid);
+				((HashMap<UUID, GiganticPlayer>) loadmap.clone()).forEach((uuid,
+						gp) -> {
+
 					Player player = PlayerManager.getPlayer(gp);
 					if (player == null) {
 						loadmap.remove(uuid);
 						debug.info(DebugEnum.SQL, "Table:" + tm.table + " "
 								+ gp.name + "は不在のためロード不要");
 					}
-
-				}
+				});
 			}
 
 			/**
@@ -153,7 +153,6 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 				} catch (SQLException e) {
 					plugin.getLogger().warning(
 							"Failed to multiload in " + tm.table + " Table");
-					plugin.getLogger().warning(command);
 					e.printStackTrace();
 				}
 			}
@@ -172,7 +171,6 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 				if (!tm.sendCommand(command, stmt)) {
 					plugin.getLogger().warning(
 							"Failed to setlogin in " + tm.table + " Table");
-					plugin.getLogger().warning(command);
 				}
 			}
 

@@ -32,7 +32,6 @@ public class MineBoostManager extends DataManager implements Initializable {
 	@Override
 	public void init() {
 		this.updataNumberOfPeople();
-		add();
 	}
 
 	private void add() {
@@ -71,12 +70,13 @@ public class MineBoostManager extends DataManager implements Initializable {
 			debug.sendMessage(p, DebugEnum.MINEBOOST, "addPotionEffect:"
 					+ (boostlevel + 1) + " for player:" + p.getName());
 		}
+	}
 
+	public void refresh(){
 		SideBarManager sm = gp.getManager(SideBarManager.class);
 		sm.updateInfo(Information.MINING_SPEED, boostlevel + 1);
 		sm.refresh();
 	}
-
 	public void updataNumberOfPeople() {
 		short playernum = (short) plugin.getServer().getOnlinePlayers().size();
 		short amplifier = (short) (playernum * config.getNumOfPeopleRate());

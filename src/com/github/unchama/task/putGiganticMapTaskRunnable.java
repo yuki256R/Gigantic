@@ -31,6 +31,7 @@ public class putGiganticMapTaskRunnable extends BukkitRunnable {
 	@Override
 	public void run() {
 		Bukkit.getScheduler().runTask(plugin, new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
 				if (tmpmap.isEmpty()) {
@@ -38,13 +39,14 @@ public class putGiganticMapTaskRunnable extends BukkitRunnable {
 					return;
 				}
 				// 一人ずつinitを実行
-				for (GiganticPlayer gp : tmpmap.values()) {
-					if (!gp.isloaded())
-						continue;
-					gp.init();
-					gmap.put(gp.uuid, gp);
-					tmpmap.remove(gp.uuid);
-				}
+				((HashMap<UUID, GiganticPlayer>) tmpmap.clone()).forEach((uuid,
+						gp) -> {
+					if (gp.isloaded()) {
+						gp.init();
+						gmap.put(uuid, gp);
+						tmpmap.remove(uuid);
+					}
+				});
 				// 試行回数
 				if (attempt++ >= max_attempt) {
 					cancel();
