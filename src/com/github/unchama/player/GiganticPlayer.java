@@ -69,6 +69,19 @@ public class GiganticPlayer{
 				e.printStackTrace();
 			}
 		}
+		//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(!ClassUtil.isImplemented(mc, UsingSql.class)){
+				try {
+					mc.getMethod("setLoaded",Boolean.class).invoke(this.managermap.get(mc),true);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to setloaded of player:" + this.name);
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -77,23 +90,25 @@ public class GiganticPlayer{
 	}
 
 
-	/**
-	 *
-	 */
-	public void load() {
+	public boolean isloaded() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
-					mc.getMethod("load").invoke(this.managermap.get(mc));
+					boolean loaded = (Boolean) mc.getMethod("isLoaded").invoke(this.managermap.get(mc));
+					if(loaded == false){
+						return false;
+					}
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
-					plugin.getLogger().warning("Failed to load data of player:" + this.name);
+					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
 				}
 			}
 		}
+		return true;
 	}
+
 	public void init() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Initializable.class)){
@@ -134,7 +149,7 @@ public class GiganticPlayer{
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
-					mc.getMethod("save").invoke(this.managermap.get(mc),loginflag);
+					mc.getMethod("save",Boolean.class).invoke(this.managermap.get(mc),loginflag);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
@@ -144,6 +159,8 @@ public class GiganticPlayer{
 			}
 		}
 	}
+
+
 
 
 

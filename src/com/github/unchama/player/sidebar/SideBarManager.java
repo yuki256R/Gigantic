@@ -15,11 +15,12 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 
 
 
-public class SideBarManager extends DataManager implements Initializable{
+public class SideBarManager extends DataManager implements Initializable,Finalizable{
 
 	private static ScoreboardManager manager = Bukkit.getScoreboardManager();
 	private Scoreboard sidebar;
@@ -84,9 +85,7 @@ public class SideBarManager extends DataManager implements Initializable{
 		objective.unregister();
 	}
 
-	public static void onDisable(){
-		Bukkit.getOnlinePlayers().forEach(p -> PlayerManager.getGiganticPlayer(p).getManager(SideBarManager.class).unregister());
-	}
+
 
 	public enum Information {
 
@@ -121,6 +120,11 @@ public class SideBarManager extends DataManager implements Initializable{
 			return this.line;
 		}
 
+	}
+
+	@Override
+	public void fin() {
+			this.unregister();
 	}
 
 }

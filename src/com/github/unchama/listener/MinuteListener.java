@@ -9,10 +9,7 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.task.AddPotionTaskRunnable;
-import com.github.unchama.task.GiganticLoadTaskRunnable;
 import com.github.unchama.task.GiganticSaveTaskRunnable;
 
 public class MinuteListener implements Listener {
@@ -20,7 +17,7 @@ public class MinuteListener implements Listener {
 
 	/**
 	 * 定期セーブタスク
-	 * 
+	 *
 	 * @param event
 	 */
 	@EventHandler
@@ -29,7 +26,7 @@ public class MinuteListener implements Listener {
 		if(event.getMinute() % 30 != 0){
 			return;
 		}
-		
+
 		List<Player> playerlist = new ArrayList<Player>(plugin.getServer()
 				.getOnlinePlayers());
 		if (playerlist.isEmpty()) {

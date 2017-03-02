@@ -22,14 +22,10 @@ public class GiganticManager extends DataManager implements UsingSql{
 	}
 
 	@Override
-	public void save(boolean loginflag){
+	public void save(Boolean loginflag){
 		tm.save(gp,loginflag);
 	}
 
-	@Override
-	public void load(){
-		tm.load(gp);
-	}
 
 	public static void multiload(HashMap<UUID, GiganticPlayer> waitingmap) {
 

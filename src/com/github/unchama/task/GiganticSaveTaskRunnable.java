@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.yml.DebugManager;
 
 /**定期セーブに使用するタスクです．
@@ -40,7 +41,11 @@ public class GiganticSaveTaskRunnable extends BukkitRunnable{
 				public void run() {
 					Player player = Bukkit.getServer().getPlayer(playerlist.get(count).getUniqueId());
 					if(player != null){
-						PlayerManager.getGiganticPlayer(player).save(true);
+						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+						if(gp != null){
+							gp.save(true);
+						}
+
 					}
 				}
 			});

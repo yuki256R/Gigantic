@@ -7,15 +7,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.task.putGiganticMapTaskRunnable;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
-	// private static Sql sql = Gigantic.sql;
+	private static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	// ロード済みのGiganticPlayerMap
 	public static HashMap<UUID, GiganticPlayer> gmap = new HashMap<UUID, GiganticPlayer>();
 	// ロード待機中のGiganticPlayerMap
-	public static HashMap<UUID, GiganticPlayer> waitingmap = new HashMap<UUID, GiganticPlayer>();
+	public static HashMap<UUID, GiganticPlayer> waitingloadmap = new HashMap<UUID, GiganticPlayer>();
 
 	/**
 	 * hashmap_add
@@ -33,7 +36,7 @@ public class PlayerManager {
 			return;
 		}
 		gp = new GiganticPlayer(player);
-		waitingmap.put(uuid, gp);
+		waitingloadmap.put(uuid, gp);
 	}
 
 	/**
@@ -59,11 +62,6 @@ public class PlayerManager {
 	 */
 	public static GiganticPlayer getGiganticPlayer(Player player) {
 		GiganticPlayer gplayer = gmap.get(player.getUniqueId());
-		if (gplayer == null) {
-			plugin.getLogger().warning(
-					"can't get GP because" + player.getName()
-							+ " is not joined");
-		}
 		return gplayer;
 	}
 
@@ -91,18 +89,28 @@ public class PlayerManager {
 	}
 
 	public static void multiload(){
+		debug.info(DebugEnum.SQL, "並列読み込みを開始します．");
 		//空ならreturn
-		if(waitingmap.isEmpty()){
+		if(waitingloadmap.isEmpty()){
+			debug.info(DebugEnum.SQL, "読み込み不要");
 			return;
 		}
-		// 一度全てのsqlデータをロードしておく．
-		Gigantic.sql.multiload(waitingmap);
-		// ロード後の初期化処理を行う
-		for(GiganticPlayer gp : waitingmap.values()){
-			gmap.put(gp.uuid, gp);
-			gp.init();
-			waitingmap.remove(gp.uuid);
+		//waitingloadmap内をコピー
+		HashMap<UUID, GiganticPlayer> tmpmap = new HashMap<UUID, GiganticPlayer>(waitingloadmap);
+		//waitingloadmapを空にする．
+		waitingloadmap.clear();
+
+		String message = "対象プレイヤー(";
+		for(GiganticPlayer gp : tmpmap.values()){
+			message += gp.name + " ";
 		}
+		debug.info(DebugEnum.SQL, message + ")...");
+
+		// 全てのsqlデータをロード
+		Gigantic.sql.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
+
+		new putGiganticMapTaskRunnable(new HashMap<UUID, GiganticPlayer>(tmpmap)).runTaskTimerAsynchronously(plugin, 11, 20);
+
 	}
 
 }

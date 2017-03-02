@@ -10,22 +10,32 @@ import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
 
 public class Sql {
+	//TableManagerとそれに対応するDataManagerClass
 	public static enum TableManagerType {
-		GIGANTIC(GiganticTableManager.class), MINEBLOCK(
-				MineBlockTableManager.class), ;
-		private Class<? extends TableManager> managerClass;
+		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
+		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class), ;
 
-		TableManagerType(Class<? extends TableManager> managerClass) {
-			this.managerClass = managerClass;
+		private Class<? extends TableManager> tablemanagerClass;
+		private Class<? extends DataManager> datamanagerClass;
+
+		TableManagerType(Class<? extends TableManager> tablemanagerClass ,Class<? extends DataManager> datamanagerClass) {
+			this.tablemanagerClass = tablemanagerClass;
+			this.datamanagerClass = datamanagerClass;
 		}
 
-		public Class<? extends TableManager> getManagerClass() {
-			return managerClass;
+		public Class<? extends TableManager> getTableManagerClass() {
+			return tablemanagerClass;
+		}
+		public Class<? extends DataManager> getDataManagerClass() {
+			return datamanagerClass;
 		}
 
 		/**
@@ -37,14 +47,33 @@ public class Sql {
 			return this.name().toLowerCase();
 		}
 
+		/**class名からテーブル名を取得します．
+		 *
+		 * @param _class
+		 * @return
+		 */
 		public static String getTableNamebyClass(
 				Class<? extends TableManager> _class) {
 			for (TableManagerType mt : TableManagerType.values()) {
-				if (mt.getManagerClass().equals(_class)) {
+				if (mt.getTableManagerClass().equals(_class)) {
 					return mt.getTableName();
 				}
 			}
 			return "example";
+		}
+		/**class名からデータマネージャークラスを取得します．
+		 *
+		 * @param _class
+		 * @return
+		 */
+		public static Class<? extends DataManager> getDataManagerClassbyClass(
+				Class<? extends TableManager> _class) {
+			for (TableManagerType mt : TableManagerType.values()) {
+				if (mt.getTableManagerClass().equals(_class)) {
+					return mt.getDataManagerClass();
+				}
+			}
+			return null;
 		}
 	}
 
@@ -186,7 +215,7 @@ public class Sql {
 		// 各テーブル用メソッドに受け渡し
 		for (TableManagerType mt : TableManagerType.values()) {
 			try {
-				this.managermap.put(mt.getManagerClass(), mt.getManagerClass()
+				this.managermap.put(mt.getTableManagerClass(), mt.getTableManagerClass()
 						.getConstructor(Sql.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
@@ -319,14 +348,13 @@ public class Sql {
 		return this.db;
 	}
 
-	public void multiload(HashMap<UUID, GiganticPlayer> waitingmap) {
+	public void multiload(HashMap<UUID, GiganticPlayer> tmpmap) {
 		// 各テーブル用メソッドに受け渡し
-		for (TableManagerType mt : TableManagerType.values()) {
-			Class<? extends TableManager> clazz = mt.getManagerClass();
-			if (PlayerTableManager.class.isAssignableFrom(clazz)) {
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if (PlayerTableManager.class.isAssignableFrom(mt)) {
 				PlayerTableManager ptm = (PlayerTableManager) managermap
-						.get(clazz);
-				ptm.multiload(new HashMap<UUID, GiganticPlayer>(waitingmap));
+						.get(mt);
+				ptm.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 		}
 	}

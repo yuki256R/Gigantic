@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -42,7 +43,10 @@ public class AddPotionTaskRunnable extends BukkitRunnable{
 				public void run() {
 					Player player = Bukkit.getServer().getPlayer(playerlist.get(count).getUniqueId());
 					if(player != null){
-						PlayerManager.getGiganticPlayer(player).getManager(MineBoostManager.class).updataMinuteMine();
+						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+						if(gp != null){
+							gp.getManager(MineBoostManager.class).updataMinuteMine();
+						}
 						debug.sendMessage(player, DebugEnum.MINEBOOST, "updata MinuteMine for player:" + player.getName());
 					}
 				}

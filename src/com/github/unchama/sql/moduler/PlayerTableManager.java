@@ -7,7 +7,8 @@ import java.util.UUID;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
-import com.github.unchama.task.GiganticLoadTaskRunnable;
+import com.github.unchama.task.GiganticMultiLoadTaskRunnable;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * 通常のプレイヤーデータのセーブ・ロードをする場合はこのクラスを継承してください．
@@ -39,13 +40,14 @@ public abstract class PlayerTableManager extends TableManager implements
 	protected abstract boolean newPlayer(GiganticPlayer gp);
 
 	/**
-	 * ex) for(BlockType bt : BlockType.values()){ double n =
-	 * rs.getDouble(bt.getColumnName()); datamap.put(bt, new MineBlock(n)); }
+	 * GiganticPlayerのデータをResultSetから受け取るメソッド
+	 *
 	 *
 	 * @param gp
 	 * @throws SQLException
 	 */
-	public abstract void loadPlayer(GiganticPlayer gp , ResultSet rs) throws SQLException;
+	public abstract void loadPlayer(GiganticPlayer gp, ResultSet rs)
+			throws SQLException;
 
 	/**
 	 * ex) for(BlockType bt : datamap.keySet()){ i++; command +=
@@ -88,141 +90,81 @@ public abstract class PlayerTableManager extends TableManager implements
 		}
 		return true;
 	}
-	public void multiload(HashMap<UUID, GiganticPlayer> tmpmap){
 
-		if(tmpmap.isEmpty()){
-			plugin.getLogger().warning("tmpmap is Empty");
-		}
+	@Override
+	public Boolean multiload(HashMap<UUID, GiganticPlayer> tmpmap) {
+		HashMap<UUID, GiganticPlayer> loadmap = new HashMap<UUID, GiganticPlayer>();
+
 		String command = "";
 		this.checkStatement();
-		//select * from gigantic.mineblock where (uuid = '????' || uuid = '???')
-		command = "select * from " + db + "." + table
-				+ " where (";
-		for(UUID uuid : tmpmap.keySet()){
-			command += "uuid = '" + uuid.toString().toLowerCase() + "' || ";
+		// select * from gigantic.mineblock where (uuid = '????' || uuid =
+		// '???')
+		command = "select * from " + db + "." + table + " where uuid in (";
+		for (UUID uuid : tmpmap.keySet()) {
+			command += "'" + uuid.toString().toLowerCase() + "',";
 		}
+		command = command.substring(0, command.length() - 1);
 		command += ")";
-		command = command.replace(" || )",")");
 
-		//保存されているデータをロード
+		if (tmpmap.isEmpty()) {
+			return true;
+		}
+		// 保存されているデータをロード
 		try {
 			rs = stmt.executeQuery(command);
-			int delay = 0;
 			while (rs.next()) {
-				//uuidを取得
+				// uuidを取得
 				UUID uuid = UUID.fromString(rs.getString("uuid"));
-				//GiganticPlayerを取得
-				GiganticPlayer gp = tmpmap.get(uuid);
-				//rsの再取得の意味なし
-				new GiganticLoadTaskRunnable(this,gp).runTaskTimerAsynchronously(plugin, 10 + delay++, 20);
-				//tmpmapから削除
+				// loadmapに追加
+				loadmap.put(uuid, tmpmap.get(uuid));
+				// tmpmapから削除
 				tmpmap.remove(uuid);
 			}
 			rs.close();
 		} catch (SQLException e) {
-			plugin.getLogger().warning("Failed to multiload in " + table + " Table");
-			plugin.getLogger().warning(command);
+			plugin.getLogger().warning(
+					"Failed to multiload in " + table + " Table");
 			e.printStackTrace();
 		}
 
-		if(tmpmap.isEmpty()){
-			return;
-		}
+		new GiganticMultiLoadTaskRunnable(this, new HashMap<UUID, GiganticPlayer>(loadmap))
+				.runTaskTimerAsynchronously(plugin, 10, 20);
 
-		//残りのプレイヤーは新規作成
-		command = "insert into " + db + "." + table
-				+ " (name,uuid) values ";
-		for(GiganticPlayer gp :tmpmap.values()){
-			command += "('" + gp.name + "','" + gp.uuid.toString().toLowerCase()
-					+ "'),";
-			//新しいデータを生成
+
+
+		// 残りのプレイヤーは新規作成
+		command = "insert into " + db + "." + table + " (name,uuid) values ";
+		for (GiganticPlayer gp : tmpmap.values()) {
+			command += "('" + gp.name + "','"
+					+ gp.uuid.toString().toLowerCase() + "'),";
+			// 新しいデータを生成
+			debug.info(DebugEnum.SQL, "Table:" + table + gp.name + "のデータを新規作成");
 			this.newPlayer(gp);
+			gp.getManager(
+					Sql.TableManagerType.getDataManagerClassbyClass(this
+							.getClass())).setLoaded(true);
 		}
-		command = command.substring(0, command.length()-1);
-		plugin.getLogger().warning(command);
+		command = command.substring(0, command.length() - 1);
+
+		if (tmpmap.isEmpty()) {
+			return true;
+		}
 
 		if (!sendCommand(command)) {
 			plugin.getLogger().warning(
 					"Failed to multi create new row in " + table + " Table");
 		}
-
-	}
-
-	@Override
-	public Boolean load(GiganticPlayer gp) {
-		String command = "";
-		final String struuid = gp.uuid.toString().toLowerCase();
-		int count = this.isExist(gp);
-
-		if (count == 0) {
-			// uuid is not exist
-			// new uuid line create
-			command = "insert into " + db + "." + table
-					+ " (name,uuid) values('" + gp.name + "','" + struuid
-					+ "')";
-			if (!sendCommand(command)) {
-				plugin.getLogger().warning(
-						"Failed to create new row (player:" + gp.name + ")");
-				return false;
-			}
-			if (!this.newPlayer(gp))
-				return false;
-			return true;
-
-		} else if (count == 1) {
-			// uuidが存在するときの処理
-			new GiganticLoadTaskRunnable(this,gp).runTaskTimerAsynchronously(plugin, 20, 20);
-		} else {
-			// mysqlに該当するplayerdataが2個以上ある時エラーを吐く
-			plugin.getLogger().warning(
-					"Failed to read count (player:" + gp.name + ")");
-			return false;
-		}
 		return true;
 	}
 
-	/**tableにデータが保存されているとき1，されていないとき0を，データの取得ができなかった場合は-1を返します
-	 *
-	 * @param gp
-	 * @return
-	 * @throws SQLException
-	 */
-	private int isExist(GiganticPlayer gp){
-		String command = "";
-		final String struuid = gp.uuid.toString().toLowerCase();
-		int count = -1;
-		command = "select count(*) as count from " + db + "." + table
-				+ " where uuid = '" + struuid + "'";
-
-		this.checkStatement();
-
-		try {
-			rs = stmt.executeQuery(command);
-			while (rs.next()) {
-				count = rs.getInt("count");
-			}
-			rs.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return -1;
-		}
-
-		if(count != 0 && count != 1){
-			return -1;
-		}else{
-			return count;
-		}
-
-
-	}
-
 	@Override
-	public Boolean save(GiganticPlayer gp,boolean loginflag) {
+	public Boolean save(GiganticPlayer gp, boolean loginflag) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
 		this.checkStatement();
 
-		command = "update " + db + "." + table + " set loginflag = '" + Boolean.toString(loginflag) + "',";
+		command = "update " + db + "." + table + " set name = '" + gp.name
+				+ "',loginflag = " + Boolean.toString(loginflag) + ",";
 
 		command += this.savePlayer(gp);
 

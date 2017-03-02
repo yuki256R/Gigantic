@@ -25,6 +25,9 @@ public class GiganticPlaceholders extends EZPlaceholderHook{
 			return "";
 		}
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
+		if(gp == null){
+			return "";
+		}
 		//player型を使うPlaceholder
 
 		switch(identifier){

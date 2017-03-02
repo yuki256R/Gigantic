@@ -1,6 +1,5 @@
 package com.github.unchama.gigantic;
 
-import com.github.unchama.player.sidebar.SideBarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -84,8 +83,6 @@ public final class Gigantic extends JavaPlugin{
 		//sql接続終了処理
 		sql.onDisable();
 
-		//サイドバー削除処理
-		SideBarManager.onDisable();
 
 		getLogger().info("SeichiAssist is Disabled!");
 	}

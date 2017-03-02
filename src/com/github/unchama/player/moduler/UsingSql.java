@@ -10,6 +10,5 @@ package com.github.unchama.player.moduler;
  *
  */
 public interface UsingSql {
-	public abstract void save(boolean loginflag);
-	public abstract void load();
+	public abstract void save(Boolean loginflag);
 }
