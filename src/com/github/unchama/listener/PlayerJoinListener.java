@@ -23,7 +23,9 @@ public class PlayerJoinListener implements Listener {
 		for(Player p : plugin.getServer().getOnlinePlayers()){
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 			if(gp == null)continue;
-			gp.getManager(MineBoostManager.class).updataNumberOfPeople();
+			MineBoostManager mm = gp.getManager(MineBoostManager.class);
+			mm.updataNumberOfPeople();
+			mm.refresh();
 		}
 	}
 

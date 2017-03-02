@@ -43,6 +43,7 @@ public class MineBlockManager extends DataManager implements UsingSql,Initializa
 		double inc = breaknum * ratio;
 		datamap.get(bt).increase(inc);
 		all.increase(inc);
+		this.calcLevel();
 	}
 
 

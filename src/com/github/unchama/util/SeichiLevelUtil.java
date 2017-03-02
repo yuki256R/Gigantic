@@ -12,6 +12,10 @@ public final class SeichiLevelUtil {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 
+	/**LevelMapをセットします．
+	 * Enable時に一度だけ処理してください．
+	 *
+	 */
 	public static void setLevelMap(){
 		long sum_ap = 0;
 		long get_ap = 1;
@@ -23,10 +27,25 @@ public final class SeichiLevelUtil {
 			}
 		}
 	}
-
+	/**レベルアップ可能かどうか調べるメソッドです．
+	 *
+	 * @param level レベル
+	 * @param d mineblock量
+	 * @return
+	 */
 	public static boolean canLevelup(int level,double d){
 		return ( levelmap.get(level).getNextMineBlock() <= (long) d &&
 			level < config.getMaxSeichiLevel() ) ? true : false;
+	}
+
+
+	/**レベルアップまでに必要な整地量を調べます．
+	 *
+	 * @param level
+	 * @return
+	 */
+	public static double getRemainingBlock(int level, double d){
+		return level < config.getMaxSeichiLevel() ? levelmap.get(level).getNextMineBlock() - (long)d : 0;
 	}
 }
 class SeichiLevelData{
