@@ -17,6 +17,7 @@ import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
+import com.github.unchama.util.SeichiLevelUtil;
 
 
 
@@ -52,8 +53,15 @@ public class SideBarManager extends DataManager implements Initializable,Finaliz
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
 		//情報を更新
-		updateInfo(Information.MINING_LEVEL, gp.getManager(MineBlockManager.class).level);
-		updateInfo(Information.MINING_SPEED, gp.getManager(MineBoostManager.class).boostlevel);
+		updateInfo(Information.SEICHI_LEVEL,
+				gp.getManager(MineBlockManager.class).level);
+		updateInfo(
+				Information.MINE_BLOCK,
+				SeichiLevelUtil.getRemainingBlock(
+						gp.getManager(MineBlockManager.class).level,
+						gp.getManager(MineBlockManager.class).all.getNum()));
+		updateInfo(Information.MINING_SPEED,
+				gp.getManager(MineBoostManager.class).boostlevel);
 		updateInfo(Information.BUILDING_LEVEL, 99);
 		updateInfo(Information.SEPARATOR1, "");
 		updateInfo(Information.RANKING_TITLE, "");
@@ -71,6 +79,7 @@ public class SideBarManager extends DataManager implements Initializable,Finaliz
 		waitingInfos.put(info, value.toString());
 	}
 
+	@SuppressWarnings("unchecked")
 	public void refresh(){
 		((HashMap<Information, String>)waitingInfos.clone()).forEach((info, value) -> {
 			if (currentInfos.containsKey(info))
@@ -92,9 +101,10 @@ public class SideBarManager extends DataManager implements Initializable,Finaliz
 		/**
 		 * マイクラの仕様上、行番号は降順
 		 */
-		MINING_LEVEL(ChatColor.GREEN + "整地レベル: ", 9),
+		SEICHI_LEVEL(ChatColor.GREEN + "整地Lv: ", 10),
+		MINE_BLOCK(ChatColor.DARK_GREEN + "次のLvまで:", 9),
 		MINING_SPEED(ChatColor.GREEN + "採掘速度: ", 8),
-		BUILDING_LEVEL(ChatColor.GREEN + "建築レベル: ", 7),
+		BUILDING_LEVEL(ChatColor.GREEN + "建築Lv: ", 7),
 		SEPARATOR1(ChatColor.YELLOW + "===============", 6),
 		RANKING_TITLE(ChatColor.GOLD + "  <<30分ランキング>>", 5),
 		RANKING_FIRST(ChatColor.GREEN + "1位: ", 4),
