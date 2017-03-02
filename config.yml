@@ -24,6 +24,11 @@ seichiassist:
   id: 'root'
   pw: ''
 
+#データロードの最大試行回数
+MaxAttempt : '5'
+
+
+
 # 機能：MineBoost設定
 # numofpeople:接続人数による増加
 # minutemine:1分間の整地量による増加

@@ -1,4 +1,5 @@
-package com.github.unchama.player;
+package com.github.unchama.player.moduler;
+
 
 
 
@@ -9,6 +10,5 @@ package com.github.unchama.player;
  *
  */
 public interface UsingSql {
-	public abstract void save();
-	public abstract void load();
+	public abstract void save(Boolean loginflag);
 }

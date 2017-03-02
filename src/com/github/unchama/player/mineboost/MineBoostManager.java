@@ -7,11 +7,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.player.DataManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.Initializable;
 import com.github.unchama.player.mineblock.MineBlock;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 

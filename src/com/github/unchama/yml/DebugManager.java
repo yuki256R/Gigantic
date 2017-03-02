@@ -6,14 +6,14 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import net.md_5.bungee.api.ChatColor;
-
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public final class DebugManager extends YmlManager{
 	public enum DebugEnum {
 		MINEBOOST(false,ChatColor.AQUA),
 		MINEBLOCK(false,ChatColor.RED),
+		SQL(false,ChatColor.YELLOW)
 		;
 		private Boolean flag;
 		private ChatColor c;
@@ -29,6 +29,9 @@ public final class DebugManager extends YmlManager{
 		public ChatColor getColor(){
 			return c;
 		}
+		public String getPrefix(){
+			return this.getColor() + "[" +this.name() + "]" + ChatColor.RESET;
+		}
 
 	}
 
@@ -42,21 +45,23 @@ public final class DebugManager extends YmlManager{
 
 	public void sendMessage(Player p,DebugEnum de,String message){
 		if(getFlag(de)){
-			p.sendMessage(de.getColor() + message);
+			p.sendMessage(de.getPrefix() + message);
 		}
 	}
 
 	public void sendMessage(DebugEnum de , String message){
 		if(getFlag(de)){
-			plugin.getServer().broadcastMessage(message);
+			plugin.getServer().broadcastMessage(de.getPrefix() + message);
 		}
 	}
 
-	public void log(DebugEnum de, String message,Level level){
-		if(getFlag(de)){
-			plugin.getServer().getLogger().log(level, message);
-		}
+	public void info(DebugEnum de, String message){
+		plugin.getServer().getConsoleSender().sendMessage(de.getPrefix() + ChatColor.GREEN + message);
 	}
+	public void warning(DebugEnum de, String message){
+		plugin.getServer().getConsoleSender().sendMessage(de.getPrefix() + ChatColor.RED + message);
+	}
+
 
 
 	private Boolean getFlag(DebugEnum de){

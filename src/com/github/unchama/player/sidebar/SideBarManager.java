@@ -1,11 +1,7 @@
 package com.github.unchama.player.sidebar;
 
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.DataManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.Initializable;
-import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.mineboost.MineBoostManager;
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -14,9 +10,17 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
-import java.util.HashMap;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.moduler.Initializable;
 
-public class SideBarManager extends DataManager implements Initializable{
+
+
+public class SideBarManager extends DataManager implements Initializable,Finalizable{
 
 	private static ScoreboardManager manager = Bukkit.getScoreboardManager();
 	private Scoreboard sidebar;
@@ -81,9 +85,7 @@ public class SideBarManager extends DataManager implements Initializable{
 		objective.unregister();
 	}
 
-	public static void onDisable(){
-		Bukkit.getOnlinePlayers().forEach(p -> PlayerManager.getGiganticPlayer(p).getManager(SideBarManager.class).unregister());
-	}
+
 
 	public enum Information {
 
@@ -118,6 +120,11 @@ public class SideBarManager extends DataManager implements Initializable{
 			return this.line;
 		}
 
+	}
+
+	@Override
+	public void fin() {
+			this.unregister();
 	}
 
 }

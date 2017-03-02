@@ -1,6 +1,5 @@
 package com.github.unchama.gigantic;
 
-import com.github.unchama.player.sidebar.SideBarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,7 +11,7 @@ import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
-import com.github.unchama.task.MinuteTaskRunnable;
+import com.github.unchama.task.TimeTaskRunnable;
 import com.github.unchama.util.SeichiLevelUtil;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.Yml;
@@ -58,8 +57,8 @@ public final class Gigantic extends JavaPlugin{
 		//ユーザーに対する処理
 		PlayerManager.onEnable();
 
-		//1分毎のタスクを実行
-		task = new MinuteTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,1200);
+		//1秒毎にタスクを実行
+		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this,0,20);
 
 		//リスナーを登録
 		ListenerEnum.registEvents(plugin);
@@ -84,8 +83,6 @@ public final class Gigantic extends JavaPlugin{
 		//sql接続終了処理
 		sql.onDisable();
 
-		//サイドバー削除処理
-		SideBarManager.onDisable();
 
 		getLogger().info("SeichiAssist is Disabled!");
 	}

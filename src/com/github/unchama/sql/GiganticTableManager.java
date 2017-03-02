@@ -1,8 +1,10 @@
 package com.github.unchama.sql;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.sql.moduler.PlayerTableManager;
 
 
 public class GiganticTableManager extends PlayerTableManager{
@@ -10,26 +12,46 @@ public class GiganticTableManager extends PlayerTableManager{
 	public GiganticTableManager(Sql sql){
 		super(sql);
 	}
+	/*
+	@Override
+	protected String addOriginalColumn() {
+		String command = "";
+		//playtick,seichiloadedflag add
+		command += "add column if not exists playtick bigint unsigned default 0,"
+				+ "add column if not exists seichi_loadead boolean default false,";
+		return command;
+	}
 
 	@Override
-	public Boolean save(GiganticPlayer gp) {
-		//String command = "";
-		//final String struuid = gp.uuid.toString().toLowerCase();
-
-		//no data that should be saved
+	protected boolean newPlayer(GiganticPlayer gp) {
+		GiganticManager m = gp.getManager(GiganticManager.class);
 		return true;
 	}
 
 	@Override
-	String addOriginalColumn() {
-		//loginflag??
-		return "";
+	public void loadPlayer(GiganticPlayer gp,ResultSet rs){
+		GiganticManager m = gp.getManager(GiganticManager.class);
+
+		return;
 	}
 
 	@Override
-	void newPlayer(GiganticPlayer gp) {
-		
-			/*
+	protected String savePlayer(GiganticPlayer gp) {
+
+		return "";
+	}
+	*/
+
+
+
+
+
+	@Override
+	protected
+	boolean newPlayer(GiganticPlayer gp) {
+		return true;
+
+/*
 			//初見さんにLv1メッセージを送信
 			p.sendMessage(SeichiAssist.config.getLvMessage(1));
 			//初見さんであることを全体告知
@@ -42,21 +64,26 @@ public class GiganticTableManager extends PlayerTableManager{
 			p.getInventory().addItem(new ItemStack(Material.DIAMOND_PICKAXE));
 			p.getInventory().addItem(new ItemStack(Material.DIAMOND_SPADE));
 			MebiusListener.give(p);
-			*/
+*/
 
 	}
-
 	@Override
-	void loadPlayer(GiganticPlayer gp) throws SQLException {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
-
-	@Override
-	String savePlayer(GiganticPlayer gp) {
+	protected String addOriginalColumn() {
 		// TODO 自動生成されたメソッド・スタブ
 		return "";
 	}
+	@Override
+	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	@Override
+	protected String savePlayer(GiganticPlayer gp) {
+		// TODO 自動生成されたメソッド・スタブ
+		return "";
+	}
+
+
 
 
 }

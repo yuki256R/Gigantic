@@ -83,6 +83,10 @@ public class ConfigManager extends YmlManager{
 		return message != null ? message : null;
 	}
 
+	public int getMaxAttempt() {
+		return this.getInt("MaxAttempt");
+	}
+
 
 
 }

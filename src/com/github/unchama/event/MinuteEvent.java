@@ -6,7 +6,10 @@ public class MinuteEvent extends CustomEvent{
 	public MinuteEvent(int minute){
 		this.minute = minute;
 	}
-
+	/**初期時間から経過した分数を取得します．(１時間毎にリセットします）
+	 * 
+	 * @return int
+	 */
 	public int getMinute(){
 		return minute;
 	}

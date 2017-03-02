@@ -1,5 +1,6 @@
 package com.github.unchama.sql;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -7,6 +8,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.sql.moduler.PlayerTableManager;
 
 public class MineBlockTableManager extends PlayerTableManager{
 
@@ -15,7 +17,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	String addOriginalColumn() {
+	protected String addOriginalColumn() {
 		String command = "";
 		//allblock add
 		command += "add column if not exists allmineblock double unsigned default 0,"
@@ -29,7 +31,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	void newPlayer(GiganticPlayer gp) {
+	protected boolean newPlayer(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		//datamap put
@@ -39,10 +41,13 @@ public class MineBlockTableManager extends PlayerTableManager{
 
 		m.all = new MineBlock();
 		m.level = 1;
+		
+		return true;
 	}
 
+
 	@Override
-	void loadPlayer(GiganticPlayer gp) throws SQLException {
+	public void loadPlayer(GiganticPlayer gp,ResultSet rs) throws SQLException{
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		for(BlockType bt : BlockType.values()){
@@ -54,7 +59,7 @@ public class MineBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	String savePlayer(GiganticPlayer gp) {
+	protected String savePlayer(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		String command = "";
@@ -68,6 +73,8 @@ public class MineBlockTableManager extends PlayerTableManager{
 
 		return command;
 	}
+
+
 }
 
 

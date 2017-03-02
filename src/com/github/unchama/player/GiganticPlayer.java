@@ -10,6 +10,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.moduler.Initializable;
+import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -26,9 +30,7 @@ public class GiganticPlayer{
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
-		SIDEBAR(SideBarManager.class)
-
-
+		SIDEBAR(SideBarManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -49,6 +51,7 @@ public class GiganticPlayer{
 	public final String name;
 	public final UUID uuid;
 
+
 	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
 
 
@@ -64,7 +67,19 @@ public class GiganticPlayer{
 					| NoSuchMethodException | SecurityException e) {
 				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
 				e.printStackTrace();
-				plugin.getPluginLoader().disablePlugin(plugin);
+			}
+		}
+		//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
+		for(Class<? extends DataManager> mc : this.managermap.keySet()){
+			if(!ClassUtil.isImplemented(mc, UsingSql.class)){
+				try {
+					mc.getMethod("setLoaded",Boolean.class).invoke(this.managermap.get(mc),true);
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					plugin.getLogger().warning("Failed to setloaded of player:" + this.name);
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -75,22 +90,25 @@ public class GiganticPlayer{
 	}
 
 
-
-	public void load() {
+	public boolean isloaded() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
-					mc.getMethod("load").invoke(this.managermap.get(mc));
+					boolean loaded = (Boolean) mc.getMethod("isLoaded").invoke(this.managermap.get(mc));
+					if(loaded == false){
+						return false;
+					}
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
-					plugin.getLogger().warning("Failed to load data of player:" + this.name);
+					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
+		return true;
 	}
+
 	public void init() {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Initializable.class)){
@@ -101,7 +119,6 @@ public class GiganticPlayer{
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
@@ -118,27 +135,34 @@ public class GiganticPlayer{
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
 	}
-
-	public void save() {
+	/**プレイヤーデータを保存します．
+	 * このメソッドをプレイヤーのログアウト時に呼び出す場合は，loginflagをfalseにしてください．
+	 * 定期セーブ時に呼び出す場合はloginflagをtrueにしてください．
+	 *
+	 * @param loginflag:
+	 */
+	public void save(boolean loginflag) {
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
-					mc.getMethod("save").invoke(this.managermap.get(mc));
+					mc.getMethod("save",Boolean.class).invoke(this.managermap.get(mc),loginflag);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
 					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
-					plugin.getPluginLoader().disablePlugin(plugin);
 				}
 			}
 		}
 	}
+
+
+
+
 
 
 

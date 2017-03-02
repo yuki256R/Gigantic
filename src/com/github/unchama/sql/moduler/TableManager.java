@@ -1,4 +1,4 @@
-package com.github.unchama.seichi.sql;
+package com.github.unchama.sql.moduler;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -6,28 +6,36 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.sql.Sql;
+import com.github.unchama.yml.DebugManager;
 
-public abstract class SeichiTableManager {
+
+
+public abstract class TableManager {
 	protected Gigantic plugin = Gigantic.plugin;
-	private SeichiAssistSql sql;
-	protected final String db;
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	private Sql sql;
 	private Connection con;
+	public final String db;
+	public final String table;
 	protected Statement stmt = null;
 	protected ResultSet rs;
-	protected final String table;
 
-	public SeichiTableManager(SeichiAssistSql sql) {
+
+	public TableManager(Sql sql){
 		this.sql = sql;
 		this.db = sql.getDataBaseName();
 		this.con = sql.getConnection();
-		this.table = SeichiAssistSql.SeichiTableManagerType
-				.getTableNamebyClass(this.getClass());
+		this.table = Sql.TableManagerType.getTableNamebyClass(this.getClass());
 		try {
 			stmt = this.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		this.createTable();
 	}
+
+	abstract Boolean createTable();
 
 	/**
 	 * このテーブルに接続するステートメントを作成し，返り値とします．
@@ -104,4 +112,6 @@ public abstract class SeichiTableManager {
 	protected boolean sendCommand(String command) {
 		return this.sendCommand(command, stmt);
 	}
+
+
 }
