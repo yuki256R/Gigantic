@@ -42,8 +42,8 @@ public class putGiganticMapTaskRunnable extends BukkitRunnable {
 				((HashMap<UUID, GiganticPlayer>) tmpmap.clone()).forEach((uuid,
 						gp) -> {
 					if (gp.isloaded()) {
-						gp.init();
 						gmap.put(uuid, gp);
+						gp.init();
 						tmpmap.remove(uuid);
 					}
 				});

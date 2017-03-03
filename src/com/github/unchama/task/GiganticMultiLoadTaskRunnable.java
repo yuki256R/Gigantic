@@ -13,7 +13,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
@@ -93,9 +92,10 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 
 			}
 
+			@SuppressWarnings("unchecked")
 			private void checklogin() {
-				((HashMap<UUID, GiganticPlayer>) loadmap.clone()).forEach((uuid,
-						gp) -> {
+				((HashMap<UUID, GiganticPlayer>) loadmap.clone()).forEach((
+						uuid, gp) -> {
 
 					Player player = PlayerManager.getPlayer(gp);
 					if (player == null) {
@@ -140,10 +140,7 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 						// load
 						tm.loadPlayer(gp, rs);
 						// DataManagerにloadedフラグを送る
-						gp.getManager(
-								Sql.TableManagerType
-										.getDataManagerClassbyClass(tm
-												.getClass())).setLoaded(true);
+						tm.setLoaded(gp, true);
 						// loginmapに追加
 						loginmap.put(uuid, loadmap.get(uuid));
 						// loadmapから削除
