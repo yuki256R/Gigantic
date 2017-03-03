@@ -28,7 +28,7 @@ public class SeichiLevelListener implements Listener {
 					"can not find player in " + getClass().getName());
 			return;
 		}
-		String m = config.getSeichiLevelUpMessage(level);
+		String m = config.getSeichiLevelUpMessage();
 		m = PlaceholderAPI.setPlaceholders(p, m);
 		if (m != null && m != "") {
 			p.sendMessage(m);

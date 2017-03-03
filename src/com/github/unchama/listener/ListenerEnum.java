@@ -6,6 +6,7 @@ import com.github.unchama.gigantic.Gigantic;
 
 public enum ListenerEnum {
 	PLAYERJOIN(new PlayerJoinListener()),
+	FIRSTJOIN(new PlayerFirstJoinListener()),
 	PLAYERQUIT(new PlayerQuitListener()),
 	SECOND(new SecondListener()),
 	MINUTE(new MinuteListener()),
