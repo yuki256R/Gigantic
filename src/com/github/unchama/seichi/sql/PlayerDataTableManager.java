@@ -34,5 +34,27 @@ public class PlayerDataTableManager extends SeichiTableManager{
  		return count;
 	}
 
+	public double getAllMineBlock(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		double ans = 0;
+
+ 		command = "select totalbreaknum from " + db + "." + table
+ 				+ " where uuid = '" + struuid + "'";
+
+ 		this.checkStatement();
+ 		try{
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				   ans = rs.getDouble("totalbreaknum");
+				  }
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning("Failed to load totalbreaknum player:" + gp.name);
+			e.printStackTrace();
+		}
+ 		return ans;
+	}
+
 	//何かデータがほしいときはメソッドを作成しコマンドを送信する．
 }

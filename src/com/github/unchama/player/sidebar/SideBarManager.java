@@ -34,11 +34,6 @@ public class SideBarManager extends DataManager implements Initializable,Finaliz
 
 	public SideBarManager(GiganticPlayer gp) {
 		super(gp);
-	}
-
-
-	@Override
-	public void init() {
 		//現在のサイドバー上の情報
 		currentInfos = new HashMap<>();
 		//リフレッシュ待ちの情報
@@ -51,7 +46,11 @@ public class SideBarManager extends DataManager implements Initializable,Finaliz
 		objective = sidebar.registerNewObjective("Infomation", "dummy");
 		objective.setDisplayName(ChatColor.AQUA + "Infomation");
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+	}
 
+
+	@Override
+	public void init() {
 		//情報を更新
 		updateInfo(Information.SEICHI_LEVEL,
 				gp.getManager(MineBlockManager.class).level);

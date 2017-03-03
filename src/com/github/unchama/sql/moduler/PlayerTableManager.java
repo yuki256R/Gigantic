@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.GiganticMultiLoadTaskRunnable;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -19,19 +20,26 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
  */
 public abstract class PlayerTableManager extends TableManager implements
 		GiganticLoadable {
+	Class<? extends DataManager> datamanagerclass;
 
 	public PlayerTableManager(Sql sql) {
 		super(sql);
+		this.datamanagerclass = Sql.TableManagerType
+				.getDataManagerClassbyClass(this.getClass());
 	}
 
 	/**
-	 * ex) command = "add column if not exists name varchar(30) default null,"
+	 * テーブル作成時に追加するカラムをコマンドとして返り値としてください． ex) command =
+	 * "add column if not exists name varchar(30) default null,"
+	 * "add"で始まり，","で終わるようにしてください．
 	 *
 	 * @return command
 	 */
-	protected abstract String addOriginalColumn();
+	protected abstract String addColumnCommand();
 
 	/**
+	 * 新しくデータを作成してください
+	 *
 	 * set new player data
 	 *
 	 * @param gp
@@ -50,13 +58,32 @@ public abstract class PlayerTableManager extends TableManager implements
 			throws SQLException;
 
 	/**
-	 * ex) for(BlockType bt : datamap.keySet()){ i++; command +=
-	 * bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',"; }
+	 * データ保存時のコマンドを返り値としてください． ex) for(BlockType bt : datamap.keySet()){ i++;
+	 * command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
+	 * }
 	 *
 	 * @param gp
 	 * @return
 	 */
-	protected abstract String savePlayer(GiganticPlayer gp);
+	protected abstract String saveCommand(GiganticPlayer gp);
+
+	/**
+	 * このクラスで使われるDataManagerClassを返します．
+	 *
+	 * @return
+	 */
+	private Class<? extends DataManager> getDataManagerClass() {
+		return this.datamanagerclass;
+	}
+	/**プレイヤーデータのロード状態変更メソッド
+	 *
+	 * @param gp プレイヤー
+	 * @param loaded ロードされた時true
+	 */
+	public void setLoaded(GiganticPlayer gp,boolean loaded) {
+		gp.getManager(this.getDataManagerClass()).setLoaded(loaded);
+	}
+
 
 	@Override
 	Boolean createTable() {
@@ -78,7 +105,7 @@ public abstract class PlayerTableManager extends TableManager implements
 		// loginflag add
 		command += "add column if not exists loginflag boolean default true,";
 		// original column
-		command += this.addOriginalColumn();
+		command += this.addColumnCommand();
 		// index add
 		command += "add index if not exists uuid_index(uuid)";
 
@@ -127,10 +154,9 @@ public abstract class PlayerTableManager extends TableManager implements
 			e.printStackTrace();
 		}
 
-		new GiganticMultiLoadTaskRunnable(this, new HashMap<UUID, GiganticPlayer>(loadmap))
+		new GiganticMultiLoadTaskRunnable(this,
+				new HashMap<UUID, GiganticPlayer>(loadmap))
 				.runTaskTimerAsynchronously(plugin, 10, 20);
-
-
 
 		// 残りのプレイヤーは新規作成
 		command = "insert into " + db + "." + table + " (name,uuid) values ";
@@ -140,9 +166,7 @@ public abstract class PlayerTableManager extends TableManager implements
 			// 新しいデータを生成
 			debug.info(DebugEnum.SQL, "Table:" + table + gp.name + "のデータを新規作成");
 			this.newPlayer(gp);
-			gp.getManager(
-					Sql.TableManagerType.getDataManagerClassbyClass(this
-							.getClass())).setLoaded(true);
+			this.setLoaded(gp,true);
 		}
 		command = command.substring(0, command.length() - 1);
 
@@ -166,7 +190,7 @@ public abstract class PlayerTableManager extends TableManager implements
 		command = "update " + db + "." + table + " set name = '" + gp.name
 				+ "',loginflag = " + Boolean.toString(loginflag) + ",";
 
-		command += this.savePlayer(gp);
+		command += this.saveCommand(gp);
 
 		command += " where uuid = '" + struuid + "'";
 
@@ -183,5 +207,7 @@ public abstract class PlayerTableManager extends TableManager implements
 
 		return true;
 	}
+
+
 
 }

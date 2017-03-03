@@ -42,6 +42,8 @@ public class SeichiLevelListener implements Listener {
 	@EventHandler
 	public void SeichiLevelUpSideBarUpdateListener(SeichiLevelUpEvent event) {
 		GiganticPlayer gp = event.getGiganticPlayer();
+		if (gp == null)
+			return;
 		int level = event.getLevel();
 		SideBarManager m = gp.getManager(SideBarManager.class);
 		m.updateInfo(Information.SEICHI_LEVEL, level);
