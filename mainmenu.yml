@@ -2,6 +2,8 @@
 
 #カラーコードはこちらから(http://minecraft-ja.gamepedia.com/%E8%A3%85%E9%A3%BE%E3%82%B3%E3%83%BC%E3%83%89)
 #"§"ではなく"&"を利用してください．
+#Material名はこちらから（http://www.minecraftinfo.com/idnamelist.htm）
+#オレンジ色の正式名称の下がMaterialTypeです．(コロン":"の後ろはdamege値です．）
 
 #基本設定
 
@@ -29,6 +31,28 @@ name: '&4&kメインメニュー'
 #  isSkullofOwner: <FLAG> <--{インベントリを開いたプレイヤーの頭にしたい時trueにしてください}
 
 0:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lnameの統計データ'
+      lore:
+      - '&r&b整地レベル:playerdata.level'
+      - '&r&b次のレベルまで:???'
+      - '&r&c整地ワールド以外では'
+      - '&r&c整地量とガチャ券は増えません'
+      - '&r&b(prank-1)位(rankdata.name)との差：??'
+      - '&r&7総ログイン時間：??'
+      - '&r&8※1分毎に更新'
+      - '&r&a統計データは'
+      - '&r&a各サバイバルサーバー間で'
+      - '&r&a共有されます'
+      Unbreakable: true
+  isSkullofOwner: true
+1:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: SKULL_ITEM
