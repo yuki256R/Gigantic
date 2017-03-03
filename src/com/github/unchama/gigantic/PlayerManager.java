@@ -82,7 +82,6 @@ public class PlayerManager {
 		for (Player p : plugin.getServer().getOnlinePlayers()) {
 			quit(p);
 		}
-
 	}
 
 	public static void onEnable() {

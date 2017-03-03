@@ -2,6 +2,7 @@ package com.github.unchama.event;
 
 import org.bukkit.entity.Player;
 
+import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 
