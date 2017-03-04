@@ -1,4 +1,4 @@
-package com.github.unchama.yml;
+package com.github.unchama.yml.moduler;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 
@@ -9,7 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-public class MenuManager extends YmlManager{
+import com.github.unchama.yml.moduler.YmlManager;
+
+/**Menu用のManagerです．Menuを作る時はこのクラスを継承すると簡単に作成できます．
+ *
+ * @author tar0ss
+ *
+ */
+public abstract class MenuManager extends YmlManager{
 
 	public MenuManager(){
 		super();
@@ -22,16 +29,29 @@ public class MenuManager extends YmlManager{
 			plugin.saveResource(filename, false);
 		}
 	}
-
-	protected int getInventorySize(){
+	/**インベントリのサイズを取得します
+	 *
+	 * @return
+	 */
+	private int getInventorySize(){
 		return this.getInt("size");
 	}
 
-	protected String getInventoryName(){
+	/**インベントリの名前を取得します．
+	 *
+	 * @return
+	 */
+	private String getInventoryName(){
 		return this.getString("name");
 	}
 
-	protected void setPlaceholder(Player p,int n,ItemStack itemstack){
+	/**PlaceHolderを使用して与えられたナンバーのitemstackを設定します．
+	 *
+	 * @param p
+	 * @param n
+	 * @param itemstack
+	 */
+	private void setPlaceholder(Player p,int n,ItemStack itemstack){
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(p , itemmeta.getDisplayName()));
 		itemmeta.setLore(PlaceholderAPI.setPlaceholders(p, itemmeta.getLore()));
@@ -43,6 +63,11 @@ public class MenuManager extends YmlManager{
 		itemstack.setItemMeta(itemmeta);
 	}
 
+	/**与えられたプレイヤー用のインベントリを作成して取得します．
+	 *
+	 * @param p
+	 * @return
+	 */
 	public Inventory getInventory(Player p){
 		Inventory inv = Bukkit.getServer().createInventory(null,this.getInventorySize(),this.getInventoryName());
 		for(int i = 0 ; i < this.getInventorySize() ; i++){

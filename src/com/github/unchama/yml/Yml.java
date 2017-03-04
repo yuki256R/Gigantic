@@ -3,35 +3,60 @@ package com.github.unchama.yml;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
+import com.github.unchama.yml.moduler.YmlManager;
 
-
+/**
+ * Ymlファイルを管理するクラスです． プラグイン始動時にスタティックインスタンスが生成されます． Gigantic.ymlで取得できます．
+ * 新しくYmlファイルを追加する方法
+ * 1.YmlEnumに"FILENAME(ManagerName.class)"と入力
+ * 2.ManagerClassを作成．必ずYmlManagerをextendsすること．
+ * 3.
+ *
+ * @author tar0ss
+ *
+ */
 public class Yml {
-	enum YmlEnum{
+	public static enum YmlEnum {
 		CONFIG(ConfigManager.class),
 		DEBUG(DebugManager.class),
 		MAINMENU(MainMenuManager.class),
 		;
-
+		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;
 
-		YmlEnum(Class<? extends YmlManager> managerClass){
+		// Enum用コンストラクタ
+		YmlEnum(Class<? extends YmlManager> managerClass) {
 			this.managerClass = managerClass;
 		}
 
-		public Class<? extends YmlManager> getManagerClass(){
+		/**
+		 * 使用するManagerClassを返り値とします．
+		 *
+		 * @return Class<? extends YmlManager>
+		 */
+		public Class<? extends YmlManager> getManagerClass() {
 			return managerClass;
 		}
-		/**sqlのテーブル名を取得する
+
+		/**
+		 * sqlのテーブル名を返り値とします．
 		 *
-		 * @return
+		 * @return String
 		 */
-		public String getYmlName(){
+		public String getYmlName() {
 			return this.name().toLowerCase() + ".yml";
 		}
 
-		public static String getTableNamebyClass(Class<? extends YmlManager> _class) {
-			for(YmlEnum ye : YmlEnum.values()){
-				if(ye.getManagerClass().equals(_class)){
+		/**
+		 * ManagerClassからテーブル名を取得します．存在しない場合はexampleを返します．
+		 *
+		 * @param ManagerClass
+		 * @return TableName
+		 */
+		public static String getTableNamebyClass(
+				Class<? extends YmlManager> _class) {
+			for (YmlEnum ye : YmlEnum.values()) {
+				if (ye.getManagerClass().equals(_class)) {
 					return ye.getYmlName();
 				}
 			}
@@ -39,14 +64,19 @@ public class Yml {
 		}
 	}
 
-	private static HashMap<Class<? extends YmlManager>,YmlManager> managermap = new HashMap<Class<? extends YmlManager>,YmlManager>();
+	// 全てのYmlManager格納するMap
+	private static HashMap<Class<? extends YmlManager>, YmlManager> managermap = new HashMap<Class<? extends YmlManager>, YmlManager>();
 
-
-	public Yml(){
-		//instance作成
-		for(YmlEnum ye : YmlEnum.values()){
+	/**
+	 * Class Ymlのコンストラクタです． プラグイン始動時に一度だけ呼び出されます．
+	 */
+	public Yml() {
+		managermap.clear();
+		// instance作成
+		for (YmlEnum ye : YmlEnum.values()) {
 			try {
-				managermap.put(ye.managerClass,ye.getManagerClass().getConstructor().newInstance());
+				managermap.put(ye.managerClass, ye.getManagerClass()
+						.getConstructor().newInstance());
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
@@ -54,8 +84,15 @@ public class Yml {
 			}
 		}
 	}
+
+	/**
+	 * ManagerClassを引数として，そのクラスのインスタンスを返り値とします． Managerを外部から操作したいときに使用します．
+	 *
+	 * @param managertype
+	 * @return <T extends YmlManager>
+	 */
 	@SuppressWarnings("unchecked")
-	public <T extends YmlManager> T getManager(Class<T> type){
+	public <T extends YmlManager> T getManager(Class<T> type) {
 		return (T) managermap.get(type);
 	}
 }

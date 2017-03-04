@@ -1,4 +1,4 @@
-package com.github.unchama.event;
+package com.github.unchama.event.moduler;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -1,5 +1,7 @@
 package com.github.unchama.event;
 
+import com.github.unchama.event.moduler.CustomEvent;
+
 public class SecondEvent extends CustomEvent{
 	private int second;
 
@@ -8,7 +10,7 @@ public class SecondEvent extends CustomEvent{
 	}
 
 	/**初期時間から経過した秒数を取得します．(１分毎にリセットします）
-	 * 
+	 *
 	 * @return int
 	 */
 	public int getSecond(){
