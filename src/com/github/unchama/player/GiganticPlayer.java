@@ -20,7 +20,11 @@ import com.github.unchama.util.Converter;
 
 
 
-
+/**各プレイヤーにデータを保存したい時はここにマネージャーを追加します．
+ *
+ * @author tar0ss
+ *
+ */
 public class GiganticPlayer{
 
 	enum DataManagerType{
