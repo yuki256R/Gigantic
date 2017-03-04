@@ -10,5 +10,9 @@ package com.github.unchama.player.moduler;
  *
  */
 public interface UsingSql {
+	/**sqlを保存するときのメソッドです．
+	 * 
+	 * @param loginflag
+	 */
 	public abstract void save(Boolean loginflag);
 }
