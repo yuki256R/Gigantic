@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
@@ -19,14 +20,16 @@ import com.github.unchama.yml.ConfigManager;
 
 public class Sql {
 	//TableManagerとそれに対応するDataManagerClass
-	public static enum TableManagerType {
+	public static enum ManagerType {
 		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
-		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class), ;
+		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
+		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		;
 
 		private Class<? extends TableManager> tablemanagerClass;
 		private Class<? extends DataManager> datamanagerClass;
 
-		TableManagerType(Class<? extends TableManager> tablemanagerClass ,Class<? extends DataManager> datamanagerClass) {
+		ManagerType(Class<? extends TableManager> tablemanagerClass ,Class<? extends DataManager> datamanagerClass) {
 			this.tablemanagerClass = tablemanagerClass;
 			this.datamanagerClass = datamanagerClass;
 		}
@@ -54,7 +57,7 @@ public class Sql {
 		 */
 		public static String getTableNamebyClass(
 				Class<? extends TableManager> _class) {
-			for (TableManagerType mt : TableManagerType.values()) {
+			for (ManagerType mt : ManagerType.values()) {
 				if (mt.getTableManagerClass().equals(_class)) {
 					return mt.getTableName();
 				}
@@ -68,9 +71,23 @@ public class Sql {
 		 */
 		public static Class<? extends DataManager> getDataManagerClassbyClass(
 				Class<? extends TableManager> _class) {
-			for (TableManagerType mt : TableManagerType.values()) {
+			for (ManagerType mt : ManagerType.values()) {
 				if (mt.getTableManagerClass().equals(_class)) {
 					return mt.getDataManagerClass();
+				}
+			}
+			return null;
+		}
+		/**class名からテーブルマネージャークラスを取得します．
+		 *
+		 * @param _class
+		 * @return
+		 */
+		public static Class<? extends TableManager> getTableManagerClassbyClass(
+				Class<? extends DataManager> _class) {
+			for (ManagerType mt : ManagerType.values()) {
+				if (mt.getDataManagerClass().equals(_class)) {
+					return mt.getTableManagerClass();
 				}
 			}
 			return null;
@@ -213,7 +230,7 @@ public class Sql {
 			managermap.clear();
 		}
 		// 各テーブル用メソッドに受け渡し
-		for (TableManagerType mt : TableManagerType.values()) {
+		for (ManagerType mt : ManagerType.values()) {
 			try {
 				this.managermap.put(mt.getTableManagerClass(), mt.getTableManagerClass()
 						.getConstructor(Sql.class).newInstance(this));

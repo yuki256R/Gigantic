@@ -24,7 +24,7 @@ public abstract class YmlManager {
 
 	public YmlManager() {
 		this.plugin = Gigantic.plugin;
-		this.filename = Yml.YmlEnum.getTableNamebyClass(this.getClass());
+		this.filename = Yml.ManagerType.getTableNamebyClass(this.getClass());
 		this.file = new File(plugin.getDataFolder(), filename);
 		saveDefaultFile();
 		this.fc = loadFile();

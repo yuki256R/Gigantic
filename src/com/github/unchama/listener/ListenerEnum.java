@@ -4,6 +4,11 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
 
+/**リスナーを追加するときはここに必ず追記すること．
+ *
+ * @author tar0ss
+ *
+ */
 public enum ListenerEnum {
 	PLAYERJOIN(new PlayerJoinListener()),
 	FIRSTJOIN(new PlayerFirstJoinListener()),

@@ -24,7 +24,7 @@ public abstract class PlayerTableManager extends TableManager implements
 
 	public PlayerTableManager(Sql sql) {
 		super(sql);
-		this.datamanagerclass = Sql.TableManagerType
+		this.datamanagerclass = Sql.ManagerType
 				.getDataManagerClassbyClass(this.getClass());
 	}
 

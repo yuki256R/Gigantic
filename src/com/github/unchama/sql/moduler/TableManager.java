@@ -26,7 +26,7 @@ public abstract class TableManager {
 		this.sql = sql;
 		this.db = sql.getDataBaseName();
 		this.con = sql.getConnection();
-		this.table = Sql.TableManagerType.getTableNamebyClass(this.getClass());
+		this.table = Sql.ManagerType.getTableNamebyClass(this.getClass());
 		try {
 			stmt = this.createStatement();
 		} catch (SQLException e) {
