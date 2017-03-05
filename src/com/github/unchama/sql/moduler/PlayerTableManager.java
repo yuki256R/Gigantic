@@ -105,7 +105,8 @@ public abstract class PlayerTableManager extends TableManager implements
 		// loginflag add
 		command += "add column if not exists loginflag boolean default true,";
 		// original column
-		command += this.addColumnCommand();
+		String tmp = this.addColumnCommand();
+		if(tmp != null)	command += tmp;
 		// index add
 		command += "add index if not exists uuid_index(uuid)";
 
@@ -190,7 +191,8 @@ public abstract class PlayerTableManager extends TableManager implements
 		command = "update " + db + "." + table + " set name = '" + gp.name
 				+ "',loginflag = " + Boolean.toString(loginflag) + ",";
 
-		command += this.saveCommand(gp);
+		String tmp = this.saveCommand(gp);
+		if(tmp != null)command += tmp;
 
 		command += " where uuid = '" + struuid + "'";
 

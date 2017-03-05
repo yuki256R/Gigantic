@@ -18,7 +18,7 @@ public abstract class DataManager{
 	protected GiganticPlayer gp;
 	protected boolean loaded;
 
-	protected DataManager(GiganticPlayer gp){
+	public DataManager(GiganticPlayer gp){
 		this.gp = gp;
 		this.loaded = ClassUtil.isImplemented(this.getClass(), UsingSql.class) ? false : true;
 	}
