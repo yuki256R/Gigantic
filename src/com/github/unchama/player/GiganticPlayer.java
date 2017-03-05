@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
@@ -20,10 +21,14 @@ import com.github.unchama.util.Converter;
 
 
 
-
+/**各プレイヤーにデータを保存したい時はここにマネージャーを追加します．
+ *
+ * @author tar0ss
+ *
+ */
 public class GiganticPlayer{
 
-	enum DataManagerType{
+	public static enum ManagerType{
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
@@ -31,11 +36,12 @@ public class GiganticPlayer{
 		MINEBLOCK(MineBlockManager.class),
 		MINEBOOST(MineBoostManager.class),
 		SIDEBAR(SideBarManager.class),
+		ACHIEVEMENT(AchievementManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
 
-		DataManagerType(Class<? extends DataManager> managerClass){
+		ManagerType(Class<? extends DataManager> managerClass){
 			this.managerClass = managerClass;
 		}
 
@@ -59,7 +65,7 @@ public class GiganticPlayer{
 	public GiganticPlayer(Player player){
 		this.name = Converter.toString(player);
 		this.uuid = player.getUniqueId();
-		for(DataManagerType mt : DataManagerType.values()){
+		for(ManagerType mt : ManagerType.values()){
 			try {
 				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
 			} catch (InstantiationException | IllegalAccessException

@@ -16,7 +16,7 @@ import com.github.unchama.yml.moduler.YmlManager;
  *
  */
 public class Yml {
-	public static enum YmlEnum {
+	public static enum ManagerType {
 		CONFIG(ConfigManager.class),
 		DEBUG(DebugManager.class),
 		MAINMENU(MainMenuManager.class),
@@ -25,7 +25,7 @@ public class Yml {
 		private Class<? extends YmlManager> managerClass;
 
 		// Enum用コンストラクタ
-		YmlEnum(Class<? extends YmlManager> managerClass) {
+		ManagerType(Class<? extends YmlManager> managerClass) {
 			this.managerClass = managerClass;
 		}
 
@@ -55,7 +55,7 @@ public class Yml {
 		 */
 		public static String getTableNamebyClass(
 				Class<? extends YmlManager> _class) {
-			for (YmlEnum ye : YmlEnum.values()) {
+			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {
 					return ye.getYmlName();
 				}
@@ -73,7 +73,7 @@ public class Yml {
 	public Yml() {
 		managermap.clear();
 		// instance作成
-		for (YmlEnum ye : YmlEnum.values()) {
+		for (ManagerType ye : ManagerType.values()) {
 			try {
 				managermap.put(ye.managerClass, ye.getManagerClass()
 						.getConstructor().newInstance());

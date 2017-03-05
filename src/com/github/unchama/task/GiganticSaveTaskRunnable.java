@@ -32,13 +32,15 @@ public class GiganticSaveTaskRunnable extends BukkitRunnable{
 
 	@Override
 	public void run() {
-		count++;
-		if(count >= size){
-			this.cancel();
-		}else{
-			Bukkit.getScheduler().runTask(plugin, new Runnable(){
-				@Override
-				public void run() {
+
+		Bukkit.getScheduler().runTask(plugin, new Runnable(){
+			@Override
+			public void run() {
+				count++;
+				if(count >= size){
+					cancel();
+					return;
+				}else{
 					Player player = Bukkit.getServer().getPlayer(playerlist.get(count).getUniqueId());
 					if(player != null){
 						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
@@ -47,8 +49,9 @@ public class GiganticSaveTaskRunnable extends BukkitRunnable{
 						}
 					}
 				}
-			});
-		}
+			}
+		});
 	}
+
 
 }

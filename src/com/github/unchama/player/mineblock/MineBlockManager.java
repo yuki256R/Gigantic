@@ -18,13 +18,14 @@ import com.github.unchama.util.SeichiLevelUtil;
 public class MineBlockManager extends DataManager implements UsingSql,
 		Initializable {
 
-	public HashMap<BlockType, MineBlock> datamap = new HashMap<BlockType, MineBlock>();
+	public HashMap<BlockType, MineBlock> datamap;
 	public MineBlock all;
 	public int level;
 	MineBlockTableManager tm;
 
 	public MineBlockManager(GiganticPlayer gp) {
 		super(gp);
+		this.datamap = new HashMap<BlockType, MineBlock>();
 		this.tm = sql.getManager(MineBlockTableManager.class);
 	}
 
