@@ -13,6 +13,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
@@ -23,6 +24,7 @@ public class Sql {
 	public static enum ManagerType {
 		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
 		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
+		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		;
 

@@ -1,6 +1,7 @@
-package com.github.unchama.enumdata;
+package com.github.unchama.player.minestack;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 
 /*
@@ -10,7 +11,7 @@ import org.bukkit.Material;
  */
 
 
-public enum StackItem {
+public enum StackType {
 //全てのアイテム列挙
 	//Material名が同じなら日本語名だけを引数とする．
 	STONE("石"),
@@ -39,10 +40,6 @@ public enum StackItem {
 	ACACIA_SAPLING(Material.SAPLING,"アカシアの苗木",4),
 	DARK_OAK_SAPLING(Material.SAPLING,"ダークオークの苗木",5),
 	BEDROCK("岩盤"),
-	WATER("水流"),
-	STATIONARY_WATER("水"),
-	LAVA("溶岩流"),
-	STATIONARY_LAVA("溶岩"),
 	SAND("砂"),
 	RED_SAND(Material.SAND,"赤い砂",1),
 	GRAVEL("砂利"),
@@ -67,7 +64,6 @@ public enum StackItem {
 	CHISELED_SANDSTONE(Material.SANDSTONE,"模様入り砂岩",1),
 	SMOOTH_SANDSTONE(Material.SANDSTONE,"滑らかな砂岩",2),
 	NOTE_BLOCK("音符ブロック"),
-	BED_BLOCK("ベッド"),
 	POWERED_RAIL("パワードレール"),
 	DETECTOR_RAIL("ディテクターレール"),
 	PISTON_STICKY_BASE("粘着ピストン"),
@@ -77,7 +73,6 @@ public enum StackItem {
 	FERN(Material.LONG_GRASS,"シダ",2),
 	DEAD_BUSH("枯れ木"),
 	PISTON_BASE("ピストン"),
-	PISTON_EXTENSION("ピストン"),
 	WOOL("羊毛"),
 	ORANGE_WOOL(Material.WOOL,"橙色の羊毛",1),
 	MAGENTA_WOOL(Material.WOOL,"赤紫色の羊毛",2),
@@ -94,7 +89,6 @@ public enum StackItem {
 	GREEN_WOOL(Material.WOOL,"緑色の羊毛",13),
 	RED_WOOL(Material.WOOL,"赤色の羊毛",14),
 	BLACK_WOOL(Material.WOOL,"黒色の羊毛",15),
-	PISTON_MOVING_PIECE("ピストン"),
 	YELLOW_FLOWER("タンポポ"),
 	RED_ROSE("ポピー"),
 	BLUE_ORCHID(Material.RED_ROSE,"ヒスイラン",1),
@@ -105,23 +99,13 @@ public enum StackItem {
 	WHITE_TULIP(Material.RED_ROSE,"白色のチューリップ",6),
 	PINK_TULIP(Material.RED_ROSE,"桃色のチューリップ",7),
 	OXEYE_DAISY(Material.RED_ROSE,"フランスギク",8),
-	BROWN_MUSHROOM("キノコ"),
-	RED_MUSHROOM("キノコ"),
+	BROWN_MUSHROOM("茶色キノコ"),
+	RED_MUSHROOM("赤キノコ"),
 	GOLD_BLOCK("金ブロック"),
 	IRON_BLOCK("鉄ブロック"),
-	DOUBLE_STEP("石ハーフブロック"),
-	/*
-	DOUBLE_SANDSTONE_SLAB(Material.DOUBLE_STEP,"砂岩ハーフブロック",1),
-	DOUBLE_WOODEN_SLAB(Material.DOUBLE_STEP,"オークの木材ハーフブロック",2),
-	DOUBLE_COBBLESTONE_SLAB(Material.DOUBLE_STEP,"丸石ハーフブロック",3),
-	DOUBLE_BRICK_SLAB(Material.DOUBLE_STEP,"レンガハーフブロック",4),
-	DOUBLE_STONE_SLAB(Material.DOUBLE_STEP,"石レンガハーフブロック",5),
-	DOUBLE_NETHER_SLAB(Material.DOUBLE_STEP,"ネザーレンガハーフブロック",6),
-	DOUBLE_QUARTZ_SLAB(Material.DOUBLE_STEP,"ネザー水晶ハーフブロック",7),
-	*/
 	STEP("石ハーフブロック"),
 	SANDSTONE_SLAB(Material.STEP,"砂岩ハーフブロック",1),
-	WOODEN_SLAB(Material.STEP,"オーク木材のハーフブロック",2),
+	//WOODEN_SLAB(Material.STEP,"オーク木材のハーフブロック",2),//???
 	COBBLESTONE_SLAB(Material.STEP,"丸石ハーフブロック",3),
 	BRICK_SLAB(Material.STEP,"レンガハーフブロック",4),
 	STONE_SLAB(Material.STEP,"石レンガハーフブロック",5),
@@ -133,50 +117,41 @@ public enum StackItem {
 	MOSSY_COBBLESTONE("苔石"),
 	OBSIDIAN("黒曜石"),
 	TORCH("松明"),
-	FIRE("火"),
-	MOB_SPAWNER("モンスタースポナー"),
 	WOOD_STAIRS("オークの木の階段"),
 	CHEST("チェスト"),
-	REDSTONE_WIRE("レッドストーン"),
 	DIAMOND_ORE("ダイヤモンド鉱石"),
 	DIAMOND_BLOCK("ダイヤモンドブロック"),
 	WORKBENCH("作業台"),
-	CROPS("小麦"),
-	SOIL("農地"),
+	SOIL("耕地"),
 	FURNACE("かまど"),
-	BURNING_FURNACE("かまど"),
-	SIGN_POST("看板"),
-	WOODEN_DOOR("オークのドア"),
+	//SIGN_POST("看板"),
+	//WOODEN_DOOR("オークのドア"),
 	LADDER("はしご"),
 	RAILS("レール"),
 	COBBLESTONE_STAIRS("丸石の階段"),
-	WALL_SIGN("看板"),
+	//WALL_SIGN("看板"),
 	LEVER("レバー"),
 	STONE_PLATE("石の感圧版"),
-	IRON_DOOR_BLOCK("鉄のドア"),
+	//IRON_DOOR_BLOCK("鉄のドア"),
 	WOOD_PLATE("木の感圧版"),
 	REDSTONE_ORE("レッドストーン鉱石"),
-	GLOWING_REDSTONE_ORE("レッドストーン鉱石"),
-	REDSTONE_TORCH_OFF("レッドストーントーチ"),
 	REDSTONE_TORCH_ON("レッドストーントーチ"),
 	STONE_BUTTON("ボタン"),
-	SNOW("雪"),
+	SNOW("雪層"),
 	ICE("氷"),
 	SNOW_BLOCK("雪"),
 	CACTUS("サボテン"),
 	CLAY("粘土"),
-	SUGAR_CANE_BLOCK("サトウキビ"),
+	//SUGAR_CANE_BLOCK("サトウキビ"),
 	JUKEBOX("ジュークボックス"),
 	FENCE("オークのフェンス"),
 	PUMPKIN("カボチャ"),
 	NETHERRACK("ネザーラック"),
 	SOUL_SAND("ソウルサンド"),
 	GLOWSTONE("グロウストーン"),
-	PORTAL("ネザーポータル"),
 	JACK_O_LANTERN("ジャック・オ・ランタン"),
-	CAKE_BLOCK("ケーキブロック"),
-	DIODE_BLOCK_OFF("レッドストーンリピーター"),
-	DIODE_BLOCK_ON("レッドストーンリピーター"),
+	//DIODE_BLOCK_OFF("レッドストーンリピーター"),
+	//DIODE_BLOCK_ON("レッドストーンリピーター"),
 	STAINED_GLASS("白色の色付きガラス"),
 	ORANGE_STAINED_GLASS(Material.STAINED_GLASS,"橙色の色付きガラス",1),
 	MAGENTA_STAINED_GLASS(Material.STAINED_GLASS,"赤紫色の色付きガラス",2),
@@ -195,22 +170,15 @@ public enum StackItem {
 	BLACK_STAINED_GLASS(Material.STAINED_GLASS,"黒色の色付きガラス",15),
 	TRAP_DOOR("木のトラップドア"),
 	MONSTER_EGGS("石"),
-	COBBLESTONE_MONSTER_EGGS(Material.MONSTER_EGGS,"紙魚入り丸石",1),
-	STONE_BRICK_MONSTER_EGGS(Material.MONSTER_EGGS,"紙魚入り石レンガ",2),
-	MOSSY_STONE_MONSTER_EGGS(Material.MONSTER_EGGS,"紙魚入り苔石レンガ",3),
-	CRACKED_STONE_BRICK_MONSTER_EGGS(Material.MONSTER_EGGS,"紙魚入りひびの入った石レンガ",4),
-	CHISELED_STONE_BRICK_MONSTER_EGGS(Material.MONSTER_EGGS,"紙魚入り模様入り石レンガ",5),
 	SMOOTH_BRICK("石レンガ"),
 	MOSSY_STONE_BRICK(Material.SMOOTH_BRICK,"苔石レンガ",1),
 	CRACKED_STONE_BRICK(Material.SMOOTH_BRICK,"ひびの入った石レンガ",2),
 	CHISELED_STONE_BRICK(Material.SMOOTH_BRICK,"模様入り石レンガ",3),
-	HUGE_MUSHROOM_1("キノコブロック"),
-	HUGE_MUSHROOM_2("キノコブロック"),
+	HUGE_MUSHROOM_1("茶色キノコブロック"),
+	HUGE_MUSHROOM_2("赤色キノコブロック"),
 	IRON_FENCE("鉄格子"),
 	THIN_GLASS("板ガラス"),
 	MELON_BLOCK("スイカ"),
-	PUMPKIN_STEM("カボチャの芽"),
-	MELON_STEM("スイカの芽"),
 	VINE("ツタ"),
 	FENCE_GATE("オークのフェンスゲート"),
 	BRICK_STAIRS("レンガの階段"),
@@ -220,50 +188,47 @@ public enum StackItem {
 	NETHER_BRICK("ネザーレンガ"),
 	NETHER_FENCE("ネザーレンガのフェンス"),
 	NETHER_BRICK_STAIRS("ネザーレンガの階段"),
-	NETHER_WARTS("ネザーウォート"),
 	ENCHANTMENT_TABLE("エンチャントテーブル"),
-	BREWING_STAND("醸造台"),
-	CAULDRON("大釜"),
-	ENDER_PORTAL("エンドポータル"),
-	ENDER_PORTAL_FRAME("エンドポータル"),
+	//BREWING_STAND("醸造台"),
+	//CAULDRON("大釜"),
+	//ENDER_PORTAL_FRAME("エンドポータル"),
 	ENDER_STONE("エンドストーン"),
 	DRAGON_EGG("ドラゴンの卵"),
 	REDSTONE_LAMP_OFF("レッドストーンランプ"),
-	REDSTONE_LAMP_ON("レッドストーンランプ"),
 	WOOD_DOUBLE_STEP("オークの木材ハーフブロック"),
-	DOUBLE_SPRUCE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"マツの木材ハーフブロック",1),
-	DOUBLE_BIRCH_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"シラカバの木材ハーフブロック",2),
-	DOUBLE_JUNGLE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ジャングルの木材ハーフブロック",3),
-	DOUBLE_ACACIA_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"アカシアの木材ハーフブロック",4),
-	DOUBLE_DARK_OAK_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ダークオークの木材ハーフブロック",5),
+	//DOUBLE_SPRUCE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"マツの木材ハーフブロック",1),
+	//DOUBLE_BIRCH_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"シラカバの木材ハーフブロック",2),
+	//DOUBLE_JUNGLE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ジャングルの木材ハーフブロック",3),
+	//DOUBLE_ACACIA_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"アカシアの木材ハーフブロック",4),
+	//DOUBLE_DARK_OAK_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ダークオークの木材ハーフブロック",5),
 	WOOD_STEP("オークの木材ハーフブロック"),
-	COCOA("カカオ"),
+	//COCOA("カカオ"),
 	SANDSTONE_STAIRS("砂岩の階段"),
 	EMERALD_ORE("エメラルド鉱石"),
 	ENDER_CHEST("エンダーチェスト"),
 	TRIPWIRE_HOOK("トリップワイヤーフック"),
-	TRIPWIRE("トリップワイヤー"),
+	//TRIPWIRE("トリップワイヤー"),
 	EMERALD_BLOCK("エメラルドブロック"),
 	SPRUCE_WOOD_STAIRS("マツの木の階段"),
 	BIRCH_WOOD_STAIRS("シラカバの木の階段"),
 	JUNGLE_WOOD_STAIRS("ジャングルの木の階段"),
-	COMMAND("コマンドブロック"),
+	//COMMAND("コマンドブロック"),
 	BEACON("ビーコン"),
 	COBBLE_WALL("丸石の壁"),
 	MOSSY_COBBLESTONE_WALL(Material.COBBLE_WALL,"苔石の壁",1),
-	FLOWER_POT("植木鉢"),
-	CARROT("ニンジン"),
-	POTATO("ジャガイモ"),
+	//FLOWER_POT("植木鉢"),
+	//CARROT("ニンジン"),
+	//POTATO("ジャガイモ"),
 	WOOD_BUTTON("ボタン"),
-	SKULL("Mobの頭"),
+	//SKULL("Mobの頭"),
 	ANVIL("金床"),
 	ANVIL_2(Material.ANVIL,"少し壊れた金床",1),
 	ANVIL_3(Material.ANVIL,"かなり壊れた金床",2),
 	TRAPPED_CHEST("トラップチェスト"),
 	GOLD_PLATE("重量感圧板（軽）"),
 	IRON_PLATE("重量感圧板（重）"),
-	REDSTONE_COMPARATOR_OFF("レッドストーンコンパレーター"),
-	REDSTONE_COMPARATOR_ON("レッドストーンコンパレーター"),
+	//REDSTONE_COMPARATOR_OFF("レッドストーンコンパレーター"),
+	//REDSTONE_COMPARATOR_ON("レッドストーンコンパレーター"),
 	DAYLIGHT_DETECTOR("日照センサー"),
 	REDSTONE_BLOCK("レッドストーンブロック"),
 	QUARTZ_ORE("ネザー水晶鉱石"),
@@ -313,7 +278,7 @@ public enum StackItem {
 	ACACIA_STAIRS("アカシアの木の階段"),
 	DARK_OAK_STAIRS("ダークオークの木の階段"),
 	SLIME_BLOCK("スライムブロック"),
-	BARRIER("バリアブロック"),
+	//BARRIER("バリアブロック"),
 	IRON_TRAPDOOR("鉄のトラップドア"),
 	PRISMARINE("プリズマリン"),
 	PRISMARINE_BRICKS(Material.PRISMARINE,"プリズマリンレンガ",1),
@@ -345,14 +310,14 @@ public enum StackItem {
 	LARGE_FERN(Material.DOUBLE_PLANT,"大きなシダ",3),
 	ROSE_BUSH(Material.DOUBLE_PLANT,"バラの低木",4),
 	PEONY(Material.DOUBLE_PLANT,"ボタン",5),
-	STANDING_BANNER("旗"),
-	WALL_BANNER("旗"),
-	DAYLIGHT_DETECTOR_INVERTED("日照センサー"),
+	//STANDING_BANNER("旗"),
+	//WALL_BANNER("旗"),
+	//DAYLIGHT_DETECTOR_INVERTED("日照センサー"),
 	RED_SANDSTONE("赤い砂岩"),
 	CHISELED_RED_SANDSTONE(Material.RED_SANDSTONE,"模様入りの赤い砂岩",1),
 	SMOOTH_RED_SANDSTONE(Material.RED_SANDSTONE,"滑らかな赤い砂岩",2),
 	RED_SANDSTONE_STAIRS("赤い砂岩の階段"),
-	DOUBLE_STONE_SLAB2("赤い砂岩ハーフブロック"),
+	//DOUBLE_STONE_SLAB2("赤い砂岩ハーフブロック"),
 	STONE_SLAB2("赤い砂岩ハーフブロック"),
 	SPRUCE_FENCE_GATE("マツのフェンスゲート"),
 	BIRCH_FENCE_GATE("シラカバのフェンスゲート"),
@@ -364,32 +329,26 @@ public enum StackItem {
 	JUNGLE_FENCE("ジャングルのフェンス"),
 	DARK_OAK_FENCE("ダークオークのフェンス"),
 	ACACIA_FENCE("アカシアのフェンス"),
-	SPRUCE_DOOR("マツのドア"),
+	/*SPRUCE_DOOR("マツのドア"),
 	BIRCH_DOOR("シラカバのドア"),
 	JUNGLE_DOOR("ジャングルのドア"),
 	ACACIA_DOOR("アカシアのドア"),
-	DARK_OAK_DOOR("ダークオークのドア"),
+	DARK_OAK_DOOR("ダークオークのドア"),*/
 	END_ROD("エンドロッド"),
 	CHORUS_PLANT("コーラスプラント"),
 	CHORUS_FLOWER("コーラスフラワー"),
 	PURPUR_BLOCK("プルパーブロック"),
 	PURPUR_PILLAR("柱状プルパーブロック"),
 	PURPUR_STAIRS("プルパーの階段"),
-	PURPUR_DOUBLE_SLAB("プルパーハーフブロック"),
+	//PURPUR_DOUBLE_SLAB("プルパーハーフブロック"),
 	PURPUR_SLAB("プルパーハーフブロック"),
 	END_BRICKS("エンドストーンレンガ"),
-	BEETROOT_BLOCK("ビートルートの種"),
+	//BEETROOT_BLOCK("ビートルートの種"),
 	GRASS_PATH("草の道"),
-	END_GATEWAY("エンドゲートウェイ"),
-	COMMAND_REPEATING("コマンドブロック"),
-	COMMAND_CHAIN("コマンドブロック"),
-	FROSTED_ICE("氷霜"),
 	MAGMA("マグマブロック"),
 	NETHER_WART_BLOCK("ネザーウォートブロック"),
 	RED_NETHER_BRICK("赤いネザーレンガ"),
 	BONE_BLOCK("骨ブロック"),
-	STRUCTURE_VOID("ストラクチャーブロック"),
-	STRUCTURE_BLOCK("ストラクチャーブロック"),
 	IRON_SPADE("鉄のシャベル"),
 	IRON_PICKAXE("鉄のツルハシ"),
 	IRON_AXE("鉄の斧"),
@@ -490,7 +449,7 @@ public enum StackItem {
 	CLOWNFISH(Material.RAW_FISH,"クマノミ",2),
 	PUFFERFISH(Material.RAW_FISH,"フグ",3),
 	COOKED_FISH("焼き魚"),
-	COOKED_SALMON(Material.RAW_FISH,"焼き鮭",1),
+	COOKED_SALMON(Material.COOKED_FISH,"焼き鮭",1),
 	INK_SACK("イカスミ"),
 	ROSE_RED(Material.INK_SACK,"赤色の染料",1),
 	CACTUS_GREEN(Material.INK_SACK,"緑色の染料",2),
@@ -513,7 +472,7 @@ public enum StackItem {
 	BED("ベッド"),
 	DIODE("レッドストーンリピーター"),
 	COOKIE("クッキー"),
-	MAP("地図"),
+	//MAP("地図"),//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	SHEARS("ハサミ"),
 	MELON("スイカ"),
 	PUMPKIN_SEEDS("カボチャの種"),
@@ -538,6 +497,7 @@ public enum StackItem {
 	CAULDRON_ITEM("大釜"),
 	EYE_OF_ENDER("エンダーアイ"),
 	SPECKLED_MELON("きらめくスイカ"),
+	/*
 	SPAWN_ELDER_GUARDIAN(Material.MONSTER_EGG,"スポーン　エルダーガーディアン",4),
 	SPAWN_WITHER_SKELETON(Material.MONSTER_EGG,"スポーン　ウィザースケルトン",5),
 	SPAWN_STRAY(Material.MONSTER_EGG,"スポーン　ストレイ",6),
@@ -549,7 +509,7 @@ public enum StackItem {
 	SPAWN_MULE(Material.MONSTER_EGG,"スポーン　ラバ",32),
 	SPAWN_EVOKER(Material.MONSTER_EGG,"スポーン　エヴォーカー",34),
 	SPAWN_VEX(Material.MONSTER_EGG,"スポーン　ヴェックス",35),
-	SPAWN_VINDICATOR(Material.MONSTER_EGG,"スポーン　ヴィンディケーター",36),
+	SPAWN_VINDICATOR(Material.MONSTER_EGG,"スポーン　ヴィンディケーター",36),//noitem↑
 	SPAWN_CREEPER(Material.MONSTER_EGG,"スポーン　クリーパー",50),
 	SPAWN_SKELETON(Material.MONSTER_EGG,"スポーン　スケルトン",51),
 	SPAWN_SPIDER(Material.MONSTER_EGG,"スポーン　クモ",52),
@@ -577,13 +537,14 @@ public enum StackItem {
 	SPAWN_OCELOT(Material.MONSTER_EGG,"スポーン　ヤマネコ",98),
 	SPAWN_HORSE(Material.MONSTER_EGG,"スポーン　ウマ",100),
 	SPAWN_RABBIT(Material.MONSTER_EGG,"スポーン　ウサギ",101),
-	SPAWN_POLAR_BEAR(Material.MONSTER_EGG,"スポーン　シロクマ",102),
-	SPAWN_LLAMA(Material.MONSTER_EGG,"スポーン　ラマ",103),
+	SPAWN_POLAR_BEAR(Material.MONSTER_EGG,"スポーン　シロクマ",102),//noitem
+	SPAWN_LLAMA(Material.MONSTER_EGG,"スポーン　ラマ",103),//noitem
 	SPAWN_VILLAGER(Material.MONSTER_EGG,"スポーン　村人",120),
+	*/
 	EXP_BOTTLE("エンチャント瓶"),
 	FIREBALL("ファイヤーチャージ"),
 	BOOK_AND_QUILL("本と羽ペン"),
-	WRITTEN_BOOK("記入済みの本"),
+	//WRITTEN_BOOK("記入済みの本"),
 	EMERALD("エメラルド"),
 	ITEM_FRAME("額縁"),
 	FLOWER_POT_ITEM("植木鉢"),
@@ -602,7 +563,7 @@ public enum StackItem {
 	CARROT_STICK("ニンジン付きの棒"),
 	NETHER_STAR("ネザースター"),
 	PUMPKIN_PIE("パンプキンパイ"),
-	FIREWORK("ロケット花火"),
+	//FIREWORK("ロケット花火"),
 	FIREWORK_CHARGE("花火の星"),
 	ENCHANTED_BOOK("エンチャント本"),
 	REDSTONE_COMPARATOR("レッドストーンコンパレーター"),
@@ -623,10 +584,10 @@ public enum StackItem {
 	DIAMOND_BARDING("ダイヤの馬鎧"),
 	LEASH("リード"),
 	NAME_TAG("名札"),
-	COMMAND_MINECART("コマンドブロック"),
+	//COMMAND_MINECART("コマンドブロック"),
 	MUTTON("生の羊肉"),
 	COOKED_MUTTON("焼いた羊肉"),
-	BANNER("旗"),
+	//BANNER("旗"),
 	END_CRYSTAL("エンドクリスタル"),
 	SPRUCE_DOOR_ITEM("マツのドア"),
 	BIRCH_DOOR_ITEM("シラカバのドア"),
@@ -638,11 +599,11 @@ public enum StackItem {
 	BEETROOT("ビートルート"),
 	BEETROOT_SEEDS("ビートルートの種"),
 	BEETROOT_SOUP("ビートルートスープ"),
-	DRAGONS_BREATH("ドラゴンブレス"),
-	SPLASH_POTION("スプラッシュポーション"),
+	//DRAGONS_BREATH("ドラゴンブレス"),
+	//SPLASH_POTION("スプラッシュポーション"),
 	SPECTRAL_ARROW("マーキングの矢"),
-	TIPPED_ARROW("効果付きの矢"),
-	LINGERING_POTION("残留ポーション"),
+	//TIPPED_ARROW("効果付きの矢"),
+	//LINGERING_POTION("残留ポーション"),
 	SHIELD("盾"),
 	ELYTRA("エリトラ"),
 	BOAT_SPRUCE("マツのボート"),
@@ -673,19 +634,46 @@ public enum StackItem {
 	private final short durability;
 
 
-	private StackItem(String jpname){
+	private StackType(String jpname){
 		this(null,jpname);
 	}
-	private StackItem(Material material,String jpname) {
+	private StackType(Material material,String jpname) {
 		this(material,jpname,0);
 	}
-	private StackItem(Material material,String jpname,int durability) {
+	private StackType(Material material,String jpname,int durability) {
 		this(material,jpname,(short)durability);
 	}
-	private StackItem(Material material,String jpname,short durability){
+	private StackType(Material material,String jpname,short durability){
 		this.material = material;
 		this.jpname = jpname;
 		this.durability = durability;
+	}
+	/**Materialを返します
+	 *
+	 * @return
+	 */
+	public Material getMaterial(){
+		return this.material != null ? this.material : Material.getMaterial(this.name().toUpperCase());
+	}
+	/**jpnameを返します．
+	 *
+	 * @return
+	 */
+	public String getJPname(){
+		return this.jpname;
+	}
+	/**durabilityを返します．
+	 *
+	 * @return
+	 */
+	public short getDurability(){
+		return this.durability;
+	}
+
+	public ItemStack getItemStack(){
+		ItemStack itemstack =  new ItemStack(this.getMaterial());
+		itemstack.setDurability(this.getDurability());
+		return itemstack;
 	}
 
 

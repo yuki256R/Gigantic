@@ -6,6 +6,7 @@ import com.github.unchama.gigantic.Gigantic;
 
 public enum CommandEnum {
 	GACHA(new gachaCommand(Gigantic.plugin)),
+	
 	;
 
 
