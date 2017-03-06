@@ -18,6 +18,7 @@ public enum ListenerEnum {
 	STATISTIC(new PlayerStatisticListener()),
 	PLAYERCLICK(new PlayerClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
+	BLOCKBREAK(new BlockBreakListener()),
 	;
 	private Listener listener;
 

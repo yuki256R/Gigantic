@@ -8,7 +8,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineblock.MineBlock;
+import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
@@ -85,11 +85,7 @@ public class MineBoostManager extends DataManager implements Initializable {
 	}
 
 	public void updataMinuteMine() {
-		float minenum = 0;
-		for (MineBlock mb : gp.getManager(MineBlockManager.class).datamap
-				.values()) {
-			minenum += mb.getDifOnAMinute();
-		}
+		double minenum = gp.getManager(MineBlockManager.class).all.getNum(TimeType.A_MINUTE);
 		short amplifier = (short) (minenum * config.getMinuteMineRate());
 		boostMap.put(BoostType.MINUTE_MINE, new MineBoost(amplifier));
 		add();
