@@ -4,14 +4,21 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
 
+/**リスナーを追加するときはここに必ず追記すること．
+ *
+ * @author tar0ss
+ *
+ */
 public enum ListenerEnum {
 	PLAYERJOIN(new PlayerJoinListener()),
+	FIRSTJOIN(new PlayerFirstJoinListener()),
 	PLAYERQUIT(new PlayerQuitListener()),
+	SECOND(new SecondListener()),
 	MINUTE(new MinuteListener()),
-	HALFHOUR(new HalfHourListener()),
 	STATISTIC(new PlayerStatisticListener()),
 	PLAYERCLICK(new PlayerClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
+	BLOCKBREAK(new BlockBreakListener()),
 	;
 	private Listener listener;
 

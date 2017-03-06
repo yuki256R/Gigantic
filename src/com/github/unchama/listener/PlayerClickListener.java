@@ -17,7 +17,7 @@ public class PlayerClickListener  implements Listener{
 	MainMenuManager mainmenu = Gigantic.yml.getManager(MainMenuManager.class);
 
 	@EventHandler
-	public void onPlayerOpenMenuEvent(PlayerInteractEvent event){
+	public void onPlayerOpenMenuListener(PlayerInteractEvent event){
 		//プレイヤーを取得
 		Player player = event.getPlayer();
 		//プレイヤーが起こしたアクションを取得
@@ -43,4 +43,30 @@ public class PlayerClickListener  implements Listener{
 		player.playSound(player.getLocation(), Sound.BLOCK_FENCE_GATE_OPEN, 1, (float) 0.1);
 		player.openInventory(mainmenu.getInventory(player));
 	}
+
+	/*
+	@EventHandler
+	public void testListener(PlayerInteractEvent event){
+		//プレイヤーを取得
+		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		//プレイヤーが起こしたアクションを取得
+		Action action = event.getAction();
+		//アクションを起こした手を取得
+		EquipmentSlot equipmentslot = event.getHand();
+
+
+		if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
+			return;
+		}
+
+		if(equipmentslot.equals(EquipmentSlot.OFF_HAND)){
+			return;
+		}
+
+		MineStackManager tm = gp.getManager(MineStackManager.class);
+		player.sendMessage("test");
+		player.getWorld().dropItemNaturally(player.getLocation(), tm.getItemStack());
+	}
+	*/
 }

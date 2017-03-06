@@ -1,6 +1,7 @@
 package com.github.unchama.yml;
 
-import org.bukkit.inventory.ItemStack;
+import com.github.unchama.yml.moduler.MenuManager;
+
 
 
 public class MainMenuManager extends MenuManager{
@@ -8,13 +9,6 @@ public class MainMenuManager extends MenuManager{
 	public MainMenuManager(){
 		super();
 	}
-
-
-	public ItemStack getYmlSkull(){
-		return this.getItemStack("skull");
-	}
-
-
 
 
 

@@ -1,21 +1,25 @@
 package com.github.unchama.sql;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
+import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
-public class MineBlockTableManager extends PlayerTableManager{
+public class MineBlockTableManager extends PlayerFromSeichiTableManager{
 
 	public MineBlockTableManager(Sql sql){
 		super(sql);
 	}
 
 	@Override
-	String addOriginalColumn() {
+	protected String addColumnCommand() {
 		String command = "";
 		//allblock add
 		command += "add column if not exists allmineblock double unsigned default 0,"
@@ -28,21 +32,9 @@ public class MineBlockTableManager extends PlayerTableManager{
 		return command;
 	}
 
-	@Override
-	void newPlayer(GiganticPlayer gp) {
-		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		HashMap<BlockType,MineBlock> datamap = m.datamap;
-		//datamap put
-		for(BlockType bt : BlockType.values()){
-			datamap.put(bt, new MineBlock());
-		}
-
-		m.all = new MineBlock();
-		m.level = 1;
-	}
 
 	@Override
-	void loadPlayer(GiganticPlayer gp) throws SQLException {
+	public void loadPlayer(GiganticPlayer gp,ResultSet rs) throws SQLException{
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		for(BlockType bt : BlockType.values()){
@@ -54,20 +46,50 @@ public class MineBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	String savePlayer(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		String command = "";
 		for(BlockType bt : datamap.keySet()){
-			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
+			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum(TimeType.UNLIMITED) + "',";
 		}
 
-		command += "allmineblock = '" + m.all.getNum() + "',"
+		command += "allmineblock = '" + m.all.getNum(TimeType.UNLIMITED) + "',"
 				+ "level = '" + m.level + "',";
 
 
 		return command;
 	}
+
+	@Override
+	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
+		MineBlockManager m = gp.getManager(MineBlockManager.class);
+		HashMap<BlockType,MineBlock> datamap = m.datamap;
+		//datamap put
+		for(BlockType bt : BlockType.values()){
+			datamap.put(bt, new MineBlock());
+		}
+
+		m.all = new MineBlock(tm.getAllMineBlock(gp));
+		m.level = 1;
+		return;
+	}
+
+	@Override
+	protected void firstjoinPlayer(GiganticPlayer gp) {
+		MineBlockManager m = gp.getManager(MineBlockManager.class);
+		HashMap<BlockType,MineBlock> datamap = m.datamap;
+		//datamap put
+		for(BlockType bt : BlockType.values()){
+			datamap.put(bt, new MineBlock());
+		}
+
+		m.all = new MineBlock();
+		m.level = 1;
+		return;
+	}
+
+
 }
 
 

@@ -24,6 +24,12 @@ seichiassist:
   id: 'root'
   pw: ''
 
+#データロードの最大試行回数
+MaxAttempt : '5'
+
+#初回ログイン時のメッセージ
+firstjoinmessage : "整地鯖では整地をするとレベルが上がり、様々な恩恵が受けられます。\n初めての方は整地ワールドで掘ってレベルを上げてみましょう！\n木の棒を右クリックしてメニューを開き右上のビーコンボタンをクリック！"
+
 # 機能：MineBoost設定
 # numofpeople:接続人数による増加
 # minutemine:1分間の整地量による増加
@@ -40,7 +46,7 @@ MaxSeichiLevel: '300'
 
 # 機能：整地レベルメッセージ設定
 # levelupmessage:レベルアップの度に表示
-# levelmessage:特定のレベルに上がると表示
+# levelmessage:特定のレベルに上がると表示(1は指定できません）
 
 seichi:
   levelupmessage: '§6整地レベルが%gp_level%になりました．'
