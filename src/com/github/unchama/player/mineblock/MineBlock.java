@@ -1,35 +1,40 @@
 package com.github.unchama.player.mineblock;
 
+import java.util.HashMap;
+
 import com.github.unchama.gigantic.Gigantic;
 
-
 public class MineBlock {
+	public enum TimeType {
+		UNLIMITED, A_MINUTE, HALF_HOUR;
+	}
 
 	public static Gigantic plugin = Gigantic.plugin;
 
-	private double n;
-	private double n_a_minute;
+	private HashMap<TimeType, Double> nmap;
 
-	//new Player Instance
-	public MineBlock(){
+	public MineBlock() {
 		this(0.0);
 	}
 
-	//load Player Instance
-	public MineBlock(double n){
-		this.n = n;
-		this.n_a_minute = n;
+	public MineBlock(double n) {
+		nmap = new HashMap<TimeType, Double>();
+		for (TimeType tt : TimeType.values()) {
+			nmap.put(tt, new Double(0));
+		}
 	}
 
-	public void increase(double increase){
-		this.n += increase;
+	public void increase(double increase) {
+		nmap.forEach((tt, n) -> {
+			n += increase;
+		});
 	}
-	public double getNum(){
-		return n;
+
+	public double getNum(TimeType tt) {
+		return nmap.get(tt);
 	}
-	public float getDifOnAMinute(){
-		float dif = (float) (n - n_a_minute);
-		n_a_minute = n;
-		return dif;
+
+	public void reset(TimeType tt) {
+		nmap.put(tt, new Double(0));
 	}
 }

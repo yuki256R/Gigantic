@@ -31,7 +31,7 @@ public class PlayerStatisticListener implements Listener {
 				MineBlockManager mm = gp.getManager(MineBlockManager.class);
 				mm.increase(material);
 				debug.sendMessage(p, DebugEnum.MINEBLOCK,"called StatisticIncrementListener for player:" + p.getName());
-				mm.updateMineBlock();
+				mm.updateSideBar();
 			}
 		}
 	}

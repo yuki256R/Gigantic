@@ -7,6 +7,7 @@ import org.bukkit.Material;
 
 import com.github.unchama.event.SeichiLevelUpEvent;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
@@ -19,6 +20,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 		Initializable {
 
 	public HashMap<BlockType, MineBlock> datamap;
+
 	public MineBlock all;
 	public int level;
 	MineBlockTableManager tm;
@@ -56,7 +58,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 	@Override
 	public void init(){
 		this.calcLevel();
-		this.updateMineBlock();
+		this.updateSideBar();
 	}
 
 	/**
@@ -66,7 +68,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 	 */
 	private boolean calcLevel() {
 		boolean changeflag = false;
-		while (SeichiLevelUtil.canLevelup(level, this.all.getNum())) {
+		while (SeichiLevelUtil.canLevelup(level, this.all.getNum(TimeType.UNLIMITED))) {
 			Bukkit.getServer().getPluginManager()
 					.callEvent(new SeichiLevelUpEvent(gp, level + 1));
 			level++;
@@ -74,17 +76,22 @@ public class MineBlockManager extends DataManager implements UsingSql,
 		}
 		return changeflag;
 	}
-
+	public void resetTimeCount(TimeType tt){
+		datamap.forEach((bt,mb)->{
+			mb.reset(tt);
+		});
+		all.reset(tt);
+	}
 	/**
 	 *
 	 */
-	public void updateMineBlock() {
+	public void updateSideBar() {
 		SideBarManager sm = gp.getManager(SideBarManager.class);
 		sm.updateInfo(
 				Information.MINE_BLOCK,
 				SeichiLevelUtil.getRemainingBlock(
 						gp.getManager(MineBlockManager.class).level,
-						gp.getManager(MineBlockManager.class).all.getNum()));
+						gp.getManager(MineBlockManager.class).all.getNum(TimeType.UNLIMITED)));
 		sm.refresh();
 	}
 

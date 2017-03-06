@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
+import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
@@ -50,10 +51,10 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager{
 		HashMap<BlockType,MineBlock> datamap = m.datamap;
 		String command = "";
 		for(BlockType bt : datamap.keySet()){
-			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum() + "',";
+			command += bt.getColumnName() + " = '" + datamap.get(bt).getNum(TimeType.UNLIMITED) + "',";
 		}
 
-		command += "allmineblock = '" + m.all.getNum() + "',"
+		command += "allmineblock = '" + m.all.getNum(TimeType.UNLIMITED) + "',"
 				+ "level = '" + m.level + "',";
 
 
