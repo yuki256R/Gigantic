@@ -8,7 +8,10 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 public class MineStackTableManager extends PlayerFromSeichiTableManager{
-
+	enum StackConvert{
+		//<StackTypeの名前>(<SeichiAssist内の名前>)
+		;
+	}
 
 	public MineStackTableManager(Sql sql) {
 		super(sql);
