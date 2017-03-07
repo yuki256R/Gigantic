@@ -21,6 +21,4 @@ public class MineStackManager extends DataManager implements UsingSql{
 	public void save(Boolean loginflag) {
 		tm.save(gp, loginflag);
 	}
-
-
 }

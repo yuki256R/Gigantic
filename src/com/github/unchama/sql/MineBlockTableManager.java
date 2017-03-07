@@ -27,7 +27,7 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager{
 		//MineBlock add
 		for(BlockType bt : BlockType.values()){
 			command += "add column if not exists " +
-						bt.getColumnName() + " double unsigned default 0,";
+						bt.getColumnName() + " double default 0,";
 		}
 		return command;
 	}

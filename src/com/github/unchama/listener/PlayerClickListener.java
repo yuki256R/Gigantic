@@ -16,6 +16,10 @@ public class PlayerClickListener  implements Listener{
 	Gigantic plugin = Gigantic.plugin;
 	MainMenuManager mainmenu = Gigantic.yml.getManager(MainMenuManager.class);
 
+	/**木の棒メニュー
+	 *
+	 * @param event
+	 */
 	@EventHandler
 	public void onPlayerOpenMenuListener(PlayerInteractEvent event){
 		//プレイヤーを取得

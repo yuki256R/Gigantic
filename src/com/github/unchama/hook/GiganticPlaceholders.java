@@ -33,8 +33,8 @@ public class GiganticPlaceholders extends EZPlaceholderHook{
 		switch(identifier){
 		case "name":
 			return gp.name;
-		case "level":
-			return Integer.toString(gp.getManager(MineBlockManager.class).level + 1);
+		case "seichilevel":
+			return Integer.toString(gp.getManager(MineBlockManager.class).level);
 		default:
 			return "";
 		}

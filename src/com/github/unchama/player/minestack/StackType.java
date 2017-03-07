@@ -669,6 +669,16 @@ public enum StackType {
 	public short getDurability(){
 		return this.durability;
 	}
+	/**カラムネームを返します．
+	 *
+	 * @return
+	 */
+	public String getColumnName(){
+		return this.name();
+	}
+
+
+
 
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
