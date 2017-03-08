@@ -9,8 +9,6 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.DebugManager;
 
-
-
 public abstract class TableManager {
 	protected Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
@@ -21,8 +19,7 @@ public abstract class TableManager {
 	protected Statement stmt = null;
 	protected ResultSet rs;
 
-
-	public TableManager(Sql sql){
+	public TableManager(Sql sql) {
 		this.sql = sql;
 		this.db = sql.getDataBaseName();
 		this.con = sql.getConnection();
@@ -112,6 +109,5 @@ public abstract class TableManager {
 	protected boolean sendCommand(String command) {
 		return this.sendCommand(command, stmt);
 	}
-
 
 }

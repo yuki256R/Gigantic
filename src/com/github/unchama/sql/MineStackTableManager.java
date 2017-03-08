@@ -15,6 +15,43 @@ import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	public static enum StackConvert{
 		//<StackTypeの名前>(<SeichiAssist内の名前>)
+		DIRT,
+		GRASS,
+		COBBLESTONE,
+		STONE,
+		GRANITE,
+		DIORITE,
+		ANDESITE,
+		GRAVEL,
+		SAND,
+		SANDSTONE,
+		NETHERRACK,
+		SOUL_SAND,
+		COAL,
+		COAL_ORE,
+		ENDER_STONE,
+		IRON_ORE,
+		OBSIDIAN,
+		PACKED_ICE,
+		QUARTZ,
+		QUARTZ_ORE,
+		MAGMA,
+		GOLD_ORE,
+		GLOWSTONE,
+		REDSTONE_ORE,
+		LAPIS_LAZULI,
+		LAPIS_ORE,
+		DIAMOND,
+		DIAMOND_ORE,
+		EMERALD,
+		EMERALD_ORE,
+		RED_SAND,
+		RED_SANDSTONE,
+		HARD_CLAY,
+		STAINED_CLAY,
+		CLAY,
+		MOSSY_COBBLESTONE,
+		ICE,
 		ORANGE_STAINED_CLAY("stained_clay1"),
 		YELLOW_STAINED_CLAY("stained_clay4"),
 		LIGHT_GRAY_STAINED_CLAY("stained_clay8"),
@@ -22,16 +59,50 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 		RED_STAINED_CLAY("stained_clay14"),
 		COARSE_DIRT("dirt1"),
 		PODZOL("dirt2"),
-		RAW_FISH("raw_fish1"),
+		SNOW_BLOCK,
+		MYCEL,
+		BONE_BLOCK,
+		ENDER_PEARL,
+		SLIME_BALL,
+		ROTTEN_FLESH,
+		BONE,
+		SULPHUR,
+		ARROW,
+		SPIDER_EYE,
+		STRING,
+		EGG,
+		PORK,
+		RAW_CHICKEN,
+		MUTTON,
+		RAW_BEEF,
+		RAW_FISH("raw_fish0"),
+		RAW_SALMON("raw_fish1"),
 		CLOWNFISH("raw_fish2"),
 		PUFFERFISH("raw_fish3"),
+		BLAZE_ROD,
+		GHAST_TEAR,
+		MAGMA_CREAM,
+		PRISMARINE_SHARD,
+		PRISMARINE_CRYSTALS,
+		FEATHER,
 		INK_SACK("ink_sack0"),
+		LEATHER,
+		RABBIT_HIDE,
+		RABBIT_FOOT,
+		LOG,
 		SPRUCE_WOOD("log1"),
 		BIRCH_WOOD("log2"),
 		JUNGLE_WOOD("log3"),
 		DARK_OAK_WOOD("log_21"),
+		SEEDS,
+		APPLE,
 		LONG_GRASS("long_grass1"),
 		FERN("long_grass2"),
+		DEAD_BUSH,
+		CACTUS,
+		VINE,
+		WATER_LILY,
+		YELLOW_FLOWER,
 		RED_ROSE("red_rose0"),
 		BLUE_ORCHID("red_rose1"),
 		ALLIUM("red_rose2"),
@@ -41,6 +112,7 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 		WHITE_TULIP("red_rose6"),
 		PINK_TULIP("red_rose7"),
 		OXEYE_DAISY("red_rose8"),
+		LEAVES,
 		SPRUCE_LEAVES("leaves1"),
 		BIRCH_LEAVES("leaves2"),
 		JUNGLE_LEAVES("leaves3"),
@@ -51,51 +123,100 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 		LARGE_FERN("double_plant3"),
 		ROSE_BUSH("double_plant4"),
 		PEONY("double_plant5"),
+		SUGER_CANE,
+		PUMPKIN,
 		COCO_BEANS("ink_sack3"),
+		HUGE_MUSHROOM_1,
+		HUDE_MUSHROOM_2,
+		MELON,
+		MELON_BLOCK,
+		BROWN_MASHROOM,
+		RED_MASHROOM,
+		SAPLING,
 		SPRUCE_SAPLING("sapling1"),
 		BIRCH_SAPLING("sapling2"),
 		JUNGLE_SAPLING("sapling3"),
 		ACACIA_SAPLING("sapling4"),
 		DARK_OAK_SAPLING("sapling5"),
+		BEETROOT,
+		BEETROOT_SEEDS,
+		CARROT_ITEM,
+		POTATO_ITEM,
+		WHEAT,
+		PUMPKIN_SEEDS,
+		MELON_SEEDS,
+		NETHER_STALK,
 		STEP("step0"),
 		COBBLESTONE_SLAB("step3"),
 		WOOD_DOUBLE_STEP("wood_step0"),
+		POLISHED_GRANITE,
+		POLISHED_DIORITE,
+		POLISHED_ANDESITE,
 		//DOUBLE_SPRUCE_WOOD_SLAB("wood_step1"),
 		//DOUBLE_BIRCH_WOOD_SLAB("wood_step2"),
 		//DOUBLE_JUNGLE_WOOD_SLAB("wood_step3"),
 		//DOUBLE_ACACIA_WOOD_SLAB("wood_step4"),
 		//DOUBLE_DARK_OAK_WOOD_SLAB("wood_step5"),
+		FLINT,
 		SANDSTONE_SLAB("step1"),
+		GLASS,
+		IRON_INGOT,
+		NETHER_BRICK,
 		NETHER_FENCE("nether_brick_fence"),
+		NETHER_BRICK_STAIRS,
+		TORCH,
+		JACK_O_LANTERN,
+		NETHER_BRICK_ITEM,
 		NETHER_SLAB("step6"),
 		QUARTZ_SLAB("step7"),
+		QUARTZ_BLOCK,
+		END_BRICKS,
+		PURPUR_BLOCK,
+		PURPUR_PILLAR,
+		PURPUR_STAIRS,
+		PURPUR_SLAB,
+		GOLD_INGOT,
+		SNOW_BALL,
+		WOOD,
+		FENCE,
+		BUCKET,
+		WATER_BUCKET,
+		LAVA_BUCKET,
+		MILK_BUCKET,
 		STONE_SLAB2("stone_slab20"),
 		PRISMARINE("prismarine0"),
 		PRISMARINE_BRICKS("prismarine1"),
 		DARK_PRISMARINE("prismarine2"),
+		SEA_LANTERN,
 		BRICK_SLAB("step4"),
+		CLAY_BALL,
+		BRICK,
 		CLAY_BRICK("brick_item"),
 		DARK_OAK_WOOD_PLANK("wood5"),
 		DARK_OAK_FENCE_GATE("dark_oak_fence"),
+		WEB,
+		RAILS,
 		SMOOTH_BRICK("smooth_brick0"),
 		MOSSY_STONE_BRICK("smooth_brick1"),
 		CRACKED_STONE_BRICK("smooth_brick2"),
 		CHISELED_STONE_BRICK("smooth_brick3"),
 		STONE_SLAB("step5"),
+		RED_NETHER_BRICK,
 		;
 		private String oldname;
 
+		StackConvert(){
+			this(null);
+		}
 		StackConvert(String oldname){
 			this.oldname = oldname;
 		}
 		public String getOldName(){
-			return "stack_"+ this.oldname;
+			return this.oldname == null ? this.name() : "stack_"+ this.oldname;
 		}
 		public String getNewName(){
 			return this.name();
 		}
-
-
 	}
 
 	public MineStackTableManager(Sql sql) {
@@ -128,14 +249,7 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		HashMap<StackType,MineStack> datamap = m.datamap;
-		tm.getMineStack(gp,datamap);
-
-		/*
-		for(StackType st : StackType.values()){
-			if(!datamap.containsKey(st)){
-				datamap.put(st,new MineStack());
-			}
-		}*/
+		datamap.putAll(tm.getMineStack(gp));
 		PlayerManager.getPlayer(gp).sendMessage("takeover");
 	}
 

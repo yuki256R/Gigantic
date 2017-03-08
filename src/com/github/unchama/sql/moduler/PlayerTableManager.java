@@ -206,6 +206,7 @@ public abstract class PlayerTableManager extends TableManager implements
 			e.printStackTrace();
 			return false;
 		}
+		debug.info(DebugEnum.SQL, "Table:" + table + gp.name + "のデータを保存");
 
 		return true;
 	}

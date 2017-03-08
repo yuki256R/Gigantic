@@ -16,11 +16,11 @@ import org.bukkit.inventory.meta.SkullMeta;
  *
  */
 public abstract class MenuManager extends YmlManager{
-
 	public MenuManager(){
 		super();
-
 	}
+
+
 
 	@Override
 	protected void saveDefaultFile() {
@@ -69,8 +69,7 @@ public abstract class MenuManager extends YmlManager{
 	 * @return
 	 */
 	public Inventory getInventory(Player player){
-		Inventory inv = Bukkit.getServer().createInventory(player,this.getInventorySize(),this.getInventoryName(player));
-
+		Inventory inv = Bukkit.getServer().createInventory(null,this.getInventorySize(),this.getInventoryName(player));
 		for(int i = 0 ; i < this.getInventorySize() ; i++){
 			String s = Integer.toString(i) + ".itemstack";
 			ItemStack itemstack = this.getItemStack(s);
@@ -78,7 +77,6 @@ public abstract class MenuManager extends YmlManager{
 				this.setItemMeta(player, i, itemstack);
 				inv.setItem(i, itemstack);
 			}
-
 		}
 		return inv;
 	}

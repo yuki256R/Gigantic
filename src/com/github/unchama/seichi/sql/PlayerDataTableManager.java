@@ -6,6 +6,8 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.sql.MineStackTableManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerDataTableManager extends SeichiTableManager {
 
@@ -58,12 +60,12 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
-	public void getMineStack(GiganticPlayer gp,
-			HashMap<StackType, MineStack> datamap) {
+	public HashMap<StackType,MineStack> getMineStack(GiganticPlayer gp) {
 		String command = "";
+		HashMap<StackType,MineStack> datamap = new HashMap<StackType,MineStack>();
 		final String struuid = gp.uuid.toString().toLowerCase();
 
-		command = "select totalbreaknum from " + db + "." + table
+		command = "select * from " + db + "." + table
 				+ " where uuid = '" + struuid + "'";
 
 		this.checkStatement();
@@ -71,14 +73,14 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			rs = stmt.executeQuery(command);
 			while (rs.next()) {
 				for (StackType st : StackType.values()) {
-					long n = 0;
-					try{
-					n = rs.getLong(st.getColumnName());
-
-					}catch(SQLException e){
+					MineStackTableManager.StackConvert sc = MineStackTableManager.StackConvert.valueOf(st.name());
+					if(sc != null){
+						long n = (long)rs.getInt(sc.getOldName());
+						if(n!=0)debug.info(DebugEnum.SQL, gp.name + "の" + sc.getOldName() + "(" + n + ")を引き継ぎます．");
+						datamap.put(st, new MineStack(n));
+					}else{
 						datamap.put(st, new MineStack());
 					}
-					datamap.put(st, new MineStack(n));
 				}
 			}
 			rs.close();
@@ -87,6 +89,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 					"Failed to load old minestack player:" + gp.name);
 			e.printStackTrace();
 		}
+		return datamap;
 	}
 
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
