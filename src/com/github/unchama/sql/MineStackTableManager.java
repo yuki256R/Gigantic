@@ -212,10 +212,18 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 			this.oldname = oldname;
 		}
 		public String getOldName(){
-			return this.oldname == null ? this.name() : "stack_"+ this.oldname;
+			return "stack_" + (this.oldname == null ? this.name() : this.oldname).toLowerCase();
 		}
 		public String getNewName(){
 			return this.name();
+		}
+		public static boolean isExist(String name){
+			for(StackConvert sc : StackConvert.values()){
+				if(sc.getNewName().equals(name)){
+					return true;
+				}
+			}
+			return false;
 		}
 	}
 

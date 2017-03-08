@@ -73,8 +73,8 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			rs = stmt.executeQuery(command);
 			while (rs.next()) {
 				for (StackType st : StackType.values()) {
-					MineStackTableManager.StackConvert sc = MineStackTableManager.StackConvert.valueOf(st.name());
-					if(sc != null){
+					if(MineStackTableManager.StackConvert.isExist(st.name())){
+						MineStackTableManager.StackConvert sc = MineStackTableManager.StackConvert.valueOf(st.name());
 						long n = (long)rs.getInt(sc.getOldName());
 						if(n!=0)debug.info(DebugEnum.SQL, gp.name + "の" + sc.getOldName() + "(" + n + ")を引き継ぎます．");
 						datamap.put(st, new MineStack(n));

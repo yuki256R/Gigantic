@@ -62,7 +62,7 @@ public abstract class PlayerFromSeichiTableManager extends PlayerTableManager {
 				.getManager(PlayerDataTableManager.class);
 		int existtype = tm.isExist(gp);
 		if (existtype == 1) {
-			debug.info(DebugEnum.SQL, "Table:" + table + gp.name + "のデータをPlayerDataから引き継ぎます．");
+			debug.info(DebugEnum.SQL, "Table:" + table + " " +  gp.name + "のデータをPlayerDataから引き継ぎます．");
 			this.takeoverPlayer(gp, tm);
 		} else if (existtype == 0) {
 			this.firstjoinPlayer(gp);
