@@ -16,25 +16,25 @@ public class SeichiLevel{
 
 	SeichiLevel(int level,long get_ap,long sum_ap){
 		this.level = level;
-		this.need_mineblock = this.calcNeedMineBlock(level);
-		this.next_mineblock = this.calcNeedMineBlock(level + 1);
-		this.max_mana = this.calcMaxMana(level);
+		this.need_mineblock = (long)this.calcNeedMineBlock(level);
+		this.next_mineblock = (long)this.calcNeedMineBlock(level + 1);
+		this.max_mana = (long)this.calcMaxMana(level);
 		this.get_ap = get_ap;
 		this.sum_ap = sum_ap;
 	}
 
-	private long calcNeedMineBlock(int level) {
+	private double calcNeedMineBlock(int level) {
 		double a = Math.pow((level-1), 3.5137809939);
 		long b = (level-1) * 14;
-		return (long) (a+b);
+		return (double)(a+b);
 	}
-	private long calcMaxMana(int level) {
+	private double calcMaxMana(int level) {
 		if(level < 10){
 			return 0;
 		}
 		double a = Math.pow(1.01, (level/10));
 		double b = 0.01 * (Math.pow(1.15, level-10)-1);
-		return (long)(Math.log(a + b) / Math.log(1.0001));
+		return (Math.log(a + b) / Math.log(1.0001));
 	}
 	public int getLevel(){
 		return this.level;

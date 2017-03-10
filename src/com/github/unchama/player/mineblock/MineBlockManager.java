@@ -7,15 +7,18 @@ import org.bukkit.Material;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
 
-public class MineBlockManager extends DataManager implements UsingSql {
+public class MineBlockManager extends DataManager implements UsingSql,Finalizable{
 
 	public LinkedHashMap<BlockType, MineBlock> datamap;
 
 	public MineBlock all;
 	MineBlockTableManager tm;
+	//デバッグ時の整地レベル調整用
+	public double debugblock = 0;
 
 	public MineBlockManager(GiganticPlayer gp) {
 		super(gp);
@@ -51,5 +54,12 @@ public class MineBlockManager extends DataManager implements UsingSql {
 			mb.reset(tt);
 		});
 		all.reset(tt);
+	}
+
+	@Override
+	public void fin() {
+		if(this.debugblock != 0){
+			all.increase(TimeType.UNLIMITED, -this.debugblock);
+		}
 	}
 }

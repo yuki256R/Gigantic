@@ -11,18 +11,22 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.sql.ManaTableManager;
 import com.github.unchama.util.Util;
 
-public class ManaManager extends DataManager implements Initializable, UsingSql{
+public class ManaManager extends DataManager implements Initializable, UsingSql, Finalizable{
 
 	private double m;
 	private double max;
 	BossBar manabar;
 	ManaTableManager tm;
+
+	//デバッグ時のマナ保存用
+	private double debugmana = -1;
 
 	public ManaManager(GiganticPlayer gp) {
 		super(gp);
@@ -41,6 +45,14 @@ public class ManaManager extends DataManager implements Initializable, UsingSql{
 		tm.save(gp, loginflag);
 	}
 
+	@Override
+	public void fin() {
+		this.updateMaxMana();
+		if(this.debugmana != -1){
+			this.m = this.debugmana;
+		}
+		this.removeBar();
+	}
 	/**
 	 * 現在マナをマナバーに表示します
 	 *
@@ -60,10 +72,9 @@ public class ManaManager extends DataManager implements Initializable, UsingSql{
 
 		double progress = 0;
 		if (m / max > 1.0) {
-			progress = 1.0;
-		} else {
-			progress = m / max;
+			m = max;
 		}
+		progress = m / max;
 
 		manabar.setProgress(progress);
 		manabar.addPlayer(player);
@@ -155,5 +166,19 @@ public class ManaManager extends DataManager implements Initializable, UsingSql{
 		Player player = PlayerManager.getPlayer(gp);
 		this.display(player);
 	}
+
+	/**デバッグ用マナ保存メソッドです．
+	 *
+	 */
+	public void setDebugMana(){
+		this.updateMaxMana();
+		if(this.debugmana == -1){
+			this.debugmana = m;
+		}
+		this.fullMana();
+		Player player = PlayerManager.getPlayer(gp);
+		this.display(player);
+	}
+
 
 }

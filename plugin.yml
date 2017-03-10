@@ -8,8 +8,16 @@ softdepend: [PlaceholderAPI]
 
 commands:
   gacha:
-      description: This is a gacha command.
+      description: This is gacha command.
       usage: /<command> <help>
       aliases: [gc, seichigacha]
+      default: op
       permission: gigantic.gacha
+      permission-message: You don't have <permission>
+  debug:
+      description: This is debug command.
+      usage: /<command> <help>
+      aliases: [gigadebug,giganticdebug]
+      default: op
+      permission: gigantic.debug
       permission-message: You don't have <permission>
