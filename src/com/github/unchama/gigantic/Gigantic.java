@@ -1,5 +1,7 @@
 package com.github.unchama.gigantic;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,10 +11,10 @@ import org.bukkit.scheduler.BukkitTask;
 import com.github.unchama.command.CommandEnum;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.TimeTaskRunnable;
-import com.github.unchama.util.SeichiLevelUtil;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.Yml;
 
@@ -41,16 +43,16 @@ public final class Gigantic extends JavaPlugin{
 	public void onEnable(){
 		//必ず最初に宣言
 		plugin = this;
-		//必ず最初にconfigデータを読み込む
+		//必ず最初にymlデータを読み込む
 		yml = new Yml();
-		//configの次に必ずsqlを読み込む
+		//ymlの次に必ずsqlを読み込む
 		sql = new Sql();
 		//sqlの次に必ずSeichiAssistSqlを読み込む
 		if(yml.getManager(ConfigManager.class).getOldDataFlag()){
 			seichisql = new SeichiAssistSql();
 		}
 		//sqlの次に必ず初期化を行う
-		SeichiLevelUtil.setLevelMap();
+		SeichiLevelManager.setLevelMap();
 
 		maintenance = new Maintenance();
 
@@ -90,6 +92,12 @@ public final class Gigantic extends JavaPlugin{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		return CommandEnum.getCommandbyName(cmd.getName()).onCommand(sender, cmd, label, args);
+	}
+	@Override
+	public List<String> onTabComplete(CommandSender sender,Command cmd, String label,
+			String[] args) {
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 }

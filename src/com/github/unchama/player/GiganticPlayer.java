@@ -1,7 +1,7 @@
 package com.github.unchama.player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -16,6 +17,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -35,6 +37,8 @@ public class GiganticPlayer{
 		 */
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
+		SEICHILEVLE(SeichiLevelManager.class),
+		MANA(ManaManager.class),
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
 		SIDEBAR(SideBarManager.class),
@@ -60,7 +64,7 @@ public class GiganticPlayer{
 	public final UUID uuid;
 
 
-	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
+	private LinkedHashMap<Class<? extends DataManager>,DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>,DataManager>();
 
 
 

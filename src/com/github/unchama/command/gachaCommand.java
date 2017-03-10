@@ -6,14 +6,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
-import com.github.unchama.gigantic.Gigantic;
-
 public class gachaCommand implements TabExecutor {
 
-
-	public gachaCommand(Gigantic plugin) {
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender paramCommandSender,

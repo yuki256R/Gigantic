@@ -42,7 +42,8 @@ public class GiganticTableManager extends PlayerFromSeichiTableManager {
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
-		Bukkit.getServer().getPluginManager().callEvent(new PlayerFirstJoinEvent(gp));
+		Bukkit.getServer().getPluginManager()
+				.callEvent(new PlayerFirstJoinEvent(gp));
 		/*
 		 * //初見さんにLv1メッセージを送信
 		 * p.sendMessage(SeichiAssist.config.getLvMessage(1)); //初見さんであることを全体告知

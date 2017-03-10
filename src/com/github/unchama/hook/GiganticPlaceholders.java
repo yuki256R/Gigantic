@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 
 public class GiganticPlaceholders extends EZPlaceholderHook{
 	Gigantic plugin = Gigantic.plugin;
@@ -34,7 +34,7 @@ public class GiganticPlaceholders extends EZPlaceholderHook{
 		case "name":
 			return gp.name;
 		case "seichilevel":
-			return Integer.toString(gp.getManager(MineBlockManager.class).level);
+			return Integer.toString(gp.getManager(SeichiLevelManager.class).getLevel());
 		default:
 			return "";
 		}

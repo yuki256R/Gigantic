@@ -2,11 +2,8 @@ package com.github.unchama.command;
 
 import org.bukkit.command.TabExecutor;
 
-import com.github.unchama.gigantic.Gigantic;
-
 public enum CommandEnum {
-	GACHA(new gachaCommand(Gigantic.plugin)),
-	
+	GACHA(new gachaCommand()),
 	;
 
 

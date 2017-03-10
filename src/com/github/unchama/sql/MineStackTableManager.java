@@ -2,9 +2,8 @@ package com.github.unchama.sql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -245,7 +244,7 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
 		MineStackManager m = gp.getManager(MineStackManager.class);
-		HashMap<StackType,MineStack> datamap = m.datamap;
+		LinkedHashMap<StackType,MineStack> datamap = m.datamap;
 		String command = "";
 		for(StackType st : datamap.keySet()){
 			command += st.getColumnName() + " = '" + datamap.get(st).getNum() + "',";
@@ -256,15 +255,14 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		MineStackManager m = gp.getManager(MineStackManager.class);
-		HashMap<StackType,MineStack> datamap = m.datamap;
+		LinkedHashMap<StackType,MineStack> datamap = m.datamap;
 		datamap.putAll(tm.getMineStack(gp));
-		PlayerManager.getPlayer(gp).sendMessage("takeover");
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		MineStackManager m = gp.getManager(MineStackManager.class);
-		HashMap<StackType,MineStack> datamap = m.datamap;
+		LinkedHashMap<StackType,MineStack> datamap = m.datamap;
 		for(StackType st : StackType.values()){
 			datamap.put(st,new MineStack());
 		}
@@ -273,7 +271,7 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		MineStackManager m = gp.getManager(MineStackManager.class);
-		HashMap<StackType,MineStack> datamap = m.datamap;
+		LinkedHashMap<StackType,MineStack> datamap = m.datamap;
 		for(StackType st : StackType.values()){
 			datamap.put(st,new MineStack(rs.getLong(st.getColumnName())));
 		}
