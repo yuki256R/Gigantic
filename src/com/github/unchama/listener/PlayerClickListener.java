@@ -2,7 +2,6 @@ package com.github.unchama.listener;
 
 import java.util.List;
 
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,10 +14,12 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.KeyItem;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.yml.DebugManager;
 
 public class PlayerClickListener  implements Listener{
 	Gigantic plugin = Gigantic.plugin;
 	GuiMenu guimenu = Gigantic.guimenu;
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	/**木の棒メニュー
 	 *
@@ -94,8 +95,9 @@ public class PlayerClickListener  implements Listener{
 			}
 
 			event.setCancelled(true);
+
 			//開く音を再生
-			player.playSound(player.getLocation(), Sound.BLOCK_FENCE_GATE_OPEN, 1, (float) 0.1);
+			player.playSound(player.getLocation(), m.getSound(), m.getVolume(), m.getPitch());
 			player.openInventory(m.getInventory(player));
 			return;
 		}

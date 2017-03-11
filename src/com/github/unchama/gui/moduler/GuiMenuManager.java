@@ -6,6 +6,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -151,6 +152,18 @@ public abstract class GuiMenuManager extends YmlManager {
 			}
 		}
 		return inv;
+	}
+	public Sound getSound() {
+		String s = this.fc.getString("sound.name");
+		return Sound.valueOf(s);
+	}
+
+	public float getVolume() {
+		return (float)this.fc.getDouble("sound.volume");
+	}
+
+	public float getPitch() {
+		return (float)this.fc.getDouble("sound.pitch");
 	}
 
 }

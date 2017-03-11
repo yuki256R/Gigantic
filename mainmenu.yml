@@ -9,16 +9,24 @@
 
 #メニュータイプを選択してください．
 # 1: 手に持った所定のアイテムを持った状態でクリックすることで開きます．
-#   click:クリックの種類（left or right)
 # 2: 本プラグインで作成されたメニューのアイテムをクリックすることで開きます．
 
-
 menutype: 1
+
+# click:クリックの種類を選択してください．（left or right)
+
 click: 'right'
+
+# 開けた時のサウンドを選択してください．
+# サウンド一覧はこちらから(https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html)
+
+sound: 
+  name: 'BLOCK_FENCE_GATE_OPEN'
+  volume: 1
+  pitch: 0.1
 
 #起点となるアイテムを指定する．
 #material:マテリアルタイプ
-
 #damege:マテリアルのダメージ値
 #name: アイテム名
 #lore:説明文

@@ -142,7 +142,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public float getNumOfPeopleRate() {
-		return (float)this.fc.getInt("mineboost.rate.numofpeople");
+		return (float)this.fc.getDouble("mineboost.rate.numofpeople");
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public float getMinuteMineRate() {
-		return (float)this.fc.getInt("mineboost.rate.minutemine");
+		return (float)this.fc.getDouble("mineboost.rate.minutemine");
 	}
 
 	/**
