@@ -1,7 +1,7 @@
 package com.github.unchama.player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -16,6 +17,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -35,6 +37,8 @@ public class GiganticPlayer{
 		 */
 		GIGANTIC(GiganticManager.class),
 		MINEBLOCK(MineBlockManager.class),
+		SEICHILEVLE(SeichiLevelManager.class),
+		MANA(ManaManager.class),
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
 		SIDEBAR(SideBarManager.class),
@@ -58,15 +62,17 @@ public class GiganticPlayer{
 
 	public final String name;
 	public final UUID uuid;
+	private GiganticStatus gs;
 
 
-	private HashMap<Class<? extends DataManager>,DataManager> managermap = new HashMap<Class<? extends DataManager>,DataManager>();
+	private LinkedHashMap<Class<? extends DataManager>,DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>,DataManager>();
 
 
 
 	public GiganticPlayer(Player player){
 		this.name = Converter.toString(player);
 		this.uuid = player.getUniqueId();
+		this.setStatus(GiganticStatus.LODING);;
 		for(ManagerType mt : ManagerType.values()){
 			try {
 				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
@@ -118,6 +124,7 @@ public class GiganticPlayer{
 	}
 
 	public void init() {
+		this.setStatus(GiganticStatus.INITIALIZE);
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Initializable.class)){
 				try {
@@ -130,10 +137,12 @@ public class GiganticPlayer{
 				}
 			}
 		}
+		this.setStatus(GiganticStatus.AVAILABLE);
 	}
 
 
 	public void fin() {
+		this.setStatus(GiganticStatus.FINALIZE);
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Finalizable.class)){
 				try {
@@ -154,6 +163,9 @@ public class GiganticPlayer{
 	 * @param loginflag:
 	 */
 	public void save(boolean loginflag) {
+		if(!loginflag){
+			this.setStatus(GiganticStatus.SAVING);
+		}
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
@@ -168,7 +180,20 @@ public class GiganticPlayer{
 		}
 	}
 
-
+	/**プレイヤーデータのステータスをセットします．
+	 *
+	 * @param gs
+	 */
+	private void setStatus(GiganticStatus gs){
+		this.gs = gs;
+	}
+	/**プレイヤーデータのステータスを取得します．
+	 *
+	 * @return ステータス
+	 */
+	public GiganticStatus getStatus(){
+		return this.gs;
+	}
 
 
 

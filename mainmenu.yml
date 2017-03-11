@@ -7,13 +7,42 @@
 
 #基本設定
 
-#インベントリサイズ (4*9)
+#メニュータイプを選択してください．
+# 1: 手に持った所定のアイテムを持った状態でクリックすることで開きます．
+# 2: 本プラグインで作成されたメニューのアイテムをクリックすることで開きます．
+
+menutype: 1
+
+# click:クリックの種類を選択してください．（left or right)
+
+click: 'right'
+
+# 開けた時のサウンドを選択してください．
+# サウンド一覧はこちらから(https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html)
+
+sound: 
+  name: 'BLOCK_FENCE_GATE_OPEN'
+  volume: 1
+  pitch: 0.1
+
+#起点となるアイテムを指定する．
+#material:マテリアルタイプ
+#damege:マテリアルのダメージ値
+#name: アイテム名
+#lore:説明文
+
+key:
+  material: 'STICK'
+
+#サイズ (4*9)
+#必ず9の倍数にすること
 
 size: 36
 
-#インベントリ名
+#名前
+#必ず被らないようにしてください．
 
-name: '&4&kメインメニュー'
+name: '&5&lメインメニュー'
 
 #以下メニュー内設定例
 #  itemstack:
@@ -38,39 +67,22 @@ name: '&4&kメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&e&n&lnameの統計データ'
+      display-name: '&e&n&l%gp_name%'
       lore:
-      - '&r&b整地レベル:playerdata.level'
-      - '&r&b次のレベルまで:???'
       - '&r&c整地ワールド以外では'
       - '&r&c整地量とガチャ券は増えません'
-      - '&r&b(prank-1)位(rankdata.name)との差：??'
-      - '&r&7総ログイン時間：??'
-      - '&r&8※1分毎に更新'
       - '&r&a統計データは'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
-      Unbreakable: true
   isSkullofOwner: true
-1:
+13:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: SKULL_ITEM
-    damage: 3
+    type: ENCHANTED_BOOK
     meta:
       ==: ItemMeta
-      meta-type: SKULL
-      display-name: '&e&n&lnameの統計データ'
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l整地スキルブック'
       lore:
-      - '&r&b整地レベル:playerdata.level'
-      - '&r&b次のレベルまで:???'
-      - '&r&c整地ワールド以外では'
-      - '&r&c整地量とガチャ券は増えません'
-      - '&r&b(prank-1)位(rankdata.name)との差：??'
-      - '&r&7総ログイン時間：??'
-      - '&r&8※1分毎に更新'
-      - '&r&a統計データは'
-      - '&r&a各サバイバルサーバー間で'
-      - '&r&a共有されます'
-      Unbreakable: true
-  isSkullofOwner: true
+      - '&r&7スキルを使って整地の効率を上げよう'
+      - '&r&4&nクリックで開く'

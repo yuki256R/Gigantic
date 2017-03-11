@@ -19,9 +19,10 @@ import com.github.unchama.yml.moduler.YmlManager;
  */
 public final class DebugManager extends YmlManager {
 	public static enum DebugEnum {
-		MINEBOOST(false, ChatColor.AQUA),
-		MINEBLOCK(false, ChatColor.RED),
-		SQL(false, ChatColor.YELLOW);
+		MINEBOOST(true, ChatColor.AQUA),
+		MINEBLOCK(true, ChatColor.RED),
+		SQL(true, ChatColor.YELLOW),
+		GUI(true, ChatColor.BLUE), ;
 		// ファイル生成時の初期値
 		private Boolean flag;
 		// チャットに流れる時のprefixの色
@@ -70,7 +71,7 @@ public final class DebugManager extends YmlManager {
 	public DebugManager() {
 		super();
 		for (DebugEnum de : DebugEnum.values()) {
-			Boolean defaultflag = getBoolean(de.name());
+			Boolean defaultflag = this.fc.getBoolean(de.name().toLowerCase());
 			debugmap.put(de, defaultflag);
 		}
 	}
@@ -142,7 +143,8 @@ public final class DebugManager extends YmlManager {
 		try {
 			OutputStream out = new FileOutputStream(file);
 			for (DebugEnum de : DebugEnum.values()) {
-				String s = de.name() + ": " + de.getDefaultFlag().toString();
+				String s = de.name().toLowerCase() + ": "
+						+ (de.getDefaultFlag().equals(true) ? "yes" : "no");
 				s += System.getProperty("line.separator");
 				out.write(s.getBytes());
 			}

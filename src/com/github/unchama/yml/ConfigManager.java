@@ -31,7 +31,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getDB() {
-		return getString("db");
+		return this.fc.getString("db");
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getTable() {
-		return getString("table");
+		return this.fc.getString("table");
 	}
 
 	/**
@@ -49,7 +49,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getID() {
-		return getString("id");
+		return this.fc.getString("id");
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getPW() {
-		return getString("pw");
+		return this.fc.getString("pw");
 	}
 
 	/**
@@ -68,8 +68,8 @@ public class ConfigManager extends YmlManager {
 	 */
 	public String getURL() {
 		String url = "jdbc:mysql://";
-		url += getString("host");
-		String port = getString("port");
+		url += this.fc.getString("host");
+		String port = this.fc.getString("port");
 		if (port != null) {
 			url += ":" + port;
 		}
@@ -82,7 +82,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getSeichiDB() {
-		return getString("seichiassist.db");
+		return this.fc.getString("seichiassist.db");
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getSeichiTable() {
-		return getString("seichiassist.table");
+		return this.fc.getString("seichiassist.table");
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getSeichiID() {
-		return getString("seichiassist.id");
+		return this.fc.getString("seichiassist.id");
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getSeichiPW() {
-		return getString("seichiassist.pw");
+		return this.fc.getString("seichiassist.pw");
 	}
 
 	/**
@@ -119,8 +119,8 @@ public class ConfigManager extends YmlManager {
 	 */
 	public String getSeichiURL() {
 		String url = "jdbc:mysql://";
-		url += getString("seichiassist.host");
-		String port = getString("seichiassist.port");
+		url += this.fc.getString("seichiassist.host");
+		String port = this.fc.getString("seichiassist.port");
 		if (port != null) {
 			url += ":" + port;
 		}
@@ -133,7 +133,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public Boolean getOldDataFlag() {
-		return this.getBoolean("olddatabase");
+		return this.fc.getBoolean("olddatabase");
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public float getNumOfPeopleRate() {
-		return this.getFloat("mineboost.rate.numofpeople");
+		return (float)this.fc.getDouble("mineboost.rate.numofpeople");
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public float getMinuteMineRate() {
-		return this.getFloat("mineboost.rate.minutemine");
+		return (float)this.fc.getDouble("mineboost.rate.minutemine");
 	}
 
 	/**
@@ -160,7 +160,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public int getMaxSeichiLevel() {
-		return this.getInt("MaxSeichiLevel");
+		return this.fc.getInt("maxseichilevel");
 	}
 
 	/**
@@ -169,7 +169,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getSeichiLevelUpMessage() {
-		return this.getString("seichi.levelupmessage");
+		return this.fc.getString("seichi.levelupmessage");
 	}
 
 	/**
@@ -189,7 +189,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public int getMaxAttempt() {
-		return this.getInt("MaxAttempt");
+		return this.fc.getInt("maxattempt");
 	}
 
 
@@ -198,7 +198,7 @@ public class ConfigManager extends YmlManager {
 	 * @return
 	 */
 	public String getFirstJoinMessage() {
-		return this.getString("firstjoinmessage");
+		return this.fc.getString("firstjoinmessage");
 	}
 
 }

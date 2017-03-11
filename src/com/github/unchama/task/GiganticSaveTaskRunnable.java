@@ -10,14 +10,16 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.yml.DebugManager;
 
-/**定期セーブに使用するタスクです．
+/**
+ * 定期セーブに使用するタスクです．
  *
  * @author tar0ss
  *
  */
-public class GiganticSaveTaskRunnable extends BukkitRunnable{
+public class GiganticSaveTaskRunnable extends BukkitRunnable {
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	private List<Player> playerlist;
@@ -33,18 +35,21 @@ public class GiganticSaveTaskRunnable extends BukkitRunnable{
 	@Override
 	public void run() {
 
-		Bukkit.getScheduler().runTask(plugin, new Runnable(){
+		Bukkit.getScheduler().runTask(plugin, new Runnable() {
 			@Override
 			public void run() {
 				count++;
-				if(count >= size){
+				if (count >= size) {
 					cancel();
 					return;
-				}else{
-					Player player = Bukkit.getServer().getPlayer(playerlist.get(count).getUniqueId());
-					if(player != null){
-						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-						if(gp != null){
+				} else {
+					Player player = Bukkit.getServer().getPlayer(
+							playerlist.get(count).getUniqueId());
+					if (player != null) {
+						GiganticPlayer gp = PlayerManager
+								.getGiganticPlayer(player);
+						GiganticStatus gs = PlayerManager.getStatus(gp);
+						if (gs.equals(GiganticStatus.AVAILABLE)) {
 							gp.save(true);
 						}
 					}
@@ -52,6 +57,5 @@ public class GiganticSaveTaskRunnable extends BukkitRunnable{
 			}
 		});
 	}
-
 
 }

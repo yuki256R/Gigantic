@@ -1,12 +1,12 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.event.GiganticBreakEvent;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
-import org.bukkit.Effect;
 import org.bukkit.Material;
-import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -18,10 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wood;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.github.unchama.event.GiganticBreakEvent;
 
 public class BlockBreakListener implements Listener{
 
@@ -77,7 +74,7 @@ public class BlockBreakListener implements Listener{
 		Player p = event.getPlayer();
 		ItemStack tool = p.getInventory().getItemInMainHand();
 		Block block = event.getBlock();
-
+		/*
 		//経験値の付与
 		p.giveExp(event.getExpToDrop());
 
@@ -94,13 +91,13 @@ public class BlockBreakListener implements Listener{
 
 		//こわす
 		event.getBlock().setType(Material.AIR);
-
+		*/
 	}
 
+	@SuppressWarnings("unused")
 	private ItemStack getDrop(Block block, ItemStack tool){
 		Material blockType = block.getState().getType();
 		MaterialData blockData = block.getState().getData();
-
 		//向きを統一
 		byte b = block.getData();
 		if (blockData instanceof Wood){

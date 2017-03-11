@@ -4,44 +4,47 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
-public class AchievementTableManager extends PlayerFromSeichiTableManager{
+public class ManaTableManager extends PlayerFromSeichiTableManager {
 
-	public AchievementTableManager(Sql sql) {
+	public ManaTableManager(Sql sql) {
 		super(sql);
-		// TODO 自動生成されたコンストラクター・スタブ
 	}
 
 	@Override
 	protected String addColumnCommand() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		String command = "";
+		command += "add column if not exists mana double default 0.0,";
+		return command;
 	}
 
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		ManaManager m = gp.getManager(ManaManager.class);
+		String command = "";
+		command += "mana = '" + m.getMana() + "',";
+		return command;
 	}
 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		ManaManager m = gp.getManager(ManaManager.class);
+		m.setMana(tm.getMana(gp));
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		ManaManager m = gp.getManager(ManaManager.class);
+		m.setMana(0);
 	}
 
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
-		// TODO 自動生成されたメソッド・スタブ
-
+		ManaManager m = gp.getManager(ManaManager.class);
+		m.setMana(rs.getDouble("mana"));
 	}
 
 }

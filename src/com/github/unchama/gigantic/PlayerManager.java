@@ -7,7 +7,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.task.putGiganticMapTaskRunnable;
+import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.task.GiganticInitializeTaskRunnable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -37,6 +38,7 @@ public class PlayerManager {
 		}
 		gp = new GiganticPlayer(player);
 		waitingloadmap.put(uuid, gp);
+		gmap.put(uuid, gp);
 	}
 
 	/**
@@ -64,8 +66,8 @@ public class PlayerManager {
 	 * @return GiganticPlayer
 	 */
 	public static GiganticPlayer getGiganticPlayer(Player player) {
-		GiganticPlayer gplayer = gmap.get(player.getUniqueId());
-		return gplayer;
+		GiganticPlayer gp = gmap.get(player.getUniqueId());
+		return gp;
 	}
 
 	/**
@@ -80,6 +82,7 @@ public class PlayerManager {
 
 	public static void onDisable() {
 		for (Player p : plugin.getServer().getOnlinePlayers()) {
+			p.closeInventory();
 			quit(p);
 		}
 	}
@@ -111,8 +114,27 @@ public class PlayerManager {
 		// 全てのsqlデータをロード
 		Gigantic.sql.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 
-		new putGiganticMapTaskRunnable(new HashMap<UUID, GiganticPlayer>(tmpmap)).runTaskTimerAsynchronously(plugin, 11, 20);
+		new GiganticInitializeTaskRunnable(new HashMap<UUID, GiganticPlayer>(tmpmap)).runTaskTimerAsynchronously(plugin, 11, 20);
 
+	}
+
+	/**playerのステータスを確認します．
+	 *
+	 * @param player
+	 * @return
+	 */
+	public static GiganticStatus getStatus(Player player) {
+		GiganticPlayer gp = getGiganticPlayer(player);
+		return getStatus(gp);
+	}
+
+	/**GiganticPlayerのステータスを確認します．
+	 *
+	 * @param gp
+	 * @return
+	 */
+	public static GiganticStatus getStatus(GiganticPlayer gp) {
+		return gp == null ? GiganticStatus.NOT_LOADED : gp.getStatus();
 	}
 
 }

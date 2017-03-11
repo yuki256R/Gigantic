@@ -58,8 +58,8 @@ public class MineBoostManager extends DataManager implements Initializable {
 					+ mb.getAmplifier());
 		}
 
-		if (boostlevel > 200) {
-			boostlevel = 200;
+		if (boostlevel > 100) {
+			boostlevel = 100;
 		}
 
 		if (boostlevel <= 0) {

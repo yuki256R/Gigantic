@@ -29,6 +29,9 @@ public class MineBlock {
 			n += increase;
 		});
 	}
+	public void increase(TimeType tt ,double increase){
+		nmap.put(tt, nmap.get(tt) + increase);
+	}
 
 	public double getNum(TimeType tt) {
 		return nmap.get(tt);

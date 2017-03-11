@@ -17,6 +17,7 @@ public enum ListenerEnum {
 	MINUTE(new MinuteListener()),
 	STATISTIC(new PlayerStatisticListener()),
 	PLAYERCLICK(new PlayerClickListener()),
+	INVNETORYCLICK(new InventoryClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
 	BLOCKBREAK(new BlockBreakListener()),
 	;

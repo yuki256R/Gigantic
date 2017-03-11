@@ -39,7 +39,7 @@ public enum StackType {
 	JUNGLE_SAPLING(Material.SAPLING,"ジャングルの苗木",3),
 	ACACIA_SAPLING(Material.SAPLING,"アカシアの苗木",4),
 	DARK_OAK_SAPLING(Material.SAPLING,"ダークオークの苗木",5),
-	BEDROCK("岩盤"),
+	//BEDROCK("岩盤"),
 	SAND("砂"),
 	RED_SAND(Material.SAND,"赤い砂",1),
 	GRAVEL("砂利"),
@@ -557,7 +557,7 @@ public enum StackType {
 	SKULL_ITEM("スケルトンの頭蓋骨"),
 	MOB_HEAD_WITHER_SKELETON(Material.SKULL_ITEM,"ウィザースケルトンの頭蓋骨",1),
 	MOB_HEAD_ZOMBIE(Material.SKULL_ITEM,"ゾンビの頭",2),
-	MOB_HEAD_HUMAN(Material.SKULL_ITEM,"頭",3),
+	//MOB_HEAD_HUMAN(Material.SKULL_ITEM,"頭",3),
 	MOB_HEAD_CREEPER(Material.SKULL_ITEM,"クリーパーの頭",4),
 	MOB_HEAD_DRAGON(Material.SKULL_ITEM,"ドラゴンの頭",5),
 	CARROT_STICK("ニンジン付きの棒"),
@@ -669,6 +669,16 @@ public enum StackType {
 	public short getDurability(){
 		return this.durability;
 	}
+	/**カラムネームを返します．
+	 *
+	 * @return
+	 */
+	public String getColumnName(){
+		return this.name();
+	}
+
+
+
 
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
