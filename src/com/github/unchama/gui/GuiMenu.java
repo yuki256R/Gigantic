@@ -1,30 +1,20 @@
-package com.github.unchama.yml;
+package com.github.unchama.gui;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.yml.moduler.YmlManager;
 
-/**
- * Ymlファイルを管理するクラスです． プラグイン始動時にスタティックインスタンスが生成されます． Gigantic.ymlで取得できます．
- * 新しくYmlファイルを追加する方法
- * 1.YmlEnumに"FILENAME(ManagerName.class)"と入力
- * 2.ManagerClassを作成．必ずYmlManagerをextendsすること．
- * 3.
- *
- * @author tar0ss
- *
- */
-public final class Yml {
+public final class GuiMenu {
 	public static enum ManagerType {
-		CONFIG(ConfigManager.class),
-		DEBUG(DebugManager.class),
+		MAINMENU(MainMenuManager.class),
 		;
 		// 使用するManagerClass
-		private Class<? extends YmlManager> managerClass;
+		private Class<? extends GuiMenuManager> managerClass;
 
 		// Enum用コンストラクタ
-		ManagerType(Class<? extends YmlManager> managerClass) {
+		ManagerType(Class<? extends GuiMenuManager> managerClass) {
 			this.managerClass = managerClass;
 		}
 
@@ -33,7 +23,7 @@ public final class Yml {
 		 *
 		 * @return Class<? extends YmlManager>
 		 */
-		public Class<? extends YmlManager> getManagerClass() {
+		public Class<? extends GuiMenuManager> getManagerClass() {
 			return managerClass;
 		}
 
@@ -59,17 +49,17 @@ public final class Yml {
 					return ye.getYmlName();
 				}
 			}
-			return null;
+			return "example";
 		}
 	}
 
 	// 全てのYmlManager格納するMap
-	private LinkedHashMap<Class<? extends YmlManager>, YmlManager> managermap = new LinkedHashMap<Class<? extends YmlManager>, YmlManager>();
+	private LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager> managermap = new LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager>();
 
 	/**
 	 * Class Ymlのコンストラクタです． プラグイン始動時に一度だけ呼び出されます．
 	 */
-	public Yml() {
+	public GuiMenu() {
 		managermap.clear();
 		// instance作成
 		for (ManagerType ye : ManagerType.values()) {
@@ -91,7 +81,7 @@ public final class Yml {
 	 * @return <T extends YmlManager>
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends YmlManager> T getManager(Class<T> type) {
+	public <T extends GuiMenuManager> T getManager(Class<T> type) {
 		return (T) managermap.get(type);
 	}
 }

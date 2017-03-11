@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.command.CommandType;
+import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
@@ -25,6 +26,9 @@ public final class Gigantic extends JavaPlugin {
 
 	// Ymlデータ用クラス
 	public static Yml yml;
+
+	//Menuデータ用クラス
+	public static GuiMenu guimenu;
 
 	// メンテナンス用クラス
 	public static Maintenance maintenance;
@@ -43,6 +47,8 @@ public final class Gigantic extends JavaPlugin {
 		plugin = this;
 		// 必ず最初にymlデータを読み込む
 		yml = new Yml();
+		// 必ず最初にmenuデータを読み込む
+		guimenu = new GuiMenu();
 		// ymlの次に必ずsqlを読み込む
 		sql = new Sql();
 		// sqlの次に必ずSeichiAssistSqlを読み込む

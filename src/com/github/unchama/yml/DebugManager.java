@@ -70,7 +70,7 @@ public final class DebugManager extends YmlManager {
 	public DebugManager() {
 		super();
 		for (DebugEnum de : DebugEnum.values()) {
-			Boolean defaultflag = getBoolean(de.name());
+			Boolean defaultflag = this.fc.getBoolean(de.name().toLowerCase());
 			debugmap.put(de, defaultflag);
 		}
 	}
@@ -142,7 +142,7 @@ public final class DebugManager extends YmlManager {
 		try {
 			OutputStream out = new FileOutputStream(file);
 			for (DebugEnum de : DebugEnum.values()) {
-				String s = de.name() + ": " + de.getDefaultFlag().toString();
+				String s = de.name().toLowerCase() + ": " + (de.getDefaultFlag().equals(true) ? "yes" : "no");
 				s += System.getProperty("line.separator");
 				out.write(s.getBytes());
 			}

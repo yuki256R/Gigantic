@@ -1,6 +1,7 @@
 package com.github.unchama.listener;
 
-import org.bukkit.Material;
+import java.util.List;
+
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,13 +9,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.yml.MainMenuManager;
+import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.KeyItem;
+import com.github.unchama.gui.moduler.GuiMenuManager;
 
 public class PlayerClickListener  implements Listener{
 	Gigantic plugin = Gigantic.plugin;
-	MainMenuManager mainmenu = Gigantic.yml.getManager(MainMenuManager.class);
+	GuiMenu guimenu = Gigantic.guimenu;
 
 	/**木の棒メニュー
 	 *
@@ -29,23 +33,72 @@ public class PlayerClickListener  implements Listener{
 		//アクションを起こした手を取得
 		EquipmentSlot equipmentslot = event.getHand();
 
-		if(!player.getInventory().getItemInMainHand().getType().equals(Material.STICK)){
-			return;
-		}
-
-		if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
-			return;
-		}
-
 		if(equipmentslot.equals(EquipmentSlot.OFF_HAND)){
 			return;
 		}
 
-		event.setCancelled(true);
+		for(GuiMenu.ManagerType mt : GuiMenu.ManagerType.values()){
+			GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt.getManagerClass());
 
-		//開く音を再生
-		player.playSound(player.getLocation(), Sound.BLOCK_FENCE_GATE_OPEN, 1, (float) 0.1);
-		player.openInventory(mainmenu.getInventory(player));
+			if(m.getType() != 1)continue;
+
+			String click = m.getClickType();
+			if(click.equalsIgnoreCase("left")){
+				if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)){
+					return;
+				}
+			}else if(click.equalsIgnoreCase("right")){
+				if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
+					return;
+				}
+			}else{
+				return ;
+			}
+			KeyItem keyitem = m.getKeyItem();
+			ItemStack item = player.getInventory().getItemInMainHand();
+
+			if(keyitem.getMaterial() != null){
+				if(!item.getType().equals(keyitem.getMaterial())){
+					return;
+				}else{
+					if(!(item.getDurability() == (short)keyitem.getDamage())){
+						return;
+					}
+				}
+			}
+
+			if(keyitem.getName() != null){
+				if(!item.getItemMeta().getDisplayName().equalsIgnoreCase(keyitem.getName())){
+					return;
+				}
+			}
+
+			if(keyitem.getLore() != null){
+				List<String> tmplore = keyitem.getLore();
+				int maxcount = 20;
+				int count = 0;
+				while(!tmplore.isEmpty() && count <= maxcount ){
+					String tmp = tmplore.get(0);
+					for(String c : item.getItemMeta().getLore()){
+						if(c.equalsIgnoreCase(tmp)){
+							tmplore.remove(0);
+							break;
+						}
+					}
+					count ++;
+				}
+
+				if(!tmplore.isEmpty()){
+					return;
+				}
+			}
+
+			event.setCancelled(true);
+			//開く音を再生
+			player.playSound(player.getLocation(), Sound.BLOCK_FENCE_GATE_OPEN, 1, (float) 0.1);
+			player.openInventory(m.getInventory(player));
+			return;
+		}
 	}
 
 	/*
