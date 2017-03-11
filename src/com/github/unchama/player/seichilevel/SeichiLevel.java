@@ -34,7 +34,7 @@ public class SeichiLevel{
 		}
 		double a = Math.pow(1.01, (level/10));
 		double b = 0.01 * (Math.pow(1.15, level-10)-1);
-		return (Math.log(a + b) / Math.log(1.0001));
+		return (Math.log(a + b) / Math.log(1.0001)) + 1;
 	}
 	public int getLevel(){
 		return this.level;
