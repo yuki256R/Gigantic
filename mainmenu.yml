@@ -75,4 +75,14 @@ name: '&5&lメインメニュー'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
   isSkullofOwner: true
-
+13:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: ENCHANTED_BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l整地スキルブック'
+      lore:
+      - '&r&7スキルを使って整地の効率を上げよう'
+      - '&r&4&nクリックで開く'

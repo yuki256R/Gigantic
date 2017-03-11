@@ -2,6 +2,8 @@ package com.github.unchama.listener;
 
 import java.util.List;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,9 +13,11 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.KeyItem;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.yml.DebugManager;
 
 public class PlayerClickListener  implements Listener{
@@ -29,6 +33,13 @@ public class PlayerClickListener  implements Listener{
 	public void onPlayerOpenMenuListener(PlayerInteractEvent event){
 		//プレイヤーを取得
 		Player player = event.getPlayer();
+		GiganticStatus gs = PlayerManager.getStatus(player);
+
+		if(!gs.equals(GiganticStatus.AVAILABLE)){
+			player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "プレイヤーデータを読み込んでいます．しばらくお待ちください．");
+			return;
+		}
+
 		//プレイヤーが起こしたアクションを取得
 		Action action = event.getAction();
 		//アクションを起こした手を取得

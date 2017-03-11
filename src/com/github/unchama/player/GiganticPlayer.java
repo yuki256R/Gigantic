@@ -62,6 +62,7 @@ public class GiganticPlayer{
 
 	public final String name;
 	public final UUID uuid;
+	private GiganticStatus gs;
 
 
 	private LinkedHashMap<Class<? extends DataManager>,DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>,DataManager>();
@@ -71,6 +72,7 @@ public class GiganticPlayer{
 	public GiganticPlayer(Player player){
 		this.name = Converter.toString(player);
 		this.uuid = player.getUniqueId();
+		this.setStatus(GiganticStatus.LODING);;
 		for(ManagerType mt : ManagerType.values()){
 			try {
 				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
@@ -122,6 +124,7 @@ public class GiganticPlayer{
 	}
 
 	public void init() {
+		this.setStatus(GiganticStatus.INITIALIZE);
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Initializable.class)){
 				try {
@@ -134,10 +137,12 @@ public class GiganticPlayer{
 				}
 			}
 		}
+		this.setStatus(GiganticStatus.AVAILABLE);
 	}
 
 
 	public void fin() {
+		this.setStatus(GiganticStatus.FINALIZE);
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, Finalizable.class)){
 				try {
@@ -158,6 +163,9 @@ public class GiganticPlayer{
 	 * @param loginflag:
 	 */
 	public void save(boolean loginflag) {
+		if(!loginflag){
+			this.setStatus(GiganticStatus.SAVING);
+		}
 		for(Class<? extends DataManager> mc : this.managermap.keySet()){
 			if(ClassUtil.isImplemented(mc, UsingSql.class)){
 				try {
@@ -172,7 +180,20 @@ public class GiganticPlayer{
 		}
 	}
 
-
+	/**プレイヤーデータのステータスをセットします．
+	 *
+	 * @param gs
+	 */
+	private void setStatus(GiganticStatus gs){
+		this.gs = gs;
+	}
+	/**プレイヤーデータのステータスを取得します．
+	 *
+	 * @return ステータス
+	 */
+	public GiganticStatus getStatus(){
+		return this.gs;
+	}
 
 
 
