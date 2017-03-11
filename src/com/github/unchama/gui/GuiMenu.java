@@ -8,8 +8,7 @@ import com.github.unchama.yml.moduler.YmlManager;
 
 public final class GuiMenu {
 	public static enum ManagerType {
-		MAINMENU(MainMenuManager.class),
-		;
+		MAINMENU(MainMenuManager.class), ;
 		// 使用するManagerClass
 		private Class<? extends GuiMenuManager> managerClass;
 
@@ -53,7 +52,7 @@ public final class GuiMenu {
 		}
 	}
 
-	// 全てのYmlManager格納するMap
+	// 全てのGuiMenuManagerを格納するMap
 	private LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager> managermap = new LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager>();
 
 	/**

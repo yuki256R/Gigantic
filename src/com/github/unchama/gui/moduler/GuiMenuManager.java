@@ -51,11 +51,10 @@ public abstract class GuiMenuManager extends YmlManager {
 			damege = 0;
 		}
 
-
 		name = this.fc.getString("key.name");
 		lore = this.fc.getStringList("key.lore");
 
-		this.keyitem = new KeyItem(material,damege,name,lore);
+		this.keyitem = new KeyItem(material, damege, name, lore);
 	}
 
 	@Override
@@ -98,7 +97,7 @@ public abstract class GuiMenuManager extends YmlManager {
 	 *
 	 * @return
 	 */
-	private int getInventorySize() {
+	public int getInventorySize() {
 		return this.fc.getInt("size");
 	}
 
@@ -107,8 +106,9 @@ public abstract class GuiMenuManager extends YmlManager {
 	 *
 	 * @return
 	 */
-	private String getInventoryName(Player player) {
-		return PlaceholderAPI.setPlaceholders(player, this.fc.getString("name"));
+	public String getInventoryName(Player player) {
+		return PlaceholderAPI
+				.setPlaceholders(player, this.fc.getString("name"));
 	}
 
 	/**
