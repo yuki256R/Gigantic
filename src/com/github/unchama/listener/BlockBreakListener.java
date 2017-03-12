@@ -1,6 +1,7 @@
 package com.github.unchama.listener;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,14 @@ public class BlockBreakListener implements Listener{
 		Player p = event.getPlayer();
 		ItemStack tool = p.getInventory().getItemInMainHand();
 		Block block = event.getBlock();
+		///////////////////////暫定処理
+		event.getBlock().setType(Material.AIR);
+		Collection<ItemStack> itemco = block.getDrops(tool);
+		itemco.forEach((itemstack)->{
+			p.getWorld().dropItemNaturally(block.getLocation(),itemstack);
+		});
+
+		//////////////////////
 		/*
 		//経験値の付与
 		p.giveExp(event.getExpToDrop());
