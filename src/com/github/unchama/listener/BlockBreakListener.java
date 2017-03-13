@@ -1,7 +1,6 @@
 package com.github.unchama.listener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +19,14 @@ import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wood;
 
 import com.github.unchama.event.GiganticBreakEvent;
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.util.breakblock.BreakUtil;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class BlockBreakListener implements Listener{
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	private Map<Material, ItemStack> dropMap;
 	private Map<Material, Material> silkMap;
@@ -75,32 +80,26 @@ public class BlockBreakListener implements Listener{
 		Player p = event.getPlayer();
 		ItemStack tool = p.getInventory().getItemInMainHand();
 		Block block = event.getBlock();
-		///////////////////////暫定処理
-		event.getBlock().setType(Material.AIR);
-		Collection<ItemStack> itemco = block.getDrops(tool);
-		itemco.forEach((itemstack)->{
-			p.getWorld().dropItemNaturally(block.getLocation(),itemstack);
-		});
+		List<ItemStack> droplist = BreakUtil.getDrops(block,tool);
 
-		//////////////////////
-		/*
+		/////////////////
+		debug.sendMessage(p,DebugEnum.BREAK, "Material:" + block.getType().name() + " Data:" + Byte.toString((block.getData())));
+		for(ItemStack is : StackType.getItemStack(block.getType())){
+			debug.sendMessage(p,DebugEnum.BREAK, "Stack Data:" + is.getDurability());
+		}
+		if(droplist.isEmpty()){
+			debug.sendMessage(p,DebugEnum.BREAK, "no drop");
+		}else{
+			for(ItemStack is : droplist){
+				debug.sendMessage(p,DebugEnum.BREAK, "dropMaterial:" + is.getType() + " dropData:" + is.getDurability());
+				//p.getWorld().dropItemNaturally(block.getLocation(), is);
+			}
+		}
+		///////////////
+
 		//経験値の付与
 		p.giveExp(event.getExpToDrop());
 
-		//ドロップを取得
-		ItemStack drop = getDrop(block, tool);
-		//暫定的にインベントリに追加
-		p.getInventory().addItem(drop);
-
-		//統計加算
-		p.incrementStatistic(Statistic.MINE_BLOCK, block.getType());
-
-		//耐久値変更
-		tool.setDurability((short)(tool.getDurability() + 1));
-
-		//こわす
-		event.getBlock().setType(Material.AIR);
-		*/
 	}
 
 	@SuppressWarnings("unused")
