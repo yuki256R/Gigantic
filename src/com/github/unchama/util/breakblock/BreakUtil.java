@@ -144,7 +144,6 @@ public final class BreakUtil {
 		Material dropmaterial;
 		int fortunelevel = tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
 		Random rnd = new Random();
-		if(fortunelevel < 0)fortunelevel = 0;
 		//(1~4)倍のボーナス値を算出
 		int drops;
 		ItemStack dropitem;
