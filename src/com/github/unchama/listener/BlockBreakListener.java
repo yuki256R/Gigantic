@@ -222,7 +222,7 @@ public class BlockBreakListener implements Listener{
 						}
 					}
 					if(flag2 && flag1) {
-						//iblockdata1.getBlock().a(nmsWorld, nmsPlayer, blockposition, iblockdata1, tileentity1, itemstack21);
+						iblockdata1.getBlock().a(nmsWorld, nmsPlayer, blockposition, iblockdata1, tileentity1, itemstack21);
 
 						nmsPlayer.b(StatisticList.a(iblockdata1.getBlock()));
 						nmsPlayer.applyExhaustion(0.025F);
