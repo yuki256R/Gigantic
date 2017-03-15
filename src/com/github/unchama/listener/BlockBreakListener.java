@@ -5,9 +5,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.server.v1_10_R1.BlockCommand;
+import net.minecraft.server.v1_10_R1.BlockPosition;
+import net.minecraft.server.v1_10_R1.BlockStructure;
+import net.minecraft.server.v1_10_R1.EnchantmentManager;
+import net.minecraft.server.v1_10_R1.Enchantments;
+import net.minecraft.server.v1_10_R1.EntityPlayer;
+import net.minecraft.server.v1_10_R1.EnumHand;
+import net.minecraft.server.v1_10_R1.IBlockData;
+import net.minecraft.server.v1_10_R1.Item;
+import net.minecraft.server.v1_10_R1.ItemSword;
+import net.minecraft.server.v1_10_R1.PacketPlayOutBlockChange;
+import net.minecraft.server.v1_10_R1.StatisticList;
+import net.minecraft.server.v1_10_R1.TileEntity;
+import net.minecraft.server.v1_10_R1.World;
+
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_10_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_10_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,8 +39,6 @@ import org.bukkit.material.Wood;
 
 import com.github.unchama.event.GiganticBreakEvent;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -68,39 +85,207 @@ public class BlockBreakListener implements Listener{
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void onBlockBreakListener(BlockBreakEvent event){
 		if(!(event instanceof GiganticBreakEvent)){
-            event.setCancelled(true);
+			/*Material m = event.getBlock().getType();
+			switch(m){
+			case PAINTING:
+			case STANDING_BANNER:
+			case WALL_BANNER:
+			case SKULL:
+			case FLOWER_POT:
+			case CHEST:
+			case HOPPER:
+			case BEACON:
+			case DISPENSER:
+			case DROPPER:
+			case BREWING_STAND:
+			case FURNACE:
+			case JUKEBOX:
+			case TRAPPED_CHEST:
+			case BED:
+				return ;
+			default:*/
+			event.setCancelled(true);
             Bukkit.getServer().getPluginManager().callEvent(new GiganticBreakEvent(event.getBlock(),event.getPlayer()));
+            return ;
+			//}
 		}
 	}
 
 
+	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBlockBreakNotCancelledListener(BlockBreakEvent event){
 		if(event.isCancelled())return;
+		List<ItemStack> droplist = breakBlock(event.getPlayer(),event.getBlock());
+		if(droplist ==null){
+			return;
+
+		}else if(droplist.isEmpty()){
+			debug.sendMessage(event.getPlayer(),DebugEnum.BREAK, "no drop");
+		}else{
+			for(ItemStack is:droplist){
+				debug.sendMessage(event.getPlayer(),DebugEnum.BREAK, "dropMaterial:" + is.getType() + "(" + is.getAmount() + ")" +" dropData:" + is.getDurability());
+				event.getPlayer().getWorld().dropItemNaturally(event.getBlock().getLocation(), is);
+			}
+		}
+
+		/*
 		Player p = event.getPlayer();
 		ItemStack tool = p.getInventory().getItemInMainHand();
 		Block block = event.getBlock();
 		List<ItemStack> droplist = BreakUtil.getDrops(block,tool);
 
 		/////////////////
-		debug.sendMessage(p,DebugEnum.BREAK, "Material:" + block.getType().name() + " Data:" + Byte.toString((block.getData())));
-		for(ItemStack is : StackType.getItemStack(block.getType())){
-			debug.sendMessage(p,DebugEnum.BREAK, "Stack Data:" + is.getDurability());
+		debug.sendMessage(p,DebugEnum.BREAK, "Material:" + block.getType().name() + " Data:" + (block.getData()&0x08) );
+		List<ItemStack>stacklist = StackType.getItemStack(block.getType());
+		if(!stacklist.isEmpty()){
+			for(ItemStack is : stacklist){
+				debug.sendMessage(p,DebugEnum.BREAK, "Stack Data:" + is.getDurability());
+			}
 		}
 		if(droplist.isEmpty()){
 			debug.sendMessage(p,DebugEnum.BREAK, "no drop");
 		}else{
 			for(ItemStack is : droplist){
-				debug.sendMessage(p,DebugEnum.BREAK, "dropMaterial:" + is.getType() + " dropData:" + is.getDurability());
-				//p.getWorld().dropItemNaturally(block.getLocation(), is);
+				debug.sendMessage(p,DebugEnum.BREAK, "dropMaterial:" + is.getType() + "(" + is.getAmount() + ")" +" dropData:" + is.getDurability());
+				p.getWorld().dropItemNaturally(block.getLocation(), is);
 			}
 		}
 		///////////////
 
 		//経験値の付与
 		p.giveExp(event.getExpToDrop());
-
+*/
 	}
+	public List<ItemStack> breakBlock(Player player, Block block) {
+		List<ItemStack> droplist = new ArrayList<ItemStack>();
+		EntityPlayer nmsPlayer = ((CraftPlayer)player).getHandle();
+		World nmsWorld = ((CraftWorld) block.getWorld()).getHandle();
+		BlockPosition blockposition = new BlockPosition(block.getX(),block.getY(),block.getZ());
+		GameMode gamemode = player.getGameMode();
+		net.minecraft.server.v1_10_R1.ItemStack itemstack1;
+		if(nmsPlayer != null) {
+			org.bukkit.block.Block iblockdata = nmsWorld.getWorld().getBlockAt(blockposition.getX(), blockposition.getY(), blockposition.getZ());
+			boolean tileentity = gamemode == GameMode.CREATIVE && nmsPlayer.getItemInMainHand() != null && nmsPlayer.getItemInMainHand().getItem() instanceof ItemSword;
+			if(nmsWorld.getTileEntity(blockposition) == null && !tileentity) {
+				PacketPlayOutBlockChange packet = new PacketPlayOutBlockChange(nmsWorld, blockposition);
+				packet.block = net.minecraft.server.v1_10_R1.Blocks.AIR.getBlockData();
+				nmsPlayer.playerConnection.sendPacket(packet);
+			}
+		}
+
+		IBlockData iblockdata1 = nmsWorld.getType(blockposition);
+		if(iblockdata1.getBlock() == net.minecraft.server.v1_10_R1.Blocks.AIR) {
+			return null;
+		} else {
+			TileEntity tileentity1 = nmsWorld.getTileEntity(blockposition);
+			net.minecraft.server.v1_10_R1.Block block2 = iblockdata1.getBlock();
+			if(iblockdata1.getBlock() == net.minecraft.server.v1_10_R1.Blocks.SKULL && gamemode != GameMode.CREATIVE) {
+				//iblockdata1.getBlock().dropNaturally(nmsWorld, blockposition, iblockdata1, 1.0F, 0);
+				//World world, BlockPosition blockposition,IBlockData iblockdata, float f, int i
+				droplist.addAll(getDrops(nmsWorld, blockposition, iblockdata1, 1.0F, 0));
+				this.whatisthis(nmsPlayer,nmsWorld,blockposition);
+				return droplist;
+			} else if((block2 instanceof BlockCommand || block2 instanceof BlockStructure) && !nmsPlayer.dh()) {
+				nmsWorld.notify(blockposition, iblockdata1, iblockdata1, 3);
+				return null;
+			} else {
+				if(gamemode == GameMode.ADVENTURE || gamemode == GameMode.SPECTATOR) {
+					if(gamemode == GameMode.SPECTATOR) {
+						return null;
+					}
+
+					if(!nmsPlayer.cZ()) {
+						net.minecraft.server.v1_10_R1.ItemStack flag1 = nmsPlayer.getItemInMainHand();
+						if(flag1 == null) {
+							return null;
+						}
+
+						if(!flag1.a(block2)) {
+							return null;
+						}
+					}
+				}
+
+				nmsWorld.a(nmsPlayer, 2001, blockposition, net.minecraft.server.v1_10_R1.Block.getCombinedId(iblockdata1));
+				boolean flag2 = whatisthis(nmsPlayer,nmsWorld,blockposition);
+				if(gamemode == GameMode.CREATIVE) {
+					nmsPlayer.playerConnection.sendPacket(new PacketPlayOutBlockChange(nmsWorld, blockposition));
+				} else {
+					itemstack1 = nmsPlayer.getItemInMainHand();
+					net.minecraft.server.v1_10_R1.ItemStack itemstack21 = itemstack1 == null?null:itemstack1.cloneItemStack();
+					boolean flag1 = nmsPlayer.hasBlock(iblockdata1);
+					if(itemstack1 != null) {
+						itemstack1.a(nmsWorld, iblockdata1, blockposition, nmsPlayer);
+						if(itemstack1.count == 0) {
+							nmsPlayer.a(EnumHand.MAIN_HAND, null);
+						}
+					}
+					if(flag2 && flag1) {
+						//iblockdata1.getBlock().a(nmsWorld, nmsPlayer, blockposition, iblockdata1, tileentity1, itemstack21);
+
+						nmsPlayer.b(StatisticList.a(iblockdata1.getBlock()));
+						nmsPlayer.applyExhaustion(0.025F);
+						if((iblockdata1.getBlock().getBlockData().h()) && (!iblockdata1.getBlock().isTileEntity())
+								&& (EnchantmentManager.getEnchantmentLevel(
+										Enchantments.SILK_TOUCH, itemstack21) > 0)) {
+							net.minecraft.server.v1_10_R1.ItemStack dropis;
+							Item item = Item.getItemOf(iblockdata1.getBlock());
+							if (item == null) {
+								dropis = null;
+							}else{
+								int i = 0;
+								if (item.k()) {
+									i = iblockdata1.getBlock().toLegacyData(iblockdata1);
+								}
+								dropis  = new net.minecraft.server.v1_10_R1.ItemStack(item, 1, i);
+								droplist.add(CraftItemStack.asBukkitCopy(dropis));
+								return droplist;
+							}
+						}else{
+							int i = EnchantmentManager.getEnchantmentLevel(
+									Enchantments.LOOT_BONUS_BLOCKS, itemstack21);
+							droplist.addAll(getDrops(nmsWorld, blockposition, iblockdata1, 1.0F, i));
+							return droplist;
+						}
+					}
+				}
+				return null;
+			}
+		}
+	}
+
+	private List<ItemStack> getDrops(World world,
+			BlockPosition blockposition, IBlockData iblockdata, float f, int i) {
+		List<ItemStack> droplist = new ArrayList<ItemStack>();
+		if (!world.isClientSide) {
+			int j = iblockdata.getBlock().getDropCount(i, world.random);
+			for (int k = 0; k < j; k++) {
+				if (world.random.nextFloat() < f) {
+					Item item = iblockdata.getBlock().getDropType(iblockdata, world.random, i);
+					if (item != null) {
+						net.minecraft.server.v1_10_R1.ItemStack dropis;
+						dropis = new net.minecraft.server.v1_10_R1.ItemStack(item, 1, iblockdata.getBlock().getDropData(iblockdata));
+						droplist.add(CraftItemStack.asBukkitCopy(dropis));
+					}
+				}
+			}
+		}
+		return droplist;
+	}
+
+	private boolean whatisthis(EntityPlayer player, World world, BlockPosition blockposition) {
+		IBlockData iblockdata = world.getType(blockposition);
+		iblockdata.getBlock().a(world, blockposition, iblockdata, player);
+		boolean flag = world.setAir(blockposition);
+		if(flag) {
+			iblockdata.getBlock().postBreak(world, blockposition, iblockdata);
+		}
+
+		return flag;
+	}
+
+
 
 	@SuppressWarnings("unused")
 	private ItemStack getDrop(Block block, ItemStack tool){

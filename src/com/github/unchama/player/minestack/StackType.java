@@ -708,7 +708,7 @@ public enum StackType {
 
 	}
 	public static List<ItemStack> getItemStack(Material m){
-		return material_map.get(m);
+		return material_map.get(m) == null ? new ArrayList<ItemStack>():material_map.get(m);
 
 	}
 
