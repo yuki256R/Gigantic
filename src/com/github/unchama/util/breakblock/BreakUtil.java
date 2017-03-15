@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.Dye;
 
 public final class BreakUtil {
-
+	public static Random rnd = new Random();
 	/**
 	 * ツールを使った時のドロップアイテムのリストを返します．
 	 *
@@ -85,8 +85,7 @@ public final class BreakUtil {
 			droplist.add(new ItemStack(Material.STONE));
 			break;
 		default:
-			droplist.addAll(block.getDrops());
-			break;
+			return getDropOnNormal(block, tool);
 		}
 		return droplist;
 	}
@@ -125,10 +124,6 @@ public final class BreakUtil {
 	 */
 	private static List<ItemStack> getDropOnShears(Block block, ItemStack tool) {
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
-		Material dropmaterial;
-		int drops;
-		Dye dye;
-		Random rnd = new Random();
 		Material material = block.getType();
 		switch (material) {
 		case LEAVES:
@@ -139,24 +134,8 @@ public final class BreakUtil {
 		case DEAD_BUSH:
 			droplist.add(new ItemStack(material, 1, getData(block)));
 			break;
-		case SNOW:
-			drops = 1;
-			dropmaterial = Material.SNOW_BALL;
-			droplist.add(new ItemStack(dropmaterial, drops));
-			break;
-		case COCOA:
-			dye = new Dye();
-			dye.setColor(DyeColor.BROWN);
-			if (block.getData() == 9) {
-				drops = rnd.nextInt(2) + 2;
-			} else {
-				drops = 1;
-			}
-			droplist.add(dye.toItemStack(drops));
-			break;
 		default:
-			droplist.addAll(block.getDrops());
-			break;
+			return getDropOnNormal(block, tool);
 		}
 		return droplist;
 	}
@@ -336,23 +315,8 @@ public final class BreakUtil {
 				break;
 			}
 			break;
-		case SNOW:
-			drops = 1;
-			dropmaterial = Material.SNOW_BALL;
-			droplist.add(new ItemStack(dropmaterial, drops));
-			break;
-		case COCOA:
-			dye = new Dye();
-			dye.setColor(DyeColor.BROWN);
-			if (block.getData() == 9) {
-				drops = rnd.nextInt(2) + 2;
-			} else {
-				drops = 1;
-			}
-			droplist.add(dye.toItemStack(drops));
-			break;
 		default:
-			return new ArrayList<ItemStack>(block.getDrops());
+			return getDropOnNormal(block, tool);
 		}
 		return droplist;
 	}
