@@ -3,6 +3,8 @@ package com.github.unchama.listener;
 import java.util.HashMap;
 import java.util.UUID;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -12,8 +14,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -24,24 +30,44 @@ public class BlockBreakListener implements Listener{
 	public static HashMap<Location,UUID> breakmap = new HashMap<Location,UUID>();
 
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void ItemSpawnListener(ItemSpawnEvent event){
+	public void addMineStack(ItemSpawnEvent event){
 		if(event.isCancelled())return;
 		Location loc = event.getLocation().getBlock().getLocation();
 		UUID uuid = breakmap.get(loc);
-		if(uuid == null){
-			return ;
-		}else{
-			Player player = Bukkit.getServer().getPlayer(uuid);
-			if(player == null)return;
-			debug.sendMessage(player, DebugEnum.BREAK, "your item is spawn");
-			player.getInventory().addItem(event.getEntity().getItemStack());
-			event.setCancelled(true);
 
+		if(uuid == null){
+			//破壊者がいない場合は依存関係を調べる
+			ItemStack dropitem = event.getEntity().getItemStack();
+			switch(dropitem.getType()){
+			case SAPLING:
+				loc.add(0,-1,0);
+				uuid = breakmap.get(loc);
+			}
 		}
+
+		if(uuid == null)return;
+		//破壊者がいる場合
+		Player player = Bukkit.getServer().getPlayer(uuid);
+		if(player == null)return;
+		debug.sendMessage(player, DebugEnum.BREAK, "your item is catched");
+
+		ItemStack dropitem = event.getEntity().getItemStack();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		if(gp == null)return;
+		MineStackManager m = gp.getManager(MineStackManager.class);
+		if(m.add(dropitem)){
+			debug.sendMessage(player, DebugEnum.MINESTACK, "your item is added in minestack");
+		}else{
+			player.getInventory().addItem(dropitem);
+			debug.sendMessage(player, DebugEnum.BREAK, "your item is added in inventory");
+		}
+		event.setCancelled(true);
+		return;
+
 	}
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onBlockBreakListener(BlockBreakEvent event){
+	public void putBreakMap(BlockBreakEvent event){
 		if(event.isCancelled())return;
 		debug.sendMessage(event.getPlayer(), DebugEnum.BREAK, "Material:" + event.getBlock().getType().name() + "Data:" + (event.getBlock().getData() & 0x07));
 		Location droploc = getDropLocation(event.getBlock());
@@ -105,4 +131,16 @@ public class BlockBreakListener implements Listener{
 			return block.getLocation();
 		}
 	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void NotLoadedGiganticPlayer(BlockBreakEvent event){
+		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		if(gp == null){
+			event.setCancelled(true);
+			player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "プレイヤーデータを読み込んでいます．しばらくお待ちください．");
+		}
+	}
+
+
 }

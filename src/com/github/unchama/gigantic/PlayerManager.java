@@ -49,9 +49,8 @@ public class PlayerManager {
 	public static void quit(Player player) {
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp = gmap.get(uuid);
-		if(gp == null){
-			return ;
-		}
+		if(gp == null)return ;
+		if(!gp.isloaded())return;
 		// 終了前最終処理を行う
 		gp.fin();
 		// 最終データをsqlにセーブ

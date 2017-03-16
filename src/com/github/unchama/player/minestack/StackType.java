@@ -631,7 +631,6 @@ public enum StackType {
 	;
 
 
-
 	private final Material material;
 	private final String jpname;
 	//private final int maxStack;
@@ -654,14 +653,18 @@ public enum StackType {
 	}
 
 
-	public static HashMap<Material,List<ItemStack> > material_map = new HashMap<Material, List<ItemStack>>();
+	public static HashMap<Material,List<Short> > material_map = new HashMap<Material, List<Short>>();
+	public static HashMap<Material,StackType> m_s_map = new HashMap<Material,StackType>();
+	public static HashMap<Integer,StackType> i_s_map = new HashMap<Integer,StackType>();
 
 	static{
 		for(StackType st : values()){
+			i_s_map.put(st.ordinal(), st);
 			if(!material_map.containsKey(st.getMaterial())){
-				material_map.put(st.getMaterial(), new ArrayList<ItemStack>(Arrays.asList(st.getItemStack())));
+				material_map.put(st.getMaterial(),new ArrayList<Short>(Arrays.asList(st.getDurability())));
+				m_s_map.put(st.getMaterial(), st);
 			}else{
-				material_map.get(st.getMaterial()).add(st.getItemStack());
+				material_map.get(st.getMaterial()).add(new Short(st.getDurability()));
 			}
 		}
 	}
@@ -699,16 +702,13 @@ public enum StackType {
 
 	/**Stackできるかどうか判定します．
 	 *
-	 * @param m
-	 * @param b
+	 * @param itemstack
 	 * @return
 	 */
-	public static boolean canStack(Material m ,Byte b){
-		return material_map.containsKey(m);
-
-	}
-	public static List<ItemStack> getItemStack(Material m){
-		return material_map.get(m) == null ? new ArrayList<ItemStack>():material_map.get(m);
+	public static boolean canStack(ItemStack itemstack){
+		Material m = itemstack.getType();
+		short durability = itemstack.getDurability();
+		return material_map.containsKey(m) ? material_map.get(m).contains(durability) : false;
 
 	}
 
@@ -716,6 +716,12 @@ public enum StackType {
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
 		itemstack.setDurability(this.getDurability());
 		return itemstack;
+	}
+	public static StackType getStackType(ItemStack itemstack) {
+		Material m = itemstack.getType();
+		short durability = itemstack.getDurability();
+		int i = m_s_map.get(m).ordinal();
+		return i_s_map.get(i + durability);
 	}
 
 
