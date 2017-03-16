@@ -64,7 +64,7 @@ public final class Gigantic extends JavaPlugin {
 		PlayerManager.onEnable();
 
 		// 1秒毎にタスクを実行
-		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 0,
+		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 200,
 				20);
 
 		// リスナーを登録

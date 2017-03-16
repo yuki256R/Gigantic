@@ -18,8 +18,10 @@ public class PlayerFirstJoinListener implements Listener {
 	@EventHandler
 	public void onFirstJoinMessageListener(PlayerFirstJoinEvent event) {
 		Player player = event.getPlayer();
-		player.sendMessage(config.getFirstJoinMessage());
-		debug.info(DebugEnum.SQL, player.getName() + "は初参加です！");
+		if(player != null){
+			player.sendMessage(config.getFirstJoinMessage());
+			debug.info(DebugEnum.SQL, player.getName() + "は初参加です！");
+		}
 	}
 
 	@EventHandler
