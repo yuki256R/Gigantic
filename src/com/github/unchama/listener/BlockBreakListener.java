@@ -38,11 +38,8 @@ public class BlockBreakListener implements Listener{
 		if(uuid == null){
 			//破壊者がいない場合は依存関係を調べる
 			ItemStack dropitem = event.getEntity().getItemStack();
-			switch(dropitem.getType()){
-			case SAPLING:
-				loc.add(0,-1,0);
-				uuid = breakmap.get(loc);
-			}
+			setLocationbyType(loc,dropitem);
+			uuid = breakmap.get(loc);
 		}
 
 		if(uuid == null)return;
@@ -64,6 +61,16 @@ public class BlockBreakListener implements Listener{
 		event.setCancelled(true);
 		return;
 
+	}
+	private void setLocationbyType(Location loc, ItemStack dropitem) {
+		switch(dropitem.getType()){
+		case SAPLING:
+			//下依存
+		case LADDER:
+			//横依存
+		case REDSTONE_TORCH_ON:
+			//全方向依存
+		}
 	}
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR)

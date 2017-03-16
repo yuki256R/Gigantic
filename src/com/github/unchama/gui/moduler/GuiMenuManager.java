@@ -141,7 +141,7 @@ public abstract class GuiMenuManager extends YmlManager {
 	 * @return
 	 */
 	public Inventory getInventory(Player player) {
-		Inventory inv = Bukkit.getServer().createInventory(null,
+		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
 		for (int i = 0; i < this.getInventorySize(); i++) {
 			String s = Integer.toString(i) + ".itemstack";
