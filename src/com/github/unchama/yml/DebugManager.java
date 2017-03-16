@@ -22,7 +22,9 @@ public final class DebugManager extends YmlManager {
 		MINEBOOST(true, ChatColor.AQUA),
 		MINEBLOCK(true, ChatColor.RED),
 		SQL(true, ChatColor.YELLOW),
-		GUI(true, ChatColor.BLUE), ;
+		GUI(true, ChatColor.BLUE),
+		BREAK(true, ChatColor.DARK_GRAY),
+		;
 		// ファイル生成時の初期値
 		private Boolean flag;
 		// チャットに流れる時のprefixの色

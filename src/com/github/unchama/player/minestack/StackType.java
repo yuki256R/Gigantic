@@ -1,5 +1,10 @@
 package com.github.unchama.player.minestack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -344,7 +349,7 @@ public enum StackType {
 	PURPUR_SLAB("プルパーハーフブロック"),
 	END_BRICKS("エンドストーンレンガ"),
 	//BEETROOT_BLOCK("ビートルートの種"),
-	GRASS_PATH("草の道"),
+	//GRASS_PATH("草の道"),
 	MAGMA("マグマブロック"),
 	NETHER_WART_BLOCK("ネザーウォートブロック"),
 	RED_NETHER_BRICK("赤いネザーレンガ"),
@@ -626,7 +631,6 @@ public enum StackType {
 	;
 
 
-//	SMOOTH_DIORITE(1,Material.STONE,"smooth_diorite","滑らかな閃緑岩",4),
 
 	private final Material material;
 	private final String jpname;
@@ -648,6 +652,22 @@ public enum StackType {
 		this.jpname = jpname;
 		this.durability = durability;
 	}
+
+
+	public static HashMap<Material,List<ItemStack> > material_map = new HashMap<Material, List<ItemStack>>();
+
+	static{
+		for(StackType st : values()){
+			if(!material_map.containsKey(st.getMaterial())){
+				material_map.put(st.getMaterial(), new ArrayList<ItemStack>(Arrays.asList(st.getItemStack())));
+			}else{
+				material_map.get(st.getMaterial()).add(st.getItemStack());
+			}
+		}
+	}
+
+
+
 	/**Materialを返します
 	 *
 	 * @return
@@ -677,8 +697,20 @@ public enum StackType {
 		return this.name();
 	}
 
+	/**Stackできるかどうか判定します．
+	 *
+	 * @param m
+	 * @param b
+	 * @return
+	 */
+	public static boolean canStack(Material m ,Byte b){
+		return material_map.containsKey(m);
 
+	}
+	public static List<ItemStack> getItemStack(Material m){
+		return material_map.get(m) == null ? new ArrayList<ItemStack>():material_map.get(m);
 
+	}
 
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());

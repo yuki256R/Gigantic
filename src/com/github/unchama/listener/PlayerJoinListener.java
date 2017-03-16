@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineboost.BoostType;
 import com.github.unchama.player.mineboost.MineBoostManager;
 
 public class PlayerJoinListener implements Listener {
@@ -24,10 +25,8 @@ public class PlayerJoinListener implements Listener {
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 			if(gp == null)continue;
 			MineBoostManager mm = gp.getManager(MineBoostManager.class);
-			mm.updataNumberOfPeople();
+			mm.updata(BoostType.NUMBER_OF_PEOPLE);
 			mm.refresh();
 		}
 	}
-
-
 }

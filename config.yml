@@ -14,8 +14,8 @@ id: 'root'
 pw: ''
 
 # 引き継ぎ用データベースへの接続設定
-# 無ければfalseに設定する
-olddatabase : 'true'
+# 無ければnoに設定する
+olddatabase : yes
 # SeichiAssistデータベース
 seichiassist:
   host: 'localhost'

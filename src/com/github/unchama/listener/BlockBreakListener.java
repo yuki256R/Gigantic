@@ -1,156 +1,108 @@
 package com.github.unchama.listener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.material.MaterialData;
-import org.bukkit.material.Wood;
+import org.bukkit.event.entity.ItemSpawnEvent;
 
-import com.github.unchama.event.GiganticBreakEvent;
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class BlockBreakListener implements Listener{
+	Gigantic plugin = Gigantic.plugin;
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
-	private Map<Material, ItemStack> dropMap;
-	private Map<Material, Material> silkMap;
-	private List<Material> fortuneList;
+	public static HashMap<Location,UUID> breakmap = new HashMap<Location,UUID>();
 
-	public BlockBreakListener(){
-		//ブロックとドロップアイテムが変わるやつを(BlockのMaterial, ドロップするItemStack)で
-		dropMap = new HashMap<>();
-		dropMap.put(Material.COAL_ORE, new ItemStack(Material.COAL));
-		dropMap.put(Material.DIAMOND_ORE, new ItemStack(Material.DIAMOND));
-		dropMap.put(Material.EMERALD_ORE, new ItemStack(Material.EMERALD));
-		dropMap.put(Material.QUARTZ_ORE, new ItemStack(Material.QUARTZ));
-		dropMap.put(Material.REDSTONE_ORE, new ItemStack(Material.REDSTONE));
-		dropMap.put(Material.GLOWING_REDSTONE_ORE, new ItemStack(Material.REDSTONE));
-		dropMap.put(Material.LAPIS_ORE, new ItemStack(Material.INK_SACK, 1, (short)4));
-		dropMap.put(Material.LEAVES, new ItemStack(Material.AIR));
-		dropMap.put(Material.LEAVES_2, new ItemStack(Material.AIR));
-		dropMap.put(Material.CLAY, new ItemStack(Material.CLAY_BALL, 4));
-		dropMap.put(Material.MONSTER_EGGS, new ItemStack(Material.AIR));
-		dropMap.put(Material.GRASS, new ItemStack(Material.DIRT));
-
-		//シルクでブロックとドロップアイテムが変わるやつを同上の形式で
-		silkMap = new HashMap<>();
-		silkMap.put(Material.GLOWING_REDSTONE_ORE, Material.REDSTONE);
-		silkMap.put(Material.MONSTER_EGGS, Material.STONE);
-
-
-		//幸運が適用されるブロックのMaterialのList
-		fortuneList = new ArrayList<>();
-		fortuneList.add(Material.COAL_ORE);
-		fortuneList.add(Material.DIAMOND_ORE);
-		fortuneList.add(Material.EMERALD);
-		fortuneList.add(Material.QUARTZ);
-		fortuneList.add(Material.REDSTONE);
-		fortuneList.add(Material.GLOWING_REDSTONE_ORE);
-		fortuneList.add(Material.LAPIS_ORE);
-	}
-
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void onBlockBreakListener(BlockBreakEvent event){
-		if(!(event instanceof GiganticBreakEvent)){
-            event.setCancelled(true);
-            Bukkit.getServer().getPluginManager().callEvent(new GiganticBreakEvent(event.getBlock(),event.getPlayer()));
-		}
-	}
-
-
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void onBlockBreakNotCancelledListener(BlockBreakEvent event){
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void ItemSpawnListener(ItemSpawnEvent event){
 		if(event.isCancelled())return;
-		Player p = event.getPlayer();
-		ItemStack tool = p.getInventory().getItemInMainHand();
-		Block block = event.getBlock();
-		/*
-		//経験値の付与
-		p.giveExp(event.getExpToDrop());
+		Location loc = event.getLocation().getBlock().getLocation();
+		UUID uuid = breakmap.get(loc);
+		if(uuid == null){
+			return ;
+		}else{
+			Player player = Bukkit.getServer().getPlayer(uuid);
+			if(player == null)return;
+			debug.sendMessage(player, DebugEnum.BREAK, "your item is spawn");
+			player.getInventory().addItem(event.getEntity().getItemStack());
+			event.setCancelled(true);
 
-		//ドロップを取得
-		ItemStack drop = getDrop(block, tool);
-		//暫定的にインベントリに追加
-		p.getInventory().addItem(drop);
-
-		//統計加算
-		p.incrementStatistic(Statistic.MINE_BLOCK, block.getType());
-
-		//耐久値変更
-		tool.setDurability((short)(tool.getDurability() + 1));
-
-		//こわす
-		event.getBlock().setType(Material.AIR);
-		*/
+		}
+	}
+	@SuppressWarnings("deprecation")
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockBreakListener(BlockBreakEvent event){
+		if(event.isCancelled())return;
+		debug.sendMessage(event.getPlayer(), DebugEnum.BREAK, "Material:" + event.getBlock().getType().name() + "Data:" + (event.getBlock().getData() & 0x07));
+		Location droploc = getDropLocation(event.getBlock());
+		breakmap.put(droploc, event.getPlayer().getUniqueId());
+		Bukkit.getScheduler().runTaskLater(plugin, new Runnable(){
+			@Override
+			public void run() {
+				breakmap.remove(event.getBlock().getLocation());
+			}
+		}, 1);
 	}
 
-	@SuppressWarnings("unused")
-	private ItemStack getDrop(Block block, ItemStack tool){
-		Material blockType = block.getState().getType();
-		MaterialData blockData = block.getState().getData();
-		//向きを統一
-		byte b = block.getData();
-		if (blockData instanceof Wood){
-			b &= 0x03;
-		}
-		else {
-			b &= 0x0F;
-		}
-
-		//とりあえずブロックをドロップアイテムに指定
-		ItemStack drop = new ItemStack(blockType, 1, b);
-
-		//シルクのとき
-		if (tool.getEnchantmentLevel(Enchantment.SILK_TOUCH) > 0){
-			if (silkMap.containsKey(blockType))
-				drop.setType(silkMap.get(blockType));
-		}
-		//シルクじゃないとき
-		else {
-			//ブロックとドロップのMaterialが変わるやつ
-			if (dropMap.containsKey(blockType)) {
-				drop = new ItemStack(dropMap.get(blockType));
+	@SuppressWarnings("deprecation")
+	private Location getDropLocation(Block block) {
+		switch(block.getType()){
+		case BED_BLOCK:
+			switch(block.getData() & 0x0F){
+			case 8:
+				return block.getLocation().add(0,0,-1);
+			case 9:
+				return block.getLocation().add(1,0,0);
+			case 10:
+				return block.getLocation().add(0,0,1);
+			case 11:
+				return block.getLocation().add(-1,0,0);
+			default:
+				return block.getLocation();
 			}
-
-			//とくべつなやつ
-			int amount = drop.getAmount();
-			short damage = drop.getDurability();
-			switch (drop.getType()) {
-				//数が変動するやつ
-				case REDSTONE:
-					amount = (int)(Math.random() + 4);
-					break;
-				case INK_SACK:
-					amount = (int)((Math.random() * 4) + 4);
-					break;
-				//ダメージ値で変動するやつ
-				case STONE:
-					if (damage == 0)
-						drop.setType(Material.COBBLESTONE);
-					break;
-				default:
-					break;
+		case PISTON_EXTENSION:
+			switch(block.getData() & 0x07){
+			case 0:
+				return block.getLocation().add(0,1,0);
+			case 1:
+				return block.getLocation().add(0,-1,0);
+			case 2:
+				return block.getLocation().add(0,0,1);
+			case 3:
+				return block.getLocation().add(0,0,-1);
+			case 4:
+				return block.getLocation().add(1,0,0);
+			case 5:
+				return block.getLocation().add(-1,0,0);
+			default:
+				return block.getLocation();
 			}
-			drop.setAmount(amount);
-
-			//幸運のとき
-			if (tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS) > 0 && fortuneList.contains(blockType)){
-				int bonus = (int)(Math.random() * tool.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS));
-				drop.setAmount(drop.getAmount() + bonus);
+		case DOUBLE_PLANT:
+		case WOODEN_DOOR:
+		case IRON_DOOR_BLOCK:
+		case SPRUCE_DOOR:
+		case BIRCH_DOOR:
+		case JUNGLE_DOOR:
+		case ACACIA_DOOR:
+		case DARK_OAK_DOOR:
+			switch(block.getData() & 0x08){
+			case 8:
+				return block.getLocation().add(0,-1,0);
+			default:
+				return block.getLocation();
 			}
+		default:
+			return block.getLocation();
 		}
-
-		return drop;
 	}
-
 }
