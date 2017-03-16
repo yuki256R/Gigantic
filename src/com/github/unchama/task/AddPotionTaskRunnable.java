@@ -11,9 +11,9 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.player.mineboost.BoostType;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * MineBoostにおける採掘速度上昇を全プレイヤーに付加します．
@@ -54,14 +54,9 @@ public class AddPotionTaskRunnable extends BukkitRunnable {
 						if (gs.equals(GiganticStatus.AVAILABLE)) {
 							MineBoostManager mm = gp
 									.getManager(MineBoostManager.class);
-							mm.updataMinuteMine();
+							mm.updata(BoostType.MINUTE_MINE);;
 							mm.refresh();
 						}
-						debug.sendMessage(
-								player,
-								DebugEnum.MINEBOOST,
-								"updata MinuteMine for player:"
-										+ player.getName());
 					}
 				}
 			}
