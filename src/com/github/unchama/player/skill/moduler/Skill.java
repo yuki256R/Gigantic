@@ -1,9 +1,41 @@
 package com.github.unchama.player.skill.moduler;
 
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
-public class Skill {
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.DebugManager;
 
+public abstract class Skill {
+	Gigantic plugin = Gigantic.plugin;
+	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	/**スキルタイプを選択するメニューで使われるitemstackを取得します
+	 *
+	 * @return
+	 */
+	public abstract ItemStack getSkillTypeInfo();
+
+
+	/**スキル専用メニューを取得します．
+	 *
+	 * @return
+	 */
+	public abstract Inventory getMenu();
+
+	/**スキルの範囲設定メニューを取得します．
+	 *
+	 * @return
+	 */
+	public abstract Inventory getRangeMenu();
+
+	/**破壊できるBlockのMaterialの時trueを返します．
+	 *
+	 * @param blockのmaterial名
+	 * @return 可否
+	 */
 	public static boolean canBreak(Material m) {
 		switch (m) {
 		case STONE:
