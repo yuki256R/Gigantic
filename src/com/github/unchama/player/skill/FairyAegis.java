@@ -4,10 +4,15 @@ import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.skill.moduler.Skill;
 
 public class FairyAegis extends Skill{
 
+
+	public FairyAegis(GiganticPlayer gp) {
+		super(gp);
+	}
 
 	@Override
 	public ItemStack getSkillTypeInfo() {

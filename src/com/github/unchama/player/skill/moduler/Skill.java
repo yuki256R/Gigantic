@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 
@@ -12,6 +13,11 @@ public abstract class Skill {
 	Gigantic plugin = Gigantic.plugin;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	GiganticPlayer gp;
+
+	public Skill(GiganticPlayer gp){
+		this.gp = gp;
+	}
 	/**スキルタイプを選択するメニューで使われるitemstackを取得します
 	 *
 	 * @return

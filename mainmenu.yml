@@ -7,16 +7,6 @@
 
 #基本設定
 
-#メニュータイプを選択してください．
-# 1: 手に持った所定のアイテムを持った状態でクリックすることで開きます．
-# 2: 本プラグインで作成されたメニューのアイテムをクリックすることで開きます．
-
-menutype: 1
-
-# click:クリックの種類を選択してください．（left or right)
-
-click: 'right'
-
 # 開けた時のサウンドを選択してください．
 # サウンド一覧はこちらから(https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html)
 
@@ -25,26 +15,35 @@ sound:
   volume: 1
   pitch: 0.1
 
-#起点となるアイテムを指定する．
-#material:マテリアルタイプ
-#damege:マテリアルのダメージ値
-#name: アイテム名
-#lore:説明文
+# 起点となるアイテムを指定する．以下指定できるデータ．（省略可）
+# material:マテリアルタイプ(String型で入力してください）（省略可）
+# damege:マテリアルのダメージ値（省略可）
+# name: アイテム名（省略可）
+# lore:説明文（省略可）
 
 key:
   material: 'STICK'
 
-#サイズ (4*9)
-#必ず9の倍数にすること
+# click:クリックの種類を選択してください．（left or right)（省略可）
+
+click: 'right'
+
+
+
+# インベントリタイプ（省略可）（こちらからhttps://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/inventory/InventoryType.html）
+# inventorytype:
+
+# サイズ (4*9)(省略可）
+# 必ず9の倍数にすること
 
 size: 36
 
-#名前
-#必ず被らないようにしてください．
+# 名前
+# 必ず被らないようにしてください．
 
 name: '&5&lメインメニュー'
 
-#以下メニュー内設定例
+# 以下メニュー内設定例
 #  itemstack:
 #    ==: org.bukkit.inventory.ItemStack
 #    type: <Material>
@@ -82,7 +81,8 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&l整地スキルブック'
+      display-name: '&e&n&l整地スキル'
       lore:
       - '&r&7スキルを使って整地の効率を上げよう'
       - '&r&4&nクリックで開く'
+  open: 'skilltypemenu'

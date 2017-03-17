@@ -1,5 +1,6 @@
 package com.github.unchama.gui.moduler;
 
+import java.util.HashMap;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -8,12 +9,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.KeyItem;
 import com.github.unchama.yml.moduler.YmlManager;
 
@@ -24,37 +27,46 @@ import com.github.unchama.yml.moduler.YmlManager;
  *
  */
 public abstract class GuiMenuManager extends YmlManager {
+
 	private KeyItem keyitem;
+	public HashMap<Integer,Class<? extends GuiMenuManager> > openmenumap;
+
 
 	public GuiMenuManager() {
 		super();
-		String m = this.fc.getString("key.material");
+		openmenumap = new HashMap<Integer,Class<? extends GuiMenuManager> >();
+		setKeyItem();
+		for (int i = 0; i < this.getInventorySize(); i++) {
+			String menu = this.fc.getString(Integer.toString(i) + ".open");
+			if(menu != null){
+				Class<? extends GuiMenuManager> clazz;
+				try {
+					clazz = GuiMenu.ManagerType.valueOf(menu.toUpperCase()).getManagerClass();
+					openmenumap.put(new Integer(i), clazz);
+				} catch (IllegalArgumentException e) {
+					Bukkit.getLogger().warning(menu + " というメニューは存在しません．");
+				}
+			}
+		}
+
+	}
+
+	private void setKeyItem(){
 		Material material;
 		int damege;
 		String name;
 		List<String> lore;
 
-		if (m != null) {
-			try {
-				material = Material.valueOf(m);
-			} catch (IllegalArgumentException e) {
-				material = null;
-			}
-
-			if (material == null) {
-				damege = 0;
-			} else {
-				damege = this.fc.getInt("key.damege");
-			}
-
-		} else {
-			material = null;
-			damege = 0;
-		}
-
+		damege = this.fc.getInt("key.damege");
 		name = this.fc.getString("key.name");
 		lore = this.fc.getStringList("key.lore");
 
+		try {
+			material = Material.valueOf(this.fc.getString("key.material").toUpperCase());
+		} catch (IllegalArgumentException e) {
+			Bukkit.getLogger().warning(this.fc.getString("key.material") + " というマテリアルは存在しません．");
+			material = null;
+		}
 		this.keyitem = new KeyItem(material, damege, name, lore);
 	}
 
@@ -63,16 +75,6 @@ public abstract class GuiMenuManager extends YmlManager {
 		if (!file.exists()) {
 			plugin.saveResource(filename, false);
 		}
-	}
-
-	/**
-	 * メニュータイプを取得します． 1: 手に持った所定のアイテムを持った状態でクリックすることで開く 2:
-	 * 本プラグインで作成されたメニューのアイテムをクリックすることで開く
-	 *
-	 * @return
-	 */
-	public int getType() {
-		return this.fc.getInt("menutype");
 	}
 
 	/**
@@ -99,7 +101,13 @@ public abstract class GuiMenuManager extends YmlManager {
 	 * @return
 	 */
 	public int getInventorySize() {
-		return this.fc.getInt("size");
+		int size;
+		if(this.getInventoryType() != null){
+			size = this.getInventoryType().getDefaultSize();
+		}else{
+			size = this.fc.getInt("size");
+		}
+		return size;
 	}
 
 	/**
@@ -112,24 +120,31 @@ public abstract class GuiMenuManager extends YmlManager {
 				.setPlaceholders(player, this.fc.getString("name"));
 	}
 
+
 	/**
 	 * PlaceHolderを使用して与えられたナンバーのitemmetaを設定します．
 	 *
-	 * @param p
-	 * @param n
+	 * @param プレイヤー名
+	 * @param インベントリ番号
 	 * @param itemstack
+	 * @param PlaceHolderAPIを使用する時true
 	 */
-	private void setItemMeta(Player player, int n, ItemStack itemstack) {
+	private void setItemMeta(Player player, int n, ItemStack itemstack,boolean flag) {
 		ItemMeta itemmeta = itemstack.getItemMeta();
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
-
-		if (this.fc.getBoolean(n + ".isSkullofOwner")) {
-			SkullMeta skullmeta = (SkullMeta) itemmeta;
-			skullmeta.setOwner(player.getName());
+		if(flag == true){
+			itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getDisplayName()));
+			itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getLore()));
+			if (this.fc.getBoolean(n + ".isSkullofOwner")) {
+				SkullMeta skullmeta = (SkullMeta) itemmeta;
+				skullmeta.setOwner(player.getName());
+			}
+		}else{
+			itemmeta.setDisplayName(itemmeta.getDisplayName());
+			itemmeta.setLore(itemmeta.getLore());
 		}
+
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		itemstack.setItemMeta(itemmeta);
 	}
@@ -141,29 +156,91 @@ public abstract class GuiMenuManager extends YmlManager {
 	 * @return
 	 */
 	public Inventory getInventory(Player player) {
-		Inventory inv = Bukkit.getServer().createInventory(player,
-				this.getInventorySize(), this.getInventoryName(player));
-		for (int i = 0; i < this.getInventorySize(); i++) {
-			String s = Integer.toString(i) + ".itemstack";
-			ItemStack itemstack = this.fc.getItemStack(s);
-			if (!(itemstack == null)) {
-				this.setItemMeta(player, i, itemstack);
-				inv.setItem(i, itemstack);
-			}
+		Inventory inv;
+		InventoryType it = this.getInventoryType();
+		if(it == null){
+			inv = Bukkit.getServer().createInventory(player,
+					this.getInventorySize(), this.getInventoryName(player));
+		}else{
+			inv = Bukkit.getServer().createInventory(player,
+					this.getInventoryType(), this.getInventoryName(player));
+		}
+
+
+		for (int i = 0; i < inv.getSize(); i++) {
+			ItemStack itemstack = this.getItemStack(player,i,true);
+			if(itemstack == null)continue;
+			inv.setItem(i, itemstack);
 		}
 		return inv;
 	}
-	public Sound getSound() {
+
+	/**インベントリタイプを取得します．
+	 *
+	 * @return
+	 */
+	private InventoryType getInventoryType() {
+		String s = this.fc.getString("inventorytype");
+		InventoryType it = null;
+		try{
+			if(s != null){
+				it = InventoryType.valueOf(s.toUpperCase());
+			}
+		}catch(IllegalArgumentException e){
+			Bukkit.getLogger().warning(s + " というInventoryTypeは見つかりません．");
+			it = null;
+		}
+		return it;
+	}
+
+	/**与えられたナンバーのItemStackを取得します．
+	 *
+	 * @param player名
+	 * @param インベントリ番号
+	 * @param PlaceHolderAPIを使用する時true
+	 * @return
+	 */
+	private ItemStack getItemStack(Player player, int i,boolean flag) {
+		String s = Integer.toString(i) + ".itemstack";
+		ItemStack itemstack = this.fc.getItemStack(s);
+		if (!(itemstack == null)) {
+			this.setItemMeta(player, i, itemstack,flag);
+		}
+		return itemstack;
+	}
+
+	/**開いた時の音の名前を取得します．
+	 *
+	 * @return
+	 */
+	public Sound getSoundName() {
 		String s = this.fc.getString("sound.name");
 		return Sound.valueOf(s);
 	}
 
+	/**開いた時の音の大きさを取得します
+	 *
+	 * @return
+	 */
 	public float getVolume() {
 		return (float)this.fc.getDouble("sound.volume");
 	}
 
+	/**開いた時の音の高さを取得します
+	 *
+	 * @return
+	 */
 	public float getPitch() {
 		return (float)this.fc.getDouble("sound.pitch");
+	}
+
+	/**鍵となるアイテムを持っている時trueとなります．
+	 * メニューで作成した項目からジャンプするタイプのメニューではfalseになります．
+	 *
+	 * @return
+	 */
+	public boolean hasKey() {
+		return keyitem.getMaterial() != null;
 	}
 
 }

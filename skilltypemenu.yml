@@ -1,0 +1,58 @@
+﻿#MainMenu 設定ファイル
+
+#カラーコードはこちらから(http://minecraft-ja.gamepedia.com/%E8%A3%85%E9%A3%BE%E3%82%B3%E3%83%BC%E3%83%89)
+#"§"ではなく"&"を利用してください．
+#Material名はこちらから（http://www.minecraftinfo.com/idnamelist.htm）
+#オレンジ色の正式名称の下がMaterialTypeです．(コロン":"の後ろはdamege値です．）
+
+#基本設定
+
+# 開けた時のサウンドを選択してください．
+# サウンド一覧はこちらから(https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html)
+
+sound: 
+  name: 'BLOCK_ENCHANTMENT_TABLE_USE'
+  volume: 1
+  pitch: 0.8
+
+# インベントリタイプ（省略可）（こちらからhttps://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/inventory/InventoryType.html）
+# inventorytype:
+inventorytype: 'HOPPER'
+
+
+# 名前
+# 必ず被らないようにしてください．
+
+name: '&5&lスキルタイプを選択してください．'
+
+# 以下メニュー内設定例
+#  itemstack:
+#    ==: org.bukkit.inventory.ItemStack
+#    type: <Material>
+#    damage: <Damage Amount>
+#    meta:
+#      ==: ItemMeta
+#      meta-type: <METATYPE>
+#      display-name: '<DISPLAYNAME>'
+#      lore:
+#      - <LORE1>
+#      - <LORE2>
+#      Unbreakable: <UNBREAKABLE FLAG>
+#  isSkullofOwner: <FLAG> <--{インベントリを開いたプレイヤーの頭にしたい時trueにしてください}
+
+
+0:
+  skilltypeitemstack: 'explosion'
+  open: 'mainmenu'
+1:
+  skilltypeitemstack: 'magicdrop'
+  open: 'mainmenu'
+2:
+  skilltypeitemstack: 'condensation'
+  open: 'mainmenu'
+3:
+  skilltypeitemstack: 'ruinfield'
+  open: 'mainmenu'
+4:
+  skilltypeitemstack: 'fairyaegis'
+  open: 'mainmenu'

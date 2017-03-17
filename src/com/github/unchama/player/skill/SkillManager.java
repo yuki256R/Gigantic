@@ -3,6 +3,8 @@ package com.github.unchama.player.skill;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import org.bukkit.inventory.Inventory;
+
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -30,7 +32,7 @@ public class SkillManager extends DataManager implements UsingSql {
 
 	SkillTableManager tm;
 
-	private LinkedHashMap<Class<? extends Skill>, Skill> skillmap;
+	private LinkedHashMap<Class<? extends Skill>, Skill> skillmap = new LinkedHashMap<Class<? extends Skill>, Skill>();
 
 	public SkillManager(GiganticPlayer gp) {
 		super(gp);
@@ -62,5 +64,15 @@ public class SkillManager extends DataManager implements UsingSql {
 	public void save(Boolean loginflag) {
 		tm.save(gp, true);
 	}
+
+	/**スキルタイプ選択メニューを開きます．
+	 *
+	 * @return
+	 */
+	public static Inventory getSkillTypeMenu(){
+		return null;
+	}
+
+
 
 }

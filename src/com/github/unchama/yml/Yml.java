@@ -52,7 +52,7 @@ public final class Yml {
 		 * @param ManagerClass
 		 * @return TableName
 		 */
-		public static String getTableNamebyClass(
+		public static String getYmlNamebyClass(
 				Class<? extends YmlManager> _class) {
 			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {

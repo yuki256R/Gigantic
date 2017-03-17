@@ -22,7 +22,7 @@ public class SkillTableManager extends PlayerTableManager{
 	@Override
 	protected boolean newPlayer(GiganticPlayer gp) {
 		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		return true;
 	}
 
 	@Override

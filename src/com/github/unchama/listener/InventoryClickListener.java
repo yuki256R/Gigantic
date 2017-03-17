@@ -22,7 +22,7 @@ public class InventoryClickListener implements Listener {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	@EventHandler
-	public void onPlayerClickMenuEvent(InventoryClickEvent event) {
+	public void cancelPlayerClickMenu(InventoryClickEvent event) {
 		Inventory inv = event.getClickedInventory();
 		// 外枠のクリック処理なら終了
 		if (inv == null) {
@@ -55,7 +55,19 @@ public class InventoryClickListener implements Listener {
 				debug.sendMessage(player, DebugEnum.GUI,
 						m.getInventoryName(player) + ChatColor.RESET
 								+ "内でクリックを検知,eventをキャンセルします．");
+				int i = event.getSlot();
 				cancel = true;
+				
+				//クリック後の処理を記述
+				
+				//OpenMenu
+				if(!m.openmenumap.containsKey(i))return;
+
+				GuiMenuManager om = (GuiMenuManager) guimenu.getManager(m.openmenumap.get(i));
+				player.openInventory(om.getInventory(player));
+				debug.sendMessage(player, DebugEnum.GUI,
+						om.getInventoryName(player) + ChatColor.RESET
+								+ "を開きます．");
 				break;
 			}
 		}
