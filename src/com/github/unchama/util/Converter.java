@@ -26,6 +26,13 @@ public class Converter {
 	public static int toInt(String s) {
 		return Integer.valueOf(s);
 	}
+	public static String getName(Player p) {
+		return p.getName().toLowerCase();//全て小文字に
+	}
+	public static String getName(String name){
+		return name.toLowerCase();//小文字に
+	}
+
 
 
 
@@ -70,5 +77,5 @@ public class Converter {
 		*/
 		return time;
 	}
-
+	
 }
