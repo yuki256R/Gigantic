@@ -16,13 +16,16 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
-import com.github.unchama.player.mineboost.MineBoost;
+import com.github.unchama.player.mineboost.BoostType;
+import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 
-public class mineboostCommand<BoostType> implements TabExecutor{
+public class mineboostCommand implements TabExecutor{
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	Gigantic plugin;
 
 
 
@@ -122,13 +125,46 @@ public class mineboostCommand<BoostType> implements TabExecutor{
 						sender.sendMessage("idが指定されていないるため、プレイヤーへの説明文には『その他』と表示されます");
 					}
 					//持続時間を取得
-					int duration = Converter.toInt(args[3]);
+					long duration = Converter.toLong(args[3]);
 					//effect値を取得
-					double amplifire = Converter.toFloat(args[4]);
+					short amplifier = Converter.toShort(args[4]);
 					//プレイヤー名をlowercaseする
 					String name = Converter.getName(args[2]);
-					BoostType test = BoostType.MINUTE_TIME;
+					
+					if(!name.equalsIgnoreCase("all")){
+						//プレイヤー名がallじゃない時
+						//プレイヤーをサーバーより取得
+						Player player = plugin.getServer().getPlayer(name);
+						
+						if(player == null){
+							//プレイヤーが取得できない時
+							sender.sendMessage("指定されたプレイヤー(" + name + ")はオンラインではないか、存在しません");
+							return true;
+						}
+						
+						//プレイヤーデータを取得
+						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+						//エラー分岐
+						if(gp == null){
+							player.sendMessage(ChatColor.RED + "playerdataがありません。管理者に報告してください");
+							plugin.getServer().getConsoleSender().sendMessage(ChatColor.RED + "SeichiAssist[コマンドエフェクト付与処理]でエラー発生");
+							plugin.getLogger().warning("playerdataがありません。開発者に報告してください");
+						}
+						//エフェクトデータにこの効果を追加
+						gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
+						//メッセージ送信
+						sender.sendMessage(ChatColor.LIGHT_PURPLE + name + "に上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
+					}else{
+						//allの時
+						//全プレイヤーに処理
+						for(GiganticPlayer gp : PlayerManager.gmap.values()){
+							gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
+						}
+						sender.sendMessage(ChatColor.RED + "全プレイヤーに上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
+					}
+					return true;
 				}
+				return false;
 			}
 		}
 		return true;

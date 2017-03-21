@@ -26,6 +26,12 @@ public class Converter {
 	public static int toInt(String s) {
 		return Integer.valueOf(s);
 	}
+	public static short toShort(String s) {
+		return Short.valueOf(s);
+	}
+	public static long toLong(String s) {
+		return Long.valueOf(s);
+	}
 	public static String getName(Player p) {
 		return p.getName().toLowerCase();//全て小文字に
 	}
@@ -53,6 +59,32 @@ public class Converter {
 	 */
 	public static String toTimeString(int _second) {
 		int second = _second;
+		int minute = 0;
+		int hour = 0;
+		String time = "";
+		while(second >= 60){
+			second -=60;
+			minute++;
+		}
+		while(minute >= 60){
+			minute -= 60;
+			hour++;
+		}
+		if(hour != 0){
+			time = hour + "時間";
+		}
+		if(minute != 0){
+			time = time + minute + "分";
+		}
+		/*
+		if(second != 0){
+			time = time + second + "秒";
+		}
+		*/
+		return time;
+	}
+	public static String toTimeString(long _second) {
+		long second = _second;
 		int minute = 0;
 		int hour = 0;
 		String time = "";
