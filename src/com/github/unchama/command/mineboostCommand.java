@@ -99,6 +99,7 @@ public class mineboostCommand implements TabExecutor{
 					sender.sendMessage("id=2　ドラゲナイタイムから");
 					sender.sendMessage("id=3　投票から");
 					sender.sendMessage("id=4　その他(不明な上昇値,イベント,不具合等");
+					return true;
 				}else if(args.length == 4 || args.length == 5){
 					//4の時idは省略,5の時はidも
 					BoostType type;
