@@ -115,7 +115,7 @@ public class PlayerClickListener  implements Listener{
 
 			//開く音を再生
 			player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
-			player.openInventory(m.getInventory(player));
+			player.openInventory(m.getInventory(player,0));
 			return;
 		}
 	}

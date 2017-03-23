@@ -6,7 +6,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.yml.Yml;
 
 /**
@@ -24,9 +23,6 @@ public abstract class YmlManager {
 	public YmlManager() {
 		this.plugin = Gigantic.plugin;
 		this.filename = Yml.ManagerType.getYmlNamebyClass(this.getClass());
-		if(this.filename == null){
-			this.filename = GuiMenu.ManagerType.getYmlNamebyClass(this.getClass());
-		}
 		this.file = new File(plugin.getDataFolder(), filename);
 		saveDefaultFile();
 		this.fc = loadFile();

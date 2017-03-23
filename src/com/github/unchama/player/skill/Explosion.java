@@ -1,10 +1,16 @@
 package com.github.unchama.player.skill;
 
+
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.skill.SkillManager.SkillType;
 import com.github.unchama.player.skill.moduler.Skill;
 
 /**
@@ -14,29 +20,46 @@ import com.github.unchama.player.skill.moduler.Skill;
  *
  */
 public class Explosion extends Skill {
+	public static SkillType st = SkillType.EXPLOSION;
 
+	private Boolean cooldown;
 
 	public Explosion(GiganticPlayer gp) {
 		super(gp);
 	}
 
+
+	@Override
+	public void run(Player player, ItemStack tool, Block block) {
+
+	}
+
 	@Override
 	public ItemStack getSkillTypeInfo() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		ItemStack is = new ItemStack(Explosion.getMenuMaterial());
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName(Explosion.getJPName());
+		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+		is.setItemMeta(im);
+		return is;
 	}
 
-	@Override
-	public Inventory getMenu() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	/**クールダウン中にtrueを返します．
+	 *
+	 * @return
+	 */
+	public boolean isCoolDown(){
+		return this.cooldown;
 	}
 
-	@Override
-	public Inventory getRangeMenu() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+	/**このスキルの日本語名を取得します．
+	 *
+	 * @return
+	 */
+	public static String getJPName(){
+		return ChatColor.YELLOW + "" + ChatColor.BOLD + "エクスプロージョン" + ChatColor.RESET;
 	}
+
 	/**
 	 * メニューで使われる代表となるマテリアル名を取得します．
 	 *
@@ -138,4 +161,7 @@ public class Explosion extends Skill {
 	public static int getMaxTotalSize() {
 		return 110;
 	}
+
+
+
 }

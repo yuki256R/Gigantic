@@ -16,7 +16,7 @@ public class SkillTableManager extends PlayerTableManager{
 	@Override
 	protected String addColumnCommand() {
 		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return "";
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class SkillTableManager extends PlayerTableManager{
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
 		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return "";
 	}
 
 }

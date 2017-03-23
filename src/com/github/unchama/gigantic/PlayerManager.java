@@ -139,4 +139,6 @@ public class PlayerManager {
 		return gp == null ? GiganticStatus.NOT_LOADED : gp.getStatus();
 	}
 
+
+
 }

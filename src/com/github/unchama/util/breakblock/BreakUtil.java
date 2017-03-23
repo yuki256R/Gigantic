@@ -150,7 +150,6 @@ public final class BreakUtil {
 	@SuppressWarnings("deprecation")
 	private static List<ItemStack> getDropOnFortune(Block block, ItemStack tool) {
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
-		Material material = block.getType();
 		Material dropmaterial;
 		Dye dye;
 		int fortunelevel = tool
@@ -159,8 +158,7 @@ public final class BreakUtil {
 		// ドロップ数
 		int drops;
 
-		// ドロップアイテム
-		ItemStack dropitem;
+
 		switch (block.getType()) {
 		case GRAVEL:
 			drops = getFortuneDropNum(1, fortunelevel, rnd);
@@ -328,6 +326,7 @@ public final class BreakUtil {
 	 * @param tool
 	 * @return
 	 */
+	@SuppressWarnings("deprecation")
 	private static List<ItemStack> getDropOnNormal(Block block, ItemStack tool) {
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
 		Material material = block.getType();

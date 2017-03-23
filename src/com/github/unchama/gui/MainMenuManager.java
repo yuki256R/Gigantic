@@ -1,8 +1,8 @@
 package com.github.unchama.gui;
 
-import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.GuiYmlMenuManager;
 
 
 
-public class MainMenuManager extends GuiMenuManager{
+public class MainMenuManager extends GuiYmlMenuManager{
 }

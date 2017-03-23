@@ -4,11 +4,25 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.yml.moduler.YmlManager;
+import com.github.unchama.gui.skillmenu.CondensationMenuManager;
+import com.github.unchama.gui.skillmenu.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.FairyAegisMenuManager;
+import com.github.unchama.gui.skillmenu.MagicDriveMenuManager;
+import com.github.unchama.gui.skillmenu.RuinFieldMenuManager;
 
 public final class GuiMenu {
 	public static enum ManagerType {
-		MAINMENU(MainMenuManager.class), ;
+		MAINMENU(MainMenuManager.class),
+		SKILLTYPEMENU(SkillTypeMenuManager.class),
+		EXPLOSIONMENU(ExplosionMenuManager.class),
+		MAGICDRIVEMENU(MagicDriveMenuManager.class),
+		CONDENSATIONMENU(CondensationMenuManager.class),
+		RUINFIELDMENU(RuinFieldMenuManager.class),
+		FAIRYAEGISMENU(FairyAegisMenuManager.class),
+
+
+		;
+
 		// 使用するManagerClass
 		private Class<? extends GuiMenuManager> managerClass;
 
@@ -41,8 +55,8 @@ public final class GuiMenu {
 		 * @param ManagerClass
 		 * @return TableName
 		 */
-		public static String getYmlNamebyClass(
-				Class<? extends YmlManager> _class) {
+		public static String getMenuNamebyClass(
+				Class<? extends GuiMenuManager> _class) {
 			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {
 					return ye.getYmlName();

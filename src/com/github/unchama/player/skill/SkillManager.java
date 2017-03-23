@@ -3,8 +3,12 @@ package com.github.unchama.player.skill;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
-import org.bukkit.inventory.Inventory;
-
+import com.github.unchama.gui.moduler.SkillMenuManager;
+import com.github.unchama.gui.skillmenu.CondensationMenuManager;
+import com.github.unchama.gui.skillmenu.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.FairyAegisMenuManager;
+import com.github.unchama.gui.skillmenu.MagicDriveMenuManager;
+import com.github.unchama.gui.skillmenu.RuinFieldMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -13,20 +17,34 @@ import com.github.unchama.sql.SkillTableManager;
 
 public class SkillManager extends DataManager implements UsingSql {
 	public static enum SkillType {
-		EXPLOSION(Explosion.class),
-		MAGICDRIVE(MagicDrive.class),
-		CONDENSATION(Condensation.class),
-		RUINFIELD(RuinField.class),
-		FAIRYAEGIS(FairyAegis.class),
+		EXPLOSION(Explosion.class,ExplosionMenuManager.class),
+		MAGICDRIVE(MagicDrive.class,MagicDriveMenuManager.class),
+		CONDENSATION(Condensation.class,CondensationMenuManager.class),
+		RUINFIELD(RuinField.class,RuinFieldMenuManager.class),
+		FAIRYAEGIS(FairyAegis.class,FairyAegisMenuManager.class),
 		;
 		private Class<? extends Skill> skillClass;
+		private Class<? extends SkillMenuManager> menuClass;
 
-		SkillType(Class<? extends Skill> skillClass) {
+		SkillType(Class<? extends Skill> skillClass,Class<? extends SkillMenuManager> menuClass) {
 			this.skillClass = skillClass;
+			this.menuClass = menuClass;
 		}
 
+		/**スキルを管理するクラスを取得します．
+		 *
+		 * @return
+		 */
 		public Class<? extends Skill> getSkillClass() {
 			return skillClass;
+		}
+
+		/**スキル専用メニューを取得します．
+		 *
+		 * @return
+		 */
+		public Class<? extends SkillMenuManager> getMenuClass(){
+			return this.menuClass;
 		}
 	}
 
@@ -51,12 +69,12 @@ public class SkillManager extends DataManager implements UsingSql {
 
 	/**与えられたクラスのスキルデータを返します
 	 *
-	 * @param skilltype
+	 * @param skillClass
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Skill> T getSkill(Class<T> skilltype){
-		return (T) skillmap.get(skilltype);
+	public <T extends Skill> T getSkill(Class<T> skillClass){
+		return (T) skillmap.get(skillClass);
 	}
 
 
@@ -65,13 +83,6 @@ public class SkillManager extends DataManager implements UsingSql {
 		tm.save(gp, true);
 	}
 
-	/**スキルタイプ選択メニューを開きます．
-	 *
-	 * @return
-	 */
-	public static Inventory getSkillTypeMenu(){
-		return null;
-	}
 
 
 

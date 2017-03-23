@@ -33,7 +33,7 @@ click: 'right'
 # インベントリタイプ（省略可）（こちらからhttps://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/inventory/InventoryType.html）
 # inventorytype:
 
-# サイズ (4*9)(省略可）
+# サイズ(省略可）
 # 必ず9の倍数にすること
 
 size: 36
