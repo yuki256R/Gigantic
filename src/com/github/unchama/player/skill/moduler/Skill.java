@@ -1,5 +1,7 @@
 package com.github.unchama.player.skill.moduler;
 
+import net.coreprotect.CoreProtectAPI;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -7,20 +9,28 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public abstract class Skill {
 	protected Gigantic plugin = Gigantic.plugin;
 	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	protected GiganticPlayer gp;
+	protected WorldGuardPlugin Wg;
+	protected CoreProtectAPI Cp;
+	protected ManaManager Mm;
 
 	public Boolean toggle;
-	private Size size;
 
 	public Skill(GiganticPlayer gp){
 		this.gp = gp;
+		this.Wg = Util.getWorldGuard();
+		this.Cp = Util.getCoreProtect();
+		this.Mm = gp.getManager(ManaManager.class);
 	}
 
 	/**与えられたツールでスキルを発動します．
@@ -28,8 +38,9 @@ public abstract class Skill {
 	 * @param player
 	 * @param tool
 	 * @param block
+	 * @return 可否
 	 */
-	public abstract void run(Player player,ItemStack tool,Block block);
+	public abstract boolean run(Player player,ItemStack tool,Block block);
 
 	/**スキルタイプを選択するメニューで使われるitemstackを取得します
 	 *
@@ -118,6 +129,7 @@ public abstract class Skill {
 		case WOOD_SPADE:
 		case IRON_SPADE:
 		case GOLD_SPADE:
+		case SHEARS:
 		default:
 			return false;
 		}

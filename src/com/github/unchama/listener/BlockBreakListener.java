@@ -29,6 +29,11 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 public class BlockBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	Zenchantments Ze;
+
+	BlockBreakListener(){
+		Ze = Util.getZenchantments();
+	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void NotLoadedGiganticPlayer(BlockBreakEvent event) {
@@ -48,6 +53,22 @@ public class BlockBreakListener implements Listener {
 
 	}
 
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void SkilledBlockCanceller(BlockBreakEvent event) {
+		//既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
+		if(event.getBlock().hasMetadata("Skilled"))event.setCancelled(true);
+	}
+
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void EmptyDurabilityToolCanceller(BlockBreakEvent event) {
+		ItemStack tool = event.getPlayer().getItemOnCursor();
+		// 耐久無限以外のツールにおいて，既に壊れているツールの時破壊してキャンセル
+		if (tool.getDurability() > tool.getType().getMaxDurability()
+				&& !tool.getItemMeta().spigot().isUnbreakable())
+			tool.setType(Material.AIR);
+			event.setCancelled(true);
+	}
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void Explosion(BlockBreakEvent event) {
 		if (event.isCancelled()) {
@@ -64,23 +85,17 @@ public class BlockBreakListener implements Listener {
 		// 使用可能ワールドではないとき終了
 
 		ItemStack tool = player.getItemOnCursor();
-		// 耐久無限以外のツールにおいて，既に壊れているツールの時処理を終了
-		if (tool.getDurability() > tool.getType().getMaxDurability()
-				&& !tool.getItemMeta().spigot().isUnbreakable())
-			return;
+
 		// スキルを発動できるツールでないとき終了
 		if (!Skill.canBreak(tool))
 			return;
 
 		//木こりエンチャントがある時終了
-		Zenchantments Ze = Util.getZenchantments();
 		if(Ze.isCompatible("木こり", tool)){
 			return;
 		}
 
 		Block block = event.getBlock();
-		//既に他のスキルで破壊されるブロックであるとき終了(メタデータを見る）
-
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
@@ -101,7 +116,9 @@ public class BlockBreakListener implements Listener {
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, (float)0.5, 1);
 		}
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
-		skill.run(player,tool,block);
+
+		//スキル処理が正常に動作した時イベントをキャンセル
+		if(skill.run(player,tool,block))event.setCancelled(true);
 
 	}
 }

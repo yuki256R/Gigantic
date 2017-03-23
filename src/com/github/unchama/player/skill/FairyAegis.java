@@ -21,7 +21,8 @@ public class FairyAegis extends Skill{
 
 
 	@Override
-	public void run(Player player, ItemStack tool, Block block) {
+	public boolean run(Player player, ItemStack tool, Block block) {
+		return true;
 		// TODO 自動生成されたメソッド・スタブ
 
 	}

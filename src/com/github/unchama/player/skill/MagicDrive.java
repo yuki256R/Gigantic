@@ -20,7 +20,8 @@ public class MagicDrive extends Skill{
 	}
 
 	@Override
-	public void run(Player player, ItemStack tool, Block block) {
+	public boolean run(Player player, ItemStack tool, Block block) {
+		return true;
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
@@ -85,8 +86,8 @@ public class MagicDrive extends Skill{
 	 * @param breaknum
 	 * @return
 	 */
-	public static double getCooldown(int breaknum) {
-		return (Math.pow(breaknum, 1 / 4.3)) - 1;
+	public static int getCooldown(int breaknum) {
+		return (int)((Math.pow(breaknum, 1 / 4.3)) - 1) * 20;
 	}
 
 	/**

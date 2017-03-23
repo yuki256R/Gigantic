@@ -13,6 +13,24 @@ import org.bukkit.material.Dye;
 
 public final class BreakUtil {
 	public static Random rnd = new Random();
+	
+	/**num回だけピッケルを使用したときの耐久値を取得します
+	 *
+	 * @param enchantmentLevel
+	 * @param num
+	 * @return
+	 */
+	public static short calcDurability(int enchantmentLevel,int num) {
+		short durability = 0;
+		double probability = 1.0 / (enchantmentLevel + 1.0);
+
+		for(int i = 0; i < num ; i++){
+			if(probability > rnd.nextDouble() ){
+				durability++;
+			}
+		}
+		return durability;
+	}
 	/**
 	 * ツールを使った時のドロップアイテムのリストを返します．
 	 *
