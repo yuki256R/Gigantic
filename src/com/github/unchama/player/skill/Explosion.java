@@ -121,7 +121,6 @@ public class Explosion extends Skill {
 		int cooltime = Explosion.getCooldown(breaklist.size());
 		if(cooltime > 5){
 			cooldown = true;
-
 			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable(){
 				@Override
 				public void run() {
