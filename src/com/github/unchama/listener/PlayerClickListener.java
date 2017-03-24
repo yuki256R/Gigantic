@@ -17,7 +17,9 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.DebugManager;
 
 public class PlayerClickListener  implements Listener{
@@ -33,7 +35,8 @@ public class PlayerClickListener  implements Listener{
 	public void onPlayerOpenMenuListener(PlayerInteractEvent event){
 		//プレイヤーを取得
 		Player player = event.getPlayer();
-		GiganticStatus gs = PlayerManager.getStatus(player);
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GiganticStatus gs = PlayerManager.getStatus(gp);
 
 		//プレイヤーのデータを読み込んでいなければ終了
 		if(!gs.equals(GiganticStatus.AVAILABLE)){
@@ -112,6 +115,9 @@ public class PlayerClickListener  implements Listener{
 			}
 
 			event.setCancelled(true);
+
+			//全ての履歴を削除
+			gp.getManager(PlayerMenuManager.class).clear();
 
 			//開く音を再生
 			player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());

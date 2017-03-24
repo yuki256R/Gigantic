@@ -1,4 +1,6 @@
 package com.github.unchama.gui.skillmenu;
+import java.util.HashMap;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.Sound;
@@ -24,7 +26,6 @@ public class SkillTypeMenuManager extends GuiMenuManager {
 
 	public SkillTypeMenuManager(){
 		super();
-		this.setOpenMenuMap();
 	}
 
 	@Override
@@ -42,14 +43,23 @@ public class SkillTypeMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		SkillType[] st = SkillType.values();
 		for(int i = 0 ; i < this.getInventorySize() ; i++){
-			this.openmenumap.put(i,st[i].getMenuClass());
+			this.openmap.put(i,st[i].getMenuClass());
 		}
 
 	}
+	@Override
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
+	}
 	@Override
 	protected void setKeyItem() {
 	}

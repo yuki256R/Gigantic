@@ -6,6 +6,11 @@ import org.bukkit.inventory.Inventory;
 import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.gui.GuiMenu;
 
+/**このプラグインに登録されているメニューを開いたときにコールされます．
+ *
+ * @author tar0ss
+ *
+ */
 public class MenuClickEvent extends CustomEvent{
 	private Player player;
 	private Inventory inv;
@@ -19,15 +24,31 @@ public class MenuClickEvent extends CustomEvent{
 		this.slot = slot;
 	}
 
+	/**開いたプレイヤーを取得します．
+	 *
+	 * @return
+	 */
 	public Player getPlayer() {
 		return player;
 	}
+	/**開いたインベントリを取得します，
+	 *
+	 * @return
+	 */
 	public Inventory getInv() {
 		return inv;
 	}
+	/**開いたインベントリのスロットを取得します．
+	 *
+	 * @return
+	 */
 	public int getSlot() {
 		return slot;
 	}
+	/**開いたインベントリのmanagertypeを取得します．
+	 *
+	 * @return
+	 */
 	public GuiMenu.ManagerType getManagerType() {
 		return mt;
 	}

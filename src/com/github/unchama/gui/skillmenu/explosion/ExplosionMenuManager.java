@@ -1,5 +1,7 @@
 package com.github.unchama.gui.skillmenu.explosion;
 
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,8 +9,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.SkillMenuManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.skill.Explosion;
+import com.github.unchama.player.skill.SkillManager;
 
 public class ExplosionMenuManager extends SkillMenuManager{
 
@@ -57,7 +64,7 @@ public class ExplosionMenuManager extends SkillMenuManager{
 			itemstack = new ItemStack(Material.GLASS);
 			break;
 		case ORIGIN:
-			itemstack = new ItemStack(Material.SKULL_ITEM);
+			itemstack = new ItemStack(Material.SKULL_ITEM,1,(short)3);
 			break;
 		case BOOK:
 			itemstack = new ItemStack(Material.BOOK);
@@ -66,20 +73,36 @@ public class ExplosionMenuManager extends SkillMenuManager{
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
 			break;
 		}
-
-		if(itemstack != null){
-			ItemMeta itemmeta = this.getItemMeta(player, slot, itemstack);
-			if(itemmeta != null){
-				itemstack.setItemMeta(itemmeta);
-			}
-		}
 		return itemstack;
 	}
 
 	@Override
-	protected void setOpenMenuMap() {
-		// TODO 自動生成されたメソッド・スタブ
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+		openmap.put(MenuType.RANGE.getSlot(),E_RangeMenuManager.class);
 
+
+	}
+	@Override
+	protected void setIDMap(HashMap<Integer, String> id_map) {
+		id_map.put(MenuType.INFO.getSlot(), "toggle");
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
+		switch(identifier){
+		case "toggle":
+			SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
+			if(sm.getLevel() < Explosion.getUnlockLevel()){
+				player.sendMessage("解放できるレベルに達していません");
+				return true;
+			}
+			Explosion exs = gp.getManager(SkillManager.class).getSkill(Explosion.class);
+			exs.toggle();
+			player.sendMessage("トグルを切り替えました．");
+			return true;
+		}
+		return false;
 	}
 
 }

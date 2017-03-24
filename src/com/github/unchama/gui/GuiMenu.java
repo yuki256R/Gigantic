@@ -7,6 +7,7 @@ import com.github.unchama.gui.minestack.MineStackMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
 import com.github.unchama.gui.skillmenu.condendation.CondensationMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
 import com.github.unchama.gui.skillmenu.fairyaegis.FairyAegisMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
@@ -18,6 +19,7 @@ public final class GuiMenu {
 		MAINMENU(MainMenuManager.class),
 		SKILLTYPEMENU(SkillTypeMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
+		E_RANGEMENU(E_RangeMenuManager.class),
 		MAGICDRIVEMENU(MagicDriveMenuManager.class),
 		CONDENSATIONMENU(CondensationMenuManager.class),
 		RUINFIELDMENU(RuinFieldMenuManager.class),
