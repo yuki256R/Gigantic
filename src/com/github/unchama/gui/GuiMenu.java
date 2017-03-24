@@ -3,12 +3,15 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.minestack.MineStackMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.gui.skillmenu.CondensationMenuManager;
-import com.github.unchama.gui.skillmenu.ExplosionMenuManager;
-import com.github.unchama.gui.skillmenu.FairyAegisMenuManager;
-import com.github.unchama.gui.skillmenu.MagicDriveMenuManager;
-import com.github.unchama.gui.skillmenu.RuinFieldMenuManager;
+import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
+import com.github.unchama.gui.skillmenu.condendation.CondensationMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.fairyaegis.FairyAegisMenuManager;
+import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
+import com.github.unchama.gui.skillmenu.ruinfield.RuinFieldMenuManager;
+
 
 public final class GuiMenu {
 	public static enum ManagerType {
@@ -19,8 +22,7 @@ public final class GuiMenu {
 		CONDENSATIONMENU(CondensationMenuManager.class),
 		RUINFIELDMENU(RuinFieldMenuManager.class),
 		FAIRYAEGISMENU(FairyAegisMenuManager.class),
-
-
+		MINESTACKMENU(MineStackMenuManager.class),
 		;
 
 		// 使用するManagerClass

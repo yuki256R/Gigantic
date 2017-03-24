@@ -1,5 +1,4 @@
-package com.github.unchama.gui;
-
+package com.github.unchama.gui.skillmenu;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.Sound;

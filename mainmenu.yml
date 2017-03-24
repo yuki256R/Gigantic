@@ -86,3 +86,20 @@ name: '&5&lメインメニュー'
       - '&r&7スキルを使って整地の効率を上げよう'
       - '&r&4&nクリックで開く'
   open: 'skilltypemenu'
+24:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: CHEST
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lM i n e S t a c k'
+      lore:
+      - '&r&a説明しよう!MineStackとは…'
+      - '&r主要ブロックを無限にスタック出来る!'
+      - '&rスタックしたアイテムは'
+      - '&r&2&lクリックで開く'
+      - '&r&8※スタックしたブロックは'
+      - '&r&8各サバイバルサーバー間で'
+      - '&r&8共有されます'
+  open: 'minestackmenu'

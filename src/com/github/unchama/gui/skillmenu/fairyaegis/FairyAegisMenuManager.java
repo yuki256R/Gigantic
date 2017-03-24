@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu;
+package com.github.unchama.gui.skillmenu.fairyaegis;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,13 +8,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.moduler.SkillMenuManager;
-import com.github.unchama.player.skill.MagicDrive;
+import com.github.unchama.player.skill.FairyAegis;
 
-public class MagicDriveMenuManager extends SkillMenuManager{
+public class FairyAegisMenuManager extends SkillMenuManager{
 
 	@Override
 	public String getInventoryName(Player player) {
-		return MagicDrive.getJPName();
+		return FairyAegis.getJPName();
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class MagicDriveMenuManager extends SkillMenuManager{
 		ItemStack itemstack = null;
 		switch(mt){
 		case INFO:
-			itemstack = new ItemStack(MagicDrive.getMenuMaterial());
+			itemstack = new ItemStack(FairyAegis.getMenuMaterial());
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
@@ -74,5 +74,11 @@ public class MagicDriveMenuManager extends SkillMenuManager{
 			}
 		}
 		return itemstack;
+	}
+
+	@Override
+	protected void setOpenMenuMap() {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 }

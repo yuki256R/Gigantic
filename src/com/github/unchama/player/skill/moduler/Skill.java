@@ -24,13 +24,14 @@ public abstract class Skill {
 	protected CoreProtectAPI Cp;
 	protected ManaManager Mm;
 
-	public Boolean toggle;
+	private Boolean toggle;
 
 	public Skill(GiganticPlayer gp){
 		this.gp = gp;
 		this.Wg = Util.getWorldGuard();
 		this.Cp = Util.getCoreProtect();
 		this.Mm = gp.getManager(ManaManager.class);
+		this.toggle = false;
 	}
 
 	/**与えられたツールでスキルを発動します．
@@ -47,6 +48,26 @@ public abstract class Skill {
 	 * @return
 	 */
 	public abstract ItemStack getSkillTypeInfo();
+
+	/**トグルをオンにします．
+	 *
+	 */
+	public void On(){
+		this.toggle = true;
+	}
+	/**トグルをオフにします．
+	 *
+	 */
+	public void Off(){
+		this.toggle = false;
+	}
+	/**トグルを取得します．
+	 *
+	 */
+	public boolean getToggle(){
+		return this.toggle;
+	}
+
 
 	/**破壊できるMaterialの時trueを返します．
 	 *

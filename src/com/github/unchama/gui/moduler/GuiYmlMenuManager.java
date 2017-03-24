@@ -19,8 +19,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
-import com.github.unchama.gui.KeyItem;
 
+/**Ymlから編集できるようにしたMenuClass
+ *
+ * @author tar0ss
+ *
+ */
 public class GuiYmlMenuManager extends GuiMenuManager{
 	private File file;
 	private String filename;

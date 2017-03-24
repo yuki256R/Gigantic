@@ -4,11 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.moduler.SkillMenuManager;
-import com.github.unchama.gui.skillmenu.CondensationMenuManager;
-import com.github.unchama.gui.skillmenu.ExplosionMenuManager;
-import com.github.unchama.gui.skillmenu.FairyAegisMenuManager;
-import com.github.unchama.gui.skillmenu.MagicDriveMenuManager;
-import com.github.unchama.gui.skillmenu.RuinFieldMenuManager;
+import com.github.unchama.gui.skillmenu.condendation.CondensationMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.fairyaegis.FairyAegisMenuManager;
+import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
+import com.github.unchama.gui.skillmenu.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -80,7 +80,7 @@ public class SkillManager extends DataManager implements UsingSql {
 
 	@Override
 	public void save(Boolean loginflag) {
-		tm.save(gp, true);
+		tm.save(gp, loginflag);
 	}
 
 

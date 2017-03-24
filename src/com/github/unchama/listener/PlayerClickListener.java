@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
-import com.github.unchama.gui.KeyItem;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.KeyItem;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.yml.DebugManager;
 

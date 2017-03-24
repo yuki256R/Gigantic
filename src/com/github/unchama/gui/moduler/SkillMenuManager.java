@@ -2,17 +2,10 @@ package com.github.unchama.gui.moduler;
 
 import java.util.LinkedHashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-
-/**各スキルの情報メニュー
+/**各スキルの情報メニュー用クラス
  *
  * @author tar0ss
  *
@@ -48,27 +41,15 @@ public abstract class SkillMenuManager extends GuiMenuManager{
 			return slotmap.get(slot);
 		}
 	}
-	@Override
-	public Inventory getInventory(Player player,int slot) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		if(gp == null){
-			Bukkit.getLogger().warning(this.getClass().getName() + ":予期せぬ例外です．");
-			return Bukkit.getServer().createInventory(player, 9);
-		}
 
-		Inventory inv = this.getEmptyInventory(player);
-
-		for(int i = 0; i < this.getInventorySize() ; i++){
-			ItemStack itemstack = this.getItemStack(player, i);
-			if(itemstack == null)continue;
-			inv.setItem(i, itemstack);
-		}
-		return inv;
+	/**コンストラクタ
+	 *
+	 */
+	public SkillMenuManager() {
+		super();
+		this.setOpenMenuMap();
 	}
 
-	@Override
-	protected void setOpenMenuMap() {
-	}
 
 	@Override
 	protected void setKeyItem() {

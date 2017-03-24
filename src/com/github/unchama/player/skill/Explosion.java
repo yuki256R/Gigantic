@@ -39,6 +39,20 @@ public class Explosion extends Skill {
 		cooldown = false;
 	}
 
+	/**
+	 * @return range
+	 */
+	public BreakRange getRange() {
+		return range;
+	}
+
+	/**
+	 * @param range セットする range
+	 */
+	public void setRange(BreakRange range) {
+		this.range = range;
+	}
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {

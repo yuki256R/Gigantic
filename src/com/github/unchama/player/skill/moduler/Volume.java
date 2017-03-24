@@ -3,6 +3,11 @@ package com.github.unchama.player.skill.moduler;
 public class Volume {
 	private int width, depth, height;
 
+
+
+	public Volume() {
+		this(1,1,1);
+	}
 	/**幅，奥行，高さの順
 	 *
 	 * @param width

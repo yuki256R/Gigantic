@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu;
+package com.github.unchama.gui.skillmenu.condendation;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -74,5 +74,11 @@ public class CondensationMenuManager extends SkillMenuManager{
 			}
 		}
 		return itemstack;
+	}
+
+	@Override
+	protected void setOpenMenuMap() {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 }

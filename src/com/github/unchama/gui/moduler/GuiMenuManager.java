@@ -11,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gui.KeyItem;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.yml.ConfigManager;
 
 /**
@@ -24,8 +25,15 @@ public abstract class GuiMenuManager {
 	protected Gigantic plugin = Gigantic.plugin;
 	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
+	/**マテリアル，ダメージ値，名前，説明文を保存する．
+	 * このキーをもって左（右）クリックするとこのクラスのメニューを開く．
+	 * Ymlを使用しない場合は非推奨です．
+	 */
 	protected KeyItem keyitem;
 
+	/**スロット番号と開くメニューのクラスを保存する．
+	 *
+	 */
 	public HashMap<Integer, Class<? extends GuiMenuManager>> openmenumap;
 
 	public GuiMenuManager() {
@@ -103,6 +111,11 @@ public abstract class GuiMenuManager {
 	 * @return
 	 */
 	public Inventory getInventory(Player player,int slot) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		if(gp == null){
+			Bukkit.getLogger().warning(this.getClass().getName() + ":予期せぬ例外です．");
+			return Bukkit.getServer().createInventory(player, 9);
+		}
 		Inventory inv = this.getEmptyInventory(player);
 
 		for (int i = 0; i < inv.getSize(); i++) {

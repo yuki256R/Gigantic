@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu;
+package com.github.unchama.gui.skillmenu.ruinfield;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,13 +8,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.moduler.SkillMenuManager;
-import com.github.unchama.player.skill.Explosion;
+import com.github.unchama.player.skill.RuinField;
 
-public class ExplosionMenuManager extends SkillMenuManager{
+public class RuinFieldMenuManager extends SkillMenuManager{
 
 	@Override
 	public String getInventoryName(Player player) {
-		return Explosion.getJPName();
+		return RuinField.getJPName();
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class ExplosionMenuManager extends SkillMenuManager{
 		ItemStack itemstack = null;
 		switch(mt){
 		case INFO:
-			itemstack = new ItemStack(Explosion.getMenuMaterial());
+			itemstack = new ItemStack(RuinField.getMenuMaterial());
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
@@ -76,4 +76,9 @@ public class ExplosionMenuManager extends SkillMenuManager{
 		return itemstack;
 	}
 
+	@Override
+	protected void setOpenMenuMap() {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 }

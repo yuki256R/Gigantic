@@ -108,7 +108,7 @@ public class BlockBreakListener implements Listener {
 				Explosion.class);
 
 		// トグルがオフなら終了
-		if (!skill.toggle)
+		if (!skill.getToggle())
 			return;
 
 		//クールダウン中なら終了
