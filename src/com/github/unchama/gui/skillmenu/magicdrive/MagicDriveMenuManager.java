@@ -84,4 +84,9 @@ public class MagicDriveMenuManager extends SkillMenuManager{
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+	@Override
+	protected void setMethodMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
 }

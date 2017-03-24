@@ -20,7 +20,11 @@ public class ExplosionRangeMenu extends GuiMenuManager{
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+	@Override
+	protected void setMethodMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
 
+	}
 	@Override
 	protected void setKeyItem() {
 		// TODO 自動生成されたメソッド・スタブ

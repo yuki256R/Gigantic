@@ -15,8 +15,11 @@ import org.bukkit.inventory.InventoryView;
 
 import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -27,10 +30,6 @@ public class InventoryClickListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void cancelPlayerClickMenu(InventoryClickEvent event) {
 		Inventory inv = event.getClickedInventory();
-		// 外枠のクリック処理なら終了
-		if (inv == null) {
-			return;
-		}
 
 		InventoryView view = event.getView();
 		HumanEntity he = view.getPlayer();
@@ -42,6 +41,15 @@ public class InventoryClickListener implements Listener {
 		Inventory topinventory = view.getTopInventory();
 		// インベントリが存在しない時終了
 		if (topinventory == null) {
+			return;
+		}
+		// 外枠のクリック処理なら戻る処理
+		if (inv == null) {
+			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+			PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
+			if(pm.isEmpty())return;
+			GuiMenuManager bm = (GuiMenuManager) guimenu.getManager(pm.pop());
+			player.openInventory(bm.getInventory(player, 0));
 			return;
 		}
 
@@ -67,4 +75,5 @@ public class InventoryClickListener implements Listener {
 			}
 		}
 	}
+
 }

@@ -11,8 +11,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.yml.ConfigManager;
 
 /**
@@ -36,10 +34,30 @@ public abstract class GuiMenuManager {
 	 */
 	protected HashMap<Integer, Class<? extends GuiMenuManager>> openmap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
 
+	protected HashMap<Integer,String> methodmap = new HashMap<Integer,String>();
+
+
 	public GuiMenuManager() {
 		if(!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())){
 			setOpenMenuMap(openmap);
 		}
+		setMethodMap(methodmap);
+	}
+
+	/**何かメソッドを実行するキーストリングを設定します．
+	 *
+	 * @param methodmap
+	 */
+	protected abstract void setMethodMap(HashMap<Integer,String> methodmap);
+
+	/**このメニュー内のスロットから実行するキーストリングを取得します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public String getKeyString(int slot){
+		Integer s = new Integer(slot);
+		return methodmap.isEmpty() ? null : (methodmap.containsKey(s) ? methodmap.get(s) : null);
 	}
 
 	/**メニューを開くスロット番号を設定します．
@@ -123,11 +141,6 @@ public abstract class GuiMenuManager {
 	 * @return
 	 */
 	public Inventory getInventory(Player player,int slot) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		if(gp == null){
-			Bukkit.getLogger().warning(this.getClass().getName() + ":予期せぬ例外です．");
-			return Bukkit.getServer().createInventory(player, 9);
-		}
 		Inventory inv = this.getEmptyInventory(player);
 
 		for (int i = 0; i < inv.getSize(); i++) {

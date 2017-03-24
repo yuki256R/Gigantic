@@ -99,7 +99,11 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 			}
 		}
 	}
+	@Override
+	protected void setMethodMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
 
+	}
 	@Override
 	public String getClickType() {
 		return this.fc.getString("click");
@@ -183,5 +187,6 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	public float getPitch() {
 		return (float) this.fc.getDouble("sound.pitch");
 	}
+
 
 }
