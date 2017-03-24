@@ -2,6 +2,8 @@ package com.github.unchama.player.minestack;
 
 import java.util.LinkedHashMap;
 
+import org.bukkit.inventory.ItemStack;
+
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -20,5 +22,15 @@ public class MineStackManager extends DataManager implements UsingSql{
 	@Override
 	public void save(Boolean loginflag) {
 		tm.save(gp, loginflag);
+	}
+
+	public boolean add(ItemStack itemstack){
+		if(StackType.canStack(itemstack) && this.isLoaded()){
+			StackType st = StackType.getStackType(itemstack);
+			datamap.get(st).add(itemstack.getAmount());
+			return true;
+		}else{
+			return false;
+		}
 	}
 }

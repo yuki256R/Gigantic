@@ -45,7 +45,6 @@ public class MineBoostManager extends DataManager implements Initializable {
 		if (p == null) {
 			return;
 		}
-
 		p.removePotionEffect(PotionEffectType.FAST_DIGGING);
 
 		if (boostMap.isEmpty()) {
@@ -63,8 +62,8 @@ public class MineBoostManager extends DataManager implements Initializable {
 					+ mb.getAmplifier());
 		}
 
-		if (boostlevel > 100) {
-			boostlevel = 100;
+		if (boostlevel > 122) {
+			boostlevel = 122;
 		}
 
 		if (boostlevel <= 0) {

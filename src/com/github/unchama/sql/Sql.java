@@ -17,6 +17,7 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.skill.SkillManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
@@ -29,6 +30,7 @@ public class Sql {
 		MANA(ManaTableManager.class,ManaManager.class),
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		SKILL(SkillTableManager.class,SkillManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;

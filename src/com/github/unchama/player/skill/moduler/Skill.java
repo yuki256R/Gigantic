@@ -1,9 +1,79 @@
 package com.github.unchama.player.skill.moduler;
 
+import net.coreprotect.CoreProtectAPI;
+
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
-public class Skill {
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.util.Util;
+import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.DebugManager;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+public abstract class Skill {
+	protected Gigantic plugin = Gigantic.plugin;
+	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	protected GiganticPlayer gp;
+	protected WorldGuardPlugin Wg;
+	protected CoreProtectAPI Cp;
+	protected ManaManager Mm;
+
+	private Boolean toggle;
+
+	public Skill(GiganticPlayer gp){
+		this.gp = gp;
+		this.Wg = Util.getWorldGuard();
+		this.Cp = Util.getCoreProtect();
+		this.Mm = gp.getManager(ManaManager.class);
+		this.toggle = false;
+	}
+
+	/**与えられたツールでスキルを発動します．
+	 *
+	 * @param player
+	 * @param tool
+	 * @param block
+	 * @return 可否
+	 */
+	public abstract boolean run(Player player,ItemStack tool,Block block);
+
+	/**スキルタイプを選択するメニューで使われるitemstackを取得します
+	 *
+	 * @return
+	 */
+	public abstract ItemStack getSkillTypeInfo();
+
+	/**トグルをオンにします．
+	 *
+	 */
+	public void On(){
+		this.toggle = true;
+	}
+	/**トグルをオフにします．
+	 *
+	 */
+	public void Off(){
+		this.toggle = false;
+	}
+	/**トグルを取得します．
+	 *
+	 */
+	public boolean getToggle(){
+		return this.toggle;
+	}
+
+
+	/**破壊できるMaterialの時trueを返します．
+	 *
+	 * @param blockのmaterial名
+	 * @return 可否
+	 */
 	public static boolean canBreak(Material m) {
 		switch (m) {
 		case STONE:
@@ -61,4 +131,29 @@ public class Skill {
 			return false;
 		}
 	}
+
+	/**スキル破壊できるツールの時trueとなります．
+	 *
+	 * @param tool
+	 * @return
+	 */
+	public static boolean canBreak(ItemStack tool) {
+		switch(tool.getType()){
+		case DIAMOND_PICKAXE:
+		case WOOD_PICKAXE:
+		case IRON_PICKAXE:
+		case GOLD_PICKAXE:
+		case DIAMOND_AXE:
+		case IRON_AXE:
+		case GOLD_AXE:
+		case DIAMOND_SPADE:
+		case WOOD_SPADE:
+		case IRON_SPADE:
+		case GOLD_SPADE:
+		case SHEARS:
+		default:
+			return false;
+		}
+	}
+
 }
