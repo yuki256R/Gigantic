@@ -21,58 +21,77 @@ import com.github.unchama.yml.ConfigManager;
  */
 public abstract class GuiMenuManager {
 	protected Gigantic plugin = Gigantic.plugin;
-	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	protected ConfigManager config = Gigantic.yml
+			.getManager(ConfigManager.class);
 
-	/**マテリアル，ダメージ値，名前，説明文を保存する．
-	 * このキーをもって左（右）クリックするとこのクラスのメニューを開く．
+	/**
+	 * マテリアル，ダメージ値，名前，説明文を保存する． このキーをもって左（右）クリックするとこのクラスのメニューを開く．
 	 * Ymlを使用しない場合は非推奨です．
 	 */
 	protected KeyItem keyitem;
 
-	/**スロット番号と開くメニューのクラスを保存する．
+	/**
+	 * スロット番号と開くメニューのクラスを保存する．
 	 *
 	 */
 	protected HashMap<Integer, Class<? extends GuiMenuManager>> openmap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
 
-	protected HashMap<Integer,String> methodmap = new HashMap<Integer,String>();
-
+	protected HashMap<Integer, String> id_map = new HashMap<Integer, String>();
 
 	public GuiMenuManager() {
-		if(!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())){
+		if (!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())) {
 			setOpenMenuMap(openmap);
 		}
-		setMethodMap(methodmap);
+		setIDMap(id_map);
 	}
 
-	/**何かメソッドを実行するキーストリングを設定します．
+	/**
+	 * 何かメソッドを実行するキーストリングを設定します．
 	 *
 	 * @param methodmap
 	 */
-	protected abstract void setMethodMap(HashMap<Integer,String> methodmap);
+	protected abstract void setIDMap(HashMap<Integer, String> idmap);
 
-	/**このメニュー内のスロットから実行するキーストリングを取得します．
+	/**
+	 * メソッドを呼び出します．
+	 *
+	 * @param player
+	 *            プレイヤー名
+	 * @param identifier
+	 *            呼び出すメソッド名
+	 * @return 成否
+	 */
+	public abstract boolean invoke(Player player, String identifier);
+
+	/**
+	 * このメニュー内のスロットから実行するメソッド識別子を取得します．
 	 *
 	 * @param slot
 	 * @return
 	 */
-	public String getKeyString(int slot){
+	public String getIdentifier(int slot) {
 		Integer s = new Integer(slot);
-		return methodmap.isEmpty() ? null : (methodmap.containsKey(s) ? methodmap.get(s) : null);
+		return id_map.isEmpty() ? null : (id_map.containsKey(s) ? id_map.get(s)
+				: null);
 	}
 
-	/**メニューを開くスロット番号を設定します．
+	/**
+	 * メニューを開くスロット番号を設定します．
 	 *
 	 */
-	protected abstract void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap);
+	protected abstract void setOpenMenuMap(
+			HashMap<Integer, Class<? extends GuiMenuManager>> openmap);
 
-	/**このメニュ内のスロットから次に開くメニューのクラスを取得します．
+	/**
+	 * このメニュ内のスロットから次に開くメニューのクラスを取得します．
 	 *
 	 * @param slot
 	 * @return
 	 */
-	public Class<? extends GuiMenuManager> getMenuManager(int slot){
+	public Class<? extends GuiMenuManager> getMenuManager(int slot) {
 		Integer s = new Integer(slot);
-		return openmap.isEmpty() ? null : (openmap.containsKey(s) ? openmap.get(s) : null);
+		return openmap.isEmpty() ? null : (openmap.containsKey(s) ? openmap
+				.get(s) : null);
 	}
 
 	/**
@@ -126,12 +145,8 @@ public abstract class GuiMenuManager {
 	 * @param itemstack
 	 * @param PlaceHolderAPIを使用する時true
 	 */
-	protected abstract ItemMeta
-	getItemMeta(Player player, int slot, ItemStack itemstack);
-
-
-
-
+	protected abstract ItemMeta getItemMeta(Player player, int slot,
+			ItemStack itemstack);
 
 	/**
 	 * 与えられたプレイヤー用のインベントリを作成して取得します．
@@ -140,13 +155,16 @@ public abstract class GuiMenuManager {
 	 * @param スロット番号
 	 * @return
 	 */
-	public Inventory getInventory(Player player,int slot) {
+	public Inventory getInventory(Player player, int slot) {
 		Inventory inv = this.getEmptyInventory(player);
 
 		for (int i = 0; i < inv.getSize(); i++) {
 			ItemStack itemstack = this.getItemStack(player, i);
 			if (itemstack == null)
 				continue;
+			ItemMeta itemmeta = this.getItemMeta(player, i, itemstack);
+			if (itemmeta != null)
+				itemstack.setItemMeta(itemmeta);
 			inv.setItem(i, itemstack);
 		}
 		return inv;

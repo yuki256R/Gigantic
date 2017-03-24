@@ -1,8 +1,8 @@
 package com.github.unchama.listener;
 
-import net.md_5.bungee.api.ChatColor;
-
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -47,7 +47,11 @@ public class InventoryClickListener implements Listener {
 		if (inv == null) {
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 			PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
-			if(pm.isEmpty())return;
+			player.playSound(player.getLocation(), Sound.BLOCK_PISTON_CONTRACT, (float)0.5, (float)1.4);
+			if(pm.isEmpty()){
+				player.closeInventory();
+				return;
+			}
 			GuiMenuManager bm = (GuiMenuManager) guimenu.getManager(pm.pop());
 			player.openInventory(bm.getInventory(player, 0));
 			return;

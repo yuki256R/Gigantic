@@ -49,19 +49,25 @@ public abstract class Skill {
 	 */
 	public abstract ItemStack getSkillTypeInfo();
 
-	/**トグルをオンにします．
+	/**オンにします．
 	 *
 	 */
-	public void On(){
+	public void on(){
 		this.toggle = true;
 	}
-	/**トグルをオフにします．
+	/**オフにします．
 	 *
 	 */
-	public void Off(){
+	public void off(){
 		this.toggle = false;
 	}
-	/**トグルを取得します．
+	/**トグルします．
+	 *
+	 */
+	public void toggle(){
+		this.toggle = !this.toggle;
+	}
+	/**オンかオフかを取得します．
 	 *
 	 */
 	public boolean getToggle(){

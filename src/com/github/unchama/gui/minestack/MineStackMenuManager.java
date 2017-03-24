@@ -20,9 +20,14 @@ public class MineStackMenuManager extends GuiMenuManager{
 
 	}
 	@Override
-	protected void setMethodMap(HashMap<Integer, String> methodmap) {
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
 	}
 	@Override
 	protected void setKeyItem() {
@@ -83,6 +88,7 @@ public class MineStackMenuManager extends GuiMenuManager{
 		// TODO 自動生成されたメソッド・スタブ
 		return (float)0.1;
 	}
+
 
 
 

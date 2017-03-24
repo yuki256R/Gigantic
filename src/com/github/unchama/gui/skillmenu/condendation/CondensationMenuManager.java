@@ -69,13 +69,6 @@ public class CondensationMenuManager extends SkillMenuManager{
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
 			break;
 		}
-
-		if(itemstack != null){
-			ItemMeta itemmeta = this.getItemMeta(player, slot, itemstack);
-			if(itemmeta != null){
-				itemstack.setItemMeta(itemmeta);
-			}
-		}
 		return itemstack;
 	}
 
@@ -85,8 +78,13 @@ public class CondensationMenuManager extends SkillMenuManager{
 
 	}
 	@Override
-	protected void setMethodMap(HashMap<Integer, String> methodmap) {
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
 	}
 }

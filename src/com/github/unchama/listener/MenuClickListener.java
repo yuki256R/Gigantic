@@ -1,6 +1,5 @@
 package com.github.unchama.listener;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
@@ -41,6 +40,8 @@ public class MenuClickListener implements Listener{
 		gp.getManager(PlayerMenuManager.class).push(mt.getManagerClass());
 
 		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(clazz);
+		//開く音を再生
+		player.playSound(player.getLocation(), om.getSoundName(), om.getVolume(), om.getPitch());
 		player.openInventory(om.getInventory(player,event.getSlot()));
 		debug.sendMessage(player, DebugEnum.GUI,
 				om.getInventoryName(player) + ChatColor.RESET
@@ -55,9 +56,10 @@ public class MenuClickListener implements Listener{
 				.getManagerClass());
 		int slot = event.getSlot();
 
-		String key = m.getKeyString(slot);
-		if(key == null)return;
 
-		PlaceholderAPI.setPlaceholders(player, key);
+		String id = m.getIdentifier(slot);
+		if(id == null)return;
+
+		m.invoke(player, id);
 	}
 }

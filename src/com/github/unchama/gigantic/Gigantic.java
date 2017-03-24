@@ -11,7 +11,6 @@ import org.bukkit.scheduler.BukkitTask;
 import com.github.unchama.command.CommandType;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
-import com.github.unchama.hook.MethodPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
@@ -65,7 +64,7 @@ public final class Gigantic extends JavaPlugin {
 		PlayerManager.onEnable();
 
 		// 1秒毎にタスクを実行
-		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 200,
+		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 40,
 				20);
 
 		// リスナーを登録
@@ -74,7 +73,6 @@ public final class Gigantic extends JavaPlugin {
 		// Hooking Placeholder
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			new GiganticPlaceholders(plugin).hook();
-			new MethodPlaceholders(plugin).hook();
 		}
 
 		getLogger().info("Gigantic is Enabled!");

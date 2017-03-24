@@ -100,9 +100,14 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 		}
 	}
 	@Override
-	protected void setMethodMap(HashMap<Integer, String> methodmap) {
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
 	}
 	@Override
 	public String getClickType() {
@@ -150,7 +155,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 				itemmeta.getLore()));
 		Boolean b = this.fc.getBoolean(n + ".isSkullofOwner");
 		if (b != null) {
-			if(b){
+			if(b && itemmeta instanceof SkullMeta){
 				SkullMeta skullmeta = (SkullMeta) itemmeta;
 				skullmeta.setOwner(player.getName());
 			}
@@ -163,12 +168,6 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	protected ItemStack getItemStack(Player player, int i) {
 		String s = Integer.toString(i) + ".itemstack";
 		ItemStack itemstack = this.fc.getItemStack(s);
-		if (!(itemstack == null)) {
-			ItemMeta itemmeta = this.getItemMeta(player, i, itemstack);
-			if(itemmeta != null){
-				itemstack.setItemMeta(itemmeta);
-			}
-		}
 		return itemstack;
 	}
 
