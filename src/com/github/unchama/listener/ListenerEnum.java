@@ -19,7 +19,9 @@ public enum ListenerEnum {
 	PLAYERCLICK(new PlayerClickListener()),
 	INVNETORYCLICK(new InventoryClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
+	GENERALBREAK(new GeneralBreakListener()),
 	BLOCKBREAK(new BlockBreakListener()),
+	MENUCLICK(new MenuClickListener()),
 	;
 	private Listener listener;
 

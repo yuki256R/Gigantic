@@ -15,8 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
-import com.github.unchama.gui.KeyItem;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.KeyItem;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.yml.DebugManager;
 
@@ -35,6 +35,7 @@ public class PlayerClickListener  implements Listener{
 		Player player = event.getPlayer();
 		GiganticStatus gs = PlayerManager.getStatus(player);
 
+		//プレイヤーのデータを読み込んでいなければ終了
 		if(!gs.equals(GiganticStatus.AVAILABLE)){
 			player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "プレイヤーデータを読み込んでいます．しばらくお待ちください．");
 			return;
@@ -51,10 +52,14 @@ public class PlayerClickListener  implements Listener{
 
 		for(GuiMenu.ManagerType mt : GuiMenu.ManagerType.values()){
 			GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt.getManagerClass());
+			//キーアイテムを持っていなければ終了
+			if(!m.hasKey())return;
 
-			if(m.getType() != 1)continue;
-
+			//クリックの種類が指定のものと違うとき終了
 			String click = m.getClickType();
+			if(click == null){
+				return;
+			}
 			if(click.equalsIgnoreCase("left")){
 				if(action.equals(Action.RIGHT_CLICK_AIR) || action.equals(Action.RIGHT_CLICK_BLOCK)){
 					return;
@@ -66,6 +71,7 @@ public class PlayerClickListener  implements Listener{
 			}else{
 				return ;
 			}
+
 			KeyItem keyitem = m.getKeyItem();
 			ItemStack item = player.getInventory().getItemInMainHand();
 
@@ -108,8 +114,8 @@ public class PlayerClickListener  implements Listener{
 			event.setCancelled(true);
 
 			//開く音を再生
-			player.playSound(player.getLocation(), m.getSound(), m.getVolume(), m.getPitch());
-			player.openInventory(m.getInventory(player));
+			player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
+			player.openInventory(m.getInventory(player,0));
 			return;
 		}
 	}
