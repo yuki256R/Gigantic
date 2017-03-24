@@ -1,6 +1,7 @@
 package com.github.unchama.gui.moduler;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -38,7 +39,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 		saveDefaultFile();
 		this.fc = loadFile();
 		setKeyItem();
-		setOpenMenuMap();
+		setOpenMenuMap(openmap);
 	}
 	/**
 	 * デフォルトのファイルを生成します
@@ -83,7 +84,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	}
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		for (int i = 0; i < this.getInventorySize(); i++) {
 			String menu = this.fc.getString(Integer.toString(i) + ".open");
 			if (menu != null) {
@@ -91,7 +92,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 				try {
 					clazz = GuiMenu.ManagerType.valueOf(menu.toUpperCase())
 							.getManagerClass();
-					openmenumap.put(new Integer(i), clazz);
+					openmap.put(new Integer(i), clazz);
 				} catch (IllegalArgumentException e) {
 					Bukkit.getLogger().warning(menu + " というメニューは存在しません．");
 				}

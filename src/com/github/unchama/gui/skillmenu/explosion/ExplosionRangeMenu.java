@@ -2,6 +2,8 @@ package com.github.unchama.gui.skillmenu.explosion;
 
 
 
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,7 +16,7 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 public class ExplosionRangeMenu extends GuiMenuManager{
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}

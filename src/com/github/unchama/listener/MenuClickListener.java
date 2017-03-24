@@ -25,12 +25,18 @@ public class MenuClickListener implements Listener{
 				.getManagerClass());
 		int slot = event.getSlot();
 
-		if(!m.openmenumap.containsKey(slot))return;
+		Class<? extends GuiMenuManager> clazz = m.getMenuManager(slot);
+		if(clazz == null)return;
 
-		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(m.openmenumap.get(slot));
+		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(clazz);
 		player.openInventory(om.getInventory(player,event.getSlot()));
 		debug.sendMessage(player, DebugEnum.GUI,
 				om.getInventoryName(player) + ChatColor.RESET
 						+ "を開きます．");
+	}
+
+	@EventHandler
+	public void runMethod(MenuClickEvent event){
+
 	}
 }

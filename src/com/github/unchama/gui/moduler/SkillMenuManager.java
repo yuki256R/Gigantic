@@ -42,13 +42,6 @@ public abstract class SkillMenuManager extends GuiMenuManager{
 		}
 	}
 
-	/**コンストラクタ
-	 *
-	 */
-	public SkillMenuManager() {
-		super();
-		this.setOpenMenuMap();
-	}
 
 
 	@Override

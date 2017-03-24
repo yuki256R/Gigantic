@@ -1,5 +1,7 @@
 package com.github.unchama.gui.skillmenu.condendation;
 
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.skill.Condensation;
 
@@ -77,7 +80,7 @@ public class CondensationMenuManager extends SkillMenuManager{
 	}
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}

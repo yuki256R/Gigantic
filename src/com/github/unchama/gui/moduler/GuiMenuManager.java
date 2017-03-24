@@ -34,16 +34,28 @@ public abstract class GuiMenuManager {
 	/**スロット番号と開くメニューのクラスを保存する．
 	 *
 	 */
-	public HashMap<Integer, Class<? extends GuiMenuManager>> openmenumap;
+	protected HashMap<Integer, Class<? extends GuiMenuManager>> openmap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
 
 	public GuiMenuManager() {
-		openmenumap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
+		if(!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())){
+			setOpenMenuMap(openmap);
+		}
 	}
 
 	/**メニューを開くスロット番号を設定します．
 	 *
 	 */
-	protected abstract void setOpenMenuMap();
+	protected abstract void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap);
+
+	/**このメニュ内のスロットから次に開くメニューのクラスを取得します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public Class<? extends GuiMenuManager> getMenuManager(int slot){
+		Integer s = new Integer(slot);
+		return openmap.isEmpty() ? null : (openmap.containsKey(s) ? openmap.get(s) : null);
+	}
 
 	/**
 	 * キーアイテムを設定します．
