@@ -3,9 +3,12 @@ package com.github.unchama.listener;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.Inventory;
 
 import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gigantic.Gigantic;
@@ -23,6 +26,7 @@ public class MenuClickListener implements Listener{
 
 	@EventHandler
 	public void openMenu(MenuClickEvent event){
+		if(!event.getClick().equals(ClickType.LEFT))return;
 		Player player = event.getPlayer();
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		if(gp == null){
@@ -49,13 +53,31 @@ public class MenuClickListener implements Listener{
 	}
 
 	@EventHandler
+	public void backMenu(MenuClickEvent event){
+		// 外枠のクリック処理なら戻る処理
+		Inventory inv = event.getClickedInventory();
+		Player player = event.getPlayer();
+		if (inv == null || event.getClick().equals(ClickType.RIGHT)) {
+			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+			PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
+			player.playSound(player.getLocation(), Sound.BLOCK_PISTON_CONTRACT, (float)0.5, (float)1.4);
+			if(pm.isEmpty()){
+				player.closeInventory();
+				return;
+			}
+			GuiMenuManager bm = (GuiMenuManager) guimenu.getManager(pm.pop());
+			player.openInventory(bm.getInventory(player, 0));
+			return;
+		}
+	}
+
+	@EventHandler
 	public void runMethod(MenuClickEvent event){
 		Player player = event.getPlayer();
 		GuiMenu.ManagerType mt = event.getManagerType();
 		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt
 				.getManagerClass());
 		int slot = event.getSlot();
-
 
 		String id = m.getIdentifier(slot);
 		if(id == null)return;
