@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.skill.SkillManager.SkillType;
 import com.github.unchama.player.skill.moduler.BreakRange;
 import com.github.unchama.player.skill.moduler.Coordinate;
@@ -147,11 +148,25 @@ public class Explosion extends Skill {
 
 	@Override
 	public ItemStack getSkillTypeInfo() {
-		ItemStack is = new ItemStack(Explosion.getMenuMaterial());
-		ItemMeta im = is.getItemMeta();
-		im.setDisplayName(Explosion.getJPName());
-		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
-		is.setItemMeta(im);
+		ItemStack is;
+		int sl = gp.getManager(SeichiLevelManager.class).getLevel();
+		if(sl < Explosion.getUnlockLevel()){
+			is = new ItemStack(Material.STAINED_GLASS,1,(short) 7);
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(Explosion.getJPName());
+			List<String> lore = new ArrayList<String>();
+			lore.add(ChatColor.DARK_GRAY + "スキル解禁条件");
+			lore.add(ChatColor.DARK_GRAY + "" + ChatColor.UNDERLINE + "整地レベルが10以上");
+			im.setLore(lore);
+			im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+			is.setItemMeta(im);
+		}else{
+			is = new ItemStack(Explosion.getMenuMaterial());
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(Explosion.getJPName());
+			im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+			is.setItemMeta(im);
+		}
 		return is;
 	}
 
