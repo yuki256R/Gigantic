@@ -14,20 +14,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.gui.skillmenu.condendation.CondensationMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
-import com.github.unchama.gui.skillmenu.fairyaegis.FairyAegisMenuManager;
-import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
-import com.github.unchama.gui.skillmenu.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.skill.Condensation;
-import com.github.unchama.player.skill.Explosion;
-import com.github.unchama.player.skill.FairyAegis;
-import com.github.unchama.player.skill.MagicDrive;
-import com.github.unchama.player.skill.RuinField;
-import com.github.unchama.player.skill.SkillManager;
-import com.github.unchama.player.skill.SkillManager.SkillType;
+import com.github.unchama.player.skill.moduler.SkillType;
 
 /**スキルタイプ選択メニュー
  *
@@ -47,7 +37,7 @@ public class SkillTypeMenuManager extends GuiMenuManager {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		SkillType[] st = SkillType.values();
 		for(int i = 0 ; i < this.getInventorySize(); i++){
-			ItemStack itemstack = gp.getManager(SkillManager.class).getSkill(st[i].getSkillClass()).getSkillTypeInfo();
+			ItemStack itemstack = gp.getManager(st[i].getSkillClass()).getSkillTypeInfo();
 			if (itemstack == null)
 				continue;
 			inv.setItem(i, itemstack);
@@ -69,43 +59,6 @@ public class SkillTypeMenuManager extends GuiMenuManager {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		int sl = gp.getManager(SeichiLevelManager.class).getLevel();
 		if(identifier.startsWith("check_level_")){
-			switch(identifier){
-			case "check_level_0":
-				if(sl <Explosion.getUnlockLevel()){
-					GuiMenuManager m = (GuiMenuManager)guimenu.getManager(ExplosionMenuManager.class);
-					player.openInventory(m.getInventory(player,0));
-					player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
-				}
-				break;
-			case "check_level_1":
-				if(sl <MagicDrive.getUnlockLevel()){
-					GuiMenuManager m = guimenu.getManager(MagicDriveMenuManager.class);
-					player.openInventory(m.getInventory(player,0));
-					player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
-				}
-				break;
-			case "check_level_2":
-				if(sl < Condensation.getUnlockLevel()){
-					GuiMenuManager m = guimenu.getManager(CondensationMenuManager.class);
-					player.openInventory(m.getInventory(player,0));
-					player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
-				}
-				break;
-			case "check_level_3":
-				if(sl < RuinField.getUnlockLevel()){
-					GuiMenuManager m = guimenu.getManager(RuinFieldMenuManager.class);
-					player.openInventory(m.getInventory(player,0));
-					player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
-				}
-				break;
-			case "check_level_4":
-				if(sl < FairyAegis.getUnlockLevel()){
-					GuiMenuManager m = guimenu.getManager(FairyAegisMenuManager.class);
-					player.openInventory(m.getInventory(player,0));
-					player.playSound(player.getLocation(), m.getSoundName(), m.getVolume(), m.getPitch());
-				}
-				break;
-			}
 			return true;
 		}
 		return true;

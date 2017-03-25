@@ -19,9 +19,8 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
-import com.github.unchama.player.skill.Explosion;
-import com.github.unchama.player.skill.SkillManager;
-import com.github.unchama.player.skill.moduler.Skill;
+import com.github.unchama.player.skill.ExplosionManager;
+import com.github.unchama.player.skill.moduler.SkillManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -87,7 +86,7 @@ public class BlockBreakListener implements Listener {
 		ItemStack tool = player.getItemOnCursor();
 
 		// スキルを発動できるツールでないとき終了
-		if (!Skill.canBreak(tool))
+		if (!SkillManager.canBreak(tool))
 			return;
 
 		//木こりエンチャントがある時終了
@@ -99,13 +98,12 @@ public class BlockBreakListener implements Listener {
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
-		if (!Skill.canBreak(material))
+		if (!SkillManager.canBreak(material))
 			return;
 
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		Explosion skill = gp.getManager(SkillManager.class).getSkill(
-				Explosion.class);
+		ExplosionManager skill = gp.getManager(ExplosionManager.class);
 
 		// トグルがオフなら終了
 		if (!skill.getToggle())

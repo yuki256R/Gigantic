@@ -13,8 +13,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.player.skill.Explosion;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.skill.ExplosionManager;
 
 public class E_RangeMenuManager extends GuiMenuManager{
 
@@ -95,6 +97,7 @@ public class E_RangeMenuManager extends GuiMenuManager{
 
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		ItemStack itemstack = null;
 		switch(slot){
 		case 1:
@@ -108,7 +111,7 @@ public class E_RangeMenuManager extends GuiMenuManager{
 			itemstack = new ItemStack(Material.STAINED_GLASS_PANE,1,(short)10);
 			break;
 		case 4:
-			itemstack = new ItemStack(Explosion.getMenuMaterial());
+			itemstack = new ItemStack(gp.getManager(ExplosionManager.class).getMenuMaterial());
 			break;
 		case 5:
 			itemstack = new ItemStack(Material.STAINED_GLASS_PANE,1,(short)5);

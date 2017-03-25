@@ -11,6 +11,8 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
+import com.github.unchama.player.skill.moduler.SkillManager;
+import com.github.unchama.player.skill.moduler.SkillType;
 import com.github.unchama.yml.ConfigManager;
 
 public class SeichiLevelManager extends DataManager implements Initializable {
@@ -29,7 +31,6 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	public void init() {
 		this.calcLevel();
 	}
-
 	/**
 	 * LevelMapをセットします． Enable時に一度だけ処理してください．
 	 *
@@ -47,7 +48,26 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 			}
 		}
 	}
-
+	
+	/**与えられたapをプレイヤが所持しているか取得
+	 * 
+	 * @param ap
+	 * @return
+	 */
+	public boolean hasAP(long ap){
+		SeichiLevel sl = levelmap.get(this.level);
+		long sumap = sl.getSumAp();
+		long useap = 0;
+		for(SkillType st : SkillType.values()){
+			SkillManager s = (SkillManager)gp.getManager(st.getSkillClass());
+			if(s.isunlocked()){
+				useap += s.getUnlockAP();
+			}
+		}
+		
+		long dif = sumap - useap;
+		return dif < ap ? false : true;
+	}
 	/**
 	 * レベルアップ可能かどうか調べるメソッドです．
 	 *

@@ -14,14 +14,14 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.skill.Explosion;
-import com.github.unchama.player.skill.SkillManager;
+import com.github.unchama.player.skill.ExplosionManager;
 
 public class ExplosionMenuManager extends SkillMenuManager{
-
+	
 	@Override
 	public String getInventoryName(Player player) {
-		return Explosion.getJPName();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		return gp.getManager(ExplosionManager.class).getJPName();
 	}
 
 	@Override
@@ -53,12 +53,13 @@ public class ExplosionMenuManager extends SkillMenuManager{
 
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
 		if(mt == null)return null;
 		ItemStack itemstack = null;
 		switch(mt){
 		case INFO:
-			itemstack = new ItemStack(Explosion.getMenuMaterial());
+			itemstack = new ItemStack(gp.getManager(ExplosionManager.class).getMenuMaterial());
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
@@ -93,12 +94,12 @@ public class ExplosionMenuManager extends SkillMenuManager{
 		switch(identifier){
 		case "toggle":
 			SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
-			if(sm.getLevel() < Explosion.getUnlockLevel()){
+			if(sm.getLevel() < gp.getManager(ExplosionManager.class).getUnlockLevel()){
 				player.sendMessage("解放できるレベルに達していません");
 				return true;
 			}
-			Explosion exs = gp.getManager(SkillManager.class).getSkill(Explosion.class);
-			exs.toggle();
+			ExplosionManager em = gp.getManager(ExplosionManager.class);
+			em.toggle();
 			player.sendMessage("トグルを切り替えました．");
 			return true;
 		}
