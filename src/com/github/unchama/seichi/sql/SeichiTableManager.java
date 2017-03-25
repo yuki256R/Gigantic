@@ -6,8 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.yml.DebugManager;
 
 public abstract class SeichiTableManager {
+	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	protected Gigantic plugin = Gigantic.plugin;
 	private SeichiAssistSql sql;
 	protected final String db;

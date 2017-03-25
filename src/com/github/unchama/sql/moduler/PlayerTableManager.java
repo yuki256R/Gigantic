@@ -165,7 +165,7 @@ public abstract class PlayerTableManager extends TableManager implements
 			command += "('" + gp.name + "','"
 					+ gp.uuid.toString().toLowerCase() + "'),";
 			// 新しいデータを生成
-			debug.info(DebugEnum.SQL, "Table:" + table + gp.name + "のデータを新規作成");
+			debug.info(DebugEnum.SQL, "Table:" + table + " " + gp.name + "のデータを新規作成");
 			this.newPlayer(gp);
 			this.setLoaded(gp,true);
 		}
@@ -202,10 +202,11 @@ public abstract class PlayerTableManager extends TableManager implements
 			stmt.executeUpdate(command);
 		} catch (SQLException e) {
 			plugin.getLogger().warning(
-					"Failed to update " + table + "Data of Player:" + gp.name);
+					"Failed to update " + table + " Data of Player:" + gp.name);
 			e.printStackTrace();
 			return false;
 		}
+		debug.info(DebugEnum.SQL, "Table:" + table + " " + gp.name + "のデータを保存");
 
 		return true;
 	}

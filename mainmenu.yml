@@ -7,15 +7,43 @@
 
 #基本設定
 
-#インベントリサイズ (4*9)
+# 開けた時のサウンドを選択してください．
+# サウンド一覧はこちらから(https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html)
+
+sound: 
+  name: 'BLOCK_FENCE_GATE_OPEN'
+  volume: 1
+  pitch: 0.1
+
+# 起点となるアイテムを指定する．以下指定できるデータ．（省略可）
+# material:マテリアルタイプ(String型で入力してください）（省略可）
+# damege:マテリアルのダメージ値（省略可）
+# name: アイテム名（省略可）
+# lore:説明文（省略可）
+
+key:
+  material: 'STICK'
+
+# click:クリックの種類を選択してください．（left or right)（省略可）
+
+click: 'right'
+
+
+
+# インベントリタイプ（省略可）（こちらからhttps://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/inventory/InventoryType.html）
+# inventorytype:
+
+# サイズ(省略可）
+# 必ず9の倍数にすること
 
 size: 36
 
-#インベントリ名
+# 名前
+# 必ず被らないようにしてください．
 
-name: '&4&kメインメニュー'
+name: '&5&lメインメニュー'
 
-#以下メニュー内設定例
+# 以下メニュー内設定例
 #  itemstack:
 #    ==: org.bukkit.inventory.ItemStack
 #    type: <Material>
@@ -38,39 +66,40 @@ name: '&4&kメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&e&n&lnameの統計データ'
+      display-name: '&e&n&l%gp_name%'
       lore:
-      - '&r&b整地レベル:playerdata.level'
-      - '&r&b次のレベルまで:???'
       - '&r&c整地ワールド以外では'
       - '&r&c整地量とガチャ券は増えません'
-      - '&r&b(prank-1)位(rankdata.name)との差：??'
-      - '&r&7総ログイン時間：??'
-      - '&r&8※1分毎に更新'
       - '&r&a統計データは'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
-      Unbreakable: true
   isSkullofOwner: true
-1:
+13:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: SKULL_ITEM
-    damage: 3
+    type: ENCHANTED_BOOK
     meta:
       ==: ItemMeta
-      meta-type: SKULL
-      display-name: '&e&n&lnameの統計データ'
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l整地スキル'
       lore:
-      - '&r&b整地レベル:playerdata.level'
-      - '&r&b次のレベルまで:???'
-      - '&r&c整地ワールド以外では'
-      - '&r&c整地量とガチャ券は増えません'
-      - '&r&b(prank-1)位(rankdata.name)との差：??'
-      - '&r&7総ログイン時間：??'
-      - '&r&8※1分毎に更新'
-      - '&r&a統計データは'
-      - '&r&a各サバイバルサーバー間で'
-      - '&r&a共有されます'
-      Unbreakable: true
-  isSkullofOwner: true
+      - '&r&7スキルを使って整地の効率を上げよう'
+      - '&r&4&nクリックで開く'
+  open: 'skilltypemenu'
+24:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: CHEST
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lM i n e S t a c k'
+      lore:
+      - '&r&a説明しよう!MineStackとは…'
+      - '&r主要ブロックを無限にスタック出来る!'
+      - '&rスタックしたアイテムは'
+      - '&r&2&lクリックで開く'
+      - '&r&8※スタックしたブロックは'
+      - '&r&8各サバイバルサーバー間で'
+      - '&r&8共有されます'
+  open: 'minestackmenu'

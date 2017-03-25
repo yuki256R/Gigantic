@@ -11,7 +11,7 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.yml.ConfigManager;
 
-public class putGiganticMapTaskRunnable extends BukkitRunnable {
+public class GiganticInitializeTaskRunnable extends BukkitRunnable {
 	Gigantic plugin = Gigantic.plugin;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	HashMap<UUID, GiganticPlayer> gmap = PlayerManager.gmap;
@@ -22,7 +22,7 @@ public class putGiganticMapTaskRunnable extends BukkitRunnable {
 	// 最大試行回数
 	int max_attempt;
 
-	public putGiganticMapTaskRunnable(HashMap<UUID, GiganticPlayer> tmpmap) {
+	public GiganticInitializeTaskRunnable(HashMap<UUID, GiganticPlayer> tmpmap) {
 		this.tmpmap = tmpmap;
 		this.attempt = -1;
 		this.max_attempt = config.getMaxAttempt();
@@ -42,7 +42,6 @@ public class putGiganticMapTaskRunnable extends BukkitRunnable {
 				((HashMap<UUID, GiganticPlayer>) tmpmap.clone()).forEach((uuid,
 						gp) -> {
 					if (gp.isloaded()) {
-						gmap.put(uuid, gp);
 						gp.init();
 						tmpmap.remove(uuid);
 					}

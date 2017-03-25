@@ -12,13 +12,12 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineblock.MineBlock.TimeType;
-import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
-import com.github.unchama.util.SeichiLevelUtil;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.util.Util;
 
 
 
@@ -54,12 +53,10 @@ public class SideBarManager extends DataManager implements Initializable,Finaliz
 	public void init() {
 		//情報を更新
 		updateInfo(Information.SEICHI_LEVEL,
-				gp.getManager(MineBlockManager.class).level);
+				gp.getManager(SeichiLevelManager.class).getLevel());
 		updateInfo(
 				Information.MINE_BLOCK,
-				SeichiLevelUtil.getRemainingBlock(
-						gp.getManager(MineBlockManager.class).level,
-						gp.getManager(MineBlockManager.class).all.getNum(TimeType.UNLIMITED)));
+				Util.Decimal(gp.getManager(SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
 				gp.getManager(MineBoostManager.class).boostlevel);
 		updateInfo(Information.BUILDING_LEVEL, 99);

@@ -6,15 +6,18 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.skill.SkillManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
@@ -24,8 +27,10 @@ public class Sql {
 	public static enum ManagerType {
 		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
 		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
+		MANA(ManaTableManager.class,ManaManager.class),
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		SKILL(SkillTableManager.class,SkillManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -105,7 +110,7 @@ public class Sql {
 	private Connection con = null;
 	private Statement stmt = null;
 
-	private HashMap<Class<? extends TableManager>, TableManager> managermap = new HashMap<Class<? extends TableManager>, TableManager>();
+	private LinkedHashMap<Class<? extends TableManager>, TableManager> managermap = new LinkedHashMap<Class<? extends TableManager>, TableManager>();
 
 	// コンストラクタ
 	public Sql() {

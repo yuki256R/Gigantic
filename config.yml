@@ -14,8 +14,8 @@ id: 'root'
 pw: ''
 
 # 引き継ぎ用データベースへの接続設定
-# 無ければfalseに設定する
-olddatabase : 'true'
+# 無ければnoに設定する
+olddatabase : yes
 # SeichiAssistデータベース
 seichiassist:
   host: 'localhost'
@@ -25,7 +25,7 @@ seichiassist:
   pw: ''
 
 #データロードの最大試行回数
-MaxAttempt : '5'
+maxattempt : 5
 
 #初回ログイン時のメッセージ
 firstjoinmessage : "整地鯖では整地をするとレベルが上がり、様々な恩恵が受けられます。\n初めての方は整地ワールドで掘ってレベルを上げてみましょう！\n木の棒を右クリックしてメニューを開き右上のビーコンボタンをクリック！"
@@ -38,11 +38,11 @@ firstjoinmessage : "整地鯖では整地をするとレベルが上がり、様
 #
 mineboost:
   rate:
-    numofpeople: '0.5'
-    minutemine: '0.01'
+    numofpeople: 0.5
+    minutemine: 0.01
 
 # 整地レベル設定
-MaxSeichiLevel: '300'
+maxseichilevel: 300
 
 # 機能：整地レベルメッセージ設定
 # levelupmessage:レベルアップの度に表示
@@ -52,6 +52,8 @@ seichi:
   levelupmessage: '§6整地レベルが%gp_level%になりました．'
   levelmessage:
     2: ''
+
+
 
 
 

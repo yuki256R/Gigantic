@@ -7,5 +7,8 @@ package com.github.unchama.player.moduler;
  *
  */
 public interface Initializable {
+	/**ロード後の初期化処理を行います．
+	 *
+	 */
 	public abstract void init();
 }

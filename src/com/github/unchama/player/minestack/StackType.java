@@ -1,5 +1,10 @@
 package com.github.unchama.player.minestack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -39,7 +44,7 @@ public enum StackType {
 	JUNGLE_SAPLING(Material.SAPLING,"ジャングルの苗木",3),
 	ACACIA_SAPLING(Material.SAPLING,"アカシアの苗木",4),
 	DARK_OAK_SAPLING(Material.SAPLING,"ダークオークの苗木",5),
-	BEDROCK("岩盤"),
+	//BEDROCK("岩盤"),
 	SAND("砂"),
 	RED_SAND(Material.SAND,"赤い砂",1),
 	GRAVEL("砂利"),
@@ -131,9 +136,9 @@ public enum StackType {
 	COBBLESTONE_STAIRS("丸石の階段"),
 	//WALL_SIGN("看板"),
 	LEVER("レバー"),
-	STONE_PLATE("石の感圧版"),
+	STONE_PLATE("石の感圧板"),
 	//IRON_DOOR_BLOCK("鉄のドア"),
-	WOOD_PLATE("木の感圧版"),
+	WOOD_PLATE("木の感圧板"),
 	REDSTONE_ORE("レッドストーン鉱石"),
 	REDSTONE_TORCH_ON("レッドストーントーチ"),
 	STONE_BUTTON("ボタン"),
@@ -344,7 +349,7 @@ public enum StackType {
 	PURPUR_SLAB("プルパーハーフブロック"),
 	END_BRICKS("エンドストーンレンガ"),
 	//BEETROOT_BLOCK("ビートルートの種"),
-	GRASS_PATH("草の道"),
+	//GRASS_PATH("草の道"),
 	MAGMA("マグマブロック"),
 	NETHER_WART_BLOCK("ネザーウォートブロック"),
 	RED_NETHER_BRICK("赤いネザーレンガ"),
@@ -557,7 +562,7 @@ public enum StackType {
 	SKULL_ITEM("スケルトンの頭蓋骨"),
 	MOB_HEAD_WITHER_SKELETON(Material.SKULL_ITEM,"ウィザースケルトンの頭蓋骨",1),
 	MOB_HEAD_ZOMBIE(Material.SKULL_ITEM,"ゾンビの頭",2),
-	MOB_HEAD_HUMAN(Material.SKULL_ITEM,"頭",3),
+	//MOB_HEAD_HUMAN(Material.SKULL_ITEM,"頭",3),
 	MOB_HEAD_CREEPER(Material.SKULL_ITEM,"クリーパーの頭",4),
 	MOB_HEAD_DRAGON(Material.SKULL_ITEM,"ドラゴンの頭",5),
 	CARROT_STICK("ニンジン付きの棒"),
@@ -626,8 +631,6 @@ public enum StackType {
 	;
 
 
-//	SMOOTH_DIORITE(1,Material.STONE,"smooth_diorite","滑らかな閃緑岩",4),
-
 	private final Material material;
 	private final String jpname;
 	//private final int maxStack;
@@ -648,6 +651,26 @@ public enum StackType {
 		this.jpname = jpname;
 		this.durability = durability;
 	}
+
+
+	public static HashMap<Material,List<Short> > material_map = new HashMap<Material, List<Short>>();
+	public static HashMap<Material,StackType> m_s_map = new HashMap<Material,StackType>();
+	public static HashMap<Integer,StackType> i_s_map = new HashMap<Integer,StackType>();
+
+	static{
+		for(StackType st : values()){
+			i_s_map.put(st.ordinal(), st);
+			if(!material_map.containsKey(st.getMaterial())){
+				material_map.put(st.getMaterial(),new ArrayList<Short>(Arrays.asList(st.getDurability())));
+				m_s_map.put(st.getMaterial(), st);
+			}else{
+				material_map.get(st.getMaterial()).add(new Short(st.getDurability()));
+			}
+		}
+	}
+
+
+
 	/**Materialを返します
 	 *
 	 * @return
@@ -669,11 +692,36 @@ public enum StackType {
 	public short getDurability(){
 		return this.durability;
 	}
+	/**カラムネームを返します．
+	 *
+	 * @return
+	 */
+	public String getColumnName(){
+		return this.name();
+	}
+
+	/**Stackできるかどうか判定します．
+	 *
+	 * @param itemstack
+	 * @return
+	 */
+	public static boolean canStack(ItemStack itemstack){
+		Material m = itemstack.getType();
+		short durability = itemstack.getDurability();
+		return material_map.containsKey(m) ? material_map.get(m).contains(durability) : false;
+
+	}
 
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
 		itemstack.setDurability(this.getDurability());
 		return itemstack;
+	}
+	public static StackType getStackType(ItemStack itemstack) {
+		Material m = itemstack.getType();
+		short durability = itemstack.getDurability();
+		int i = m_s_map.get(m).ordinal();
+		return i_s_map.get(i + durability);
 	}
 
 

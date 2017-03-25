@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mineboost.BoostType;
 import com.github.unchama.player.mineboost.MineBoostManager;
 
 public class PlayerQuitListener implements Listener {
@@ -26,7 +27,7 @@ public class PlayerQuitListener implements Listener {
 				continue;
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 			if(gp == null)continue;
-			gp.getManager(MineBoostManager.class).updataNumberOfPeople();
+			gp.getManager(MineBoostManager.class).updata(BoostType.NUMBER_OF_PEOPLE);
 			gp.getManager(MineBoostManager.class).refresh();
 		}
 	}

@@ -1,7 +1,7 @@
 package com.github.unchama.yml;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.github.unchama.yml.moduler.YmlManager;
 
@@ -15,11 +15,10 @@ import com.github.unchama.yml.moduler.YmlManager;
  * @author tar0ss
  *
  */
-public class Yml {
+public final class Yml {
 	public static enum ManagerType {
 		CONFIG(ConfigManager.class),
 		DEBUG(DebugManager.class),
-		MAINMENU(MainMenuManager.class),
 		;
 		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;
@@ -53,19 +52,19 @@ public class Yml {
 		 * @param ManagerClass
 		 * @return TableName
 		 */
-		public static String getTableNamebyClass(
+		public static String getYmlNamebyClass(
 				Class<? extends YmlManager> _class) {
 			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {
 					return ye.getYmlName();
 				}
 			}
-			return "example";
+			return null;
 		}
 	}
 
 	// 全てのYmlManager格納するMap
-	private static HashMap<Class<? extends YmlManager>, YmlManager> managermap = new HashMap<Class<? extends YmlManager>, YmlManager>();
+	private static LinkedHashMap<Class<? extends YmlManager>, YmlManager> managermap = new LinkedHashMap<Class<? extends YmlManager>, YmlManager>();
 
 	/**
 	 * Class Ymlのコンストラクタです． プラグイン始動時に一度だけ呼び出されます．

@@ -5,6 +5,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.DebugManager;
 
 /**全てのマネージャーで必ず実装してください．
  *
@@ -15,6 +16,7 @@ public abstract class DataManager{
 	protected Sql sql = Gigantic.sql;
 	protected Gigantic plugin = Gigantic.plugin;
 	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	protected GiganticPlayer gp;
 	protected boolean loaded;
 

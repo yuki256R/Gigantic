@@ -12,6 +12,7 @@ import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.task.AddPotionTaskRunnable;
@@ -57,11 +58,13 @@ public class MinuteListener implements Listener {
 		}
 		for(Player player : playerlist){
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-			if(gp == null)return;
-			MineBlockManager mm = gp.getManager(MineBlockManager.class);
-			mm.resetTimeCount(TimeType.A_MINUTE);
-			if(minute % 30 == 0){
-				mm.resetTimeCount(TimeType.HALF_HOUR);
+			GiganticStatus gs = PlayerManager.getStatus(gp);
+			if (gs.equals(GiganticStatus.AVAILABLE)) {
+				MineBlockManager mm = gp.getManager(MineBlockManager.class);
+				mm.resetTimeCount(TimeType.A_MINUTE);
+				if(minute % 30 == 0){
+					mm.resetTimeCount(TimeType.HALF_HOUR);
+				}
 			}
 		}
 	}

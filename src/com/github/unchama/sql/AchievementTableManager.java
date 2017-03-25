@@ -5,10 +5,9 @@ import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
-import com.github.unchama.sql.moduler.GiganticLoadable;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
-public class AchievementTableManager extends PlayerFromSeichiTableManager implements GiganticLoadable{
+public class AchievementTableManager extends PlayerFromSeichiTableManager{
 
 	public AchievementTableManager(Sql sql) {
 		super(sql);
