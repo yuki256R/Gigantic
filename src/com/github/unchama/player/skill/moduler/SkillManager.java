@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.moduler.DataManager;
@@ -23,8 +22,6 @@ import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.util.Util;
-import com.github.unchama.yml.ConfigManager;
-import com.github.unchama.yml.DebugManager;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public abstract class SkillManager extends DataManager implements UsingSql,Initializable{
@@ -60,7 +57,21 @@ public abstract class SkillManager extends DataManager implements UsingSql,Initi
 	 * @return 可否
 	 */
 	public abstract boolean run(Player player,ItemStack tool,Block block);
-
+	
+	/**Typemenuをクリックした時の処理を記述します
+	 * 
+	 */
+	public void onClickTypeMenu(){
+		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
+		int sl = sm.getLevel();
+		if(sl < this.getUnlockLevel()){
+			
+		}else if(this.isunlocked()){
+			
+		}else{
+			
+		}
+	}
 	/**スキルタイプを選択するメニューで使われるitemstackを取得します
 	 *
 	 * @return
