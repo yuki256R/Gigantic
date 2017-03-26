@@ -55,18 +55,22 @@ public class BlockBreakListener implements Listener {
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void SkilledBlockCanceller(BlockBreakEvent event) {
 		//既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
-		if(event.getBlock().hasMetadata("Skilled"))event.setCancelled(true);
+		if(event.getBlock().hasMetadata("Skilled")){
+			event.getPlayer().sendMessage(ChatColor.RED + "スキルで破壊されるブロックです．");
+			event.setCancelled(true);
+		}
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	/*@EventHandler(priority = EventPriority.NORMAL)
 	public void EmptyDurabilityToolCanceller(BlockBreakEvent event) {
 		ItemStack tool = event.getPlayer().getItemOnCursor();
 		// 耐久無限以外のツールにおいて，既に壊れているツールの時破壊してキャンセル
 		if (tool.getDurability() > tool.getType().getMaxDurability()
 				&& !tool.getItemMeta().spigot().isUnbreakable())
+			event.getPlayer().sendMessage(ChatColor.RED + "既に壊れているツールです．");
 			tool.setType(Material.AIR);
-			event.setCancelled(true);
-	}
+			//event.setCancelled(true);
+	}*/
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void Explosion(BlockBreakEvent event) {
@@ -116,7 +120,9 @@ public class BlockBreakListener implements Listener {
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 
 		//スキル処理が正常に動作した時イベントをキャンセル
-		if(skill.run(player,tool,block))event.setCancelled(true);
+		if(skill.run(player,tool,block)){
+			event.setCancelled(true);
+		}
 
 	}
 }

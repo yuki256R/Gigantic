@@ -126,29 +126,5 @@ public class PlayerClickListener  implements Listener{
 		}
 	}
 
-	/*
-	@EventHandler
-	public void testListener(PlayerInteractEvent event){
-		//プレイヤーを取得
-		Player player = event.getPlayer();
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		//プレイヤーが起こしたアクションを取得
-		Action action = event.getAction();
-		//アクションを起こした手を取得
-		EquipmentSlot equipmentslot = event.getHand();
 
-
-		if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
-			return;
-		}
-
-		if(equipmentslot.equals(EquipmentSlot.OFF_HAND)){
-			return;
-		}
-
-		MineStackManager tm = gp.getManager(MineStackManager.class);
-		player.sendMessage("test");
-		player.getWorld().dropItemNaturally(player.getLocation(), tm.getItemStack());
-	}
-	*/
 }

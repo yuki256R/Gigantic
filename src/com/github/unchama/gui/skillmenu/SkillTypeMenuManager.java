@@ -65,7 +65,7 @@ public class SkillTypeMenuManager extends GuiMenuManager {
 		if (identifier.startsWith("check_")) {
 			int i = Integer.parseInt(identifier.replace("check_", ""));
 			SkillType[] st = SkillType.values();
-			gp.getManager(st[i].getSkillClass()).onClickTypeMenu();
+			gp.getManager(st[i].getSkillClass()).onClickTypeMenu(player);
 			return true;
 		}
 		return true;

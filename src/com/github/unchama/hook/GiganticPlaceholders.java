@@ -34,7 +34,7 @@ public class GiganticPlaceholders extends EZPlaceholderHook{
 		case "name":
 			return gp.name;
 		case "seichilevel":
-			return Integer.toString(gp.getManager(SeichiLevelManager.class).getLevel());
+			return 1 + Integer.toString(gp.getManager(SeichiLevelManager.class).getLevel());
 		default:
 			return "";
 		}

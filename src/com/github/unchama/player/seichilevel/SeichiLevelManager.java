@@ -48,9 +48,9 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 			}
 		}
 	}
-	
+
 	/**与えられたapをプレイヤが所持しているか取得
-	 * 
+	 *
 	 * @param ap
 	 * @return
 	 */
@@ -64,7 +64,7 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 				useap += s.getUnlockAP();
 			}
 		}
-		
+
 		long dif = sumap - useap;
 		return dif < ap ? false : true;
 	}
@@ -118,7 +118,6 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	public double getRemainingBlock() {
 		double d = gp.getManager(MineBlockManager.class).all
 				.getNum(TimeType.UNLIMITED);
-
 		return this.level < config.getMaxSeichiLevel() ? (double)levelmap.get(this.level)
 				.getNextMineBlock() - d : 0.0;
 	}

@@ -20,14 +20,14 @@ public class MineBlock {
 	public MineBlock(double n) {
 		nmap = new HashMap<TimeType, Double>();
 		for (TimeType tt : TimeType.values()) {
-			nmap.put(tt, new Double(0));
+			nmap.put(tt, new Double(n));
 		}
 	}
 
 	public void increase(double increase) {
-		nmap.forEach((tt, n) -> {
-			n += increase;
-		});
+		for(TimeType tt : TimeType.values()) {
+			nmap.put(tt,nmap.get(tt) + increase);
+		}
 	}
 	public void increase(TimeType tt ,double increase){
 		nmap.put(tt, nmap.get(tt) + increase);

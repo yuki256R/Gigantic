@@ -49,7 +49,7 @@ maxseichilevel: 300
 # levelmessage:特定のレベルに上がると表示(1は指定できません）
 
 seichi:
-  levelupmessage: '§6整地レベルが%gp_level%になりました．'
+  levelupmessage: '§6整地レベルが%gp_seichilevel%になりました．'
   levelmessage:
     2: ''
 

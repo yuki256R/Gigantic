@@ -26,6 +26,7 @@ public class ExplosionTableManager extends PlayerTableManager{
 				+ "add column if not exists zero_x int default 0,"
 				+ "add column if not exists zero_y int default 0,"
 				+ "add column if not exists zero_z int default 0,"
+				+ "add column if not exists unlocked boolean default false,"
 				;
 
 		return command;
@@ -45,6 +46,9 @@ public class ExplosionTableManager extends PlayerTableManager{
 				new Volume(rs.getInt("width"), rs.getInt("depth"), rs.getInt("height")),
 				new Coordinate(rs.getInt("zero_x"), rs.getInt("zero_y"), rs.getInt("zero_z"))
 		));
+
+		m.unlocked(rs.getBoolean("unlocked"));
+
 	}
 
 	@Override
@@ -58,7 +62,8 @@ public class ExplosionTableManager extends PlayerTableManager{
 				+ "height = '" + range.getVolume().getHeight() + "',"
 				+ "zero_x = '" + range.getZeropoint().getX() + "',"
 				+ "zero_y = '" + range.getZeropoint().getY() + "',"
-				+ "zero_z = '" + range.getZeropoint().getZ() + "',";
+				+ "zero_z = '" + range.getZeropoint().getZ() + "',"
+				+ "unlocked = " + Boolean.toString(m.isunlocked()) + ",";
 
 		return command;
 	}
