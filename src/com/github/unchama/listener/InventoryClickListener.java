@@ -64,7 +64,7 @@ public class InventoryClickListener implements Listener {
 		for (GuiMenu.ManagerType mt : GuiMenu.ManagerType.values()) {
 			GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt
 					.getManagerClass());
-			if (topinventory.getName().equals(m.getInventoryName(player))
+			if (topinventory.getName().contains(m.getInventoryName(player))
 					&& topinventory.getSize() == m.getInventorySize()) {
 				int i = event.getSlot();
 
