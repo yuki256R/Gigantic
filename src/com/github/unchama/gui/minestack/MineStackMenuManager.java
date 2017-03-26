@@ -2,43 +2,21 @@ package com.github.unchama.gui.minestack;
 
 import java.util.HashMap;
 
-import com.github.unchama.enumdata.StackCategory;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.skill.SkillManager;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.moduler.GuiMenuManager;
 
-public class StackCategoryMenuManager extends GuiMenuManager{
-
-	@Override
-	public Inventory getInventory(Player player,int slot){
-		Inventory inv = this.getEmptyInventory(player);
-		StackCategory[] cat = StackCategory.values();
-		for(int i = 0 ; i < this.getInventorySize(); i++){
-			ItemStack itemstack = cat[i].getMenuIcon();
-			if (itemstack == null)
-				continue;
-			inv.setItem(i, itemstack);
-		}
-		return inv;
-	}
+public class MineStackMenuManager extends GuiMenuManager{
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
-		StackCategory[] cat = StackCategory.values();
-		for(int i = 0 ; i < this.getInventorySize() ; i++){
-			this.openmap.put(i,cat[i].getManagerClass());
-		}
+		// TODO 自動生成されたメソッド・スタブ
 
 	}
 	@Override
@@ -66,17 +44,19 @@ public class StackCategoryMenuManager extends GuiMenuManager{
 	@Override
 	public int getInventorySize() {
 		// TODO 自動生成されたメソッド・スタブ
-		return getInventoryType().getDefaultSize();
+		return 54;
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return PlaceholderAPI.setPlaceholders(player, "&5&lカテゴリを選択してください．");
+		// TODO 自動生成されたメソッド・スタブ
+		return ChatColor.YELLOW + "MineStack";
 	}
 
 	@Override
 	protected InventoryType getInventoryType() {
-		return InventoryType.HOPPER;
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 	@Override

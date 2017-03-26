@@ -46,5 +46,4 @@ public class PlayerMenuManager extends DataManager{
 		return menuClass.isEmpty();
 	}
 
-
 }

@@ -3,12 +3,7 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
-import com.github.unchama.gui.minestack.StackCategoryMenuManager;
-import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
-import com.github.unchama.gui.minestack.drop.CategoryDropMenuManager;
-import com.github.unchama.gui.minestack.farm.CategoryFarmMenuManager;
-import com.github.unchama.gui.minestack.mine.CategoryMineMenuManager;
-import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
+import com.github.unchama.gui.minestack.MineStackMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
 import com.github.unchama.gui.skillmenu.condendation.CondensationMenuManager;
@@ -29,12 +24,7 @@ public final class GuiMenu {
 		CONDENSATIONMENU(CondensationMenuManager.class),
 		RUINFIELDMENU(RuinFieldMenuManager.class),
 		FAIRYAEGISMENU(FairyAegisMenuManager.class),
-		MINESTACKMENU(StackCategoryMenuManager.class),
-		MINECAATEGORYMENU(CategoryMineMenuManager.class),
-		DROPCATEGORYMENU(CategoryDropMenuManager.class),
-		FARMCATEGORYMENU(CategoryFarmMenuManager.class),
-		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
-		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class)
+		MINESTACKMENU(MineStackMenuManager.class),
 		;
 
 		// 使用するManagerClass
