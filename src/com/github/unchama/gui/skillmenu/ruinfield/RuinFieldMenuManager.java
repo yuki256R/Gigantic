@@ -1,5 +1,7 @@
 package com.github.unchama.gui.skillmenu.ruinfield;
 
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.skill.RuinField;
 
@@ -66,19 +69,22 @@ public class RuinFieldMenuManager extends SkillMenuManager{
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
 			break;
 		}
-
-		if(itemstack != null){
-			ItemMeta itemmeta = this.getItemMeta(player, slot, itemstack);
-			if(itemmeta != null){
-				itemstack.setItemMeta(itemmeta);
-			}
-		}
 		return itemstack;
 	}
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
+
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
 	}
 }

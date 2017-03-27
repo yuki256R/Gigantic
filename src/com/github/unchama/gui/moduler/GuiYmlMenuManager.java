@@ -1,6 +1,7 @@
 package com.github.unchama.gui.moduler;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -38,7 +39,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 		saveDefaultFile();
 		this.fc = loadFile();
 		setKeyItem();
-		setOpenMenuMap();
+		setOpenMenuMap(openmap);
 	}
 	/**
 	 * デフォルトのファイルを生成します
@@ -83,7 +84,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	}
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		for (int i = 0; i < this.getInventorySize(); i++) {
 			String menu = this.fc.getString(Integer.toString(i) + ".open");
 			if (menu != null) {
@@ -91,14 +92,23 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 				try {
 					clazz = GuiMenu.ManagerType.valueOf(menu.toUpperCase())
 							.getManagerClass();
-					openmenumap.put(new Integer(i), clazz);
+					openmap.put(new Integer(i), clazz);
 				} catch (IllegalArgumentException e) {
 					Bukkit.getLogger().warning(menu + " というメニューは存在しません．");
 				}
 			}
 		}
 	}
+	@Override
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
+	}
 	@Override
 	public String getClickType() {
 		return this.fc.getString("click");
@@ -145,7 +155,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 				itemmeta.getLore()));
 		Boolean b = this.fc.getBoolean(n + ".isSkullofOwner");
 		if (b != null) {
-			if(b){
+			if(b && itemmeta instanceof SkullMeta){
 				SkullMeta skullmeta = (SkullMeta) itemmeta;
 				skullmeta.setOwner(player.getName());
 			}
@@ -158,12 +168,6 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	protected ItemStack getItemStack(Player player, int i) {
 		String s = Integer.toString(i) + ".itemstack";
 		ItemStack itemstack = this.fc.getItemStack(s);
-		if (!(itemstack == null)) {
-			ItemMeta itemmeta = this.getItemMeta(player, i, itemstack);
-			if(itemmeta != null){
-				itemstack.setItemMeta(itemmeta);
-			}
-		}
 		return itemstack;
 	}
 
@@ -182,5 +186,6 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	public float getPitch() {
 		return (float) this.fc.getDouble("sound.pitch");
 	}
+
 
 }

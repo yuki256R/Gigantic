@@ -1,5 +1,7 @@
 package com.github.unchama.gui.minestack;
 
+import java.util.HashMap;
+
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Sound;
@@ -13,11 +15,20 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 public class MineStackMenuManager extends GuiMenuManager{
 
 	@Override
-	protected void setOpenMenuMap() {
+	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
+	@Override
+	protected void setIDMap(HashMap<Integer, String> methodmap) {
+		// TODO 自動生成されたメソッド・スタブ
 
+	}
+	@Override
+	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
+		return true;
+	}
 	@Override
 	protected void setKeyItem() {
 		// TODO 自動生成されたメソッド・スタブ
@@ -77,5 +88,8 @@ public class MineStackMenuManager extends GuiMenuManager{
 		// TODO 自動生成されたメソッド・スタブ
 		return (float)0.1;
 	}
+
+
+
 
 }
