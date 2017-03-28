@@ -58,6 +58,7 @@ public class MenuClickListener implements Listener{
 		Inventory inv = event.getClickedInventory();
 		Player player = event.getPlayer();
 		if (inv == null || event.getClick().equals(ClickType.RIGHT)) {
+			//直前のメニューを開く
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 			PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
 			player.playSound(player.getLocation(), Sound.BLOCK_PISTON_CONTRACT, (float)0.5, (float)1.4);

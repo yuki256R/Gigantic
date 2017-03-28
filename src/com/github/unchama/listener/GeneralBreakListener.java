@@ -98,7 +98,9 @@ public class GeneralBreakListener implements Listener{
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void giveExp(BlockBreakEvent event){
 		int dropexp = event.getExpToDrop();
+		if(dropexp == 0)return;
 		Player player = event.getPlayer();
+		debug.sendMessage(player, DebugEnum.BREAK,"ドロップ("+dropexp+")を取得します．");
 		player.giveExp(dropexp);
 		event.setExpToDrop(0);
 	}

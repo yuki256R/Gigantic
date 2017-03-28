@@ -1,6 +1,8 @@
 package com.github.unchama.gui.skillmenu.explosion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,36 +10,109 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.skill.Explosion;
-import com.github.unchama.player.skill.SkillManager;
+import com.github.unchama.player.skill.ExplosionManager;
+import com.github.unchama.player.skill.moduler.Coordinate;
+import com.github.unchama.player.skill.moduler.Volume;
 
-public class ExplosionMenuManager extends SkillMenuManager{
+public class ExplosionMenuManager extends SkillMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		return Explosion.getJPName();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		return gp.getManager(ExplosionManager.class).getJPName();
 	}
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		ExplosionManager em = gp.getManager(ExplosionManager.class);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
-		if(mt == null)return null;
+		if (mt == null)
+			return null;
 		ItemMeta itemmeta = itemstack.getItemMeta();
-		switch(mt){
+		List<String> lore = new ArrayList<String>();
+		Volume v = em.getRange().getVolume();
+		switch (mt) {
 		case INFO:
-			itemmeta.setDisplayName(ChatColor.GREEN + "基本情報");
+			itemmeta.setDisplayName("" + ChatColor.GREEN + ChatColor.BOLD
+					+ "基本情報");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+					+ "特定のブロックを破壊時に周囲のブロックを同時に破壊します．");
+			if (em.getToggle()) {
+				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
+						+ ChatColor.GREEN + "ON");
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
+						+ ChatColor.RED + "OFF");
+			}
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+					+ "現在の最大破壊ブロック数:" + v.getVolume());
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
+					+ (int) em.getMana(v.getVolume()));
+			itemmeta.setLore(lore);
 			break;
 		case RANGE:
 			itemmeta.setDisplayName(ChatColor.BLUE + "範囲設定");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+					+ "同時に破壊する範囲を設定します．");
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の範囲");
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_AQUA + "幅："
+					+ v.getWidth());
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_AQUA + "高さ："
+					+ v.getHeight());
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_AQUA + "奥行："
+					+ v.getDepth());
+			lore.add("" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
+					+ "クリックして範囲を設定");
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+					+ "※自動でトグルがオフになります");
+			itemmeta.setLore(lore);
 			break;
 		case ORIGIN:
 			itemmeta.setDisplayName(ChatColor.LIGHT_PURPLE + "起点設定");
+			SkullMeta skullmeta = (SkullMeta) itemmeta;
+			skullmeta.setOwner(player.getName());
+			int y = em.getRange().getZeropoint().getY();
+			int cy;
+			lore = new ArrayList<String>();
+			if (y == 0) {
+				if (v.getHeight() == 1) {
+					cy = 0;
+				}else{
+					cy = 1;
+				}
+			} else if (y == 1) {
+				if (v.getHeight() == 2) {
+					cy = 0;
+				} else {
+					cy = v.getHeight() - 1;
+				}
+			} else {
+				cy = 0;
+			}
+			if(v.getHeight() != 1){
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+						+ "一番下のブロックからの高さを変更します．");
+				lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の起点の高さ：" + y);
+				lore.add("" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
+						+ "クリックすると起点を" + ChatColor.YELLOW + cy + ChatColor.BLUE
+						+ "に変更します．");
+			}else{
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+						+ "範囲設定で高さを2以上に設定すると");
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+						+ "起点の高さを変更できます．");
+			}
+			itemmeta.setLore(lore);
 			break;
 		case BOOK:
 			itemmeta.setDisplayName(ChatColor.RED + "専用スキルブックを受け取る");
@@ -50,21 +125,23 @@ public class ExplosionMenuManager extends SkillMenuManager{
 		return itemmeta;
 	}
 
-
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
-		if(mt == null)return null;
+		if (mt == null)
+			return null;
 		ItemStack itemstack = null;
-		switch(mt){
+		switch (mt) {
 		case INFO:
-			itemstack = new ItemStack(Explosion.getMenuMaterial());
+			itemstack = new ItemStack(gp.getManager(ExplosionManager.class)
+					.getMenuMaterial());
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
 			break;
 		case ORIGIN:
-			itemstack = new ItemStack(Material.SKULL_ITEM,1,(short)3);
+			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 			break;
 		case BOOK:
 			itemstack = new ItemStack(Material.BOOK);
@@ -77,29 +154,56 @@ public class ExplosionMenuManager extends SkillMenuManager{
 	}
 
 	@Override
-	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
-		openmap.put(MenuType.RANGE.getSlot(),E_RangeMenuManager.class);
-
+	protected void setOpenMenuMap(
+			HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+		openmap.put(MenuType.RANGE.getSlot(), E_RangeMenuManager.class);
 
 	}
+
 	@Override
 	protected void setIDMap(HashMap<Integer, String> id_map) {
 		id_map.put(MenuType.INFO.getSlot(), "toggle");
+		id_map.put(MenuType.ORIGIN.getSlot(), "chenge_y");
 	}
+
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-
-		switch(identifier){
+		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
+		ExplosionManager em = gp.getManager(ExplosionManager.class);
+		switch (identifier) {
 		case "toggle":
-			SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
-			if(sm.getLevel() < Explosion.getUnlockLevel()){
+			if (sm.getLevel() < gp.getManager(ExplosionManager.class)
+					.getUnlockLevel()) {
 				player.sendMessage("解放できるレベルに達していません");
 				return true;
 			}
-			Explosion exs = gp.getManager(SkillManager.class).getSkill(Explosion.class);
-			exs.toggle();
-			player.sendMessage("トグルを切り替えました．");
+			em.toggle();
+			player.openInventory(this.getInventory(player, 0));
+			return true;
+		case "chenge_y":
+			Volume v = em.getRange().getVolume();
+			Coordinate zero = em.getRange().getZeropoint();
+			int y = zero.getY();
+			int cy;
+			if (y == 0) {
+				if (v.getHeight() == 1) {
+					cy = 0;
+				}else{
+					cy = 1;
+				}
+			} else if (y == 1) {
+				if (v.getHeight() == 2) {
+					cy = 0;
+				} else {
+					cy = v.getHeight() - 1;
+				}
+			} else {
+				cy = 0;
+			}
+			zero.setY(cy);
+			em.getRange().refresh();
+			player.openInventory(this.getInventory(player, 0));
 			return true;
 		}
 		return false;

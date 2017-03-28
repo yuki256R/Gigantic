@@ -3,7 +3,7 @@ package com.github.unchama.command;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,19 +20,19 @@ import com.github.unchama.yml.ConfigManager;
 
 public class mineboostCommand implements TabExecutor{
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
-	Gigantic plugin;
+	Gigantic plugin = Gigantic.plugin;
 
 
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		
-		/* 
+
+		/*
 		 * /mb set <playername/all> <duration(tick)> <amplifier(double)> <id> で実行可能に
 		 * ※ id = 0 その他
 		 *   id = 1 ドラゲナイタイム
 		 *   id = 2 投票
-		 *   
+		 *
 		 *   No.1 /mb -> usage表示(return false/実行不可)
 		 *   No.2 /mb set -> 使用方法表示 (return true/実行不可)
 		 *   No.3 /mb set <playername/all> -> "効果時間(tick)・上昇値を入力してください"(return true/実行不可)
@@ -40,12 +40,12 @@ public class mineboostCommand implements TabExecutor{
 		 *   No.5 /mb set <playername/all> <duration(tick)> <amplifier(double)> -> "id省略のためプレイヤーには'その他(コマンドなど)による上昇'と表示されます"(return true/実行可能)
 		 *   No.6 全引数指定された完璧な形 -> (return true/実行可能)
 		 */
-		
+
 		if(args.length == 0){
 			//No.1の場合
 			return false;
 		}
-		
+
 		if(args[0].equalsIgnoreCase("set")){
 			//No.2~6
 			if(args.length == 1){
@@ -89,22 +89,22 @@ public class mineboostCommand implements TabExecutor{
 					sender.sendMessage("idが指定されていないので、idは0が指定されました");
 				}
 				//持続時間・上昇値をそれぞれ取得
-				long duration = Converter.toLong(args[3]);
-				short amplifier = Converter.toShort(args[4]);
+				long duration = Converter.toLong(args[2]);
+				short amplifier = Converter.toShort(args[3]);
 				//プレイヤー名をlowercaseする
-				String name = Converter.getName(args[2]);
-				
+				String name = Converter.getName(args[1]);
+
 				if(!name.equalsIgnoreCase("all")){
 					//プレイヤー名がallじゃない時
 					//プレイヤーをサーバーより取得
-					Player player = plugin.getServer().getPlayer(name);
-					
+					Player player = Bukkit.getServer().getPlayer(name);
+
 					if(player == null){
 						//プレイヤーが取得できない時
 						sender.sendMessage("指定されたプレイヤー(" + name + ")はオンラインではないか、存在しません");
 						return true;
 					}
-					
+
 					//プレイヤーデータを取得
 					GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 					//エラー分岐
@@ -116,15 +116,17 @@ public class mineboostCommand implements TabExecutor{
 					}
 					//エフェクトデータにこの効果を追加
 					gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
+					gp.getManager(MineBoostManager.class).refresh();
 					//メッセージ送信
-					sender.sendMessage(ChatColor.LIGHT_PURPLE + name + "に上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
+					sender.sendMessage(ChatColor.YELLOW + name + "に上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
 				}else{
 					//allの時
 					//全プレイヤーに処理
 					for(GiganticPlayer gp : PlayerManager.gmap.values()){
 						gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
+						gp.getManager(MineBoostManager.class).refresh();
 					}
-					sender.sendMessage(ChatColor.RED + "全プレイヤーに上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
+					sender.sendMessage(ChatColor.YELLOW + "全プレイヤーに上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
 				}
 			}
 			return true;
@@ -135,9 +137,9 @@ public class mineboostCommand implements TabExecutor{
 	}
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command,String label, String[] args) {
-		
+
 		if(args.length == 1){
-			
+
 			String prefix = args[0].toLowerCase();
 			ArrayList<String> commands = new ArrayList<String>();
 			for( String c : new String[]{"set"}){

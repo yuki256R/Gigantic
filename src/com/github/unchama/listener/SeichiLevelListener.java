@@ -33,7 +33,7 @@ public class SeichiLevelListener implements Listener {
 		if (m != null && m != "") {
 			p.sendMessage(m);
 		}
-		m = config.getSeichiLevelMessage(level);
+		m = config.getSeichiLevelMessage(p,level);
 		if (m != null && m != "") {
 			p.sendMessage(m);
 		}

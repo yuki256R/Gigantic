@@ -49,9 +49,9 @@ maxseichilevel: 300
 # levelmessage:特定のレベルに上がると表示(1は指定できません）
 
 seichi:
-  levelupmessage: '§6整地レベルが%gp_level%になりました．'
+  levelupmessage: '&6整地レベルが%gp_seichilevel%になりました．'
   levelmessage:
-    2: ''
+    10: "&e初めてのアクティブスキル%gp_skill_explosion_jpname%&r&eを習得できます！\n習得するには木の棒メニューのスキルブックをクリック！\n"
 
 
 

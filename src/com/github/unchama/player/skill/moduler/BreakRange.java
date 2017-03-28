@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 public class BreakRange {
+
 	// 破壊する体積情報
 	private Volume volume;
 	// 基準
@@ -26,14 +27,14 @@ public class BreakRange {
 	public BreakRange(Volume volume, Coordinate zeropoint) {
 		this.volume = volume;
 		this.zeropoint = zeropoint;
-		this.setCoordMap();
+		this.refresh();
 	}
 
 	/**
 	 * 得られたvolume，起点zeropointからcoordmapを生成します．
 	 *
 	 */
-	private void setCoordMap() {
+	public void refresh() {
 		coordmap = new LinkedHashMap<CardinalDirection, List<Coordinate>>();
 		coordmap.put(CardinalDirection.SOUTH, new ArrayList<Coordinate>());
 		coordmap.put(CardinalDirection.WEST, new ArrayList<Coordinate>());
@@ -50,9 +51,20 @@ public class BreakRange {
 						z++) {
 					Coordinate coord = new Coordinate(x,y,z);
 					coordmap.get(CardinalDirection.SOUTH).add(coord);
-					coordmap.get(CardinalDirection.WEST).add(coord.rotateXZ(zeropoint, 90));
-					coordmap.get(CardinalDirection.NORTH).add(coord.rotateXZ(zeropoint, 180));
-					coordmap.get(CardinalDirection.EAST).add(coord.rotateXZ(zeropoint, 270));
+					coord = coord.rotateXZ(zeropoint);
+					if(this.getVolume().getDepth() != 1){
+						coordmap.get(CardinalDirection.EAST).add(coord.shift(1, 0, 0));
+					}else{
+						coordmap.get(CardinalDirection.EAST).add(coord);
+					}
+					coord = coord.rotateXZ(zeropoint);
+					coordmap.get(CardinalDirection.NORTH).add(coord);
+					coord = coord.rotateXZ(zeropoint);
+					if(this.getVolume().getDepth() != 1){
+						coordmap.get(CardinalDirection.WEST).add(coord.shift(-1, 0, 0));
+					}else{
+						coordmap.get(CardinalDirection.WEST).add(coord);
+					}
 				}
 			}
 		}
