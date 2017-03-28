@@ -37,9 +37,10 @@ public class ExplosionManager extends SkillManager {
 		super(gp);
 		tm = sql.getManager(ExplosionTableManager.class);
 	}
+
 	@Override
 	public void save(Boolean loginflag) {
-		tm.save(gp,loginflag);
+		tm.save(gp, loginflag);
 	}
 
 	/**
@@ -78,17 +79,20 @@ public class ExplosionManager extends SkillManager {
 			Block rb = block.getRelative(c.getX(), c.getY(), c.getZ());
 			Material m = rb.getType();
 			// マテリアルを確認
-				if (SkillManager.canBreak(m) || m.equals(Material.STATIONARY_LAVA)) {
+				if (SkillManager.canBreak(m)
+						|| m.equals(Material.STATIONARY_LAVA)) {
 					// worldguardを確認
 					if (Wg.canBuild(player, rb.getLocation())) {
-						switch (m) {
-						case STATIONARY_LAVA:
-							lavalist.add(rb);
-						default:
-							breaklist.add(rb);
+						if (canBelowBreak(player, block, rb)) {
+							switch (m) {
+							case STATIONARY_LAVA:
+								lavalist.add(rb);
+							default:
+								breaklist.add(rb);
+							}
+							rb.setMetadata("Skilled", new FixedMetadataValue(
+									plugin, true));
 						}
-						rb.setMetadata("Skilled", new FixedMetadataValue(
-								plugin, true));
 					}
 				}
 			});
@@ -137,9 +141,10 @@ public class ExplosionManager extends SkillManager {
 		}
 
 		// break;
-		for(Block b : breaklist){
+		for (Block b : breaklist) {
 			b.setType(Material.AIR);
-			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND,b.getType());
+			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND,
+					b.getType());
 		}
 
 		Mm.decrease(usemana);
@@ -147,6 +152,41 @@ public class ExplosionManager extends SkillManager {
 
 		this.runCoolDownTask(breaklist.size());
 		return true;
+	}
+
+	/**自分より下のブロックを破壊できるか判定する．
+	 *
+	 * @param player
+	 * @param block
+	 * @param rb
+	 * @return
+	 */
+	private boolean canBelowBreak(Player player, Block block, Block rb) {
+		int playerlocy = player.getLocation().getBlockY() - 1;
+		int blocky = block.getY();
+		int rblocy = rb.getY();
+		int zeroy = this.getRange().getZeropoint().getY();
+		int voly = this.getRange().getVolume().getHeight() - 1;
+
+		//プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
+		if(playerlocy >= blocky){
+			return true;
+		//破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
+		}else if(voly <= 1){
+			if(playerlocy < rblocy){
+				return true;
+			}else{
+				return false;
+			}
+		//破壊する高さが起点の高さと同じ場合は無関係に破壊する
+		}else if(zeroy == voly){
+			return true;
+		//それ以外の場合は自分の高さ以上のブロックのみ破壊する
+		}else if(playerlocy < rblocy){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	@Override
@@ -182,7 +222,7 @@ public class ExplosionManager extends SkillManager {
 
 	@Override
 	public long getSpendAP(int breaknum) {
-		return (long)breaknum * 1;
+		return (long) breaknum * 1;
 	}
 
 	@Override
@@ -209,7 +249,5 @@ public class ExplosionManager extends SkillManager {
 	public int getMaxTotalSize() {
 		return 110;
 	}
-
-
 
 }

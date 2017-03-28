@@ -52,11 +52,19 @@ public class BreakRange {
 					Coordinate coord = new Coordinate(x,y,z);
 					coordmap.get(CardinalDirection.SOUTH).add(coord);
 					coord = coord.rotateXZ(zeropoint);
-					coordmap.get(CardinalDirection.EAST).add(coord.shift(1, 0, 0));
+					if(this.getVolume().getDepth() != 1){
+						coordmap.get(CardinalDirection.EAST).add(coord.shift(1, 0, 0));
+					}else{
+						coordmap.get(CardinalDirection.EAST).add(coord);
+					}
 					coord = coord.rotateXZ(zeropoint);
 					coordmap.get(CardinalDirection.NORTH).add(coord);
 					coord = coord.rotateXZ(zeropoint);
-					coordmap.get(CardinalDirection.WEST).add(coord.shift(-1, 0, 0));
+					if(this.getVolume().getDepth() != 1){
+						coordmap.get(CardinalDirection.WEST).add(coord.shift(-1, 0, 0));
+					}else{
+						coordmap.get(CardinalDirection.WEST).add(coord);
+					}
 				}
 			}
 		}
