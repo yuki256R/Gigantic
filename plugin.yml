@@ -23,7 +23,7 @@ commands:
       permission-message: You don't have <permission>
   mineboost:
       description: This is mineboost command.
-      usage: /<command> <help>
+      usage: /mb set <playername/all> <duration(tick)> <amplifier(double)> <id>
       aliases: [mb,gmb]
       default: op
       permission: gigantic.mineboost

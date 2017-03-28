@@ -58,7 +58,7 @@ public class AddPotionTaskRunnable extends BukkitRunnable {
 						if (gs.equals(GiganticStatus.AVAILABLE)) {
 							MineBoostManager mm = gp
 									.getManager(MineBoostManager.class);
-							mm.updata(BoostType.MINUTE_MINE);;
+							mm.updata(BoostType.MINUTE_MINE);
 							mm.refresh();
 							MineBlockManager mb = gp.getManager(MineBlockManager.class);
 							mb.resetTimeCount(TimeType.A_MINUTE);
