@@ -62,10 +62,12 @@ public class mineboostCommand implements TabExecutor{
 			if(args.length == 2){
 				//No.3
 				sender.sendMessage("効果時間(tick)・上昇値を入力してください");
+				return true;
 			}
 			if(args.length == 3){
 				//No.4
 				sender.sendMessage("上昇値を入力してください");
+				return true;
 			}
 			if(args.length == 4 || args.length == 5){
 				//No.5,6
@@ -125,10 +127,11 @@ public class mineboostCommand implements TabExecutor{
 					sender.sendMessage(ChatColor.RED + "全プレイヤーに上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
 				}
 			}
+			return true;
+		}else{
 			//set以外の文字列の時
 			return false;
 		}
-		return false;
 	}
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command,String label, String[] args) {
@@ -144,15 +147,7 @@ public class mineboostCommand implements TabExecutor{
 			}
 			return commands;
 		}else if(args.length == 2 && args[0].equalsIgnoreCase("set")){
-			
-			String prefix = args[1].toLowerCase();
-			ArrayList<String> commands = new ArrayList<String>();
-			for( Player p : plugin.getServer().getOnlinePlayers()){
-				if(p.getName().startsWith(prefix)){
-					commands.add(p.getName());
-				}
-			}
-			return commands;
+			//ここでプレイヤー名の一覧を表示したい。(未作成)
 		}
 		return null;
 	}
