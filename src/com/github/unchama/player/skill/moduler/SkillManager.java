@@ -76,7 +76,8 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			return;
 		}
 		// アンロックしているとき
-		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(st.getMenuClass());
+		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(st
+				.getMenuClass());
 		if (this.isunlocked()) {
 			// 開く音を再生
 			player.playSound(player.getLocation(), om.getSoundName(),
@@ -118,8 +119,8 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		} else if (this.isunlocked()) {
 			// アンロックされているとき
 			is = new ItemStack(this.getMenuMaterial());
-			is.addEnchantment(Enchantment.DIG_SPEED, 10);
 			ItemMeta im = is.getItemMeta();
+			im.addEnchant(Enchantment.DIG_SPEED, 100, false);
 			im.setDisplayName(this.getJPName());
 			im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 			is.setItemMeta(im);
@@ -283,7 +284,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @param breaknum
 	 * @return
 	 */
-	public abstract double getSpendAP(int breaknum);
+	public abstract long getSpendAP(int breaknum);
 
 	/**
 	 * 1回の発動で破壊できる最大ブロック数を取得します．
@@ -388,7 +389,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * スキル破壊できるツールの時trueとなります．
 	 *
 	 * @param tool
-	 * @return
+	 * @return 可否
 	 */
 	public static boolean canBreak(ItemStack tool) {
 		switch (tool.getType()) {
@@ -404,6 +405,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		case IRON_SPADE:
 		case GOLD_SPADE:
 		case SHEARS:
+			return true;
 		default:
 			return false;
 		}

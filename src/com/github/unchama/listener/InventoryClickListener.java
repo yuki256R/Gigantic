@@ -23,9 +23,9 @@ public class InventoryClickListener implements Listener {
 	GuiMenu guimenu = Gigantic.guimenu;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
+
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void cancelPlayerClickMenu(InventoryClickEvent event) {
-		Inventory inv = event.getClickedInventory();
 
 		InventoryView view = event.getView();
 		HumanEntity he = view.getPlayer();
@@ -39,8 +39,8 @@ public class InventoryClickListener implements Listener {
 		if (topinventory == null) {
 			return;
 		}
-		debug.sendMessage(player, DebugEnum.GUI,"InventoryAction:" + event.getAction().toString());
-		debug.sendMessage(player, DebugEnum.GUI,"ClickType:" + event.getClick().toString());
+		//debug.sendMessage(player, DebugEnum.GUI,"InventoryAction:" + event.getAction().toString());
+		//debug.sendMessage(player, DebugEnum.GUI,"ClickType:" + event.getClick().toString());
 
 
 		for (GuiMenu.ManagerType mt : GuiMenu.ManagerType.values()) {
@@ -48,17 +48,13 @@ public class InventoryClickListener implements Listener {
 					.getManagerClass());
 			if (topinventory.getName().equals(m.getInventoryName(player))
 					&& topinventory.getSize() == m.getInventorySize()) {
-				int i = event.getSlot();
 				debug.sendMessage(player, DebugEnum.GUI,
 						m.getInventoryName(player) + ChatColor.RESET
 								+ "内でクリックを検知");
-				
-
 				event.setCancelled(true);
 				MenuClickEvent mevent = new MenuClickEvent(mt,event);
 				Bukkit.getServer().getPluginManager().callEvent(mevent);
 				return;
-
 			}
 		}
 	}

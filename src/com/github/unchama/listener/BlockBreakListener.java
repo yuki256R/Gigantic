@@ -61,17 +61,6 @@ public class BlockBreakListener implements Listener {
 		}
 	}
 
-	/*@EventHandler(priority = EventPriority.NORMAL)
-	public void EmptyDurabilityToolCanceller(BlockBreakEvent event) {
-		ItemStack tool = event.getPlayer().getItemOnCursor();
-		// 耐久無限以外のツールにおいて，既に壊れているツールの時破壊してキャンセル
-		if (tool.getDurability() > tool.getType().getMaxDurability()
-				&& !tool.getItemMeta().spigot().isUnbreakable())
-			event.getPlayer().sendMessage(ChatColor.RED + "既に壊れているツールです．");
-			tool.setType(Material.AIR);
-			//event.setCancelled(true);
-	}*/
-
 	@EventHandler(priority = EventPriority.HIGH)
 	public void Explosion(BlockBreakEvent event) {
 		if (event.isCancelled()) {
@@ -80,21 +69,30 @@ public class BlockBreakListener implements Listener {
 		Player player = event.getPlayer();
 
 		// サバイバルではないとき終了
-		if(!player.getGameMode().equals(GameMode.SURVIVAL))return;
+		if(!player.getGameMode().equals(GameMode.SURVIVAL)){
+			debug.sendMessage(player , DebugEnum.SKILL, "サバイバルではないのでスキルの発動ができません．");
+			return;
+		}
 
 		//フライ中に使用していた時終了
-		if(player.isFlying())return;
+		if(player.isFlying()){
+			debug.sendMessage(player , DebugEnum.SKILL, "フライ中はスキルの発動ができません．");
+			return;
+		}
 
 		// 使用可能ワールドではないとき終了
-
-		ItemStack tool = player.getItemOnCursor();
+		ItemStack tool = player.getInventory().getItemInMainHand();
 
 		// スキルを発動できるツールでないとき終了
-		if (!SkillManager.canBreak(tool))
+		if (!SkillManager.canBreak(tool)){
+			debug.sendMessage(player , DebugEnum.SKILL, "スキルの発動ができるツールではありません．");
 			return;
+		}
+
 
 		//木こりエンチャントがある時終了
 		if(Ze.isCompatible("木こり", tool)){
+			debug.sendMessage(player , DebugEnum.SKILL, "木こりエンチャントがあるためスキルが発動できません");
 			return;
 		}
 
@@ -102,16 +100,22 @@ public class BlockBreakListener implements Listener {
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
-		if (!SkillManager.canBreak(material))
+		if (!SkillManager.canBreak(material)){
+			debug.sendMessage(player , DebugEnum.SKILL, "スキルが発動できるブロックではありません．");
 			return;
+		}
+
 
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		ExplosionManager skill = gp.getManager(ExplosionManager.class);
 
 		// トグルがオフなら終了
-		if (!skill.getToggle())
+		if (!skill.getToggle()){
+			debug.sendMessage(player , DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
 			return;
+		}
+
 
 		//クールダウン中なら終了
 		if(skill.isCoolDown()){

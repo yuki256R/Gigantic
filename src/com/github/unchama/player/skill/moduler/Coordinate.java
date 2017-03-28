@@ -1,5 +1,6 @@
 package com.github.unchama.player.skill.moduler;
 
+
 /**
  * 座標クラス
  *
@@ -53,18 +54,14 @@ public class Coordinate {
 		this.z += z;
 	}
 
-	/**
+	/**90度左回りに回転させます
 	 *
-	 * @param coord 回転させたい座標
 	 * @param zero 起点とする座標
 	 * @param r 回転角度（度）
 	 * @return
 	 */
-	public Coordinate rotateXZ(Coordinate zero,int r){
-		double rad = Math.toRadians(r);
-		int x = zero.x + (int)((getX() - zero.x) * Math.cos(rad) - (getZ() - zero.z) * Math.sin(rad));
-		int z = zero.z + (int)((getX() - zero.x) * Math.sin(rad) + (getZ() - zero.z) * Math.cos(rad));
-		return new Coordinate(x,getY(),z);
+	public Coordinate rotateXZ(Coordinate zero){
+		return new Coordinate(-getZ(),getY(),getX());
 	}
 
 

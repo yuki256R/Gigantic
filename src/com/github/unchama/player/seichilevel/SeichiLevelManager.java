@@ -11,8 +11,10 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
+import com.github.unchama.player.skill.ExplosionManager;
 import com.github.unchama.player.skill.moduler.SkillManager;
 import com.github.unchama.player.skill.moduler.SkillType;
+import com.github.unchama.player.skill.moduler.Volume;
 import com.github.unchama.yml.ConfigManager;
 
 public class SeichiLevelManager extends DataManager implements Initializable {
@@ -48,24 +50,39 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 			}
 		}
 	}
-
-	/**与えられたapをプレイヤが所持しているか取得
+	/**プレイヤーの持つ残りのAPを取得
 	 *
 	 * @param ap
 	 * @return
 	 */
-	public boolean hasAP(long ap){
+	public long getAP(){
 		SeichiLevel sl = levelmap.get(this.level);
 		long sumap = sl.getSumAp();
 		long useap = 0;
+		//アンロックで使用するAP
 		for(SkillType st : SkillType.values()){
 			SkillManager s = (SkillManager)gp.getManager(st.getSkillClass());
 			if(s.isunlocked()){
 				useap += s.getUnlockAP();
 			}
 		}
+		ExplosionManager em = gp.getManager(ExplosionManager.class);
+
+		if(em.isunlocked()){
+			Volume v = em.getRange().getVolume();
+			useap += em.getSpendAP(v.getVolume() - 1 );
+		}
 
 		long dif = sumap - useap;
+		return dif;
+	}
+	/**与えられたapをプレイヤが所持しているか取得
+	 *
+	 * @param ap
+	 * @return
+	 */
+	public boolean hasAP(long ap){
+		long dif = this.getAP();
 		return dif < ap ? false : true;
 	}
 	/**
@@ -78,8 +95,7 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	 * @return
 	 */
 	private boolean canLevelup() {
-		double d = gp.getManager(MineBlockManager.class).all
-				.getNum(TimeType.UNLIMITED);
+		double d = gp.getManager(MineBlockManager.class).getAll(TimeType.UNLIMITED);
 		return ((double)levelmap.get(level).getNextMineBlock() <= d && level < config
 				.getMaxSeichiLevel()) ? true : false;
 	}
@@ -116,8 +132,7 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	 * @return
 	 */
 	public double getRemainingBlock() {
-		double d = gp.getManager(MineBlockManager.class).all
-				.getNum(TimeType.UNLIMITED);
+		double d = gp.getManager(MineBlockManager.class).getAll(TimeType.UNLIMITED);
 		return this.level < config.getMaxSeichiLevel() ? (double)levelmap.get(this.level)
 				.getNextMineBlock() - d : 0.0;
 	}
@@ -136,15 +151,16 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	 */
 	public void setLevel(int level) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		if(m.debugblock != 0){
-			m.all.increase(TimeType.UNLIMITED,-m.debugblock);
+		double debugblock = m.getDebugBlockNum();
+		if(debugblock != 0){
+			m.increaseAll(TimeType.UNLIMITED,-debugblock);
 		}
 		double after = levelmap.get(level).getNeedMineBlock();
-		double before = m.all.getNum(TimeType.UNLIMITED);
+		double before = m.getAll(TimeType.UNLIMITED);
 		//所望レベルまでの必要整地量を計算
 		double dif = after - before;
-		m.all.increase(TimeType.UNLIMITED,dif);
-		m.debugblock = dif;
+		m.increaseAll(TimeType.UNLIMITED,dif);
+		m.setDebugBlock(dif);
 		this.level = level;
 	}
 }

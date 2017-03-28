@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -12,10 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.skill.moduler.SkillType;
 import com.github.unchama.player.skill.moduler.BreakRange;
 import com.github.unchama.player.skill.moduler.Coordinate;
 import com.github.unchama.player.skill.moduler.SkillManager;
+import com.github.unchama.player.skill.moduler.SkillType;
 import com.github.unchama.sql.ExplosionTableManager;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -40,7 +41,7 @@ public class ExplosionManager extends SkillManager {
 	public void save(Boolean loginflag) {
 		tm.save(gp,loginflag);
 	}
-	
+
 	/**
 	 * @return range
 	 */
@@ -136,6 +137,10 @@ public class ExplosionManager extends SkillManager {
 		}
 
 		// break;
+		for(Block b : breaklist){
+			b.setType(Material.AIR);
+			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND,b.getType());
+		}
 
 		Mm.decrease(usemana);
 		tool.setDurability(durability);
@@ -176,8 +181,8 @@ public class ExplosionManager extends SkillManager {
 	}
 
 	@Override
-	public double getSpendAP(int breaknum) {
-		return 1;
+	public long getSpendAP(int breaknum) {
+		return (long)breaknum * 1;
 	}
 
 	@Override
@@ -194,7 +199,7 @@ public class ExplosionManager extends SkillManager {
 	public int getMaxWidth() {
 		return 15;
 	}
-	
+
 	@Override
 	public int getMaxDepth() {
 		return 45;

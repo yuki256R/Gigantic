@@ -34,18 +34,18 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		LinkedHashMap<BlockType, MineBlock> datamap = m.datamap;
+		LinkedHashMap<BlockType, MineBlock> datamap = m.getDataMap();
 		for (BlockType bt : BlockType.values()) {
 			datamap.put(bt, new MineBlock(rs.getDouble(bt.getColumnName())));
 		}
 
-		m.all = new MineBlock(rs.getDouble("allmineblock"));
+		m.setAll(new MineBlock(rs.getDouble("allmineblock")));
 	}
 
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		LinkedHashMap<BlockType, MineBlock> datamap = m.datamap;
+		LinkedHashMap<BlockType, MineBlock> datamap = m.getDataMap();
 		String command = "";
 
 		for (BlockType bt : datamap.keySet()) {
@@ -53,7 +53,7 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 					+ datamap.get(bt).getNum(TimeType.UNLIMITED) + "',";
 		}
 
-		command += "allmineblock = '" + m.all.getNum(TimeType.UNLIMITED) + "',";
+		command += "allmineblock = '" + m.getAll(TimeType.UNLIMITED) + "',";
 
 		return command;
 	}
@@ -61,26 +61,26 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		LinkedHashMap<BlockType, MineBlock> datamap = m.datamap;
+		LinkedHashMap<BlockType, MineBlock> datamap = m.getDataMap();
 		// datamap put
 		for (BlockType bt : BlockType.values()) {
 			datamap.put(bt, new MineBlock());
 		}
 
-		m.all = new MineBlock(tm.getAllMineBlock(gp));
+		m.setAll(new MineBlock(tm.getAllMineBlock(gp)));
 		return;
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		LinkedHashMap<BlockType, MineBlock> datamap = m.datamap;
+		LinkedHashMap<BlockType, MineBlock> datamap = m.getDataMap();
 		// datamap put
 		for (BlockType bt : BlockType.values()) {
 			datamap.put(bt, new MineBlock());
 		}
 
-		m.all = new MineBlock();
+		m.setAll(new MineBlock());
 		return;
 	}
 
