@@ -20,21 +20,29 @@ public class MineBlock {
 	public MineBlock(double n) {
 		nmap = new HashMap<TimeType, Double>();
 		for (TimeType tt : TimeType.values()) {
-			nmap.put(tt, new Double(0));
+			switch(tt){
+			case UNLIMITED:
+				nmap.put(tt, new Double(n));
+				break;
+			default:
+				nmap.put(tt, new Double(0));
+				break;
+			}
+
 		}
 	}
 
 	public void increase(double increase) {
-		nmap.forEach((tt, n) -> {
-			n += increase;
-		});
+		for(TimeType tt : TimeType.values()) {
+			nmap.put(tt,nmap.get(tt) + increase);
+		}
 	}
 	public void increase(TimeType tt ,double increase){
 		nmap.put(tt, nmap.get(tt) + increase);
 	}
 
 	public double getNum(TimeType tt) {
-		return nmap.get(tt);
+		return nmap.get(tt).doubleValue();
 	}
 
 	public void reset(TimeType tt) {

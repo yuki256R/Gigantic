@@ -11,6 +11,8 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.player.mineblock.MineBlock.TimeType;
+import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.BoostType;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.yml.DebugManager;
@@ -27,11 +29,13 @@ public class AddPotionTaskRunnable extends BukkitRunnable {
 	private List<Player> playerlist;
 	private int size;
 	private int count;
+	private int minute;
 
-	public AddPotionTaskRunnable(List<Player> playerlist) {
+	public AddPotionTaskRunnable(List<Player> playerlist, int minute) {
 		this.playerlist = new ArrayList<Player>(playerlist);
 		this.size = this.playerlist.size();
 		this.count = -1;
+		this.minute = minute;
 	}
 
 	@Override
@@ -54,8 +58,13 @@ public class AddPotionTaskRunnable extends BukkitRunnable {
 						if (gs.equals(GiganticStatus.AVAILABLE)) {
 							MineBoostManager mm = gp
 									.getManager(MineBoostManager.class);
-							mm.updata(BoostType.MINUTE_MINE);;
+							mm.updata(BoostType.MINUTE_MINE);
 							mm.refresh();
+							MineBlockManager mb = gp.getManager(MineBlockManager.class);
+							mb.resetTimeCount(TimeType.A_MINUTE);
+							if(minute % 30 == 0){
+								mb.resetTimeCount(TimeType.HALF_HOUR);
+							}
 						}
 					}
 				}

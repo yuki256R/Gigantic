@@ -90,8 +90,7 @@ public class MineBoostManager extends DataManager implements Initializable {
 	 * 与えられたブーストタイプの更新を行います．
 	 *
 	 *
-	 * @param MINUTE_MINE
-	 *            or NUMBER_OF_PEOPLE
+	 * @param  BoostType
 	 * @return 成否
 	 */
 	public boolean updata(BoostType boosttype) {
@@ -99,8 +98,7 @@ public class MineBoostManager extends DataManager implements Initializable {
 		short amplifier;
 		switch (boosttype) {
 		case MINUTE_MINE:
-			causenum = gp.getManager(MineBlockManager.class).all
-					.getNum(TimeType.A_MINUTE);
+			causenum = gp.getManager(MineBlockManager.class).getAll(TimeType.A_MINUTE);
 			amplifier = (short) (causenum * config.getMinuteMineRate());
 			updata(boosttype, amplifier);
 			return true;

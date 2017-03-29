@@ -26,7 +26,7 @@ import com.github.unchama.gui.GuiMenu;
  * @author tar0ss
  *
  */
-public class GuiYmlMenuManager extends GuiMenuManager{
+public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	private File file;
 	private String filename;
 	protected FileConfiguration fc;
@@ -186,6 +186,7 @@ public class GuiYmlMenuManager extends GuiMenuManager{
 	public float getPitch() {
 		return (float) this.fc.getDouble("sound.pitch");
 	}
+
 
 
 }

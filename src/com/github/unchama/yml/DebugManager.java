@@ -135,7 +135,7 @@ public final class DebugManager extends YmlManager {
 	 * @param de
 	 * @return
 	 */
-	private Boolean getFlag(DebugEnum de) {
+	public Boolean getFlag(DebugEnum de) {
 		return debugmap.get(de);
 	}
 
