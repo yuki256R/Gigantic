@@ -10,6 +10,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.MineBlockTableManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MineBlockManager extends DataManager implements UsingSql,Finalizable{
 
@@ -40,6 +41,9 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 		double ratio = BlockType.getIncreaseRatio(material);
 		BlockType bt = BlockType.getmaterialMap().get(material);
 		double inc = breaknum * ratio;
+		if(bt == null){
+			debug.warning(DebugEnum.SKILL, "MineBlockManager内でnull:" + material.name());
+		}
 		datamap.get(bt).increase(inc);
 		all.increase(inc);
 	}

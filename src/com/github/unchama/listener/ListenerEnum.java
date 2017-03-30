@@ -22,6 +22,7 @@ public enum ListenerEnum {
 	GENERALBREAK(new GeneralBreakListener()),
 	BLOCKBREAK(new BlockBreakListener()),
 	MENUCLICK(new MenuClickListener()),
+	PLAYERITEMHELD(new PlayerItemHeldListener()),
 	;
 	private Listener listener;
 

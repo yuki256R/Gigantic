@@ -3,21 +3,32 @@ package com.github.unchama.player.skill;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.player.skill.moduler.BreakRange;
 import com.github.unchama.player.skill.moduler.Coordinate;
 import com.github.unchama.player.skill.moduler.SkillManager;
 import com.github.unchama.player.skill.moduler.SkillType;
 import com.github.unchama.sql.ExplosionTableManager;
+import com.github.unchama.task.CoolDownTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -36,6 +47,7 @@ public class ExplosionManager extends SkillManager {
 	public ExplosionManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(ExplosionTableManager.class);
+
 	}
 
 	@Override
@@ -63,26 +75,28 @@ public class ExplosionManager extends SkillManager {
 		return new ItemStack(Material.STAINED_GLASS, 1, (short) 7);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
-		// まず破壊するブロックの総数を計算
+
 		// エフェクト用に壊されるブロック全てのリストデータ
 		List<Block> breaklist = new ArrayList<Block>();
 
 		// 壊される溶岩のリストデータ
 		List<Block> lavalist = new ArrayList<Block>();
 
+		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = range.getBreakCoordList(player);
 
+		// まず破壊するブロックの総数を計算
 		breakcoord.forEach(c -> {
 			Block rb = block.getRelative(c.getX(), c.getY(), c.getZ());
 			Material m = rb.getType();
 			// マテリアルを確認
 				if (SkillManager.canBreak(m)
 						|| m.equals(Material.STATIONARY_LAVA)) {
-					// worldguardを確認
-					if (Wg.canBuild(player, rb.getLocation())) {
+					// worldguardを確認Skilledflagを確認
+					if (Wg.canBuild(player, rb.getLocation())
+							&& !rb.hasMetadata("Skilled")) {
 						if (canBelowBreak(player, block, rb)) {
 							switch (m) {
 							case STATIONARY_LAVA:
@@ -90,25 +104,13 @@ public class ExplosionManager extends SkillManager {
 							default:
 								breaklist.add(rb);
 							}
-							rb.setMetadata("Skilled", new FixedMetadataValue(
-									plugin, true));
 						}
 					}
 				}
 			});
 
 		// 最初のブロックのみコアプロテクトに保存する．
-		Boolean success = Cp.logRemoval(player.getName(), block.getLocation(),
-				block.getState().getType(), block.getState().getData()
-						.getData());
-		if (!success) {
-			debug.warning(DebugEnum.SKILL, "CoreProtectで破壊ログを保存できませんでした．");
-			debug.warning(DebugEnum.SKILL, "Player名：" + player.getName());
-			debug.warning(DebugEnum.SKILL, "BlockMaterial:"
-					+ block.getType().toString());
-			debug.warning(DebugEnum.SKILL, "Location："
-					+ block.getLocation().toString());
-		}
+		SkillManager.logRemoval(player, block);
 
 		// 総数が1であれば発動失敗として終了．
 		if (breaklist.size() == 1) {
@@ -140,21 +142,103 @@ public class ExplosionManager extends SkillManager {
 			return false;
 		}
 
-		// break;
-		for (Block b : breaklist) {
+		// break直前の処理
+		World w = block.getWorld();
+		List<ItemStack> droplist = new ArrayList<ItemStack>();
+		breaklist
+				.forEach((b) -> {
+					// ドロップアイテムをリストに追加
+					droplist.addAll(BreakUtil.getDrops(b, tool));
+					// MineBlockに追加
+					gp.getManager(MineBlockManager.class).increase(b.getType(),
+							1);
+					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
+							.name()
+							+ " is increment("
+							+ 1
+							+ ")for player:"
+							+ player.getName());
+					// スキルで使用するブロックに設定
+					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
+							true));
+					// アイテムが出現するのを検知させる
+					Location droploc = GeneralBreakListener.getDropLocation(b);
+					GeneralBreakListener.breakmap.put(droploc,
+							player.getUniqueId());
+					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+						@Override
+						public void run() {
+							GeneralBreakListener.breakmap.remove(droploc);
+						}
+					}, 1);
+				});
+
+		lavalist.forEach(b -> {
+			// スキルで使用するブロックに設定
+			b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
+		});
+
+		// MineStackに追加
+		MineStackManager m = gp.getManager(MineStackManager.class);
+		droplist.forEach((dropitem) -> {
+			if (m.add(dropitem)) {
+				debug.sendMessage(player, DebugEnum.SKILL,
+						"your item is added in minestack");
+			} else {
+				player.getInventory().addItem(dropitem);
+				debug.sendMessage(player, DebugEnum.SKILL,
+						"your item is added in inventory");
+			}
+		});
+
+		// breakの処理
+		lavalist.forEach(b -> {
 			b.setType(Material.AIR);
-			b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND,
-					b.getType());
+		});
+		breaklist.forEach(b -> {
+			if (SkillManager.canBreak(b.getType())) {
+				// 通常エフェクトの表示
+				if (!b.equals(block))
+					w.playEffect(b.getLocation(), Effect.STEP_SOUND,
+							b.getType());
+				// ブロックを削除
+				b.setType(Material.AIR);
+			}
+		});
+
+		// break後の処理
+		lavalist.forEach(b -> {
+			b.removeMetadata("Skilled", plugin);
+		});
+		breaklist.forEach(b -> {
+			b.removeMetadata("Skilled", plugin);
+		});
+
+		// レベルを更新
+		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
+			int level = gp.getManager(SeichiLevelManager.class).getLevel();
+			gp.getManager(ManaManager.class).Levelup();
+			gp.getManager(SideBarManager.class).updateInfo(
+					Information.SEICHI_LEVEL, level);
 		}
+		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
+		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
+				rb);
+		gp.getManager(SideBarManager.class).refresh();
+
+		int cooltime = this.getCoolTime(breaklist.size());
 
 		Mm.decrease(usemana);
 		tool.setDurability(durability);
-
-		this.runCoolDownTask(breaklist.size());
+		if (cooltime > 5)
+			new CoolDownTaskRunnable(gp, cooltime, st)
+					.runTaskTimerAsynchronously(plugin, 0, 1);
+		// this.runCoolDownTask(cooltime);
 		return true;
 	}
 
-	/**自分より下のブロックを破壊できるか判定する．
+	/**
+	 * 自分より下のブロックを破壊できるか判定する．
 	 *
 	 * @param player
 	 * @param block
@@ -168,31 +252,31 @@ public class ExplosionManager extends SkillManager {
 		int zeroy = this.getRange().getZeropoint().getY();
 		int voly = this.getRange().getVolume().getHeight() - 1;
 
-		//プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
-		if(playerlocy >= blocky){
+		// プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
+		if (playerlocy >= blocky) {
 			return true;
-		//破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
-		}else if(voly <= 1){
-			if(playerlocy < rblocy){
+			// 破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
+		} else if (voly <= 1) {
+			if (playerlocy < rblocy) {
 				return true;
-			}else{
+			} else {
 				return false;
 			}
-		//破壊する高さが起点の高さと同じ場合は無関係に破壊する
-		}else if(zeroy == voly){
+			// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
+		} else if (zeroy == voly) {
 			return true;
-		//それ以外の場合は自分の高さ以上のブロックのみ破壊する
-		}else if(playerlocy < rblocy){
+			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
+		} else if (playerlocy < rblocy) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
 	@Override
 	public String getJPName() {
-		return ChatColor.YELLOW + "" + ChatColor.BOLD + "エクスプロージョン"
-				+ ChatColor.RESET;
+		return "" + ChatColor.RESET + ChatColor.YELLOW + ChatColor.BOLD
+				+ "エクスプロージョン" + ChatColor.RESET;
 	}
 
 	@Override
@@ -212,12 +296,12 @@ public class ExplosionManager extends SkillManager {
 
 	@Override
 	public double getMana(int breaknum) {
-		return breaknum / (Math.pow(breaknum, 1 / 5)) - 1;
+		return breaknum / (Math.pow(breaknum, 0.2)) - 1;
 	}
 
 	@Override
-	public int getCooldown(int breaknum) {
-		return (int) ((Math.pow(breaknum, 1 / 4)) - 1) * 20;
+	public int getCoolTime(int breaknum) {
+		return (int) ((Math.pow(breaknum, 0.25)) - 1) * 20;
 	}
 
 	@Override
@@ -227,7 +311,7 @@ public class ExplosionManager extends SkillManager {
 
 	@Override
 	public int getMaxBreakNum() {
-		return 4000;
+		return 2000;
 	}
 
 	@Override
@@ -243,11 +327,6 @@ public class ExplosionManager extends SkillManager {
 	@Override
 	public int getMaxDepth() {
 		return 45;
-	}
-
-	@Override
-	public int getMaxTotalSize() {
-		return 110;
 	}
 
 }

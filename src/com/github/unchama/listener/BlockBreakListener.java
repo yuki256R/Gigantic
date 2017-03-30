@@ -120,6 +120,7 @@ public class BlockBreakListener implements Listener {
 		//クールダウン中なら終了
 		if(skill.isCoolDown()){
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, (float)0.5, 1);
+			return;
 		}
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 

@@ -16,7 +16,7 @@ commands:
       permission-message: You don't have <permission>
   debug:
       description: This is debug command.
-      usage: /<command> <help>
+      usage: /<command> set 
       aliases: [gigadebug,giganticdebug]
       default: op
       permission: gigantic.debug

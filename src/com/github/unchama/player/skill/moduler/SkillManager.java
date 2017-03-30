@@ -25,14 +25,17 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public abstract class SkillManager extends DataManager implements UsingSql,
 		Initializable {
-	protected WorldGuardPlugin Wg;
-	protected CoreProtectAPI Cp;
+	protected static WorldGuardPlugin Wg;
+	protected static CoreProtectAPI Cp;
 	protected ManaManager Mm;
+	protected SideBarManager Sm;
 	protected GuiMenu guimenu = Gigantic.guimenu;
 
 	private Boolean toggle;
@@ -41,18 +44,61 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 
 	public SkillManager(GiganticPlayer gp) {
 		super(gp);
-		this.Wg = Util.getWorldGuard();
-		this.Cp = Util.getCoreProtect();
+		Wg = Util.getWorldGuard();
+		Cp = Util.getCoreProtect();
 		this.toggle = false;
 		this.unlocked = false;
 		this.cooldown = false;
+
 	}
 
 	@Override
 	public void init() {
 		this.Mm = gp.getManager(ManaManager.class);
+		this.Sm = gp.getManager(SideBarManager.class);
 	}
-
+	/**
+	 * クールダウン中の時Trueを返します
+	 *
+	 * @return
+	 */
+	public boolean isCoolDown() {
+		return this.cooldown;
+	}
+	/**クールダウンフラグを設定します
+	 *
+	 * @param flag
+	 */
+	public void setCoolDown(boolean flag){
+		this.cooldown = flag;
+	}
+	/**
+	 * 与えられた数分のクールタイムを生成します．
+	 *
+	 * @param num
+	 *            破壊数
+	 */
+	public void runCoolDownTask(int num) {
+		int cooltime = this.getCoolTime(num);
+		//5tick未満だった場合クールダウン無し
+		if (cooltime > 5) {
+			cooldown = true;
+			//指定されたクールタイム経過後クールダウンを解除
+			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin,
+					new Runnable() {
+						@Override
+						public void run() {
+							Bukkit.getScheduler().runTask(plugin,
+									new Runnable() {
+										@Override
+										public void run() {
+											cooldown = false;
+										}
+									});
+						}
+					}, cooltime);
+		}
+	}
 	/**
 	 * 与えられたツールでスキルを発動します．
 	 *
@@ -145,6 +191,38 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	}
 
 	/**
+	 * プレイヤーにスキルブックを与えます．
+	 *
+	 * @param player
+	 */
+	public void giveSkillBook(Player player) {
+		ItemStack is = new ItemStack(Material.ENCHANTED_BOOK);
+		ItemMeta im = is.getItemMeta();
+		im.setDisplayName("" + ChatColor.WHITE + ChatColor.MAGIC + "???"
+				+ this.getJPName() + ChatColor.WHITE
+				+ ChatColor.MAGIC + "???");
+		im.setLore(getSkillBookLore());
+		is.setItemMeta(im);
+		player.getInventory().addItem(is);
+	}
+	/**スキルブックの説明文を取得します
+	 *
+	 * @return
+	 */
+	public List<String> getSkillBookLore(){
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.DARK_GRAY + "トグル（オンオフ）を切り替えます．");
+		lore.add(ChatColor.DARK_GRAY + "-----------使用方法------------");
+		lore.add(ChatColor.DARK_GRAY + "1.好きなスロットにセットします．");
+		lore.add(ChatColor.DARK_GRAY + "2.使用したいピッケルを持ちます");
+		lore.add(ChatColor.DARK_GRAY + "3.対応する数字キーを入力します．");
+		lore.add(ChatColor.DARK_GRAY + "-------------------------------");
+		lore.add(ChatColor.DARK_RED + "※使用したいピッケルの");
+		lore.add(ChatColor.DARK_RED + "隣だと切り替えられません");
+		return lore;
+	}
+
+	/**
 	 * ロックされている時に表示するItemStackを取得します．
 	 *
 	 * @return
@@ -196,43 +274,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		return this.toggle;
 	}
 
-	/**
-	 * クールダウン中の時Trueを返します
-	 *
-	 * @return
-	 */
-	public boolean isCoolDown() {
-		return this.cooldown;
-	}
 
-	/**
-	 * 与えられた数分のクールタイムを生成します．
-	 *
-	 * @param num
-	 *            破壊数
-	 */
-	public void runCoolDownTask(int num) {
-		int cooltime = this.getCooldown(num);
-		if (cooltime > 5) {
-			cooldown = true;
-			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin,
-					new Runnable() {
-						@Override
-						public void run() {
-							Bukkit.getScheduler().runTask(plugin,
-									new Runnable() {
-
-										@Override
-										public void run() {
-											cooldown = false;
-										}
-
-									});
-
-						}
-					}, cooltime);
-		}
-	}
 
 	/**
 	 * このスキルの日本語名を取得します．
@@ -276,7 +318,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @param breaknum
 	 * @return
 	 */
-	public abstract int getCooldown(int breaknum);
+	public abstract int getCoolTime(int breaknum);
 
 	/**
 	 * 1ブロック範囲を増やすのに必要なAPを取得します．
@@ -313,13 +355,6 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @return
 	 */
 	public abstract int getMaxDepth();
-
-	/**
-	 * 1回の発動で破壊できる最大範囲3つの合計の最大値を取得します
-	 *
-	 * @return
-	 */
-	public abstract int getMaxTotalSize();
 
 	/**
 	 * 破壊できるMaterialの時trueを返します．
@@ -408,6 +443,27 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			return true;
 		default:
 			return false;
+		}
+	}
+
+	/**
+	 * 与えられたブロックをコアプロテクトに保存する
+	 *
+	 * @param player
+	 * @param block
+	 */
+	@SuppressWarnings("deprecation")
+	public static void logRemoval(Player player, Block block) {
+		Boolean success = Cp.logRemoval(player.getName(), block.getLocation(),
+				block.getState().getType(), block.getState().getData()
+						.getData());
+		if (!success) {
+			debug.warning(DebugEnum.SKILL, "CoreProtectで破壊ログを保存できませんでした．");
+			debug.warning(DebugEnum.SKILL, "Player名：" + player.getName());
+			debug.warning(DebugEnum.SKILL, "BlockMaterial:"
+					+ block.getType().toString());
+			debug.warning(DebugEnum.SKILL, "Location："
+					+ block.getLocation().toString());
 		}
 	}
 

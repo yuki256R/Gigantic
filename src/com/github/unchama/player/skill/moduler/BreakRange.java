@@ -40,9 +40,9 @@ public class BreakRange {
 		coordmap.put(CardinalDirection.WEST, new ArrayList<Coordinate>());
 		coordmap.put(CardinalDirection.NORTH, new ArrayList<Coordinate>());
 		coordmap.put(CardinalDirection.EAST, new ArrayList<Coordinate>());
-		for (int y = -zeropoint.getY();
-				y < volume.getHeight()- zeropoint.getY();
-				y++) {
+		for (int y = volume.getHeight()- zeropoint.getY() - 1;
+				y >= -zeropoint.getY();
+				y--) {
 			for (int x = -zeropoint.getX();
 					x < volume.getWidth()- zeropoint.getX();
 					x++) {
@@ -52,19 +52,11 @@ public class BreakRange {
 					Coordinate coord = new Coordinate(x,y,z);
 					coordmap.get(CardinalDirection.SOUTH).add(coord);
 					coord = coord.rotateXZ(zeropoint);
-					if(this.getVolume().getDepth() != 1){
-						coordmap.get(CardinalDirection.EAST).add(coord.shift(1, 0, 0));
-					}else{
-						coordmap.get(CardinalDirection.EAST).add(coord);
-					}
+					coordmap.get(CardinalDirection.WEST).add(coord);
 					coord = coord.rotateXZ(zeropoint);
 					coordmap.get(CardinalDirection.NORTH).add(coord);
 					coord = coord.rotateXZ(zeropoint);
-					if(this.getVolume().getDepth() != 1){
-						coordmap.get(CardinalDirection.WEST).add(coord.shift(-1, 0, 0));
-					}else{
-						coordmap.get(CardinalDirection.WEST).add(coord);
-					}
+					coordmap.get(CardinalDirection.EAST).add(coord);
 				}
 			}
 		}

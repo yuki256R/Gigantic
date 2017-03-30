@@ -42,15 +42,13 @@ public abstract class SkillMenuManager extends GuiMenuManager{
 		}
 	}
 
-
-
 	@Override
 	protected void setKeyItem() {
 	}
 
 	@Override
 	public String getClickType() {
-		return null;
+		return "right";
 	}
 
 	@Override

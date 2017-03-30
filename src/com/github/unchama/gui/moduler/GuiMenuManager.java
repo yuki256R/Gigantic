@@ -216,12 +216,12 @@ public abstract class GuiMenuManager {
 	public abstract float getPitch();
 
 	/**
-	 * 鍵となるアイテムを持っている時trueとなります． メニューで作成した項目からジャンプするタイプのメニューではfalseになります．
+	 * 鍵となるアイテムを持っている時trueとなります．
 	 *
 	 * @return
 	 */
 	public boolean hasKey() {
-		return keyitem.getMaterial() != null;
+		return keyitem != null;
 	}
 
 }
