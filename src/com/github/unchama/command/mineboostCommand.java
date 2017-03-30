@@ -139,7 +139,7 @@ public class mineboostCommand implements TabExecutor{
 	public List<String> onTabComplete(CommandSender sender, Command command,String label, String[] args) {
 
 		if(args.length == 1){
-
+			//setの選択
 			String prefix = args[0].toLowerCase();
 			ArrayList<String> commands = new ArrayList<String>();
 			for( String c : new String[]{"set"}){
@@ -148,8 +148,16 @@ public class mineboostCommand implements TabExecutor{
 				}
 			}
 			return commands;
-		}else if(args.length == 2 && args[0].equalsIgnoreCase("set")){
-			//ここでプレイヤー名の一覧を表示したい。(未作成)
+		}else if(args.length == 5 && args[0].equalsIgnoreCase("set")){
+			//idの選択
+			String prefix = args[4].toLowerCase();
+			ArrayList<String> commands = new ArrayList<String>();
+			for( String c : new String[]{"0","1","2"}){
+				if(c.startsWith(prefix)){
+					commands.add(c);
+				}
+			}
+			return commands;
 		}
 		return null;
 	}
