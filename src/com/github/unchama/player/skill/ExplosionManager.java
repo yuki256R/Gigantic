@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -198,9 +197,9 @@ public class ExplosionManager extends SkillManager {
 		breaklist.forEach(b -> {
 			if (SkillManager.canBreak(b.getType())) {
 				// 通常エフェクトの表示
-				if (!b.equals(block))
+				/*if (!b.equals(block))
 					w.playEffect(b.getLocation(), Effect.STEP_SOUND,
-							b.getType());
+							b.getType());*/
 				// ブロックを削除
 				b.setType(Material.AIR);
 			}
