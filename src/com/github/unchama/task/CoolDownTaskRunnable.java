@@ -5,10 +5,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.SkillType;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
-import com.github.unchama.player.skill.moduler.SkillManager;
-import com.github.unchama.player.skill.moduler.SkillType;
 
 /**クールダウンを管理するタスク
  * 必ず下の形で起動させること

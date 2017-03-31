@@ -1,6 +1,6 @@
 name: Gigantic
 main: com.github.unchama.gigantic.Gigantic
-version: 0.0.9
+version: 0.1.0
 description: Gigantic Seichi Server Plugin
 softdepend: [PlaceholderAPI]
 

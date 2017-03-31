@@ -1,4 +1,4 @@
-package com.github.unchama.player.skill;
+package com.github.unchama.player.seichiskill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,12 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
+import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.SkillType;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
-import com.github.unchama.player.skill.moduler.BreakRange;
-import com.github.unchama.player.skill.moduler.Coordinate;
-import com.github.unchama.player.skill.moduler.SkillManager;
-import com.github.unchama.player.skill.moduler.SkillType;
 import com.github.unchama.sql.ExplosionTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;

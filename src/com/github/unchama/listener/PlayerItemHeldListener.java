@@ -16,8 +16,8 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
-import com.github.unchama.player.skill.moduler.SkillManager;
-import com.github.unchama.player.skill.moduler.SkillType;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.SkillType;
 import com.github.unchama.yml.DebugManager;
 
 /**プレイヤーのスロットを切り替える動作から起こるイベントを扱う

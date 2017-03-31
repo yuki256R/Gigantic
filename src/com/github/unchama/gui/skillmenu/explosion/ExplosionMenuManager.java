@@ -19,9 +19,9 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.skill.ExplosionManager;
-import com.github.unchama.player.skill.moduler.Coordinate;
-import com.github.unchama.player.skill.moduler.Volume;
+import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
 public class ExplosionMenuManager extends SkillMenuManager {
