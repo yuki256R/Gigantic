@@ -62,8 +62,12 @@ public class ExplosionMenuManager extends SkillMenuManager {
 					+ "現在の最大破壊ブロック数:" + v.getVolume());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
 					+ (int) em.getMana(v.getVolume()));
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大クールタイム:"
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+					+ "現在の最大クールタイム:"
 					+ Converter.toTimeString(em.getCoolTime(v.getVolume())));
+			lore.add("" + ChatColor.RESET + ChatColor.GREEN
+					+ "クリックするとオンオフを切り替えます．");
+
 			itemmeta.setLore(lore);
 			break;
 		case RANGE:
@@ -94,7 +98,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 			if (y == 0) {
 				if (v.getHeight() == 1) {
 					cy = 0;
-				}else{
+				} else {
 					cy = 1;
 				}
 			} else if (y == 1) {
@@ -106,23 +110,27 @@ public class ExplosionMenuManager extends SkillMenuManager {
 			} else {
 				cy = 0;
 			}
-			if(v.getHeight() != 1){
+			if (v.getHeight() != 1) {
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 						+ "破壊する起点となる高さを");
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 						+ "- 一番下(0)");
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "- 下から2つ目(1)");
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "- 一番上  ");
+				if(v.getHeight() > 2){
+					lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+							+ "- 通常(1)");
+				}
+
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "- 一番上 ("
+						+ (v.getHeight() - 1) + ")");
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 						+ "のいずれかに変更できます");
 
-				lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の起点の高さ：" + y);
+				lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の起点の高さ："
+						+ y);
 				lore.add("" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
 						+ "クリックすると起点を" + ChatColor.YELLOW + cy + ChatColor.BLUE
 						+ "に変更します．");
-			}else{
+			} else {
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 						+ "範囲設定で高さを2以上に設定すると");
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
@@ -143,8 +151,11 @@ public class ExplosionMenuManager extends SkillMenuManager {
 		case EXTENSION:
 			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "スキル強化");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "未実装");
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "スキルレベル :"
+					+ 1);
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "最大破壊ブロック数:"
+					+ em.getMaxBreakNum());
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "未実装");
 			itemmeta.setLore(lore);
 			break;
 		}
@@ -207,7 +218,8 @@ public class ExplosionMenuManager extends SkillMenuManager {
 				return true;
 			}
 			em.toggle();
-			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, (float)0.7 , (float) 2.2);
+			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
+					(float) 0.7, (float) 2.2);
 			player.openInventory(this.getInventory(player, 0));
 			return true;
 		case "chenge_y":
@@ -218,7 +230,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 			if (y == 0) {
 				if (v.getHeight() == 1) {
 					cy = 0;
-				}else{
+				} else {
 					cy = 1;
 				}
 			} else if (y == 1) {
@@ -240,7 +252,5 @@ public class ExplosionMenuManager extends SkillMenuManager {
 		}
 		return false;
 	}
-
-
 
 }
