@@ -1,12 +1,8 @@
 package com.github.unchama.player.seichilevel;
 
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 
 public class SeichiLevel{
-	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 
 	private int level;
@@ -31,13 +27,9 @@ public class SeichiLevel{
 	}
 
 	private double calcNeedMineBlock(int level) {
-		if(debug.getFlag(DebugEnum.SKILL)){
-			return (double)level;
-		}else{
-			double a = Math.pow((level-1), 3.5137809939);
-			long b = (level-1) * 14;
-			return (double)(a+b);
-		}
+		double a = Math.pow((level-1), 3.5137809939);
+		long b = (level-1) * 14;
+		return (double)(a+b);
 	}
 	private double calcMaxMana(int level) {
 		if(level < 10){

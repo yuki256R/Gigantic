@@ -11,10 +11,10 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
-import com.github.unchama.player.skill.ExplosionManager;
-import com.github.unchama.player.skill.moduler.SkillManager;
-import com.github.unchama.player.skill.moduler.SkillType;
-import com.github.unchama.player.skill.moduler.Volume;
+import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.SkillType;
+import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.yml.ConfigManager;
 
 public class SeichiLevelManager extends DataManager implements Initializable {

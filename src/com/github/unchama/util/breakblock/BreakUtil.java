@@ -13,7 +13,7 @@ import org.bukkit.material.Dye;
 
 public final class BreakUtil {
 	public static Random rnd = new Random();
-	
+
 	/**num回だけピッケルを使用したときの耐久値を取得します
 	 *
 	 * @param enchantmentLevel
@@ -42,13 +42,13 @@ public final class BreakUtil {
 		// block情報から得られるドロップアイテムを加える
 		switch (getToolType(tool)) {
 		case FORTUNE:
-			return getDropOnFortune(block, tool);
+			return getDropOnFortuneOrNormal(block, tool);
 		case SHEARS:
 			return getDropOnShears(block, tool);
 		case SILKTOUCH:
 			return getDropOnSilkTouch(block, tool);
 		default:
-			return getDropOnNormal(block, tool);
+			return getDropOnFortuneOrNormal(block, tool);
 		}
 	}
 
@@ -99,11 +99,8 @@ public final class BreakUtil {
 		case MELON_BLOCK:
 			droplist.add(new ItemStack(material, 1, getData(block)));
 			break;
-		case MONSTER_EGGS:
-			droplist.add(new ItemStack(Material.STONE));
-			break;
 		default:
-			return getDropOnNormal(block, tool);
+			return getDropOnFortuneOrNormal(block, tool);
 		}
 		return droplist;
 	}
@@ -153,20 +150,20 @@ public final class BreakUtil {
 			droplist.add(new ItemStack(material, 1, getData(block)));
 			break;
 		default:
-			return getDropOnNormal(block, tool);
+			return getDropOnFortuneOrNormal(block, tool);
 		}
 		return droplist;
 	}
 
 	/**
-	 * 幸運ツールを使用したときのドロップを取得します．
+	 * 幸運ツールを使用したときまたは，通常時のドロップを取得します．
 	 *
 	 * @param block
 	 * @param tool
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	private static List<ItemStack> getDropOnFortune(Block block, ItemStack tool) {
+	private static List<ItemStack> getDropOnFortuneOrNormal(Block block, ItemStack tool) {
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
 		Material dropmaterial;
 		Dye dye;
@@ -331,79 +328,8 @@ public final class BreakUtil {
 				break;
 			}
 			break;
-		default:
-			return getDropOnNormal(block, tool);
-		}
-		return droplist;
-	}
-
-	/**
-	 * 通常ツールを使用したときのドロップを取得します．
-	 *
-	 * @param block
-	 * @param tool
-	 * @return
-	 */
-	@SuppressWarnings("deprecation")
-	private static List<ItemStack> getDropOnNormal(Block block, ItemStack tool) {
-		List<ItemStack> droplist = new ArrayList<ItemStack>();
-		Material material = block.getType();
-		Material dropmaterial;
-		Dye dye;
-		Random rnd = new Random();
-		int drops;
-		switch (material) {
-		case CROPS:
-			if (block.getData() == 7) {
-				drops = rnd.nextInt(4);
-				dropmaterial = Material.SEEDS;
-				droplist.add(new ItemStack(dropmaterial, drops));
-				droplist.add(new ItemStack(Material.WHEAT));
-			} else {
-				droplist.addAll(block.getDrops());
-			}
-			break;
-		case POTATO:
-			if (block.getData() == 7) {
-				drops = rnd.nextInt(4) + 1;
-				dropmaterial = Material.POTATO_ITEM;
-				if (rnd.nextDouble() < 0.02) {
-					droplist.add(new ItemStack(dropmaterial, drops));
-					droplist.add(new ItemStack(Material.POISONOUS_POTATO));
-				} else {
-					droplist.add(new ItemStack(dropmaterial, drops));
-				}
-			} else {
-				droplist.addAll(block.getDrops());
-			}
-			break;
-		case CARROT:
-			if (block.getData() == 7) {
-				drops = rnd.nextInt(4) + 1;
-				dropmaterial = Material.CARROT_ITEM;
-				droplist.add(new ItemStack(dropmaterial, drops));
-			} else {
-				droplist.addAll(block.getDrops());
-			}
-			break;
-		case BEETROOT_BLOCK:
-			if (block.getData() == 3) {
-				drops = rnd.nextInt(4);
-				dropmaterial = Material.BEETROOT_SEEDS;
-				droplist.add(new ItemStack(dropmaterial, drops));
-				droplist.add(new ItemStack(Material.BEETROOT));
-			} else {
-				droplist.addAll(block.getDrops());
-			}
-			break;
-		case NETHER_STALK:
-			if (block.getData() == 3) {
-				drops = rnd.nextInt(3) + 2;
-				dropmaterial = Material.NETHER_STALK;
-				droplist.add(new ItemStack(dropmaterial, drops));
-			} else {
-				droplist.addAll(block.getDrops());
-			}
+		case MONSTER_EGGS:
+			droplist.add(new ItemStack(Material.STONE));
 			break;
 		case SNOW:
 			drops = 1;
@@ -470,4 +396,6 @@ public final class BreakUtil {
 								: ToolType.NONE;
 
 	}
+
+
 }
