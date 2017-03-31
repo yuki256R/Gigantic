@@ -16,7 +16,7 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.skill.moduler.SkillType;
+import com.github.unchama.player.seichiskill.moduler.SkillType;
 
 /**
  * スキルタイプ選択メニュー

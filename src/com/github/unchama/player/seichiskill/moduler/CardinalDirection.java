@@ -1,4 +1,4 @@
-package com.github.unchama.player.skill.moduler;
+package com.github.unchama.player.seichiskill.moduler;
 
 import org.bukkit.entity.Entity;
 
