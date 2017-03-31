@@ -4,10 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.skill.ExplosionManager;
-import com.github.unchama.player.skill.moduler.BreakRange;
-import com.github.unchama.player.skill.moduler.Coordinate;
-import com.github.unchama.player.skill.moduler.Volume;
+import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
+import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
 public class ExplosionTableManager extends PlayerTableManager{

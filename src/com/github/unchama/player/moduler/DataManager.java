@@ -13,10 +13,10 @@ import com.github.unchama.yml.DebugManager;
  *
  */
 public abstract class DataManager{
-	protected Sql sql = Gigantic.sql;
-	protected Gigantic plugin = Gigantic.plugin;
-	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
-	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	protected static Sql sql = Gigantic.sql;
+	protected static Gigantic plugin = Gigantic.plugin;
+	protected static ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	protected static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	protected GiganticPlayer gp;
 	protected boolean loaded;
 

@@ -118,7 +118,7 @@ public class mineboostCommand implements TabExecutor{
 					gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
 					gp.getManager(MineBoostManager.class).refresh();
 					//メッセージ送信
-					sender.sendMessage(ChatColor.YELLOW + name + "に上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
+					sender.sendMessage(ChatColor.YELLOW + name + "に上昇値" + amplifier + "を" + Converter.toTimeString((duration)) + "追加しました");
 				}else{
 					//allの時
 					//全プレイヤーに処理
@@ -126,7 +126,7 @@ public class mineboostCommand implements TabExecutor{
 						gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
 						gp.getManager(MineBoostManager.class).refresh();
 					}
-					sender.sendMessage(ChatColor.YELLOW + "全プレイヤーに上昇値" + amplifier + "を" + Converter.toTimeString((duration/20)) + "追加しました");
+					sender.sendMessage(ChatColor.YELLOW + "全プレイヤーに上昇値" + amplifier + "を" + Converter.toTimeString((duration)) + "追加しました");
 				}
 			}
 			return true;

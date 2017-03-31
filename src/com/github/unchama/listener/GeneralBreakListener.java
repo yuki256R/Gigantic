@@ -23,89 +23,105 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class GeneralBreakListener implements Listener{
+public class GeneralBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
-	public static HashMap<Location,UUID> breakmap = new HashMap<Location,UUID>();
+	public static HashMap<Location, UUID> breakmap = new HashMap<Location, UUID>();
 
-	/**通常破壊が行われた時のドロップ処理行程１
+	/**
+	 * 通常破壊が行われた時のドロップ処理行程１
 	 *
 	 * @param event
 	 */
 	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void putBreakMap(BlockBreakEvent event){
-		if(event.isCancelled())return;
-		debug.sendMessage(event.getPlayer(), DebugEnum.BREAK, "Material:" + event.getBlock().getType().name() + "Data:" + (event.getBlock().getData() & 0x07));
+	public void putBreakMap(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
+		debug.sendMessage(event.getPlayer(), DebugEnum.BREAK, "Material:"
+				+ event.getBlock().getType().name() + "Data:"
+				+ (event.getBlock().getData() & 0x07));
 		Location droploc = getDropLocation(event.getBlock());
 		breakmap.put(droploc, event.getPlayer().getUniqueId());
-		Bukkit.getScheduler().runTaskLater(plugin, new Runnable(){
+		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 			@Override
 			public void run() {
-				breakmap.remove(event.getBlock().getLocation());
+				breakmap.remove(droploc);
 			}
 		}, 1);
 	}
 
-	/**通常破壊が行われた時のドロップ処理行程２
+	/**
+	 * 通常破壊が行われた時のドロップ処理行程２
 	 *
 	 * @param event
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void addMineStack(ItemSpawnEvent event){
-		if(event.isCancelled())return;
+	public void addMineStack(ItemSpawnEvent event) {
+		if (event.isCancelled())
+			return;
 
 		Location loc = event.getLocation().getBlock().getLocation();
 		UUID uuid = breakmap.get(loc);
 		ItemStack dropitem = event.getEntity().getItemStack();
-		if(uuid == null){
-			//破壊者がいない場合は依存関係を調べる
-			List<Location> loclist = getLocationList(loc,dropitem);
-			if(loclist.isEmpty()){
+		if (uuid == null) {
+			// 破壊者がいない場合は依存関係を調べる
+			List<Location> loclist = getLocationList(loc, dropitem);
+			if (loclist.isEmpty()) {
 				return;
 			}
-			for(Location tmploc : loclist){
+			for (Location tmploc : loclist) {
 				uuid = breakmap.get(tmploc);
-				if(uuid != null)break;
+				if (uuid != null)
+					break;
 			}
-			if(uuid == null)return;
+			if (uuid == null)
+				return;
 		}
 
-
-		//破壊者がいる場合
+		// 破壊者がいる場合
 		Player player = Bukkit.getServer().getPlayer(uuid);
-		if(player == null)return;
+		if (player == null)
+			return;
 		debug.sendMessage(player, DebugEnum.BREAK, "your item is catched");
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		if(gp == null)return;
+		if (gp == null)
+			return;
 		MineStackManager m = gp.getManager(MineStackManager.class);
-		if(m.add(dropitem)){
-			debug.sendMessage(player, DebugEnum.MINESTACK, "your item is added in minestack");
-		}else{
+		if (m.add(dropitem)) {
+			debug.sendMessage(player, DebugEnum.MINESTACK,
+					"your item is added in minestack");
+		} else {
 			player.getInventory().addItem(dropitem);
-			debug.sendMessage(player, DebugEnum.BREAK, "your item is added in inventory");
+			debug.sendMessage(player, DebugEnum.BREAK,
+					"your item is added in inventory");
 		}
 		event.setCancelled(true);
 		return;
 
 	}
-	/**通常破壊が行われた時の経験値取得処理
+
+	/**
+	 * 通常破壊が行われた時の経験値取得処理
 	 *
 	 * @param event
 	 */
 	@EventHandler(priority = EventPriority.HIGHEST)
-	public void giveExp(BlockBreakEvent event){
+	public void giveExp(BlockBreakEvent event) {
 		int dropexp = event.getExpToDrop();
-		if(dropexp == 0)return;
+		if (dropexp == 0)
+			return;
 		Player player = event.getPlayer();
-		debug.sendMessage(player, DebugEnum.BREAK,"ドロップ("+dropexp+")を取得します．");
+		debug.sendMessage(player, DebugEnum.BREAK, "ドロップ(" + dropexp
+				+ ")を取得します．");
 		player.giveExp(dropexp);
 		event.setExpToDrop(0);
 	}
 
-	/**ドロップしたアイテムから依存するブロックの座標リストを作成します．
+	/**
+	 * ドロップしたアイテムから依存するブロックの座標リストを作成します．
 	 *
 	 * @param loc
 	 * @param dropitem
@@ -113,8 +129,9 @@ public class GeneralBreakListener implements Listener{
 	 */
 	private List<Location> getLocationList(Location loc, ItemStack dropitem) {
 		List<Location> loclist = new ArrayList<Location>();
-		switch(dropitem.getType()){
-		//下依存
+		switch (dropitem.getType()) {
+		// 下依存
+		case STICK:
 		case SAPLING:
 		case CARPET:
 		case DOUBLE_PLANT:
@@ -156,18 +173,18 @@ public class GeneralBreakListener implements Listener{
 		case STONE_PLATE:
 			loclist.add(loc.clone().add(0, -1, 0));
 			return loclist;
-		//横依存
+			// 横依存
 		case LADDER:
 			loclist.add(loc.clone().add(1, 0, 0));
 			loclist.add(loc.clone().add(-1, 0, 0));
 			loclist.add(loc.clone().add(0, 0, 1));
 			loclist.add(loc.clone().add(0, 0, -1));
 			return loclist;
-		//横下依存
+			// 横下依存
 		case REDSTONE_TORCH_ON:
 		case SIGN:
-		//case CHORUS_PLANT:
-		//case CHORUS_FLOWER:
+			// case CHORUS_PLANT:
+			// case CHORUS_FLOWER:
 		case TORCH:
 		case BANNER:
 			loclist.add(loc.clone().add(1, 0, 0));
@@ -176,7 +193,7 @@ public class GeneralBreakListener implements Listener{
 			loclist.add(loc.clone().add(0, 0, -1));
 			loclist.add(loc.clone().add(0, -1, 0));
 			return loclist;
-		//上下横依存
+			// 上下横依存
 		case LEVER:
 		case STONE_BUTTON:
 		case WOOD_BUTTON:
@@ -192,43 +209,42 @@ public class GeneralBreakListener implements Listener{
 		}
 	}
 
-
-
-	/**blockデータからドロップする場所を取得します．
+	/**
+	 * blockデータからドロップする場所を取得します．
 	 *
 	 * @param block
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	private Location getDropLocation(Block block) {
-		switch(block.getType()){
+	public static Location getDropLocation(Block block) {
+		switch (block.getType()) {
 		case BED_BLOCK:
-			switch(block.getData() & 0x0F){
+			switch (block.getData() & 0x0F) {
 			case 8:
-				return block.getLocation().add(0,0,-1);
+				return block.getLocation().add(0, 0, -1);
 			case 9:
-				return block.getLocation().add(1,0,0);
+				return block.getLocation().add(1, 0, 0);
 			case 10:
-				return block.getLocation().add(0,0,1);
+				return block.getLocation().add(0, 0, 1);
 			case 11:
-				return block.getLocation().add(-1,0,0);
+				return block.getLocation().add(-1, 0, 0);
 			default:
 				return block.getLocation();
 			}
 		case PISTON_EXTENSION:
-			switch(block.getData() & 0x07){
+			switch (block.getData() & 0x07) {
 			case 0:
-				return block.getLocation().add(0,1,0);
+				return block.getLocation().add(0, 1, 0);
 			case 1:
-				return block.getLocation().add(0,-1,0);
+				return block.getLocation().add(0, -1, 0);
 			case 2:
-				return block.getLocation().add(0,0,1);
+				return block.getLocation().add(0, 0, 1);
 			case 3:
-				return block.getLocation().add(0,0,-1);
+				return block.getLocation().add(0, 0, -1);
 			case 4:
-				return block.getLocation().add(1,0,0);
+				return block.getLocation().add(1, 0, 0);
 			case 5:
-				return block.getLocation().add(-1,0,0);
+				return block.getLocation().add(-1, 0, 0);
 			default:
 				return block.getLocation();
 			}
@@ -240,9 +256,9 @@ public class GeneralBreakListener implements Listener{
 		case JUNGLE_DOOR:
 		case ACACIA_DOOR:
 		case DARK_OAK_DOOR:
-			switch(block.getData() & 0x08){
+			switch (block.getData() & 0x08) {
 			case 8:
-				return block.getLocation().add(0,-1,0);
+				return block.getLocation().add(0, -1, 0);
 			default:
 				return block.getLocation();
 			}
@@ -250,8 +266,5 @@ public class GeneralBreakListener implements Listener{
 			return block.getLocation();
 		}
 	}
-
-
-
 
 }

@@ -1,4 +1,4 @@
-package com.github.unchama.player.skill.moduler;
+package com.github.unchama.player.seichiskill.moduler;
 
 public class Volume {
 	private int width, depth, height;

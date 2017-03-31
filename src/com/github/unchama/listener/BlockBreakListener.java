@@ -19,8 +19,8 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
-import com.github.unchama.player.skill.ExplosionManager;
-import com.github.unchama.player.skill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -120,6 +120,7 @@ public class BlockBreakListener implements Listener {
 		//クールダウン中なら終了
 		if(skill.isCoolDown()){
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, (float)0.5, 1);
+			return;
 		}
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 

@@ -13,7 +13,10 @@ public enum BlockType{
 	//Materialの種類が一つならjpnameのみ記述
 	STONE("石"),
 	//Materialの種類が２つ以上なら全てのmaterial名をListに追加
-	DIRT("土"),
+	DIRT("土",new ArrayList<Material>(Arrays.asList(
+			Material.DIRT,
+			Material.GRASS
+			))),
 	COBBLESTONE("丸石",new ArrayList<Material>(Arrays.asList(
 			Material.COBBLESTONE,
 			Material.MOSSY_COBBLESTONE

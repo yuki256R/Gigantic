@@ -17,7 +17,7 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.skill.ExplosionManager;
+import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
