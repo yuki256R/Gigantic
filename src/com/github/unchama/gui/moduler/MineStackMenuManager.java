@@ -4,12 +4,16 @@ import com.github.unchama.enumdata.StackCategory;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -69,14 +73,28 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         Inventory inv = Bukkit.getServer().createInventory(player,
                 this.getInventorySize(), this.getInventoryName(player) + "- " + page + "ページ");
 
+        GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+        MineStackManager manager = gp.getManager(MineStackManager.class);
+
+        //とりだしボタン
         for (int i = 45*(page-1); i < 45*page; i++) {
             if (i >= typeMap.size()) break;
-            inv.setItem(i-45*(page-1), typeMap.get(i).getItemStack());
+            StackType stackType = typeMap.get(i);
+            long amount = manager.datamap.get(stackType).getNum();
+            ItemStack itemStack = stackType.getItemStack();
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            itemMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + amount +"個"
+                    , ChatColor.RESET + "" +  ChatColor.DARK_GRAY + "Lv" + stackType.getLevel() + "以上でスタック可能"
+                    , ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで1スタック取り出し"));
+            itemStack.setItemMeta(itemMeta);
+            inv.setItem(i-45*(page-1), itemStack);
         }
 
+        //ページ遷移ボタン
         inv.setItem(45, skullList.get(0));
         inv.setItem(53, skullList.get(1));
 
+        //カテゴリ選択ボタン
         StackCategory[] categories = StackCategory.values();
         for (int i = 0; i < categories.length; i++) {
             inv.setItem(47+i, categories[i].getMenuIcon());
@@ -84,6 +102,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         return inv;
     }
 
+    //カスタム頭取得
     private ItemStack getSkull(String url){
         ItemStack skull = new ItemStack(Material.SKULL_ITEM,1,(short)3);
         ItemMeta meta = skull.getItemMeta();
@@ -102,32 +121,73 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         return skull;
     }
 
-    private void openInventory(Player player, Inventory inventory){
-        player.openInventory(inventory);
-    }
-
     @Override
     public boolean invoke(Player player, String identifier){
         String title = player.getOpenInventory().getTitle();
+        //titleからページ判別
         int page = Integer.valueOf(title.substring(title.length() - 4, title.length() - 3));
         int slot = Integer.valueOf(identifier);
+        //ページ戻るボタン
         if (slot == 45){
             if (page <= 1) return false;
-            openInventory(player, getInventory(player, 45, page - 1));
+            player.openInventory(getInventory(player, 45, page - 1));
         }
+        //ページ進むボタン
         else if (slot == 53){
             if (typeMap.size() <= 53 * page) return false;
-            openInventory(player, getInventory(player, 53, page + 1));
+            player.openInventory(getInventory(player, 53, page + 1));
         }
+        //カテゴリ選択ボタン
         else if (slot > 46 && slot < 52){
-            openInventory(player, Gigantic.guimenu.getManager(StackCategory.values()[slot - 47].getManagerClass()).getInventory(player, slot));
+            player.openInventory(Gigantic.guimenu.getManager(StackCategory.values()[slot - 47].getManagerClass()).getInventory(player, slot));
         }
+        //とりだしボタン
         else if (slot < 45){
-            if (typeMap.size() <= slot + 45*(page-1)) return false;
-            StackType stack = typeMap.get(slot + 45*(page-1));
-            player.sendMessage(stack.getJPname());
+            //空スロットならおわり
+            if (typeMap.size() <= slot + 45*(page-1))
+                return false;
+
+            GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+            StackType stackType = typeMap.get(slot + 45*(page-1));
+            MineStack mineStack = gp.getManager(MineStackManager.class).datamap.get(stackType);
+
+            //必要レベルを満たしているか確認
+            if (gp.getManager(SeichiLevelManager.class).getLevel() < stackType.getLevel())
+                return false;
+
+            ItemStack itemStack = stackType.getItemStack();
+            long stackAmount = mineStack.getNum();
+            int maxStackAmount = stackType.getMaxStackAmount();
+            int giveAmount;
+
+            //MineStack内の量が1スタック未満か確認
+            if (stackAmount == 0)
+                return false;
+            else if (stackAmount < maxStackAmount)
+                giveAmount = (int)stackAmount;
+            else
+                giveAmount = maxStackAmount;
+
+            itemStack.setAmount(giveAmount);
+            mineStack.add(-giveAmount);
+            //インベントリ満杯か確認
+            if (player.getInventory().firstEmpty() == -1)
+                player.getWorld().dropItem(player.getLocation(), itemStack);
+            else
+                player.getInventory().addItem(itemStack);
+
+            //とりだしボタンの個数更新
+            ItemStack button = player.getOpenInventory().getItem(slot);
+            ItemMeta buttonMeta = button.getItemMeta();
+            buttonMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + mineStack.getNum() +"個"
+                    , ChatColor.RESET + "" +  ChatColor.DARK_GRAY + "Lv" + stackType.getLevel() + "以上でスタック可能"
+                    , ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで1スタック取り出し"));
+            button.setItemMeta(buttonMeta);
         }
-        return false;
+        else {
+            return false;
+        }
+        return true;
     }
 
     @Override
