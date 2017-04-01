@@ -20,7 +20,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
-
 /**Ymlから編集できるようにしたMenuClass
  *
  * @author tar0ss
