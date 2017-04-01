@@ -1,7 +1,10 @@
 package com.github.unchama.player.seichilevel;
 
 
+
 public class SeichiLevel{
+
+
 	private int level;
 	//このlevelになるのに必要な整地量
 	private long need_mineblock;

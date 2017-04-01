@@ -1,5 +1,9 @@
 package com.github.unchama.yml;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+
+import org.bukkit.entity.Player;
+
 import com.github.unchama.yml.moduler.YmlManager;
 
 /**
@@ -178,8 +182,11 @@ public class ConfigManager extends YmlManager {
 	 * @param level
 	 * @return
 	 */
-	public String getSeichiLevelMessage(int level) {
+	public String getSeichiLevelMessage(Player player,int level) {
 		String message = this.fc.getString("seichi.levelmessage." + level);
+		if(message != null){
+			message = PlaceholderAPI.setPlaceholders(player, message);
+		}
 		return message != null ? message : null;
 	}
 
