@@ -1,4 +1,4 @@
-package com.github.unchama.player.skill.moduler;
+package com.github.unchama.player.seichiskill.moduler;
 
 public class Volume {
 	private int width, depth, height;
@@ -62,6 +62,32 @@ public class Volume {
 	 */
 	public void setHeight(int height){
 		this.height = height;
+	}
+	/**体積を出します
+	 *
+	 * @return
+	 */
+	public int getVolume() {
+		return this.height * this.width * this.depth;
+	}
+	public void incHeight() {
+		this.height++;
+
+	}
+	public void incWidth() {
+		this.width++;
+	}
+	public void incDepth() {
+		this.depth++;
+	}
+	public void decHeight() {
+		this.height--;
+	}
+	public void decWidth() {
+		this.width--;
+	}
+	public void decDepth() {
+		this.depth--;
 	}
 
 }

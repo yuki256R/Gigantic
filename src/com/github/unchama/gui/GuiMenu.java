@@ -11,12 +11,8 @@ import com.github.unchama.gui.minestack.mine.CategoryMineMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
-import com.github.unchama.gui.skillmenu.condendation.CondensationMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
-import com.github.unchama.gui.skillmenu.fairyaegis.FairyAegisMenuManager;
-import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
-import com.github.unchama.gui.skillmenu.ruinfield.RuinFieldMenuManager;
 
 
 public final class GuiMenu {
@@ -25,16 +21,14 @@ public final class GuiMenu {
 		SKILLTYPEMENU(SkillTypeMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
-		MAGICDRIVEMENU(MagicDriveMenuManager.class),
-		CONDENSATIONMENU(CondensationMenuManager.class),
-		RUINFIELDMENU(RuinFieldMenuManager.class),
-		FAIRYAEGISMENU(FairyAegisMenuManager.class),
 		MINESTACKMENU(StackCategoryMenuManager.class),
-		MINECAATEGORYMENU(CategoryMineMenuManager.class),
+		MINECATEGORYMENU(CategoryMineMenuManager.class),
 		DROPCATEGORYMENU(CategoryDropMenuManager.class),
 		FARMCATEGORYMENU(CategoryFarmMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
 		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class)
+		MINESTACKMENU(MineStackMenuManager.class),
+
 		;
 
 		// 使用するManagerClass

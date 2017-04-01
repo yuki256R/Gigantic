@@ -12,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.DebugManager;
 
 /**
  * Menu用のManagerです．Menuを作る時はこのクラスを継承すると簡単に作成できます．
@@ -23,6 +24,7 @@ public abstract class GuiMenuManager {
 	protected Gigantic plugin = Gigantic.plugin;
 	protected ConfigManager config = Gigantic.yml
 			.getManager(ConfigManager.class);
+	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	/**
 	 * マテリアル，ダメージ値，名前，説明文を保存する． このキーをもって左（右）クリックするとこのクラスのメニューを開く．
@@ -167,15 +169,9 @@ public abstract class GuiMenuManager {
 				itemstack.setItemMeta(itemmeta);
 			inv.setItem(i, itemstack);
 		}
+		inv.setMaxStackSize(Integer.MAX_VALUE);
 		return inv;
 	}
-
-	/**
-	 * 空のインベントリを取得します．
-	 *
-	 * @param player
-	 * @return
-	 */
 	protected Inventory getEmptyInventory(Player player) {
 		Inventory inv;
 		InventoryType it = this.getInventoryType();
@@ -220,12 +216,12 @@ public abstract class GuiMenuManager {
 	public abstract float getPitch();
 
 	/**
-	 * 鍵となるアイテムを持っている時trueとなります． メニューで作成した項目からジャンプするタイプのメニューではfalseになります．
+	 * 鍵となるアイテムを持っている時trueとなります．
 	 *
 	 * @return
 	 */
 	public boolean hasKey() {
-		return keyitem.getMaterial() != null;
+		return keyitem != null;
 	}
 
 }

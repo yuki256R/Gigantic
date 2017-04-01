@@ -1,4 +1,4 @@
-package com.github.unchama.player.skill.moduler;
+package com.github.unchama.player.seichiskill.moduler;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -7,6 +7,7 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 public class BreakRange {
+
 	// 破壊する体積情報
 	private Volume volume;
 	// 基準
@@ -26,22 +27,22 @@ public class BreakRange {
 	public BreakRange(Volume volume, Coordinate zeropoint) {
 		this.volume = volume;
 		this.zeropoint = zeropoint;
-		this.setCoordMap();
+		this.refresh();
 	}
 
 	/**
 	 * 得られたvolume，起点zeropointからcoordmapを生成します．
 	 *
 	 */
-	private void setCoordMap() {
+	public void refresh() {
 		coordmap = new LinkedHashMap<CardinalDirection, List<Coordinate>>();
 		coordmap.put(CardinalDirection.SOUTH, new ArrayList<Coordinate>());
 		coordmap.put(CardinalDirection.WEST, new ArrayList<Coordinate>());
 		coordmap.put(CardinalDirection.NORTH, new ArrayList<Coordinate>());
 		coordmap.put(CardinalDirection.EAST, new ArrayList<Coordinate>());
-		for (int y = -zeropoint.getY();
-				y < volume.getHeight()- zeropoint.getY();
-				y++) {
+		for (int y = volume.getHeight()- zeropoint.getY() - 1;
+				y >= -zeropoint.getY();
+				y--) {
 			for (int x = -zeropoint.getX();
 					x < volume.getWidth()- zeropoint.getX();
 					x++) {
@@ -50,9 +51,12 @@ public class BreakRange {
 						z++) {
 					Coordinate coord = new Coordinate(x,y,z);
 					coordmap.get(CardinalDirection.SOUTH).add(coord);
-					coordmap.get(CardinalDirection.WEST).add(coord.rotateXZ(zeropoint, 90));
-					coordmap.get(CardinalDirection.NORTH).add(coord.rotateXZ(zeropoint, 180));
-					coordmap.get(CardinalDirection.EAST).add(coord.rotateXZ(zeropoint, 270));
+					coord = coord.rotateXZ(zeropoint);
+					coordmap.get(CardinalDirection.WEST).add(coord);
+					coord = coord.rotateXZ(zeropoint);
+					coordmap.get(CardinalDirection.NORTH).add(coord);
+					coord = coord.rotateXZ(zeropoint);
+					coordmap.get(CardinalDirection.EAST).add(coord);
 				}
 			}
 		}
