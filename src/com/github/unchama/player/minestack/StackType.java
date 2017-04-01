@@ -5,8 +5,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.github.unchama.enumdata.StackCategory;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 
 /*
@@ -73,7 +76,7 @@ public enum StackType {
 	DETECTOR_RAIL("ディテクターレール"),
 	PISTON_STICKY_BASE("粘着ピストン"),
 	WEB("クモの巣"),
-	LONG_DEAD_GRASS(Material.LONG_GRASS,"枯れ木"),
+	LONG_DEAD_GRASS(Material.LONG_GRASS,"枯れ木", StackCategory.DROP, 20),
 	LONG_GRASS(Material.LONG_GRASS,"草",1),
 	FERN(Material.LONG_GRASS,"シダ",2),
 	DEAD_BUSH("枯れ木"),
@@ -633,23 +636,36 @@ public enum StackType {
 
 	private final Material material;
 	private final String jpname;
-	//private final int maxStack;
+	private final int maxStackAmount;
 	private final short durability;
+	private final StackCategory category;
+	private final int level;
 
-
+	//暫定
 	private StackType(String jpname){
-		this(null,jpname);
+		this(jpname,StackCategory.MINE, 0);
 	}
-	private StackType(Material material,String jpname) {
-		this(material,jpname,0);
+	//暫定
+	private StackType(Material material, String jpname, int durability){
+		this(material,jpname,(short)durability, StackCategory.BUILD, 50);
 	}
-	private StackType(Material material,String jpname,int durability) {
-		this(material,jpname,(short)durability);
+
+	private StackType(String jpname, StackCategory category, int level){
+		this(null,jpname, category, level);
 	}
-	private StackType(Material material,String jpname,short durability){
+	private StackType(Material material,String jpname, StackCategory category, int level) {
+		this(material,jpname,0, category, level);
+	}
+	private StackType(Material material,String jpname,int durability, StackCategory category, int level) {
+		this(material,jpname,(short)durability, category, level);
+	}
+	private StackType(Material material,String jpname,short durability, StackCategory category, int level){
 		this.material = material;
 		this.jpname = jpname;
+		this.maxStackAmount = 64;
 		this.durability = durability;
+		this.category = category;
+		this.level = level;
 	}
 
 
@@ -685,12 +701,33 @@ public enum StackType {
 	public String getJPname(){
 		return this.jpname;
 	}
+	/**maxStackAmountを返します．
+	 *
+	 * @return
+	 */
+	public int getMaxStackAmount(){
+		return this.maxStackAmount;
+	}
 	/**durabilityを返します．
 	 *
 	 * @return
 	 */
 	public short getDurability(){
 		return this.durability;
+	}
+	/**categoryを返します．
+	 *
+	 * @return
+	 */
+	public StackCategory getCategory(){
+		return this.category;
+	}
+	/**スタック可能になるlevelを返します．
+	 *
+	 * @return
+	 */
+	public int getLevel() {
+		return this.level;
 	}
 	/**カラムネームを返します．
 	 *
@@ -715,8 +752,12 @@ public enum StackType {
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
 		itemstack.setDurability(this.getDurability());
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.setDisplayName(ChatColor.RESET + this.getJPname());
+		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
+
 	public static StackType getStackType(ItemStack itemstack) {
 		Material m = itemstack.getType();
 		short durability = itemstack.getDurability();
