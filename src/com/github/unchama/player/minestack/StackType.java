@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.unchama.enumdata.StackCategory;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import com.github.unchama.enumdata.StackCategory;
 
 
 /*
@@ -203,7 +204,7 @@ public enum StackType {
 	ENDER_STONE("エンドストーン"),
 	DRAGON_EGG("ドラゴンの卵"),
 	REDSTONE_LAMP_OFF("レッドストーンランプ"),
-	WOOD_DOUBLE_STEP("オークの木材ハーフブロック"),
+	//WOOD_DOUBLE_STEP("オークの木材ハーフブロック"),
 	//DOUBLE_SPRUCE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"マツの木材ハーフブロック",1),
 	//DOUBLE_BIRCH_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"シラカバの木材ハーフブロック",2),
 	//DOUBLE_JUNGLE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ジャングルの木材ハーフブロック",3),
@@ -572,8 +573,8 @@ public enum StackType {
 	NETHER_STAR("ネザースター"),
 	PUMPKIN_PIE("パンプキンパイ"),
 	//FIREWORK("ロケット花火"),
-	FIREWORK_CHARGE("花火の星"),
-	ENCHANTED_BOOK("エンチャント本"),
+	//FIREWORK_CHARGE("花火の星"),
+	//ENCHANTED_BOOK("エンチャント本"),
 	REDSTONE_COMPARATOR("レッドストーンコンパレーター"),
 	NETHER_BRICK_ITEM("ネザーレンガ"),
 	QUARTZ("ネザー水晶"),

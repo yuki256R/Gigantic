@@ -2,12 +2,7 @@ package com.github.unchama.gui.minestack;
 
 import java.util.HashMap;
 
-import com.github.unchama.enumdata.StackCategory;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.skill.SkillManager;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -16,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.enumdata.StackCategory;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 
 public class StackCategoryMenuManager extends GuiMenuManager{

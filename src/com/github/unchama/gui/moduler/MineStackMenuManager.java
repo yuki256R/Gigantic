@@ -1,17 +1,14 @@
 package com.github.unchama.gui.moduler;
 
-import com.github.unchama.enumdata.StackCategory;
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.gigantic.GiganticManager;
-import com.github.unchama.player.minestack.MineStack;
-import com.github.unchama.player.minestack.MineStackManager;
-import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.seichi.sql.PlayerDataTableManager;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -22,8 +19,16 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import com.github.unchama.enumdata.StackCategory;
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.minestack.MineStack;
+import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 
 /**
  * Created by Mon_chi on 2017/03/25.
@@ -241,18 +246,21 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         return null;
     }
 
-    @Override
-    public Sound getSoundName() {
-        return null;
-    }
+	@Override
+	public Sound getSoundName() {
+		// TODO 自動生成されたメソッド・スタブ
+		return Sound.BLOCK_FENCE_GATE_OPEN;
+	}
 
-    @Override
-    public float getVolume() {
-        return 0;
-    }
+	@Override
+	public float getVolume() {
+		// TODO 自動生成されたメソッド・スタブ
+		return 1;
+	}
 
-    @Override
-    public float getPitch() {
-        return 0;
-    }
+	@Override
+	public float getPitch() {
+		// TODO 自動生成されたメソッド・スタブ
+		return (float)0.1;
+	}
 }

@@ -21,13 +21,12 @@ public final class GuiMenu {
 		SKILLTYPEMENU(SkillTypeMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
-		MINESTACKMENU(StackCategoryMenuManager.class),
+		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		MINECATEGORYMENU(CategoryMineMenuManager.class),
 		DROPCATEGORYMENU(CategoryDropMenuManager.class),
 		FARMCATEGORYMENU(CategoryFarmMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
-		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class)
-		MINESTACKMENU(MineStackMenuManager.class),
+		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
 
 		;
 
