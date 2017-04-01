@@ -52,7 +52,7 @@ public final class Yml {
 		 * @param ManagerClass
 		 * @return TableName
 		 */
-		public static String getTableNamebyClass(
+		public static String getYmlNamebyClass(
 				Class<? extends YmlManager> _class) {
 			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {
@@ -64,7 +64,7 @@ public final class Yml {
 	}
 
 	// 全てのYmlManager格納するMap
-	private LinkedHashMap<Class<? extends YmlManager>, YmlManager> managermap = new LinkedHashMap<Class<? extends YmlManager>, YmlManager>();
+	private static LinkedHashMap<Class<? extends YmlManager>, YmlManager> managermap = new LinkedHashMap<Class<? extends YmlManager>, YmlManager>();
 
 	/**
 	 * Class Ymlのコンストラクタです． プラグイン始動時に一度だけ呼び出されます．

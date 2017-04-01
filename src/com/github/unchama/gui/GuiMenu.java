@@ -3,12 +3,22 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.minestack.MineStackMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.yml.moduler.YmlManager;
+import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+
 
 public final class GuiMenu {
 	public static enum ManagerType {
-		MAINMENU(MainMenuManager.class), ;
+		MAINMENU(MainMenuManager.class),
+		SKILLTYPEMENU(SkillTypeMenuManager.class),
+		EXPLOSIONMENU(ExplosionMenuManager.class),
+		E_RANGEMENU(E_RangeMenuManager.class),
+		MINESTACKMENU(MineStackMenuManager.class),
+		;
+
 		// 使用するManagerClass
 		private Class<? extends GuiMenuManager> managerClass;
 
@@ -41,8 +51,8 @@ public final class GuiMenu {
 		 * @param ManagerClass
 		 * @return TableName
 		 */
-		public static String getTableNamebyClass(
-				Class<? extends YmlManager> _class) {
+		public static String getMenuNamebyClass(
+				Class<? extends GuiMenuManager> _class) {
 			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {
 					return ye.getYmlName();

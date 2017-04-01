@@ -36,7 +36,7 @@ public class PlayerStatisticListener implements Listener {
 					return ;
 				}
 				gp.getManager(MineBlockManager.class).increase(material,diff);
-				debug.sendMessage(p, DebugEnum.MINEBLOCK, material.name() + "is increment(" + diff + ")for player:" + p.getName());
+				debug.sendMessage(p, DebugEnum.MINEBLOCK, material.name() + " is increment(" + diff + ")for player:" + p.getName());
 				if(gp.getManager(SeichiLevelManager.class).updateLevel()){
 					int level = gp.getManager(SeichiLevelManager.class).getLevel();
 					gp.getManager(ManaManager.class).Levelup();

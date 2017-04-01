@@ -1,6 +1,6 @@
 name: Gigantic
 main: com.github.unchama.gigantic.Gigantic
-version: 0.0.9
+version: 0.1.0
 description: Gigantic Seichi Server Plugin
 softdepend: [PlaceholderAPI]
 
@@ -16,14 +16,14 @@ commands:
       permission-message: You don't have <permission>
   debug:
       description: This is debug command.
-      usage: /<command> <help>
+      usage: /<command> set 
       aliases: [gigadebug,giganticdebug]
       default: op
       permission: gigantic.debug
       permission-message: You don't have <permission>
   mineboost:
       description: This is mineboost command.
-      usage: /<command> <help>
+      usage: /mb set <playername/all> <duration(tick)> <amplifier(double)> <id>
       aliases: [mb,gmb]
       default: op
       permission: gigantic.mineboost

@@ -1,21 +1,18 @@
 package com.github.unchama.gui.moduler;
 
-import java.util.List;
-
-import me.clip.placeholderapi.PlaceholderAPI;
+import java.util.HashMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
-import com.github.unchama.gui.KeyItem;
-import com.github.unchama.yml.moduler.YmlManager;
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.DebugManager;
 
 /**
  * Menu用のManagerです．Menuを作る時はこのクラスを継承すると簡単に作成できます．
@@ -23,57 +20,108 @@ import com.github.unchama.yml.moduler.YmlManager;
  * @author tar0ss
  *
  */
-public abstract class GuiMenuManager extends YmlManager {
-	private KeyItem keyitem;
+public abstract class GuiMenuManager {
+	protected Gigantic plugin = Gigantic.plugin;
+	protected ConfigManager config = Gigantic.yml
+			.getManager(ConfigManager.class);
+	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+
+	/**
+	 * マテリアル，ダメージ値，名前，説明文を保存する． このキーをもって左（右）クリックするとこのクラスのメニューを開く．
+	 * Ymlを使用しない場合は非推奨です．
+	 */
+	protected KeyItem keyitem;
+
+	/**
+	 * スロット番号と開くメニューのクラスを保存する．
+	 *
+	 */
+	protected HashMap<Integer, Class<? extends GuiMenuManager>> openmap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
+
+	protected HashMap<Integer, String> id_map = new HashMap<Integer, String>();
 
 	public GuiMenuManager() {
-		super();
-		String m = this.fc.getString("key.material");
-		Material material;
-		int damege;
-		String name;
-		List<String> lore;
-
-		if (m != null) {
-			try {
-				material = Material.valueOf(m);
-			} catch (IllegalArgumentException e) {
-				material = null;
-			}
-
-			if (material == null) {
-				damege = 0;
-			} else {
-				damege = this.fc.getInt("key.damege");
-			}
-
-		} else {
-			material = null;
-			damege = 0;
+		if (!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())) {
+			setOpenMenuMap(openmap);
 		}
-
-		name = this.fc.getString("key.name");
-		lore = this.fc.getStringList("key.lore");
-
-		this.keyitem = new KeyItem(material, damege, name, lore);
-	}
-
-	@Override
-	protected void saveDefaultFile() {
-		if (!file.exists()) {
-			plugin.saveResource(filename, false);
-		}
+		setIDMap(id_map);
 	}
 
 	/**
-	 * メニュータイプを取得します． 1: 手に持った所定のアイテムを持った状態でクリックすることで開く 2:
-	 * 本プラグインで作成されたメニューのアイテムをクリックすることで開く
+	 * 何かメソッドを実行するキーストリングを設定します．
+	 *
+	 * @param methodmap
+	 */
+	protected abstract void setIDMap(HashMap<Integer, String> idmap);
+
+	/**
+	 * メソッドを呼び出します．
+	 *
+	 * @param player
+	 *            プレイヤー名
+	 * @param identifier
+	 *            呼び出すメソッド名
+	 * @return 成否
+	 */
+	public abstract boolean invoke(Player player, String identifier);
+
+	/**
+	 * このメニュー内のスロットから実行するメソッド識別子を取得します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public String getIdentifier(int slot) {
+		Integer s = new Integer(slot);
+		return id_map.isEmpty() ? null : (id_map.containsKey(s) ? id_map.get(s)
+				: null);
+	}
+
+	/**
+	 * メニューを開くスロット番号を設定します．
+	 *
+	 */
+	protected abstract void setOpenMenuMap(
+			HashMap<Integer, Class<? extends GuiMenuManager>> openmap);
+
+	/**
+	 * このメニュ内のスロットから次に開くメニューのクラスを取得します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public Class<? extends GuiMenuManager> getMenuManager(int slot) {
+		Integer s = new Integer(slot);
+		return openmap.isEmpty() ? null : (openmap.containsKey(s) ? openmap
+				.get(s) : null);
+	}
+
+	/**
+	 * キーアイテムを設定します．
+	 *
+	 */
+	protected abstract void setKeyItem();
+
+	/**
+	 * クリックの種類を取得します．
 	 *
 	 * @return
 	 */
-	public int getType() {
-		return this.fc.getInt("menutype");
-	}
+	public abstract String getClickType();
+
+	/**
+	 * インベントリのサイズを取得します
+	 *
+	 * @return
+	 */
+	public abstract int getInventorySize();
+
+	/**
+	 * インベントリの名前を取得します．
+	 *
+	 * @return
+	 */
+	public abstract String getInventoryName(Player player);
 
 	/**
 	 * キーとなるアイテム情報を返します．
@@ -85,85 +133,95 @@ public abstract class GuiMenuManager extends YmlManager {
 	}
 
 	/**
-	 * クリックの種類を取得します．
+	 * インベントリタイプを取得します．
 	 *
 	 * @return
 	 */
-	public String getClickType() {
-		return this.fc.getString("click");
-	}
-
-	/**
-	 * インベントリのサイズを取得します
-	 *
-	 * @return
-	 */
-	public int getInventorySize() {
-		return this.fc.getInt("size");
-	}
-
-	/**
-	 * インベントリの名前を取得します．
-	 *
-	 * @return
-	 */
-	public String getInventoryName(Player player) {
-		return PlaceholderAPI
-				.setPlaceholders(player, this.fc.getString("name"));
-	}
+	protected abstract InventoryType getInventoryType();
 
 	/**
 	 * PlaceHolderを使用して与えられたナンバーのitemmetaを設定します．
 	 *
-	 * @param p
-	 * @param n
+	 * @param プレイヤー名
+	 * @param インベントリ番号
 	 * @param itemstack
+	 * @param PlaceHolderAPIを使用する時true
 	 */
-	private void setItemMeta(Player player, int n, ItemStack itemstack) {
-		ItemMeta itemmeta = itemstack.getItemMeta();
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
-
-		if (this.fc.getBoolean(n + ".isSkullofOwner")) {
-			SkullMeta skullmeta = (SkullMeta) itemmeta;
-			skullmeta.setOwner(player.getName());
-		}
-		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
-		itemstack.setItemMeta(itemmeta);
-	}
+	protected abstract ItemMeta getItemMeta(Player player, int slot,
+			ItemStack itemstack);
 
 	/**
 	 * 与えられたプレイヤー用のインベントリを作成して取得します．
 	 *
-	 * @param p
+	 * @param プレイヤー名
+	 * @param スロット番号
 	 * @return
 	 */
-	public Inventory getInventory(Player player) {
-		Inventory inv = Bukkit.getServer().createInventory(null,
-				this.getInventorySize(), this.getInventoryName(player));
-		for (int i = 0; i < this.getInventorySize(); i++) {
-			String s = Integer.toString(i) + ".itemstack";
-			ItemStack itemstack = this.fc.getItemStack(s);
-			if (!(itemstack == null)) {
-				this.setItemMeta(player, i, itemstack);
-				inv.setItem(i, itemstack);
-			}
+	public Inventory getInventory(Player player, int slot) {
+		Inventory inv = this.getEmptyInventory(player);
+
+		for (int i = 0; i < inv.getSize(); i++) {
+			ItemStack itemstack = this.getItemStack(player, i);
+			if (itemstack == null)
+				continue;
+			ItemMeta itemmeta = this.getItemMeta(player, i, itemstack);
+			if (itemmeta != null)
+				itemstack.setItemMeta(itemmeta);
+			inv.setItem(i, itemstack);
+		}
+		inv.setMaxStackSize(Integer.MAX_VALUE);
+		return inv;
+	}
+	protected Inventory getEmptyInventory(Player player) {
+		Inventory inv;
+		InventoryType it = this.getInventoryType();
+		if (it == null) {
+			inv = Bukkit.getServer().createInventory(player,
+					this.getInventorySize(), this.getInventoryName(player));
+		} else {
+			inv = Bukkit.getServer().createInventory(player,
+					this.getInventoryType(), this.getInventoryName(player));
 		}
 		return inv;
 	}
-	public Sound getSound() {
-		String s = this.fc.getString("sound.name");
-		return Sound.valueOf(s);
-	}
 
-	public float getVolume() {
-		return (float)this.fc.getDouble("sound.volume");
-	}
+	/**
+	 * 与えられたナンバーのItemStackを取得します．
+	 *
+	 * @param player名
+	 * @param インベントリ番号
+	 * @return
+	 */
+	protected abstract ItemStack getItemStack(Player player, int slot);
 
-	public float getPitch() {
-		return (float)this.fc.getDouble("sound.pitch");
+	/**
+	 * 開いた時の音の名前を取得します．
+	 *
+	 * @return
+	 */
+	public abstract Sound getSoundName();
+
+	/**
+	 * 開いた時の音の大きさを取得します
+	 *
+	 * @return
+	 */
+	public abstract float getVolume();
+
+	/**
+	 * 開いた時の音の高さを取得します
+	 *
+	 * @return
+	 */
+	public abstract float getPitch();
+
+	/**
+	 * 鍵となるアイテムを持っている時trueとなります．
+	 *
+	 * @return
+	 */
+	public boolean hasKey() {
+		return keyitem != null;
 	}
 
 }
