@@ -11,8 +11,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.enumdata.StackCategory;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.StackCategory;
 
 public class StackCategoryMenuManager extends GuiMenuManager{
 
@@ -90,7 +90,7 @@ public class StackCategoryMenuManager extends GuiMenuManager{
 	@Override
 	public Sound getSoundName() {
 		// TODO 自動生成されたメソッド・スタブ
-		return Sound.BLOCK_FENCE_GATE_OPEN;
+		return Sound.BLOCK_CHEST_OPEN;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class StackCategoryMenuManager extends GuiMenuManager{
 	@Override
 	public float getPitch() {
 		// TODO 自動生成されたメソッド・スタブ
-		return (float)0.1;
+		return (float)0.5;
 	}
 
 

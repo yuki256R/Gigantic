@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
 import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
-import com.github.unchama.gui.minestack.drop.CategoryDropMenuManager;
-import com.github.unchama.gui.minestack.farm.CategoryFarmMenuManager;
-import com.github.unchama.gui.minestack.mine.CategoryMineMenuManager;
+import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
+import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
+import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
@@ -22,11 +22,11 @@ public final class GuiMenu {
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
-		MINECATEGORYMENU(CategoryMineMenuManager.class),
-		DROPCATEGORYMENU(CategoryDropMenuManager.class),
-		FARMCATEGORYMENU(CategoryFarmMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
+		ITEMCATEGORYMENU(CategoryItemMenuManager.class),
 		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
+		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
+		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
 
 		;
 

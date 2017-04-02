@@ -203,7 +203,11 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 				+ ChatColor.MAGIC + "???");
 		im.setLore(getSkillBookLore());
 		is.setItemMeta(im);
-		player.getInventory().addItem(is);
+		if(player.getInventory().firstEmpty() == -1){
+        	player.sendMessage(ChatColor.RED + "インベントリを空けてください．");
+		}else{
+			player.getInventory().addItem(is);
+		}
 	}
 	/**スキルブックの説明文を取得します
 	 *

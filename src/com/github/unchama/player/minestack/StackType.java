@@ -5,12 +5,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.enumdata.StackCategory;
+import com.github.unchama.gui.moduler.StackCategory;
+
 
 
 /*
@@ -77,7 +77,7 @@ public enum StackType {
 	DETECTOR_RAIL("ディテクターレール"),
 	PISTON_STICKY_BASE("粘着ピストン"),
 	WEB("クモの巣"),
-	LONG_DEAD_GRASS(Material.LONG_GRASS,"枯れ木", StackCategory.DROP, 20),
+	LONG_DEAD_GRASS(Material.LONG_GRASS,"枯れ木",0),
 	LONG_GRASS(Material.LONG_GRASS,"草",1),
 	FERN(Material.LONG_GRASS,"シダ",2),
 	DEAD_BUSH("枯れ木"),
@@ -211,6 +211,11 @@ public enum StackType {
 	//DOUBLE_ACACIA_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"アカシアの木材ハーフブロック",4),
 	//DOUBLE_DARK_OAK_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ダークオークの木材ハーフブロック",5),
 	WOOD_STEP("オークの木材ハーフブロック"),
+	SPRUCE_WOOD_STEP(Material.WOOD_STEP,"マツの木材ハーフブロック",1),
+	BIRCH_WOOD_STEP(Material.WOOD_STEP,"シラカバの木材ハーフブロック",2),
+	JUNGLE_WOOD_STEP(Material.WOOD_STEP,"ジャングルの木材ハーフブロック",3),
+	ACACIA_WOOD_STEP(Material.WOOD_STEP,"アカシアの木材ハーフブロック",4),
+	DARK_OAK_WOOD_STEP(Material.WOOD_STEP,"ダークオークの木材ハーフブロック",5),
 	//COCOA("カカオ"),
 	SANDSTONE_STAIRS("砂岩の階段"),
 	EMERALD_ORE("エメラルド鉱石"),
@@ -358,18 +363,19 @@ public enum StackType {
 	NETHER_WART_BLOCK("ネザーウォートブロック"),
 	RED_NETHER_BRICK("赤いネザーレンガ"),
 	BONE_BLOCK("骨ブロック"),
-	IRON_SPADE("鉄のシャベル"),
-	IRON_PICKAXE("鉄のツルハシ"),
-	IRON_AXE("鉄の斧"),
+	//IRON_SPADE("鉄のシャベル"),
+	//IRON_PICKAXE("鉄のツルハシ"),
+	//IRON_AXE("鉄の斧"),
 	FLINT_AND_STEEL("火打石と打ち金"),
 	APPLE("リンゴ"),
-	BOW("弓"),
+	//BOW("弓"),
 	ARROW("矢"),
 	COAL("石炭"),
 	CHARCOAL(Material.COAL,"木炭",1),
 	DIAMOND("ダイヤモンド"),
 	IRON_INGOT("鉄インゴット"),
 	GOLD_INGOT("金インゴット"),
+	/*
 	IRON_SWORD("鉄の剣"),
 	WOOD_SWORD("木の剣"),
 	WOOD_SPADE("木のシャベル"),
@@ -390,6 +396,7 @@ public enum StackType {
 	GOLD_SPADE("金のシャベル"),
 	GOLD_PICKAXE("金のツルハシ"),
 	GOLD_AXE("金の斧"),
+	*/
 	STRING("糸"),
 	FEATHER("羽"),
 	SULPHUR("火薬"),
@@ -401,6 +408,7 @@ public enum StackType {
 	SEEDS("種"),
 	WHEAT("小麦"),
 	BREAD("パン"),
+	/*
 	LEATHER_HELMET("革の帽子"),
 	LEATHER_CHESTPLATE("革の上着"),
 	LEATHER_LEGGINGS("革のズボン"),
@@ -421,6 +429,7 @@ public enum StackType {
 	GOLD_CHESTPLATE("金のチェストプレート"),
 	GOLD_LEGGINGS("金のレギンス"),
 	GOLD_BOOTS("金のブーツ"),
+	*/
 	FLINT("火打石"),
 	PORK("生の豚肉"),
 	GRILLED_PORK("焼き豚"),
@@ -496,7 +505,7 @@ public enum StackType {
 	GHAST_TEAR("ガストの涙"),
 	GOLD_NUGGET("金塊"),
 	NETHER_STALK("ネザーウォート"),
-	POTION("ポーション"),
+	//POTION("ポーション"),
 	GLASS_BOTTLE("ガラス瓶"),
 	SPIDER_EYE("クモの目"),
 	FERMENTED_SPIDER_EYE("発酵したクモの目"),
@@ -644,11 +653,11 @@ public enum StackType {
 
 	//暫定
 	private StackType(String jpname){
-		this(jpname,StackCategory.MINE, 0);
+		this(jpname,StackCategory.BUILD, 0);
 	}
 	//暫定
 	private StackType(Material material, String jpname, int durability){
-		this(material,jpname,(short)durability, StackCategory.BUILD, 50);
+		this(material,jpname,(short)durability, StackCategory.OTHERWISE, 50);
 	}
 
 	private StackType(String jpname, StackCategory category, int level){
@@ -754,7 +763,7 @@ public enum StackType {
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
 		itemstack.setDurability(this.getDurability());
 		ItemMeta meta = itemstack.getItemMeta();
-		meta.setDisplayName(ChatColor.RESET + this.getJPname());
+		//meta.setDisplayName(ChatColor.RESET + this.getJPname());
 		itemstack.setItemMeta(meta);
 		return itemstack;
 	}
