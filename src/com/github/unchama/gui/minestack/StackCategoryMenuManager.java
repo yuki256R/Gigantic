@@ -2,21 +2,39 @@ package com.github.unchama.gui.minestack;
 
 import java.util.HashMap;
 
-import net.md_5.bungee.api.ChatColor;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.enumdata.StackCategory;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 
-public class MineStackMenuManager extends GuiMenuManager{
+public class StackCategoryMenuManager extends GuiMenuManager{
+
+	@Override
+	public Inventory getInventory(Player player,int slot){
+		Inventory inv = this.getEmptyInventory(player);
+		StackCategory[] cat = StackCategory.values();
+		for(int i = 0 ; i < this.getInventorySize(); i++){
+			ItemStack itemstack = cat[i].getMenuIcon();
+			if (itemstack == null)
+				continue;
+			inv.setItem(i, itemstack);
+		}
+		return inv;
+	}
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
-		// TODO 自動生成されたメソッド・スタブ
+		StackCategory[] cat = StackCategory.values();
+		for(int i = 0 ; i < this.getInventorySize() ; i++){
+			this.openmap.put(i,cat[i].getManagerClass());
+		}
 
 	}
 	@Override
@@ -44,19 +62,17 @@ public class MineStackMenuManager extends GuiMenuManager{
 	@Override
 	public int getInventorySize() {
 		// TODO 自動生成されたメソッド・スタブ
-		return 54;
+		return getInventoryType().getDefaultSize();
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		// TODO 自動生成されたメソッド・スタブ
-		return ChatColor.YELLOW + "MineStack";
+		return PlaceholderAPI.setPlaceholders(player, "&5&lカテゴリを選択してください．");
 	}
 
 	@Override
 	protected InventoryType getInventoryType() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return InventoryType.HOPPER;
 	}
 
 	@Override
