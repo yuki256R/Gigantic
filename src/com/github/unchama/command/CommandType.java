@@ -6,6 +6,7 @@ public enum CommandType {
 	GACHA(new gachaCommand()),
 	DEBUG(new debugCommand()),
 	MINEBOOST(new mineboostCommand()),
+	FLY(new flyCommand())
 	;
 
 

@@ -53,7 +53,8 @@ seichi:
   levelmessage:
     10: "&e初めてのアクティブスキル%gp_skill_explosion_jpname%&r&eを習得できます！\n習得するには木の棒メニューのスキルブックをクリック！\n"
 
-
+#Fly時の1分当たりの経験値消費量
+flyexp: '50'
 
 
 

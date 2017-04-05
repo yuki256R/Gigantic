@@ -28,3 +28,7 @@ commands:
       default: op
       permission: gigantic.mineboost
       permission-message: You don't have <permission>
+  fly:
+      description: This is fly command.
+      usage: /<command> <finish/amount/endless>
+

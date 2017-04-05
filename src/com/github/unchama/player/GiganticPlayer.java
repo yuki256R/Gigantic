@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
@@ -47,6 +48,7 @@ public class GiganticPlayer{
 		EXPLOSION(ExplosionManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
+		FLY(FlyManager.class)
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -125,6 +127,10 @@ public class GiganticPlayer{
 			}
 		}
 		return true;
+	}
+	
+	public boolean isOffline() {
+		return Gigantic.plugin.getServer().getPlayer(uuid) == null;
 	}
 
 	public void init() {
