@@ -14,7 +14,7 @@ public class FlyManager extends DataManager{
 	
 	/**flytimeを設定します。
 	 * 
-	 * @param flytime(int)
+	 * @param
 	 */
 	public void setFlytime(int flytime){
 		this.flytime = flytime;
@@ -22,23 +22,15 @@ public class FlyManager extends DataManager{
 	
 	/**flytimeを取得します
 	 * 
-	 * @retrun flytime(int)
+	 * @retrun flytime
 	 */
 	public int getFlytime(){
 		return this.flytime;
 	}
 	
-	/**1分ごとに呼び出す処理(flytimeを減らす)
-	 * 
-	 */
-	public void decrease_min(){
-		int flytime = this.flytime;
-		setFlytime(flytime - 1);
-	}
-	
 	/**flyflagを変更します
 	 * 
-	 * @param flyflag(boolean)
+	 * @param
 	 */
 	public void setFlyflag(boolean flyflag){
 		this.flyflag = flyflag;
@@ -46,7 +38,7 @@ public class FlyManager extends DataManager{
 	
 	/**継続設定
 	 * 
-	 * @param endlessflyflag(boolean)
+	 * @param
 	 */
 	public void setEndlessflyflag(boolean endlessflyflag){
 		this.endlessflyflag = endlessflyflag;
