@@ -20,7 +20,7 @@ import com.github.unchama.yml.ConfigManager;
 
 public class FlyTaskRunnable extends BukkitRunnable {
 
-	// TODO:configから1分で減る経験値(fly用)を取得->fly許可(4/5実装済み・デバッグ)
+	//configから1分で減る経験値(fly用)を取得->fly許可(4/5実装済み)
 
 	Gigantic plugin = Gigantic.plugin;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
@@ -44,7 +44,6 @@ public class FlyTaskRunnable extends BukkitRunnable {
 					return;
 				}else{
 					Player player = Bukkit.getServer().getPlayer(playerlist.get(count).getUniqueId());
-					player.sendMessage("Task処理");//TODO:debuge
 					if(player != null){
 						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 						GiganticStatus gs = PlayerManager.getStatus(gp);
@@ -53,7 +52,6 @@ public class FlyTaskRunnable extends BukkitRunnable {
 							ExperienceManager expman = new ExperienceManager(player);
 
 							int minus = -config.getFlyExp();//減る量(負)
-							//TODO:ここに1分間の建築量の処理
 							
 							if(gp.getManager(FlyManager.class).getEndlessflyflag()){
 								if(!expman.hasExp(config.getFlyExp())){
@@ -85,7 +83,6 @@ public class FlyTaskRunnable extends BukkitRunnable {
 									player.setFlying(false);
 								}else{
 									player.setAllowFlight(true);
-									player.sendMessage("FLY延長呼び出し");//TODO:debug用
 									player.sendMessage(ChatColor.GREEN + "Fly効果はあと" + flytime + "分です");
 									gp.getManager(FlyManager.class).setFlytime(flytime-1);
 									expman.changeExp(minus);

@@ -18,8 +18,8 @@ import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
 public class flyCommand implements TabExecutor{
-	/* TODO:flyCommandの実装(4/5実装済み・デバッグ)
-	 * -TODO:プレイヤーデータにflytime(int) flyflag(boolean) endlessfly(boolean)を追加(SQL同期は不要)(4/5実装済み・デバッグ)
+	/*flyCommandの実装(4/5実装済み)
+	 * -プレイヤーデータにflytime(int) flyflag(boolean) endlessfly(boolean)を追加(SQL同期は不要)(4/5実装済み)
 	 * 
 	 */
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
@@ -103,7 +103,6 @@ public class flyCommand implements TabExecutor{
 					sender.sendMessage(ChatColor.GREEN + "時間指定の数値は「1」以上の整数で行ってください");
 					return true;
 				}else if(!expman.hasExp(config.getFlyExp())){
-					sender.sendMessage("経験値保持分岐処理呼び出し");//TODO:debug
 					sender.sendMessage(ChatColor.GREEN + "所持している経験値量が、必要経験値量(" + config.getFlyExp() + ")に達していません");
 					return true;
 				}else{
@@ -116,9 +115,6 @@ public class flyCommand implements TabExecutor{
 					gp.getManager(FlyManager.class).setFlyflag(flyflag);
 					gp.getManager(FlyManager.class).setFlytime(flytime);
 					gp.getManager(FlyManager.class).setEndlessflyflag(Endlessfly);
-					sender.sendMessage("[Debug] Flyflag:" + gp.getManager(FlyManager.class).getFlyflag() + " Flytime:" + gp.getManager(FlyManager.class).getFlytime() 
-									+ " Endlessfly:" + gp.getManager(FlyManager.class).getEndlessflyflag());//TODO:debug用　要消去
-					sender.sendMessage("ConfigのFLY減少量:" + config.getFlyExp());//TODO:debug用
 					sender.sendMessage(ChatColor.YELLOW + "【FLYコマンド認証】効果の残り時間はあと" + flytime + "分です");
 					player.setAllowFlight(true);
 					player.setFlying(true);
