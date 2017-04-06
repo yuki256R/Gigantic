@@ -4,14 +4,16 @@ import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 
 public enum SkillType {
 	EXPLOSION(ExplosionManager.class, ExplosionMenuManager.class,
-			Information.EX_COOLTIME),
+			Information.EX_COOLTIME), MAGICDRIVE(MagicDriveManager.class,
+			MagicDriveMenuManager.class, Information.MD_COOLTIME),
 	/*
-	 * MAGICDRIVE(MagicDrive.class,MagicDriveMenuManager.class),
 	 * CONDENSATION(Condensation.class,CondensationMenuManager.class),
 	 * RUINFIELD(RuinField.class,RuinFieldMenuManager.class),
 	 * FAIRYAEGIS(FairyAegis.class,FairyAegisMenuManager.class),
@@ -21,7 +23,8 @@ public enum SkillType {
 	private Class<? extends SkillMenuManager> menuClass;
 	private Information info;
 
-	private static LinkedHashMap<Class<? extends SkillManager>, SkillType> skillclassmap = new LinkedHashMap<Class<? extends SkillManager>, SkillType>();;
+	private static LinkedHashMap<Class<? extends SkillManager>, SkillType> skillclassmap = new LinkedHashMap<Class<? extends SkillManager>, SkillType>();
+	private static LinkedHashMap<Class<? extends SkillMenuManager>, SkillType> skillmenuclassmap = new LinkedHashMap<Class<? extends SkillMenuManager>, SkillType>();
 
 	SkillType(Class<? extends SkillManager> skillClass,
 			Class<? extends SkillMenuManager> menuClass, Information info) {
@@ -33,6 +36,7 @@ public enum SkillType {
 	static {
 		for (SkillType st : SkillType.values()) {
 			skillclassmap.put(st.getSkillClass(), st);
+			skillmenuclassmap.put(st.getMenuClass(), st);
 		}
 	}
 

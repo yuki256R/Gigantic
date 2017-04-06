@@ -13,6 +13,8 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.magicdrive.MD_RangeMenuManager;
+import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
 
 
 public final class GuiMenu {
@@ -21,6 +23,8 @@ public final class GuiMenu {
 		SKILLTYPEMENU(SkillTypeMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
+		MD_RANGEMENU(MD_RangeMenuManager.class),
+		MAGICDRIVEMENU(MagicDriveMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
 		ITEMCATEGORYMENU(CategoryItemMenuManager.class),
@@ -33,9 +37,17 @@ public final class GuiMenu {
 		// 使用するManagerClass
 		private Class<? extends GuiMenuManager> managerClass;
 
+		private static LinkedHashMap<Class<? extends GuiMenuManager>, ManagerType> managertypemap = new LinkedHashMap<Class<? extends GuiMenuManager>, ManagerType>();
+
 		// Enum用コンストラクタ
 		ManagerType(Class<? extends GuiMenuManager> managerClass) {
 			this.managerClass = managerClass;
+		}
+
+		static{
+			for(ManagerType mt : ManagerType.values()){
+				managertypemap.put(mt.getManagerClass(), mt);
+			}
 		}
 
 		/**
@@ -71,7 +83,20 @@ public final class GuiMenu {
 			}
 			return "example";
 		}
+
+
+		/**
+		 * ManagerClassからmanagerTypeを取得します．
+		 * @param _class
+		 * @return
+		 */
+		public static ManagerType getTypebyClass(
+				Class<? extends GuiMenuManager> _class){
+			return managertypemap.get(_class);
+		}
 	}
+
+
 
 	// 全てのGuiMenuManagerを格納するMap
 	private LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager> managermap = new LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager>();

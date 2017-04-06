@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -143,7 +144,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
         //カテゴリ選択ボタン
         else if (slot > 46 && slot < 52){
-            player.openInventory(Gigantic.guimenu.getManager(StackCategory.values()[slot - 47].getManagerClass()).getInventory(player, slot));
+            player.openInventory(Gigantic.guimenu.getManager(StackCategory.values()[slot - 47].getManagerType().getManagerClass()).getInventory(player, slot));
             player.playSound(player.getLocation(), this.getSoundName(), this.getVolume(), this.getPitch());
         }
         //とりだしボタン
@@ -216,7 +217,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
     }
 
     @Override
-    protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+    protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 
     }
 

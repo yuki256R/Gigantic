@@ -7,26 +7,33 @@ import net.coreprotect.CoreProtectAPI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.sidebar.SideBarManager.Information;
+import com.github.unchama.task.CoolDownTaskRunnable;
 import com.github.unchama.util.Util;
+import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -38,18 +45,48 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	protected SideBarManager Sm;
 	protected GuiMenu guimenu = Gigantic.guimenu;
 
+	private SkillType st;
+
 	private Boolean toggle;
 	private Boolean unlocked;
 	private Boolean cooldown;
+
+	private BreakRange range;
 
 	public SkillManager(GiganticPlayer gp) {
 		super(gp);
 		Wg = Util.getWorldGuard();
 		Cp = Util.getCoreProtect();
+
+		this.st = SkillType.getSkillTypebySkillClass(this.getClass());
+
 		this.toggle = false;
 		this.unlocked = false;
 		this.cooldown = false;
 
+	}
+	/**
+	 * 自分より下のブロックを破壊できるか判定する．
+	 *
+	 * @param player
+	 * @param block
+	 * @param rb
+	 * @return
+	 */
+	protected abstract boolean canBelowBreak(Player player, Block block, Block rb);
+	/**
+	 * @return range
+	 */
+	public BreakRange getRange() {
+		return range;
+	}
+
+	/**
+	 * @param range
+	 *            セットする range
+	 */
+	public void setRange(BreakRange range) {
+		this.range = range;
 	}
 
 	@Override
@@ -73,33 +110,6 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		this.cooldown = flag;
 	}
 	/**
-	 * 与えられた数分のクールタイムを生成します．
-	 *
-	 * @param num
-	 *            破壊数
-	 */
-	public void runCoolDownTask(int num) {
-		int cooltime = this.getCoolTime(num);
-		//5tick未満だった場合クールダウン無し
-		if (cooltime > 5) {
-			cooldown = true;
-			//指定されたクールタイム経過後クールダウンを解除
-			Bukkit.getScheduler().runTaskLaterAsynchronously(plugin,
-					new Runnable() {
-						@Override
-						public void run() {
-							Bukkit.getScheduler().runTask(plugin,
-									new Runnable() {
-										@Override
-										public void run() {
-											cooldown = false;
-										}
-									});
-						}
-					}, cooltime);
-		}
-	}
-	/**
 	 * 与えられたツールでスキルを発動します．
 	 *
 	 * @param player
@@ -107,14 +117,166 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @param block
 	 * @return 可否
 	 */
-	public abstract boolean run(Player player, ItemStack tool, Block block);
 
+	public boolean run(Player player, ItemStack tool, Block block) {
+
+		// エフェクト用に壊されるブロック全てのリストデータ
+		List<Block> breaklist = new ArrayList<Block>();
+
+		// 壊される溶岩のリストデータ
+		List<Block> lavalist = new ArrayList<Block>();
+
+		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
+		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
+
+		// まず破壊するブロックの総数を計算
+		breakcoord.forEach(c -> {
+			Block rb = block.getRelative(c.getX(), c.getY(), c.getZ());
+			Material m = rb.getType();
+			// マテリアルを確認
+				if (SkillManager.canBreak(m)
+						|| m.equals(Material.STATIONARY_LAVA)) {
+					// worldguardを確認Skilledflagを確認
+					if (Wg.canBuild(player, rb.getLocation())
+							&& !rb.hasMetadata("Skilled")) {
+						if (canBelowBreak(player, block, rb)) {
+							switch (m) {
+							case STATIONARY_LAVA:
+								lavalist.add(rb);
+							default:
+								breaklist.add(rb);
+							}
+						}
+					}
+				}
+			});
+
+		// 最初のブロックのみコアプロテクトに保存する．
+		SkillManager.logRemoval(player, block);
+
+
+		// ツールの耐久を確認
+
+		short durability = tool.getDurability();
+		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+
+		if (!unbreakable) {
+			durability += (short) (BreakUtil.calcDurability(
+					tool.getEnchantmentLevel(Enchantment.DURABILITY),
+					breaklist.size()));
+			if (tool.getType().getMaxDurability() <= durability) {
+				player.sendMessage(this.getJPName() + ChatColor.RED
+						+ ":発動に必要なツールの耐久値が足りません");
+				return false;
+			}
+		}
+
+		// マナを確認
+		double usemana = this.getMana(breaklist.size());
+
+		if (!Mm.hasMana(usemana)) {
+			player.sendMessage(this.getJPName() + ChatColor.RED
+					+ ":発動に必要なマナが足りません");
+			return false;
+		}
+
+		// break直前の処理
+		List<ItemStack> droplist = new ArrayList<ItemStack>();
+		breaklist
+				.forEach((b) -> {
+					// ドロップアイテムをリストに追加
+					droplist.addAll(BreakUtil.getDrops(b, tool));
+					// MineBlockに追加
+					gp.getManager(MineBlockManager.class).increase(b.getType(),
+							1);
+					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
+							.name()
+							+ " is increment("
+							+ 1
+							+ ")for player:"
+							+ player.getName());
+					// スキルで使用するブロックに設定
+					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
+							true));
+					// アイテムが出現するのを検知させる
+					Location droploc = GeneralBreakListener.getDropLocation(b);
+					GeneralBreakListener.breakmap.put(droploc,
+							player.getUniqueId());
+					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+						@Override
+						public void run() {
+							GeneralBreakListener.breakmap.remove(droploc);
+						}
+					}, 1);
+				});
+
+		lavalist.forEach(b -> {
+			// スキルで使用するブロックに設定
+			b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
+		});
+
+		// MineStackに追加
+		MineStackManager m = gp.getManager(MineStackManager.class);
+		droplist.forEach((dropitem) -> {
+			if (m.add(dropitem)) {
+				debug.sendMessage(player, DebugEnum.SKILL,
+						"your item is added in minestack");
+			} else {
+				player.getInventory().addItem(dropitem);
+				debug.sendMessage(player, DebugEnum.SKILL,
+						"your item is added in inventory");
+			}
+		});
+
+		// breakの処理
+		lavalist.forEach(b -> {
+			b.setType(Material.AIR);
+		});
+		breaklist.forEach(b -> {
+			if (SkillManager.canBreak(b.getType())) {
+				// 通常エフェクトの表示
+				/*if (!b.equals(block))
+					w.playEffect(b.getLocation(), Effect.STEP_SOUND,
+							b.getType());*/
+				// ブロックを削除
+				b.setType(Material.AIR);
+			}
+		});
+
+		// break後の処理
+		lavalist.forEach(b -> {
+			b.removeMetadata("Skilled", plugin);
+		});
+		breaklist.forEach(b -> {
+			b.removeMetadata("Skilled", plugin);
+		});
+
+		// レベルを更新
+		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
+			int level = gp.getManager(SeichiLevelManager.class).getLevel();
+			gp.getManager(ManaManager.class).Levelup();
+			gp.getManager(SideBarManager.class).updateInfo(
+					Information.SEICHI_LEVEL, level);
+		}
+		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
+		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
+				rb);
+		gp.getManager(SideBarManager.class).refresh();
+
+		int cooltime = this.getCoolTime(breaklist.size());
+
+		Mm.decrease(usemana);
+		tool.setDurability(durability);
+		if (cooltime > 5)
+			new CoolDownTaskRunnable(gp, cooltime, st)
+					.runTaskTimerAsynchronously(plugin, 0, 1);
+		return true;
+	}
 	/**
 	 * Typemenuをクリックした時の処理を記述します
 	 *
 	 */
 	public void onClickTypeMenu(Player player) {
-		SkillType st = SkillType.getSkillTypebySkillClass(this.getClass());
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
 		int sl = sm.getLevel();
 		// アンロックレベルに達していない時終了
@@ -126,9 +288,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 				.getMenuClass());
 		if (this.isunlocked()) {
 			// 開く音を再生
-			player.playSound(player.getLocation(), om.getSoundName(),
-					om.getVolume(), om.getPitch());
-			player.openInventory(om.getInventory(player, 0));
+			om.open(player, 0, false);
 		} else if (sm.hasAP(this.getUnlockAP())) {
 			// アンロックしていないかつアンロック条件を満たす時
 			// アンロック処理
@@ -136,9 +296,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "APを"
 					+ this.getUnlockAP() + "消費して" + this.getJPName()
 					+ ChatColor.RESET + "" + ChatColor.GREEN + "を解除しました！");
-			player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP,
-					(float) 1.2, (float) 0.6);
-			player.openInventory(om.getInventory(player, 0));
+			om.open(player, 0, false);
 		}
 	}
 

@@ -5,27 +5,23 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
-import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
-import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
-import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
-import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
+import com.github.unchama.gui.GuiMenu.ManagerType;
 
 public enum StackCategory {
-	BUILD("建築・装飾", CategoryBuildMenuManager.class, Material.BRICK),
-	ITEM("道具・農業", CategoryItemMenuManager.class, Material.CAKE),
-	REDSTONE("赤石・移動", CategoryRedstoneMenuManager.class, Material.REDSTONE_COMPARATOR),
-	MATERIAL("醸造・材料", CategoryMaterialMenuManager.class, Material.BREWING_STAND_ITEM),
-	OTHERWISE("その他", CategoryOtherwiseMenuManager.class, Material.WATER_BUCKET),
+	BUILD("建築・装飾", ManagerType.BUILDCATEGORYMENU, Material.BRICK),
+	ITEM("道具・農業", ManagerType.ITEMCATEGORYMENU, Material.CAKE),
+	REDSTONE("赤石・移動", ManagerType.REDSTONECATEGORYMENU, Material.REDSTONE_COMPARATOR),
+	MATERIAL("醸造・材料", ManagerType.MATERIALCATEGORYMENU, Material.BREWING_STAND_ITEM),
+	OTHERWISE("その他", ManagerType.OTHERWISECATEGORYMENU, Material.WATER_BUCKET),
 	;
 
 	String name;
-	Class<? extends MineStackMenuManager> managerClass;
+	ManagerType mt;
 	ItemStack menuIcon;
 
-	StackCategory(String name, Class<? extends MineStackMenuManager> managerClass, Material material){
+	StackCategory(String name, ManagerType mt, Material material){
 		this.name = ChatColor.RESET+name;
-		this.managerClass = managerClass;
+		this.mt = mt;
 		this.menuIcon = new ItemStack(material);
 		ItemMeta meta = menuIcon.getItemMeta();
 		meta.setDisplayName(this.name);
@@ -36,8 +32,8 @@ public enum StackCategory {
 		return name;
 	}
 
-	public Class<? extends MineStackMenuManager> getManagerClass(){
-		return managerClass;
+	public ManagerType getManagerType(){
+		return mt;
 	}
 
 	public ItemStack getMenuIcon(){

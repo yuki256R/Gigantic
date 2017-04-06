@@ -16,13 +16,14 @@ public enum ListenerEnum {
 	SECOND(new SecondListener()),
 	MINUTE(new MinuteListener()),
 	STATISTIC(new PlayerStatisticListener()),
-	PLAYERCLICK(new PlayerClickListener()),
+	PLAYERCLICK(new PlayerInteractListener()),
 	INVNETORYCLICK(new InventoryClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
 	GENERALBREAK(new GeneralBreakListener()),
 	BLOCKBREAK(new BlockBreakListener()),
 	MENUCLICK(new MenuClickListener()),
 	PLAYERITEMHELD(new PlayerItemHeldListener()),
+	GIGANTICINTERACT(new GiganticInteractListener()),
 	;
 	private Listener listener;
 

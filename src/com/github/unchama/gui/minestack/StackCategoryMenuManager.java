@@ -11,6 +11,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.StackCategory;
 
@@ -30,10 +31,10 @@ public class StackCategoryMenuManager extends GuiMenuManager{
 	}
 
 	@Override
-	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		StackCategory[] cat = StackCategory.values();
 		for(int i = 0 ; i < this.getInventorySize() ; i++){
-			this.openmap.put(i,cat[i].getManagerClass());
+			this.openmap.put(i,cat[i].getManagerType());
 		}
 
 	}

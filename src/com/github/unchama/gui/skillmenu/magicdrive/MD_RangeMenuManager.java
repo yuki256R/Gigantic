@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu.explosion;
+package com.github.unchama.gui.skillmenu.magicdrive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,12 +18,12 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
-public class E_RangeMenuManager extends GuiMenuManager {
+public class MD_RangeMenuManager extends GuiMenuManager {
 
 
 	@Override
@@ -41,7 +41,7 @@ public class E_RangeMenuManager extends GuiMenuManager {
 	public boolean invoke(Player player, String identifier) {
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		ExplosionManager em = gp.getManager(ExplosionManager.class);
+		MagicDriveManager em = gp.getManager(MagicDriveManager.class);
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
 		Volume v = em.getRange().getVolume();
 		Coordinate zero = em.getRange().getZeropoint();
@@ -173,7 +173,7 @@ public class E_RangeMenuManager extends GuiMenuManager {
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		ExplosionManager em = gp.getManager(ExplosionManager.class);
+		MagicDriveManager em = gp.getManager(MagicDriveManager.class);
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
 		Volume v = em.getRange().getVolume();
 		ItemMeta itemmeta = itemstack.getItemMeta();
@@ -344,7 +344,7 @@ public class E_RangeMenuManager extends GuiMenuManager {
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		ExplosionManager em = gp.getManager(ExplosionManager.class);
+		MagicDriveManager em = gp.getManager(MagicDriveManager.class);
 		Volume v = em.getRange().getVolume();
 		ItemStack itemstack = null;
 		switch (slot) {
@@ -361,7 +361,7 @@ public class E_RangeMenuManager extends GuiMenuManager {
 					v.getWidth(), (short) 10);
 			break;
 		case 4:
-			itemstack = new ItemStack(gp.getManager(ExplosionManager.class)
+			itemstack = new ItemStack(gp.getManager(MagicDriveManager.class)
 					.getMenuMaterial());
 			break;
 		case 5:
@@ -404,3 +404,4 @@ public class E_RangeMenuManager extends GuiMenuManager {
 
 	}
 }
+
