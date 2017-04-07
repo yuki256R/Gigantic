@@ -10,6 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -18,6 +19,7 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -39,8 +41,10 @@ public class GiganticPlayer{
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
 		MANA(ManaManager.class),
+		MENU(PlayerMenuManager.class),
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
+		EXPLOSION(ExplosionManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		;

@@ -7,5 +7,8 @@ package com.github.unchama.player.moduler;
  *
  */
 public interface Finalizable {
+	/**セーブ前の最終処理を行います．
+	 *
+	 */
 	public abstract void fin();
 }

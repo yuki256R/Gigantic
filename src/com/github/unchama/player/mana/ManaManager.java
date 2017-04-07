@@ -66,16 +66,17 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 		if (max == 0)
 			return;
 
-		manabar = Bukkit.getServer().createBossBar(
-				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
-						+ "/" + max + ")", BarColor.BLUE, BarStyle.SOLID);
-
 		double progress = 0;
 		if (m / max > 1.0) {
 			m = max;
 		}
 		progress = m / max;
 
+		BarColor bc = getColor(progress);
+
+		manabar = Bukkit.getServer().createBossBar(
+				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
+						+ "/" + max + ")", bc, BarStyle.SOLID);
 		manabar.setProgress(progress);
 		manabar.addPlayer(player);
 	}
@@ -84,8 +85,33 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	 * @return
 	 */
 	private void updateBar(){
-		manabar.setProgress( m / max > 1.0 ? 1.0 : m / max);
+		double progress =  m / max > 1.0 ? 1.0 : m / max;
+		manabar.setProgress(progress);
+		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
+				+ "/" + max + ")");
+		BarColor bc = getColor(progress);
+
+		manabar.setColor(bc);
+
+
+
 	}
+	private BarColor getColor(double progress) {
+		if(progress > 0.99){
+			//マックス表示
+			return BarColor.PURPLE;
+		}else if(progress > 0.1){
+			//通常表示
+			return BarColor.BLUE;
+		}else if(progress > 0.01){
+			//ピンク表示
+			return BarColor.PINK;
+		}else{
+			//赤表示
+			return BarColor.RED;
+		}
+	}
+
 	/**iだけマナを増加させます．maxを超えた場合はmaxとなります．
 	 *
 	 * @param i

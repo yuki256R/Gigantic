@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import com.github.unchama.enumdata.StackCategory;
 
 
 /*
@@ -73,7 +77,7 @@ public enum StackType {
 	DETECTOR_RAIL("ディテクターレール"),
 	PISTON_STICKY_BASE("粘着ピストン"),
 	WEB("クモの巣"),
-	LONG_DEAD_GRASS(Material.LONG_GRASS,"枯れ木"),
+	LONG_DEAD_GRASS(Material.LONG_GRASS,"枯れ木", StackCategory.DROP, 20),
 	LONG_GRASS(Material.LONG_GRASS,"草",1),
 	FERN(Material.LONG_GRASS,"シダ",2),
 	DEAD_BUSH("枯れ木"),
@@ -136,9 +140,9 @@ public enum StackType {
 	COBBLESTONE_STAIRS("丸石の階段"),
 	//WALL_SIGN("看板"),
 	LEVER("レバー"),
-	STONE_PLATE("石の感圧版"),
+	STONE_PLATE("石の感圧板"),
 	//IRON_DOOR_BLOCK("鉄のドア"),
-	WOOD_PLATE("木の感圧版"),
+	WOOD_PLATE("木の感圧板"),
 	REDSTONE_ORE("レッドストーン鉱石"),
 	REDSTONE_TORCH_ON("レッドストーントーチ"),
 	STONE_BUTTON("ボタン"),
@@ -200,7 +204,7 @@ public enum StackType {
 	ENDER_STONE("エンドストーン"),
 	DRAGON_EGG("ドラゴンの卵"),
 	REDSTONE_LAMP_OFF("レッドストーンランプ"),
-	WOOD_DOUBLE_STEP("オークの木材ハーフブロック"),
+	//WOOD_DOUBLE_STEP("オークの木材ハーフブロック"),
 	//DOUBLE_SPRUCE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"マツの木材ハーフブロック",1),
 	//DOUBLE_BIRCH_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"シラカバの木材ハーフブロック",2),
 	//DOUBLE_JUNGLE_WOOD_SLAB(Material.WOOD_DOUBLE_STEP,"ジャングルの木材ハーフブロック",3),
@@ -569,8 +573,8 @@ public enum StackType {
 	NETHER_STAR("ネザースター"),
 	PUMPKIN_PIE("パンプキンパイ"),
 	//FIREWORK("ロケット花火"),
-	FIREWORK_CHARGE("花火の星"),
-	ENCHANTED_BOOK("エンチャント本"),
+	//FIREWORK_CHARGE("花火の星"),
+	//ENCHANTED_BOOK("エンチャント本"),
 	REDSTONE_COMPARATOR("レッドストーンコンパレーター"),
 	NETHER_BRICK_ITEM("ネザーレンガ"),
 	QUARTZ("ネザー水晶"),
@@ -631,37 +635,53 @@ public enum StackType {
 	;
 
 
-
 	private final Material material;
 	private final String jpname;
-	//private final int maxStack;
+	private final int maxStackAmount;
 	private final short durability;
+	private final StackCategory category;
+	private final int level;
 
-
+	//暫定
 	private StackType(String jpname){
-		this(null,jpname);
+		this(jpname,StackCategory.MINE, 0);
 	}
-	private StackType(Material material,String jpname) {
-		this(material,jpname,0);
+	//暫定
+	private StackType(Material material, String jpname, int durability){
+		this(material,jpname,(short)durability, StackCategory.BUILD, 50);
 	}
-	private StackType(Material material,String jpname,int durability) {
-		this(material,jpname,(short)durability);
+
+	private StackType(String jpname, StackCategory category, int level){
+		this(null,jpname, category, level);
 	}
-	private StackType(Material material,String jpname,short durability){
+	private StackType(Material material,String jpname, StackCategory category, int level) {
+		this(material,jpname,0, category, level);
+	}
+	private StackType(Material material,String jpname,int durability, StackCategory category, int level) {
+		this(material,jpname,(short)durability, category, level);
+	}
+	private StackType(Material material,String jpname,short durability, StackCategory category, int level){
 		this.material = material;
 		this.jpname = jpname;
+		this.maxStackAmount = 64;
 		this.durability = durability;
+		this.category = category;
+		this.level = level;
 	}
 
 
-	public static HashMap<Material,List<ItemStack> > material_map = new HashMap<Material, List<ItemStack>>();
+	public static HashMap<Material,List<Short> > material_map = new HashMap<Material, List<Short>>();
+	public static HashMap<Material,StackType> m_s_map = new HashMap<Material,StackType>();
+	public static HashMap<Integer,StackType> i_s_map = new HashMap<Integer,StackType>();
 
 	static{
 		for(StackType st : values()){
+			i_s_map.put(st.ordinal(), st);
 			if(!material_map.containsKey(st.getMaterial())){
-				material_map.put(st.getMaterial(), new ArrayList<ItemStack>(Arrays.asList(st.getItemStack())));
+				material_map.put(st.getMaterial(),new ArrayList<Short>(Arrays.asList(st.getDurability())));
+				m_s_map.put(st.getMaterial(), st);
 			}else{
-				material_map.get(st.getMaterial()).add(st.getItemStack());
+				material_map.get(st.getMaterial()).add(new Short(st.getDurability()));
 			}
 		}
 	}
@@ -682,12 +702,33 @@ public enum StackType {
 	public String getJPname(){
 		return this.jpname;
 	}
+	/**maxStackAmountを返します．
+	 *
+	 * @return
+	 */
+	public int getMaxStackAmount(){
+		return this.maxStackAmount;
+	}
 	/**durabilityを返します．
 	 *
 	 * @return
 	 */
 	public short getDurability(){
 		return this.durability;
+	}
+	/**categoryを返します．
+	 *
+	 * @return
+	 */
+	public StackCategory getCategory(){
+		return this.category;
+	}
+	/**スタック可能になるlevelを返します．
+	 *
+	 * @return
+	 */
+	public int getLevel() {
+		return this.level;
 	}
 	/**カラムネームを返します．
 	 *
@@ -699,23 +740,30 @@ public enum StackType {
 
 	/**Stackできるかどうか判定します．
 	 *
-	 * @param m
-	 * @param b
+	 * @param itemstack
 	 * @return
 	 */
-	public static boolean canStack(Material m ,Byte b){
-		return material_map.containsKey(m);
-
-	}
-	public static List<ItemStack> getItemStack(Material m){
-		return material_map.get(m) == null ? new ArrayList<ItemStack>():material_map.get(m);
+	public static boolean canStack(ItemStack itemstack){
+		Material m = itemstack.getType();
+		short durability = itemstack.getDurability();
+		return material_map.containsKey(m) ? material_map.get(m).contains(durability) : false;
 
 	}
 
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
 		itemstack.setDurability(this.getDurability());
+		ItemMeta meta = itemstack.getItemMeta();
+		meta.setDisplayName(ChatColor.RESET + this.getJPname());
+		itemstack.setItemMeta(meta);
 		return itemstack;
+	}
+
+	public static StackType getStackType(ItemStack itemstack) {
+		Material m = itemstack.getType();
+		short durability = itemstack.getDurability();
+		int i = m_s_map.get(m).ordinal();
+		return i_s_map.get(i + durability);
 	}
 
 

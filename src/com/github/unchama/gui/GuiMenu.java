@@ -3,12 +3,33 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.minestack.StackCategoryMenuManager;
+import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
+import com.github.unchama.gui.minestack.drop.CategoryDropMenuManager;
+import com.github.unchama.gui.minestack.farm.CategoryFarmMenuManager;
+import com.github.unchama.gui.minestack.mine.CategoryMineMenuManager;
+import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.yml.moduler.YmlManager;
+import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
+import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+
 
 public final class GuiMenu {
 	public static enum ManagerType {
-		MAINMENU(MainMenuManager.class), ;
+		MAINMENU(MainMenuManager.class),
+		SKILLTYPEMENU(SkillTypeMenuManager.class),
+		EXPLOSIONMENU(ExplosionMenuManager.class),
+		E_RANGEMENU(E_RangeMenuManager.class),
+		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
+		MINECATEGORYMENU(CategoryMineMenuManager.class),
+		DROPCATEGORYMENU(CategoryDropMenuManager.class),
+		FARMCATEGORYMENU(CategoryFarmMenuManager.class),
+		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
+		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
+
+		;
+
 		// 使用するManagerClass
 		private Class<? extends GuiMenuManager> managerClass;
 
@@ -41,8 +62,8 @@ public final class GuiMenu {
 		 * @param ManagerClass
 		 * @return TableName
 		 */
-		public static String getTableNamebyClass(
-				Class<? extends YmlManager> _class) {
+		public static String getMenuNamebyClass(
+				Class<? extends GuiMenuManager> _class) {
 			for (ManagerType ye : ManagerType.values()) {
 				if (ye.getManagerClass().equals(_class)) {
 					return ye.getYmlName();
