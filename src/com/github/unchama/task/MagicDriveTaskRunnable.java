@@ -31,6 +31,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable{
 	private BossBar bar;
 	private Block next_block;
 	private int count;
+	private boolean cancelled = false;;
 	private static int maxcount = 5;
 
 
@@ -42,7 +43,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable{
 		this.count = 0;
 
 		if(skill.getPreflag()){
-			cancel();
+			cancelled = true;
 			return;
 		}
 
@@ -57,7 +58,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable{
 
 	@Override
 	public void run() {
-		if(player == null){
+		if(player == null || cancelled){
 			cancel();
 			return;
 		}
