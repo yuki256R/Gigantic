@@ -28,7 +28,16 @@ commands:
       default: op
       permission: gigantic.mineboost
       permission-message: You don't have <permission>
+<<<<<<< HEAD
   fly:
       description: This is fly command.
       usage: /<command> <finish/amount/endless>
 
+=======
+  stick:
+      description: This is stick command
+      aliases: stick
+      default: op
+      permission: gigantic.stick
+      permission-message: You don't have <permission>
+>>>>>>> unchama/master

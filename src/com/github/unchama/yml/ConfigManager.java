@@ -218,4 +218,17 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("flyexp");
 	}
 
+
+	/**プロック設置カウントの1分上限を取得します。
+	 *
+	 * @return
+	 */
+	public int getBuildNum1minLimit() { return this.fc.getInt("BuikdNum1minLimit"); }
+
+    /**整地ワールド名を取得します
+     *
+     * @return
+     */
+    public String getSeichiWorldName() { return this.fc.getString("SeichiWorldName"); }
+
 }

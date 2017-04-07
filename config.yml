@@ -56,6 +56,12 @@ seichi:
 #Fly時の1分当たりの経験値消費量
 flyexp: 50
 
+#ブロック設置カウントの1分上限
+BuildNum1minLimit: 100
+
+#ワールド名
+worldname:
+  seichiworldname: 'world_sw'
 
 
 # 色々な設定、説明は割愛

@@ -115,6 +115,27 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
+	public double getTotalBuildNum(GiganticPlayer gp){
+	    String command = "";
+	    final String struuid = gp.uuid.toString().toLowerCase();
+	    double ans = 0;
+
+	    command = "select totalbuildnum from " + db + "." + table + " where uuid = '" + struuid + "'";
+
+	    this.checkStatement();
+	    try{
+	        rs = stmt.executeQuery(command);
+	        while(rs.next()){
+	            ans = rs.getDouble("totalbuildnum");
+            }
+            rs.close();
+        }catch (SQLException e){
+	        plugin.getLogger().warning("Failed to load totalbreaknum player;" + gp.name);
+	        e.printStackTrace();
+        }
+        return ans;
+    }
+
 
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 }
