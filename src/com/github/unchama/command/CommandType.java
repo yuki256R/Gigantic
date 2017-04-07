@@ -6,11 +6,7 @@ public enum CommandType {
 	GACHA(new gachaCommand()),
 	DEBUG(new debugCommand()),
 	MINEBOOST(new mineboostCommand()),
-<<<<<<< HEAD
-	FLY(new flyCommand())
-=======
 	STICK(new stickCommand()),
->>>>>>> unchama/master
 	;
 
 
