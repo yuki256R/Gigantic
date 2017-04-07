@@ -7,7 +7,6 @@ import java.util.Set;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,6 +26,7 @@ import com.github.unchama.gui.moduler.KeyItem;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.task.MagicDriveTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -39,11 +39,12 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
  *
  */
 public class GiganticInteractListener implements Listener {
+	Gigantic plugin = Gigantic.plugin;
 	GuiMenu guimenu = Gigantic.guimenu;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Zenchantments Ze;
 
-	private static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
+	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
 			Material.AIR, Material.WATER, Material.LAVA,
 			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
 
@@ -204,17 +205,8 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 
-		// クールダウン中なら終了
-		if (skill.isCoolDown()) {
-			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
-					(float) 0.5, 1);
-			return;
-		}
-		debug.sendMessage(player, DebugEnum.SKILL, "MagicDrive発動可能");
+		event.setCancelled(true);
 
-		// スキル処理が正常に動作した時イベントをキャンセル
-		if (skill.run(player, tool, block)) {
-			event.setCancelled(true);
-		}
+		new MagicDriveTaskRunnable(player,skill, tool, block).runTaskTimer(plugin, 0, 1);
 	}
 }

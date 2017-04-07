@@ -58,6 +58,7 @@ public class SideBarManager extends DataManager implements Initializable,
 		updateInfo(Information.BUILDING_LEVEL, 99);
 		updateInfo(Information.SEPARATOR1, "");
 		updateInfo(Information.EX_COOLTIME, "%DELETE%");
+		updateInfo(Information.MD_COOLTIME, "%DELETE%");
 
 		// 更新をサイドバーに反映
 		refresh();
@@ -99,7 +100,7 @@ public class SideBarManager extends DataManager implements Initializable,
 				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
 				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
 				+ "Explosion:", 9),MD_COOLTIME(ChatColor.BLUE
-						+ "Explosion:", 9),
+						+ "MagicDrive:", 8),
 
 		;
 

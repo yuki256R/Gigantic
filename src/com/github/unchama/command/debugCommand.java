@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
@@ -64,10 +65,12 @@ public class debugCommand implements TabExecutor {
 
 				Player player = (Player) sender;
 
+
+
 				GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 
-				if(gp == null){
-					sender.sendMessage("あなたのデータを見つけることができませんでした．");
+				if(!gp.getStatus().equals(GiganticStatus.AVAILABLE)){
+					sender.sendMessage("プレイヤーデータがロードされていません．しばらくお待ちください．");
 					return true;
 				}
 

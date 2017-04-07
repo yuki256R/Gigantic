@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.listener.GeneralBreakListener;
@@ -627,6 +629,10 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			debug.warning(DebugEnum.SKILL, "Location："
 					+ block.getLocation().toString());
 		}
+	}
+	public void playCoolTimeFinishSound() {
+		Player player = PlayerManager.getPlayer(gp);
+		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 2.0F);
 	}
 
 }

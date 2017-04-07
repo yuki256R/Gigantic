@@ -14,9 +14,12 @@ public class MagicDriveManager extends SkillManager{
 
 	MagicDriveTableManager tm;
 
+	boolean preflag;
+
 	public MagicDriveManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(MagicDriveTableManager.class);
+		preflag = false;
 	}
 
 	@Override
@@ -88,7 +91,47 @@ public class MagicDriveManager extends SkillManager{
 
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
-		return true;
+		int playerlocy = player.getLocation().getBlockY() - 1;
+		int blocky = block.getY();
+		int rblocy = rb.getY();
+		int zeroy = this.getRange().getZeropoint().getY();
+		int voly = this.getRange().getVolume().getHeight() - 1;
+
+		// プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
+		if (playerlocy >= blocky) {
+			return true;
+			// 破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
+		} else if (voly <= 1) {
+			if (playerlocy < rblocy) {
+				return true;
+			} else {
+				return false;
+			}
+			// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
+		} else if (zeroy == voly) {
+			return true;
+			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
+		} else if (playerlocy < rblocy) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * preflagを取得します。
+	 * @return preflag
+	 */
+	public boolean getPreflag() {
+	    return preflag;
+	}
+
+	/**
+	 * preflagを設定します。
+	 * @param preflag preflag
+	 */
+	public void setPreflag(boolean preflag) {
+	    this.preflag = preflag;
 	}
 
 }

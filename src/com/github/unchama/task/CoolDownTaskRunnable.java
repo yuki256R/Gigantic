@@ -80,6 +80,7 @@ public class CoolDownTaskRunnable extends BukkitRunnable{
 				}
 				if(cooltime < 0){
 					m.setCoolDown(false);
+					m.playCoolTimeFinishSound();
 					cancel();
 					return;
 				}
@@ -100,41 +101,5 @@ public class CoolDownTaskRunnable extends BukkitRunnable{
 		}
 		return cs;
 	}
-	/*
-	public void runtestCoolDownTask(int num) {
-		cooltime = this.getCooldown(num);
-		//5tick未満だった場合クールダウン無し
-		if (cooltime > 5) {
-			cooldown = true;
-			int interval = cooltime/10;
-			//11個分の■を表示
-			coolstring = 11;
-			//指定されたクールタイム経過後クールダウンを解除
-			Bukkit.getScheduler().runTaskTimerAsynchronously(plugin,
-					new Runnable() {
-						@Override
-						public void run() {
-							Bukkit.getScheduler().runTask(plugin,
-									new Runnable() {
-										@Override
-										public void run() {
-											Sm.updateInfo(Information.EX_COOLTIME,getCoolString(coolstring));
-											coolstring--;
-											if(coolstring < 1)this.cancel();
-										}
-									});
-						}
-					}, 0, interval);
-
-		}
-	}
-	private String getCoolString(
-			int coolstring) {
-		String cs = "";
-		for(int i = 0 ; i < coolstring ; i++){
-			cs += "■";
-		}
-		return cs;
-	}*/
 
 }

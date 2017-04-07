@@ -400,7 +400,5 @@ public class E_RangeMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 }
