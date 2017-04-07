@@ -23,6 +23,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
@@ -144,7 +145,13 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
         //カテゴリ選択ボタン
         else if (slot > 46 && slot < 52){
-            player.openInventory(Gigantic.guimenu.getManager(StackCategory.values()[slot - 47].getManagerType().getManagerClass()).getInventory(player, slot));
+        	GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+        	PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
+        	ManagerType mt = StackCategory.values()[slot - 47].getManagerType();
+        	GuiMenuManager m = (GuiMenuManager)Gigantic.guimenu.getManager(mt.getManagerClass());
+        	pm.pop();
+        	pm.push(mt);
+            player.openInventory(m.getInventory(player, slot));
             player.playSound(player.getLocation(), this.getSoundName(), this.getVolume(), this.getPitch());
         }
         //とりだしボタン

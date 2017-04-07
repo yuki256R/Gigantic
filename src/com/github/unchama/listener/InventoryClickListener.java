@@ -69,6 +69,12 @@ public class InventoryClickListener implements Listener {
 
 		//現在開いているメニューを取得します．
 		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(pm.get().getManagerClass());
+
+		//別のメニューを開いていれば終了
+		if(!topinventory.getName().contains(m.getInventoryName(player))){
+			return;
+		}
+
 		debug.sendMessage(player, DebugEnum.GUI,
 				m.getInventoryName(player) + ChatColor.RESET
 						+ "内でクリックを検知");

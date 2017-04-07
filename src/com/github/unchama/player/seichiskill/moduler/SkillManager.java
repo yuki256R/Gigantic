@@ -67,6 +67,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		this.cooldown = false;
 
 	}
+
 	/**
 	 * 自分より下のブロックを破壊できるか判定する．
 	 *
@@ -75,7 +76,9 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @param rb
 	 * @return
 	 */
-	protected abstract boolean canBelowBreak(Player player, Block block, Block rb);
+	protected abstract boolean canBelowBreak(Player player, Block block,
+			Block rb);
+
 	/**
 	 * @return range
 	 */
@@ -96,6 +99,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		this.Mm = gp.getManager(ManaManager.class);
 		this.Sm = gp.getManager(SideBarManager.class);
 	}
+
 	/**
 	 * クールダウン中の時Trueを返します
 	 *
@@ -104,13 +108,16 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	public boolean isCoolDown() {
 		return this.cooldown;
 	}
-	/**クールダウンフラグを設定します
+
+	/**
+	 * クールダウンフラグを設定します
 	 *
 	 * @param flag
 	 */
-	public void setCoolDown(boolean flag){
+	public void setCoolDown(boolean flag) {
 		this.cooldown = flag;
 	}
+
 	/**
 	 * 与えられたツールでスキルを発動します．
 	 *
@@ -145,16 +152,21 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 							switch (m) {
 							case STATIONARY_LAVA:
 								lavalist.add(rb);
+								break;
 							default:
 								breaklist.add(rb);
+								break;
 							}
 						}
 					}
 				}
 			});
 
-		// 最初のブロックのみコアプロテクトに保存する．
-		SkillManager.logRemoval(player, block);
+		if(breaklist.isEmpty()){
+			player.sendMessage(this.getJPName() + ChatColor.RED
+					+ ":発動できるブロックがありません．自分より下のブロックはしゃがみながら破壊できます．");
+			return false;
+		}
 
 
 		// ツールの耐久を確認
@@ -230,6 +242,9 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			}
 		});
 
+		// 最初のブロックのみコアプロテクトに保存する．
+		SkillManager.logRemoval(player, block);
+
 		// breakの処理
 		lavalist.forEach(b -> {
 			b.setType(Material.AIR);
@@ -237,9 +252,10 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		breaklist.forEach(b -> {
 			if (SkillManager.canBreak(b.getType())) {
 				// 通常エフェクトの表示
-				/*if (!b.equals(block))
-					w.playEffect(b.getLocation(), Effect.STEP_SOUND,
-							b.getType());*/
+				/*
+				 * if (!b.equals(block)) w.playEffect(b.getLocation(),
+				 * Effect.STEP_SOUND, b.getType());
+				 */
 				// ブロックを削除
 				b.setType(Material.AIR);
 			}
@@ -274,6 +290,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 					.runTaskTimerAsynchronously(plugin, 0, 1);
 		return true;
 	}
+
 	/**
 	 * Typemenuをクリックした時の処理を記述します
 	 *
@@ -359,21 +376,22 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		ItemStack is = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName("" + ChatColor.WHITE + ChatColor.MAGIC + "???"
-				+ this.getJPName() + ChatColor.WHITE
-				+ ChatColor.MAGIC + "???");
+				+ this.getJPName() + ChatColor.WHITE + ChatColor.MAGIC + "???");
 		im.setLore(getSkillBookLore());
 		is.setItemMeta(im);
-		if(player.getInventory().firstEmpty() == -1){
-        	player.sendMessage(ChatColor.RED + "インベントリを空けてください．");
-		}else{
+		if (player.getInventory().firstEmpty() == -1) {
+			player.sendMessage(ChatColor.RED + "インベントリを空けてください．");
+		} else {
 			player.getInventory().addItem(is);
 		}
 	}
-	/**スキルブックの説明文を取得します
+
+	/**
+	 * スキルブックの説明文を取得します
 	 *
 	 * @return
 	 */
-	public List<String> getSkillBookLore(){
+	public List<String> getSkillBookLore() {
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.DARK_GRAY + "トグル（オンオフ）を切り替えます．");
 		lore.add(ChatColor.DARK_GRAY + "-----------使用方法------------");
@@ -437,8 +455,6 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	public boolean getToggle() {
 		return this.toggle;
 	}
-
-
 
 	/**
 	 * このスキルの日本語名を取得します．
@@ -630,9 +646,11 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 					+ block.getLocation().toString());
 		}
 	}
+
 	public void playCoolTimeFinishSound() {
 		Player player = PlayerManager.getPlayer(gp);
-		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 0.5F, 2.0F);
+		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP,
+				0.5F, 2.0F);
 	}
 
 }

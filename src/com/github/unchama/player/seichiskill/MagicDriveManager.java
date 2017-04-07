@@ -92,10 +92,17 @@ public class MagicDriveManager extends SkillManager{
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
 		int playerlocy = player.getLocation().getBlockY() - 1;
-		int blocky = block.getY();
+		//int blocky = block.getY();
 		int rblocy = rb.getY();
-		int zeroy = this.getRange().getZeropoint().getY();
-		int voly = this.getRange().getVolume().getHeight() - 1;
+		//int zeroy = this.getRange().getZeropoint().getY();
+		//int voly = this.getRange().getVolume().getHeight() - 1;
+
+		if (playerlocy < rblocy || player.isSneaking()) {
+			return true;
+		} else {
+			return false;
+		}
+		/*
 
 		// プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
 		if (playerlocy >= blocky) {
@@ -116,6 +123,7 @@ public class MagicDriveManager extends SkillManager{
 		} else {
 			return false;
 		}
+		*/
 	}
 
 	/**
