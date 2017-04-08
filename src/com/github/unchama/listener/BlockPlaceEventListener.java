@@ -23,7 +23,7 @@ public class BlockPlaceEventListener implements Listener {
         Player player = event.getPlayer();
         //カウント対象かどうか
         if(BuildData.isBlockCount(player) == false){
-            player.sendMessage("このワールドでは建築量は増えません");//TODO:Debug用
+            player.sendMessage(ChatColor.RED + "このワールドでは建築量は増えません");//TODO:Debug用
             return;
         }
 
@@ -36,5 +36,6 @@ public class BlockPlaceEventListener implements Listener {
         }
 
         gp.getManager(BuildManager.class).addBuild_Num_1min(1);
+        player.sendMessage(ChatColor.GREEN + "[DEBUG]build_num_1minが1増加");//TODO:Debug用s
     }
 }

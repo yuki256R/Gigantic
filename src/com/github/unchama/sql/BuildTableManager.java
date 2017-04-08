@@ -37,7 +37,7 @@ public class BuildTableManager extends PlayerFromSeichiTableManager{
     @Override
     protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
         BuildManager m = gp.getManager(BuildManager.class);
-        m.setTotalbuildnum(tm.getTotalBuildNum());
+        m.setTotalbuildnum(tm.getTotalBuildNum(gp));
     }
 
     @Override

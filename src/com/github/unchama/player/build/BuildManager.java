@@ -1,21 +1,18 @@
 package com.github.unchama.player.build;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.BuildTableManager;
 import com.github.unchama.yml.ConfigManager;
-import org.bukkit.entity.Player;
+
 
 public class BuildManager extends DataManager implements Finalizable,UsingSql{
     //トータル設置ブロック数
     private double totalbuildnum;
     private int build_num_1min;
-
-    private int buildlevel;
 
     BuildTableManager tm = sql.getManager(BuildTableManager.class);
     ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
@@ -24,12 +21,9 @@ public class BuildManager extends DataManager implements Finalizable,UsingSql{
         super(gp);
     }
 
-    @Override
     public void init() {
-        Player player = PlayerManager.getPlayer(gp);
         this.totalbuildnum = 0;
         this.build_num_1min = 0;
-        this.buildlevel = 0;
     }
 
     @Override
@@ -42,15 +36,15 @@ public class BuildManager extends DataManager implements Finalizable,UsingSql{
 
     }
 
-    /**総建築量に追加
+    /**総建築量に追加処理(1分ごとに呼び出すこと)
      * ただしconfigから取得した1分間の最大増加量を超えた場合最大増加量以上は増やさない
      * 実行時点で1minはリセットされる
      *
      * @param buildnum
      */
-    public void addBuildNum(int buildnum){
+    public void calcBuildNum(){
         if(getBuild_num_1min() <= config.getBuildNum1minLimit()){
-            this.totalbuildnum += buildnum;
+            this.totalbuildnum += this.build_num_1min;
         }else{
             this.totalbuildnum = config.getBuildNum1minLimit();
         }
@@ -83,7 +77,7 @@ public class BuildManager extends DataManager implements Finalizable,UsingSql{
 
     /**総建築量を設定
      *
-     *
+     *@param totalbuildnum
      */
     public void setTotalbuildnum(double totalbuildnum){
         this.totalbuildnum = totalbuildnum;

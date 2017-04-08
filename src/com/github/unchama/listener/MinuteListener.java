@@ -3,6 +3,7 @@ package com.github.unchama.listener;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.unchama.task.BuildNumTaskRunnable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -66,6 +67,7 @@ public class MinuteListener implements Listener {
 	}
 	/**
 	 * Fly
+     *
 	 * @param
 	 */
 	@EventHandler
@@ -78,4 +80,19 @@ public class MinuteListener implements Listener {
 		//1tickにつき1人に処理
 		new FlyTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
 	}
+    /**
+     * 建築量
+     *
+     * @param
+     */
+    @EventHandler
+    public void BuildNumListener(MinuteEvent event){
+        List<Player> playerlist = new ArrayList<>(plugin.getServer().getOnlinePlayers());
+
+        if(playerlist.isEmpty()){
+            return;
+        }
+        //1tickにつき1人に処理
+        new BuildNumTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
+    }
 }
