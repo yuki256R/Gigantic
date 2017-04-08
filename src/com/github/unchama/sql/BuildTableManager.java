@@ -30,7 +30,7 @@ public class BuildTableManager extends PlayerFromSeichiTableManager{
     protected String saveCommand(GiganticPlayer gp) {
         BuildManager m = gp.getManager(BuildManager.class);
         String command = "";
-        command += "mana = '" + m.getTotalbuildnum() + "',";
+        command += "totalbuildnum = '" + m.getTotalbuildnum() + "',";
         return command;
     }
 
