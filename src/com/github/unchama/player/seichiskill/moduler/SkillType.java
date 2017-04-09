@@ -3,8 +3,10 @@ package com.github.unchama.player.seichiskill.moduler;
 import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.moduler.SkillMenuManager;
+import com.github.unchama.gui.skillmenu.condensation.CondensationMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
@@ -13,6 +15,7 @@ public enum SkillType {
 	EXPLOSION(ExplosionManager.class, ExplosionMenuManager.class,
 			Information.EX_COOLTIME), MAGICDRIVE(MagicDriveManager.class,
 			MagicDriveMenuManager.class, Information.MD_COOLTIME),
+			CONDENSATION(CondensationManager.class,CondensationMenuManager.class,Information.C_COOLTIME)
 	/*
 	 * CONDENSATION(Condensation.class,CondensationMenuManager.class),
 	 * RUINFIELD(RuinField.class,RuinFieldMenuManager.class),

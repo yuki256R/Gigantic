@@ -17,6 +17,7 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
@@ -33,6 +34,7 @@ public class Sql {
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
+		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;

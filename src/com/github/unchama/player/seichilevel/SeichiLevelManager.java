@@ -11,10 +11,8 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
-import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.SkillType;
-import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.yml.ConfigManager;
 
 public class SeichiLevelManager extends DataManager implements Initializable {
@@ -63,14 +61,8 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 		for(SkillType st : SkillType.values()){
 			SkillManager s = (SkillManager)gp.getManager(st.getSkillClass());
 			if(s.isunlocked()){
-				useap += s.getUnlockAP();
+				useap += s.getUnlockAP() + s.getUsedAp();
 			}
-		}
-		ExplosionManager em = gp.getManager(ExplosionManager.class);
-
-		if(em.isunlocked()){
-			Volume v = em.getRange().getVolume();
-			useap += em.getSpendAP(v.getVolume() - 1 );
 		}
 
 		long dif = sumap - useap;

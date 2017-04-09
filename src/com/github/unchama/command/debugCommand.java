@@ -110,6 +110,15 @@ public class debugCommand implements TabExecutor {
                 }
             }
             return commands;
+        }else if( args.length == 3 && args[1].equalsIgnoreCase("seichilevel")){
+        	String prefix = "";
+        	ArrayList<String> commands = new ArrayList<String>();
+            for ( String c : new String[]{"10","50","100","150","200","250","300"} ) {
+                if ( c.startsWith(prefix) ) {
+                    commands.add(c);
+                }
+            }
+            return commands;
         }
         return null;
 	}

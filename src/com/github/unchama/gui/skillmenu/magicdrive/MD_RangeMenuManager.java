@@ -8,23 +8,22 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.RangeMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
-public class MD_RangeMenuManager extends GuiMenuManager {
-
+public class MD_RangeMenuManager extends RangeMenuManager {
+	private static Class<? extends SkillManager> clazz = MagicDriveManager.class;
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> id_map) {
@@ -41,30 +40,31 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 	public boolean invoke(Player player, String identifier) {
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		MagicDriveManager em = gp.getManager(MagicDriveManager.class);
+		SkillManager m = gp.getManager(clazz);
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
-		Volume v = em.getRange().getVolume();
-		Coordinate zero = em.getRange().getZeropoint();
+		Volume v = m.getRange().getVolume();
+		Volume dv = m.getDefaultVolume();
+		Coordinate zero = m.getRange().getZeropoint();
 		long spendap = 0;
 		if (identifier.startsWith("inc")) {
 			identifier = identifier.replace("inc_", "");
 			boolean incflag = false;
 			switch (identifier) {
 			case "height":
-				spendap = em.getSpendAP(v.getDepth() * v.getWidth());
-				if (v.getHeight() < em.getMaxHeight()
+				spendap = m.getSpendAP(v.getDepth() * v.getWidth());
+				if (v.getHeight() < m.getMaxHeight()
 						&& sm.hasAP(spendap)
-						&& em.getMaxBreakNum() >= (v.getDepth() * v.getWidth() + v
+						&& m.getMaxBreakNum() >= (v.getDepth() * v.getWidth() + v
 								.getVolume())) {
 					v.incHeight();
 					incflag = true;
 				}
 				break;
 			case "width":
-				spendap = em.getSpendAP(v.getDepth() * v.getHeight() * 2);
-				if (v.getWidth() < em.getMaxWidth()
+				spendap = m.getSpendAP(v.getDepth() * v.getHeight() * 2);
+				if (v.getWidth() < m.getMaxWidth()
 						&& sm.hasAP(spendap)
-						&& em.getMaxBreakNum() >= (v.getDepth() * v.getHeight()
+						&& m.getMaxBreakNum() >= (v.getDepth() * v.getHeight()
 								* 2 + v.getVolume())) {
 					v.incWidth();
 					v.incWidth();
@@ -73,10 +73,10 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 				}
 				break;
 			case "depth":
-				spendap = em.getSpendAP(v.getHeight() * v.getWidth());
-				if (v.getDepth() < em.getMaxDepth()
+				spendap = m.getSpendAP(v.getHeight() * v.getWidth());
+				if (v.getDepth() < m.getMaxDepth()
 						&& sm.hasAP(spendap)
-						&& em.getMaxBreakNum() >= (v.getHeight() * v.getWidth() + v
+						&& m.getMaxBreakNum() >= (v.getHeight() * v.getWidth() + v
 								.getVolume())) {
 					v.incDepth();
 					incflag = true;
@@ -84,7 +84,7 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 				break;
 			}
 			if (incflag) {
-				em.getRange().refresh();
+				m.getRange().refresh();
 				player.playSound(player.getLocation(),
 						Sound.BLOCK_DISPENSER_DISPENSE, (float) 0.7, (float) 4);
 				player.openInventory(this.getInventory(player, 0));
@@ -98,13 +98,13 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			boolean decflag = false;
 			switch (identifier) {
 			case "height":
-				if (v.getHeight() > 1) {
+				if (v.getHeight() > dv.getHeight()) {
 					v.decHeight();
 					decflag = true;
 				}
 				break;
 			case "width":
-				if (v.getWidth() > 1) {
+				if (v.getWidth() > dv.getWidth()) {
 					v.decWidth();
 					v.decWidth();
 					zero.add(-1, 0, 0);
@@ -112,14 +112,14 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 				}
 				break;
 			case "depth":
-				if (v.getDepth() > 1) {
+				if (v.getDepth() > dv.getDepth()) {
 					v.decDepth();
 					decflag = true;
 				}
 				break;
 			}
 			if (decflag) {
-				em.getRange().refresh();
+				m.getRange().refresh();
 				player.playSound(player.getLocation(),
 						Sound.BLOCK_DISPENSER_DISPENSE, (float) 0.7, (float) 4);
 				player.openInventory(this.getInventory(player, 0));
@@ -129,12 +129,13 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			}
 			return true;
 		} else if (identifier.equals("reset")) {
-			v.setDepth(1);
-			v.setWidth(1);
-			v.setHeight(1);
+			v.setDepth(dv.getDepth());
+			v.setWidth(dv.getWidth());
+			v.setHeight(dv.getHeight());
 			zero.setY(0);
 			zero.setX(0);
-			em.getRange().refresh();
+			zero.setZ(0);
+			m.getRange().refresh();
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
 					(float) 0.7, (float) 4);
 			player.openInventory(this.getInventory(player, 0));
@@ -144,57 +145,32 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	protected void setKeyItem() {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
-
-	@Override
-	public String getClickType() {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
-	}
-
-	@Override
-	public int getInventorySize() {
-		return 9;
-	}
-
-	@Override
-	public String getInventoryName(Player player) {
-		return ChatColor.LIGHT_PURPLE + "範囲設定";
-	}
-
-	@Override
-	protected InventoryType getInventoryType() {
-		return InventoryType.DISPENSER;
-	}
-
-	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		MagicDriveManager em = gp.getManager(MagicDriveManager.class);
+		SkillManager m = gp.getManager(clazz);
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
-		Volume v = em.getRange().getVolume();
+		Volume v = m.getRange().getVolume();
+		Volume dv = m.getDefaultVolume();
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore;
 		long spendap = 0;
 		switch (slot) {
 		case 1:
-			spendap = em.getSpendAP(v.getDepth() * v.getWidth());
+			spendap = m.getSpendAP(v.getDepth() * v.getWidth());
 			itemmeta.setDisplayName(ChatColor.GREEN + "高さを1上げる");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "消費するAP:"
-					+ spendap);
 			if (!sm.hasAP(spendap)) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED + "APが足りません");
-			} else if (v.getHeight() == em.getMaxHeight()) {
+			} else if (v.getHeight() == m.getMaxHeight()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上高さを上げることはできません．");
-			} else if (em.getMaxBreakNum() < (v.getDepth() * v.getWidth() + v
+			} else if (m.getMaxBreakNum() < (v.getDepth() * v.getWidth() + v
 					.getVolume())) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "最大破壊ブロック数を超えています．");
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+						+ "消費するAP:" + spendap);
 			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
@@ -208,20 +184,21 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case 2:
-			spendap = em.getSpendAP(v.getHeight() * v.getWidth());
+			spendap = m.getSpendAP(v.getHeight() * v.getWidth());
 			itemmeta.setDisplayName(ChatColor.GREEN + "奥行を1伸ばす");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "消費するAP:"
-					+ spendap);
 			if (!sm.hasAP(spendap)) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED + "APが足りません");
-			} else if (v.getDepth() == em.getMaxDepth()) {
+			} else if (v.getDepth() == m.getMaxDepth()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上奥行を伸ばすことはできません．");
-			} else if (em.getMaxBreakNum() < (v.getHeight() * v.getWidth() + v
+			} else if (m.getMaxBreakNum() < (v.getHeight() * v.getWidth() + v
 					.getVolume())) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "最大破壊ブロック数を超えています．");
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+						+ "消費するAP:" + spendap);
 			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
@@ -235,11 +212,17 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case 3:
-			spendap = em.getSpendAP(v.getHeight() * v.getDepth() * 2);
+			spendap = m.getSpendAP(v.getHeight() * v.getDepth() * 2);
 			itemmeta.setDisplayName(ChatColor.GREEN + "幅を左右１ずつ狭くする");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
-					+ spendap);
+			if (v.getWidth() == dv.getWidth()) {
+				lore.add("" + ChatColor.RESET + ChatColor.RED
+						+ "これ以上幅を狭くすることはできません．");
+			}else{
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
+						+ spendap);
+			}
+
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "残りAP："
@@ -264,26 +247,27 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総破壊ブロック数:"
 					+ v.getVolume());
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "最大消費マナ:"
-					+ em.getMana(v.getVolume()));
+					+ (int) m.getMana(v.getVolume()));
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "最大クールタイム:"
-					+ Converter.toTimeString(em.getCoolTime(v.getVolume())));
+					+ Converter.toTimeString(m.getCoolTime(v.getVolume())));
 			itemmeta.setLore(lore);
 			break;
 		case 5:
-			spendap = em.getSpendAP(v.getHeight() * v.getDepth() * 2);
+			spendap = m.getSpendAP(v.getHeight() * v.getDepth() * 2);
 			itemmeta.setDisplayName(ChatColor.GREEN + "幅を左右１ずつ広げる");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "消費するAP:"
-					+ spendap);
 			if (!sm.hasAP(spendap)) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED + "APが足りません");
-			} else if (v.getWidth() == em.getMaxWidth()) {
+			} else if (v.getWidth() == m.getMaxWidth()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上幅を広げることはできません．");
-			} else if (em.getMaxBreakNum() < (v.getDepth() * v.getHeight()
-					* 2 + v.getVolume())) {
+			} else if (m.getMaxBreakNum() < (v.getDepth() * v.getHeight() * 2 + v
+					.getVolume())) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "最大破壊ブロック数を超えています．");
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+						+ "消費するAP:" + spendap);
 			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
@@ -297,11 +281,16 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case 6:
-			spendap = em.getSpendAP(v.getHeight() * v.getWidth());
+			spendap = m.getSpendAP(v.getHeight() * v.getWidth());
 			itemmeta.setDisplayName(ChatColor.GREEN + "奥行を1縮める");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
-					+ spendap);
+			if (v.getDepth() == dv.getDepth()) {
+				lore.add("" + ChatColor.RESET + ChatColor.RED
+						+ "これ以上奥行を縮めることはできません．");
+			}else{
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
+						+ spendap);
+			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "残りAP："
@@ -313,11 +302,16 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case 7:
-			spendap = em.getSpendAP(v.getDepth() * v.getWidth());
+			spendap = m.getSpendAP(v.getDepth() * v.getWidth());
 			itemmeta.setDisplayName(ChatColor.GREEN + "高さを１下げる");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
-					+ spendap);
+			if (v.getHeight() == dv.getHeight()) {
+				lore.add("" + ChatColor.RESET + ChatColor.RED
+						+ "これ以上高さを下げることはできません．");
+			}else{
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
+						+ spendap);
+			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "残りAP："
@@ -329,7 +323,7 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case 8:
-			spendap = em.getSpendAP(v.getVolume() - 1);
+			spendap = m.getSpendAP(v.getVolume() - dv.getVolume());
 			itemmeta.setDisplayName(ChatColor.RED + "全て1に設定する（初期化）");
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
@@ -344,8 +338,8 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		MagicDriveManager em = gp.getManager(MagicDriveManager.class);
-		Volume v = em.getRange().getVolume();
+		SkillManager m = gp.getManager(clazz);
+		Volume v = m.getRange().getVolume();
 		ItemStack itemstack = null;
 		switch (slot) {
 		case 1:
@@ -361,8 +355,7 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 					v.getWidth(), (short) 10);
 			break;
 		case 4:
-			itemstack = new ItemStack(gp.getManager(MagicDriveManager.class)
-					.getMenuMaterial());
+			itemstack = new ItemStack(m.getMenuMaterial());
 			break;
 		case 5:
 			itemstack = new ItemStack(Material.STAINED_GLASS_PANE,
@@ -381,24 +374,5 @@ public class MD_RangeMenuManager extends GuiMenuManager {
 			break;
 		}
 		return itemstack;
-	}
-
-	@Override
-	public Sound getSoundName() {
-		return Sound.BLOCK_ANVIL_PLACE;
-	}
-
-	@Override
-	public float getVolume() {
-		return (float) 0.8;
-	}
-
-	@Override
-	public float getPitch() {
-		return (float) 0.6;
-	}
-
-	@Override
-	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 	}
 }

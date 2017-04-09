@@ -21,27 +21,29 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
 public class ExplosionMenuManager extends SkillMenuManager {
+	private static Class<? extends SkillManager> clazz = ExplosionManager.class;
 
 	@Override
 	public String getInventoryName(Player player) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		return gp.getManager(ExplosionManager.class).getJPName();
+		return gp.getManager(clazz).getJPName();
 	}
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		ExplosionManager em = gp.getManager(ExplosionManager.class);
+		SkillManager m = gp.getManager(clazz);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
 		if (mt == null)
 			return null;
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore = new ArrayList<String>();
-		Volume v = em.getRange().getVolume();
+		Volume v = m.getRange().getVolume();
 		switch (mt) {
 		case INFO:
 			itemmeta.setDisplayName("" + ChatColor.GREEN + ChatColor.BOLD
@@ -51,7 +53,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 					+ "特定のブロックを破壊時に");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "周囲のブロックを同時に破壊します．");
-			if (em.getToggle()) {
+			if (m.getToggle()) {
 				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
 						+ ChatColor.GREEN + "ON");
 			} else {
@@ -61,10 +63,10 @@ public class ExplosionMenuManager extends SkillMenuManager {
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
 					+ "現在の最大破壊ブロック数:" + v.getVolume());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
-					+ (int) em.getMana(v.getVolume()));
+					+ (int) m.getMana(v.getVolume()));
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
 					+ "現在の最大クールタイム:"
-					+ Converter.toTimeString(em.getCoolTime(v.getVolume())));
+					+ Converter.toTimeString(m.getCoolTime(v.getVolume())));
 			lore.add("" + ChatColor.RESET + ChatColor.GREEN
 					+ "クリックするとオンオフを切り替えます．");
 
@@ -92,7 +94,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 			itemmeta.setDisplayName(ChatColor.LIGHT_PURPLE + "起点設定");
 			SkullMeta skullmeta = (SkullMeta) itemmeta;
 			skullmeta.setOwner(player.getName());
-			int y = em.getRange().getZeropoint().getY();
+			int y = m.getRange().getZeropoint().getY();
 			int cy;
 			lore = new ArrayList<String>();
 			if (y == 0) {
@@ -115,7 +117,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 						+ "破壊する起点となる高さを");
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 						+ "- 一番下(0)");
-				if(v.getHeight() > 2){
+				if (v.getHeight() > 2) {
 					lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 							+ "- 通常(1)");
 				}
@@ -154,7 +156,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "スキルレベル :"
 					+ 1);
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "最大破壊ブロック数:"
-					+ em.getMaxBreakNum());
+					+ m.getMaxBreakNum());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "未実装");
 			itemmeta.setLore(lore);
 			break;
@@ -172,8 +174,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 		ItemStack itemstack = null;
 		switch (mt) {
 		case INFO:
-			itemstack = new ItemStack(gp.getManager(ExplosionManager.class)
-					.getMenuMaterial());
+			itemstack = new ItemStack(gp.getManager(clazz).getMenuMaterial());
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
@@ -192,8 +193,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 	}
 
 	@Override
-	protected void setOpenMenuMap(
-			HashMap<Integer, ManagerType> openmap) {
+	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(MenuType.RANGE.getSlot(), ManagerType.E_RANGEMENU);
 
 	}
@@ -209,22 +209,21 @@ public class ExplosionMenuManager extends SkillMenuManager {
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
-		ExplosionManager em = gp.getManager(ExplosionManager.class);
+		SkillManager m = gp.getManager(clazz);
 		switch (identifier) {
 		case "toggle":
-			if (sm.getLevel() < gp.getManager(ExplosionManager.class)
-					.getUnlockLevel()) {
+			if (sm.getLevel() < m.getUnlockLevel()) {
 				player.sendMessage("解放できるレベルに達していません");
 				return true;
 			}
-			em.toggle();
+			m.toggle();
 			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
 					(float) 0.7, (float) 2.2);
 			player.openInventory(this.getInventory(player, 0));
 			return true;
 		case "chenge_y":
-			Volume v = em.getRange().getVolume();
-			Coordinate zero = em.getRange().getZeropoint();
+			Volume v = m.getRange().getVolume();
+			Coordinate zero = m.getRange().getZeropoint();
 			int y = zero.getY();
 			int cy;
 			if (y == 0) {
@@ -243,11 +242,11 @@ public class ExplosionMenuManager extends SkillMenuManager {
 				cy = 0;
 			}
 			zero.setY(cy);
-			em.getRange().refresh();
+			m.getRange().refresh();
 			player.openInventory(this.getInventory(player, 0));
 			return true;
 		case "give":
-			em.giveSkillBook(player);
+			m.giveSkillBook(player);
 			return true;
 		}
 		return false;

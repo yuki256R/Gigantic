@@ -11,6 +11,9 @@ import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
+import com.github.unchama.gui.skillmenu.condensation.C_OriginMenuManager;
+import com.github.unchama.gui.skillmenu.condensation.C_RangeMenuManager;
+import com.github.unchama.gui.skillmenu.condensation.CondensationMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MD_RangeMenuManager;
@@ -25,6 +28,9 @@ public final class GuiMenu {
 		E_RANGEMENU(E_RangeMenuManager.class),
 		MD_RANGEMENU(MD_RangeMenuManager.class),
 		MAGICDRIVEMENU(MagicDriveMenuManager.class),
+		CONDENSATIONMENU(CondensationMenuManager.class),
+		C_RANGEMENU(C_RangeMenuManager.class),
+		C_ORIGINMENU(C_OriginMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
 		ITEMCATEGORYMENU(CategoryItemMenuManager.class),

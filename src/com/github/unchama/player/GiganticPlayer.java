@@ -19,6 +19,7 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.sidebar.SideBarManager;
@@ -47,6 +48,7 @@ public class GiganticPlayer{
 		MINESTACK(MineStackManager.class),
 		EXPLOSION(ExplosionManager.class),
 		MAGICDRIVE(MagicDriveManager.class),
+		CONDENSATION(CondensationManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		;

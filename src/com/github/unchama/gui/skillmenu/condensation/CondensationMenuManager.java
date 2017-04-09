@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu.magicdrive;
+package com.github.unchama.gui.skillmenu.condensation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,21 +12,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.util.Converter;
 
-public class MagicDriveMenuManager extends SkillMenuManager {
-	private static Class<? extends SkillManager> clazz = MagicDriveManager.class;
+public class CondensationMenuManager extends SkillMenuManager{
+	private static Class<? extends SkillManager> clazz = CondensationManager.class;
 
 	@Override
 	public String getInventoryName(Player player) {
@@ -44,15 +42,16 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore = new ArrayList<String>();
 		Volume v = m.getRange().getVolume();
+		Coordinate z = m.getRange().getZeropoint();
 		switch (mt) {
 		case INFO:
 			itemmeta.setDisplayName("" + ChatColor.GREEN + ChatColor.BOLD
 					+ "基本情報");
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "右クリックして指定したブロックを中心に，");
+					+ "自分の周囲の液体を");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "周囲のブロックを破壊します．");
+					+ "凝固させてから破壊します．");
 			if (m.getToggle()) {
 				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
 						+ ChatColor.GREEN + "ON");
@@ -64,9 +63,6 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 					+ "現在の最大破壊ブロック数:" + v.getVolume());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
 					+ (int) m.getMana(v.getVolume()));
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
-					+ "現在の最大クールタイム:"
-					+ Converter.toTimeString(m.getCoolTime(v.getVolume())));
 			lore.add("" + ChatColor.RESET + ChatColor.GREEN
 					+ "クリックするとオンオフを切り替えます．");
 
@@ -91,53 +87,21 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case ORIGIN:
-			itemmeta.setDisplayName(ChatColor.LIGHT_PURPLE + "起点設定");
-			SkullMeta skullmeta = (SkullMeta) itemmeta;
-			skullmeta.setOwner(player.getName());
-			int y = m.getRange().getZeropoint().getY();
-			int cy;
+			itemmeta.setDisplayName(ChatColor.DARK_RED + "起点設定");
 			lore = new ArrayList<String>();
-			if (y == 0) {
-				if (v.getHeight() == 1) {
-					cy = 0;
-				} else {
-					cy = 1;
-				}
-			} else if (y == 1) {
-				if (v.getHeight() == 2) {
-					cy = 0;
-				} else {
-					cy = v.getHeight() - 1;
-				}
-			} else {
-				cy = 0;
-			}
-			if (v.getHeight() != 1) {
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "破壊する起点となる高さを");
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "- 一番下(0)");
-				if (v.getHeight() > 2) {
-					lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-							+ "- 通常(1)");
-				}
-
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "- 一番上 ("
-						+ (v.getHeight() - 1) + ")");
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "のいずれかに変更できます");
-
-				lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の起点の高さ："
-						+ y);
-				lore.add("" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
-						+ "クリックすると起点を" + ChatColor.YELLOW + cy + ChatColor.BLUE
-						+ "に変更します．");
-			} else {
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "範囲設定で高さを2以上に設定すると");
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-						+ "起点の高さを変更できます．");
-			}
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+					+ "破壊する起点位置を設定します．");
+			lore.add("" + ChatColor.RESET + ChatColor.GOLD + "現在の起点位置");
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_RED + "幅："
+					+ z.getX());
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_RED + "高さ："
+					+ z.getY());
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_RED + "奥行："
+					+ z.getZ());
+			lore.add("" + ChatColor.RESET + ChatColor.GOLD + ChatColor.BOLD
+					+ "クリックして起点を設定");
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
+					+ "※自動でトグルがオフになります");
 			itemmeta.setLore(lore);
 			break;
 		case BOOK:
@@ -194,14 +158,14 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(MenuType.RANGE.getSlot(), ManagerType.MD_RANGEMENU);
+		openmap.put(MenuType.RANGE.getSlot(), ManagerType.C_RANGEMENU);
+		openmap.put(MenuType.ORIGIN.getSlot(), ManagerType.C_ORIGINMENU);
 
 	}
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> id_map) {
 		id_map.put(MenuType.INFO.getSlot(), "toggle");
-		id_map.put(MenuType.ORIGIN.getSlot(), "chenge_y");
 		id_map.put(MenuType.BOOK.getSlot(), "give");
 	}
 
@@ -219,30 +183,6 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			m.toggle();
 			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
 					(float) 0.7, (float) 2.2);
-			player.openInventory(this.getInventory(player, 0));
-			return true;
-		case "chenge_y":
-			Volume v = m.getRange().getVolume();
-			Coordinate zero = m.getRange().getZeropoint();
-			int y = zero.getY();
-			int cy;
-			if (y == 0) {
-				if (v.getHeight() == 1) {
-					cy = 0;
-				} else {
-					cy = 1;
-				}
-			} else if (y == 1) {
-				if (v.getHeight() == 2) {
-					cy = 0;
-				} else {
-					cy = v.getHeight() - 1;
-				}
-			} else {
-				cy = 0;
-			}
-			zero.setY(cy);
-			m.getRange().refresh();
 			player.openInventory(this.getInventory(player, 0));
 			return true;
 		case "give":

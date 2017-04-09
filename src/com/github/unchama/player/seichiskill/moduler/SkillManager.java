@@ -49,9 +49,9 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 
 	private SkillType st;
 
-	private Boolean toggle;
-	private Boolean unlocked;
-	private Boolean cooldown;
+	protected Boolean toggle;
+	protected Boolean unlocked;
+	protected Boolean cooldown;
 
 	private BreakRange range;
 
@@ -65,8 +65,14 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		this.toggle = false;
 		this.unlocked = false;
 		this.cooldown = false;
-
 	}
+
+	/**Unlock時の破壊範囲を取得します．
+	 *
+	 * @return
+	 */
+	public abstract Volume getDefaultVolume();
+
 
 	/**
 	 * 自分より下のブロックを破壊できるか判定する．
@@ -423,23 +429,6 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	public boolean isunlocked() {
 		return this.unlocked;
 	}
-
-	/**
-	 * オンにします．
-	 *
-	 */
-	public void on() {
-		this.toggle = true;
-	}
-
-	/**
-	 * オフにします．
-	 *
-	 */
-	public void off() {
-		this.toggle = false;
-	}
-
 	/**
 	 * トグルします．
 	 *
@@ -652,5 +641,11 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP,
 				0.5F, 2.0F);
 	}
+
+	/**このスキルで使用されたAPを取得します．
+	 *
+	 * @return
+	 */
+	public abstract long getUsedAp();
 
 }

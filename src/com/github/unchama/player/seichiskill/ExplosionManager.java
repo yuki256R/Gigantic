@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.ExplosionTableManager;
 
 /**
@@ -46,10 +47,14 @@ public class ExplosionManager extends SkillManager {
 		int playerlocy = player.getLocation().getBlockY() - 1;
 		//int blocky = block.getY();
 		int rblocy = rb.getY();
-		//int zeroy = this.getRange().getZeropoint().getY();
-		//int voly = this.getRange().getVolume().getHeight() - 1;
+		int zeroy = this.getRange().getZeropoint().getY();
+		int voly = this.getRange().getVolume().getHeight() - 1;
 
-		if (playerlocy < rblocy || player.isSneaking()) {
+		// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
+		if (zeroy == voly) {
+			return true;
+			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
+		} else if (playerlocy < rblocy || player.isSneaking()) {
 			return true;
 		} else {
 			return false;
@@ -132,6 +137,17 @@ public class ExplosionManager extends SkillManager {
 	@Override
 	public int getMaxDepth() {
 		return 45;
+	}
+
+	@Override
+	public long getUsedAp() {
+		Volume v = this.getRange().getVolume();
+		return this.getSpendAP(v.getVolume() - getDefaultVolume().getVolume());
+	}
+
+	@Override
+	public Volume getDefaultVolume() {
+		return new Volume(1,1,1);
 	}
 
 }
