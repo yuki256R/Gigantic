@@ -29,8 +29,8 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	private double debugmana = -1;
 
 	public ManaManager(GiganticPlayer gp) {
-		super(gp);
-		tm = sql.getManager(ManaTableManager.class);
+	    super(gp);
+        tm = sql.getManager(ManaTableManager.class);
 	}
 
 	@Override

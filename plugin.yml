@@ -34,3 +34,6 @@ commands:
       default: op
       permission: gigantic.stick
       permission-message: You don't have <permission>
+  fly:
+      description: This is stick command
+      usage: /<command> <finish/amount/endless>

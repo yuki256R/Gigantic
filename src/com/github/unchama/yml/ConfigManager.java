@@ -207,5 +207,28 @@ public class ConfigManager extends YmlManager {
 	public String getFirstJoinMessage() {
 		return this.fc.getString("firstjoinmessage");
 	}
+	
+	
+	/**フライ時1分間に消費する経験値量を取得します。
+	 * ※消費する量(正)なので-で減らすこと。
+	 * 
+	 * @return
+	 */
+	public int getFlyExp(){
+		return this.fc.getInt("flyexp");
+	}
+
+
+	/**プロック設置カウントの1分上限を取得します。
+	 *
+	 * @return
+	 */
+	public int getBuildNum1minLimit() { return this.fc.getInt("BuildNum1minLimit"); }
+
+    /**整地ワールド名を取得します
+     *
+     * @return
+     */
+    public String getSeichiWorldName() { return this.fc.getString("SeichiWorldName"); }
 
 }

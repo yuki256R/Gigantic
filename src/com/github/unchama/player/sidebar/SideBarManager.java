@@ -98,7 +98,7 @@ public class SideBarManager extends DataManager implements Initializable,
 				ChatColor.GREEN + "採掘速度: ", 12), BUILDING_LEVEL(ChatColor.GREEN
 				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
 				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
-				+ "Explosion:", 9),
+				+ "Explosion:", 9)
 
 		;
 
