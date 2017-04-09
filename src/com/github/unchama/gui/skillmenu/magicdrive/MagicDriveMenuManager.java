@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu.explosion;
+package com.github.unchama.gui.skillmenu.magicdrive;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,14 +19,14 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
-public class ExplosionMenuManager extends SkillMenuManager {
-	private static Class<? extends SkillManager> clazz = ExplosionManager.class;
+public class MagicDriveMenuManager extends SkillMenuManager {
+	private static Class<? extends SkillManager> clazz = MagicDriveManager.class;
 
 	@Override
 	public String getInventoryName(Player player) {
@@ -50,9 +50,9 @@ public class ExplosionMenuManager extends SkillMenuManager {
 					+ "基本情報");
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "特定のブロックを破壊時に");
+					+ "右クリックして指定したブロックを中心に，");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "周囲のブロックを同時に破壊します．");
+					+ "周囲のブロックを破壊します．");
 			if (m.getToggle()) {
 				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
 						+ ChatColor.GREEN + "ON");
@@ -194,7 +194,7 @@ public class ExplosionMenuManager extends SkillMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(MenuType.RANGE.getSlot(), ManagerType.E_RANGEMENU);
+		openmap.put(MenuType.RANGE.getSlot(), ManagerType.MD_RANGEMENU);
 
 	}
 
