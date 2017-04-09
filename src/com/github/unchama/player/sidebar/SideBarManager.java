@@ -2,7 +2,6 @@ package com.github.unchama.player.sidebar;
 
 import java.util.HashMap;
 
-import com.github.unchama.player.build.BuildManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -59,7 +58,6 @@ public class SideBarManager extends DataManager implements Initializable,
 		updateInfo(Information.BUILDING_LEVEL, 99);
 		updateInfo(Information.SEPARATOR1, "");
 		updateInfo(Information.EX_COOLTIME, "%DELETE%");
-        updateInfo(Information.BUILD_NUM, gp.getManager(BuildManager.class).getTotalbuildnum());//TODO:テスト追加なので場所が中途半端
 
 		// 更新をサイドバーに反映
 		refresh();
@@ -100,7 +98,7 @@ public class SideBarManager extends DataManager implements Initializable,
 				ChatColor.GREEN + "採掘速度: ", 12), BUILDING_LEVEL(ChatColor.GREEN
 				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
 				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
-				+ "Explosion:", 9), BUILD_NUM(ChatColor.GREEN + "建築量:", 8)
+				+ "Explosion:", 9)
 
 		;
 

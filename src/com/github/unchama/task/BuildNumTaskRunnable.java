@@ -48,6 +48,8 @@ public class BuildNumTaskRunnable extends BukkitRunnable{
                             player.sendMessage(ChatColor.GREEN + "建築量更新処理");//TODO:Debug用
                             player.sendMessage(ChatColor.BLUE + "[DEBUG]更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
                             + "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());//TODO:Debug用
+
+                            player.sendMessage(ChatColor.RED + "Limitの値" + config.getBuildNum1minLimit());//TODO:Debug用
                         }
                     }
                }

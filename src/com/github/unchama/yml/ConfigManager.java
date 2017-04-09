@@ -223,7 +223,7 @@ public class ConfigManager extends YmlManager {
 	 *
 	 * @return
 	 */
-	public int getBuildNum1minLimit() { return this.fc.getInt("BuikdNum1minLimit"); }
+	public int getBuildNum1minLimit() { return this.fc.getInt("BuildNum1minLimit"); }
 
     /**整地ワールド名を取得します
      *
