@@ -23,12 +23,8 @@ public enum ListenerEnum {
 	BLOCKBREAK(new BlockBreakListener()),
 	MENUCLICK(new MenuClickListener()),
 	PLAYERITEMHELD(new PlayerItemHeldListener()),
-<<<<<<< HEAD
 	GIGANTICINTERACT(new GiganticInteractListener()),
-=======
-    BUILD(new BlockPlaceEventListener())
-
->>>>>>> refs/remotes/unchama/master
+    BUILD(new BlockPlaceEventListener()),
 	;
 	private Listener listener;
 

@@ -100,12 +100,8 @@ public class SideBarManager extends DataManager implements Initializable,
 				ChatColor.GREEN + "採掘速度: ", 12), BUILDING_LEVEL(ChatColor.GREEN
 				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
 				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
-<<<<<<< HEAD
 				+ "Explosion:", 9), MD_COOLTIME(ChatColor.BLUE + "MagicDrive:",
 				8), C_COOLTIME(ChatColor.RED + "Condensation:", 7),
-=======
-				+ "Explosion:", 9)
->>>>>>> refs/remotes/unchama/master
 
 		;
 

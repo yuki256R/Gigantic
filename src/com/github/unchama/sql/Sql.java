@@ -34,12 +34,9 @@ public class Sql {
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
-<<<<<<< HEAD
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
 		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
-=======
-		BUILD(BuildTableManager.class,BuildManager.class)
->>>>>>> refs/remotes/unchama/master
+		BUILD(BuildTableManager.class,BuildManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
