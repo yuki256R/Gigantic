@@ -1,4 +1,4 @@
-package com.github.unchama.gui.minestack.build;
+package com.github.unchama.gui.minestack.otherwise;
 
 import com.github.unchama.gui.moduler.MineStackMenuManager;
 import com.github.unchama.gui.moduler.StackCategory;
@@ -6,14 +6,14 @@ import com.github.unchama.gui.moduler.StackCategory;
 /**
  * Created by Mon_chi on 2017/03/25.
  */
-public class CategoryBuildMenuManager extends MineStackMenuManager {
+public class CategoryOtherwiseMenuManager extends MineStackMenuManager {
 
-    public CategoryBuildMenuManager(){
+    public CategoryOtherwiseMenuManager(){
         super();
     }
 
     @Override
     public StackCategory getCategory() {
-        return StackCategory.BUILD;
+        return StackCategory.OTHERWISE;
     }
 }

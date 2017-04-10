@@ -9,23 +9,18 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.sql.ExplosionTableManager;
+import com.github.unchama.sql.MagicDriveTableManager;
 
-/**
- * 近距離スキル
- *
- * @author tar0ss
- *
- */
-public class ExplosionManager extends SkillManager {
-	ExplosionTableManager tm;
+public class MagicDriveManager extends SkillManager{
 
+	MagicDriveTableManager tm;
 
+	boolean preflag;
 
-	public ExplosionManager(GiganticPlayer gp) {
+	public MagicDriveManager(GiganticPlayer gp) {
 		super(gp);
-		tm = sql.getManager(ExplosionTableManager.class);
-
+		tm = sql.getManager(MagicDriveTableManager.class);
+		preflag = false;
 	}
 
 	@Override
@@ -34,13 +29,66 @@ public class ExplosionManager extends SkillManager {
 	}
 
 
-
 	@Override
 	protected ItemStack getItemStackonLocked() {
-		return new ItemStack(Material.STAINED_GLASS, 1, (short) 7);
+		return new ItemStack(Material.STAINED_GLASS, 1, (short) 11);
 	}
 
+	@Override
+	public String getJPName() {
+		return "" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
+				+ "マジックドライブ" + ChatColor.RESET;
+	}
 
+	@Override
+	public Material getMenuMaterial() {
+		return Material.LAPIS_ORE;
+	}
+
+	@Override
+	public int getUnlockLevel() {
+		return 50;
+	}
+
+	@Override
+	public long getUnlockAP() {
+		return 20;
+	}
+
+	@Override
+	public double getMana(int breaknum) {
+		return breaknum / (Math.pow(breaknum, 0.1666667)) - 1;
+	}
+
+	@Override
+	public int getCoolTime(int breaknum) {
+		return (int) ((Math.pow(breaknum, 0.23255814)) - 1) * 20;
+	}
+
+	@Override
+	public long getSpendAP(int breaknum) {
+		return (long) breaknum * 1;
+	}
+
+	@Override
+	public int getMaxBreakNum() {
+		return 2000;
+	}
+
+	@Override
+	public int getMaxHeight() {
+		return 55;
+	}
+
+	@Override
+	public int getMaxWidth() {
+		return 35;
+	}
+
+	@Override
+	public int getMaxDepth() {
+		return 20;
+	}
 
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
@@ -83,60 +131,20 @@ public class ExplosionManager extends SkillManager {
 		*/
 	}
 
-	@Override
-	public String getJPName() {
-		return "" + ChatColor.RESET + ChatColor.YELLOW + ChatColor.BOLD
-				+ "エクスプロージョン" + ChatColor.RESET;
+	/**
+	 * preflagを取得します。
+	 * @return preflag
+	 */
+	public boolean getPreflag() {
+	    return preflag;
 	}
 
-	@Override
-	public Material getMenuMaterial() {
-		return Material.COAL_ORE;
-	}
-
-	@Override
-	public int getUnlockLevel() {
-		return 10;
-	}
-
-	@Override
-	public long getUnlockAP() {
-		return 10;
-	}
-
-	@Override
-	public double getMana(int breaknum) {
-		return breaknum / (Math.pow(breaknum, 0.2)) - 1;
-	}
-
-	@Override
-	public int getCoolTime(int breaknum) {
-		return (int) ((Math.pow(breaknum, 0.25)) - 1) * 20;
-	}
-
-	@Override
-	public long getSpendAP(int breaknum) {
-		return (long) breaknum * 1;
-	}
-
-	@Override
-	public int getMaxBreakNum() {
-		return 2000;
-	}
-
-	@Override
-	public int getMaxHeight() {
-		return 50;
-	}
-
-	@Override
-	public int getMaxWidth() {
-		return 15;
-	}
-
-	@Override
-	public int getMaxDepth() {
-		return 45;
+	/**
+	 * preflagを設定します。
+	 * @param preflag preflag
+	 */
+	public void setPreflag(boolean preflag) {
+	    this.preflag = preflag;
 	}
 
 	@Override
@@ -144,10 +152,8 @@ public class ExplosionManager extends SkillManager {
 		Volume v = this.getRange().getVolume();
 		return this.getSpendAP(v.getVolume() - getDefaultVolume().getVolume());
 	}
-
 	@Override
 	public Volume getDefaultVolume() {
 		return new Volume(1,1,1);
 	}
-
 }

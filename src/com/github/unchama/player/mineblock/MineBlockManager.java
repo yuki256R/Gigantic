@@ -43,6 +43,7 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 		double inc = breaknum * ratio;
 		if(bt == null){
 			debug.warning(DebugEnum.SKILL, "MineBlockManager内でnull:" + material.name());
+			return;
 		}
 		datamap.get(bt).increase(inc);
 		all.increase(inc);

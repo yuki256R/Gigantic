@@ -1,7 +1,5 @@
 package com.github.unchama.listener;
 
-import java.util.List;
-
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Sound;
@@ -43,12 +41,15 @@ public class PlayerItemHeldListener implements Listener{
 		int slot = event.getNewSlot();
 		ItemStack is = inv.getItem(slot);
 		if(is == null)return;
-		List<String> lore = is.getItemMeta().getLore();
+
+		String displayname = is.getItemMeta().getDisplayName();
+		if(displayname == null)return;
+
 		if(Math.abs(pre_slot - slot) <= 1)return;
 
 		for(SkillType st : SkillType.values()){
 			SkillManager sm = (SkillManager)gp.getManager(st.getSkillClass());
-			if(sm.getSkillBookLore().equals(lore)){
+			if(displayname.contains(sm.getJPName())){
 				sm.toggle();
 				if(sm.getToggle()){
 					player.sendMessage(sm.getJPName() + ":" + ChatColor.GREEN + "ON");

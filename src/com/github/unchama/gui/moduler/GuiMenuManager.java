@@ -2,6 +2,8 @@ package com.github.unchama.gui.moduler;
 
 import java.util.HashMap;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,8 +13,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.GuiMenu.ManagerType;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * Menu用のManagerです．Menuを作る時はこのクラスを継承すると簡単に作成できます．
@@ -25,6 +33,7 @@ public abstract class GuiMenuManager {
 	protected ConfigManager config = Gigantic.yml
 			.getManager(ConfigManager.class);
 	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	public static GuiMenu gui = Gigantic.guimenu;
 
 	/**
 	 * マテリアル，ダメージ値，名前，説明文を保存する． このキーをもって左（右）クリックするとこのクラスのメニューを開く．
@@ -36,7 +45,7 @@ public abstract class GuiMenuManager {
 	 * スロット番号と開くメニューのクラスを保存する．
 	 *
 	 */
-	protected HashMap<Integer, Class<? extends GuiMenuManager>> openmap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
+	protected HashMap<Integer, ManagerType> openmap = new HashMap<Integer, ManagerType>();
 
 	protected HashMap<Integer, String> id_map = new HashMap<Integer, String>();
 
@@ -46,6 +55,30 @@ public abstract class GuiMenuManager {
 		}
 		setIDMap(id_map);
 	}
+
+
+	/**プレイヤーにオープンさせる．履歴を削除したい場合はflagをtrueにする．
+	 *
+	 * @param player
+	 * @param slot
+	 * @param clearflag
+	 */
+	public void open(Player player,int slot,boolean clearflag){
+		player.openInventory(this.getInventory(player, slot));
+		// 開く音を再生
+		player.playSound(player.getLocation(), getSoundName(), getVolume(), getPitch());
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		PlayerMenuManager m = gp.getManager(PlayerMenuManager.class);
+		if(clearflag){
+			m.clear();
+		}
+		debug.sendMessage(player, DebugEnum.GUI,
+				getInventoryName(player) + ChatColor.RESET
+						+ "を開きます．");
+		m.push(ManagerType.getTypebyClass(this.getClass()));
+	}
+
+
 
 	/**
 	 * 何かメソッドを実行するキーストリングを設定します．
@@ -82,7 +115,7 @@ public abstract class GuiMenuManager {
 	 *
 	 */
 	protected abstract void setOpenMenuMap(
-			HashMap<Integer, Class<? extends GuiMenuManager>> openmap);
+			HashMap<Integer, ManagerType> openmap);
 
 	/**
 	 * このメニュ内のスロットから次に開くメニューのクラスを取得します．
@@ -90,7 +123,7 @@ public abstract class GuiMenuManager {
 	 * @param slot
 	 * @return
 	 */
-	public Class<? extends GuiMenuManager> getMenuManager(int slot) {
+	public ManagerType getMenuManager(int slot) {
 		Integer s = new Integer(slot);
 		return openmap.isEmpty() ? null : (openmap.containsKey(s) ? openmap
 				.get(s) : null);

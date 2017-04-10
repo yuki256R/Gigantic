@@ -19,14 +19,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.enumdata.StackCategory;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
@@ -89,7 +89,6 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
             ItemStack itemStack = stackType.getItemStack();
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + amount +"個"
-                    , ChatColor.RESET + "" +  ChatColor.DARK_GRAY + "Lv" + stackType.getLevel() + "以上でスタック可能"
                     , ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで1スタック取り出し"));
             itemStack.setItemMeta(itemMeta);
             inv.setItem(i-45*(page-1), itemStack);
@@ -136,15 +135,24 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         if (slot == 45){
             if (page <= 1) return false;
             player.openInventory(getInventory(player, 45, page - 1));
+            player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, (float)1.0, (float)4.0);
         }
         //ページ進むボタン
         else if (slot == 53){
             if (typeMap.size() <= 53 * page) return false;
             player.openInventory(getInventory(player, 53, page + 1));
+            player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, (float)1.0, (float)4.0);
         }
         //カテゴリ選択ボタン
         else if (slot > 46 && slot < 52){
-            player.openInventory(Gigantic.guimenu.getManager(StackCategory.values()[slot - 47].getManagerClass()).getInventory(player, slot));
+        	GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+        	PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
+        	ManagerType mt = StackCategory.values()[slot - 47].getManagerType();
+        	GuiMenuManager m = (GuiMenuManager)Gigantic.guimenu.getManager(mt.getManagerClass());
+        	pm.pop();
+        	pm.push(mt);
+            player.openInventory(m.getInventory(player, slot));
+            player.playSound(player.getLocation(), this.getSoundName(), this.getVolume(), this.getPitch());
         }
         //とりだしボタン
         else if (slot < 45){
@@ -155,11 +163,6 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
             GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
             StackType stackType = typeMap.get(slot + 45*(page-1));
             MineStack mineStack = gp.getManager(MineStackManager.class).datamap.get(stackType);
-
-            //必要レベルを満たしているか確認
-            if (gp.getManager(SeichiLevelManager.class).getLevel() < stackType.getLevel())
-                return false;
-
             ItemStack itemStack = stackType.getItemStack();
             long stackAmount = mineStack.getNum();
             int maxStackAmount = stackType.getMaxStackAmount();
@@ -174,18 +177,22 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
                 giveAmount = maxStackAmount;
 
             itemStack.setAmount(giveAmount);
-            mineStack.add(-giveAmount);
+
             //インベントリ満杯か確認
-            if (player.getInventory().firstEmpty() == -1)
-                player.getWorld().dropItem(player.getLocation(), itemStack);
-            else
+            if (player.getInventory().firstEmpty() == -1){
+            	player.sendMessage(ChatColor.RED + "インベントリを空けてください．");
+                return false;
+            }else{
                 player.getInventory().addItem(itemStack);
+                player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
+            }
+
+            mineStack.add(-giveAmount);
 
             //とりだしボタンの個数更新
             ItemStack button = player.getOpenInventory().getItem(slot);
             ItemMeta buttonMeta = button.getItemMeta();
             buttonMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + mineStack.getNum() +"個"
-                    , ChatColor.RESET + "" +  ChatColor.DARK_GRAY + "Lv" + stackType.getLevel() + "以上でスタック可能"
                     , ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで1スタック取り出し"));
             button.setItemMeta(buttonMeta);
         }
@@ -217,7 +224,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
     }
 
     @Override
-    protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+    protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 
     }
 
@@ -248,19 +255,16 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
 
 	@Override
 	public Sound getSoundName() {
-		// TODO 自動生成されたメソッド・スタブ
-		return Sound.BLOCK_FENCE_GATE_OPEN;
+		return Sound.BLOCK_CHEST_OPEN;
 	}
 
 	@Override
 	public float getVolume() {
-		// TODO 自動生成されたメソッド・スタブ
 		return 1;
 	}
 
 	@Override
 	public float getPitch() {
-		// TODO 自動生成されたメソッド・スタブ
-		return (float)0.1;
+		return (float)0.5;
 	}
 }
