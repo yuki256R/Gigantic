@@ -2,18 +2,18 @@ package com.github.unchama.util;
 
 import java.math.BigDecimal;
 
-
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import zedly.zenchantments.Zenchantments;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
@@ -91,4 +91,17 @@ public class Util {
         else return null;
     }
 
+
+	public static void sendEveryMessage(String str){
+		Gigantic plugin = Gigantic.plugin;
+		for ( Player player : plugin.getServer().getOnlinePlayers() ) {
+			player.sendMessage(str);
+		}
+	}
+	public static void sendEverySound(Sound str, float a, float b){
+		Gigantic plugin = Gigantic.plugin;
+		for ( Player player : plugin.getServer().getOnlinePlayers() ) {
+			player.playSound(player.getLocation(), str, a, b);
+		}
+	}
 }
