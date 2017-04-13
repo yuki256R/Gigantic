@@ -65,6 +65,10 @@ public class GiganticInteractListener implements Listener {
 		// アクションを起こした手を取得
 		EquipmentSlot equipmentslot = event.getHand();
 
+		if(equipmentslot == null){
+			return;
+		}
+
 		if (equipmentslot.equals(EquipmentSlot.OFF_HAND)) {
 			return;
 		}
@@ -97,6 +101,10 @@ public class GiganticInteractListener implements Listener {
 
 			KeyItem keyitem = m.getKeyItem();
 			ItemStack item = event.getItem();
+
+			if(item == null){
+				return;
+			}
 
 			if (keyitem.getMaterial() != null) {
 				if (!item.getType().equals(keyitem.getMaterial())) {
@@ -167,6 +175,9 @@ public class GiganticInteractListener implements Listener {
 
 		//オフハンドから実行したとき終了
 		EquipmentSlot hand = event.getHand();
+		if(hand == null){
+			return;
+		}
 		if (hand.equals(EquipmentSlot.OFF_HAND))
 			return;
 
@@ -175,6 +186,9 @@ public class GiganticInteractListener implements Listener {
 
 		// スキルを発動できるツールでないとき終了
 		ItemStack tool = event.getItem();
+		if(tool == null){
+			return;
+		}
 		if (!SkillManager.canBreak(tool)) {
 			debug.sendMessage(player, DebugEnum.SKILL, "スキルの発動ができるツールではありません．");
 			return;

@@ -1,18 +1,18 @@
 package com.github.unchama.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.yml.ConfigManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class BuildNumTaskRunnable extends BukkitRunnable{
 
@@ -42,14 +42,14 @@ public class BuildNumTaskRunnable extends BukkitRunnable{
                         GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
                         GiganticStatus gs = PlayerManager.getStatus(gp);
                         if(gs.equals(GiganticStatus.AVAILABLE)){
-                            player.sendMessage(ChatColor.AQUA +"[DEBUG]前のtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
-                            + "・前のbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());//TODO:Debug用
+                            //player.sendMessage(ChatColor.AQUA +"[DEBUG]前のtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
+                            //+ "・前のbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());//TODO:Debug用
                             gp.getManager(BuildManager.class).calcBuildNum();
-                            player.sendMessage(ChatColor.GREEN + "建築量更新処理");//TODO:Debug用
-                            player.sendMessage(ChatColor.BLUE + "[DEBUG]更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
-                            + "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());//TODO:Debug用
+                            //player.sendMessage(ChatColor.GREEN + "建築量更新処理");//TODO:Debug用
+                            //player.sendMessage(ChatColor.BLUE + "[DEBUG]更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
+                            //+ "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());//TODO:Debug用
 
-                            player.sendMessage(ChatColor.RED + "Limitの値" + config.getBuildNum1minLimit());//TODO:Debug用
+                            //player.sendMessage(ChatColor.RED + "Limitの値" + config.getBuildNum1minLimit());//TODO:Debug用
                         }
                     }
                }
