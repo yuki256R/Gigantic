@@ -27,7 +27,7 @@ public class BlockPlaceEventListener implements Listener {
         Player player = event.getPlayer();
         //カウント対象かどうか
         if(BuildData.isBlockCount(player) == false){
-        	debug.info(DebugEnum.BUILD,"このワールドでは建築量は増えません");
+        	debug.sendMessage(player,DebugEnum.BUILD,"このワールドでは建築量は増えません");
             return;
         }
         
@@ -38,7 +38,12 @@ public class BlockPlaceEventListener implements Listener {
             return;
         }
 
-        gp.getManager(BuildManager.class).addBuild_Num_1min(1);
-        debug.info(DebugEnum.BUILD,"build_num_1minが1増加");
+        debug.sendMessage(player,DebugEnum.BUILD,"前のtotalbuildnum:"+ gp.getManager(BuildManager.class).getTotalbuildnum()
+                + "・前のbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
+        gp.getManager(BuildManager.class).calcBuildNum();
+        debug.sendMessage(player,DebugEnum.BUILD,"build_num_1minが1増加 + 総建築量更新");
+        debug.sendMessage(player,DebugEnum.BUILD,"更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
+                + "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
+        debug.sendMessage(player, DebugEnum.BUILD, "建築量更新処理終了。プレイヤー:[" + player.getName() + "]");
     }
 }
