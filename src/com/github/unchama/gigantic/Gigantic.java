@@ -12,6 +12,7 @@ import com.github.unchama.command.CommandType;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
+import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
@@ -57,6 +58,8 @@ public final class Gigantic extends JavaPlugin {
 		}
 		// sqlの次に必ず初期化を行う
 		SeichiLevelManager.setLevelMap();
+		//buildlevelmapの初期化
+		BuildLevelManager.setBuildLevelMap();
 
 		maintenance = new Maintenance();
 
