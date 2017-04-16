@@ -6,6 +6,9 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildData;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
+
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -15,6 +18,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 
 public class BlockPlaceEventListener implements Listener {
     Gigantic plugin = Gigantic.plugin;
+    DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
     @EventHandler
     public void onBlockPlaceEvent(BlockPlaceEvent event){
@@ -23,7 +27,7 @@ public class BlockPlaceEventListener implements Listener {
         Player player = event.getPlayer();
         //カウント対象かどうか
         if(BuildData.isBlockCount(player) == false){
-            player.sendMessage(ChatColor.RED + "このワールドでは建築量は増えません");//TODO:Debug用
+        	debug.sendMessage(player,DebugEnum.BUILD,"このワールドでは建築量は増えません");
             return;
         }
         
@@ -34,7 +38,12 @@ public class BlockPlaceEventListener implements Listener {
             return;
         }
 
-        gp.getManager(BuildManager.class).addBuild_Num_1min(1);
-        player.sendMessage(ChatColor.GREEN + "[DEBUG]build_num_1minが1増加");//TODO:Debug用
+        debug.sendMessage(player,DebugEnum.BUILD,"前のtotalbuildnum:"+ gp.getManager(BuildManager.class).getTotalbuildnum()
+                + "・前のbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
+        gp.getManager(BuildManager.class).calcBuildNum();
+        debug.sendMessage(player,DebugEnum.BUILD,"build_num_1minが1増加 + 総建築量更新");
+        debug.sendMessage(player,DebugEnum.BUILD,"更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
+                + "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
+        debug.sendMessage(player, DebugEnum.BUILD, "建築量更新処理終了。プレイヤー:[" + player.getName() + "]");
     }
 }
