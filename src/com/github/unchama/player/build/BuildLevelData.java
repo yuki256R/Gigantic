@@ -36,6 +36,10 @@ public class BuildLevelData {
 	//次のレベルになるのに必要な建築量
 	private int next_buildblock;
 	
+	/**
+	 * 注意:パラメーターは0でなく1からで構いません。Dataの方で調整してあります。
+	 * @param level
+	 */
 	BuildLevelData(int level){
 		this.buildlevel = level;
 		this.need_buildblock = this.calcNeed_buildblock(level);
@@ -48,7 +52,7 @@ public class BuildLevelData {
 	 * @return
 	 */
 	private int calcNeed_buildblock(int level){
-		return levellist.get(level);
+		return levellist.get(level - 1);
 	}
 	
 	/**次のレベルになるのに必要な建築量を計算します
@@ -57,7 +61,7 @@ public class BuildLevelData {
 	 * @return
 	 */
 	private int calcNext_buildblock(int level){
-		return levellist.get(level + 1);
+		return levellist.get(level);
 	}
 	
 	/**建築レベルを取得します

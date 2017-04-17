@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
+
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
@@ -54,7 +56,8 @@ public class GiganticPlayer{
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
-        Build(BuildManager.class)
+        BUILD(BuildManager.class),
+        BUILDLEVEL(BuildLevelManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
