@@ -9,6 +9,7 @@ import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
 import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
+import com.github.unchama.gui.moduler.BuildMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
 import com.github.unchama.gui.skillmenu.condensation.C_OriginMenuManager;
@@ -37,6 +38,7 @@ public final class GuiMenu {
 		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
+		BUILDMENU(BuildMenuManager.class),
 
 		;
 
