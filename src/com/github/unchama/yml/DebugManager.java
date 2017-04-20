@@ -26,6 +26,7 @@ public final class DebugManager extends YmlManager {
 		BREAK(true, ChatColor.DARK_GRAY),
 		MINESTACK(true,ChatColor.GOLD),
 		SKILL(true,ChatColor.DARK_GRAY),
+		BUILD(true,ChatColor.GREEN),
 		;
 		// ファイル生成時の初期値
 		private Boolean flag;
