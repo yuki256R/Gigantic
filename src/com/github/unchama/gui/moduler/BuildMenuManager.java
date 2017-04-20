@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,6 +17,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 
 public class BuildMenuManager extends GuiMenuManager{
 
+	public BuildMenuManager(){
+		Bukkit.getServer().getLogger().info("BuildMenuManagerコンストラクタ");
+		setKeyItem();
+	}
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 	}
@@ -23,10 +28,12 @@ public class BuildMenuManager extends GuiMenuManager{
 	@Override
 	protected void setKeyItem() {
 		this.keyitem = new KeyItem(Material.STICK);
+		Bukkit.getServer().getLogger().info("keyitem:" + this.keyitem.getMaterial().toString());
 	}
 
 	@Override
 	public String getClickType() {
+		Bukkit.getServer().getLogger().info("clicktype");
 		return "left";
 	}
 

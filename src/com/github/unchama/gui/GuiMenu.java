@@ -23,6 +23,7 @@ import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
 
 public final class GuiMenu {
 	public static enum ManagerType {
+		BUILDMENU(BuildMenuManager.class),
 		MAINMENU(MainMenuManager.class),
 		SKILLTYPEMENU(SkillTypeMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -38,7 +39,6 @@ public final class GuiMenu {
 		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
-		BUILDMENU(BuildMenuManager.class),
 
 		;
 
