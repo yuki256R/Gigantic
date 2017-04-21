@@ -115,7 +115,7 @@ public class BlockBreakListener implements Listener {
 			debug.sendMessage(player , DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
 			return;
 		}
-
+		event.setCancelled(true);
 
 		//クールダウン中なら終了
 		if(skill.isCoolDown()){
@@ -124,10 +124,9 @@ public class BlockBreakListener implements Listener {
 		}
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 
-		//スキル処理が正常に動作した時イベントをキャンセル
-		if(skill.run(player,tool,block)){
-			event.setCancelled(true);
-		}
+		//スキル処理
+		skill.run(player,tool,block);
+
 
 	}
 }

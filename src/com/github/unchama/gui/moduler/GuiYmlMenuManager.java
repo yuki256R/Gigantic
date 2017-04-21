@@ -20,6 +20,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.GuiMenu.ManagerType;
 /**Ymlから編集できるようにしたMenuClass
  *
  * @author tar0ss
@@ -83,15 +84,15 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	}
 
 	@Override
-	protected void setOpenMenuMap(HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		for (int i = 0; i < this.getInventorySize(); i++) {
 			String menu = this.fc.getString(Integer.toString(i) + ".open");
 			if (menu != null) {
-				Class<? extends GuiMenuManager> clazz;
+				ManagerType mt;
 				try {
-					clazz = GuiMenu.ManagerType.valueOf(menu.toUpperCase())
-							.getManagerClass();
-					openmap.put(new Integer(i), clazz);
+					mt = GuiMenu.ManagerType.valueOf(menu.toUpperCase())
+							;
+					openmap.put(new Integer(i), mt);
 				} catch (IllegalArgumentException e) {
 					Bukkit.getLogger().warning(menu + " というメニューは存在しません．");
 				}

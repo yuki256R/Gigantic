@@ -4,10 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.player.build.BuildManager;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
@@ -19,7 +21,9 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -45,8 +49,12 @@ public class GiganticPlayer{
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
 		EXPLOSION(ExplosionManager.class),
+		MAGICDRIVE(MagicDriveManager.class),
+		CONDENSATION(CondensationManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
+		FLY(FlyManager.class),
+        Build(BuildManager.class)
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -125,6 +133,10 @@ public class GiganticPlayer{
 			}
 		}
 		return true;
+	}
+	
+	public boolean isOffline() {
+		return Gigantic.plugin.getServer().getPlayer(uuid) == null;
 	}
 
 	public void init() {

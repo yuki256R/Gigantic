@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.moduler.SkillType;
@@ -48,7 +49,7 @@ public class SkillTypeMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(
-			HashMap<Integer, Class<? extends GuiMenuManager>> openmap) {
+			HashMap<Integer, ManagerType> openmap) {
 	}
 
 	@Override

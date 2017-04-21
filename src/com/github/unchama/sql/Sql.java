@@ -12,12 +12,15 @@ import java.util.UUID;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
@@ -31,6 +34,9 @@ public class Sql {
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
+		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
+		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
+		BUILD(BuildTableManager.class,BuildManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;

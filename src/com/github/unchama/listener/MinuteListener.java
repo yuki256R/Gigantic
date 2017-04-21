@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.task.AddPotionTaskRunnable;
+import com.github.unchama.task.BuildTaskRunnable;
+import com.github.unchama.task.FlyTaskRunnable;
 import com.github.unchama.task.GiganticSaveTaskRunnable;
 
 public class MinuteListener implements Listener {
@@ -62,5 +64,35 @@ public class MinuteListener implements Listener {
 		 * debug.sendMessage(p, DebugEnum.MINEBOOST,
 		 * "updata MinuteMine for player:" + p.getName()); }
 		 */
+	}
+	/**
+	 * Fly
+     *
+	 * @param
+	 */
+	@EventHandler
+	public void FlyListener(MinuteEvent event){
+		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+		
+		if(playerlist.isEmpty()){
+			return;
+		}
+		//1tickにつき1人に処理
+		new FlyTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
+	}
+	
+	/**
+	 * 1分間の設置量
+	 * 
+	 * @param
+	 */
+	@EventHandler
+	public void BuildNum1minListener(MinuteEvent event){
+		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+		
+		if(playerlist.isEmpty()){
+			return;
+		}
+		new BuildTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
 	}
 }

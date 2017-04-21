@@ -1,7 +1,7 @@
 package com.github.unchama.gui.minestack.build;
 
-import com.github.unchama.enumdata.StackCategory;
 import com.github.unchama.gui.moduler.MineStackMenuManager;
+import com.github.unchama.gui.moduler.StackCategory;
 
 /**
  * Created by Mon_chi on 2017/03/25.
