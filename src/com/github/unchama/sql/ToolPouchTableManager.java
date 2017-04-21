@@ -37,12 +37,11 @@ public class ToolPouchTableManager extends PlayerTableManager {
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		ToolPouchManager m = gp.getManager(ToolPouchManager.class);
-		Inventory o_pouch,n_pouch;
+		Inventory pouch;
 		try {
-			o_pouch = BukkitSerialization.fromBase64(rs.getString("pouchdata").toString());
-			n_pouch = Bukkit.getServer().createInventory(null, m.getSize(),m.getName());
-			n_pouch.setContents(o_pouch.getContents());
-			m.setPouch(n_pouch);
+			pouch = BukkitSerialization.fromBase64(rs.getString("pouchdata").toString());
+			m.setPouch(pouch);
+			m.resize();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

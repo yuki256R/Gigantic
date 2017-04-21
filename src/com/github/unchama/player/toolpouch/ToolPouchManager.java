@@ -2,14 +2,17 @@ package com.github.unchama.player.toolpouch;
 
 import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.sql.ToolPouchTableManager;
 
 public class ToolPouchManager extends DataManager implements UsingSql {
@@ -63,8 +66,38 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 	}
 
 	public void open(Player player) {
+		resize();
 		player.playSound(player.getLocation(), Sound.BLOCK_LAVA_POP, 1, 0.4F);
 		player.openInventory(getPouch());
+	}
+
+	// サイズの更新処理
+	public void resize() {
+		if (pouch.getSize() != this.getSize()) {
+			Inventory n_pouch = Bukkit.getServer().createInventory(null, this.getSize(),
+					this.getName());
+			if(pouch.getSize() <= this.getSize()){
+				n_pouch.setContents(pouch.getContents());
+			}
+			pouch = n_pouch;
+		}
+	}
+
+	public boolean replace(Player player,short useDurability,ItemStack handtool) {
+		for(int i = 0; i < pouch.getSize() ; i++){
+			ItemStack pouchtool = pouch.getItem(i);
+			if(pouchtool == null)continue;
+			if(SkillManager.canBreak(pouchtool)){
+				if(pouchtool.getType().getMaxDurability() > pouchtool.getDurability() + useDurability){
+					pouch.setItem(i, handtool);
+					player.getInventory().setItemInMainHand(pouchtool);
+					player.sendMessage(ChatColor.YELLOW + "ツールポーチからツールを引き出しました．");
+					player.playSound(player.getLocation(), Sound.BLOCK_IRON_TRAPDOOR_OPEN, 1.0F, 1.7F);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 }

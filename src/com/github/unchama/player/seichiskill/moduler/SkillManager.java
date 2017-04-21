@@ -26,6 +26,7 @@ import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -36,6 +37,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	protected static CoreProtectAPI Cp;
 	protected ManaManager Mm;
 	protected SideBarManager Sm;
+	protected ToolPouchManager Pm;
 	protected GuiMenu guimenu = Gigantic.guimenu;
 
 	protected SkillType st;
@@ -95,6 +97,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	public void init() {
 		this.Mm = gp.getManager(ManaManager.class);
 		this.Sm = gp.getManager(SideBarManager.class);
+		this.Pm = gp.getManager(ToolPouchManager.class);
 	}
 
 	/**

@@ -87,18 +87,32 @@ public class ExplosionManager extends SkillManager {
 
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+		//使用する耐久値
+		short useDurability = 0;
 
 		if (!unbreakable) {
-			durability += (short) (BreakUtil.calcDurability(
-					tool.getEnchantmentLevel(Enchantment.DURABILITY),
-					breaklist.size() + liquidlist.size()));
-			if (tool.getType().getMaxDurability() <= durability) {
+			if(durability > tool.getType().getMaxDurability()){
 				player.sendMessage(this.getJPName() + ChatColor.RED
-						+ ":発動に必要なツールの耐久値が足りません");
+						+ ":ツールの耐久値が不正です．");
 				return false;
 			}
+			useDurability = (short) (BreakUtil.calcDurability(
+				tool.getEnchantmentLevel(Enchantment.DURABILITY),
+				breaklist.size() + liquidlist.size()));
+				//ツールの耐久が足りない時
+			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
+				//入れ替え可能
+				if(Pm.replace(player,useDurability,tool)){
+					durability = tool.getDurability();
+					unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+					if(unbreakable)useDurability = 0;
+				}else{
+					player.sendMessage(this.getJPName() + ChatColor.RED
+							+ ":発動に必要なツールの耐久値が足りません");
+					return false;
+				}
+			}
 		}
-
 		// マナを確認
 		double usemana = this.getMana(breaklist.size() + liquidlist.size() * 2);
 
@@ -198,7 +212,7 @@ public class ExplosionManager extends SkillManager {
 		int cooltime = this.getCoolTime(breaklist.size());
 
 		Mm.decrease(usemana);
-		tool.setDurability(durability);
+		tool.setDurability((short) (durability + useDurability));
 		if (cooltime > 5)
 			new CoolDownTaskRunnable(gp, cooltime, st)
 					.runTaskTimerAsynchronously(plugin, 0, 1);
