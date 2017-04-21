@@ -29,7 +29,7 @@ import com.github.unchama.task.CondensationTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 
 public class CondensationManager extends SkillManager implements Finalizable {
-	private static List<Material> condens_list = Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA);
+	private static List<Material> condens_list = new ArrayList<Material>(Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
 
 	CondensationTableManager tm;
 	BukkitTask task;
@@ -66,7 +66,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		}
 		if (toggle) {
 			task = new CondensationTaskRunnable(gp).runTaskTimerAsynchronously(
-					plugin, 5, 10);
+					plugin, 1, 10);
 		}
 	}
 
@@ -99,19 +99,36 @@ public class CondensationManager extends SkillManager implements Finalizable {
 			}
 		});
 
+		if(liquidlist.isEmpty())return false;
+
 		// ツールの耐久を確認
 
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+		//使用する耐久値
+		short useDurability = 0;
 
 		if (!unbreakable) {
-			durability += (short) (BreakUtil.calcDurability(
-					tool.getEnchantmentLevel(Enchantment.DURABILITY),
-					liquidlist.size()));
-			if (tool.getType().getMaxDurability() <= durability) {
+			if(durability > tool.getType().getMaxDurability()){
 				player.sendMessage(this.getJPName() + ChatColor.RED
-						+ ":発動に必要なツールの耐久値が足りません");
+						+ ":ツールの耐久値が不正です．");
 				return false;
+			}
+			useDurability = (short) (BreakUtil.calcDurability(
+				tool.getEnchantmentLevel(Enchantment.DURABILITY),
+				liquidlist.size()));
+				//ツールの耐久が足りない時
+			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
+				//入れ替え可能
+				if(Pm.replace(player,useDurability,tool)){
+					durability = tool.getDurability();
+					unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+					if(unbreakable)useDurability = 0;
+				}else{
+					player.sendMessage(this.getJPName() + ChatColor.RED
+							+ ":発動に必要なツールの耐久値が足りません");
+					return false;
+				}
 			}
 		}
 
@@ -160,7 +177,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		gp.getManager(SideBarManager.class).refresh();
 
 		Mm.decrease(usemana);
-		tool.setDurability(durability);
+		tool.setDurability((short) (durability + useDurability));
 		return true;
 	}
 

@@ -2,6 +2,7 @@ package com.github.unchama.sql;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 public class MineBlockTableManager extends PlayerFromSeichiTableManager {
-	private static List<Material> condensMaterial = Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA);
+	private static List<Material> condensMaterial = new ArrayList<Material>(Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
 
 	public MineBlockTableManager(Sql sql) {
 		super(sql);

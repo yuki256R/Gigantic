@@ -25,7 +25,6 @@ public class MenuClickListener implements Listener{
 	public void openMenu(MenuClickEvent event){
 		if(!event.getClick().equals(ClickType.LEFT))return;
 		Player player = event.getPlayer();
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GuiMenu.ManagerType mt = event.getManagerType();
 		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt
 				.getManagerClass());
@@ -38,7 +37,7 @@ public class MenuClickListener implements Listener{
 
 		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(omt.getManagerClass());
 		om.open(player, slot, false);
-		
+
 	}
 
 	@EventHandler

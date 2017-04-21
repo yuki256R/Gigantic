@@ -67,6 +67,15 @@ public class BlockBreakListener implements Listener {
 			return;
 		}
 		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		ExplosionManager skill = gp.getManager(ExplosionManager.class);
+
+		// トグルがオフなら終了
+		if (!skill.getToggle()){
+			debug.sendMessage(player , DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
+			return;
+		}
+
 
 		// サバイバルではないとき終了
 		if(!player.getGameMode().equals(GameMode.SURVIVAL)){
@@ -81,6 +90,8 @@ public class BlockBreakListener implements Listener {
 		}
 
 		// 使用可能ワールドではないとき終了
+
+
 		ItemStack tool = player.getInventory().getItemInMainHand();
 
 		// スキルを発動できるツールでないとき終了
@@ -105,16 +116,6 @@ public class BlockBreakListener implements Listener {
 			return;
 		}
 
-
-
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		ExplosionManager skill = gp.getManager(ExplosionManager.class);
-
-		// トグルがオフなら終了
-		if (!skill.getToggle()){
-			debug.sendMessage(player , DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
-			return;
-		}
 		event.setCancelled(true);
 
 		//クールダウン中なら終了

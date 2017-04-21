@@ -145,15 +145,4 @@ public enum BlockType{
 	public static HashMap<Material,BlockType> getmaterialMap(){
 		return materialMap;
 	}
-
-	public static double getIncreaseRatio(Material m){
-		double ratio;
-		switch(m){
-		default :
-			ratio = 1.0;
-			break;
-		}
-
-		return ratio;
-	}
 }

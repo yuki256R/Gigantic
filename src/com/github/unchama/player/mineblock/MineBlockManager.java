@@ -13,25 +13,24 @@ import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.sql.MineBlockTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class MineBlockManager extends DataManager implements UsingSql,Finalizable{
+public class MineBlockManager extends DataManager implements UsingSql,
+		Finalizable {
 
-	//破壊したタイプリスト
+	// 破壊したタイプリスト
 	private LinkedHashMap<BlockType, MineBlock> breakMap;
-	//凝固したマテリアルリスト
-	private LinkedHashMap<Material,MineBlock> condensMap;
+	// 凝固したマテリアルリスト
+	private LinkedHashMap<Material, MineBlock> condensMap;
 
 	private MineBlock all;
 
-
-
 	MineBlockTableManager tm;
-	//デバッグ時の整地レベル調整用ブロック
+	// デバッグ時の整地レベル調整用ブロック
 	private double debugblock = 0;
 
 	public MineBlockManager(GiganticPlayer gp) {
 		super(gp);
 		this.breakMap = new LinkedHashMap<BlockType, MineBlock>();
-		this.condensMap = new LinkedHashMap<Material,MineBlock>();
+		this.condensMap = new LinkedHashMap<Material, MineBlock>();
 		this.tm = sql.getManager(MineBlockTableManager.class);
 	}
 
@@ -46,18 +45,18 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 	 * @param breaknum
 	 */
 	public void increase(Material material, int breaknum) {
-		if(CondensationManager.canCondens(material)){
+		if (CondensationManager.canCondens(material)) {
 			condensMap.get(material).increase(breaknum);
+		} else {
+			BlockType bt = BlockType.getmaterialMap().get(material);
+			if (bt == null) {
+				debug.warning(DebugEnum.SKILL, "MineBlockManager内でnull:"
+						+ material.name());
+				return;
+			}
+			breakMap.get(bt).increase(breaknum);
 		}
-		double ratio = BlockType.getIncreaseRatio(material);
-		BlockType bt = BlockType.getmaterialMap().get(material);
-		double inc = breaknum * ratio;
-		if(bt == null){
-			debug.warning(DebugEnum.SKILL, "MineBlockManager内でnull:" + material.name());
-			return;
-		}
-		breakMap.get(bt).increase(inc);
-		all.increase(inc);
+		all.increase(breaknum);
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 
 	@Override
 	public void fin() {
-		if(this.debugblock != 0){
+		if (this.debugblock != 0) {
 			all.increase(TimeType.UNLIMITED, -this.debugblock);
 		}
 	}
@@ -106,7 +105,7 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 		return this.breakMap;
 	}
 
-	public LinkedHashMap<Material,MineBlock> getCondensMap() {
+	public LinkedHashMap<Material, MineBlock> getCondensMap() {
 		return this.condensMap;
 	}
 

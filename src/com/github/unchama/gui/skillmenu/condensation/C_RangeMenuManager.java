@@ -95,20 +95,23 @@ public class C_RangeMenuManager extends RangeMenuManager {
 			boolean decflag = false;
 			switch (identifier) {
 			case "height":
-				if (v.getHeight() > dv.getHeight()) {
+				if (v.getHeight() > dv.getHeight()
+						&& zero.getY() + 1 < v.getHeight()) {
 					v.decHeight();
 					decflag = true;
 				}
 				break;
 			case "width":
-				if (v.getWidth() > dv.getWidth()) {
+				if (v.getWidth() > dv.getWidth()
+						&& zero.getX() + 1 < v.getWidth()) {
 					v.decWidth();
 					zero.add(-1, 0, 0);
 					decflag = true;
 				}
 				break;
 			case "depth":
-				if (v.getDepth() > dv.getDepth()) {
+				if (v.getDepth() > dv.getDepth()
+						&& zero.getZ() + 1 < v.getDepth()) {
 					v.decDepth();
 					decflag = true;
 				}
@@ -128,6 +131,9 @@ public class C_RangeMenuManager extends RangeMenuManager {
 			v.setDepth(dv.getDepth());
 			v.setWidth(dv.getWidth());
 			v.setHeight(dv.getHeight());
+			zero.setY(v.getHeight() - 1);
+			zero.setX((v.getWidth() - 1) / 2);
+			zero.setZ((v.getDepth() - 1) / 2);
 			m.getRange().refresh();
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
 					(float) 0.7, (float) 4);
@@ -144,6 +150,7 @@ public class C_RangeMenuManager extends RangeMenuManager {
 		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
 		Volume v = m.getRange().getVolume();
 		Volume dv = m.getDefaultVolume();
+		Coordinate zero = m.getRange().getZeropoint();
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore;
 		long spendap = 0;
@@ -211,6 +218,9 @@ public class C_RangeMenuManager extends RangeMenuManager {
 			if (v.getWidth() == dv.getWidth()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上幅を狭くすることはできません．");
+			} else if (zero.getX() + 1 >= v.getWidth()) {
+				lore.add("" + ChatColor.RESET + ChatColor.RED
+						+ "幅を狭くするには起点を下げてください．");
 			} else {
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
 						+ "取得するAP:" + spendap);
@@ -278,6 +288,9 @@ public class C_RangeMenuManager extends RangeMenuManager {
 			if (v.getDepth() == dv.getDepth()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上奥行を縮めることはできません．");
+			} else if (zero.getZ() + 1 >= v.getWidth()) {
+				lore.add("" + ChatColor.RESET + ChatColor.RED
+						+ "奥行きを縮めるには起点を縮めてください．");
 			} else {
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
 						+ "取得するAP:" + spendap);
@@ -299,6 +312,9 @@ public class C_RangeMenuManager extends RangeMenuManager {
 			if (v.getHeight() == dv.getHeight()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上高さを下げることはできません．");
+			} else if (zero.getY() + 1 >= v.getHeight()) {
+				lore.add("" + ChatColor.RESET + ChatColor.RED
+						+ "高さを下げるには起点を下げてください．");
 			} else {
 				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
 						+ "取得するAP:" + spendap);

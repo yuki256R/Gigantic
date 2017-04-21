@@ -78,6 +78,10 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 					this.getName());
 			if(pouch.getSize() <= this.getSize()){
 				n_pouch.setContents(pouch.getContents());
+			}else{
+				for(int i = 0;i < n_pouch.getSize() ; i++){
+					n_pouch.setItem(i, pouch.getItem(i));
+				}
 			}
 			pouch = n_pouch;
 		}
@@ -92,7 +96,7 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 					pouch.setItem(i, handtool);
 					player.getInventory().setItemInMainHand(pouchtool);
 					player.sendMessage(ChatColor.YELLOW + "ツールポーチからツールを引き出しました．");
-					player.playSound(player.getLocation(), Sound.BLOCK_IRON_TRAPDOOR_OPEN, 1.0F, 1.7F);
+					player.playSound(player.getLocation(), Sound.BLOCK_IRON_TRAPDOOR_OPEN, 4.0F, 1.7F);
 					return true;
 				}
 			}

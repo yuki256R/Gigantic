@@ -152,6 +152,14 @@ public class GiganticInteractListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void MagicDrive(GiganticInteractEvent event) {
 		Player player = event.getPlayer();
+		GiganticPlayer gp = event.getGiganticPlayer();
+		MagicDriveManager skill = gp.getManager(MagicDriveManager.class);
+
+		// トグルがオフなら終了
+		if (!skill.getToggle()) {
+			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
+			return;
+		}
 
 		// サバイバルではないとき終了
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
@@ -210,17 +218,8 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 
-		GiganticPlayer gp = event.getGiganticPlayer();
-		MagicDriveManager skill = gp.getManager(MagicDriveManager.class);
-
-		// トグルがオフなら終了
-		if (!skill.getToggle()) {
-			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
-			return;
-		}
-
 		event.setCancelled(true);
 
-		new MagicDriveTaskRunnable(player,skill, tool, block).runTaskTimer(plugin, 0, 1);
+		new MagicDriveTaskRunnable(player,skill, tool, block).runTaskTimerAsynchronously(plugin, 0, 1);
 	}
 }
