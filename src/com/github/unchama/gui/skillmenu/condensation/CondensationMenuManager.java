@@ -22,6 +22,7 @@ import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
+import com.github.unchama.util.MobHead;
 
 public class CondensationMenuManager extends SkillMenuManager{
 	private static Class<? extends SkillManager> clazz = CondensationManager.class;
@@ -145,6 +146,8 @@ public class CondensationMenuManager extends SkillMenuManager{
 			break;
 		case ORIGIN:
 			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+			String url = MobHead.getMobURL("pc");
+			MobHead.setURL(itemstack, url);
 			break;
 		case BOOK:
 			itemstack = new ItemStack(Material.ENCHANTED_BOOK);

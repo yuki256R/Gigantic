@@ -21,6 +21,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
@@ -33,6 +34,7 @@ public class Sql {
 		MANA(ManaTableManager.class,ManaManager.class),
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		TOOLPOUCH(ToolPouchTableManager.class,ToolPouchManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
 		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
@@ -242,6 +244,7 @@ public class Sql {
 		if (!this.managermap.isEmpty() || this.managermap != null) {
 			managermap.clear();
 		}
+		boolean flag = false;
 		// 各テーブル用メソッドに受け渡し
 		for (ManagerType mt : ManagerType.values()) {
 			try {
@@ -250,9 +253,14 @@ public class Sql {
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
+				plugin.getLogger().warning("Failed to create instance of " + mt.name());
 				e.printStackTrace();
-				return false;
+				flag = true;
+				continue;
 			}
+		}
+		if(flag){
+			plugin.getLogger().warning("テーブルインスタンスの生成に失敗しました．");
 		}
 		return true;
 	}

@@ -9,21 +9,29 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.sql.MineBlockTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MineBlockManager extends DataManager implements UsingSql,Finalizable{
 
-	private LinkedHashMap<BlockType, MineBlock> datamap;
+	//破壊したタイプリスト
+	private LinkedHashMap<BlockType, MineBlock> breakMap;
+	//凝固したマテリアルリスト
+	private LinkedHashMap<Material,MineBlock> condensMap;
 
 	private MineBlock all;
+
+
+
 	MineBlockTableManager tm;
 	//デバッグ時の整地レベル調整用ブロック
 	private double debugblock = 0;
 
 	public MineBlockManager(GiganticPlayer gp) {
 		super(gp);
-		this.datamap = new LinkedHashMap<BlockType, MineBlock>();
+		this.breakMap = new LinkedHashMap<BlockType, MineBlock>();
+		this.condensMap = new LinkedHashMap<Material,MineBlock>();
 		this.tm = sql.getManager(MineBlockTableManager.class);
 	}
 
@@ -32,12 +40,15 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 	}
 
 	/**
-	 * 破壊した数を引数に整地量を加算
+	 * 破壊,凝固した数を引数に整地量を加算
 	 *
 	 * @param material
 	 * @param breaknum
 	 */
 	public void increase(Material material, int breaknum) {
+		if(CondensationManager.canCondens(material)){
+			condensMap.get(material).increase(breaknum);
+		}
 		double ratio = BlockType.getIncreaseRatio(material);
 		BlockType bt = BlockType.getmaterialMap().get(material);
 		double inc = breaknum * ratio;
@@ -45,7 +56,7 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 			debug.warning(DebugEnum.SKILL, "MineBlockManager内でnull:" + material.name());
 			return;
 		}
-		datamap.get(bt).increase(inc);
+		breakMap.get(bt).increase(inc);
 		all.increase(inc);
 	}
 
@@ -55,7 +66,10 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 	}
 
 	public void resetTimeCount(TimeType tt) {
-		datamap.forEach((bt, mb) -> {
+		breakMap.forEach((bt, mb) -> {
+			mb.reset(tt);
+		});
+		condensMap.forEach((m, mb) -> {
 			mb.reset(tt);
 		});
 		all.reset(tt);
@@ -88,7 +102,12 @@ public class MineBlockManager extends DataManager implements UsingSql,Finalizabl
 		this.all = mb;
 	}
 
-	public LinkedHashMap<BlockType, MineBlock> getDataMap() {
-		return this.datamap;
+	public LinkedHashMap<BlockType, MineBlock> getBreakMap() {
+		return this.breakMap;
 	}
+
+	public LinkedHashMap<Material,MineBlock> getCondensMap() {
+		return this.condensMap;
+	}
+
 }

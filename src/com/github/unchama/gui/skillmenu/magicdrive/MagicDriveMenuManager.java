@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
@@ -24,6 +23,7 @@ import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
+import com.github.unchama.util.MobHead;
 
 public class MagicDriveMenuManager extends SkillMenuManager {
 	private static Class<? extends SkillManager> clazz = MagicDriveManager.class;
@@ -91,9 +91,8 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			itemmeta.setLore(lore);
 			break;
 		case ORIGIN:
+			itemmeta.setDisplayName(ChatColor.DARK_RED + "起点設定");
 			itemmeta.setDisplayName(ChatColor.LIGHT_PURPLE + "起点設定");
-			SkullMeta skullmeta = (SkullMeta) itemmeta;
-			skullmeta.setOwner(player.getName());
 			int y = m.getRange().getZeropoint().getY();
 			int cy;
 			lore = new ArrayList<String>();
@@ -181,6 +180,8 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			break;
 		case ORIGIN:
 			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+			String url = MobHead.getMobURL("pc");
+			MobHead.setURL(itemstack, url);
 			break;
 		case BOOK:
 			itemstack = new ItemStack(Material.ENCHANTED_BOOK);

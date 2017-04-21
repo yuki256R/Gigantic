@@ -31,7 +31,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable{
 	private BossBar bar;
 	private Block next_block;
 	private int count;
-	private boolean cancelled = false;;
+	private boolean cancelled = false;
 	private static int maxcount = 5;
 
 

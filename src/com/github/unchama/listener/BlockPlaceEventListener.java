@@ -1,17 +1,6 @@
 package com.github.unchama.listener;
 
 
-<<<<<<< HEAD
-=======
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.build.BuildData;
-import com.github.unchama.player.build.BuildManager;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
-
->>>>>>> refs/remotes/unchama/master
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +12,8 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildData;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class BlockPlaceEventListener implements Listener {
     Gigantic plugin = Gigantic.plugin;
@@ -46,10 +37,6 @@ public class BlockPlaceEventListener implements Listener {
             return;
         }
 
-<<<<<<< HEAD
-        gp.getManager(BuildManager.class).addBuild_Num_1min(1);
-        //player.sendMessage(ChatColor.GREEN + "[DEBUG]build_num_1minが1増加");//TODO:Debug用
-=======
         debug.sendMessage(player,DebugEnum.BUILD,"前のtotalbuildnum:"+ gp.getManager(BuildManager.class).getTotalbuildnum()
                 + "・前のbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
         gp.getManager(BuildManager.class).calcBuildNum();
@@ -57,6 +44,6 @@ public class BlockPlaceEventListener implements Listener {
         debug.sendMessage(player,DebugEnum.BUILD,"更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
                 + "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
         debug.sendMessage(player, DebugEnum.BUILD, "建築量更新処理終了。プレイヤー:[" + player.getName() + "]");
->>>>>>> refs/remotes/unchama/master
+
     }
 }

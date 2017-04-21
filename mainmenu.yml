@@ -74,7 +74,7 @@ name: '&5&lメインメニュー'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
   isSkullofOwner: true
-13:
+14:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: ENCHANTED_BOOK
@@ -84,8 +84,27 @@ name: '&5&lメインメニュー'
       display-name: '&e&n&l整地スキル'
       lore:
       - '&r&7スキルを使って整地の効率を上げよう'
-      - '&r&4&nクリックで開く'
-  open: 'skilltypemenu'
+      - '&r&2&l&nクリックで開く'
+  openmenu: 'skilltypemenu'
+16:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&b&n&lツールポーチ'
+      lore:
+      - '&r&a整地で使用するツールを保管できます．'
+      - '&r保管されたツールはスキル使用時に'
+      - '&r前から順番に使用されます．'
+      - '&r&2&l&nクリックで開く'
+      - '&r&8※ツールポーチは'
+      - '&r&8各サバイバルサーバー間で'
+      - '&r&8共有されます'
+  mobhead: 'pouch'
+  openinventory: 'toolpouch'
 24:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -97,8 +116,8 @@ name: '&5&lメインメニュー'
       lore:
       - '&r&a説明しよう!MineStackとは…'
       - '&r主要ブロックを無限にスタック出来る!'
-      - '&r&2&lクリックで開く'
+      - '&r&2&l&nクリックで開く'
       - '&r&8※スタックしたブロックは'
       - '&r&8各サバイバルサーバー間で'
       - '&r&8共有されます'
-  open: 'minestackcategorymenu'
+  openmenu: 'minestackcategorymenu'
