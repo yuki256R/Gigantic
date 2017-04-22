@@ -92,7 +92,7 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 			ItemStack pouchtool = pouch.getItem(i);
 			if(pouchtool == null)continue;
 			if(SkillManager.canBreak(pouchtool)){
-				if(pouchtool.getType().getMaxDurability() > pouchtool.getDurability() + useDurability){
+				if(pouchtool.getItemMeta().spigot().isUnbreakable() || pouchtool.getType().getMaxDurability() > pouchtool.getDurability() + useDurability){
 					pouch.setItem(i, handtool);
 					player.getInventory().setItemInMainHand(pouchtool);
 					player.sendMessage(ChatColor.YELLOW + "ツールポーチからツールを引き出しました．");

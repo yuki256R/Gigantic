@@ -12,38 +12,143 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
-import com.github.unchama.sql.MagicDriveTableManager;
-import com.github.unchama.task.CoolDownTaskRunnable;
+import com.github.unchama.sql.RuinFieldTableManager;
+import com.github.unchama.task.RuinFieldTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class MagicDriveManager extends SkillManager{
+public class RuinFieldManager extends SkillManager implements Finalizable{
+	RuinFieldTableManager tm;
+	BukkitTask task;
 
-	MagicDriveTableManager tm;
-
-	boolean preflag;
-
-	public MagicDriveManager(GiganticPlayer gp) {
+	public RuinFieldManager(GiganticPlayer gp) {
 		super(gp);
-		tm = sql.getManager(MagicDriveTableManager.class);
-		preflag = false;
+		tm = sql.getManager(RuinFieldTableManager.class);
+	}
+	@Override
+	public void toggle() {
+		this.setToggle(!toggle);
+		if (task != null) {
+			task.cancel();
+		}
+		if (toggle) {
+			task = new RuinFieldTaskRunnable(gp).runTaskTimerAsynchronously(
+					plugin, 1, 10);
+		}
 	}
 
 	@Override
-	public boolean run(Player player, ItemStack tool, Block block) {
+	public void save(Boolean loginflag) {
+		tm.save(gp, loginflag);
+	}
 
+	@Override
+	public void fin() {
+		if (task != null) {
+			task.cancel();
+		}
+	}
+
+	@Override
+	protected boolean canBelowBreak(Player player, Block block, Block rb) {
+		int playerlocy = player.getLocation().getBlockY() - 1;
+		int rblocy = rb.getY();
+
+		// 自分の高さ以上のブロックのみ破壊する
+		if (playerlocy < rblocy || player.isSneaking()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	protected ItemStack getItemStackonLocked() {
+		return new ItemStack(Material.STAINED_GLASS, 1, (short) 10);
+	}
+
+	@Override
+	public String getJPName() {
+		return "" + ChatColor.RESET + ChatColor.DARK_PURPLE + ChatColor.BOLD
+				+ "ルインフィールド" + ChatColor.RESET;
+	}
+
+	@Override
+	public Material getMenuMaterial() {
+		return Material.DIAMOND_ORE;
+	}
+
+	@Override
+	public int getUnlockLevel() {
+		return 150;
+	}
+
+	@Override
+	public long getUnlockAP() {
+		return 500;
+	}
+
+	@Override
+	public double getMana(int breaknum) {
+		return breaknum / (Math.pow(breaknum, 0.125)) - 1;
+	}
+
+	@Override
+	public int getCoolTime(int breaknum) {
+		return 0;
+	}
+
+	@Override
+	public long getSpendAP(int breaknum) {
+		return (long) breaknum * 4;
+	}
+
+	@Override
+	public int getMaxBreakNum() {
+		return 1200;
+	}
+
+	@Override
+	public int getMaxHeight() {
+		return 50;
+	}
+
+	@Override
+	public int getMaxWidth() {
+		return 20;
+	}
+
+	@Override
+	public int getMaxDepth() {
+		return 40;
+	}
+
+	@Override
+	public long getUsedAp() {
+		Volume v = this.getRange().getVolume();
+		return this.getSpendAP(v.getVolume() - getDefaultVolume().getVolume());
+	}
+
+	@Override
+	public Volume getDefaultVolume() {
+		return new Volume(7, 7, 7);
+	}
+	@Override
+	public boolean run(Player player, ItemStack tool, Block block) {
 		// エフェクト用に壊されるブロック全てのリストデータ
 		List<Block> breaklist = new ArrayList<Block>();
 
@@ -73,12 +178,6 @@ public class MagicDriveManager extends SkillManager{
 				}
 			});
 
-		if (breaklist.isEmpty()) {
-			player.sendMessage(this.getJPName() + ChatColor.RED
-					+ ":発動できるブロックがありません．自分より下のブロックはしゃがみながら破壊できます．");
-			return false;
-		}
-
 		// ツールの耐久を確認
 
 		short durability = tool.getDurability();
@@ -94,7 +193,7 @@ public class MagicDriveManager extends SkillManager{
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
 				tool.getEnchantmentLevel(Enchantment.DURABILITY),
-				breaklist.size() + liquidlist.size()));
+				breaklist.size() + liquidlist.size() * 2));
 				//ツールの耐久が足りない時
 			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
 				//入れ替え可能
@@ -109,15 +208,15 @@ public class MagicDriveManager extends SkillManager{
 				}
 			}
 		}
+
 		// マナを確認
-		double usemana = this.getMana(breaklist.size() + liquidlist.size() * 2);
+		double usemana = this.getMana(liquidlist.size());
 
 		if (!Mm.hasMana(usemana)) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動に必要なマナが足りません");
 			return false;
 		}
-
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
@@ -206,146 +305,9 @@ public class MagicDriveManager extends SkillManager{
 				rb);
 		gp.getManager(SideBarManager.class).refresh();
 
-		int cooltime = this.getCoolTime(breaklist.size());
-
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
-		if (cooltime > 5)
-			new CoolDownTaskRunnable(gp, cooltime, st)
-					.runTaskTimerAsynchronously(plugin, 0, 1);
 		return true;
 	}
-	@Override
-	public void save(Boolean loginflag) {
-		tm.save(gp, loginflag);
-	}
 
-
-	@Override
-	protected ItemStack getItemStackonLocked() {
-		return new ItemStack(Material.STAINED_GLASS, 1, (short) 11);
-	}
-
-	@Override
-	public String getJPName() {
-		return "" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
-				+ "マジックドライブ" + ChatColor.RESET;
-	}
-
-	@Override
-	public Material getMenuMaterial() {
-		return Material.LAPIS_ORE;
-	}
-
-	@Override
-	public int getUnlockLevel() {
-		return 50;
-	}
-
-	@Override
-	public long getUnlockAP() {
-		return 20;
-	}
-
-	@Override
-	public double getMana(int breaknum) {
-		return breaknum / (Math.pow(breaknum, 0.1666667)) - 1;
-	}
-
-	@Override
-	public int getCoolTime(int breaknum) {
-		return (int) ((Math.pow(breaknum, 0.23255814)) - 1) * 20;
-	}
-
-	@Override
-	public long getSpendAP(int breaknum) {
-		return (long) breaknum * 1;
-	}
-
-	@Override
-	public int getMaxBreakNum() {
-		return 2000;
-	}
-
-	@Override
-	public int getMaxHeight() {
-		return 55;
-	}
-
-	@Override
-	public int getMaxWidth() {
-		return 35;
-	}
-
-	@Override
-	public int getMaxDepth() {
-		return 20;
-	}
-
-	@Override
-	protected boolean canBelowBreak(Player player, Block block, Block rb) {
-		int playerlocy = player.getLocation().getBlockY() - 1;
-		//int blocky = block.getY();
-		int rblocy = rb.getY();
-		int zeroy = this.getRange().getZeropoint().getY();
-		int voly = this.getRange().getVolume().getHeight() - 1;
-
-		// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
-		if (zeroy == voly) {
-			return true;
-			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
-		} else if (playerlocy < rblocy || player.isSneaking()) {
-			return true;
-		} else {
-			return false;
-		}
-		/*
-
-		// プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
-		if (playerlocy >= blocky) {
-			return true;
-			// 破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
-		} else if (voly <= 1) {
-			if (playerlocy < rblocy) {
-				return true;
-			} else {
-				return false;
-			}
-			// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
-		} else if (zeroy == voly) {
-			return true;
-			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
-		} else if (playerlocy < rblocy) {
-			return true;
-		} else {
-			return false;
-		}
-		*/
-	}
-
-	/**
-	 * preflagを取得します。
-	 * @return preflag
-	 */
-	public boolean getPreflag() {
-	    return preflag;
-	}
-
-	/**
-	 * preflagを設定します。
-	 * @param preflag preflag
-	 */
-	public void setPreflag(boolean preflag) {
-	    this.preflag = preflag;
-	}
-
-	@Override
-	public long getUsedAp() {
-		Volume v = this.getRange().getVolume();
-		return this.getSpendAP(v.getVolume() - getDefaultVolume().getVolume());
-	}
-	@Override
-	public Volume getDefaultVolume() {
-		return new Volume(1,1,1);
-	}
 }

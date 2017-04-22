@@ -1,8 +1,6 @@
 package com.github.unchama.listener;
 
-import net.md_5.bungee.api.ChatColor;
-
-import org.bukkit.Sound;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,16 +45,13 @@ public class PlayerItemHeldListener implements Listener{
 
 		if(Math.abs(pre_slot - slot) <= 1)return;
 
+		ItemStack pre_is = inv.getItem(pre_slot);
+		if(pre_is == null)return;
+
 		for(SkillType st : SkillType.values()){
 			SkillManager sm = (SkillManager)gp.getManager(st.getSkillClass());
-			if(displayname.contains(sm.getJPName())){
+			if(displayname.contains(sm.getJPName()) && !pre_is.getType().equals(Material.ENCHANTED_BOOK)){
 				sm.toggle();
-				if(sm.getToggle()){
-					player.sendMessage(sm.getJPName() + ":" + ChatColor.GREEN + "ON");
-				}else{
-					player.sendMessage(sm.getJPName() + ":" + ChatColor.RED + "OFF");
-				}
-				player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, (float)0.7 , (float) 2.2);
 				inv.setHeldItemSlot(pre_slot);
 				break;
 			}

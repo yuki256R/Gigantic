@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.coreprotect.CoreProtectAPI;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -127,7 +128,6 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @return 可否
 	 */
 	public abstract boolean run(Player player, ItemStack tool, Block block);
-
 
 	public static Boolean isLiquid(Material m) {
 		switch (m) {
@@ -277,7 +277,8 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 *
 	 */
 	public void toggle() {
-		this.toggle = !this.toggle;
+		this.setToggle(!toggle);
+
 	}
 
 	/**
@@ -286,6 +287,34 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 */
 	public boolean getToggle() {
 		return this.toggle;
+	}
+
+	/**
+	 * toggleをセットします．
+	 *
+	 * @param toggle
+	 */
+	public void setToggle(boolean toggle) {
+		Player player = PlayerManager.getPlayer(gp);
+		if (player != null) {
+			this.toggle = toggle;
+			if (toggle) {
+				player.sendMessage(this.getJPName() + ":" + ChatColor.GREEN
+						+ "ON");
+			} else {
+				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
+						+ "OFF");
+			}
+			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
+					(float) 0.7, (float) 2.2);
+		} else {
+			Bukkit.getServer()
+					.getLogger()
+					.warning(
+							"<" + this.getClass().getSimpleName()
+									+ ".toggle()> " + gp.name
+									+ "のplayerクラスが見つかりません．");
+		}
 	}
 
 	/**
@@ -474,6 +503,26 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 						.getData());
 		if (!success) {
 			debug.warning(DebugEnum.SKILL, "CoreProtectで破壊ログを保存できませんでした．");
+			debug.warning(DebugEnum.SKILL, "Player名：" + player.getName());
+			debug.warning(DebugEnum.SKILL, "BlockMaterial:"
+					+ block.getType().toString());
+			debug.warning(DebugEnum.SKILL, "Location："
+					+ block.getLocation().toString());
+		}
+	}
+	/**
+	 * 与えられたブロックをコアプロテクトに保存する
+	 *
+	 * @param player
+	 * @param block
+	 */
+	@SuppressWarnings("deprecation")
+	public static void logPlacement(Player player, Block block) {
+		Boolean success = Cp.logPlacement(player.getName(), block.getLocation(),
+				block.getState().getType(), block.getState().getData()
+				.getData());
+		if (!success) {
+			debug.warning(DebugEnum.SKILL, "CoreProtectで設置ログを保存できませんでした．");
 			debug.warning(DebugEnum.SKILL, "Player名：" + player.getName());
 			debug.warning(DebugEnum.SKILL, "BlockMaterial:"
 					+ block.getType().toString());

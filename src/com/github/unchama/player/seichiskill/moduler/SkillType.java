@@ -15,7 +15,7 @@ public enum SkillType {
 	EXPLOSION(ExplosionManager.class, ExplosionMenuManager.class,
 			Information.EX_COOLTIME), MAGICDRIVE(MagicDriveManager.class,
 			MagicDriveMenuManager.class, Information.MD_COOLTIME),
-			CONDENSATION(CondensationManager.class,CondensationMenuManager.class,Information.C_COOLTIME)
+			CONDENSATION(CondensationManager.class,CondensationMenuManager.class)
 	/*
 	 * CONDENSATION(Condensation.class,CondensationMenuManager.class),
 	 * RUINFIELD(RuinField.class,RuinFieldMenuManager.class),
@@ -28,6 +28,11 @@ public enum SkillType {
 
 	private static LinkedHashMap<Class<? extends SkillManager>, SkillType> skillclassmap = new LinkedHashMap<Class<? extends SkillManager>, SkillType>();
 	private static LinkedHashMap<Class<? extends SkillMenuManager>, SkillType> skillmenuclassmap = new LinkedHashMap<Class<? extends SkillMenuManager>, SkillType>();
+
+	SkillType(Class<? extends SkillManager> skillClass,
+			Class<? extends SkillMenuManager> menuClass) {
+		this(skillClass,menuClass,null);
+	}
 
 	SkillType(Class<? extends SkillManager> skillClass,
 			Class<? extends SkillMenuManager> menuClass, Information info) {

@@ -122,6 +122,7 @@ public class ExplosionManager extends SkillManager {
 			return false;
 		}
 
+		MineBlockManager mb = gp.getManager(MineBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
 		breaklist
@@ -129,7 +130,7 @@ public class ExplosionManager extends SkillManager {
 					// ドロップアイテムをリストに追加
 					droplist.addAll(BreakUtil.getDrops(b, tool));
 					// MineBlockに追加
-					gp.getManager(MineBlockManager.class).increase(b.getType(),
+					mb.increase(b.getType(),
 							1);
 					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
 							.name()

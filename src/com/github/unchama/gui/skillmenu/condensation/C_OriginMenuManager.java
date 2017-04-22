@@ -40,7 +40,6 @@ public class C_OriginMenuManager extends OriginMenuManager {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		SkillManager m = gp.getManager(clazz);
 		Volume v = m.getRange().getVolume();
-		Volume dv = m.getDefaultVolume();
 		Coordinate zero = m.getRange().getZeropoint();
 		if (identifier.startsWith("inc")) {
 			identifier = identifier.replace("inc_", "");

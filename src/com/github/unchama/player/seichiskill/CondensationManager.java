@@ -60,7 +60,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 
 	@Override
 	public void toggle() {
-		this.toggle = !toggle;
+		this.setToggle(!toggle);
 		if (task != null) {
 			task.cancel();
 		}
@@ -99,7 +99,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 			}
 		});
 
-		if(liquidlist.isEmpty())return false;
+		if(liquidlist.isEmpty())return true;
 
 		// ツールの耐久を確認
 
@@ -151,13 +151,13 @@ public class CondensationManager extends SkillManager implements Finalizable {
 				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
 			});
 
-		// 最初のブロックのみコアプロテクトに保存する．
-		SkillManager.logRemoval(player, block);
-
 		// condensの処理
 		liquidlist.forEach(b -> {
 			b.setType(Material.PACKED_ICE);
 		});
+
+		// 最初のブロックのみコアプロテクトに保存する．
+		SkillManager.logPlacement(player, liquidlist.get(1));
 
 		// condens後の処理
 		liquidlist.forEach(b -> {

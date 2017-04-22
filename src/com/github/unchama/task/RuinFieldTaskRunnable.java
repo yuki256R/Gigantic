@@ -9,18 +9,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import zedly.zenchantments.Zenchantments;
+
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class CondensationTaskRunnable extends BukkitRunnable {
+public class RuinFieldTaskRunnable extends BukkitRunnable{
 	private Gigantic plugin = Gigantic.plugin;
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
+	private Zenchantments Ze;
 	@SuppressWarnings("unused")
 	private GiganticPlayer gp;
 	private Player player;
@@ -32,7 +36,8 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 
 	private boolean cancelled = false;
 
-	public CondensationTaskRunnable(GiganticPlayer gp) {
+	public RuinFieldTaskRunnable(GiganticPlayer gp) {
+		this.Ze = Util.getZenchantments();
 		this.gp = gp;
 		this.player = PlayerManager.getPlayer(gp);
 		this.skill = gp.getManager(CondensationManager.class);
