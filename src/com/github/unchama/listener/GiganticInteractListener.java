@@ -73,33 +73,26 @@ public class GiganticInteractListener implements Listener {
 		for (GuiMenu.ManagerType mt : GuiMenu.ManagerType.values()) {
 			GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt
 					.getManagerClass());
-			Bukkit.getServer().getLogger().info("GuiMenu" + mt.toString() + "の処理");//追加(仮)
 			// キーアイテムを持っていなければ終了
-			if (!m.hasKey()){//追加(仮)
-				Bukkit.getServer().getLogger().info("キーアイテムがないので終了" + "hasKey:" + m.hasKey());//追加(仮)-
-				return;
-			}//追加(仮)
+			if (!m.hasKey())
+				continue;
 			// クリックの種類が指定のものと違うとき終了
 			String click = m.getClickType();
 			if (click == null) {
-				Bukkit.getServer().getLogger().info("クリックがnullなので終了" + "click:" + m.getClickType());//追加(仮)
-				return;
+				continue;
 			}
 			if (click.equalsIgnoreCase("left")) {
 				if (action.equals(Action.RIGHT_CLICK_AIR)
 						|| action.equals(Action.RIGHT_CLICK_BLOCK)) {
-					Bukkit.getServer().getLogger().info("条件が左クリックなのに右クリックなので終了");//追加(仮)
-					return;
+					continue;
 				}
 			} else if (click.equalsIgnoreCase("right")) {
 				if (action.equals(Action.LEFT_CLICK_AIR)
 						|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-					Bukkit.getServer().getLogger().info("条件が右クリックなのに左クリックなので終了");//追加(仮)
-					return;
+					continue;
 				}
 			} else {
-				Bukkit.getServer().getLogger().info("クリックじゃないので終了");//追加(仮)
-				return;
+				continue;
 			}
 
 			KeyItem keyitem = m.getKeyItem();
@@ -107,14 +100,10 @@ public class GiganticInteractListener implements Listener {
 
 			if (keyitem.getMaterial() != null) {
 				if (!item.getType().equals(keyitem.getMaterial())) {
-					Bukkit.getServer().getLogger().info("アイテムのマテリアルがキーアイテムと一致しないので終了 keyitem=" + keyitem.getMaterial()
-							+ "item=" + item.getType());//追加(仮)
-					return;
+					continue;
 				} else {
 					if (!(item.getDurability() == (short) keyitem.getDamage())) {
-						Bukkit.getServer().getLogger().info("アイテムのダメージ値がキーアイテムのダメージ値と一致しないので終了 keyitem=" + (short)keyitem.getDamage()
-								+ "item=" + item.getDurability());//追加(仮)
-						return;
+						continue;
 					}
 				}
 			}
@@ -122,9 +111,7 @@ public class GiganticInteractListener implements Listener {
 			if (keyitem.getName() != null) {
 				if (!item.getItemMeta().getDisplayName()
 						.equalsIgnoreCase(keyitem.getName())) {
-					Bukkit.getServer().getLogger().info("アイテム名がキーアイテム名と一致しないので終了 keyitem=" + keyitem.getName() +
-							"item=" + item.getItemMeta().getDisplayName());//追加(仮)
-					return;
+					continue;
 				}
 			}
 
@@ -144,13 +131,13 @@ public class GiganticInteractListener implements Listener {
 				}
 
 				if (!tmplore.isEmpty()) {
-					return;
+					continue;
 				}
 			}
 
 			event.setCancelled(true);
 			m.open(player, 0, true);
-			return;
+			continue;
 		}
 	}
 

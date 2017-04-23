@@ -51,7 +51,7 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	/**初期処理でプレイヤーのレベルを取得します
 	 * 
 	 */
-	private void calcLevel(){
+	public void calcLevel(){
 		this.buildlevel = 1;
 		while(canLevelup()){
 			buildlevel++;
