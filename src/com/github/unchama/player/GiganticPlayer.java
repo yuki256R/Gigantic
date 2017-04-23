@@ -24,6 +24,7 @@ import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
@@ -54,6 +55,7 @@ public class GiganticPlayer{
 		EXPLOSION(ExplosionManager.class),
 		MAGICDRIVE(MagicDriveManager.class),
 		CONDENSATION(CondensationManager.class),
+		RUINFIELD(RuinFieldManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),

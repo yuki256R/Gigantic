@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -29,7 +30,8 @@ import com.github.unchama.task.CondensationTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 
 public class CondensationManager extends SkillManager implements Finalizable {
-	private static List<Material> condens_list = new ArrayList<Material>(Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
+	private static List<Material> condens_list = new ArrayList<Material>(
+			Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
 
 	CondensationTableManager tm;
 	BukkitTask task;
@@ -86,6 +88,13 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		// プレイヤーの向いている方角の凝固ブロック座標リストを取得
 		List<Coordinate> breakcoord = range.getBreakCoordList(player);
 
+		// プレイヤーのいる座標を取得する．
+		Location loc = player.getLocation().getBlock().getLocation();
+
+		//凝固するとプレイヤーが埋まってしまう座標は除外リストに入れる，
+		List<Location> exLocation = new ArrayList<Location>(Arrays.asList(
+				loc, loc.add(0, 1, 0)));
+
 		// まず凝固するブロックの総数を計算
 		breakcoord.forEach(c -> {
 			Block rb = block.getRelative(c.getX(), c.getY(), c.getZ());
@@ -93,38 +102,41 @@ public class CondensationManager extends SkillManager implements Finalizable {
 			if (canCondens(m)) {
 				// worldguardを確認Skilledflagを確認
 				if (Wg.canBuild(player, rb.getLocation())
-						&& !rb.hasMetadata("Skilled")) {
+						&& !rb.hasMetadata("Skilled")
+						&& !exLocation.contains(rb.getLocation())) {
 					liquidlist.add(rb);
 				}
 			}
 		});
 
-		if(liquidlist.isEmpty())return true;
+		if (liquidlist.isEmpty())
+			return true;
 
 		// ツールの耐久を確認
 
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
-		//使用する耐久値
+		// 使用する耐久値
 		short useDurability = 0;
 
 		if (!unbreakable) {
-			if(durability > tool.getType().getMaxDurability()){
+			if (durability > tool.getType().getMaxDurability()) {
 				player.sendMessage(this.getJPName() + ChatColor.RED
 						+ ":ツールの耐久値が不正です．");
 				return false;
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
-				tool.getEnchantmentLevel(Enchantment.DURABILITY),
-				liquidlist.size()));
-				//ツールの耐久が足りない時
-			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
-				//入れ替え可能
-				if(Pm.replace(player,useDurability,tool)){
+					tool.getEnchantmentLevel(Enchantment.DURABILITY),
+					liquidlist.size()));
+			// ツールの耐久が足りない時
+			if (tool.getType().getMaxDurability() <= (durability + useDurability)) {
+				// 入れ替え可能
+				if (Pm.replace(player, useDurability, tool)) {
 					durability = tool.getDurability();
 					unbreakable = tool.getItemMeta().spigot().isUnbreakable();
-					if(unbreakable)useDurability = 0;
-				}else{
+					if (unbreakable)
+						useDurability = 0;
+				} else {
 					player.sendMessage(this.getJPName() + ChatColor.RED
 							+ ":発動に必要なツールの耐久値が足りません");
 					return false;

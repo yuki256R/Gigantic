@@ -178,6 +178,10 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 				}
 			});
 
+		if(breaklist.isEmpty() && liquidlist.isEmpty()){
+			return true;
+		}
+
 		// ツールの耐久を確認
 
 		short durability = tool.getDurability();
@@ -193,7 +197,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
 				tool.getEnchantmentLevel(Enchantment.DURABILITY),
-				breaklist.size() + liquidlist.size() * 2));
+				breaklist.size() + liquidlist.size()));
 				//ツールの耐久が足りない時
 			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
 				//入れ替え可能
@@ -210,7 +214,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 		}
 
 		// マナを確認
-		double usemana = this.getMana(liquidlist.size());
+		double usemana = this.getMana(breaklist.size() + liquidlist.size());
 
 		if (!Mm.hasMana(usemana)) {
 			player.sendMessage(this.getJPName() + ChatColor.RED

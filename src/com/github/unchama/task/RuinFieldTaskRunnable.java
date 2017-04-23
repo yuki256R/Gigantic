@@ -9,26 +9,24 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import zedly.zenchantments.Zenchantments;
-
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.CondensationManager;
+import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
-import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class RuinFieldTaskRunnable extends BukkitRunnable{
+public class RuinFieldTaskRunnable extends BukkitRunnable {
 	private Gigantic plugin = Gigantic.plugin;
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
-	private Zenchantments Ze;
 	@SuppressWarnings("unused")
 	private GiganticPlayer gp;
 	private Player player;
-	private CondensationManager skill;
+	private RuinFieldManager skill;
+	private CondensationManager cm;
 	private ItemStack tool;
 
 	private Location lastLoc;
@@ -37,10 +35,9 @@ public class RuinFieldTaskRunnable extends BukkitRunnable{
 	private boolean cancelled = false;
 
 	public RuinFieldTaskRunnable(GiganticPlayer gp) {
-		this.Ze = Util.getZenchantments();
 		this.gp = gp;
 		this.player = PlayerManager.getPlayer(gp);
-		this.skill = gp.getManager(CondensationManager.class);
+		this.skill = gp.getManager(RuinFieldManager.class);
 		this.lastLoc = player.getLocation();
 		this.idleTime = 0;
 
@@ -50,6 +47,13 @@ public class RuinFieldTaskRunnable extends BukkitRunnable{
 			cancelled = true;
 			return;
 		}
+
+		// コンデンセーションとの共用不可なのでtoggleがONなら止める
+		cm = gp.getManager(CondensationManager.class);
+		if (cm.getToggle()) {
+			cm.setToggle(false);
+		}
+
 		// サバイバルではないとき終了
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
@@ -98,6 +102,13 @@ public class RuinFieldTaskRunnable extends BukkitRunnable{
 					return;
 				}
 
+				// コンデンセーションが起動していたら終了する．
+				if (cm.getToggle()) {
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+
 				// サバイバルではないとき終了
 				if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 					skill.setToggle(false);
@@ -112,7 +123,8 @@ public class RuinFieldTaskRunnable extends BukkitRunnable{
 				}
 				// 放置判定
 				if (isIdle()) {
-					player.sendMessage(ChatColor.YELLOW + "放置を検知したため，コンデンセーションがOFFになりました");
+					player.sendMessage(ChatColor.YELLOW
+							+ "放置を検知したため，ルインフィールドがOFFになりました");
 					skill.setToggle(false);
 					cancel();
 					return;
@@ -122,9 +134,8 @@ public class RuinFieldTaskRunnable extends BukkitRunnable{
 
 				tool = player.getInventory().getItemInMainHand();
 
-
-				//ツールがエンチャント本だった場合，スキルトグル中の可能性があるためスキップ
-				if(tool.getType().equals(Material.ENCHANTED_BOOK)){
+				// ツールがエンチャント本だった場合，スキルトグル中の可能性があるためスキップ
+				if (tool.getType().equals(Material.ENCHANTED_BOOK)) {
 					return;
 				}
 
@@ -135,10 +146,9 @@ public class RuinFieldTaskRunnable extends BukkitRunnable{
 					return;
 				}
 
-				debug.sendMessage(player, DebugEnum.SKILL, "Condensation発動可能");
+				debug.sendMessage(player, DebugEnum.SKILL, "RuinField発動可能");
 
-				if (!skill.run(player, tool, player.getLocation().add(0, -1, 0)
-						.getBlock())) {
+				if (!skill.run(player, tool, player.getLocation().getBlock())) {
 					skill.setToggle(false);
 					cancel();
 					return;

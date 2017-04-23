@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu.condensation;
+package com.github.unchama.gui.skillmenu.ruinfield;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,14 +18,14 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.CondensationManager;
+import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.MobHead;
 
-public class CondensationMenuManager extends SkillMenuManager{
-	private static Class<? extends SkillManager> clazz = CondensationManager.class;
+public class RuinFieldMenuManager extends SkillMenuManager{
+	private static Class<? extends SkillManager> clazz = RuinFieldManager.class;
 
 	@Override
 	public String getInventoryName(Player player) {
@@ -50,9 +50,9 @@ public class CondensationMenuManager extends SkillMenuManager{
 					+ "基本情報");
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "自分の周囲の液体を");
+					+ "自分の周囲のブロックを");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "凝固させます．");
+					+ "破壊します．");
 			if (m.getToggle()) {
 				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
 						+ ChatColor.GREEN + "ON");
@@ -161,8 +161,8 @@ public class CondensationMenuManager extends SkillMenuManager{
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(MenuType.RANGE.getSlot(), ManagerType.C_RANGEMENU);
-		openmap.put(MenuType.ORIGIN.getSlot(), ManagerType.C_ORIGINMENU);
+		openmap.put(MenuType.RANGE.getSlot(), ManagerType.R_RANGEMENU);
+		openmap.put(MenuType.ORIGIN.getSlot(), ManagerType.R_ORIGINMENU);
 
 	}
 

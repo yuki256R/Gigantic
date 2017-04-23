@@ -21,6 +21,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
@@ -38,6 +39,7 @@ public class Sql {
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
 		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
+		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
 		;
 
@@ -261,6 +263,7 @@ public class Sql {
 		}
 		if(flag){
 			plugin.getLogger().warning("テーブルインスタンスの生成に失敗しました．");
+			return false;
 		}
 		return true;
 	}

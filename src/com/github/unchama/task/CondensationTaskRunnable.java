@@ -13,6 +13,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.CondensationManager;
+import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -25,6 +26,7 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 	private GiganticPlayer gp;
 	private Player player;
 	private CondensationManager skill;
+	private RuinFieldManager rm;
 	private ItemStack tool;
 
 	private Location lastLoc;
@@ -45,6 +47,13 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 			cancelled = true;
 			return;
 		}
+
+		// ルインフィールドとの共用不可なのでtoggleがONなら止める
+		rm = gp.getManager(RuinFieldManager.class);
+		if (rm.getToggle()) {
+			rm.setToggle(false);
+		}
+
 		// サバイバルではないとき終了
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
@@ -93,6 +102,13 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 					return;
 				}
 
+				// ルインフィールドが起動していたら終了する．
+				if (rm.getToggle()) {
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+
 				// サバイバルではないとき終了
 				if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 					skill.setToggle(false);
@@ -107,7 +123,8 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 				}
 				// 放置判定
 				if (isIdle()) {
-					player.sendMessage(ChatColor.YELLOW + "放置を検知したため，コンデンセーションがOFFになりました");
+					player.sendMessage(ChatColor.YELLOW
+							+ "放置を検知したため，コンデンセーションがOFFになりました");
 					skill.setToggle(false);
 					cancel();
 					return;
@@ -117,9 +134,8 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 
 				tool = player.getInventory().getItemInMainHand();
 
-
-				//ツールがエンチャント本だった場合，スキルトグル中の可能性があるためスキップ
-				if(tool.getType().equals(Material.ENCHANTED_BOOK)){
+				// ツールがエンチャント本だった場合，スキルトグル中の可能性があるためスキップ
+				if (tool.getType().equals(Material.ENCHANTED_BOOK)) {
 					return;
 				}
 
@@ -132,8 +148,7 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 
 				debug.sendMessage(player, DebugEnum.SKILL, "Condensation発動可能");
 
-				if (!skill.run(player, tool, player.getLocation().add(0, -1, 0)
-						.getBlock())) {
+				if (!skill.run(player, tool, player.getLocation().getBlock())) {
 					skill.setToggle(false);
 					cancel();
 					return;
