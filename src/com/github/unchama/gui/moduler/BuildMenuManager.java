@@ -10,15 +10,19 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.fly.FlyManager;
+import com.github.unchama.yml.ConfigManager;
 
 public class BuildMenuManager extends GuiMenuManager{
 
@@ -28,6 +32,11 @@ public class BuildMenuManager extends GuiMenuManager{
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
+		idmap.put(3, "FLY=1");
+		idmap.put(4, "FLY=5");
+		idmap.put(5, "FLY=endless");
+		idmap.put(6, "FLY=fin");
+		
 		idmap.put(13, "TotalBuildNum=0");
 	}
 
@@ -38,6 +47,28 @@ public class BuildMenuManager extends GuiMenuManager{
 		BuildLevelManager blm = gp.getManager(BuildLevelManager.class);
 		
 		switch(identifier){
+			//FLY1分
+			case "FLY=1":
+				player.chat("/fly 1");
+				break;
+				
+			//FLY5分
+			case "FLY=5":
+				player.chat("/fly 5");
+				break;
+				
+			//FLY無制限
+			case "FLY=endless":
+				player.chat("/fly endless");
+				break;
+				
+			//FLY終了
+			case "FLY=fin":
+				player.chat("/fly finish");
+				break;
+				
+			//TODO:スキルについては後で
+		
 			case "TotalBuildNum=0":
 				bm.setTotalbuildnum(0);
 				blm.calcLevel();
@@ -75,27 +106,93 @@ public class BuildMenuManager extends GuiMenuManager{
 
 	@Override
 	protected InventoryType getInventoryType() {
-		return InventoryType.CHEST;
+		return null;
 	}
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		
+		BuildManager bm = gp.getManager(BuildManager.class);
+		BuildLevelManager blm = gp.getManager(BuildLevelManager.class);
+		FlyManager fm = gp.getManager(FlyManager.class);
+		ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+		
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore;
-		
+
 		switch(slot){
+		//自身の統計データ
 		case 0:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + 
 					ChatColor.BOLD + gp.name + "の統計データ");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:" + gp.getManager(BuildLevelManager.class).getBuildLevel());
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + gp.getManager(BuildManager.class).getTotalbuildnum());
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:" + blm.getBuildLevel());
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + bm.getTotalbuildnum());
 			itemmeta.setLore(lore);
 			SkullMeta skullmeta = (SkullMeta) itemmeta;
 			skullmeta.setOwner(gp.name);
 			break;
 		
+		//Flyの情報
+		case 2:
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" +
+					ChatColor.BOLD + "FLY機能 情報表示");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "FLY 効果:" + fm.getFlyState());
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "FLY 残り時間:" + fm.getFlyTimeState());
+			itemmeta.setLore(lore);
+			break;
+			
+		//Fly1分
+		case 3:
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
+					ChatColor.AQUA + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(1分)");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.YELLOW + "クリックすると以降1分間に渡り");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
+					"必要経験値量:毎分 " + config.getFlyExp());
+			itemmeta.setLore(lore);
+			break;
+			
+		//Fly5分
+		case 4:
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
+					ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(5分)");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.YELLOW + "クリックすると以降5分間に渡り");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
+					"必要経験値量:毎分 " + config.getFlyExp());
+			itemmeta.setLore(lore);
+			break;
+			
+		//Fly無制限
+		case 5:
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
+					ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(無制限)");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.YELLOW + "クリックすると以降OFFにするまで");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
+					"必要経験値量:毎分 " + config.getFlyExp());
+			itemmeta.setLore(lore);
+			break;
+			
+		//Fly終了
+		case 6:
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 OFF");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + "" +  ChatColor.RED + "クリックすると残り時間にかかわらず");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.RED + "FLYを終了します。");
+			itemmeta.setLore(lore);
+			itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+			break;
+			
+		//TODO:スキル系の作成は後で
+			
+		//DEBUG
 		case 13:
 			itemmeta.setDisplayName("[DEBUG]総建築量を0にセット");
 			lore = new ArrayList<String>();
@@ -110,7 +207,7 @@ public class BuildMenuManager extends GuiMenuManager{
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
 		ItemStack itemstack = null;
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		
 		switch(slot){
 		//自身の統計データ
 		case 0:
@@ -154,9 +251,20 @@ public class BuildMenuManager extends GuiMenuManager{
 			
 		//ブロックを並べるスキル
 		case 27:
-			itemstack = new ItemStack(Material.LOG,1,(short)1);
+			itemstack = new ItemStack(Material.WOOD,1,(short)1);
 			break;
 		
+		//ブロックを並べるスキル・設定画面
+		case 28:
+			itemstack = new ItemStack(Material.PAPER);
+			break;
+			
+		//MineStack一括クラフト
+		case 35:
+			itemstack = new ItemStack(Material.WORKBENCH);
+			break;
+			
+		//DEBUG
 		case 13:
 			itemstack = new ItemStack(Material.BEDROCK,64);
 			break;
