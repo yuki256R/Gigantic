@@ -1,4 +1,4 @@
-package com.github.unchama.gui.moduler;
+package com.github.unchama.player.build;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,9 +18,9 @@ import org.bukkit.inventory.meta.SkullMeta;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
+import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.KeyItem;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.build.BuildLevelManager;
-import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
@@ -36,6 +36,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(4, "FLY=5");
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
+		idmap.put(35, "openMSC");
 		
 		idmap.put(13, "TotalBuildNum=0");
 	}
@@ -68,6 +69,11 @@ public class BuildMenuManager extends GuiMenuManager{
 				break;
 				
 			//TODO:スキルについては後で
+				
+			//MineStack一括クラフトシステム
+			case "openMSC":
+				//TODO:一括クラフトシステムのオープン処理
+				break;
 		
 			case "TotalBuildNum=0":
 				bm.setTotalbuildnum(0);
@@ -191,6 +197,15 @@ public class BuildMenuManager extends GuiMenuManager{
 			break;
 			
 		//TODO:スキル系の作成は後で
+			
+		//MineStack一括クラフトシステム
+		case 35:
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" 
+					+ ChatColor.BOLD + "MineStackブロック一括クラフト画面へ");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
+			itemmeta.setLore(lore);
+			break;
 			
 		//DEBUG
 		case 13:
