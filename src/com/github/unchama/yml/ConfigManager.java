@@ -229,6 +229,15 @@ public class ConfigManager extends YmlManager {
      *
      * @return
      */
-    public String getSeichiWorldName() { return this.fc.getString("SeichiWorldName"); }
+    public String getSeichiWorldName() { return "world_sw"; }
+
+
+    /**スキルの使えるワールドを取得します
+     *
+     * @return
+     */
+    public String getSkillWorld() {
+    	return this.fc.getString("skillworld");
+    }
 
 }
