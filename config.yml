@@ -59,10 +59,13 @@ flyexp: 50
 #ブロック設置カウントの1分上限
 BuildNum1minLimit: 100
 
-#ワールド名
-worldname:
-  seichiworldname: 'world_sw'
-
+#スキルの使えるワールド
+skillworld:
+  - world_sw
+  - world
+  - world_2
+  - world_nether
+  - world_the_end
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'
