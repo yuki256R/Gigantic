@@ -1,5 +1,7 @@
 package com.github.unchama.yml;
 
+import java.util.List;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.entity.Player;
@@ -229,6 +231,15 @@ public class ConfigManager extends YmlManager {
      *
      * @return
      */
-    public String getSeichiWorldName() { return this.fc.getString("SeichiWorldName"); }
+    public String getSeichiWorldName() { return "world_sw"; }
+
+
+    /**スキルの使えるワールドを取得します
+     *
+     * @return
+     */
+    public List<String> getSkillWorld() {
+    	return this.fc.getStringList("skillworld");
+    }
 
 }
