@@ -22,15 +22,17 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.seichiskill.ExplosionManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class BlockBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
+	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Zenchantments Ze;
 
-	BlockBreakListener(){
+	BlockBreakListener() {
 		Ze = Util.getZenchantments();
 	}
 
@@ -54,8 +56,8 @@ public class BlockBreakListener implements Listener {
 
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void SkilledBlockCanceller(BlockBreakEvent event) {
-		//既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
-		if(event.getBlock().hasMetadata("Skilled")){
+		// 既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
+		if (event.getBlock().hasMetadata("Skilled")) {
 			event.getPlayer().sendMessage(ChatColor.RED + "スキルで破壊されるブロックです．");
 			event.setCancelled(true);
 		}
@@ -71,39 +73,48 @@ public class BlockBreakListener implements Listener {
 		ExplosionManager skill = gp.getManager(ExplosionManager.class);
 
 		// トグルがオフなら終了
-		if (!skill.getToggle()){
-			debug.sendMessage(player , DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
+		if (!skill.getToggle()) {
+			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
 			return;
 		}
-
 
 		// サバイバルではないとき終了
-		if(!player.getGameMode().equals(GameMode.SURVIVAL)){
-			debug.sendMessage(player , DebugEnum.SKILL, "サバイバルではないのでスキルの発動ができません．");
+		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+			debug.sendMessage(player, DebugEnum.SKILL,
+					"サバイバルではないのでスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
 		}
 
-		//フライ中に使用していた時終了
-		if(player.isFlying()){
-			debug.sendMessage(player , DebugEnum.SKILL, "フライ中はスキルの発動ができません．");
+		// フライ中に使用していた時終了
+		if (player.isFlying()) {
+			player.sendMessage("フライ中はスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
 		}
 
 		// 使用可能ワールドではないとき終了
-
-
-		ItemStack tool = player.getInventory().getItemInMainHand();
-
-		// スキルを発動できるツールでないとき終了
-		if (!SkillManager.canBreak(tool)){
-			debug.sendMessage(player , DebugEnum.SKILL, "スキルの発動ができるツールではありません．");
+		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+			player.sendMessage("このワールドではスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
 		}
 
+		ItemStack tool = player.getInventory().getItemInMainHand();
+		if (tool == null) {
+			return;
+		}
+		// スキルを発動できるツールでないとき終了
+		if (!SkillManager.canBreak(tool)) {
+			player.sendMessage("スキルの発動ができるツールではありません．");
+			skill.setToggle(false);
+			return;
+		}
 
-		//木こりエンチャントがある時終了
-		if(Ze.isCompatible("木こり", tool)){
-			debug.sendMessage(player , DebugEnum.SKILL, "木こりエンチャントがあるためスキルが発動できません");
+		// 木こりエンチャントがある時終了
+		if (Ze.isCompatible("木こり", tool)) {
+			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
+			skill.setToggle(false);
 			return;
 		}
 
@@ -111,23 +122,23 @@ public class BlockBreakListener implements Listener {
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
-		if (!SkillManager.canBreak(material)){
-			debug.sendMessage(player , DebugEnum.SKILL, "スキルが発動できるブロックではありません．");
+		if (!SkillManager.canBreak(material)) {
+			debug.sendMessage(player, DebugEnum.SKILL, "スキルが発動できるブロックではありません．");
 			return;
 		}
 
 		event.setCancelled(true);
 
-		//クールダウン中なら終了
-		if(skill.isCoolDown()){
-			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, (float)0.5, 1);
+		// クールダウン中なら終了
+		if (skill.isCoolDown()) {
+			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
+					(float) 0.5, 1);
 			return;
 		}
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 
-		//スキル処理
-		skill.run(player,tool,block);
-
+		// スキル処理
+		skill.run(player, tool, block);
 
 	}
 }

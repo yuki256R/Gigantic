@@ -8,7 +8,6 @@ import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.moduler.StackCategory;
 
@@ -494,7 +493,7 @@ public enum StackType {
 	COOKIE(StackCategory.OTHERWISE),
 	//MAP(StackCategory.OTHERWISE),//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	//SHEARS(StackCategory.ITEM),
-	MELON(StackCategory.BUILD),
+	MELON(StackCategory.ITEM),
 	PUMPKIN_SEEDS(StackCategory.ITEM),
 	MELON_SEEDS(StackCategory.ITEM),
 	RAW_BEEF(StackCategory.OTHERWISE),
@@ -518,18 +517,18 @@ public enum StackType {
 	EYE_OF_ENDER(StackCategory.OTHERWISE),
 	SPECKLED_MELON(StackCategory.MATERIAL),
 	/*
-	SPAWN_ELDER_GUARDIAN(Material.MONSTER_EGG,4,StackCategory.OTHERWISE),
-	SPAWN_WITHER_SKELETON(Material.MONSTER_EGG,5),
-	SPAWN_STRAY(Material.MONSTER_EGG,6,StackCategory.OTHERWISE),
+	//SPAWN_ELDER_GUARDIAN(Material.MONSTER_EGG,4,StackCategory.OTHERWISE),
+	//SPAWN_WITHER_SKELETON(Material.MONSTER_EGG,5,StackCategory.OTHERWISE),
+	//SPAWN_STRAY(Material.MONSTER_EGG,6,StackCategory.OTHERWISE),
 	SPAWN_HUSK(Material.MONSTER_EGG,23,StackCategory.OTHERWISE),
-	SPAWN_ZOMBIE_VILLAGER(Material.MONSTER_EGG,27,StackCategory.OTHERWISE),
-	SPAWN_SKELETON_HORSE(Material.MONSTER_EGG,28,StackCategory.OTHERWISE),
-	SPAWN_ZOMBIE_HORSE(Material.MONSTER_EGG,29,StackCategory.OTHERWISE),
-	SPAWN_DONKEY(Material.MONSTER_EGG,31,StackCategory.OTHERWISE),
-	SPAWN_MULE(Material.MONSTER_EGG,32,StackCategory.OTHERWISE),
-	SPAWN_EVOKER(Material.MONSTER_EGG,34,StackCategory.OTHERWISE),
-	SPAWN_VEX(Material.MONSTER_EGG,35,StackCategory.OTHERWISE),
-	SPAWN_VINDICATOR(Material.MONSTER_EGG,36,StackCategory.OTHERWISE),//noitem↑
+	//SPAWN_ZOMBIE_VILLAGER(Material.MONSTER_EGG,27,StackCategory.OTHERWISE),
+	//SPAWN_SKELETON_HORSE(Material.MONSTER_EGG,28,StackCategory.OTHERWISE),
+	//SPAWN_ZOMBIE_HORSE(Material.MONSTER_EGG,29,StackCategory.OTHERWISE),
+	//SPAWN_DONKEY(Material.MONSTER_EGG,31,StackCategory.OTHERWISE),
+	//SPAWN_MULE(Material.MONSTER_EGG,32,StackCategory.OTHERWISE),
+	//SPAWN_EVOKER(Material.MONSTER_EGG,34,StackCategory.OTHERWISE),
+	//SPAWN_VEX(Material.MONSTER_EGG,35,StackCategory.OTHERWISE),
+	//SPAWN_VINDICATOR(Material.MONSTER_EGG,36,StackCategory.OTHERWISE),//noitem↑
 	SPAWN_CREEPER(Material.MONSTER_EGG,50,StackCategory.OTHERWISE),
 	SPAWN_SKELETON(Material.MONSTER_EGG,51,StackCategory.OTHERWISE),
 	SPAWN_SPIDER(Material.MONSTER_EGG,52,StackCategory.OTHERWISE),
@@ -557,8 +556,8 @@ public enum StackType {
 	SPAWN_OCELOT(Material.MONSTER_EGG,98,StackCategory.OTHERWISE),
 	SPAWN_HORSE(Material.MONSTER_EGG,100,StackCategory.OTHERWISE),
 	SPAWN_RABBIT(Material.MONSTER_EGG,101,StackCategory.OTHERWISE),
-	SPAWN_POLAR_BEAR(Material.MONSTER_EGG,102,StackCategory.OTHERWISE),//noitem
-	SPAWN_LLAMA(Material.MONSTER_EGG,103,StackCategory.OTHERWISE),//noitem
+	//SPAWN_POLAR_BEAR(Material.MONSTER_EGG,102,StackCategory.OTHERWISE),//noitem
+	//SPAWN_LLAMA(Material.MONSTER_EGG,103,StackCategory.OTHERWISE),//noitem
 	SPAWN_VILLAGER(Material.MONSTER_EGG,120,StackCategory.OTHERWISE),
 	*/
 	EXP_BOTTLE(StackCategory.OTHERWISE),
@@ -749,10 +748,7 @@ public enum StackType {
 
 	public ItemStack getItemStack(){
 		ItemStack itemstack =  new ItemStack(this.getMaterial());
-		itemstack.setDurability(this.getDurability());
-		ItemMeta meta = itemstack.getItemMeta();
-		//meta.setDisplayName(ChatColor.RESET + this.getJPname());
-		itemstack.setItemMeta(meta);
+			itemstack.setDurability(this.getDurability());
 		return itemstack;
 	}
 

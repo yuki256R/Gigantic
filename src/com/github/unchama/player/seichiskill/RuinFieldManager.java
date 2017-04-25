@@ -76,7 +76,6 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 		}
 	}
 
-	@Deprecated
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
 		int playerlocy = player.getLocation().getBlockY() - 1;

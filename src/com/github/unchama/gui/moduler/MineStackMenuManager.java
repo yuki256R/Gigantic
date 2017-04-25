@@ -107,7 +107,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
         //ページ進むボタン
         else if (slot == 53){
-            if (typeMap.size() <= 53 * page) return false;
+            if (typeMap.size() <= 45 * page) return false;
             player.openInventory(getInventory(player, 53, page + 1));
             player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, (float)1.0, (float)4.0);
         }

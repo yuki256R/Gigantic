@@ -15,11 +15,13 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class CondensationTaskRunnable extends BukkitRunnable {
 	private Gigantic plugin = Gigantic.plugin;
+	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	@SuppressWarnings("unused")
@@ -53,32 +55,48 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 		if (rm.getToggle()) {
 			rm.setToggle(false);
 		}
-
 		// サバイバルではないとき終了
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
 					"サバイバルではないのでスキルの発動ができません．");
+			skill.setToggle(false);
 			cancelled = true;
 			return;
 		}
 		// フライ中に使用していた時終了
 		if (player.isFlying()) {
-			debug.sendMessage(player, DebugEnum.SKILL, "フライ中はスキルの発動ができません．");
+			player.sendMessage("フライ中はスキルの発動ができません．");
+			skill.setToggle(false);
 			cancelled = true;
 			return;
 		}
 
 		// 使用可能ワールドではないとき終了
+		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+			player.sendMessage("このワールドではスキルの発動ができません．");
+			skill.setToggle(false);
+			cancelled = true;
+			return;
+		}
 
 		tool = player.getInventory().getItemInMainHand();
 
+		if (tool == null) {
+			player.sendMessage("スキルの発動ができるツールではありません．");
+			skill.setToggle(false);
+			cancelled = true;
+			return;
+		}
+
 		// スキルを発動できるツールでないとき終了
 		if (!SkillManager.canBreak(tool)) {
-			debug.sendMessage(player, DebugEnum.SKILL, "スキルの発動ができるツールではありません．");
+			player.sendMessage("スキルの発動ができるツールではありません．");
+			skill.setToggle(false);
 			cancelled = true;
 			return;
 		}
 	}
+
 
 	@Override
 	public void run() {
@@ -111,28 +129,36 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 
 				// サバイバルではないとき終了
 				if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+					debug.sendMessage(player, DebugEnum.SKILL,
+							"サバイバルではないのでスキルの発動ができません．");
 					skill.setToggle(false);
 					cancel();
 					return;
 				}
 				// フライ中に使用していた時終了
 				if (player.isFlying()) {
-					skill.setToggle(false);
-					cancel();
-					return;
-				}
-				// 放置判定
-				if (isIdle()) {
-					player.sendMessage(ChatColor.YELLOW
-							+ "放置を検知したため，コンデンセーションがOFFになりました");
+					player.sendMessage("フライ中はスキルの発動ができません．");
 					skill.setToggle(false);
 					cancel();
 					return;
 				}
 
 				// 使用可能ワールドではないとき終了
+				if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+					player.sendMessage("このワールドではスキルの発動ができません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
 
 				tool = player.getInventory().getItemInMainHand();
+
+				if (tool == null) {
+					player.sendMessage("スキルの発動ができるツールではありません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
 
 				// ツールがエンチャント本だった場合，スキルトグル中の可能性があるためスキップ
 				if (tool.getType().equals(Material.ENCHANTED_BOOK)) {
@@ -141,6 +167,16 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 
 				// スキルを発動できるツールでないとき終了
 				if (!SkillManager.canBreak(tool)) {
+					player.sendMessage("スキルの発動ができるツールではありません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+
+				// 放置判定
+				if (isIdle()) {
+					player.sendMessage(ChatColor.YELLOW
+							+ "放置を検知したため，コンデンセーションがOFFになりました");
 					skill.setToggle(false);
 					cancel();
 					return;

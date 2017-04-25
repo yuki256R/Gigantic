@@ -28,6 +28,7 @@ import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.task.MagicDriveTaskRunnable;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -41,6 +42,7 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 public class GiganticInteractListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 	GuiMenu guimenu = Gigantic.guimenu;
+	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Zenchantments Ze;
 
@@ -65,7 +67,7 @@ public class GiganticInteractListener implements Listener {
 		// アクションを起こした手を取得
 		EquipmentSlot equipmentslot = event.getHand();
 
-		if(equipmentslot == null){
+		if (equipmentslot == null) {
 			return;
 		}
 
@@ -102,7 +104,7 @@ public class GiganticInteractListener implements Listener {
 			KeyItem keyitem = m.getKeyItem();
 			ItemStack item = event.getItem();
 
-			if(item == null){
+			if (item == null) {
 				return;
 			}
 
@@ -155,6 +157,21 @@ public class GiganticInteractListener implements Listener {
 		GiganticPlayer gp = event.getGiganticPlayer();
 		MagicDriveManager skill = gp.getManager(MagicDriveManager.class);
 
+		// 左クリックの時終了
+		Action action = event.getAction();
+		if (action.equals(Action.LEFT_CLICK_AIR)
+				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
+			return;
+		}
+
+		// オフハンドから実行したとき終了
+		EquipmentSlot hand = event.getHand();
+		if (hand == null) {
+			return;
+		}
+		if (hand.equals(EquipmentSlot.OFF_HAND))
+			return;
+
 		// トグルがオフなら終了
 		if (!skill.getToggle()) {
 			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
@@ -165,47 +182,39 @@ public class GiganticInteractListener implements Listener {
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
 					"サバイバルではないのでスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
 		}
 
 		// フライ中に使用していた時終了
 		if (player.isFlying()) {
-			debug.sendMessage(player, DebugEnum.SKILL, "フライ中はスキルの発動ができません．");
+			player.sendMessage("フライ中はスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
 		}
-
-		// 左クリックの時終了
-		Action action = event.getAction();
-		if (action.equals(Action.LEFT_CLICK_AIR)
-				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-			return;
-		}
-
-		//オフハンドから実行したとき終了
-		EquipmentSlot hand = event.getHand();
-		if(hand == null){
-			return;
-		}
-		if (hand.equals(EquipmentSlot.OFF_HAND))
-			return;
 
 		// 使用可能ワールドではないとき終了
-
-
-		// スキルを発動できるツールでないとき終了
-		ItemStack tool = event.getItem();
-		if(tool == null){
+		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+			player.sendMessage("このワールドではスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
 		}
+
+		ItemStack tool = event.getItem();
+		if (tool == null) {
+			return;
+		}
+		// スキルを発動できるツールでないとき終了
 		if (!SkillManager.canBreak(tool)) {
-			debug.sendMessage(player, DebugEnum.SKILL, "スキルの発動ができるツールではありません．");
+			player.sendMessage("スキルの発動ができるツールではありません．");
+			skill.setToggle(false);
 			return;
 		}
 
 		// 木こりエンチャントがある時終了
 		if (Ze.isCompatible("木こり", tool)) {
-			debug.sendMessage(player, DebugEnum.SKILL,
-					"木こりエンチャントがあるためスキルが発動できません");
+			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
+			skill.setToggle(false);
 			return;
 		}
 
@@ -220,6 +229,7 @@ public class GiganticInteractListener implements Listener {
 
 		event.setCancelled(true);
 
-		new MagicDriveTaskRunnable(player,skill, tool, block).runTaskTimerAsynchronously(plugin, 0, 1);
+		new MagicDriveTaskRunnable(player, skill, tool, block)
+				.runTaskTimerAsynchronously(plugin, 0, 1);
 	}
 }
