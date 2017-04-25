@@ -1,5 +1,7 @@
 package com.github.unchama.yml;
 
+import java.util.List;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.entity.Player;
@@ -236,8 +238,8 @@ public class ConfigManager extends YmlManager {
      *
      * @return
      */
-    public String getSkillWorld() {
-    	return this.fc.getString("skillworld");
+    public List<String> getSkillWorld() {
+    	return this.fc.getStringList("skillworld");
     }
 
 }
