@@ -48,6 +48,12 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         skullList = new ArrayList<>();
         skullList.add(MobHead.getMobHead("left"));
         skullList.add(MobHead.getMobHead("right"));
+        ItemMeta meta = skullList.get(0).getItemMeta();
+        meta.setDisplayName("前のページ");
+        skullList.get(0).setItemMeta(meta);
+        meta = skullList.get(1).getItemMeta();
+        meta.setDisplayName("次のページ");
+        skullList.get(1).setItemMeta(meta);
     }
 
     public abstract StackCategory getCategory();
@@ -73,6 +79,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
 
         //ページ遷移ボタン
+
         inv.setItem(45, skullList.get(0));
         inv.setItem(53, skullList.get(1));
 

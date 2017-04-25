@@ -1,4 +1,4 @@
-package com.github.unchama.gui.skillmenu.condensation;
+package com.github.unchama.gui.skillmenu.fairyaegis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -16,78 +17,62 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.CondensationManager;
-import com.github.unchama.player.seichiskill.moduler.Coordinate;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
-import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.util.MobHead;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.FairyAegisManager;
 
-public class CondensationMenuManager extends SkillMenuManager{
-	private static Class<? extends SkillManager> clazz = CondensationManager.class;
+public class FairyAegisMenuManager extends SkillMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		return gp.getManager(clazz).getJPName();
+		return gp.getManager(FairyAegisManager.class).getJPName();
 	}
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		SkillManager m = gp.getManager(clazz);
+		FairyAegisManager m = gp.getManager(FairyAegisManager.class);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
 		if (mt == null)
 			return null;
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore = new ArrayList<String>();
-		Volume v = m.getRange().getVolume();
-		Coordinate z = m.getRange().getZeropoint();
 		switch (mt) {
 		case INFO:
 			itemmeta.setDisplayName("" + ChatColor.GREEN + ChatColor.BOLD
 					+ "基本情報");
 			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "他スキル使用時に追加で");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "自分の周囲の液体を");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "凝固させます．");
+					+ "上部のブロックを同時に破壊します．");
+			if (m.getToggle()) {
+				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
+						+ ChatColor.GREEN + "ON");
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
+						+ ChatColor.RED + "OFF");
+			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
-					+ "現在の最大破壊ブロック数:" + v.getVolume());
+					+ "現在の最大破壊ブロック数:" + m.getBreakNum());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
-					+ (int) m.getMana(v.getVolume()));
+					+ (int) m.getMana(m.getBreakNum()));
+			lore.add("" + ChatColor.RESET + ChatColor.GREEN
+					+ "クリックするとオンオフを切り替えます．");
 
 			itemmeta.setLore(lore);
 			break;
 		case RANGE:
-			itemmeta.setDisplayName(ChatColor.BLUE + "範囲設定");
+			itemmeta.setDisplayName(ChatColor.BLUE + "最大破壊数設定");
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "同時に破壊する範囲を設定します．");
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の範囲");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_AQUA + "幅："
-					+ v.getWidth());
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_AQUA + "高さ："
-					+ v.getHeight());
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_AQUA + "奥行："
-					+ v.getDepth());
+					+ "最大破壊数を設定します．");
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の最大破壊ブロック数:"
+					+ m.getBreakNum());
+
 			lore.add("" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
-					+ "クリックして範囲を設定");
-			itemmeta.setLore(lore);
-			break;
-		case ORIGIN:
-			itemmeta.setDisplayName(ChatColor.DARK_RED + "起点設定");
-			lore = new ArrayList<String>();
+					+ "クリックして数を設定");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "破壊する起点位置を設定します．");
-			lore.add("" + ChatColor.RESET + ChatColor.GOLD + "現在の起点位置");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_RED + "幅："
-					+ z.getX());
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_RED + "高さ："
-					+ z.getY());
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_RED + "奥行："
-					+ z.getZ());
-			lore.add("" + ChatColor.RESET + ChatColor.GOLD + ChatColor.BOLD
-					+ "クリックして起点を設定");
+					+ "※自動でトグルがオフになります");
 			itemmeta.setLore(lore);
 			break;
 		case BOOK:
@@ -110,6 +95,8 @@ public class CondensationMenuManager extends SkillMenuManager{
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "未実装");
 			itemmeta.setLore(lore);
 			break;
+		default:
+			break;
 		}
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
@@ -124,15 +111,11 @@ public class CondensationMenuManager extends SkillMenuManager{
 		ItemStack itemstack = null;
 		switch (mt) {
 		case INFO:
-			itemstack = new ItemStack(gp.getManager(clazz).getMenuMaterial());
+			itemstack = new ItemStack(gp.getManager(FairyAegisManager.class)
+					.getMenuMaterial());
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
-			break;
-		case ORIGIN:
-			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-			String url = MobHead.getMobURL("pc");
-			MobHead.setURL(itemstack, url);
 			break;
 		case BOOK:
 			itemstack = new ItemStack(Material.ENCHANTED_BOOK);
@@ -140,27 +123,40 @@ public class CondensationMenuManager extends SkillMenuManager{
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
 			break;
+		default:
+			break;
 		}
 		return itemstack;
 	}
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(MenuType.RANGE.getSlot(), ManagerType.C_RANGEMENU);
-		openmap.put(MenuType.ORIGIN.getSlot(), ManagerType.C_ORIGINMENU);
+		openmap.put(MenuType.RANGE.getSlot(), ManagerType.F_RANGEMENU);
 
 	}
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> id_map) {
+		id_map.put(MenuType.INFO.getSlot(), "toggle");
 		id_map.put(MenuType.BOOK.getSlot(), "give");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		SkillManager m = gp.getManager(clazz);
+		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
+		FairyAegisManager m = gp.getManager(FairyAegisManager.class);
 		switch (identifier) {
+		case "toggle":
+			if (sm.getLevel() < m.getUnlockLevel()) {
+				player.sendMessage("解放できるレベルに達していません");
+				return true;
+			}
+			m.toggle();
+			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
+					(float) 0.7, (float) 2.2);
+			player.openInventory(this.getInventory(player, 0));
+			return true;
 		case "give":
 			m.giveSkillBook(player);
 			return true;

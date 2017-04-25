@@ -31,7 +31,7 @@ import com.github.unchama.util.breakblock.BreakUtil;
 
 public class CondensationManager extends SkillManager implements Finalizable {
 	private static List<Material> condens_list = new ArrayList<Material>(
-			Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
+			Arrays.asList(Material.WATER,Material.STATIONARY_WATER,Material.LAVA, Material.STATIONARY_LAVA));
 
 	CondensationTableManager tm;
 	BukkitTask task;
@@ -58,6 +58,18 @@ public class CondensationManager extends SkillManager implements Finalizable {
 	 */
 	public static boolean canCondens(Material m) {
 		return condens_list.contains(m);
+	}
+
+	@Deprecated
+	@Override
+	public boolean isCoolDown() {
+		return false;
+	}
+
+	@Deprecated
+	@Override
+	public void setCoolDown(boolean flag) {
+
 	}
 
 	@Override
@@ -91,9 +103,9 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		// プレイヤーのいる座標を取得する．
 		Location loc = player.getLocation().getBlock().getLocation();
 
-		//凝固するとプレイヤーが埋まってしまう座標は除外リストに入れる，
-		List<Location> exLocation = new ArrayList<Location>(Arrays.asList(
-				loc, loc.add(0, 1, 0)));
+		// 凝固するとプレイヤーが埋まってしまう座標は除外リストに入れる，
+		List<Location> exLocation = new ArrayList<Location>(Arrays.asList(loc,
+				loc.add(0, 1, 0)));
 
 		// まず凝固するブロックの総数を計算
 		breakcoord.forEach(c -> {
@@ -165,11 +177,22 @@ public class CondensationManager extends SkillManager implements Finalizable {
 
 		// condensの処理
 		liquidlist.forEach(b -> {
-			b.setType(Material.PACKED_ICE);
+			switch (b.getType()) {
+			case STATIONARY_WATER:
+			case WATER:
+				b.setType(Material.PACKED_ICE);
+				break;
+			case LAVA:
+			case STATIONARY_LAVA:
+				b.setType(Material.MAGMA);
+				break;
+			default:
+				break;
+			}
 		});
 
 		// 最初のブロックのみコアプロテクトに保存する．
-		SkillManager.logPlacement(player, liquidlist.get(1));
+		SkillManager.logPlacement(player, liquidlist.get(0));
 
 		// condens後の処理
 		liquidlist.forEach(b -> {
@@ -198,6 +221,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		tm.save(gp, loginflag);
 	}
 
+	@Deprecated
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
 		int playerlocy = player.getLocation().getBlockY() - 1;
@@ -242,6 +266,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		return breaknum / (Math.pow(breaknum, 0.14285714)) - 1;
 	}
 
+	@Deprecated
 	@Override
 	public int getCoolTime(int breaknum) {
 		return 0;

@@ -31,7 +31,7 @@ import com.github.unchama.task.RuinFieldTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class RuinFieldManager extends SkillManager implements Finalizable{
+public class RuinFieldManager extends SkillManager implements Finalizable {
 	RuinFieldTableManager tm;
 	BukkitTask task;
 
@@ -39,6 +39,19 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 		super(gp);
 		tm = sql.getManager(RuinFieldTableManager.class);
 	}
+
+	@Deprecated
+	@Override
+	public boolean isCoolDown() {
+		return false;
+	}
+
+	@Deprecated
+	@Override
+	public void setCoolDown(boolean flag) {
+
+	}
+
 	@Override
 	public void toggle() {
 		this.setToggle(!toggle);
@@ -63,6 +76,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 		}
 	}
 
+	@Deprecated
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
 		int playerlocy = player.getLocation().getBlockY() - 1;
@@ -107,6 +121,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 		return breaknum / (Math.pow(breaknum, 0.125)) - 1;
 	}
 
+	@Deprecated
 	@Override
 	public int getCoolTime(int breaknum) {
 		return 0;
@@ -147,6 +162,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 	public Volume getDefaultVolume() {
 		return new Volume(7, 7, 7);
 	}
+
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
 		// エフェクト用に壊されるブロック全てのリストデータ
@@ -178,7 +194,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 				}
 			});
 
-		if(breaklist.isEmpty() && liquidlist.isEmpty()){
+		if (breaklist.isEmpty() && liquidlist.isEmpty()) {
 			return true;
 		}
 
@@ -186,26 +202,27 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
-		//使用する耐久値
+		// 使用する耐久値
 		short useDurability = 0;
 
 		if (!unbreakable) {
-			if(durability > tool.getType().getMaxDurability()){
+			if (durability > tool.getType().getMaxDurability()) {
 				player.sendMessage(this.getJPName() + ChatColor.RED
 						+ ":ツールの耐久値が不正です．");
 				return false;
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
-				tool.getEnchantmentLevel(Enchantment.DURABILITY),
-				breaklist.size() + liquidlist.size()));
-				//ツールの耐久が足りない時
-			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
-				//入れ替え可能
-				if(Pm.replace(player,useDurability,tool)){
+					tool.getEnchantmentLevel(Enchantment.DURABILITY),
+					breaklist.size() + liquidlist.size()));
+			// ツールの耐久が足りない時
+			if (tool.getType().getMaxDurability() <= (durability + useDurability)) {
+				// 入れ替え可能
+				if (Pm.replace(player, useDurability, tool)) {
 					durability = tool.getDurability();
 					unbreakable = tool.getItemMeta().spigot().isUnbreakable();
-					if(unbreakable)useDurability = 0;
-				}else{
+					if (unbreakable)
+						useDurability = 0;
+				} else {
 					player.sendMessage(this.getJPName() + ChatColor.RED
 							+ ":発動に必要なツールの耐久値が足りません");
 					return false;
@@ -229,8 +246,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable{
 					// ドロップアイテムをリストに追加
 					droplist.addAll(BreakUtil.getDrops(b, tool));
 					// MineBlockに追加
-					mb.increase(b.getType(),
-							1);
+					mb.increase(b.getType(), 1);
 					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
 							.name()
 							+ " is increment("

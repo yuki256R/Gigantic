@@ -20,6 +20,7 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.player.seichiskill.ExplosionManager;
+import com.github.unchama.player.seichiskill.FairyAegisManager;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
@@ -40,6 +41,7 @@ public class Sql {
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
 		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
 		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
+		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
 		;
 

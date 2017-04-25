@@ -131,6 +131,8 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 
 	public static Boolean isLiquid(Material m) {
 		switch (m) {
+		case WATER:
+		case LAVA:
 		case STATIONARY_LAVA:
 		case STATIONARY_WATER:
 			return true;

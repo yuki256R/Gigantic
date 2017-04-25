@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -17,7 +16,6 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.SkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
@@ -53,20 +51,10 @@ public class RuinFieldMenuManager extends SkillMenuManager{
 					+ "自分の周囲のブロックを");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "破壊します．");
-			if (m.getToggle()) {
-				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
-						+ ChatColor.GREEN + "ON");
-			} else {
-				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
-						+ ChatColor.RED + "OFF");
-			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
 					+ "現在の最大破壊ブロック数:" + v.getVolume());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
 					+ (int) m.getMana(v.getVolume()));
-			lore.add("" + ChatColor.RESET + ChatColor.GREEN
-					+ "クリックするとオンオフを切り替えます．");
-
 			itemmeta.setLore(lore);
 			break;
 		case RANGE:
@@ -83,8 +71,6 @@ public class RuinFieldMenuManager extends SkillMenuManager{
 					+ v.getDepth());
 			lore.add("" + ChatColor.RESET + ChatColor.BLUE + ChatColor.BOLD
 					+ "クリックして範囲を設定");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "※自動でトグルがオフになります");
 			itemmeta.setLore(lore);
 			break;
 		case ORIGIN:
@@ -101,8 +87,6 @@ public class RuinFieldMenuManager extends SkillMenuManager{
 					+ z.getZ());
 			lore.add("" + ChatColor.RESET + ChatColor.GOLD + ChatColor.BOLD
 					+ "クリックして起点を設定");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "※自動でトグルがオフになります");
 			itemmeta.setLore(lore);
 			break;
 		case BOOK:
@@ -168,26 +152,14 @@ public class RuinFieldMenuManager extends SkillMenuManager{
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> id_map) {
-		id_map.put(MenuType.INFO.getSlot(), "toggle");
 		id_map.put(MenuType.BOOK.getSlot(), "give");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
 		SkillManager m = gp.getManager(clazz);
 		switch (identifier) {
-		case "toggle":
-			if (sm.getLevel() < m.getUnlockLevel()) {
-				player.sendMessage("解放できるレベルに達していません");
-				return true;
-			}
-			m.toggle();
-			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
-					(float) 0.7, (float) 2.2);
-			player.openInventory(this.getInventory(player, 0));
-			return true;
 		case "give":
 			m.giveSkillBook(player);
 			return true;

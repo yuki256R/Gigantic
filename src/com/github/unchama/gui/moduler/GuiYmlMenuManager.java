@@ -177,11 +177,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 		}
 
 		ItemMeta itemmeta = itemstack.getItemMeta();
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
-
 		Boolean b = this.fc.getBoolean(i + ".isSkullofOwner");
 		if (b != null) {
 			if(b && itemmeta instanceof SkullMeta){
@@ -189,6 +184,10 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 				skullmeta.setOwner(player.getName());
 			}
 		}
+		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
+				itemmeta.getDisplayName()));
+		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
+				itemmeta.getLore()));
 
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
@@ -197,7 +196,8 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	@Override
 	protected ItemStack getItemStack(Player player, int i) {
 		String s = Integer.toString(i) + ".itemstack";
-		ItemStack itemstack = this.fc.getItemStack(s);
+		ItemStack tmp = this.fc.getItemStack(s);
+		ItemStack itemstack = tmp != null ? new ItemStack(tmp) : null;
 		return itemstack;
 	}
 

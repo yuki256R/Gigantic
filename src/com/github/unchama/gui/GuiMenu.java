@@ -16,6 +16,8 @@ import com.github.unchama.gui.skillmenu.condensation.C_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.condensation.CondensationMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.skillmenu.fairyaegis.F_RangeMenuManager;
+import com.github.unchama.gui.skillmenu.fairyaegis.FairyAegisMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MD_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
 import com.github.unchama.gui.skillmenu.ruinfield.R_OriginMenuManager;
@@ -37,6 +39,8 @@ public final class GuiMenu {
 		RUINFIELDMENU(RuinFieldMenuManager.class),
 		R_RANGEMENU(R_RangeMenuManager.class),
 		R_ORIGINMENU(R_OriginMenuManager.class),
+		FAIRYAEGISMENU(FairyAegisMenuManager.class),
+		F_RANGEMENU(F_RangeMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
 		ITEMCATEGORYMENU(CategoryItemMenuManager.class),

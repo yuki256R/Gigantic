@@ -19,7 +19,8 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 public class MineBlockTableManager extends PlayerFromSeichiTableManager {
-	private static List<Material> condensMaterial = new ArrayList<Material>(Arrays.asList(Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
+	private static List<Material> condensMaterial = new ArrayList<Material>(
+			Arrays.asList(Material.WATER,Material.STATIONARY_WATER,Material.LAVA, Material.STATIONARY_LAVA));
 
 	public MineBlockTableManager(Sql sql) {
 		super(sql);
