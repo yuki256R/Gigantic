@@ -15,6 +15,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -38,13 +39,12 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 public class ExplosionManager extends SkillManager {
 	ExplosionTableManager tm;
 
-
-
 	public ExplosionManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(ExplosionTableManager.class);
 
 	}
+
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
 
@@ -53,6 +53,9 @@ public class ExplosionManager extends SkillManager {
 
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
+
+		// 合計のデータ
+		List<Block> alllist = new ArrayList<Block>();
 
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
@@ -77,14 +80,29 @@ public class ExplosionManager extends SkillManager {
 				}
 			});
 
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
+
+
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動できるブロックがありません．自分より下のブロックはしゃがみながら破壊できます．");
 			return false;
 		}
 
-		// ツールの耐久を確認
+		//重力値を計算
+		GravityManager gm = gp.getManager(GravityManager.class);
+		short gravity = gm.calc(1,alllist);
 
+		//重力値が０より大きければ終了
+		if(gravity > 0){
+			player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
+					+ gravity + ")により破壊できません");
+			return false;
+		}
+
+
+		// ツールの耐久を確認
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
 		//使用する耐久値
@@ -220,25 +238,20 @@ public class ExplosionManager extends SkillManager {
 		return true;
 	}
 
-
 	@Override
 	public void save(Boolean loginflag) {
 		tm.save(gp, loginflag);
 	}
-
-
 
 	@Override
 	protected ItemStack getItemStackonLocked() {
 		return new ItemStack(Material.STAINED_GLASS, 1, (short) 7);
 	}
 
-
-
 	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
 		int playerlocy = player.getLocation().getBlockY() - 1;
-		//int blocky = block.getY();
+		// int blocky = block.getY();
 		int rblocy = rb.getY();
 		int zeroy = this.getRange().getZeropoint().getY();
 		int voly = this.getRange().getVolume().getHeight() - 1;
@@ -253,27 +266,14 @@ public class ExplosionManager extends SkillManager {
 			return false;
 		}
 		/*
-
-		// プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
-		if (playerlocy >= blocky) {
-			return true;
-			// 破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
-		} else if (voly <= 1) {
-			if (playerlocy < rblocy) {
-				return true;
-			} else {
-				return false;
-			}
-			// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
-		} else if (zeroy == voly) {
-			return true;
-			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
-		} else if (playerlocy < rblocy) {
-			return true;
-		} else {
-			return false;
-		}
-		*/
+		 *
+		 * // プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue if (playerlocy >= blocky) {
+		 * return true; // 破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する } else if (voly <=
+		 * 1) { if (playerlocy < rblocy) { return true; } else { return false; }
+		 * // 破壊する高さが起点の高さと同じ場合は無関係に破壊する } else if (zeroy == voly) { return
+		 * true; // それ以外の場合は自分の高さ以上のブロックのみ破壊する } else if (playerlocy < rblocy) {
+		 * return true; } else { return false; }
+		 */
 	}
 
 	@Override
@@ -340,7 +340,7 @@ public class ExplosionManager extends SkillManager {
 
 	@Override
 	public Volume getDefaultVolume() {
-		return new Volume(1,1,1);
+		return new Volume(1, 1, 1);
 	}
 
 }

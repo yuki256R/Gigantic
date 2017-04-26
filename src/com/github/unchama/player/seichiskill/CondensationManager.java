@@ -30,8 +30,6 @@ import com.github.unchama.task.CondensationTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 
 public class CondensationManager extends SkillManager implements Finalizable {
-	private static List<Material> condens_list = new ArrayList<Material>(
-			Arrays.asList(Material.WATER,Material.STATIONARY_WATER,Material.LAVA, Material.STATIONARY_LAVA));
 
 	CondensationTableManager tm;
 	BukkitTask task;
@@ -39,25 +37,6 @@ public class CondensationManager extends SkillManager implements Finalizable {
 	public CondensationManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(CondensationTableManager.class);
-	}
-
-	/**
-	 * 凝固できるマテリアルリストを取得します．
-	 *
-	 * @return
-	 */
-	public static List<Material> getCondensMaterialList() {
-		return condens_list;
-	}
-
-	/**
-	 * 凝固可能なマテリアルの時Trueを返します
-	 *
-	 * @param m
-	 * @return
-	 */
-	public static boolean canCondens(Material m) {
-		return condens_list.contains(m);
 	}
 
 	@Deprecated
@@ -111,7 +90,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		breakcoord.forEach(c -> {
 			Block rb = block.getRelative(c.getX(), c.getY(), c.getZ());
 			Material m = rb.getType();
-			if (canCondens(m)) {
+			if (isLiquid(m)) {
 				// worldguardを確認Skilledflagを確認
 				if (Wg.canBuild(player, rb.getLocation())
 						&& !rb.hasMetadata("Skilled")
@@ -168,7 +147,7 @@ public class CondensationManager extends SkillManager implements Finalizable {
 		// condens直前の処理
 		liquidlist.forEach(b -> {
 			Material m = b.getType();
-			if (canCondens(m)) {
+			if (isLiquid(m)) {
 				mb.increase(m);
 			}
 			// スキルで使用するブロックに設定

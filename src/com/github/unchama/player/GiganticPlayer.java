@@ -11,6 +11,7 @@ import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -58,6 +59,7 @@ public class GiganticPlayer{
 		CONDENSATION(CondensationManager.class),
 		RUINFIELD(RuinFieldManager.class),
 		FAIRYAEGIS(FairyAegisManager.class),
+		GRAVITY(GravityManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),

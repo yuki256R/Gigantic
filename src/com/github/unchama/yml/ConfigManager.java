@@ -242,4 +242,12 @@ public class ConfigManager extends YmlManager {
     	return this.fc.getStringList("skillworld");
     }
 
+    /**通常破壊時の許容する高さを取得します
+     *
+     * @return
+     */
+	public int getGeneralGravityHeight() {
+		return this.fc.getInt("generalgravityheight");
+	}
+
 }

@@ -66,6 +66,10 @@ skillworld:
   - world_2
   - world_nether
   - world_the_end
+  
+#重力値設定
+#通常破壊時に許容する高さ
+generalgravityheight: 10
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'

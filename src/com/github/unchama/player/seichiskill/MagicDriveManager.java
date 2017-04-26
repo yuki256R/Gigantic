@@ -15,6 +15,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -50,6 +51,9 @@ public class MagicDriveManager extends SkillManager{
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
+		// 合計のデータ
+		List<Block> alllist = new ArrayList<Block>();
+
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
 
@@ -73,14 +77,28 @@ public class MagicDriveManager extends SkillManager{
 				}
 			});
 
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
+
+
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動できるブロックがありません．自分より下のブロックはしゃがみながら破壊できます．");
 			return false;
 		}
 
-		// ツールの耐久を確認
+		//重力値を計算
+		GravityManager gm = gp.getManager(GravityManager.class);
+		short gravity = gm.calc(1,alllist);
 
+		//重力値が０より大きければ終了
+		if(gravity > 0){
+			player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
+					+ gravity + ")により破壊できません");
+			return false;
+		}
+
+		// ツールの耐久を確認
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
 		//使用する耐久値

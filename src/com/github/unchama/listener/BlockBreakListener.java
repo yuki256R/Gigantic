@@ -36,7 +36,7 @@ public class BlockBreakListener implements Listener {
 		Ze = Util.getZenchantments();
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void NotLoadedGiganticPlayer(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
@@ -54,7 +54,7 @@ public class BlockBreakListener implements Listener {
 
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void SkilledBlockCanceller(BlockBreakEvent event) {
 		// 既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
 		if (event.getBlock().hasMetadata("Skilled")) {

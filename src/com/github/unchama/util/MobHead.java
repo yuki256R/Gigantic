@@ -65,8 +65,6 @@ public class MobHead {
 					"http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3");
 			put("pc",
 					"http://textures.minecraft.net/texture/8d19c68461666aacd7628e34a1e2ad39fe4f2bde32e231963ef3b35533");
-
-
 		}
 	};
 

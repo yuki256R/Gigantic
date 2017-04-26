@@ -14,13 +14,13 @@ import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlock;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.seichiskill.CondensationManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 	private static List<Material> condensMaterial = new ArrayList<Material>(
-			Arrays.asList(Material.WATER,Material.STATIONARY_WATER,Material.LAVA, Material.STATIONARY_LAVA));
+			Arrays.asList(Material.WATER, Material.STATIONARY_WATER,
+					Material.LAVA, Material.STATIONARY_LAVA));
 
 	public MineBlockTableManager(Sql sql) {
 		super(sql);
@@ -53,7 +53,8 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 			breakMap.put(bt, new MineBlock(rs.getDouble(bt.getColumnName())));
 		}
 		for (Material material : condensMaterial) {
-			condensMap.put(material, new MineBlock(rs.getDouble("condens_" + material.name())));
+			condensMap.put(material,
+					new MineBlock(rs.getDouble("condens_" + material.name())));
 		}
 
 		m.setAll(new MineBlock(rs.getDouble("allmineblock")));
@@ -72,7 +73,8 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 		}
 		for (Material material : condensMaterial) {
 			command += "condens_" + material.name() + " = '"
-					+ condensMap.get(material).getNum(TimeType.UNLIMITED) + "',";
+					+ condensMap.get(material).getNum(TimeType.UNLIMITED)
+					+ "',";
 		}
 		command += "allmineblock = '" + m.getAll(TimeType.UNLIMITED) + "',";
 
@@ -104,7 +106,7 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 		for (BlockType bt : BlockType.values()) {
 			breakMap.put(bt, new MineBlock());
 		}
-		for (Material material : CondensationManager.getCondensMaterialList()) {
+		for (Material material : condensMaterial) {
 			condensMap.put(material, new MineBlock());
 		}
 		m.setAll(new MineBlock());
