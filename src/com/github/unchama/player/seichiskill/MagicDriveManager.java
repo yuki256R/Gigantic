@@ -87,15 +87,13 @@ public class MagicDriveManager extends SkillManager{
 			return false;
 		}
 
-		//重力値を計算
-		GravityManager gm = gp.getManager(GravityManager.class);
-		short gravity = gm.calc(1,alllist);
+		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
+		if (!fm.getToggle()) {
+			// 重力値を計算
+			GravityManager gm = gp.getManager(GravityManager.class);
+			short gravity = gm.calc(1, alllist);
 
-		//重力値が０より大きければ終了
-		if(gravity > 0){
-			player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
-					+ gravity + ")により破壊できません");
-			return false;
+
 		}
 
 		// ツールの耐久を確認
@@ -317,28 +315,6 @@ public class MagicDriveManager extends SkillManager{
 		} else {
 			return false;
 		}
-		/*
-
-		// プレイヤーの足元以下のブロックを起点に破壊していた場合はtrue
-		if (playerlocy >= blocky) {
-			return true;
-			// 破壊する高さが2以下の場合はプレイヤーより上のブロックのみ破壊する
-		} else if (voly <= 1) {
-			if (playerlocy < rblocy) {
-				return true;
-			} else {
-				return false;
-			}
-			// 破壊する高さが起点の高さと同じ場合は無関係に破壊する
-		} else if (zeroy == voly) {
-			return true;
-			// それ以外の場合は自分の高さ以上のブロックのみ破壊する
-		} else if (playerlocy < rblocy) {
-			return true;
-		} else {
-			return false;
-		}
-		*/
 	}
 
 	/**

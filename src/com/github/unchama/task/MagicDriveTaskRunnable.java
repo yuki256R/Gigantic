@@ -3,6 +3,7 @@ package com.github.unchama.task;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -16,11 +17,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.listener.GiganticInteractListener;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class MagicDriveTaskRunnable extends BukkitRunnable {
 	private Gigantic plugin = Gigantic.plugin;
+	private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	public Set<Material> tpm = GiganticInteractListener.tpm;
 
@@ -62,6 +66,52 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 			@Override
 			public void run() {
 				if (player == null || cancelled) {
+					cancel();
+					return;
+				}
+
+				// トグルがオフなら終了
+				if (!skill.getToggle()) {
+					cancel();
+					return;
+				}
+				// サバイバルではないとき終了
+				if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+					debug.sendMessage(player, DebugEnum.SKILL,
+							"サバイバルではないのでスキルの発動ができません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+				// フライ中に使用していた時終了
+				if (player.isFlying()) {
+					player.sendMessage("フライ中はスキルの発動ができません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+
+				// 使用可能ワールドではないとき終了
+				if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+					player.sendMessage("このワールドではスキルの発動ができません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+
+				tool = player.getInventory().getItemInMainHand();
+
+				if (tool == null) {
+					player.sendMessage("スキルの発動ができるツールではありません．");
+					skill.setToggle(false);
+					cancel();
+					return;
+				}
+
+				// スキルを発動できるツールでないとき終了
+				if (!SkillManager.canBreak(tool)) {
+					player.sendMessage("スキルの発動ができるツールではありません．");
+					skill.setToggle(false);
 					cancel();
 					return;
 				}

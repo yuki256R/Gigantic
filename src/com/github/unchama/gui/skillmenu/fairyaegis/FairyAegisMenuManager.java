@@ -131,7 +131,7 @@ public class FairyAegisMenuManager extends SkillMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(MenuType.RANGE.getSlot(), ManagerType.F_RANGEMENU);
+		//openmap.put(MenuType.RANGE.getSlot(), ManagerType.F_RANGEMENU);
 
 	}
 

@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -34,6 +35,8 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public abstract class SkillManager extends DataManager implements UsingSql,
 		Initializable {
+	protected static List<Block> skilledblocklist = Gigantic.skilledblocklist;
+	protected static List<BukkitTask> tasklist = Gigantic.tasklist;
 	protected static WorldGuardPlugin Wg;
 	protected static CoreProtectAPI Cp;
 	protected ManaManager Mm;
@@ -545,5 +548,6 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 * @return
 	 */
 	public abstract long getUsedAp();
+
 
 }

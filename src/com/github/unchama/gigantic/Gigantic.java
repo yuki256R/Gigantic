@@ -1,8 +1,11 @@
 package com.github.unchama.gigantic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,7 +30,7 @@ public final class Gigantic extends JavaPlugin {
 	// Ymlデータ用クラス
 	public static Yml yml;
 
-	//Menuデータ用クラス
+	// Menuデータ用クラス
 	public static GuiMenu guimenu;
 
 	// メンテナンス用クラス
@@ -39,7 +42,9 @@ public final class Gigantic extends JavaPlugin {
 	// SeichiAssistSql用クラス
 	public static SeichiAssistSql seichisql;
 	// タスク用クラス
-	public static BukkitTask task;
+	public static List<BukkitTask> tasklist = new ArrayList<BukkitTask>();
+
+	public static List<Block> skilledblocklist = new ArrayList<Block>();
 
 	@Override
 	public void onEnable() {
@@ -64,8 +69,8 @@ public final class Gigantic extends JavaPlugin {
 		PlayerManager.onEnable();
 
 		// 1秒毎にタスクを実行
-		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 40,
-				20);
+		tasklist.add(new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this,
+				40, 20));
 
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
@@ -75,6 +80,7 @@ public final class Gigantic extends JavaPlugin {
 			new GiganticPlaceholders(plugin).hook();
 		}
 
+
 		getLogger().info("Gigantic is Enabled!");
 
 	}
@@ -82,13 +88,20 @@ public final class Gigantic extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// taskを終了
-		task.cancel();
+		tasklist.forEach(t->{
+			t.cancel();
+		});
 
 		// Userdata保存処理
 		PlayerManager.onDisable();
 
 		// sql接続終了処理
 		sql.onDisable();
+
+		skilledblocklist.forEach((b) -> {
+			b.setType(Material.AIR);
+			b.removeMetadata("Skilled", plugin);
+		});
 
 		getLogger().info("SeichiAssist is Disabled!");
 	}
@@ -103,7 +116,8 @@ public final class Gigantic extends JavaPlugin {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd,
 			String label, String[] args) {
-		return CommandType.getCommandbyName(cmd.getName()).onTabComplete(sender, cmd, label, args);
+		return CommandType.getCommandbyName(cmd.getName()).onTabComplete(
+				sender, cmd, label, args);
 	}
 
 }

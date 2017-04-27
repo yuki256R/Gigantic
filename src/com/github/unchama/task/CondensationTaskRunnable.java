@@ -21,7 +21,7 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class CondensationTaskRunnable extends BukkitRunnable {
 	private Gigantic plugin = Gigantic.plugin;
-	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+	private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	@SuppressWarnings("unused")

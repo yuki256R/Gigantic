@@ -1,19 +1,40 @@
 package com.github.unchama.player.seichiskill;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
+import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
 import com.github.unchama.player.seichiskill.moduler.Volume;
+import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.sql.FairyAegisTableManager;
+import com.github.unchama.task.FairyAegisTaskRunnable;
 import com.github.unchama.util.MobHead;
+import com.github.unchama.util.breakblock.BreakUtil;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class FairyAegisManager extends SkillManager {
+	public static Random rnd = new Random();
 	FairyAegisTableManager tm;
 
 	// プレイヤーがAPを消費して拡張する破壊ブロック数
@@ -90,9 +111,9 @@ public class FairyAegisManager extends SkillManager {
 		return true;
 	}
 
+	@Deprecated
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
@@ -114,7 +135,7 @@ public class FairyAegisManager extends SkillManager {
 
 	@Override
 	public int getUnlockLevel() {
-		return 200;
+		return 300;
 	}
 
 	@Override
@@ -172,7 +193,7 @@ public class FairyAegisManager extends SkillManager {
 	 * @param 1 or 10 or 100 or 1000
 	 * @return
 	 */
-	public ItemStack getBreakNumHead(int i,int b) {
+	public ItemStack getBreakNumHead(int i, int b) {
 		switch (i) {
 		case 10:
 			b %= 100;
@@ -189,22 +210,225 @@ public class FairyAegisManager extends SkillManager {
 		default:
 			b = -1;
 		}
-		if(b >= 0 && b < 10){
-			switch(b){
-			case 1:return(MobHead.getMobHead("one"));
-			case 2:return(MobHead.getMobHead("two"));
-			case 3:return(MobHead.getMobHead("three"));
-			case 4:return(MobHead.getMobHead("four"));
-			case 5:return(MobHead.getMobHead("five"));
-			case 6:return(MobHead.getMobHead("six"));
-			case 7:return(MobHead.getMobHead("seven"));
-			case 8:return(MobHead.getMobHead("eight"));
-			case 9:return(MobHead.getMobHead("nine"));
-			default:return(MobHead.getMobHead("zero"));
+		if (b >= 0 && b < 10) {
+			switch (b) {
+			case 1:
+				return (MobHead.getMobHead("one"));
+			case 2:
+				return (MobHead.getMobHead("two"));
+			case 3:
+				return (MobHead.getMobHead("three"));
+			case 4:
+				return (MobHead.getMobHead("four"));
+			case 5:
+				return (MobHead.getMobHead("five"));
+			case 6:
+				return (MobHead.getMobHead("six"));
+			case 7:
+				return (MobHead.getMobHead("seven"));
+			case 8:
+				return (MobHead.getMobHead("eight"));
+			case 9:
+				return (MobHead.getMobHead("nine"));
+			default:
+				return (MobHead.getMobHead("zero"));
 			}
-		}else{
+		} else {
 			return new ItemStack(Material.GRASS);
 		}
+	}
+
+	public boolean run(Player player, ItemStack tool, List<Block> alllist,
+			short pre_useDurability, double pre_usemana, boolean soundflag) {
+
+		// トグルがオフなら終了
+		if (!getToggle()) {
+			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
+			return false;
+		}
+
+		// エフェクト用に壊されるブロック全てのリストデータ
+		List<Block> breaklist = new ArrayList<Block>();
+
+		// 壊される液体のリストデータ
+		List<Block> liquidlist = new ArrayList<Block>();
+
+		// 壊されるブロックデータをÝ軸でまとめたもの
+		HashMap<Integer, List<Block>> breakMap = new HashMap<Integer, List<Block>>();
+
+		int minheight = 1000, maxheight = 0;
+
+		for (Block block : alllist) {
+			Block rb = block.getRelative(BlockFace.UP);
+			// チェック対象ブロックが破壊対象でない時
+			while (!alllist.contains(rb) && rb.getY() < 256) {
+				Material m = rb.getType();
+				if (SkillManager.canBreak(m)) {
+					// worldguardを確認Skilledflagを確認
+					if (Wg.canBuild(player, rb.getLocation())
+							&& !rb.hasMetadata("Skilled")) {
+						if (SkillManager.isLiquid(m)) {
+							liquidlist.add(rb);
+						} else {
+							breaklist.add(rb);
+						}
+						Integer y = rb.getY();
+						if (breakMap.containsKey(y)) {
+							breakMap.get(y).add(rb);
+						} else {
+							breakMap.put(y, new ArrayList<Block>());
+							breakMap.get(y).add(rb);
+						}
+						if (y > maxheight)
+							maxheight = y;
+						if (y < minheight)
+							minheight = y;
+					}
+				}
+				rb = rb.getRelative(BlockFace.UP);
+			}
+		}
+
+		if (breaklist.isEmpty()) {
+			return false;
+		}
+
+		int breakNum = breaklist.size() + liquidlist.size();
+		if (breakNum > this.getBreakNum()) {
+			debug.sendMessage(player, DebugEnum.SKILL, "追加破壊ブロック数が規定値を超えました："
+					+ breakNum);
+			return false;
+		}
+
+		// ツールの耐久を確認
+		short durability = tool.getDurability();
+		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+		// 使用する耐久値
+		short useDurability = 0;
+
+		if (!unbreakable) {
+			if (durability > tool.getType().getMaxDurability()) {
+				player.sendMessage(this.getJPName() + ChatColor.RED
+						+ ":ツールの耐久値が不正です．");
+				return false;
+			}
+			useDurability = (short) (BreakUtil.calcDurability(
+					tool.getEnchantmentLevel(Enchantment.DURABILITY),
+					breaklist.size() + liquidlist.size()));
+			// ツールの耐久が足りない時
+			if (tool.getType().getMaxDurability() <= (durability + useDurability)) {
+				// 入れ替え可能
+				if (Pm.replace(player, useDurability, tool)) {
+					durability = tool.getDurability();
+					unbreakable = tool.getItemMeta().spigot().isUnbreakable();
+					if (unbreakable)
+						useDurability = 0;
+				} else {
+					player.sendMessage(this.getJPName() + ChatColor.RED
+							+ ":発動に必要なツールの耐久値が足りません");
+					return false;
+				}
+			}
+		}
+		// マナを確認
+		double usemana = this.getMana(breaklist.size() + liquidlist.size() * 2);
+
+		if (!Mm.hasMana(usemana)) {
+			player.sendMessage(this.getJPName() + ChatColor.RED
+					+ ":発動に必要なマナが足りません");
+			return false;
+		}
+
+		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		// break直前の処理
+		List<ItemStack> droplist = new ArrayList<ItemStack>();
+		breaklist
+				.forEach((b) -> {
+					// ドロップアイテムをリストに追加
+					droplist.addAll(BreakUtil.getDrops(b, tool));
+					// MineBlockに追加
+					mb.increase(b.getType(), 1);
+					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
+							.name()
+							+ " is increment("
+							+ 1
+							+ ")for player:"
+							+ player.getName());
+					// スキルで使用するブロックに設定
+					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
+							true));
+					// アイテムが出現するのを検知させる
+					Location droploc = GeneralBreakListener.getDropLocation(b);
+					GeneralBreakListener.breakmap.put(droploc,
+							player.getUniqueId());
+					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+						@Override
+						public void run() {
+							GeneralBreakListener.breakmap.remove(droploc);
+						}
+					}, 1);
+				});
+
+		liquidlist.forEach(b -> {
+			// スキルで使用するブロックに設定
+				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
+			});
+
+		// MineStackに追加
+		MineStackManager m = gp.getManager(MineStackManager.class);
+		droplist.forEach((dropitem) -> {
+			if (m.add(dropitem)) {
+				debug.sendMessage(player, DebugEnum.SKILL,
+						"your item is added in minestack");
+			} else {
+				player.getInventory().addItem(dropitem);
+				debug.sendMessage(player, DebugEnum.SKILL,
+						"your item is added in inventory");
+			}
+		});
+
+		// 最初のブロックのみコアプロテクトに保存する．
+		// SkillManager.logRemoval(player, block);
+
+		liquidlist.forEach(b -> {
+			double r = rnd.nextDouble();
+			if (r < 0.5) {
+				b.setType(Material.EMERALD_ORE);
+			} else {
+				b.setType(Material.MOSSY_COBBLESTONE);
+			}
+		});
+		breaklist.forEach(b -> {
+			double r = rnd.nextDouble();
+			if (r < 0.5) {
+				b.setType(Material.EMERALD_ORE);
+			} else {
+				b.setType(Material.MOSSY_COBBLESTONE);
+			}
+		});
+
+		skilledblocklist.addAll(liquidlist);
+		skilledblocklist.addAll(breaklist);
+
+		// レベルを更新
+		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
+			int level = gp.getManager(SeichiLevelManager.class).getLevel();
+			gp.getManager(ManaManager.class).Levelup();
+			gp.getManager(SideBarManager.class).updateInfo(
+					Information.SEICHI_LEVEL, level);
+		}
+		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
+		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
+				rb);
+		gp.getManager(SideBarManager.class).refresh();
+
+		Mm.decrease(usemana);
+		tool.setDurability((short) (durability + useDurability));
+
+		tasklist.add(new FairyAegisTaskRunnable(gp, breakMap, maxheight,
+				minheight, soundflag).runTaskTimer(plugin, 20, 20));
+
+		return true;
 	}
 
 }
