@@ -226,8 +226,8 @@ public class CondensationManager extends SkillManager implements Finalizable {
 	}
 
 	@Override
-	public Material getMenuMaterial() {
-		return Material.REDSTONE_ORE;
+	public ItemStack getMenuItemStack() {
+		return new ItemStack(Material.REDSTONE_ORE);
 	}
 
 	@Override
@@ -285,6 +285,11 @@ public class CondensationManager extends SkillManager implements Finalizable {
 	@Override
 	public Volume getDefaultVolume() {
 		return new Volume(7, 7, 7);
+	}
+
+	@Override
+	public ItemStack getToggleOnItemStack() {
+		return new ItemStack(Material.REDSTONE);
 	}
 
 }

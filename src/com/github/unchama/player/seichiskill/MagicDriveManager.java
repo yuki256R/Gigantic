@@ -256,8 +256,8 @@ public class MagicDriveManager extends SkillManager{
 	}
 
 	@Override
-	public Material getMenuMaterial() {
-		return Material.LAPIS_ORE;
+	public ItemStack getMenuItemStack() {
+		return new ItemStack(Material.LAPIS_ORE);
 	}
 
 	@Override
@@ -348,5 +348,10 @@ public class MagicDriveManager extends SkillManager{
 	@Override
 	public Volume getDefaultVolume() {
 		return new Volume(1,1,1);
+	}
+
+	@Override
+	public ItemStack getToggleOnItemStack() {
+		return new ItemStack(Material.INK_SACK,1,(short)4);
 	}
 }

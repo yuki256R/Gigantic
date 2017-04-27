@@ -362,7 +362,7 @@ public class R_RangeMenuManager extends RangeMenuManager {
 					v.getWidth(), (short) 10);
 			break;
 		case 4:
-			itemstack = new ItemStack(m.getMenuMaterial());
+			itemstack = m.getMenuItemStack();
 			break;
 		case 5:
 			itemstack = new ItemStack(Material.STAINED_GLASS_PANE,

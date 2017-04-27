@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -90,16 +89,6 @@ public class CondensationMenuManager extends SkillMenuManager{
 					+ "クリックして起点を設定");
 			itemmeta.setLore(lore);
 			break;
-		case BOOK:
-			itemmeta.setDisplayName(ChatColor.RED + "専用スキルブックを受け取る");
-			itemmeta.addEnchant(Enchantment.DIG_SPEED, 100, false);
-			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "数字キーでスロット切替を行い，");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "トグルを切り替えられます");
-			itemmeta.setLore(lore);
-			break;
 		case EXTENSION:
 			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "スキル強化");
 			lore = new ArrayList<String>();
@@ -124,7 +113,7 @@ public class CondensationMenuManager extends SkillMenuManager{
 		ItemStack itemstack = null;
 		switch (mt) {
 		case INFO:
-			itemstack = new ItemStack(gp.getManager(clazz).getMenuMaterial());
+			itemstack = gp.getManager(clazz).getMenuItemStack();
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
@@ -133,9 +122,6 @@ public class CondensationMenuManager extends SkillMenuManager{
 			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 			String url = MobHead.getMobURL("pc");
 			MobHead.setURL(itemstack, url);
-			break;
-		case BOOK:
-			itemstack = new ItemStack(Material.ENCHANTED_BOOK);
 			break;
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
@@ -153,18 +139,10 @@ public class CondensationMenuManager extends SkillMenuManager{
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> id_map) {
-		id_map.put(MenuType.BOOK.getSlot(), "give");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		SkillManager m = gp.getManager(clazz);
-		switch (identifier) {
-		case "give":
-			m.giveSkillBook(player);
-			return true;
-		}
 		return false;
 	}
 

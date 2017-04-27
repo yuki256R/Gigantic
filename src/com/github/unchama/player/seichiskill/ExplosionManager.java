@@ -285,8 +285,8 @@ public class ExplosionManager extends SkillManager {
 	}
 
 	@Override
-	public Material getMenuMaterial() {
-		return Material.COAL_ORE;
+	public ItemStack getMenuItemStack() {
+		return new ItemStack(Material.COAL_ORE);
 	}
 
 	@Override
@@ -343,6 +343,13 @@ public class ExplosionManager extends SkillManager {
 	@Override
 	public Volume getDefaultVolume() {
 		return new Volume(1, 1, 1);
+	}
+
+
+
+	@Override
+	public ItemStack getToggleOnItemStack() {
+		return new ItemStack(Material.COAL);
 	}
 
 }

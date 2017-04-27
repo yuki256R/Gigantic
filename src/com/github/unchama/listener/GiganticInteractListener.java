@@ -23,6 +23,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
+import com.github.unchama.gui.skillmenu.SkillToggleMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.SkillManager;
@@ -152,15 +153,52 @@ public class GiganticInteractListener implements Listener {
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
+	public void openToggleMenu(GiganticInteractEvent event) {
+		if (event.isCancelled())
+			return;
+
+		Player player = event.getPlayer();
+
+		if (!player.isSneaking())
+			return;
+
+		// プレイヤーが起こしたアクションを取得
+		Action action = event.getAction();
+		// アクションを起こした手を取得
+		EquipmentSlot equipmentslot = event.getHand();
+
+		if (equipmentslot == null)
+			return;
+
+		if (equipmentslot.equals(EquipmentSlot.OFF_HAND))
+			return;
+
+		if (!action.equals(Action.RIGHT_CLICK_AIR)
+				&& !action.equals(Action.RIGHT_CLICK_BLOCK))
+			return;
+
+		ItemStack tool = event.getItem();
+
+		if (!SkillManager.canBreak(tool))
+			return;
+
+		event.setCancelled(true);
+		guimenu.getManager(SkillToggleMenuManager.class).open(player, 0, true);;
+		return;
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void MagicDrive(GiganticInteractEvent event) {
+		if (event.isCancelled())
+			return;
 		Player player = event.getPlayer();
 		GiganticPlayer gp = event.getGiganticPlayer();
 		MagicDriveManager skill = gp.getManager(MagicDriveManager.class);
 
 		// 左クリックの時終了
 		Action action = event.getAction();
-		if (action.equals(Action.LEFT_CLICK_AIR)
-				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
+		if (!action.equals(Action.RIGHT_CLICK_AIR)
+				&& !action.equals(Action.RIGHT_CLICK_BLOCK)) {
 			return;
 		}
 

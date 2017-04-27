@@ -10,6 +10,7 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.skillmenu.SkillToggleMenuManager;
 import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
 import com.github.unchama.gui.skillmenu.condensation.C_OriginMenuManager;
 import com.github.unchama.gui.skillmenu.condensation.C_RangeMenuManager;
@@ -29,6 +30,7 @@ public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
 		SKILLTYPEMENU(SkillTypeMenuManager.class),
+		SKILLTOGGLEMENU(SkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
 		MD_RANGEMENU(MD_RangeMenuManager.class),

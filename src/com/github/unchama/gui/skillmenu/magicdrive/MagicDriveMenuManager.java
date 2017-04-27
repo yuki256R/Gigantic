@@ -7,7 +7,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -139,16 +138,6 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			}
 			itemmeta.setLore(lore);
 			break;
-		case BOOK:
-			itemmeta.setDisplayName(ChatColor.RED + "専用スキルブックを受け取る");
-			itemmeta.addEnchant(Enchantment.DIG_SPEED, 100, false);
-			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "数字キーでスロット切替を行い，");
-			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "トグルを切り替えられます");
-			itemmeta.setLore(lore);
-			break;
 		case EXTENSION:
 			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "スキル強化");
 			lore = new ArrayList<String>();
@@ -173,7 +162,7 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 		ItemStack itemstack = null;
 		switch (mt) {
 		case INFO:
-			itemstack = new ItemStack(gp.getManager(clazz).getMenuMaterial());
+			itemstack = gp.getManager(clazz).getMenuItemStack();
 			break;
 		case RANGE:
 			itemstack = new ItemStack(Material.GLASS);
@@ -182,9 +171,6 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 			String url = MobHead.getMobURL("pc");
 			MobHead.setURL(itemstack, url);
-			break;
-		case BOOK:
-			itemstack = new ItemStack(Material.ENCHANTED_BOOK);
 			break;
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
@@ -203,7 +189,6 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 	protected void setIDMap(HashMap<Integer, String> id_map) {
 		id_map.put(MenuType.INFO.getSlot(), "toggle");
 		id_map.put(MenuType.ORIGIN.getSlot(), "chenge_y");
-		id_map.put(MenuType.BOOK.getSlot(), "give");
 	}
 
 	@Override
@@ -245,9 +230,6 @@ public class MagicDriveMenuManager extends SkillMenuManager {
 			zero.setY(cy);
 			m.getRange().refresh();
 			player.openInventory(this.getInventory(player, 0));
-			return true;
-		case "give":
-			m.giveSkillBook(player);
 			return true;
 		}
 		return false;

@@ -66,13 +66,13 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 			@Override
 			public void run() {
 				if (player == null || cancelled) {
-					cancel();
+					finish();
 					return;
 				}
 
 				// トグルがオフなら終了
 				if (!skill.getToggle()) {
-					cancel();
+					finish();
 					return;
 				}
 				// サバイバルではないとき終了
@@ -80,14 +80,14 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 					debug.sendMessage(player, DebugEnum.SKILL,
 							"サバイバルではないのでスキルの発動ができません．");
 					skill.setToggle(false);
-					cancel();
+					finish();
 					return;
 				}
 				// フライ中に使用していた時終了
 				if (player.isFlying()) {
 					player.sendMessage("フライ中はスキルの発動ができません．");
 					skill.setToggle(false);
-					cancel();
+					finish();
 					return;
 				}
 
@@ -95,7 +95,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
 					player.sendMessage("このワールドではスキルの発動ができません．");
 					skill.setToggle(false);
-					cancel();
+					finish();
 					return;
 				}
 
@@ -104,7 +104,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				if (tool == null) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
 					skill.setToggle(false);
-					cancel();
+					finish();
 					return;
 				}
 
@@ -112,7 +112,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				if (!SkillManager.canBreak(tool)) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
 					skill.setToggle(false);
-					cancel();
+					finish();
 					return;
 				}
 

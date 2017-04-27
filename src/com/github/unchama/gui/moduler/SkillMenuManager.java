@@ -14,9 +14,9 @@ public abstract class SkillMenuManager extends GuiMenuManager{
 	public static enum MenuType{
 		INFO(0),
 		RANGE(1),
-		ORIGIN(3),
-		BOOK(5),
-		EXTENSION(6),
+		ORIGIN(2),
+		EXTENSION(3),
+		HELP(4),
 		;
 		private int slot;
 
@@ -48,18 +48,18 @@ public abstract class SkillMenuManager extends GuiMenuManager{
 
 	@Override
 	public String getClickType() {
-		return "right";
+		return "";
 	}
 
 	@Override
 	public int getInventorySize() {
-		return 9;
+		return 5;
 	}
 
 
 	@Override
 	protected InventoryType getInventoryType() {
-		return null;
+		return InventoryType.HOPPER;
 	}
 
 	@Override

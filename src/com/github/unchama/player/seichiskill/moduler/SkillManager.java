@@ -42,6 +42,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	protected ManaManager Mm;
 	protected SideBarManager Sm;
 	protected ToolPouchManager Pm;
+	protected SeichiLevelManager Lm;
 	protected GuiMenu guimenu = Gigantic.guimenu;
 
 	protected SkillType st;
@@ -102,6 +103,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		this.Mm = gp.getManager(ManaManager.class);
 		this.Sm = gp.getManager(SideBarManager.class);
 		this.Pm = gp.getManager(ToolPouchManager.class);
+		this.Lm = gp.getManager(SeichiLevelManager.class);
 	}
 
 	/**
@@ -171,7 +173,62 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			om.open(player, 0, false);
 		}
 	}
-
+	/**
+	 * スキルトグルを選択するメニューで使われるitemstackを取得します
+	 *
+	 * @return
+	 */
+	public ItemStack getSkillToggleInfo() {
+		ItemStack is;
+		SeichiLevelManager sm = gp.getManager(SeichiLevelManager.class);
+		int sl = sm.getLevel();
+		if (sl < this.getUnlockLevel()) {
+			// アンロック可能レベルより低い時
+			is = this.getItemStackonLocked();
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(this.getJPName());
+			List<String> lore = new ArrayList<String>();
+			lore.add(ChatColor.DARK_GRAY + "整地レベルが" + this.getUnlockLevel()
+					+ "以上で解禁できます．");
+			im.setLore(lore);
+			im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+			is.setItemMeta(im);
+		} else if (this.isunlocked()) {
+			// アンロックされているとき
+			if(this.getToggle()){
+				is = this.getToggleOnItemStack();
+				ItemMeta im = is.getItemMeta();
+				im.addEnchant(Enchantment.DIG_SPEED, 100, false);
+				im.setDisplayName(this.getJPName());
+				List<String> lore = new ArrayList<String>();
+				lore.add(ChatColor.YELLOW + "トグル：" + ChatColor.GREEN + "ON");
+				im.setLore(lore);
+				im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+				is.setItemMeta(im);
+			}else{
+				is = this.getMenuItemStack();
+				ItemMeta im = is.getItemMeta();
+				im.addEnchant(Enchantment.DIG_SPEED, 100, false);
+				im.setDisplayName(this.getJPName());
+				List<String> lore = new ArrayList<String>();
+				lore.add(ChatColor.YELLOW + "トグル：" + ChatColor.RED + "OFF");
+				im.setLore(lore);
+				im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+				is.setItemMeta(im);
+			}
+		} else {
+			// されていない時
+			is = this.getMenuItemStack();
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(this.getJPName());
+			List<String> lore = new ArrayList<String>();
+			lore.add(ChatColor.DARK_GRAY + "解禁されていません．");
+			im.setLore(lore);
+			im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+			is.setItemMeta(im);
+		}
+		return is;
+	}
 	/**
 	 * スキルタイプを選択するメニューで使われるitemstackを取得します
 	 *
@@ -194,7 +251,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			is.setItemMeta(im);
 		} else if (this.isunlocked()) {
 			// アンロックされているとき
-			is = new ItemStack(this.getMenuMaterial());
+			is = this.getMenuItemStack();
 			ItemMeta im = is.getItemMeta();
 			im.addEnchant(Enchantment.DIG_SPEED, 100, false);
 			im.setDisplayName(this.getJPName());
@@ -202,7 +259,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 			is.setItemMeta(im);
 		} else {
 			// されていない時
-			is = new ItemStack(this.getMenuMaterial());
+			is = this.getMenuItemStack();
 			ItemMeta im = is.getItemMeta();
 			im.setDisplayName(this.getJPName());
 			List<String> lore = new ArrayList<String>();
@@ -220,11 +277,13 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 		return is;
 	}
 
+
 	/**
 	 * プレイヤーにスキルブックを与えます．
 	 *
 	 * @param player
 	 */
+	@Deprecated
 	public void giveSkillBook(Player player) {
 		ItemStack is = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta im = is.getItemMeta();
@@ -244,6 +303,7 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 *
 	 * @return
 	 */
+	@Deprecated
 	public List<String> getSkillBookLore() {
 		List<String> lore = new ArrayList<String>();
 		lore.add(ChatColor.DARK_GRAY + "トグル（オンオフ）を切り替えます．");
@@ -302,6 +362,12 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	public void setToggle(boolean toggle) {
 		Player player = PlayerManager.getPlayer(gp);
 		if (player != null) {
+			if(!this.isunlocked()){
+				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
+						+ "アンロックされていません");
+				this.toggle = false;
+				return;
+			}
 			this.toggle = toggle;
 			if (toggle) {
 				player.sendMessage(this.getJPName() + ":" + ChatColor.GREEN
@@ -334,7 +400,14 @@ public abstract class SkillManager extends DataManager implements UsingSql,
 	 *
 	 * @return
 	 */
-	public abstract Material getMenuMaterial();
+	public abstract ItemStack getMenuItemStack();
+
+	/**
+	 * トグルがONの時のトグルメニューでのマテリアル名を取得します．
+	 *
+	 * @return
+	 */
+	public abstract ItemStack getToggleOnItemStack();
 
 	/**
 	 * このスキルの解放可能レベルを取得します

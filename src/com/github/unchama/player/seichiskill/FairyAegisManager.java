@@ -119,7 +119,7 @@ public class FairyAegisManager extends SkillManager {
 
 	@Override
 	protected ItemStack getItemStackonLocked() {
-		return new ItemStack(Material.STAINED_GLASS, 1, (short) 7);
+		return new ItemStack(Material.STAINED_GLASS, 1, (short) 5);
 	}
 
 	@Override
@@ -129,8 +129,8 @@ public class FairyAegisManager extends SkillManager {
 	}
 
 	@Override
-	public Material getMenuMaterial() {
-		return Material.EMERALD_ORE;
+	public ItemStack getMenuItemStack() {
+		return new ItemStack(Material.EMERALD_ORE);
 	}
 
 	@Override
@@ -429,6 +429,11 @@ public class FairyAegisManager extends SkillManager {
 				minheight, soundflag).runTaskTimer(plugin, 20, 50));
 
 		return true;
+	}
+
+	@Override
+	public ItemStack getToggleOnItemStack() {
+		return new ItemStack(Material.EMERALD);
 	}
 
 }

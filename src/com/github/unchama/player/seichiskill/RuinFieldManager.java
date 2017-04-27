@@ -102,8 +102,8 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 	}
 
 	@Override
-	public Material getMenuMaterial() {
-		return Material.DIAMOND_ORE;
+	public ItemStack getMenuItemStack() {
+		return new ItemStack(Material.DIAMOND_ORE);
 	}
 
 	@Override
@@ -352,6 +352,11 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
 		return true;
+	}
+
+	@Override
+	public ItemStack getToggleOnItemStack() {
+		return new ItemStack(Material.DIAMOND);
 	}
 
 }

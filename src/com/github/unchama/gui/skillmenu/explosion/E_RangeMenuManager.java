@@ -218,9 +218,9 @@ public class E_RangeMenuManager extends RangeMenuManager {
 			if (v.getWidth() == dv.getWidth()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上幅を狭くすることはできません．");
-			}else{
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
-						+ spendap);
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+						+ "取得するAP:" + spendap);
 			}
 
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
@@ -287,9 +287,9 @@ public class E_RangeMenuManager extends RangeMenuManager {
 			if (v.getDepth() == dv.getDepth()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上奥行を縮めることはできません．");
-			}else{
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
-						+ spendap);
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+						+ "取得するAP:" + spendap);
 			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
@@ -308,9 +308,9 @@ public class E_RangeMenuManager extends RangeMenuManager {
 			if (v.getHeight() == dv.getHeight()) {
 				lore.add("" + ChatColor.RESET + ChatColor.RED
 						+ "これ以上高さを下げることはできません．");
-			}else{
-				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "取得するAP:"
-						+ spendap);
+			} else {
+				lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN
+						+ "取得するAP:" + spendap);
 			}
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "---------------");
@@ -355,7 +355,7 @@ public class E_RangeMenuManager extends RangeMenuManager {
 					v.getWidth(), (short) 10);
 			break;
 		case 4:
-			itemstack = new ItemStack(m.getMenuMaterial());
+			itemstack = m.getMenuItemStack();
 			break;
 		case 5:
 			itemstack = new ItemStack(Material.STAINED_GLASS_PANE,
