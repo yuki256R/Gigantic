@@ -165,6 +165,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
+
 		// エフェクト用に壊されるブロック全てのリストデータ
 		List<Block> breaklist = new ArrayList<Block>();
 
@@ -196,25 +197,12 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 					}
 				}
 			});
+
 		alllist.addAll(breaklist);
 		alllist.addAll(liquidlist);
 
-		if (breaklist.isEmpty() && liquidlist.isEmpty()) {
+		if (breaklist.isEmpty()) {
 			return true;
-		}
-
-		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
-		if (!fm.getToggle()) {
-			// 重力値を計算
-			GravityManager gm = gp.getManager(GravityManager.class);
-			short gravity = gm.calc(1, alllist);
-
-			// 重力値が０より大きければ終了
-			if (gravity > 0) {
-				player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
-						+ gravity + ")により破壊できません");
-				return false;
-			}
 		}
 
 		// ツールの耐久を確認
@@ -247,15 +235,32 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 				}
 			}
 		}
-
 		// マナを確認
-		double usemana = this.getMana(breaklist.size() + liquidlist.size());
+		double usemana = this.getMana(breaklist.size() + liquidlist.size() * 2);
 
 		if (!Mm.hasMana(usemana)) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動に必要なマナが足りません");
 			return false;
 		}
+
+
+		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
+		if (!fm.run(player,tool,alllist,useDurability,usemana,false)) {
+			// 重力値を計算
+			GravityManager gm = gp.getManager(GravityManager.class);
+			short gravity = gm.calc(1, alllist);
+
+			/*
+			// 重力値が０より大きければ終了
+			if (gravity > 0) {
+				player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
+						+ gravity + ")により破壊できません");
+				return false;
+			}
+			*/
+		}
+
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
@@ -305,7 +310,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 		});
 
 		// 最初のブロックのみコアプロテクトに保存する．
-		SkillManager.logRemoval(player, block);
+		SkillManager.logRemoval(player, breaklist.get(0));
 
 		// breakの処理
 		liquidlist.forEach(b -> {
@@ -342,6 +347,7 @@ public class RuinFieldManager extends SkillManager implements Finalizable {
 		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
 				rb);
 		gp.getManager(SideBarManager.class).refresh();
+
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

@@ -135,7 +135,7 @@ public class FairyAegisManager extends SkillManager {
 
 	@Override
 	public int getUnlockLevel() {
-		return 300;
+		return 200;
 	}
 
 	@Override
@@ -316,7 +316,7 @@ public class FairyAegisManager extends SkillManager {
 					tool.getEnchantmentLevel(Enchantment.DURABILITY),
 					breaklist.size() + liquidlist.size()));
 			// ツールの耐久が足りない時
-			if (tool.getType().getMaxDurability() <= (durability + useDurability)) {
+			if (tool.getType().getMaxDurability() <= (durability + useDurability + pre_useDurability)) {
 				// 入れ替え可能
 				if (Pm.replace(player, useDurability, tool)) {
 					durability = tool.getDurability();
@@ -333,7 +333,7 @@ public class FairyAegisManager extends SkillManager {
 		// マナを確認
 		double usemana = this.getMana(breaklist.size() + liquidlist.size() * 2);
 
-		if (!Mm.hasMana(usemana)) {
+		if (!Mm.hasMana(usemana + pre_usemana)) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動に必要なマナが足りません");
 			return false;
@@ -426,7 +426,7 @@ public class FairyAegisManager extends SkillManager {
 		tool.setDurability((short) (durability + useDurability));
 
 		tasklist.add(new FairyAegisTaskRunnable(gp, breakMap, maxheight,
-				minheight, soundflag).runTaskTimer(plugin, 20, 20));
+				minheight, soundflag).runTaskTimer(plugin, 20, 50));
 
 		return true;
 	}

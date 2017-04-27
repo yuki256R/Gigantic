@@ -80,45 +80,36 @@ public class MagicDriveManager extends SkillManager{
 		alllist.addAll(breaklist);
 		alllist.addAll(liquidlist);
 
-
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動できるブロックがありません．自分より下のブロックはしゃがみながら破壊できます．");
 			return false;
 		}
 
-		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
-		if (!fm.getToggle()) {
-			// 重力値を計算
-			GravityManager gm = gp.getManager(GravityManager.class);
-			short gravity = gm.calc(1, alllist);
-
-
-		}
-
 		// ツールの耐久を確認
 		short durability = tool.getDurability();
 		boolean unbreakable = tool.getItemMeta().spigot().isUnbreakable();
-		//使用する耐久値
+		// 使用する耐久値
 		short useDurability = 0;
 
 		if (!unbreakable) {
-			if(durability > tool.getType().getMaxDurability()){
+			if (durability > tool.getType().getMaxDurability()) {
 				player.sendMessage(this.getJPName() + ChatColor.RED
 						+ ":ツールの耐久値が不正です．");
 				return false;
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
-				tool.getEnchantmentLevel(Enchantment.DURABILITY),
-				breaklist.size() + liquidlist.size()));
-				//ツールの耐久が足りない時
-			if(tool.getType().getMaxDurability() <= (durability + useDurability)) {
-				//入れ替え可能
-				if(Pm.replace(player,useDurability,tool)){
+					tool.getEnchantmentLevel(Enchantment.DURABILITY),
+					breaklist.size() + liquidlist.size()));
+			// ツールの耐久が足りない時
+			if (tool.getType().getMaxDurability() <= (durability + useDurability)) {
+				// 入れ替え可能
+				if (Pm.replace(player, useDurability, tool)) {
 					durability = tool.getDurability();
 					unbreakable = tool.getItemMeta().spigot().isUnbreakable();
-					if(unbreakable)useDurability = 0;
-				}else{
+					if (unbreakable)
+						useDurability = 0;
+				} else {
 					player.sendMessage(this.getJPName() + ChatColor.RED
 							+ ":発動に必要なツールの耐久値が足りません");
 					return false;
@@ -134,6 +125,23 @@ public class MagicDriveManager extends SkillManager{
 			return false;
 		}
 
+
+		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
+		if (!fm.run(player,tool,alllist,useDurability,usemana,true)) {
+			// 重力値を計算
+			GravityManager gm = gp.getManager(GravityManager.class);
+			short gravity = gm.calc(1, alllist);
+
+			/*
+			// 重力値が０より大きければ終了
+			if (gravity > 0) {
+				player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
+						+ gravity + ")により破壊できません");
+				return false;
+			}
+			*/
+		}
+
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
@@ -142,8 +150,7 @@ public class MagicDriveManager extends SkillManager{
 					// ドロップアイテムをリストに追加
 					droplist.addAll(BreakUtil.getDrops(b, tool));
 					// MineBlockに追加
-					mb.increase(b.getType(),
-							1);
+					mb.increase(b.getType(), 1);
 					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
 							.name()
 							+ " is increment("
