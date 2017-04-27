@@ -74,6 +74,18 @@ name: '&5&lメインメニュー'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
   isSkullofOwner: true
+12:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: DIAMOND_PICKAXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l'パッシブスキルブック'
+      lore:
+      - '&r&7スキルを使って整地の効率を上げよう'
+      - '&r&2&l&nクリックで開く'
+  openmenu: 'passiveskilltypemenu'
 14:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -81,11 +93,11 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&l整地スキル'
+      display-name: '&e&n&lアクティブスキルブック'
       lore:
       - '&r&7スキルを使って整地の効率を上げよう'
       - '&r&2&l&nクリックで開く'
-  openmenu: 'skilltypemenu'
+  openmenu: 'activeskilltypemenu'
 16:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

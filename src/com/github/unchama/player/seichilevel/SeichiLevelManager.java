@@ -11,8 +11,8 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
-import com.github.unchama.player.seichiskill.moduler.SkillType;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.yml.ConfigManager;
 
 public class SeichiLevelManager extends DataManager implements Initializable {
@@ -58,8 +58,8 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 		long sumap = sl.getSumAp();
 		long useap = 0;
 		//アンロックで使用するAP
-		for(SkillType st : SkillType.values()){
-			SkillManager s = (SkillManager)gp.getManager(st.getSkillClass());
+		for(ActiveSkillType st : ActiveSkillType.values()){
+			ActiveSkillManager s = (ActiveSkillManager)gp.getManager(st.getSkillClass());
 			if(s.isunlocked()){
 				useap += s.getUnlockAP() + s.getUsedAp();
 			}

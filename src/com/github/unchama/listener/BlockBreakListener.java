@@ -19,8 +19,8 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
-import com.github.unchama.player.seichiskill.ExplosionManager;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.active.ExplosionManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
@@ -105,7 +105,7 @@ public class BlockBreakListener implements Listener {
 			return;
 		}
 		// スキルを発動できるツールでないとき終了
-		if (!SkillManager.canBreak(tool)) {
+		if (!ActiveSkillManager.canBreak(tool)) {
 			player.sendMessage("スキルの発動ができるツールではありません．");
 			skill.setToggle(false);
 			return;
@@ -122,7 +122,7 @@ public class BlockBreakListener implements Listener {
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
-		if (!SkillManager.canBreak(material)) {
+		if (!ActiveSkillManager.canBreak(material)) {
 			debug.sendMessage(player, DebugEnum.SKILL, "スキルが発動できるブロックではありません．");
 			return;
 		}

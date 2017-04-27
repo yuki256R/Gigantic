@@ -13,11 +13,11 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.util.Util;
 
 public class SideBarManager extends DataManager implements Initializable,

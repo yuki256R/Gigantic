@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.RuinFieldManager;
+import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;

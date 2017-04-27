@@ -16,8 +16,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.listener.GiganticInteractListener;
-import com.github.unchama.player.seichiskill.MagicDriveManager;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.active.MagicDriveManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -109,7 +109,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				}
 
 				// スキルを発動できるツールでないとき終了
-				if (!SkillManager.canBreak(tool)) {
+				if (!ActiveSkillManager.canBreak(tool)) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
 					skill.setToggle(false);
 					finish();

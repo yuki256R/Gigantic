@@ -12,7 +12,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.sql.ToolPouchTableManager;
 
 public class ToolPouchManager extends DataManager implements UsingSql {
@@ -91,7 +91,7 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 		for(int i = 0; i < pouch.getSize() ; i++){
 			ItemStack pouchtool = pouch.getItem(i);
 			if(pouchtool == null)continue;
-			if(SkillManager.canBreak(pouchtool)){
+			if(ActiveSkillManager.canBreak(pouchtool)){
 				if(pouchtool.getItemMeta().spigot().isUnbreakable() || pouchtool.getType().getMaxDurability() > pouchtool.getDurability() + useDurability){
 					pouch.setItem(i, handtool);
 					player.getInventory().setItemInMainHand(pouchtool);

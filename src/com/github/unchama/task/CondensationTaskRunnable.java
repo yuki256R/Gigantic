@@ -12,9 +12,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.CondensationManager;
-import com.github.unchama.player.seichiskill.RuinFieldManager;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.active.CondensationManager;
+import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -89,7 +89,7 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 		}
 
 		// スキルを発動できるツールでないとき終了
-		if (!SkillManager.canBreak(tool)) {
+		if (!ActiveSkillManager.canBreak(tool)) {
 			player.sendMessage("スキルの発動ができるツールではありません．");
 			skill.setToggle(false);
 			cancelled = true;
@@ -166,7 +166,7 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 				}
 
 				// スキルを発動できるツールでないとき終了
-				if (!SkillManager.canBreak(tool)) {
+				if (!ActiveSkillManager.canBreak(tool)) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
 					skill.setToggle(false);
 					cancel();

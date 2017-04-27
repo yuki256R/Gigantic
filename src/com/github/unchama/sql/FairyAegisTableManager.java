@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.FairyAegisManager;
+import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
 public class FairyAegisTableManager extends PlayerTableManager{

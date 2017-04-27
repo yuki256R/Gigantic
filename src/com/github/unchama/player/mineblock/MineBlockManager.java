@@ -9,7 +9,7 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.sql.MineBlockTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -45,7 +45,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 	 * @param breaknum
 	 */
 	public void increase(Material material, int breaknum) {
-		if (SkillManager.isLiquid(material)) {
+		if (ActiveSkillManager.isLiquid(material)) {
 			condensMap.get(material).increase(breaknum);
 		} else {
 			BlockType bt = BlockType.getmaterialMap().get(material);

@@ -23,10 +23,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
-import com.github.unchama.gui.skillmenu.SkillToggleMenuManager;
+import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.MagicDriveManager;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.active.MagicDriveManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.task.MagicDriveTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
@@ -179,11 +179,11 @@ public class GiganticInteractListener implements Listener {
 
 		ItemStack tool = event.getItem();
 
-		if (!SkillManager.canBreak(tool))
+		if (!ActiveSkillManager.canBreak(tool))
 			return;
 
 		event.setCancelled(true);
-		guimenu.getManager(SkillToggleMenuManager.class).open(player, 0, true);;
+		guimenu.getManager(ActiveSkillToggleMenuManager.class).open(player, 0, true);
 		return;
 	}
 
@@ -243,7 +243,7 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 		// スキルを発動できるツールでないとき終了
-		if (!SkillManager.canBreak(tool)) {
+		if (!ActiveSkillManager.canBreak(tool)) {
 			player.sendMessage("スキルの発動ができるツールではありません．");
 			skill.setToggle(false);
 			return;
@@ -260,7 +260,7 @@ public class GiganticInteractListener implements Listener {
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
-		if (!SkillManager.canBreak(material)) {
+		if (!ActiveSkillManager.canBreak(material)) {
 			debug.sendMessage(player, DebugEnum.SKILL, "スキルが発動できるブロックではありません．");
 			return;
 		}
