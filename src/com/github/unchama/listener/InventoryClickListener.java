@@ -27,7 +27,6 @@ public class InventoryClickListener implements Listener {
 	GuiMenu guimenu = Gigantic.guimenu;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
-
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void cancelPlayerClickMenu(InventoryClickEvent event) {
 
@@ -39,12 +38,15 @@ public class InventoryClickListener implements Listener {
 		}
 		Player player = (Player) he;
 		Inventory topinventory = view.getTopInventory();
+		Inventory bottominventory = view.getBottomInventory();
 		// インベントリが存在しない時終了
 		if (topinventory == null) {
 			return;
 		}
-		//debug.sendMessage(player, DebugEnum.GUI,"InventoryAction:" + event.getAction().toString());
-		//debug.sendMessage(player, DebugEnum.GUI,"ClickType:" + event.getClick().toString());
+		// debug.sendMessage(player, DebugEnum.GUI,"InventoryAction:" +
+		// event.getAction().toString());
+		// debug.sendMessage(player, DebugEnum.GUI,"ClickType:" +
+		// event.getClick().toString());
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		if (gp == null) {
@@ -61,26 +63,30 @@ public class InventoryClickListener implements Listener {
 			}
 		}
 
-		//開いているメニューが無ければ終了
+		// 開いているメニューが無ければ終了
 		PlayerMenuManager pm = gp.getManager(PlayerMenuManager.class);
-		if(pm.isEmpty()){
+		if (pm.isEmpty()) {
 			return;
 		}
 
-		//現在開いているメニューを取得します．
-		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(pm.get().getManagerClass());
+		// 現在開いているメニューを取得します．
+		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(pm.get()
+				.getManagerClass());
 
-		//別のメニューを開いていれば終了
-		if(!topinventory.getName().contains(m.getInventoryName(player))){
+		// 別のメニューを開いていれば終了
+		if (!topinventory.getName().contains(m.getInventoryName(player))) {
 			return;
 		}
 
-		debug.sendMessage(player, DebugEnum.GUI,
-				m.getInventoryName(player) + ChatColor.RESET
-						+ "内でクリックを検知");
+		debug.sendMessage(player, DebugEnum.GUI, m.getInventoryName(player)
+				+ ChatColor.RESET + "内でクリックを検知");
 
 		event.setCancelled(true);
-		MenuClickEvent mevent = new MenuClickEvent(pm.get(),event);
+
+		if (bottominventory.equals(event.getClickedInventory())) {
+			return;
+		}
+		MenuClickEvent mevent = new MenuClickEvent(pm.get(), event);
 		Bukkit.getServer().getPluginManager().callEvent(mevent);
 	}
 

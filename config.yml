@@ -42,7 +42,11 @@ mineboost:
     minutemine: 0.01
 
 # 整地レベル設定
-maxseichilevel: 300
+# レベルアップできる最大値
+maxseichilevel: 500
+# レベルが考慮される最大値
+considerableseichilevel: 300
+
 
 # 機能：整地レベルメッセージ設定
 # levelupmessage:レベルアップの度に表示
@@ -66,6 +70,12 @@ skillworld:
   - world_2
   - world_nether
   - world_the_end
+  
+#重力値設定
+#通常破壊時に許容する高さ
+generalgravityheight: 10
+
+
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'

@@ -52,8 +52,9 @@ public abstract class GuiMenuManager {
 	public GuiMenuManager() {
 		if (!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())) {
 			setOpenMenuMap(openmap);
+			setIDMap(id_map);
 		}
-		setIDMap(id_map);
+
 	}
 
 

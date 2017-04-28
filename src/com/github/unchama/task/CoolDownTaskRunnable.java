@@ -5,8 +5,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.moduler.SkillManager;
-import com.github.unchama.player.seichiskill.moduler.SkillType;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 
@@ -21,13 +21,13 @@ public class CoolDownTaskRunnable extends BukkitRunnable{
 	Gigantic plugin = Gigantic.plugin;
 	GiganticPlayer gp;
 
-	SkillManager m;
+	ActiveSkillManager m;
 	SideBarManager Sm;
 
 	Information info;
 
 	int cooltime;
-	SkillType st;
+	ActiveSkillType st;
 	//■の数
 	int snum = 10;
 	//一度に減る棒の数
@@ -35,7 +35,7 @@ public class CoolDownTaskRunnable extends BukkitRunnable{
 	//棒が減るtick数（倍数）
 	int interval;
 
-	public CoolDownTaskRunnable(GiganticPlayer gp ,int cooltime,SkillType st){
+	public CoolDownTaskRunnable(GiganticPlayer gp ,int cooltime,ActiveSkillType st){
 		this.gp = gp;
 		m = gp.getManager(st.getSkillClass());
 		Sm = gp.getManager(SideBarManager.class);
