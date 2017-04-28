@@ -133,3 +133,16 @@ name: '&5&lメインメニュー'
       - '&r&8各サバイバルサーバー間で'
       - '&r&8共有されます'
   openmenu: 'minestackcategorymenu'
+26:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: BUCKET
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lゴミ箱を開く'
+      lore:
+      - '&r&a不用品の大量処分にドウゾ！'
+      - '&r&c復活しないので取扱注意'
+      - '&r&4&nクリックで開く'
+  openinventory: 'garbagecan'
