@@ -1,17 +1,13 @@
 package com.github.unchama.gui.moduler;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -27,14 +23,12 @@ import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import com.github.unchama.util.MobHead;
 
 /**
  * Created by Mon_chi on 2017/03/25.
  */
 public abstract class MineStackMenuManager extends GuiMenuManager{
-
     public Map<Integer, StackType> typeMap;
     public List<ItemStack> skullList;
 
@@ -52,24 +46,14 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
 
         skullList = new ArrayList<>();
-        skullList.add(getSkull("http://textures.minecraft.net/texture/3ebf907494a935e955bfcadab81beafb90fb9be49c7026ba97d798d5f1a23"));
-        skullList.add(getSkull("http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b"));
-
-//        1-9の数字頭
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/71bc2bcfb2bd3759e6b1e86fc7a79585e1127dd357fc202893f9de241bc9e530"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/4cd9eeee883468881d83848a46bf3012485c23f75753b8fbe8487341419847"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/1d4eae13933860a6df5e8e955693b95a8c3b15c36b8b587532ac0996bc37e5"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/d2e78fb22424232dc27b81fbcb47fd24c1acf76098753f2d9c28598287db5"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/6d57e3bc88a65730e31a14e3f41e038a5ecf0891a6c243643b8e5476ae2"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/334b36de7d679b8bbc725499adaef24dc518f5ae23e716981e1dcc6b2720ab"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/6db6eb25d1faabe30cf444dc633b5832475e38096b7e2402a3ec476dd7b9"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/59194973a3f17bda9978ed6273383997222774b454386c8319c04f1f4f74c2b5"));
-//        skullList.add(getSkull("http://textures.minecraft.net/texture/e67caf7591b38e125a8017d58cfc6433bfaf84cd499d794f41d10bff2e5b840"));
-
-
-
-
-
+        skullList.add(MobHead.getMobHead("left"));
+        skullList.add(MobHead.getMobHead("right"));
+        ItemMeta meta = skullList.get(0).getItemMeta();
+        meta.setDisplayName("前のページ");
+        skullList.get(0).setItemMeta(meta);
+        meta = skullList.get(1).getItemMeta();
+        meta.setDisplayName("次のページ");
+        skullList.get(1).setItemMeta(meta);
     }
 
     public abstract StackCategory getCategory();
@@ -95,6 +79,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
 
         //ページ遷移ボタン
+
         inv.setItem(45, skullList.get(0));
         inv.setItem(53, skullList.get(1));
 
@@ -106,24 +91,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         return inv;
     }
 
-    //カスタム頭取得
-    private ItemStack getSkull(String url){
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM,1,(short)3);
-        ItemMeta meta = skull.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        byte[] encodedData = Base64.getEncoder().encode(String.format("{textures:{SKIN:{url:\"%s\"}}}", url).getBytes());
-        profile.getProperties().put("textures", new Property("textures", new String(encodedData)));
-        Field profileField;
-        try {
-            profileField = meta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(meta, profile);
-        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
-            e1.printStackTrace();
-        }
-        skull.setItemMeta(meta);
-        return skull;
-    }
+
 
     @Override
     public boolean invoke(Player player, String identifier){
@@ -139,7 +107,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
         //ページ進むボタン
         else if (slot == 53){
-            if (typeMap.size() <= 53 * page) return false;
+            if (typeMap.size() <= 45 * page) return false;
             player.openInventory(getInventory(player, 53, page + 1));
             player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, (float)1.0, (float)4.0);
         }

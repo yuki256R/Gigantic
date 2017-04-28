@@ -209,11 +209,11 @@ public class ConfigManager extends YmlManager {
 	public String getFirstJoinMessage() {
 		return this.fc.getString("firstjoinmessage");
 	}
-	
-	
+
+
 	/**フライ時1分間に消費する経験値量を取得します。
 	 * ※消費する量(正)なので-で減らすこと。
-	 * 
+	 *
 	 * @return
 	 */
 	public int getFlyExp(){
@@ -238,8 +238,24 @@ public class ConfigManager extends YmlManager {
      *
      * @return
      */
-    public List<String> getSkillWorld() {
+    public List<String> getSkillWorldList() {
     	return this.fc.getStringList("skillworld");
     }
+
+    /**通常破壊時の許容する高さを取得します
+     *
+     * @return
+     */
+	public int getGeneralGravityHeight() {
+		return this.fc.getInt("generalgravityheight");
+	}
+
+	/**考慮される最高レベルを取得
+	 *
+	 * @return
+	 */
+	public int getConsiderableSeichiLevel() {
+		return this.fc.getInt("considerableseichilevel");
+	}
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
@@ -14,13 +13,12 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.fly.ExperienceManager;
 import com.github.unchama.player.fly.FlyManager;
-import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
 public class flyCommand implements TabExecutor{
 	/*flyCommandの実装(4/5実装済み)
 	 * -プレイヤーデータにflytime(int) flyflag(boolean) endlessfly(boolean)を追加(SQL同期は不要)(4/5実装済み)
-	 * 
+	 *
 	 */
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
@@ -28,9 +26,9 @@ public class flyCommand implements TabExecutor{
 	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		return null;
 	}
-	
+
 	/**与えられた文字列がint型に直せるかどうか判断します
-	 * 
+	 *
 	 * @param num
 	 * @return 成否
 	 */
@@ -39,11 +37,11 @@ public class flyCommand implements TabExecutor{
 			Integer.parseInt(num);
 			return true;
 		}catch(NumberFormatException e){
-			
+
 		}
 		return false;
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		//プレイヤーからの送信ではない時終了
 		if(!(sender instanceof Player)){
@@ -59,21 +57,19 @@ public class flyCommand implements TabExecutor{
 		if(args.length == 1){
 			//プレイヤーの取得
 			Player player = (Player)sender;
-			//プレイヤーネームを取得
-			String name = Converter.getName(player);
 			//playerdataを取得
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 			//playerdataがない場合処理終了
 			if(gp == null){
 				return false;
 			}
-			
+
 			ExperienceManager expman = new ExperienceManager(player);
-			
+
 			boolean flyflag = gp.getManager(FlyManager.class).getFlyflag();
 			int flytime = gp.getManager(FlyManager.class).getFlytime();
 			boolean Endlessfly = gp.getManager(FlyManager.class).getEndlessflyflag();
-			
+
 			if(args[0].equalsIgnoreCase("finish")){
 				flyflag = false;
 				flytime = 0;

@@ -9,8 +9,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineboost.BoostType;
-import com.github.unchama.player.mineboost.MineBoostManager;
+import com.github.unchama.player.seichiskill.passive.mineboost.BoostType;
+import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 
 public class PlayerJoinListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
