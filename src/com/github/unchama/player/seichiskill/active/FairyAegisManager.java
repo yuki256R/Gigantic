@@ -135,7 +135,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 
 	@Override
 	public int getUnlockLevel() {
-		return 200;
+		return 250;
 	}
 
 	@Override

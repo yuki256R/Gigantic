@@ -23,6 +23,7 @@ public enum ListenerEnum {
 	BLOCKBREAK(new BlockBreakListener()),
 	MENUCLICK(new MenuClickListener()),
 	GIGANTICINTERACT(new GiganticInteractListener()),
+	PLAYERSWAPHANDITEMS(new PlayerSwapHandItemsListener()),
     BUILD(new BlockPlaceEventListener()),
 	;
 	private Listener listener;

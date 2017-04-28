@@ -24,6 +24,7 @@ import com.github.unchama.gui.seichiskill.active.magicdrive.MagicDriveMenuManage
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
+import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 
 
 public final class GuiMenu {
@@ -43,6 +44,7 @@ public final class GuiMenu {
 		R_ORIGINMENU(R_OriginMenuManager.class),
 		FAIRYAEGISMENU(FairyAegisMenuManager.class),
 		F_RANGEMENU(F_RangeMenuManager.class),
+		PASSIVESKILLTYPEMENU(PassiveSkillTypeMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
 		ITEMCATEGORYMENU(CategoryItemMenuManager.class),

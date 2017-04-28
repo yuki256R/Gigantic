@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import org.bukkit.Bukkit;
 
 import com.github.unchama.event.SeichiLevelUpEvent;
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -13,12 +12,26 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
-import com.github.unchama.yml.ConfigManager;
 
 public class SeichiLevelManager extends DataManager implements Initializable {
 
 	// 各レベルのデータ値を格納します．
-	public static LinkedHashMap<Integer, SeichiLevel> levelmap;
+	public static LinkedHashMap<Integer, SeichiLevel> levelmap = new LinkedHashMap<Integer, SeichiLevel>(){
+		{
+			long sum_ap = 0;
+			long get_ap = 1;
+			for (int level = 1; level <= config.getMaxSeichiLevel(); level++) {
+				sum_ap += get_ap;
+				put(level, new SeichiLevel(level, get_ap, sum_ap));
+				if (level % 10 == 0 && level < 80) {
+					get_ap *= 2;
+				}
+				if( level >= config.getConsiderableSeichiLevel()){
+					get_ap = 0;
+				}
+			}
+		}
+	};
 
 	// 整地レベル
 	private int level;
@@ -30,23 +43,6 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	@Override
 	public void init() {
 		this.calcLevel();
-	}
-	/**
-	 * LevelMapをセットします． Enable時に一度だけ処理してください．
-	 *
-	 */
-	public static void setLevelMap() {
-		levelmap = new LinkedHashMap<Integer, SeichiLevel>();
-		long sum_ap = 0;
-		long get_ap = 1;
-		for (int level = 1; level <= Gigantic.yml
-				.getManager(ConfigManager.class).getMaxSeichiLevel(); level++) {
-			sum_ap += get_ap;
-			levelmap.put(level, new SeichiLevel(level, get_ap, sum_ap));
-			if (level % 10 == 0 && level < 80) {
-				get_ap *= 2;
-			}
-		}
 	}
 	/**プレイヤーの持つ残りのAPを取得
 	 *

@@ -6,12 +6,10 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 
 public class FairyAegisTaskRunnable extends BukkitRunnable {
@@ -24,7 +22,6 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 
 	@SuppressWarnings("unused")
 	private GiganticPlayer gp;
-	private Player player;
 	private HashMap<Integer, List<Block>> breakMap;
 	private int height;
 	private final int minheight;
@@ -34,14 +31,10 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 			HashMap<Integer, List<Block>> breakMap, int maxheight,
 			int minheight, boolean soundflag) {
 		this.gp = gp;
-		this.player = PlayerManager.getPlayer(gp);
 		this.breakMap = breakMap;
 		this.minheight = minheight;
 		this.height = maxheight;
 		this.soundflag = soundflag;
-		if (soundflag)
-			player.getWorld().playSound(player.getLocation(),
-					Sound.ENTITY_WITHER_AMBIENT, 0.7F, 2.0F);
 	}
 
 	@Override

@@ -77,11 +77,11 @@ name: '&5&lメインメニュー'
 12:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: DIAMOND_PICKAXE
+    type: ENCHANTED_BOOK
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&l'パッシブスキルブック'
+      display-name: '&e&n&lパッシブスキルブック'
       lore:
       - '&r&7スキルを使って整地の効率を上げよう'
       - '&r&2&l&nクリックで開く'

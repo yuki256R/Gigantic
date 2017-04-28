@@ -26,6 +26,7 @@ import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
@@ -49,6 +50,7 @@ public class GiganticPlayer{
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
 		MANA(ManaManager.class),
+		MANARECOVERY(ManaRecoveryManager.class),
 		MENU(PlayerMenuManager.class),
 		BUILD(BuildManager.class),
 		MINEBOOST(MineBoostManager.class),

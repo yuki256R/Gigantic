@@ -54,7 +54,7 @@ public class SideBarManager extends DataManager implements Initializable,
 		updateInfo(Information.MINE_BLOCK, Util.Decimal(gp.getManager(
 				SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
-				gp.getManager(MineBoostManager.class).boostlevel);
+				gp.getManager(MineBoostManager.class).getBoostLv());
 		updateInfo(Information.BUILDING_LEVEL, 99);
 		updateInfo(Information.SEPARATOR1, "");
 		updateInfo(Information.EX_COOLTIME, "%DELETE%");

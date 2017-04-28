@@ -15,7 +15,6 @@ import com.github.unchama.command.CommandType;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.TimeTaskRunnable;
@@ -60,8 +59,6 @@ public final class Gigantic extends JavaPlugin {
 		if (yml.getManager(ConfigManager.class).getOldDataFlag()) {
 			seichisql = new SeichiAssistSql();
 		}
-		// sqlの次に必ず初期化を行う
-		SeichiLevelManager.setLevelMap();
 
 		maintenance = new Maintenance();
 

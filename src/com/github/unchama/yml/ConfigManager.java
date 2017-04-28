@@ -250,4 +250,12 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("generalgravityheight");
 	}
 
+	/**考慮される最高レベルを取得
+	 *
+	 * @return
+	 */
+	public int getConsiderableSeichiLevel() {
+		return this.fc.getInt("considerableseichilevel");
+	}
+
 }

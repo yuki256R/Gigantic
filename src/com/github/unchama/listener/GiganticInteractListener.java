@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -23,7 +24,6 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
-import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
@@ -145,46 +145,14 @@ public class GiganticInteractListener implements Listener {
 					return;
 				}
 			}
-
+			if(!player.getInventory().getItemInOffHand().getType().equals(Material.AIR)){
+				player.sendMessage(ChatColor.RED + "オフハンドにアイテムを持った状態でメニューを開くことはできません");
+				return;
+			}
 			event.setCancelled(true);
 			m.open(player, 0, true);
 			return;
 		}
-	}
-
-	@EventHandler(priority = EventPriority.HIGH)
-	public void openToggleMenu(GiganticInteractEvent event) {
-		if (event.isCancelled())
-			return;
-
-		Player player = event.getPlayer();
-
-		if (!player.isSneaking())
-			return;
-
-		// プレイヤーが起こしたアクションを取得
-		Action action = event.getAction();
-		// アクションを起こした手を取得
-		EquipmentSlot equipmentslot = event.getHand();
-
-		if (equipmentslot == null)
-			return;
-
-		if (equipmentslot.equals(EquipmentSlot.OFF_HAND))
-			return;
-
-		if (!action.equals(Action.RIGHT_CLICK_AIR)
-				&& !action.equals(Action.RIGHT_CLICK_BLOCK))
-			return;
-
-		ItemStack tool = event.getItem();
-
-		if (!ActiveSkillManager.canBreak(tool))
-			return;
-
-		event.setCancelled(true);
-		guimenu.getManager(ActiveSkillToggleMenuManager.class).open(player, 0, true);
-		return;
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)

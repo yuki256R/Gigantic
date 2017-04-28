@@ -246,7 +246,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 
 
 		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
-		if (!fm.run(player,tool,alllist,useDurability,usemana,false)) {
+		if (!fm.run(player,tool,alllist,useDurability,usemana,true)) {
 			// 重力値を計算
 			GravityManager gm = gp.getManager(GravityManager.class);
 			short gravity = gm.calc(1, alllist);
