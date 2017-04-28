@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -115,6 +116,9 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 			case "toolpouch":
 				methodmap.put(i, "openToolPouch");
 				break;
+			case "garbagecan":
+				methodmap.put(i, "openGarbageCan");
+				break;
 			default:
 				break;
 			}
@@ -126,6 +130,10 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 		switch(identifier){
 		case "openToolPouch":
 			gp.getManager(ToolPouchManager.class).open(player);
+			return true;
+		case "openGarbageCan":
+			player.openInventory(Bukkit.createInventory(player, 54, ChatColor.RED + "" + ChatColor.BOLD + "ゴミ箱(取扱注意)"));
+			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, (float) 1.5);
 			return true;
 		default:
 			return false;
