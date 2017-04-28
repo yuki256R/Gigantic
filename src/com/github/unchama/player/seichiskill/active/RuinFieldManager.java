@@ -336,6 +336,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 			b.removeMetadata("Skilled", plugin);
 		});
 
+
 		// レベルを更新
 		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
 			int level = gp.getManager(SeichiLevelManager.class).getLevel();

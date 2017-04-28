@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,6 +16,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -24,7 +26,6 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 	private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
-	@SuppressWarnings("unused")
 	private GiganticPlayer gp;
 	private Player player;
 	private CondensationManager skill;
@@ -184,10 +185,14 @@ public class CondensationTaskRunnable extends BukkitRunnable {
 
 				debug.sendMessage(player, DebugEnum.SKILL, "Condensation発動可能");
 
-				if (!skill.run(player, tool, player.getLocation().getBlock())) {
+				Block block = player.getLocation().getBlock();
+
+				if (!skill.run(player, tool, block)) {
 					skill.setToggle(false);
 					cancel();
 					return;
+				}else{
+					gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
 				}
 			}
 

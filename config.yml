@@ -75,6 +75,9 @@ skillworld:
 #通常破壊時に許容する高さ
 generalgravityheight: 10
 
+#パッシブスキル設定
+#セキュアブレイクが解放されるレベル
+securebreakunlocklevel: 60
 
 
 # 色々な設定、説明は割愛

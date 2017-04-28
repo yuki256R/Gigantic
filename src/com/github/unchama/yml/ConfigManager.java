@@ -258,4 +258,12 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("considerableseichilevel");
 	}
 
+	/**セキュアブレイクを開放できるレベルを取得
+	 *
+	 * @return
+	 */
+	public int getSecureBreakUnlockLevel() {
+		return this.fc.getInt("securebreakunlocklevel");
+	}
+
 }
