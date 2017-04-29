@@ -26,7 +26,6 @@ public class RuinFieldTaskRunnable extends BukkitRunnable {
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
-	@SuppressWarnings("unused")
 	private GiganticPlayer gp;
 	private Player player;
 	private RuinFieldManager skill;

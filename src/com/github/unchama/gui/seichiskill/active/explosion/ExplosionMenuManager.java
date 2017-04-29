@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.ActiveSkillMenuManager;
-import com.github.unchama.gui.moduler.ActiveSkillMenuManager.MenuType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
@@ -148,6 +147,8 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "未実装");
 			itemmeta.setLore(lore);
 			break;
+		default:
+			break;
 		}
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
@@ -174,6 +175,8 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 			break;
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
+			break;
+		default:
 			break;
 		}
 		return itemstack;

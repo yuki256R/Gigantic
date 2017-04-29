@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
@@ -16,17 +17,21 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
+import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.FairyAegisTableManager;
 import com.github.unchama.task.FairyAegisTaskRunnable;
 import com.github.unchama.util.MobHead;
@@ -34,16 +39,79 @@ import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class FairyAegisManager extends ActiveSkillManager {
+
+	private static Information info = Information.FA_FAIRY;
 	public static Random rnd = new Random();
 	FairyAegisTableManager tm;
 
 	// プレイヤーがAPを消費して拡張する破壊ブロック数
 	private int breakNum;
+	// プレイヤーが保有する妖精さんの数
+	private int fairy;
+	// プレイヤーが使用している妖精さんの数
+	private int worker;
 
 	public FairyAegisManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(FairyAegisTableManager.class);
 		breakNum = 0;
+		fairy = 0;
+		worker = 0;
+	}
+
+	@Override
+	public void init() {
+		this.Mm = gp.getManager(ManaManager.class);
+		this.Sm = gp.getManager(SideBarManager.class);
+		this.Pm = gp.getManager(ToolPouchManager.class);
+		this.Lm = gp.getManager(SeichiLevelManager.class);
+		this.refresh();
+	}
+
+	@Override
+	public void setToggle(boolean toggle) {
+		Player player = PlayerManager.getPlayer(gp);
+		if (player != null) {
+			if (!this.isunlocked()) {
+				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
+						+ "アンロックされていません");
+				this.toggle = false;
+				return;
+			}
+			this.toggle = toggle;
+			if (toggle) {
+				player.sendMessage(this.getJPName() + ":" + ChatColor.GREEN
+						+ "ON");
+				Sm.updateInfo(info, this.getBreakingFairy());
+			} else {
+				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
+						+ "OFF");
+				if(this.getWorker()==0){
+					Sm.updateInfo(info, "%DELETE%");
+				}
+			}
+			player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK,
+					(float) 0.7, (float) 2.2);
+		} else {
+			Bukkit.getServer()
+					.getLogger()
+					.warning(
+							"<" + this.getClass().getSimpleName()
+									+ ".toggle()> " + gp.name
+									+ "のplayerクラスが見つかりません．");
+		}
+	}
+
+	/**
+	 * fairyを更新します．
+	 *
+	 */
+	public void refresh() {
+		fairy = 25;
+		MineBlockManager mm = gp.getManager(MineBlockManager.class);
+		double all = mm.getAll(TimeType.UNLIMITED);
+		// 整地量1億につき1匹追加
+		fairy += (int) (all / 100000000);
 	}
 
 	/**
@@ -70,7 +138,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 		return 1000;
 	}
 
-	@Deprecated
+
 	@Override
 	public BreakRange getRange() {
 		return null;
@@ -238,8 +306,9 @@ public class FairyAegisManager extends ActiveSkillManager {
 		}
 	}
 
-	public boolean run(Player player, ItemStack tool, List<Block> alllist,
-			short pre_useDurability, double pre_usemana, boolean soundflag) {
+	public boolean run(Player player, ItemStack tool, ActiveSkillManager skill,
+			Block block, short pre_useDurability, double pre_usemana,
+			boolean soundflag) {
 
 		// トグルがオフなら終了
 		if (!getToggle()) {
@@ -256,12 +325,12 @@ public class FairyAegisManager extends ActiveSkillManager {
 		// 壊されるブロックデータをÝ軸でまとめたもの
 		HashMap<Integer, List<Block>> breakMap = new HashMap<Integer, List<Block>>();
 
-		int minheight = 1000, maxheight = 0;
+		List<Coordinate> toplist = skill.getRange().getTopCoordList(player);
 
-		for (Block block : alllist) {
-			Block rb = block.getRelative(BlockFace.UP);
-			// チェック対象ブロックが破壊対象でない時
-			while (!alllist.contains(rb) && rb.getY() < 256) {
+		toplist.forEach(c -> {
+			Block rb = block.getRelative(c.getX(), c.getY(), c.getZ())
+					.getRelative(BlockFace.UP);
+			while (rb.getY() < 256) {
 				Material m = rb.getType();
 				if (ActiveSkillManager.canBreak(m)) {
 					// worldguardを確認Skilledflagを確認
@@ -279,15 +348,11 @@ public class FairyAegisManager extends ActiveSkillManager {
 							breakMap.put(y, new ArrayList<Block>());
 							breakMap.get(y).add(rb);
 						}
-						if (y > maxheight)
-							maxheight = y;
-						if (y < minheight)
-							minheight = y;
 					}
 				}
 				rb = rb.getRelative(BlockFace.UP);
 			}
-		}
+		});
 
 		if (breaklist.isEmpty()) {
 			return false;
@@ -297,6 +362,13 @@ public class FairyAegisManager extends ActiveSkillManager {
 		if (breakNum > this.getBreakNum()) {
 			debug.sendMessage(player, DebugEnum.SKILL, "追加破壊ブロック数が規定値を超えました："
 					+ breakNum);
+			return false;
+		}
+
+		// 妖精さんの数を確認
+		if (this.getWorker() > fairy) {
+			player.sendMessage(this.getJPName() + ChatColor.RED
+					+ ":妖精さんは全員出ています．");
 			return false;
 		}
 
@@ -316,7 +388,8 @@ public class FairyAegisManager extends ActiveSkillManager {
 					tool.getEnchantmentLevel(Enchantment.DURABILITY),
 					breaklist.size() + liquidlist.size()));
 			// ツールの耐久が足りない時
-			if (tool.getType().getMaxDurability() <= (durability + useDurability + pre_useDurability)) {
+			if (tool.getType().getMaxDurability() <= (durability
+					+ useDurability + pre_useDurability)) {
 				// 入れ替え可能
 				if (Pm.replace(player, useDurability, tool)) {
 					durability = tool.getDurability();
@@ -424,16 +497,62 @@ public class FairyAegisManager extends ActiveSkillManager {
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
-
-		tasklist.add(new FairyAegisTaskRunnable(gp, breakMap, maxheight,
-				minheight, soundflag).runTaskTimer(plugin, 20, 50));
-
+		new FairyAegisTaskRunnable(gp,block,tool,this,skill, breakMap, soundflag)
+		.runTaskTimer(plugin, 20, 5);
+		this.addWorker();
 		return true;
+	}
+
+	/**働き蜂を増やします
+	 *
+	 */
+	private void addWorker() {
+		this.worker++;
+		if(this.worker > fairy){
+			this.worker = fairy;
+		}
+	}
+
+	/**働き蜂を休憩させます
+	 *
+	 */
+	public void takeBreak(){
+		this.worker--;
+		if(this.worker < 0){
+			this.worker = 0;
+		}
 	}
 
 	@Override
 	public ItemStack getToggleOnItemStack() {
 		return new ItemStack(Material.EMERALD);
+	}
+
+	/**
+	 * 妖精さんの数を取得します
+	 *
+	 * @return
+	 */
+	public int getFairy() {
+		return this.fairy;
+	}
+
+	/**
+	 * 使用されている妖精さんの数を取得します．
+	 *
+	 * @return
+	 */
+	public int getWorker() {
+		return this.worker;
+	}
+
+	/**
+	 * 休憩中の妖精さんの数を取得します．
+	 *
+	 * @return
+	 */
+	public int getBreakingFairy() {
+		return this.fairy - this.worker;
 	}
 
 }
