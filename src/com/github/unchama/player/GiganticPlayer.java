@@ -28,6 +28,7 @@ import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
+import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
@@ -62,6 +63,7 @@ public class GiganticPlayer{
 		RUINFIELD(RuinFieldManager.class),
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
+		SECUREBREAK(SecureBreakManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),

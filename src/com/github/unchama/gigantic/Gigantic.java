@@ -9,7 +9,6 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.command.CommandType;
 import com.github.unchama.gui.GuiMenu;
@@ -40,8 +39,6 @@ public final class Gigantic extends JavaPlugin {
 
 	// SeichiAssistSql用クラス
 	public static SeichiAssistSql seichisql;
-	// タスク用クラス
-	public static List<BukkitTask> tasklist = new ArrayList<BukkitTask>();
 
 	public static List<Block> skilledblocklist = new ArrayList<Block>();
 
@@ -66,8 +63,7 @@ public final class Gigantic extends JavaPlugin {
 		PlayerManager.onEnable();
 
 		// 1秒毎にタスクを実行
-		tasklist.add(new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this,
-				40, 20));
+		new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 40, 20);
 
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
@@ -77,7 +73,6 @@ public final class Gigantic extends JavaPlugin {
 			new GiganticPlaceholders(plugin).hook();
 		}
 
-
 		getLogger().info("Gigantic is Enabled!");
 
 	}
@@ -85,9 +80,7 @@ public final class Gigantic extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// taskを終了
-		tasklist.forEach(t->{
-			t.cancel();
-		});
+		Bukkit.getScheduler().cancelTasks(plugin);
 
 		// Userdata保存処理
 		PlayerManager.onDisable();

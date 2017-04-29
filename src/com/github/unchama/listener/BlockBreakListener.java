@@ -21,6 +21,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
@@ -138,7 +139,9 @@ public class BlockBreakListener implements Listener {
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 
 		// スキル処理
-		skill.run(player, tool, block);
+		if(skill.run(player, tool, block)){
+			gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
+		}
 
 	}
 }

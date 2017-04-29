@@ -20,8 +20,10 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -32,7 +34,6 @@ public class GeneralBreakListener implements Listener {
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
 	public static HashMap<Location, UUID> breakmap = new HashMap<Location, UUID>();
-
 
 	/**
 	 * 通常破壊が行われた時のドロップ処理行程1
@@ -94,6 +95,8 @@ public class GeneralBreakListener implements Listener {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		if (gp == null)
 			return;
+		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
+			return;
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		if (m.add(dropitem)) {
 			debug.sendMessage(player, DebugEnum.MINESTACK,
@@ -134,19 +137,39 @@ public class GeneralBreakListener implements Listener {
 		Player player = event.getPlayer();
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 
-		if(gp == null)return;
+		if (gp == null)
+			return;
+
+		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
+			return;
 
 		GravityManager gm = gp.getManager(GravityManager.class);
 		Block b = event.getBlock();
 		int gravity = gm.calc(config.getGeneralGravityHeight(), b);
-		//重力値が０より大きければ終了
-		if(gravity > 0){
-			player.sendMessage(ChatColor.RED + "重力値("
-					+ gravity + ")により破壊できません");
+		// 重力値が０より大きければ終了
+		if (gravity > 0) {
+			player.sendMessage(ChatColor.RED + "重力値(" + gravity + ")により破壊できません");
 			event.setCancelled(true);
 			return;
 		}
 	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void recoveryMana(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
+		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
+		if (gp == null)
+			return;
+
+		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
+			return;
+		ManaRecoveryManager m = gp.getManager(ManaRecoveryManager.class);
+		m.recover(player,event.getBlock());
+	}
+
 	/**
 	 * ドロップしたアイテムから依存するブロックの座標リストを作成します．
 	 *

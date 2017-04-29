@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -33,10 +32,9 @@ import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
-public abstract class ActiveSkillManager extends DataManager implements UsingSql,
-		Initializable {
+public abstract class ActiveSkillManager extends DataManager implements
+		UsingSql, Initializable {
 	protected static List<Block> skilledblocklist = Gigantic.skilledblocklist;
-	protected static List<BukkitTask> tasklist = Gigantic.tasklist;
 	protected static WorldGuardPlugin Wg;
 	protected static CoreProtectAPI Cp;
 	protected ManaManager Mm;
@@ -58,7 +56,8 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 		Wg = Util.getWorldGuard();
 		Cp = Util.getCoreProtect();
 
-		this.st = ActiveSkillType.getActiveSkillTypebySkillClass(this.getClass());
+		this.st = ActiveSkillType.getActiveSkillTypebySkillClass(this
+				.getClass());
 
 		this.toggle = false;
 		this.unlocked = false;
@@ -98,14 +97,6 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 		this.range = range;
 	}
 
-	@Override
-	public void init() {
-		this.Mm = gp.getManager(ManaManager.class);
-		this.Sm = gp.getManager(SideBarManager.class);
-		this.Pm = gp.getManager(ToolPouchManager.class);
-		this.Lm = gp.getManager(SeichiLevelManager.class);
-	}
-
 	/**
 	 * クールダウン中の時Trueを返します
 	 *
@@ -113,6 +104,14 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 	 */
 	public boolean isCoolDown() {
 		return this.cooldown;
+	}
+
+	@Override
+	public void init() {
+		this.Mm = gp.getManager(ManaManager.class);
+		this.Sm = gp.getManager(SideBarManager.class);
+		this.Pm = gp.getManager(ToolPouchManager.class);
+		this.Lm = gp.getManager(SeichiLevelManager.class);
 	}
 
 	/**
@@ -173,6 +172,7 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 			om.open(player, 0, false);
 		}
 	}
+
 	/**
 	 * スキルトグルを選択するメニューで使われるitemstackを取得します
 	 *
@@ -195,7 +195,7 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 			is.setItemMeta(im);
 		} else if (this.isunlocked()) {
 			// アンロックされているとき
-			if(this.getToggle()){
+			if (this.getToggle()) {
 				is = this.getToggleOnItemStack();
 				ItemMeta im = is.getItemMeta();
 				im.addEnchant(Enchantment.DIG_SPEED, 100, false);
@@ -203,9 +203,10 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 				List<String> lore = new ArrayList<String>();
 				lore.add(ChatColor.YELLOW + "トグル：" + ChatColor.GREEN + "ON");
 				im.setLore(lore);
-				im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+				im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,
+						ItemFlag.HIDE_ENCHANTS);
 				is.setItemMeta(im);
-			}else{
+			} else {
 				is = this.getMenuItemStack();
 				ItemMeta im = is.getItemMeta();
 				im.addEnchant(Enchantment.DIG_SPEED, 100, false);
@@ -213,7 +214,8 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 				List<String> lore = new ArrayList<String>();
 				lore.add(ChatColor.YELLOW + "トグル：" + ChatColor.RED + "OFF");
 				im.setLore(lore);
-				im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+				im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,
+						ItemFlag.HIDE_ENCHANTS);
 				is.setItemMeta(im);
 			}
 		} else {
@@ -229,6 +231,7 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 		}
 		return is;
 	}
+
 	/**
 	 * スキルタイプを選択するメニューで使われるitemstackを取得します
 	 *
@@ -276,7 +279,6 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 		}
 		return is;
 	}
-
 
 	/**
 	 * プレイヤーにスキルブックを与えます．
@@ -362,7 +364,7 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 	public void setToggle(boolean toggle) {
 		Player player = PlayerManager.getPlayer(gp);
 		if (player != null) {
-			if(!this.isunlocked()){
+			if (!this.isunlocked()) {
 				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
 						+ "アンロックされていません");
 				this.toggle = false;
@@ -536,6 +538,8 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 			return true;
 		case STATIONARY_LAVA:
 		case STATIONARY_WATER:
+		case WATER:
+		case LAVA:
 			return true;
 		default:
 			return false;
@@ -588,6 +592,7 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 					+ block.getLocation().toString());
 		}
 	}
+
 	/**
 	 * 与えられたブロックをコアプロテクトに保存する
 	 *
@@ -596,9 +601,9 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 	 */
 	@SuppressWarnings("deprecation")
 	public static void logPlacement(Player player, Block block) {
-		Boolean success = Cp.logPlacement(player.getName(), block.getLocation(),
-				block.getState().getType(), block.getState().getData()
-				.getData());
+		Boolean success = Cp.logPlacement(player.getName(),
+				block.getLocation(), block.getState().getType(), block
+						.getState().getData().getData());
 		if (!success) {
 			debug.warning(DebugEnum.SKILL, "CoreProtectで設置ログを保存できませんでした．");
 			debug.warning(DebugEnum.SKILL, "Player名：" + player.getName());
@@ -621,6 +626,5 @@ public abstract class ActiveSkillManager extends DataManager implements UsingSql
 	 * @return
 	 */
 	public abstract long getUsedAp();
-
 
 }
