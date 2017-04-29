@@ -1,5 +1,11 @@
 package com.github.unchama.yml;
 
+import java.util.List;
+
+import me.clip.placeholderapi.PlaceholderAPI;
+
+import org.bukkit.entity.Player;
+
 import com.github.unchama.yml.moduler.YmlManager;
 
 /**
@@ -178,8 +184,11 @@ public class ConfigManager extends YmlManager {
 	 * @param level
 	 * @return
 	 */
-	public String getSeichiLevelMessage(int level) {
+	public String getSeichiLevelMessage(Player player,int level) {
 		String message = this.fc.getString("seichi.levelmessage." + level);
+		if(message != null){
+			message = PlaceholderAPI.setPlaceholders(player, message);
+		}
 		return message != null ? message : null;
 	}
 
@@ -199,6 +208,62 @@ public class ConfigManager extends YmlManager {
 	 */
 	public String getFirstJoinMessage() {
 		return this.fc.getString("firstjoinmessage");
+	}
+
+
+	/**フライ時1分間に消費する経験値量を取得します。
+	 * ※消費する量(正)なので-で減らすこと。
+	 *
+	 * @return
+	 */
+	public int getFlyExp(){
+		return this.fc.getInt("flyexp");
+	}
+
+
+	/**プロック設置カウントの1分上限を取得します。
+	 *
+	 * @return
+	 */
+	public int getBuildNum1minLimit() { return this.fc.getInt("BuildNum1minLimit"); }
+
+    /**整地ワールド名を取得します
+     *
+     * @return
+     */
+    public String getSeichiWorldName() { return "world_sw"; }
+
+
+    /**スキルの使えるワールドを取得します
+     *
+     * @return
+     */
+    public List<String> getSkillWorldList() {
+    	return this.fc.getStringList("skillworld");
+    }
+
+    /**通常破壊時の許容する高さを取得します
+     *
+     * @return
+     */
+	public int getGeneralGravityHeight() {
+		return this.fc.getInt("generalgravityheight");
+	}
+
+	/**考慮される最高レベルを取得
+	 *
+	 * @return
+	 */
+	public int getConsiderableSeichiLevel() {
+		return this.fc.getInt("considerableseichilevel");
+	}
+
+	/**セキュアブレイクを開放できるレベルを取得
+	 *
+	 * @return
+	 */
+	public int getSecureBreakUnlockLevel() {
+		return this.fc.getInt("securebreakunlocklevel");
 	}
 
 }

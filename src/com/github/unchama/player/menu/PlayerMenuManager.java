@@ -3,39 +3,51 @@ package com.github.unchama.player.menu;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 
 public class PlayerMenuManager extends DataManager{
-	Deque<Class<? extends GuiMenuManager>> menuClass;
+	Deque<ManagerType> menuType;
 
 	public PlayerMenuManager(GiganticPlayer gp) {
 		super(gp);
-		menuClass = new ArrayDeque<Class<? extends GuiMenuManager>>();
+		menuType = new ArrayDeque<ManagerType>();
 	}
+
+
 
 	/**1個前のMenuを保存します
 	 *
 	 * @param clazz
 	 */
-	public void push(Class<? extends GuiMenuManager> clazz){
-		menuClass.push(clazz);;
+	public void push(ManagerType mt){
+		//debug.sendMessage(DebugEnum.GUI, "push:" + mt.name());
+		menuType.push(mt);
 	}
 
 	/**1個前のMenuを取得して削除します．
 	 *
 	 * @return
 	 */
-	public Class<? extends GuiMenuManager> pop(){
-		return menuClass.pop();
+	public ManagerType pop(){
+		//debug.sendMessage(DebugEnum.GUI, "pop:" + get());
+		return menuType.pop();
+	}
+
+	/**現在開いているメニューのタイプを取得します．
+	 *
+	 * @return
+	 */
+	public ManagerType get(){
+		return menuType.getFirst();
 	}
 
 	/**全ての履歴を削除します
 	 *
 	 */
 	public void clear(){
-		menuClass.clear();
+		menuType.clear();
 	}
 
 	/**空かどうか確認します．
@@ -43,7 +55,10 @@ public class PlayerMenuManager extends DataManager{
 	 * @return
 	 */
 	public boolean isEmpty(){
-		return menuClass.isEmpty();
+		return menuType.isEmpty();
 	}
+
+
+
 
 }

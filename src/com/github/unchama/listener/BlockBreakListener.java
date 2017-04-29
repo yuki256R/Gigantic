@@ -19,22 +19,25 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
-import com.github.unchama.player.skill.ExplosionManager;
-import com.github.unchama.player.skill.moduler.SkillManager;
+import com.github.unchama.player.seichiskill.active.ExplosionManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class BlockBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
+	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Zenchantments Ze;
 
-	BlockBreakListener(){
+	BlockBreakListener() {
 		Ze = Util.getZenchantments();
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void NotLoadedGiganticPlayer(BlockBreakEvent event) {
 		Player player = event.getPlayer();
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
@@ -52,25 +55,14 @@ public class BlockBreakListener implements Listener {
 
 	}
 
-	@EventHandler(priority = EventPriority.NORMAL)
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void SkilledBlockCanceller(BlockBreakEvent event) {
-		//既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
-		if(event.getBlock().hasMetadata("Skilled")){
+		// 既に他のスキルで破壊されるブロックであるときキャンセル(メタデータを見る）
+		if (event.getBlock().hasMetadata("Skilled")) {
 			event.getPlayer().sendMessage(ChatColor.RED + "スキルで破壊されるブロックです．");
 			event.setCancelled(true);
 		}
 	}
-
-	/*@EventHandler(priority = EventPriority.NORMAL)
-	public void EmptyDurabilityToolCanceller(BlockBreakEvent event) {
-		ItemStack tool = event.getPlayer().getItemOnCursor();
-		// 耐久無限以外のツールにおいて，既に壊れているツールの時破壊してキャンセル
-		if (tool.getDurability() > tool.getType().getMaxDurability()
-				&& !tool.getItemMeta().spigot().isUnbreakable())
-			event.getPlayer().sendMessage(ChatColor.RED + "既に壊れているツールです．");
-			tool.setType(Material.AIR);
-			//event.setCancelled(true);
-	}*/
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void Explosion(BlockBreakEvent event) {
@@ -78,23 +70,52 @@ public class BlockBreakListener implements Listener {
 			return;
 		}
 		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		ExplosionManager skill = gp.getManager(ExplosionManager.class);
+
+		// トグルがオフなら終了
+		if (!skill.getToggle()) {
+			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
+			return;
+		}
 
 		// サバイバルではないとき終了
-		if(!player.getGameMode().equals(GameMode.SURVIVAL))return;
+		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+			debug.sendMessage(player, DebugEnum.SKILL,
+					"サバイバルではないのでスキルの発動ができません．");
+			skill.setToggle(false);
+			return;
+		}
 
-		//フライ中に使用していた時終了
-		if(player.isFlying())return;
+		// フライ中に使用していた時終了
+		if (player.isFlying()) {
+			player.sendMessage("フライ中はスキルの発動ができません．");
+			skill.setToggle(false);
+			return;
+		}
 
 		// 使用可能ワールドではないとき終了
-
-		ItemStack tool = player.getItemOnCursor();
-
-		// スキルを発動できるツールでないとき終了
-		if (!SkillManager.canBreak(tool))
+		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+			player.sendMessage("このワールドではスキルの発動ができません．");
+			skill.setToggle(false);
 			return;
+		}
 
-		//木こりエンチャントがある時終了
-		if(Ze.isCompatible("木こり", tool)){
+		ItemStack tool = player.getInventory().getItemInMainHand();
+		if (tool == null) {
+			return;
+		}
+		// スキルを発動できるツールでないとき終了
+		if (!ActiveSkillManager.canBreak(tool)) {
+			player.sendMessage("スキルの発動ができるツールではありません．");
+			skill.setToggle(false);
+			return;
+		}
+
+		// 木こりエンチャントがある時終了
+		if (Ze.isCompatible("木こり", tool)) {
+			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
+			skill.setToggle(false);
 			return;
 		}
 
@@ -102,26 +123,24 @@ public class BlockBreakListener implements Listener {
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
-		if (!SkillManager.canBreak(material))
+		if (!ActiveSkillManager.canBreak(material)) {
+			debug.sendMessage(player, DebugEnum.SKILL, "スキルが発動できるブロックではありません．");
 			return;
+		}
 
+		event.setCancelled(true);
 
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		ExplosionManager skill = gp.getManager(ExplosionManager.class);
-
-		// トグルがオフなら終了
-		if (!skill.getToggle())
+		// クールダウン中なら終了
+		if (skill.isCoolDown()) {
+			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
+					(float) 0.5, 1);
 			return;
-
-		//クールダウン中なら終了
-		if(skill.isCoolDown()){
-			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, (float)0.5, 1);
 		}
 		debug.sendMessage(player, DebugEnum.SKILL, "Explosion発動可能");
 
-		//スキル処理が正常に動作した時イベントをキャンセル
-		if(skill.run(player,tool,block)){
-			event.setCancelled(true);
+		// スキル処理
+		if(skill.run(player, tool, block)){
+			gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
 		}
 
 	}

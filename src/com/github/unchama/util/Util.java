@@ -6,12 +6,17 @@ import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import zedly.zenchantments.Zenchantments;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+
 
 public class Util {
 	//double -> .1double
@@ -19,6 +24,29 @@ public class Util {
 		BigDecimal bi = new BigDecimal(String.valueOf(d));
 		return bi.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
+
+
+	//プレイヤーネームを格納（toLowerCaseで全て小文字にする。)
+		public static String getName(Player p) {
+			return p.getName().toLowerCase();
+		}
+
+	//プレイヤーのインベントリがフルかどうか確認
+		public static boolean isPlayerInventryFill(Player player){
+			return (player.getInventory().firstEmpty() == -1);
+		}
+
+	//指定されたアイテムを指定されたプレイヤーインベントリに追加する
+		public static void addItem(Player player,ItemStack itemstack){
+			player.getInventory().addItem(itemstack);
+		}
+
+	//指定されたアイテムを指定されたプレイヤーにドロップする
+		public static void dropItem(Player player,ItemStack itemstack){
+			player.getWorld().dropItemNaturally(player.getLocation(), itemstack);
+		}
+
+
 	//コアプロテクトAPIを返す
 	public static CoreProtectAPI getCoreProtect() {
 		Plugin plugin = Bukkit.getServer().getPluginManager().getPlugin("CoreProtect");
@@ -62,4 +90,18 @@ public class Util {
             return (Zenchantments)pl;
         else return null;
     }
+
+
+	public static void sendEveryMessage(String str){
+		Gigantic plugin = Gigantic.plugin;
+		for ( Player player : plugin.getServer().getOnlinePlayers() ) {
+			player.sendMessage(str);
+		}
+	}
+	public static void sendEverySound(Sound str, float a, float b){
+		Gigantic plugin = Gigantic.plugin;
+		for ( Player player : plugin.getServer().getOnlinePlayers() ) {
+			player.playSound(player.getLocation(), str, a, b);
+		}
+	}
 }

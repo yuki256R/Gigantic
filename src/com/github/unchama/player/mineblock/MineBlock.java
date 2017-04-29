@@ -20,7 +20,15 @@ public class MineBlock {
 	public MineBlock(double n) {
 		nmap = new HashMap<TimeType, Double>();
 		for (TimeType tt : TimeType.values()) {
-			nmap.put(tt, new Double(n));
+			switch(tt){
+			case UNLIMITED:
+				nmap.put(tt, new Double(n));
+				break;
+			default:
+				nmap.put(tt, new Double(0));
+				break;
+			}
+
 		}
 	}
 
@@ -34,7 +42,7 @@ public class MineBlock {
 	}
 
 	public double getNum(TimeType tt) {
-		return nmap.get(tt);
+		return nmap.get(tt).doubleValue();
 	}
 
 	public void reset(TimeType tt) {

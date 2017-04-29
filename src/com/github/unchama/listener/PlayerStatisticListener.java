@@ -48,5 +48,4 @@ public class PlayerStatisticListener implements Listener {
 			}
 		}
 	}
-
 }

@@ -72,7 +72,7 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 				}
 
 				debug.info(DebugEnum.SQL, "Table:" + tm.table + " "
-						+ (attempt + 1) + "回目...");
+						+ (attempt) + "回目...");
 				// checklogin
 				checklogin();
 

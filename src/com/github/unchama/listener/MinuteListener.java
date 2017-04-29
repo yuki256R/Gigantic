@@ -5,17 +5,13 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.GiganticStatus;
-import com.github.unchama.player.mineblock.MineBlock.TimeType;
-import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.task.AddPotionTaskRunnable;
+import com.github.unchama.task.BuildTaskRunnable;
+import com.github.unchama.task.FlyTaskRunnable;
 import com.github.unchama.task.GiganticSaveTaskRunnable;
 
 public class MinuteListener implements Listener {
@@ -43,31 +39,6 @@ public class MinuteListener implements Listener {
 				plugin, 0, 1);
 
 	}
-
-	/**計測時間をリセットする
-	 *
-	 * @param event
-	 */
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void MineBlockListener(MinuteEvent event) {
-		int minute = event.getMinute();
-		List<Player> playerlist = new ArrayList<Player>(plugin.getServer()
-				.getOnlinePlayers());
-		if (playerlist.isEmpty()) {
-			return;
-		}
-		for(Player player : playerlist){
-			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-			GiganticStatus gs = PlayerManager.getStatus(gp);
-			if (gs.equals(GiganticStatus.AVAILABLE)) {
-				MineBlockManager mm = gp.getManager(MineBlockManager.class);
-				mm.resetTimeCount(TimeType.A_MINUTE);
-				if(minute % 30 == 0){
-					mm.resetTimeCount(TimeType.HALF_HOUR);
-				}
-			}
-		}
-	}
 	/**
 	 * MineBoost
 	 *
@@ -82,7 +53,7 @@ public class MinuteListener implements Listener {
 			return;
 		}
 		// 1tickにつき1人にMineBoostを付加
-		new AddPotionTaskRunnable(playerlist).runTaskTimerAsynchronously(
+		new AddPotionTaskRunnable(playerlist,event.getMinute()).runTaskTimerAsynchronously(
 				plugin, 0, 1);
 
 		/*
@@ -93,5 +64,35 @@ public class MinuteListener implements Listener {
 		 * debug.sendMessage(p, DebugEnum.MINEBOOST,
 		 * "updata MinuteMine for player:" + p.getName()); }
 		 */
+	}
+	/**
+	 * Fly
+     *
+	 * @param
+	 */
+	@EventHandler
+	public void FlyListener(MinuteEvent event){
+		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+		
+		if(playerlist.isEmpty()){
+			return;
+		}
+		//1tickにつき1人に処理
+		new FlyTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
+	}
+	
+	/**
+	 * 1分間の設置量
+	 * 
+	 * @param
+	 */
+	@EventHandler
+	public void BuildNum1minListener(MinuteEvent event){
+		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+		
+		if(playerlist.isEmpty()){
+			return;
+		}
+		new BuildTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
 	}
 }

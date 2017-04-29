@@ -12,12 +12,18 @@ import java.util.UUID;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.skill.ExplosionManager;
+import com.github.unchama.player.seichiskill.active.CondensationManager;
+import com.github.unchama.player.seichiskill.active.ExplosionManager;
+import com.github.unchama.player.seichiskill.active.FairyAegisManager;
+import com.github.unchama.player.seichiskill.active.MagicDriveManager;
+import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
@@ -30,7 +36,13 @@ public class Sql {
 		MANA(ManaTableManager.class,ManaManager.class),
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		TOOLPOUCH(ToolPouchTableManager.class,ToolPouchManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
+		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
+		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
+		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
+		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
+		BUILD(BuildTableManager.class,BuildManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -236,6 +248,7 @@ public class Sql {
 		if (!this.managermap.isEmpty() || this.managermap != null) {
 			managermap.clear();
 		}
+		boolean flag = false;
 		// 各テーブル用メソッドに受け渡し
 		for (ManagerType mt : ManagerType.values()) {
 			try {
@@ -244,9 +257,15 @@ public class Sql {
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
+				plugin.getLogger().warning("Failed to create instance of " + mt.name());
 				e.printStackTrace();
-				return false;
+				flag = true;
+				continue;
 			}
+		}
+		if(flag){
+			plugin.getLogger().warning("テーブルインスタンスの生成に失敗しました．");
+			return false;
 		}
 		return true;
 	}
