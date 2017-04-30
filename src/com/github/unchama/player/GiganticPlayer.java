@@ -4,31 +4,37 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.github.unchama.player.build.BuildLevelManager;
-import com.github.unchama.player.build.BuildManager;
-
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.CondensationManager;
-import com.github.unchama.player.seichiskill.ExplosionManager;
-import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.seichiskill.active.CondensationManager;
+import com.github.unchama.player.seichiskill.active.ExplosionManager;
+import com.github.unchama.player.seichiskill.active.FairyAegisManager;
+import com.github.unchama.player.seichiskill.active.MagicDriveManager;
+import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
+import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
+import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
+import com.github.unchama.player.build.BuildMenuManager;
+import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 
 
 
@@ -47,17 +53,22 @@ public class GiganticPlayer{
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
 		MANA(ManaManager.class),
+		MANARECOVERY(ManaRecoveryManager.class),
 		MENU(PlayerMenuManager.class),
+		BUILD(BuildManager.class),
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
+		TOOLPOUCH(ToolPouchManager.class),
 		EXPLOSION(ExplosionManager.class),
 		MAGICDRIVE(MagicDriveManager.class),
 		CONDENSATION(CondensationManager.class),
+		RUINFIELD(RuinFieldManager.class),
+		FAIRYAEGIS(FairyAegisManager.class),
+		GRAVITY(GravityManager.class),
+		SECUREBREAK(SecureBreakManager.class),
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
-        BUILD(BuildManager.class),
-        BUILDLEVEL(BuildLevelManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -95,6 +106,7 @@ public class GiganticPlayer{
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
 				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
+				plugin.getLogger().warning("managertype:" + mt.name());
 				e.printStackTrace();
 			}
 		}
@@ -137,7 +149,7 @@ public class GiganticPlayer{
 		}
 		return true;
 	}
-	
+
 	public boolean isOffline() {
 		return Gigantic.plugin.getServer().getPlayer(uuid) == null;
 	}
