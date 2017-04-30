@@ -44,5 +44,6 @@ public class BlockPlaceEventListener implements Listener {
         debug.sendMessage(player, DebugEnum.BUILD, "更新されたtotalbuildnum:" + gp.getManager(BuildManager.class).getTotalbuildnum()
                 + "・更新されたbuild_num_1min:" + gp.getManager(BuildManager.class).getBuild_num_1min());
         debug.sendMessage(player, DebugEnum.BUILD, "建築量更新処理終了。プレイヤー:[" + player.getName() + "]");
+
     }
 }
