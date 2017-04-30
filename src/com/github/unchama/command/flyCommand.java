@@ -5,7 +5,6 @@ import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
@@ -14,7 +13,6 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.fly.ExperienceManager;
 import com.github.unchama.player.fly.FlyManager;
-import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
 public class flyCommand implements TabExecutor{
@@ -59,8 +57,6 @@ public class flyCommand implements TabExecutor{
 		if(args.length == 1){
 			//プレイヤーの取得
 			Player player = (Player)sender;
-			//プレイヤーネームを取得
-			String name = Converter.getName(player);
 			//playerdataを取得
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 			//playerdataがない場合処理終了

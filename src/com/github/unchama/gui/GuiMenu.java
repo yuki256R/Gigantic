@@ -19,6 +19,7 @@ import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MD_RangeMenuManager;
 import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
 import com.github.unchama.player.build.BuildMenuManager;
+import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 
 
 public final class GuiMenu {
@@ -39,7 +40,7 @@ public final class GuiMenu {
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
 		BUILDMENU(BuildMenuManager.class),
-
+		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
 		;
 
 		// 使用するManagerClass

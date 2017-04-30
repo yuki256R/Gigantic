@@ -241,5 +241,19 @@ public class ConfigManager extends YmlManager {
     public List<String> getSkillWorld() {
     	return this.fc.getStringList("skillworld");
     }
-
+    
+    /**
+     * 
+     * @param x
+     * @return
+     */
+    public int getBlockCraftLevel(int x){
+    	switch(x) {
+    		case 1: return this.fc.getInt("minestacl_BlockCraft.level1");
+    		case 2: return this.fc.getInt("minestacl_BlockCraft.level2");
+    		case 3: return this.fc.getInt("minestacl_BlockCraft.level3");
+    		
+    		default: return 0;
+    	}
+    }
 }

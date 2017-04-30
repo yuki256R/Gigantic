@@ -5,13 +5,9 @@ import java.util.LinkedHashMap;
 import org.bukkit.Bukkit;
 
 import com.github.unchama.event.BuildLevelUpEvent;
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class BuildLevelManager extends DataManager implements Initializable{
 

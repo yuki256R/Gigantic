@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Bukkit;//追加(仮)
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

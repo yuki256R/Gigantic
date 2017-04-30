@@ -67,6 +67,12 @@ skillworld:
   - world_nether
   - world_the_end
 
+#MineStackブロック一括クラフト・必要経験値量
+minestack_BlockCraft:
+  level1: '25'
+  level2: '35'
+  level3: '45' 
+
 # 色々な設定、説明は割愛
 defaultmineamount: '3'
 minutespeedamount: '0.01'

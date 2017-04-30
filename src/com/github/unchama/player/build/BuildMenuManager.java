@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -17,6 +16,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
@@ -36,7 +36,6 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(4, "FLY=5");
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
-		idmap.put(35, "openMSC");
 		
 		idmap.put(13, "TotalBuildNum=0");
 	}
@@ -70,11 +69,6 @@ public class BuildMenuManager extends GuiMenuManager{
 				
 			//TODO:スキルについては後で
 				
-			//MineStack一括クラフトシステム
-			case "openMSC":
-				//TODO:一括クラフトシステムのオープン処理
-				break;
-		
 			case "TotalBuildNum=0":
 				bm.setTotalbuildnum(0);
 				blm.calcLevel();
@@ -88,6 +82,8 @@ public class BuildMenuManager extends GuiMenuManager{
 	}
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
+		ManagerType mt = GuiMenu.ManagerType.BLOCKCRAFTMENU1;
+		openmap.put(35, mt);
 	}
 
 	@Override
