@@ -22,9 +22,10 @@ public enum ListenerEnum {
 	GENERALBREAK(new GeneralBreakListener()),
 	BLOCKBREAK(new BlockBreakListener()),
 	MENUCLICK(new MenuClickListener()),
-	PLAYERITEMHELD(new PlayerItemHeldListener()),
 	GIGANTICINTERACT(new GiganticInteractListener()),
+	PLAYERSWAPHANDITEMS(new PlayerSwapHandItemsListener()),
     BUILD(new BlockPlaceEventListener()),
+    MINEBLOCKINCREMENT(new MineBlockIncrementListener())
 	;
 	private Listener listener;
 

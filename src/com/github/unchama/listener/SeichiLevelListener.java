@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import com.github.unchama.event.SeichiLevelUpEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.yml.ConfigManager;
@@ -16,7 +17,11 @@ import com.github.unchama.yml.ConfigManager;
 public class SeichiLevelListener implements Listener {
 	private Gigantic plugin = Gigantic.plugin;
 	private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
-
+	@EventHandler
+	public void refreshManaRecoveryLevel(SeichiLevelUpEvent event) {
+		GiganticPlayer gp = event.getGiganticPlayer();
+		gp.getManager(ManaRecoveryManager.class).refresh(true);
+	}
 	@EventHandler
 	public void SeichiLevelUpMessageListener(SeichiLevelUpEvent event) {
 		GiganticPlayer gp = event.getGiganticPlayer();

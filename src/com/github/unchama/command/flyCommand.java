@@ -18,7 +18,7 @@ import com.github.unchama.yml.ConfigManager;
 public class flyCommand implements TabExecutor{
 	/*flyCommandの実装(4/5実装済み)
 	 * -プレイヤーデータにflytime(int) flyflag(boolean) endlessfly(boolean)を追加(SQL同期は不要)(4/5実装済み)
-	 * 
+	 *
 	 */
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
@@ -26,9 +26,9 @@ public class flyCommand implements TabExecutor{
 	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		return null;
 	}
-	
+
 	/**与えられた文字列がint型に直せるかどうか判断します
-	 * 
+	 *
 	 * @param num
 	 * @return 成否
 	 */
@@ -37,11 +37,11 @@ public class flyCommand implements TabExecutor{
 			Integer.parseInt(num);
 			return true;
 		}catch(NumberFormatException e){
-			
+
 		}
 		return false;
 	}
-	
+
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
 		//プレイヤーからの送信ではない時終了
 		if(!(sender instanceof Player)){
@@ -63,13 +63,13 @@ public class flyCommand implements TabExecutor{
 			if(gp == null){
 				return false;
 			}
-			
+
 			ExperienceManager expman = new ExperienceManager(player);
-			
+
 			boolean flyflag = gp.getManager(FlyManager.class).getFlyflag();
 			int flytime = gp.getManager(FlyManager.class).getFlytime();
 			boolean Endlessfly = gp.getManager(FlyManager.class).getEndlessflyflag();
-			
+
 			if(args[0].equalsIgnoreCase("finish")){
 				flyflag = false;
 				flytime = 0;

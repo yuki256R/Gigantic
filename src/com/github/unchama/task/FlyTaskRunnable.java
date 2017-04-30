@@ -50,7 +50,7 @@ public class FlyTaskRunnable extends BukkitRunnable {
 							ExperienceManager expman = new ExperienceManager(player);
 
 							int minus = -config.getFlyExp();//減る量(負)
-							
+
 							if(gp.getManager(FlyManager.class).getEndlessflyflag()){
 								if(!expman.hasExp(config.getFlyExp())){
 									player.sendMessage(ChatColor.RED + "Fly効果の発動に必要な経験値が不足しているため");

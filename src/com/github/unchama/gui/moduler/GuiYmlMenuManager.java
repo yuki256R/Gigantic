@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,8 +20,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.util.MobHead;
 /**Ymlから編集できるようにしたMenuClass
  *
  * @author tar0ss
@@ -40,7 +45,8 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 		this.fc = loadFile();
 		setKeyItem();
 		setOpenMenuMap(openmap);
-	}
+		setIDMap(id_map);
+		}
 	/**
 	 * デフォルトのファイルを生成します
 	 *
@@ -86,7 +92,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		for (int i = 0; i < this.getInventorySize(); i++) {
-			String menu = this.fc.getString(Integer.toString(i) + ".open");
+			String menu = this.fc.getString(Integer.toString(i) + ".openmenu");
 			if (menu != null) {
 				ManagerType mt;
 				try {
@@ -101,13 +107,37 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	}
 	@Override
 	protected void setIDMap(HashMap<Integer, String> methodmap) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		for (int i = 0; i < this.getInventorySize(); i++) {
+			String name = this.fc.getString(Integer.toString(i) + ".openinventory");
+			if (name == null) {
+				continue;
+			}
+			switch(name){
+			case "toolpouch":
+				methodmap.put(i, "openToolPouch");
+				break;
+			case "garbagecan":
+				methodmap.put(i, "openGarbageCan");
+				break;
+			default:
+				break;
+			}
+		}
 	}
 	@Override
 	public boolean invoke(Player player, String identifier) {
-		// TODO 自動生成されたメソッド・スタブ
-		return true;
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		switch(identifier){
+		case "openToolPouch":
+			gp.getManager(ToolPouchManager.class).open(player);
+			return true;
+		case "openGarbageCan":
+			player.openInventory(Bukkit.createInventory(player, 54, ChatColor.RED + "" + ChatColor.BOLD + "ゴミ箱(取扱注意)"));
+			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, (float) 1.5);
+			return true;
+		default:
+			return false;
+		}
 	}
 	@Override
 	public String getClickType() {
@@ -147,19 +177,26 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	}
 
 	@Override
-	protected ItemMeta getItemMeta(Player player, int n, ItemStack itemstack) {
+	protected ItemMeta getItemMeta(Player player, int i, ItemStack itemstack) {
+		String mobhead = this.fc.getString(i + ".mobhead");
+		if(mobhead != null){
+			String url = MobHead.getMobURL(mobhead);
+			MobHead.setURL(itemstack, url);
+		}
+
 		ItemMeta itemmeta = itemstack.getItemMeta();
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
-		Boolean b = this.fc.getBoolean(n + ".isSkullofOwner");
+		Boolean b = this.fc.getBoolean(i + ".isSkullofOwner");
 		if (b != null) {
 			if(b && itemmeta instanceof SkullMeta){
 				SkullMeta skullmeta = (SkullMeta) itemmeta;
 				skullmeta.setOwner(player.getName());
 			}
 		}
+		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
+				itemmeta.getDisplayName()));
+		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
+				itemmeta.getLore()));
+
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
 	}
@@ -167,7 +204,8 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	@Override
 	protected ItemStack getItemStack(Player player, int i) {
 		String s = Integer.toString(i) + ".itemstack";
-		ItemStack itemstack = this.fc.getItemStack(s);
+		ItemStack tmp = this.fc.getItemStack(s);
+		ItemStack itemstack = tmp != null ? new ItemStack(tmp) : null;
 		return itemstack;
 	}
 

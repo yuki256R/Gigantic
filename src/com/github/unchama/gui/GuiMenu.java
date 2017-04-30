@@ -10,14 +10,21 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.gui.skillmenu.SkillTypeMenuManager;
-import com.github.unchama.gui.skillmenu.condensation.C_OriginMenuManager;
-import com.github.unchama.gui.skillmenu.condensation.C_RangeMenuManager;
-import com.github.unchama.gui.skillmenu.condensation.CondensationMenuManager;
-import com.github.unchama.gui.skillmenu.explosion.E_RangeMenuManager;
-import com.github.unchama.gui.skillmenu.explosion.ExplosionMenuManager;
-import com.github.unchama.gui.skillmenu.magicdrive.MD_RangeMenuManager;
-import com.github.unchama.gui.skillmenu.magicdrive.MagicDriveMenuManager;
+import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
+import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
+import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
+import com.github.unchama.gui.seichiskill.active.condensation.C_RangeMenuManager;
+import com.github.unchama.gui.seichiskill.active.condensation.CondensationMenuManager;
+import com.github.unchama.gui.seichiskill.active.explosion.E_RangeMenuManager;
+import com.github.unchama.gui.seichiskill.active.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.seichiskill.active.fairyaegis.F_RangeMenuManager;
+import com.github.unchama.gui.seichiskill.active.fairyaegis.FairyAegisMenuManager;
+import com.github.unchama.gui.seichiskill.active.magicdrive.MD_RangeMenuManager;
+import com.github.unchama.gui.seichiskill.active.magicdrive.MagicDriveMenuManager;
+import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
+import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
+import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
+import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.build.BuildMenuManager;
 import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 
@@ -25,7 +32,8 @@ import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
-		SKILLTYPEMENU(SkillTypeMenuManager.class),
+		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
+		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
 		MD_RANGEMENU(MD_RangeMenuManager.class),
@@ -33,6 +41,12 @@ public final class GuiMenu {
 		CONDENSATIONMENU(CondensationMenuManager.class),
 		C_RANGEMENU(C_RangeMenuManager.class),
 		C_ORIGINMENU(C_OriginMenuManager.class),
+		RUINFIELDMENU(RuinFieldMenuManager.class),
+		R_RANGEMENU(R_RangeMenuManager.class),
+		R_ORIGINMENU(R_OriginMenuManager.class),
+		FAIRYAEGISMENU(FairyAegisMenuManager.class),
+		F_RANGEMENU(F_RangeMenuManager.class),
+		PASSIVESKILLTYPEMENU(PassiveSkillTypeMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
 		ITEMCATEGORYMENU(CategoryItemMenuManager.class),
