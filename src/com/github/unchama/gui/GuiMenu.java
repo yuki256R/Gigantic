@@ -25,6 +25,8 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
+import com.github.unchama.player.build.BuildMenuManager;
+import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 
 
 public final class GuiMenu {
