@@ -123,6 +123,22 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 				break;
 			}
 		}
+		for (int i = 0; i < this.getInventorySize(); i++) {
+			String name = this.fc.getString(Integer.toString(i) + ".command");
+			if (name == null) {
+				continue;
+			}
+			switch(name){
+			case "fastcraft":
+				methodmap.put(i, "commandFastCraft");
+				break;
+			case "spawn":
+				methodmap.put(i, "commandSpawn");
+				break;
+			default:
+				break;
+			}
+		}
 	}
 	@Override
 	public boolean invoke(Player player, String identifier) {
@@ -134,6 +150,16 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 		case "openGarbageCan":
 			player.openInventory(Bukkit.createInventory(player, 54, ChatColor.RED + "" + ChatColor.BOLD + "ゴミ箱(取扱注意)"));
 			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, (float) 1.5);
+			return true;
+		case "commandFastCraft":
+			player.closeInventory();
+			player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+			player.chat("/fc craft");
+			return true;
+		case "commandSpawn":
+			player.closeInventory();
+			player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+			player.chat("/spawn");
 			return true;
 		default:
 			return false;
