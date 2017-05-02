@@ -13,6 +13,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.gacha.GachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -31,6 +32,7 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql {
 	//TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
+		GACHA(GachaTableManager.class),
 		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
 		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
 		MANA(ManaTableManager.class,ManaManager.class),
@@ -43,10 +45,16 @@ public class Sql {
 		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
 		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
+		PLAYERGACHA(PlayerGachaTableManager.class,GachaManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
 		private Class<? extends DataManager> datamanagerClass;
+
+
+		ManagerType(Class<? extends TableManager> tablemanagerClass) {
+			this.tablemanagerClass = tablemanagerClass;
+		}
 
 		ManagerType(Class<? extends TableManager> tablemanagerClass ,Class<? extends DataManager> datamanagerClass) {
 			this.tablemanagerClass = tablemanagerClass;
@@ -56,6 +64,12 @@ public class Sql {
 		public Class<? extends TableManager> getTableManagerClass() {
 			return tablemanagerClass;
 		}
+
+		/**nullを返す場合があります．
+		 *
+		 * @return
+		 */
+		@Deprecated
 		public Class<? extends DataManager> getDataManagerClass() {
 			return datamanagerClass;
 		}
@@ -84,10 +98,11 @@ public class Sql {
 			return "example";
 		}
 		/**class名からデータマネージャークラスを取得します．
-		 *
+		 *nullを返す場合があります．
 		 * @param _class
 		 * @return
 		 */
+		@Deprecated
 		public static Class<? extends DataManager> getDataManagerClassbyClass(
 				Class<? extends TableManager> _class) {
 			for (ManagerType mt : ManagerType.values()) {
@@ -98,10 +113,11 @@ public class Sql {
 			return null;
 		}
 		/**class名からテーブルマネージャークラスを取得します．
-		 *
+		 *nullを返す場合があります．
 		 * @param _class
 		 * @return
 		 */
+		@Deprecated
 		public static Class<? extends TableManager> getTableManagerClassbyClass(
 				Class<? extends DataManager> _class) {
 			for (ManagerType mt : ManagerType.values()) {
