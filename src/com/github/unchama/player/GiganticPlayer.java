@@ -10,6 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
+import com.github.unchama.player.gacha.GachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mana.ManaManager;
@@ -67,6 +68,7 @@ public class GiganticPlayer{
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
+		GACHA(GachaManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
