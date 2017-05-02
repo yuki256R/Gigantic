@@ -136,6 +136,26 @@ public class PlayerDataTableManager extends SeichiTableManager {
         return ans;
     }
 
+	public int getPlayTick(GiganticPlayer gp){
+	    String command = "";
+	    final String struuid = gp.uuid.toString().toLowerCase();
+	    int ans = 0;
+
+	    command = "select playtick from " + db + "." + table + " where uuid = '" + struuid + "'";
+
+	    this.checkStatement();
+	    try{
+	        rs = stmt.executeQuery(command);
+	        while(rs.next()){
+	            ans = rs.getInt("playtick");
+            }
+            rs.close();
+        }catch (SQLException e){
+	        plugin.getLogger().warning("Failed to load playtick player:" + gp.name);
+	        e.printStackTrace();
+        }
+	    return ans;
+	}
 
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 }
