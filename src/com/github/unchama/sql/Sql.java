@@ -18,6 +18,7 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -45,6 +46,7 @@ public class Sql {
 		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
 		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
+		RGNUM(RegionTableManager.class,RegionManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
