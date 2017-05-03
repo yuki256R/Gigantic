@@ -10,6 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
+import com.github.unchama.player.gacha.GachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mana.ManaManager;
@@ -20,6 +21,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
@@ -30,6 +32,7 @@ import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryMa
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -67,6 +70,9 @@ public class GiganticPlayer{
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
+		GACHA(GachaManager.class),
+		REGION(RegionManager.class),
+		PLAYERTIME(PlayerTimeManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

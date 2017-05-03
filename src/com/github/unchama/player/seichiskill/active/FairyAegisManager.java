@@ -86,7 +86,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 			} else {
 				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
 						+ "OFF");
-				if(this.getWorker()==0){
+				if (this.getWorker() == 0) {
 					Sm.updateInfo(info, "%DELETE%");
 				}
 			}
@@ -137,7 +137,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 	public int getDefaultBreakNum() {
 		return 1000;
 	}
-
 
 	@Override
 	public BreakRange getRange() {
@@ -483,42 +482,32 @@ public class FairyAegisManager extends ActiveSkillManager {
 		skilledblocklist.addAll(liquidlist);
 		skilledblocklist.addAll(breaklist);
 
-		// レベルを更新
-		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
-			int level = gp.getManager(SeichiLevelManager.class).getLevel();
-			gp.getManager(ManaManager.class).Levelup();
-			gp.getManager(SideBarManager.class).updateInfo(
-					Information.SEICHI_LEVEL, level);
-		}
-		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
-				rb);
-		gp.getManager(SideBarManager.class).refresh();
-
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
-		new FairyAegisTaskRunnable(gp,block,tool,this,skill, breakMap, soundflag)
-		.runTaskTimer(plugin, 20, 5);
+		new FairyAegisTaskRunnable(gp, block, tool, this, skill, breakMap,
+				soundflag).runTaskTimer(plugin, 20, 5);
 		this.addWorker();
 		return true;
 	}
 
-	/**働き蜂を増やします
+	/**
+	 * 働き蜂を増やします
 	 *
 	 */
 	private void addWorker() {
 		this.worker++;
-		if(this.worker > fairy){
+		if (this.worker > fairy) {
 			this.worker = fairy;
 		}
 	}
 
-	/**働き蜂を休憩させます
+	/**
+	 * 働き蜂を休憩させます
 	 *
 	 */
-	public void takeBreak(){
+	public void takeBreak() {
 		this.worker--;
-		if(this.worker < 0){
+		if (this.worker < 0) {
 			this.worker = 0;
 		}
 	}

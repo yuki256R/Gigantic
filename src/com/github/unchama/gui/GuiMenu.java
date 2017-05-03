@@ -10,6 +10,7 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.moduler.RegionMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
@@ -25,6 +26,8 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
+import com.github.unchama.player.build.BuildMenuManager;
+import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 
 
 public final class GuiMenu {
@@ -51,7 +54,9 @@ public final class GuiMenu {
 		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
-
+		BUILDMENU(BuildMenuManager.class),
+		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
+		REGIONMENU(RegionMenuManager.class),
 		;
 
 		// 使用するManagerClass
