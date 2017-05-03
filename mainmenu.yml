@@ -74,6 +74,36 @@ name: '&5&lメインメニュー'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
   isSkullofOwner: true
+4:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: DIAMOND_AXE
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l土地保護メニュー'
+      lore:
+      - '&r&7土地の保護が行えます'
+      - '&r&4&nクリックで開く'
+  openmenu: 'regionmenu'
+8:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: BEACON
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lスポーンワールドへワープ'
+      lore:
+      - '&r&7・メインワールド'
+      - '&r&7・資源ワールド'
+      - '&r&7・整地ワールド'
+      - '&r&7・ロビーワールド'
+      - '&r&7・各サバイバルワールド'
+      - '&r&7間を移動する時に使います'
+      - '&r&4&nクリックするとワープします'
+      - '&r&8command->[/spawn]'
+  command: 'spawn'
 12:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -117,6 +147,21 @@ name: '&5&lメインメニュー'
       - '&r&8共有されます'
   mobhead: 'pouch'
   openinventory: 'toolpouch'
+23:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: WORKBENCH
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lFastCraft機能'
+      lore:
+      - '&r&4&nクリックで開く'
+      - '&r&cただの作業台じゃないんです…'
+      - '&r&e自動レシピ補完機能付きの'
+      - '&r&e最強な作業台はこちら'
+      - '&r&8command->[/fc craft]'
+  command: 'fastcraft'
 24:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
