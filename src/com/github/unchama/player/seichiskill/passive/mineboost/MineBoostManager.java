@@ -198,17 +198,17 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 				+ "得られます．");
 		if (this.getToggle()) {
 			meta.addEnchant(Enchantment.DIG_SPEED, 100, false);
-			lore.add("" + ChatColor.RESET + ChatColor.YELLOW + ChatColor.UNDERLINE + "トグル："
+			lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "トグル："
 					+ ChatColor.RESET + ChatColor.GREEN + "  ON");
 		} else {
-			lore.add("" + ChatColor.RESET + ChatColor.YELLOW + ChatColor.UNDERLINE + "トグル："
+			lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "トグル："
 					+ ChatColor.RESET + ChatColor.RED + "  OFF");
 		}
 		if(this.getBoostLv() == maxboostlevel){
-			lore.add("" + ChatColor.RESET + ChatColor.GOLD + ChatColor.UNDERLINE
+			lore.add("" + ChatColor.RESET + ChatColor.GOLD
 					+ "現在の上昇量:" + (this.getBoostLv()+1) + "(※最大値です)");
 		}else{
-			lore.add("" + ChatColor.RESET + ChatColor.GOLD + ChatColor.UNDERLINE
+			lore.add("" + ChatColor.RESET + ChatColor.GOLD
 					+ "現在の上昇量:" + (this.getBoostLv()+1));
 		}
 		lore.add("" + ChatColor.RESET + ChatColor.YELLOW + ChatColor.UNDERLINE

@@ -2,8 +2,10 @@ package com.github.unchama.player.mineblock;
 
 import java.util.LinkedHashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
+import com.github.unchama.event.MineBlockIncrementEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.moduler.DataManager;
@@ -56,6 +58,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 			}
 			breakMap.get(bt).increase(breaknum);
 		}
+		Bukkit.getPluginManager().callEvent(new MineBlockIncrementEvent(gp,breaknum,all.getNum(TimeType.UNLIMITED)));
 		all.increase(breaknum);
 	}
 

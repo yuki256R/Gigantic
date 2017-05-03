@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.ActiveSkillMenuManager;
-import com.github.unchama.gui.moduler.ActiveSkillMenuManager.MenuType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -44,7 +43,9 @@ public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "他スキル使用時に追加で");
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-					+ "上部のブロックを同時に破壊します．");
+					+ "上部のブロックを妖精さんが");
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "ゆっくり破壊します．");
+
 			if (m.getToggle()) {
 				lore.add("" + ChatColor.RESET + ChatColor.GREEN + "トグル："
 						+ ChatColor.GREEN + "ON");
@@ -56,6 +57,8 @@ public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 					+ "現在の最大破壊ブロック数:" + m.getBreakNum());
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の最大マナ消費:"
 					+ (int) m.getMana(m.getBreakNum()));
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GREEN + "現在の妖精数:"
+					+ m.getFairy());
 			lore.add("" + ChatColor.RESET + ChatColor.GREEN
 					+ "クリックするとオンオフを切り替えます．");
 

@@ -54,8 +54,6 @@ public class ExplosionManager extends ActiveSkillManager {
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
-		// 合計のデータ
-		List<Block> alllist = new ArrayList<Block>();
 
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
@@ -80,8 +78,6 @@ public class ExplosionManager extends ActiveSkillManager {
 				}
 			});
 
-		alllist.addAll(breaklist);
-		alllist.addAll(liquidlist);
 
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
@@ -130,10 +126,10 @@ public class ExplosionManager extends ActiveSkillManager {
 
 
 		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
-		if (!fm.run(player,tool,alllist,useDurability,usemana,true)) {
+		if (!fm.run(player,tool,this,block,useDurability,usemana,true)) {
 			// 重力値を計算
 			GravityManager gm = gp.getManager(GravityManager.class);
-			short gravity = gm.calc(1, alllist);
+			short gravity = gm.calc(1, breaklist);
 
 			// 重力値が０より大きければ終了
 			if (gravity > 0) {

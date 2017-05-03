@@ -15,9 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.listener.GiganticInteractListener;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -29,6 +32,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 	public Set<Material> tpm = GiganticInteractListener.tpm;
 
 	private Player player;
+	private GiganticPlayer gp;
 	private MagicDriveManager skill;
 	private ItemStack tool;
 	private Block block;
@@ -42,6 +46,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 	public MagicDriveTaskRunnable(Player player, MagicDriveManager skill,
 			ItemStack tool, Block block) {
 		this.player = player;
+		this.gp = PlayerManager.getGiganticPlayer(player);
 		this.skill = skill;
 		this.tool = tool;
 		this.block = block;
@@ -140,6 +145,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 					if (skill.run(player, tool, block)) {
 						player.getWorld().playSound(player.getLocation(),
 								Sound.ENTITY_WITCH_THROW, 1.0F, 1.5F);
+						gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
 					}
 					finish();
 					return;
