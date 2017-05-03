@@ -55,6 +55,8 @@ public final class GuiMenu {
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
 		REGIONMENU(RegionMenuManager.class),
+		BUILDMENU(BuildMenuManager.class),
+		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
 		;
 
 		// 使用するManagerClass
