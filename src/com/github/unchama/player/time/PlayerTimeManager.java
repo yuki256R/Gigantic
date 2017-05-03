@@ -6,12 +6,15 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class PlayerTimeManager extends DataManager implements UsingSql {
+public class PlayerTimeManager extends DataManager implements UsingSql,
+		Initializable, Finalizable {
 
 	//プレイ時間差分計算用int
 	private int servertick;
@@ -33,18 +36,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
 
     @Override
     public void save(Boolean loginflag) {
-    	//セーブ前に時間を更新
-    	runUpdate();
         tm.save(gp, loginflag);
-    }
-
-    public void firstJoinInit(){
-    	reloadSevertick();
-		playtick = 0;
-		loc = null;
-		totalidletick = 0;
-		idletime = 0;
-		playtick = 0;
     }
 
     //1分毎にプレイ時間と待機時間を更新
@@ -83,7 +75,6 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
 	public String GetTotalLoginTimeToString(){
 		return Util.toTimeString(Util.toSecond(playtick - totalidletick));
 	}
-
 	//累計ログイン時間のgetterとsetter
 	public int getPlaytick(){
 		return playtick;
@@ -104,5 +95,25 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
 	public void reloadSevertick(){
     	Player player = Bukkit.getServer().getPlayer(gp.uuid);
 		servertick = player.getStatistic(org.bukkit.Statistic.PLAY_ONE_TICK);
+	}
+
+	//放置分数のsetter
+	public void setIdletime(int idletime_){
+		idletime = idletime_;
+	}
+
+	//前回更新位置のsetter
+	public void setLocation(Location loc_){
+		loc = loc_;
+	}
+
+	@Override
+	public void init() {
+    	reloadSevertick();
+	}
+
+	@Override
+	public void fin() {
+		runUpdate();
 	}
 }
