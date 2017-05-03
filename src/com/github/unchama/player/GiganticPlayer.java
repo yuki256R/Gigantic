@@ -70,13 +70,9 @@ public class GiganticPlayer{
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
-<<<<<<< HEAD
 		GACHA(GachaManager.class),
 		REGION(RegionManager.class),
-=======
 		PLAYERTIME(PlayerTimeManager.class),
-		RGNUM(RegionManager.class),
->>>>>>> refs/remotes/unchama/master
 		;
 
 		private Class<? extends DataManager> managerClass;

@@ -2,15 +2,11 @@ package com.github.unchama.player.time;
 
 import org.bukkit.Location;
 
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerTimeManager extends DataManager implements UsingSql {
 
@@ -27,7 +23,6 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
 	public int idletime;
 
 	PlayerTimeTableManager tm = sql.getManager(PlayerTimeTableManager.class);
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	public PlayerTimeManager(GiganticPlayer gp) {
 		super(gp);
@@ -36,16 +31,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
     @Override
     public void save(Boolean loginflag) {
         tm.save(gp, loginflag);
-        debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"PlayerTimeManager : save");
     }
-
-	public void init() {
-		servertick = 0;
-		playtick = 0;
-		loc = null;
-		totalidletick = 0;
-		idletime = 0;
-	}
 
 	//10分間動きがなければ放置
 	public boolean isIdle(){

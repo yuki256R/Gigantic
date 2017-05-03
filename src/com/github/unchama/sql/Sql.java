@@ -47,13 +47,9 @@ public class Sql {
 		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
 		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
-<<<<<<< HEAD
 		PLAYERGACHA(PlayerGachaTableManager.class,GachaManager.class),
 		REGION(RegionTableManager.class,RegionManager.class),
-=======
 		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
-		RGNUM(RegionTableManager.class,RegionManager.class),
->>>>>>> refs/remotes/unchama/master
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
