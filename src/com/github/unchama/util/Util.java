@@ -25,6 +25,39 @@ public class Util {
 		return bi.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
 	}
 
+	//tick数を秒数に直す
+	public static int toSecond(int _tick){
+		return _tick/20;
+	}
+
+	//秒数を「HH時間MM分」の文字列で返す
+	public static String toTimeString(int _second) {
+		int second = _second;
+		int minute = 0;
+		int hour = 0;
+		String time = "";
+		while(second >= 60){
+			second -=60;
+			minute++;
+		}
+		while(minute >= 60){
+			minute -= 60;
+			hour++;
+		}
+		if(hour != 0){
+			time = hour + "時間";
+		}
+		if(minute != 0){
+			time = time + minute + "分";
+		}
+		/*
+		if(second != 0){
+			time = time + second + "秒";
+		}
+		*/
+		return time;
+	}
+
 
 	//プレイヤーネームを格納（toLowerCaseで全て小文字にする。)
 		public static String getName(Player p) {

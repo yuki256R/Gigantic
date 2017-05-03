@@ -54,9 +54,9 @@ public final class GuiMenu {
 		REDSTONECATEGORYMENU(CategoryRedstoneMenuManager.class),
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
-		REGIONMENU(RegionMenuManager.class),
 		BUILDMENU(BuildMenuManager.class),
 		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
+		REGIONMENU(RegionMenuManager.class),
 		;
 
 		// 使用するManagerClass
