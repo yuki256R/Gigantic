@@ -32,6 +32,7 @@ import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryMa
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 import com.github.unchama.player.sidebar.SideBarManager;
+import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -69,8 +70,13 @@ public class GiganticPlayer{
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
+<<<<<<< HEAD
 		GACHA(GachaManager.class),
 		REGION(RegionManager.class),
+=======
+		PLAYERTIME(PlayerTimeManager.class),
+		RGNUM(RegionManager.class),
+>>>>>>> refs/remotes/unchama/master
 		;
 
 		private Class<? extends DataManager> managerClass;

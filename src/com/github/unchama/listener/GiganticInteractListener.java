@@ -81,25 +81,24 @@ public class GiganticInteractListener implements Listener {
 					.getManagerClass());
 			// キーアイテムを持っていなければ終了
 			if (!m.hasKey())
-				return;
-
+				continue;
 			// クリックの種類が指定のものと違うとき終了
 			String click = m.getClickType();
 			if (click == null) {
-				return;
+				continue;
 			}
 			if (click.equalsIgnoreCase("left")) {
 				if (action.equals(Action.RIGHT_CLICK_AIR)
 						|| action.equals(Action.RIGHT_CLICK_BLOCK)) {
-					return;
+					continue;
 				}
 			} else if (click.equalsIgnoreCase("right")) {
 				if (action.equals(Action.LEFT_CLICK_AIR)
 						|| action.equals(Action.LEFT_CLICK_BLOCK)) {
-					return;
+					continue;
 				}
 			} else {
-				return;
+				continue;
 			}
 
 			KeyItem keyitem = m.getKeyItem();
@@ -111,10 +110,10 @@ public class GiganticInteractListener implements Listener {
 
 			if (keyitem.getMaterial() != null) {
 				if (!item.getType().equals(keyitem.getMaterial())) {
-					return;
+					continue;
 				} else {
 					if (!(item.getDurability() == (short) keyitem.getDamage())) {
-						return;
+						continue;
 					}
 				}
 			}
@@ -122,7 +121,7 @@ public class GiganticInteractListener implements Listener {
 			if (keyitem.getName() != null) {
 				if (!item.getItemMeta().getDisplayName()
 						.equalsIgnoreCase(keyitem.getName())) {
-					return;
+					continue;
 				}
 			}
 
@@ -142,7 +141,7 @@ public class GiganticInteractListener implements Listener {
 				}
 
 				if (!tmplore.isEmpty()) {
-					return;
+					continue;
 				}
 			}
 			if(!player.getInventory().getItemInOffHand().getType().equals(Material.AIR)){
@@ -151,7 +150,7 @@ public class GiganticInteractListener implements Listener {
 			}
 			event.setCancelled(true);
 			m.open(player, 0, true);
-			return;
+			continue;
 		}
 	}
 

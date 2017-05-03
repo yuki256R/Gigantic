@@ -25,6 +25,7 @@ import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
@@ -46,8 +47,13 @@ public class Sql {
 		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
 		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
+<<<<<<< HEAD
 		PLAYERGACHA(PlayerGachaTableManager.class,GachaManager.class),
 		REGION(RegionTableManager.class,RegionManager.class),
+=======
+		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
+		RGNUM(RegionTableManager.class,RegionManager.class),
+>>>>>>> refs/remotes/unchama/master
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
