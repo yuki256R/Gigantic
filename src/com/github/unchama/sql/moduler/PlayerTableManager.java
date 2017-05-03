@@ -212,6 +212,4 @@ public abstract class PlayerTableManager extends TableManager implements
 		return true;
 	}
 
-
-
 }
