@@ -52,12 +52,35 @@ public class FlyManager extends DataManager{
 		return this.flyflag;
 	}
 	
-	/**endlessflagを取得します
+	/**endlessflyflagを取得します
 	 * 
 	 * @return endlessflyflag
 	 */
 	public boolean getEndlessflyflag(){
 		return this.endlessflyflag;
 	}
-
+	
+	/**flyの状態を取得します
+	 * 
+	 * @return ON/OFF
+	 */
+	public String getFlyState(){
+		if(this.flyflag){
+			return "ON";
+		}else{
+			return "OFF";
+		}
+	}
+	
+	/**Fly時間の状況を取得します
+	 * 
+	 * @return 時間/∞
+	 */
+	public String getFlyTimeState(){
+		if(this.endlessflyflag){
+			return "∞";
+		}else{
+			return Integer.toString(this.flytime);
+		}
+	}
 }

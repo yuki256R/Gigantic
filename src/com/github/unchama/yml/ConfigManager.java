@@ -266,4 +266,18 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("securebreakunlocklevel");
 	}
 
+	 /**MineStack一括クラフトシステムの必要経験値
+     * 
+     * @param 
+     * @return
+     */
+    public int getBlockCraftLevel(int x){
+    	switch(x) {
+    		case 1: return this.fc.getInt("minestacl_BlockCraft.level1");
+    		case 2: return this.fc.getInt("minestacl_BlockCraft.level2");
+    		case 3: return this.fc.getInt("minestacl_BlockCraft.level3");
+    		
+    		default: return 0;
+    	}
+    }
 }
