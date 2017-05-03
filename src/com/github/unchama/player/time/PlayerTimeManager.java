@@ -84,7 +84,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
 		return Util.toTimeString(Util.toSecond(playtick - totalidletick));
 	}
 
-	//累計ログイン時間のgetset
+	//累計ログイン時間のgetterとsetter
 	public int getPlaytick(){
 		return playtick;
 	}
@@ -92,7 +92,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql {
 		playtick = playtick_;
 	}
 
-	//累計放置時間のgetset
+	//累計放置時間のgetterとsetter
 	public int getTotalIdletick(){
 		return totalidletick;
 	}
