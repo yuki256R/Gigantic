@@ -24,6 +24,7 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	private double max;
 	BossBar manabar;
 	ManaTableManager tm;
+	SeichiLevelManager Sm;
 
 	//デバッグ時のマナ保存用
 	private double debugmana = -1;
@@ -35,7 +36,8 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 
 	@Override
 	public void init() {
-		this.updateMaxMana();
+		Sm = gp.getManager(SeichiLevelManager.class);
+		this.updateMaxMana(Sm.getLevel());
 		Player player = PlayerManager.getPlayer(gp);
 		display(player);
 	}
@@ -47,7 +49,6 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 
 	@Override
 	public void fin() {
-		this.updateMaxMana();
 		if(this.debugmana != -1){
 			this.m = this.debugmana;
 		}
@@ -178,16 +179,15 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	 * 現在のレベルに応じてMaxManaを変更します．
 	 *
 	 */
-	public void updateMaxMana() {
-		int level = gp.getManager(SeichiLevelManager.class).getLevel();
+	public void updateMaxMana(int level) {
 		this.max = SeichiLevelManager.levelmap.get(level).getMaxMana();
 	}
 
 	/**ユーザーのレベルアップ時に実行します．
 	 *
 	 */
-	public void Levelup(){
-		this.updateMaxMana();
+	public void Levelup(int level){
+		this.updateMaxMana(level);
 		this.fullMana();
 		Player player = PlayerManager.getPlayer(gp);
 		this.display(player);
@@ -197,7 +197,7 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	 *
 	 */
 	public void setDebugMana(){
-		this.updateMaxMana();
+		this.updateMaxMana(Sm.getLevel());
 		if(this.debugmana == -1){
 			this.debugmana = m;
 		}

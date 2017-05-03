@@ -47,7 +47,11 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager{
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		PlayerTimeManager m = gp.getManager(PlayerTimeManager.class);
-		m.init();
+		m.servertick = 0;
+		m.playtick = 0;
+		m.loc = null;
+		m.totalidletick = 0;
+		m.idletime = 0;
 		m.playtick = 0;
 	}
 }

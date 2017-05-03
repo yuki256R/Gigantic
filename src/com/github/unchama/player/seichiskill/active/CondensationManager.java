@@ -15,16 +15,12 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.Finalizable;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.player.sidebar.SideBarManager;
-import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.sql.CondensationTableManager;
 import com.github.unchama.task.CondensationTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
@@ -177,18 +173,6 @@ public class CondensationManager extends ActiveSkillManager implements Finalizab
 		liquidlist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
-
-		// レベルを更新
-		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
-			int level = gp.getManager(SeichiLevelManager.class).getLevel();
-			gp.getManager(ManaManager.class).Levelup();
-			gp.getManager(SideBarManager.class).updateInfo(
-					Information.SEICHI_LEVEL, level);
-		}
-		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
-				rb);
-		gp.getManager(SideBarManager.class).refresh();
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

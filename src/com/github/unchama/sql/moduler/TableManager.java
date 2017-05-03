@@ -32,7 +32,12 @@ public abstract class TableManager {
 		this.createTable();
 	}
 
-	abstract Boolean createTable();
+	/**テーブルを作成するsql文を送信します．
+	 *
+	 *
+	 * @return 成功可否
+	 */
+	protected abstract Boolean createTable();
 
 	/**
 	 * このテーブルに接続するステートメントを作成し，返り値とします．
