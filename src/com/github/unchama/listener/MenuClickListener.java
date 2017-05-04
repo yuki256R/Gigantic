@@ -31,6 +31,10 @@ public class MenuClickListener implements Listener{
 				.getManagerClass());
 		int slot = event.getSlot();
 
+		if(m.islocked(player,slot)){
+			return;
+		}
+
 		ManagerType omt = m.getMenuManager(slot);
 		if(omt == null){
 			return;
