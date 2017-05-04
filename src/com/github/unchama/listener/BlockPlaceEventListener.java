@@ -6,14 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildData;
 import com.github.unchama.player.build.BuildManager;
-import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -50,18 +48,5 @@ public class BlockPlaceEventListener implements Listener{
     }
 
 
-	// モンスターを倒した時
-	@EventHandler
-	public void onKill(EntityDeathEvent event) {
 
-		if (/*!(event.getEntity() instanceof Monster) || */!(event.getEntity().getKiller() instanceof Player)) {
-			return;
-		}
-		Player player = (Player) event.getEntity().getKiller();
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		PlayerTimeManager timeMng = gp.getManager(PlayerTimeManager.class);
-
-		timeMng.killtest(player, event);
-
-	}
 }

@@ -2,10 +2,7 @@ package com.github.unchama.player.time;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Skeleton;
-import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
@@ -75,26 +72,6 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	// 放置時間を除いた累計プレイ時間を「HH時間MM分」の文字列で返す
 	public String GetTotalLoginTimeToString() {
 		return Util.toTimeString(Util.toSecond(playtick - totalidletick));
-	}
-
-	@SuppressWarnings("deprecation")
-	public void killtest(Player player, EntityDeathEvent event){
-		String name = event.getEntity().getName();
-		String message = name;
-		if ((event.getEntity() instanceof Skeleton)){
-			message += " : " + ((Skeleton)event.getEntity()).getSkeletonType().toString();
-		}
-		if ((event.getEntity() instanceof Guardian)){
-			message += " : " + (((Guardian)event.getEntity()).isElder() ? ":elder" : "not elder");
-		}
-		if(huntingpoint.isHuntMob(name)){
-			message += " 狩猟対象";
-		}else{
-			message += " 知らない子";
-		}
-		debug.sendMessage(player,DebugEnum.BUILD,message);
-		debug.sendMessage(player,DebugEnum.BUILD,huntingpoint.test1());
-		debug.sendMessage(player,DebugEnum.BUILD,huntingpoint.test2());
 	}
 
 	// 累計ログイン時間のgetterとsetter

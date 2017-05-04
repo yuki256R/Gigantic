@@ -19,5 +19,4 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
-
 }
