@@ -13,6 +13,7 @@ import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.GachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
+import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -73,6 +74,7 @@ public class GiganticPlayer{
 		GACHA(GachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
+		HUNTINGPOINT(HuntingPointManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

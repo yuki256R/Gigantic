@@ -15,6 +15,7 @@ import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.gacha.GachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
@@ -50,6 +51,7 @@ public class Sql {
 		PLAYERGACHA(PlayerGachaTableManager.class,GachaManager.class),
 		REGION(RegionTableManager.class,RegionManager.class),
 		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
+		HUNTINGPOINT(HuntingPointTableManager.class,HuntingPointManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
