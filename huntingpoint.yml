@@ -1,0 +1,7 @@
+﻿# 狩りポイント
+
+# ポイントを放出するMOB（現在は敵MOBのみ対応）
+huntmob: 'Zombie,Skeleton,Spider,Creeper,Enderman,Witch,Slime,Silverfish,Endermite,PigZonbie,WitherSkeleton,Blaze,Ghast,MagmaCube,Shulker,Wither,EnderDragon'
+
+# 上記の同種扱い（左辺を右辺に変換する）
+huntmob_convert: 'Husk=Zombie,CaveSpider=Spider'
