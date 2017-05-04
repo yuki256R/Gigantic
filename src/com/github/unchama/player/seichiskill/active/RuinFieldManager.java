@@ -17,16 +17,12 @@ import org.bukkit.scheduler.BukkitTask;
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
-import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.Finalizable;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.player.sidebar.SideBarManager;
-import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.sql.RuinFieldTableManager;
 import com.github.unchama.task.RuinFieldTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
@@ -238,21 +234,17 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 			return false;
 		}
 
-
 		FairyAegisManager fm = gp.getManager(FairyAegisManager.class);
-		if (!fm.run(player,tool,this,block,useDurability,usemana,true)) {
+		if (!fm.run(player, tool, this, block, useDurability, usemana, true)) {
 			// 重力値を計算
 			GravityManager gm = gp.getManager(GravityManager.class);
-			short gravity = gm.calc(1, breaklist);
+			gm.calc(1, breaklist);
 
 			/*
-			// 重力値が０より大きければ終了
-			if (gravity > 0) {
-				player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値("
-						+ gravity + ")により破壊できません");
-				return false;
-			}
-			*/
+			 * // 重力値が０より大きければ終了 if (gravity > 0) {
+			 * player.sendMessage(this.getJPName() + ChatColor.RED + ":重力値(" +
+			 * gravity + ")により破壊できません"); return false; }
+			 */
 		}
 
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
@@ -329,20 +321,6 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		breaklist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
-
-
-		// レベルを更新
-		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
-			int level = gp.getManager(SeichiLevelManager.class).getLevel();
-			gp.getManager(ManaManager.class).Levelup();
-			gp.getManager(SideBarManager.class).updateInfo(
-					Information.SEICHI_LEVEL, level);
-		}
-		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
-				rb);
-		gp.getManager(SideBarManager.class).refresh();
-
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

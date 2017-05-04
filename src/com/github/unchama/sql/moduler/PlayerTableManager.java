@@ -22,6 +22,7 @@ public abstract class PlayerTableManager extends TableManager implements
 		GiganticLoadable {
 	Class<? extends DataManager> datamanagerclass;
 
+	@SuppressWarnings("deprecation")
 	public PlayerTableManager(Sql sql) {
 		super(sql);
 		this.datamanagerclass = Sql.ManagerType
@@ -86,7 +87,7 @@ public abstract class PlayerTableManager extends TableManager implements
 
 
 	@Override
-	Boolean createTable() {
+	protected Boolean createTable() {
 		String command;
 		// create Table
 		command = "CREATE TABLE IF NOT EXISTS " + db + "." + table;
@@ -210,7 +211,5 @@ public abstract class PlayerTableManager extends TableManager implements
 
 		return true;
 	}
-
-
 
 }
