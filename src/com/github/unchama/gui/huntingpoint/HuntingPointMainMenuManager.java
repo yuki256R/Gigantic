@@ -24,17 +24,21 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.util.MobHead;
+import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 
 public class HuntingPointMainMenuManager extends GuiMenuManager {
+	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+
 	// 戻るボタン
 	private ItemStack backButton;
 	private final int backButtonSlot = 27;
 
-	private Map<Integer, ItemStack> mobButtons;
+	//どのMobのショップを開くか
+	static private Map<Integer, String> shopMobNames;
 
 	public HuntingPointMainMenuManager() {
-		setOpenMenuMap(openmap);
+		shopMobNames = new HashMap<Integer, String>();
 		backButton = MobHead.getMobHead("left");
 		backButton.getItemMeta().setDisplayName("戻る");
 	}
@@ -45,13 +49,21 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	}
 
+	//どのMobのショップを開くか
+	// openmapに登録したguiを開いた場合、invokeが呼び出されないが
+	// 次のguiのgetInventoryのslotで直前にクリックしたslot番号が渡されるため
+	// それを元にクリックされたMobの名前を返す
+	public static String getShopMobName(int slot){
+		return shopMobNames.get(slot);
+	}
+
 	@Override
 	public Inventory getInventory(Player player, int slot) {
 		// インベントリ基本情報
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
-		// ボタンを初期化
-		mobButtons = new HashMap<Integer, ItemStack>();
+		// 初期化
+		shopMobNames.clear();
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
@@ -77,8 +89,11 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 							+ ChatColor.UNDERLINE + "クリックでショップへ"));
 			button.setItemMeta(itemMeta);
 			inv.setItem(count, button);
+			//invoke関数のidentifierに投げるモンスター名を登録
+			shopMobNames.put(count, name);
 			count++;
 		}
+		setOpenMenuMap(openmap);
 
 		// ページ遷移ボタン
 
@@ -88,12 +103,16 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
-		;
 		return false;
 	}
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
+		//Mobの頭をクリックしたらショップへ
+		for(int slot : id_map.keySet()){
+			openmap.put(slot, GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
+		}
+
 		//戻るボタンでメインメニューを開く
 		openmap.put(backButtonSlot, GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
 	}
