@@ -161,6 +161,7 @@ name: '&5&lメインメニュー'
       - '&r討伐ポイントを使用して'
       - '&r専用ショップで購入ができます'
   mobhead: 'pc'
+  openmenu: 'huntmainmenu'
 23:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

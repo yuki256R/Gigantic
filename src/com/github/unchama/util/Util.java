@@ -63,7 +63,12 @@ public class Util {
 
 	// プレイヤーにインベントリ状況を見ながらアイテムを付与する
 	public static void giveItem(Player player, String itemName) {
-		ItemStack itemstack = new ItemStack(StringToMaterialData(itemName));
+		Material material = StringToMaterialData(itemName);
+		//指定が間違っていれば終了
+		if(material == null){
+			return;
+		}
+		ItemStack itemstack = new ItemStack(material);
 		giveItem(player, itemstack);
 	}
 	public static void giveItem(Player player, ItemStack itemstack) {

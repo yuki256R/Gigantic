@@ -3,6 +3,7 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
 import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
 import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
@@ -57,6 +58,7 @@ public final class GuiMenu {
 		BUILDMENU(BuildMenuManager.class),
 		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
 		REGIONMENU(RegionMenuManager.class),
+		HUNTMAINMENU(HuntingPointMainMenuManager.class),
 		;
 
 		// 使用するManagerClass
