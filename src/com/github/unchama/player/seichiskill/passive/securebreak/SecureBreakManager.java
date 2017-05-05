@@ -32,7 +32,6 @@ import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 import com.github.unchama.player.sidebar.SideBarManager;
-import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
@@ -187,18 +186,6 @@ public class SecureBreakManager extends PassiveSkillManager implements
 		liquidlist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
-
-		// レベルを更新
-		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
-			int level = gp.getManager(SeichiLevelManager.class).getLevel();
-			gp.getManager(ManaManager.class).Levelup();
-			gp.getManager(SideBarManager.class).updateInfo(
-					Information.SEICHI_LEVEL, level);
-		}
-		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
-				rb);
-		gp.getManager(SideBarManager.class).refresh();
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
@@ -404,18 +391,6 @@ public class SecureBreakManager extends PassiveSkillManager implements
 		liquidlist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
-
-		// レベルを更新
-		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
-			int level = gp.getManager(SeichiLevelManager.class).getLevel();
-			gp.getManager(ManaManager.class).Levelup();
-			gp.getManager(SideBarManager.class).updateInfo(
-					Information.SEICHI_LEVEL, level);
-		}
-		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
-				rb);
-		gp.getManager(SideBarManager.class).refresh();
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
