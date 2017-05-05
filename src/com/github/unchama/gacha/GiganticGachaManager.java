@@ -11,12 +11,14 @@ public class GiganticGachaManager extends GachaManager {
 	@Override
 	public String getGachaName() {
 		return "" + ChatColor.RESET + ChatColor.AQUA + ChatColor.BOLD
-				+ "ガチャ" + ChatColor.RESET;
+				+ "ギガンティックガチャ";
 	}
 
 	@Override
-	public ItemStack getGachaItem() {
+	protected ItemStack getMobhead() {
 		return MobHead.getMobHead("red_present");
 	}
+
+
 
 }

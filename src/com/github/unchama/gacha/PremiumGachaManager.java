@@ -11,11 +11,10 @@ public class PremiumGachaManager extends GachaManager {
 	@Override
 	public String getGachaName() {
 		return "" + ChatColor.RESET + ChatColor.GOLD + ChatColor.BOLD
-				+ "プレミアムガチャ" + ChatColor.RESET;
+				+ "プレミアムガチャ";
 	}
-
 	@Override
-	public ItemStack getGachaItem() {
+	protected ItemStack getMobhead() {
 		return MobHead.getMobHead("green_present");
 	}
 }

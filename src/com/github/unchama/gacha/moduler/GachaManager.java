@@ -3,8 +3,11 @@ package com.github.unchama.gacha.moduler;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,11 +17,20 @@ public abstract class GachaManager {
 
 	// ガチャアイテムリスト
 	private LinkedHashMap<Integer, GachaItem> items;
+	private ItemStack gachaTicket;
 
 	public GachaManager() {
 		items = new LinkedHashMap<Integer, GachaItem>();
+		gachaTicket = this.getMobhead();
+		ItemMeta gachameta = gachaTicket.getItemMeta();
+		gachameta.setDisplayName(this.getGachaName() + "券");
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "右クリックで使用");
+		gachameta.setLore(lore);
+		gachaTicket.setItemMeta(gachameta);
 	}
 
+	protected abstract ItemStack getMobhead();
 	/**
 	 * ガチャの名前を取得する．
 	 *
@@ -32,9 +44,10 @@ public abstract class GachaManager {
 	 * @return
 	 */
 	public ItemStack getGachaTypeInfo() {
-		ItemStack is = this.getGachaItem();
+		ItemStack is = this.getGachaTicket();
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(this.getGachaName());
+		im.setLore(new ArrayList<String>());
 		is.setItemMeta(im);
 		return is;
 	}
@@ -44,7 +57,9 @@ public abstract class GachaManager {
 	 *
 	 * @return
 	 */
-	public abstract ItemStack getGachaItem();
+	public ItemStack getGachaTicket(){
+		return new ItemStack(gachaTicket);
+	}
 
 	/**
 	 * ガチャデータをロードする．
