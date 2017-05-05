@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BuildLevelData {
 	//lv
-	public static final List<Integer> levellist = new ArrayList<Integer>(Arrays.asList(
+	public static final List<Integer> Buildlevellist = new ArrayList<Integer>(Arrays.asList(
 			0, 50, 100, 200, 300, 
 			450, 600, 900, 1200, 1600, //Lv.10
 			2000, 2500, 3000, 3600, 4300,
@@ -28,63 +28,28 @@ public class BuildLevelData {
 			808000, 828000, 848000, 868000, 888000,
 			908000, 928000, 948000, 968000, 1000000, //Lv.100
 			5000000));
+	//そのレベルになるのに必要な建築量
+	private int need_buildnum;
 	
-	//レベル
-	private int buildlevel;
-	//このレベルになるのに必要な建築量
-	private int need_buildblock;
-	//次のレベルになるのに必要な建築量
-	private int next_buildblock;
+	BuildLevelData(int buildlevel) {
+		this.need_buildnum = this.calcNeed_buildnum(buildlevel);
+	}
 	
 	/**
-	 * 注意:パラメーターは0でなく1からで構いません。Dataの方で調整してあります。
-	 * @param level
-	 */
-	BuildLevelData(int level){
-		this.buildlevel = level;
-		this.need_buildblock = this.calcNeed_buildblock(level);
-		this.next_buildblock = this.calcNext_buildblock(level);
-	}
-	
-	/**このレベルになるのに必要な建築量を計算します
-	 * 
-	 * @param
+	 * そのレベルになるのに必要な建築量を計算します
+	 * @param buildlevel
 	 * @return
 	 */
-	private int calcNeed_buildblock(int level){
-		return levellist.get(level - 1);
+	private int calcNeed_buildnum(int buildlevel) {
+		//例えばLevel1なら0,Level2なら50…
+		return Buildlevellist.get(buildlevel - 1);
 	}
 	
-	/**次のレベルになるのに必要な建築量を計算します
-	 * 
-	 * @param
+	/**
+	 * そのレベルになるのに必要な建築量を取得します
 	 * @return
 	 */
-	private int calcNext_buildblock(int level){
-		return levellist.get(level);
-	}
-	
-	/**建築レベルを取得します
-	 * 
-	 * @return
-	 */
-	public int getBuildlevel(){
-		return this.buildlevel;
-	}
-	
-	/**このレベルで必要な建築量(need_buildblock)を取得します
-	 * 
-	 * @return
-	 */
-	public int getNeed_buildblock(){
-		return this.need_buildblock;
-	}
-	
-	/**次のレベルに必要な建築量(next_buildblock)を取得します
-	 * 
-	 * @return
-	 */
-	public int getNext_buildblock(){
-		return this.next_buildblock;
+	public int getNeed_buildnum() {
+		return this.need_buildnum;
 	}
 }

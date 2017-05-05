@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -20,10 +22,11 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.ConfigManager;
 
 public class BlockCraftMenuManager1 extends GuiMenuManager{
-
+	
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
 		for(int i = 0; i < 5; i++) {
@@ -43,6 +46,8 @@ public class BlockCraftMenuManager1 extends GuiMenuManager{
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
+		
+		
 		return false;
 	}
 
@@ -234,6 +239,30 @@ public class BlockCraftMenuManager1 extends GuiMenuManager{
 				continue;
 			}
 		}
+		
+		//メインメニューに戻る
+		if(slot == 45) {
+			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+			skullmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+					+ "ホームへ");
+			lore = new ArrayList<String>();
+			lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
+			skullmeta.setLore(lore);
+			skullmeta.setOwner("MHF_ArrowLeft");
+			itemmeta = (ItemMeta) skullmeta;
+		}
+		
+		//次のページへ移動する
+		if(slot == 53) {
+			SkullMeta skullmeta = (SkullMeta) Bukkit.getItemFactory().getItemMeta(Material.SKULL_ITEM);
+			skullmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + ChatColor.BOLD + "2ページ目へ");
+			lore = new ArrayList<String>();
+			lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
+			skullmeta.setLore(lore);
+			skullmeta.setOwner("MHF_ArrowRight");
+			itemmeta = (ItemMeta) skullmeta;
+		}
+		
 		return itemmeta;
 	}
 
@@ -298,10 +327,9 @@ public class BlockCraftMenuManager1 extends GuiMenuManager{
 		}
 		
 		if(slot == 45 || slot == 53) {
-			//スロット45,53にメインメニューに戻るボタン,次ページに移動ボタンを
+			//スロット45にメインメニューに戻るボタン,スロット53に次ページに移動ボタン
 			itemstack = new ItemStack(Material.SKULL_ITEM,1,(short)3);
-		}
-		
+		}	
 		return itemstack;
 	}
 

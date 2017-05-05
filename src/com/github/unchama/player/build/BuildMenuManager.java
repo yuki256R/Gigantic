@@ -117,6 +117,8 @@ public class BuildMenuManager extends GuiMenuManager{
 		
 		FlyManager fm = gp.getManager(FlyManager.class);
 		ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+		BuildManager bm = gp.getManager(BuildManager.class);
+		BuildLevelManager blm = gp.getManager(BuildLevelManager.class);
 		
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore;
@@ -127,8 +129,8 @@ public class BuildMenuManager extends GuiMenuManager{
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + 
 					ChatColor.BOLD + gp.name + "の統計データ");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:??");
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:??");
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:" + blm.getBuildLevel());
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + bm.getTotalbuildnum());
 			itemmeta.setLore(lore);
 			SkullMeta skullmeta = (SkullMeta) itemmeta;
 			skullmeta.setOwner(gp.name);
