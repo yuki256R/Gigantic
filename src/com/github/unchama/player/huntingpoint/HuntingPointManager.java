@@ -24,10 +24,27 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		hm.save(gp, loginflag);
 	}
 
-	// 現在ポイントのsetterとgetter
-	public void setCurrentPoint(String key, int value) {
+	//討伐時にポイントを加算する
+	public void addPoint(String key, int value){
+		if(!currentPoints.containsKey(key) || !totalPoints.containsKey(key)){
+			return;
+		}
+		currentPoints.put(key, currentPoints.get(key) + value);
+		totalPoints.put(key, totalPoints.get(key) + value);
+	}
+
+	// 現在ポイントをロード時などに追加する
+	public void addCurrent(String key, int value) {
 		currentPoints.put(key, value);
 	}
+
+	// 現在ポイントのsetterとgetter
+//	private void setCurrentPoint(String key, int value) {
+//		if(!currentPoints.containsKey(key)){
+//			return;
+//		}
+//		currentPoints.put(key, value);
+//	}
 	public int getCurrentPoint(String key) {
 		int ret = 0;
 		if (currentPoints.containsKey(key)) {
@@ -36,10 +53,17 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		return ret;
 	}
 
-	// 累計ポイントのsetterとgetter
-	public void setTotalPoint(String key, int value) {
+	// 累計ポイントをロード時などに追加する
+	public void addTotal(String key, int value) {
 		totalPoints.put(key, value);
 	}
+	// 累計ポイントのsetterとgetter
+//	private void setTotalPoint(String key, int value) {
+//		if(!totalPoints.containsKey(key)){
+//			return;
+//		}
+//		totalPoints.put(key, value);
+//	}
 	public int getTotalPoint(String key) {
 		int ret = 0;
 		if (totalPoints.containsKey(key)) {

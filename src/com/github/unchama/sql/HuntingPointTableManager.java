@@ -45,8 +45,8 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 		List<String> names = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 		for (String name : names) {
-			m.setCurrentPoint(name, rs.getInt(name + currentFoot));
-			m.setTotalPoint(name, rs.getInt(name + totalFoot));
+			m.addCurrent(name, rs.getInt(name + currentFoot));
+			m.addTotal(name, rs.getInt(name + totalFoot));
 		}
 	}
 
@@ -75,8 +75,8 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 		List<String> names = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 		for (String name : names) {
-			m.setCurrentPoint(name, 0);
-			m.setTotalPoint(name, 0);
+			m.addCurrent(name, 0);
+			m.addTotal(name, 0);
 		}
 	}
 
