@@ -43,6 +43,10 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
+		Bukkit.getServer().getLogger().info(this.getInventoryName(player));
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
+
 		// アイテムリストを取得
 		String name = manager.getShopMob(slot);
 		List<HuntingPointShopItem> shopItems = Gigantic.yml.getManager(
