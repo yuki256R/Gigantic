@@ -99,6 +99,15 @@ public class HuntingPointDataManager extends YmlManager {
 		return ret;
 	}
 
+	//ショップのアイテムリストを取得
+	public List<HuntingPointShopItem> getShopItems(String name){
+		List<HuntingPointShopItem> ret = null;
+		if(shopItems.containsKey(name)){
+			ret = shopItems.get(name);
+		}
+		return ret;
+	}
+
 	// 狩猟対象か否か
 	public boolean isHuntMob(String name) {
 		reload();

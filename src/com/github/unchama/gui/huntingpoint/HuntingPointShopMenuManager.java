@@ -19,7 +19,6 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.MainMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
@@ -27,64 +26,56 @@ import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 
-public class HuntingPointMainMenuManager extends GuiMenuManager {
+public class HuntingPointShopMenuManager extends GuiMenuManager {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	// 戻るボタン
 	private ItemStack backButton;
 	private final int backButtonSlot = 27;
 
-	//どのMobのショップを開くか
-	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
+	private Map<Integer, HuntingPointShopItem> buyItems = new HashMap<Integer, HuntingPointShopItem>();
 
-	public HuntingPointMainMenuManager() {
+	@Override
+	protected void setIDMap(HashMap<Integer, String> idmap) {
 		backButton = MobHead.getMobHead("left");
 		backButton.getItemMeta().setDisplayName("戻る");
 	}
 
 	@Override
-	protected void setIDMap(HashMap<Integer, String> idmap) {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
-
-	@Override
 	public Inventory getInventory(Player player, int slot) {
-		Bukkit.getServer().getLogger().info(this.getInventoryName(player));
+		// アイテムリストを取得
+		String name = manager.getShopMob(slot);
+		List<HuntingPointShopItem> shopItems = Gigantic.yml.getManager(
+				HuntingPointDataManager.class).getShopItems(name);
+
 		// インベントリ基本情報
 		Inventory inv = Bukkit.getServer().createInventory(player,
-				this.getInventorySize(), this.getInventoryName(player));
-		// 初期化
-		shopMobNames.clear();
+				this.getInventorySize(), name + "の討伐Pショップ");
+		if(shopItems == null){
+			return inv;
+		}
 
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
-		List<String> mobNames = Gigantic.yml.getManager(
-				HuntingPointDataManager.class).getMobNames();
 
-		int count = 0;
+		int setSlot = 0;
 		// とりだしボタン
-		for (String name : mobNames) {
+		for (HuntingPointShopItem shopItem : shopItems) {
 			// Mobに応じた頭
-			ItemStack button = MobHead.getMobHead("zero");
+			ItemStack button = shopItem.getItemStack();
 			ItemMeta itemMeta = button.getItemMeta();
 			// モンスターの表示名
 			String dispName = name;
 			itemMeta.setDisplayName(dispName);
 			itemMeta.setLore(Arrays.asList(
 					//
-					ChatColor.RESET + "" + ChatColor.GREEN + "累計P : "
-							+ manager.getTotalPoint(name),//
-					ChatColor.RESET + "" + ChatColor.GREEN + "現在P : "
-							+ manager.getCurrentPoint(name),//
+					ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
+							+ shopItem.getPrice() + "P",//
 					ChatColor.RESET + "" + ChatColor.DARK_RED + ""
-							+ ChatColor.UNDERLINE + "クリックでショップへ"));
+							+ ChatColor.UNDERLINE + "クリックで購入"));
 			button.setItemMeta(itemMeta);
-			inv.setItem(count, button);
-			//invoke関数のidentifierに投げるモンスター名を登録
-			shopMobNames.put(count, name);
-			manager.putShopMob(count, name);
-			count++;
+			inv.setItem(setSlot, button);
+			id_map.put(setSlot, Integer.toString(setSlot));
+			buyItems.put(setSlot, shopItem);
+			setSlot++;
 		}
 		setOpenMenuMap(openmap);
 
@@ -96,30 +87,25 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
+		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		//ショップを開く
-		//起動時になぜかここを通るためnullチェック
-		if(shopMobNames != null){
-			for(int slot : shopMobNames.keySet()){
-				openmap.put(slot, GuiMenu.ManagerType.getTypebyClass(HuntingPointShopMenuManager.class));
-			}
-		}
-
 		//戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot, GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
+		openmap.put(backButtonSlot, GuiMenu.ManagerType.getTypebyClass(HuntingPointMainMenuManager.class));
 	}
 
 	@Override
 	protected void setKeyItem() {
+		// TODO 自動生成されたメソッド・スタブ
 
 	}
 
 	@Override
 	public String getClickType() {
+		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -130,21 +116,24 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		return "討伐ポイント";
+		return "討伐ポイントショップ";
 	}
 
 	@Override
 	protected InventoryType getInventoryType() {
+		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
+		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
+		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 

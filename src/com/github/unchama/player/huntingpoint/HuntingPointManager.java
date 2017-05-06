@@ -12,6 +12,10 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 	private Map<String, Integer> currentPoints = new HashMap<String, Integer>();
 	private Map<String, Integer> totalPoints = new HashMap<String, Integer>();
 
+
+	//どのMobのショップを開くか
+	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
+
 	HuntingPointTableManager hm = sql
 			.getManager(HuntingPointTableManager.class);
 
@@ -71,4 +75,17 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		}
 		return ret;
 	}
+
+
+	//どのMobのショップを開くか
+	// openmapに登録したguiを開いた場合、invokeが呼び出されないが
+	// 次のguiのgetInventoryのslotで直前にクリックしたslot番号が渡されるため
+	// それを元にクリックされたMobの名前を返す
+	public void putShopMob(Integer slot, String name){
+		shopMobNames.put(slot, name);
+	}
+	public String getShopMob(int slot){
+		return shopMobNames.get(slot);
+	}
+
 }
