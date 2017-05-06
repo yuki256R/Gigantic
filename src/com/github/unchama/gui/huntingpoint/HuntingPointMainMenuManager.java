@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
@@ -92,6 +93,13 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 		inv.setItem(backButtonSlot, backButton);
 		return inv;
+	}
+
+	@Override
+	public void closeByOpenMenu(Player player, MenuClickEvent event){
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
+		manager.setShopMobName(shopMobNames.get(event.getSlot()));
 	}
 
 	@Override

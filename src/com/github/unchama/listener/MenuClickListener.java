@@ -35,6 +35,7 @@ public class MenuClickListener implements Listener{
 		if(omt == null){
 			return;
 		}
+		m.closeByOpenMenu(player, event);
 
 		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(omt.getManagerClass());
 		om.open(player, slot, false);

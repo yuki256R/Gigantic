@@ -48,13 +48,13 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 
 		// アイテムリストを取得
-		String name = manager.getShopMob(slot);
+		String name = manager.getShopMobName();
 		List<HuntingPointShopItem> shopItems = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getShopItems(name);
 
 		// インベントリ基本情報
 		Inventory inv = Bukkit.getServer().createInventory(player,
-				this.getInventorySize(), name + "の討伐Pショップ");
+				this.getInventorySize(), this.getInventoryName(player));
 		if(shopItems == null){
 			return inv;
 		}
@@ -120,7 +120,10 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		return "討伐ポイントショップ";
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
+		String name = manager.getShopMobName();
+		return name + "の討伐Pショップ";
 	}
 
 	@Override
