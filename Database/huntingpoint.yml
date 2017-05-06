@@ -39,7 +39,7 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: SKULL
-          display-name: '&e&n&l%gp_name%'
+          display-name: '&e&n&l%ゾンビの頭
           lore:
           - '&r&c整地ワールド以外では'
           - '&r&c整地量とガチャ券は増えません'
