@@ -6,6 +6,7 @@ import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -79,6 +80,7 @@ public class Util {
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP,
 					(float) 0.1, (float) 1);
 		} else {
+			player.sendMessage(itemstack.getItemMeta().getDisplayName() + ChatColor.RESET + " は持ち切れなかったためドロップしました.");
 			dropItem(player, itemstack);
 		}
 	}
