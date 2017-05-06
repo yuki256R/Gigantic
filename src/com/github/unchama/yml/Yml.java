@@ -20,7 +20,6 @@ public final class Yml {
 		CONFIG(ConfigManager.class),
 		DEBUG(DebugManager.class),
 		HUNTINGPOINT(HuntingPointDataManager.class),
-		MOBHEAD(MobHeadDataManager.class),
 		;
 		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;
