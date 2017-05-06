@@ -15,6 +15,8 @@ public class HuntingPointShopItem {
 	private ItemStack itemStack;
 	//値段
 	private int price;
+	//ログに流す名前
+	private String logName;
 	//その他のデータ
 	private String meta;
 
@@ -30,6 +32,9 @@ public class HuntingPointShopItem {
 			return false;
 		}
 		if(price <= 0){
+			return false;
+		}
+		if(logName == null){
 			return false;
 		}
 
@@ -61,6 +66,14 @@ public class HuntingPointShopItem {
 	}
 	public int getPrice(){
 		return price;
+	}
+
+	//ログに流す名前のsetterとgetter
+	public void setLogName(String logName_){
+		logName = logName_;
+	}
+	public String getLogName(){
+		return logName;
 	}
 
 	//その他のデータのsetterとgetter

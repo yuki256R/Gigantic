@@ -40,7 +40,10 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	public HuntingPointMainMenuManager() {
 		backButton = MobHead.getMobHead("left");
-		backButton.getItemMeta().setDisplayName("戻る");
+		ItemMeta itemMeta = backButton.getItemMeta();
+		// モンスターの表示名
+		itemMeta.setDisplayName("戻る");
+		backButton.setItemMeta(itemMeta);
 	}
 
 	@Override
@@ -51,7 +54,6 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
-		Bukkit.getServer().getLogger().info(this.getInventoryName(player));
 		// インベントリ基本情報
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
@@ -74,17 +76,15 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 			itemMeta.setDisplayName(dispName);
 			itemMeta.setLore(Arrays.asList(
 					//
-					ChatColor.RESET + "" + ChatColor.GREEN + "累計P : "
-							+ manager.getTotalPoint(name),//
-					ChatColor.RESET + "" + ChatColor.GREEN + "現在P : "
-							+ manager.getCurrentPoint(name),//
+					ChatColor.RESET + "" + ChatColor.GREEN + "累計 : "
+							+ manager.getTotalPoint(name) + " P",//
+					ChatColor.RESET + "" + ChatColor.GREEN + "現在 : "
+							+ manager.getCurrentPoint(name) + " P",//
 					ChatColor.RESET + "" + ChatColor.DARK_RED + ""
 							+ ChatColor.UNDERLINE + "クリックでショップへ"));
 			button.setItemMeta(itemMeta);
 			inv.setItem(count, button);
-			//invoke関数のidentifierに投げるモンスター名を登録
 			shopMobNames.put(count, name);
-			manager.putShopMob(count, name);
 			count++;
 		}
 		setOpenMenuMap(openmap);

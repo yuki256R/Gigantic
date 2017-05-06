@@ -23,6 +23,7 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.util.MobHead;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 
@@ -38,12 +39,14 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
 		backButton = MobHead.getMobHead("left");
-		backButton.getItemMeta().setDisplayName("戻る");
+		ItemMeta itemMeta = backButton.getItemMeta();
+		// モンスターの表示名
+		itemMeta.setDisplayName("戻る");
+		backButton.setItemMeta(itemMeta);
 	}
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
-		Bukkit.getServer().getLogger().info(this.getInventoryName(player));
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 
@@ -59,20 +62,31 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 			return inv;
 		}
 
+		// 所持ポイント表示
+		// Mobに応じた頭
+		ItemStack info = MobHead.getMobHead("zero");
+		ItemMeta itemMeta = info.getItemMeta();
+		itemMeta.setDisplayName(name + "の討伐P");
+		itemMeta.setLore(Arrays.asList(
+				//
+				ChatColor.RESET + "" + ChatColor.GREEN + "累計 : "
+						+ manager.getTotalPoint(name) + " P",//
+				ChatColor.RESET + "" + ChatColor.GREEN + "現在 : "
+						+ manager.getCurrentPoint(name) + " P"//
+						));
+		info.setItemMeta(itemMeta);
+		inv.setItem(0, info);
 
-		int setSlot = 0;
+		int setSlot = 1;
 		// とりだしボタン
 		for (HuntingPointShopItem shopItem : shopItems) {
 			// Mobに応じた頭
 			ItemStack button = shopItem.getItemStack();
-			ItemMeta itemMeta = button.getItemMeta();
-			// モンスターの表示名
-			String dispName = name;
-			itemMeta.setDisplayName(dispName);
+			itemMeta = button.getItemMeta();
 			itemMeta.setLore(Arrays.asList(
 					//
 					ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
-							+ shopItem.getPrice() + "P",//
+							+ shopItem.getPrice() + " P",//
 					ChatColor.RESET + "" + ChatColor.DARK_RED + ""
 							+ ChatColor.UNDERLINE + "クリックで購入"));
 			button.setItemMeta(itemMeta);
@@ -91,7 +105,40 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
-		// TODO 自動生成されたメソッド・スタブ
+		//購入
+		int slot;
+		try {
+			slot = Integer.valueOf(identifier);
+
+		} catch (NumberFormatException nfex) {
+			return false;
+		}
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
+		HuntingPointShopItem shopItem = buyItems.get(slot);
+		String name = manager.getShopMobName();
+
+		//ポイントが足りるか
+		if(shopItem.getPrice() > manager.getCurrentPoint(name)){
+			player.sendMessage(name + "の討伐ポイントが足りません.");
+			return false;
+		}
+
+		ItemStack giveItem = shopItem.getItemStack();
+		switch(shopItem.getCategoryType()){
+		case CustomHead:
+			Util.giveItem(player, giveItem);
+			break;
+		case Item:
+			Util.giveItem(player, giveItem);
+			break;
+		default:
+			break;
+		}
+		manager.payPoint(name, shopItem.getPrice());
+		player.sendMessage("[" + shopItem.getLogName() + "]を購入しました.");
+		getInventory(player, slot);
+
 		return false;
 	}
 

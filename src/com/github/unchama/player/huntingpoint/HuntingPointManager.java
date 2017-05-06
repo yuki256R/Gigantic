@@ -43,6 +43,11 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		currentPoints.put(key, value);
 	}
 
+	// ショップで支払う
+	public void payPoint(String key, int value){
+		currentPoints.put(key, currentPoints.get(key) - value);
+	}
+
 	// 現在ポイントのsetterとgetter
 //	private void setCurrentPoint(String key, int value) {
 //		if(!currentPoints.containsKey(key)){

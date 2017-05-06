@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.huntingpoint.HuntingPointShopItem;
 import com.github.unchama.util.MobHead;
@@ -79,15 +78,14 @@ public class HuntingPointDataManager extends YmlManager {
 		HuntingPointShopItem ret = new HuntingPointShopItem();
 		ret.setCategory(this.fc.getString(path + ".category"));
 		ret.setPrice(this.fc.getInt(path + ".price", 0));
+		ret.setLogName(this.fc.getString(path + ".logname"));
 		ret.setMeta(this.fc.getString(path + ".meta"));
 		ItemStack item = this.fc.getItemStack(path + ".itemstack", null);
 		if(ret.getCategoryType() != null && item != null){
 			switch(ret.getCategoryType()){
 			case CustomHead:
-				ItemMeta meta = item.getItemMeta().clone();
-				String headname = this.fc.getString(path + ".headname", "");
-				item = MobHead.getMobHead(headname);
-				item.setItemMeta(meta);
+				String url = MobHead.getMobURL(this.fc.getString(path + ".headname", ""));
+				MobHead.setURL(item, url);
 				break;
 			case Item:
 				break;

@@ -31,9 +31,11 @@ shop:
       category: 'CustomHead'
       headname: 'pc'
       price: 2
+      logname: 'テスト頭'
       itemstack:
         ==: org.bukkit.inventory.ItemStack
         type: SKULL_ITEM
+        damage: 3
         meta:
           ==: ItemMeta
           meta-type: SKULL
@@ -47,6 +49,7 @@ shop:
     2:
       category: 'Item'
       price: 1
+      logname: 'テストビーコン'
       itemstack:
         ==: org.bukkit.inventory.ItemStack
         type: BEACON
