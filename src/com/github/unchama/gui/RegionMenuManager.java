@@ -1,4 +1,4 @@
-package com.github.unchama.gui.moduler;
+package com.github.unchama.gui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
+import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.region.RegionManager;
 import com.sk89q.worldedit.bukkit.selections.Selection;
@@ -55,7 +56,7 @@ public class RegionMenuManager extends GuiMenuManager {
 
 	@Override
 	public Sound getSoundName() {
-		return Sound.valueOf("BLOCK_ENCHANTMENT_TABLE_USE");
+		return Sound.BLOCK_WOOD_BUTTON_CLICK_ON;
 	}
 
 	@Override

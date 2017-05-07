@@ -3,8 +3,15 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+<<<<<<< HEAD
 import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
+=======
+import com.github.unchama.gui.admin.AdminGachaTypeMenuManager;
+import com.github.unchama.gui.admin.AdminGiganticGachaMenuManager;
+import com.github.unchama.gui.admin.AdminPremiumGachaMenuManager;
+import com.github.unchama.gui.admin.AdminTypeMenuManager;
+>>>>>>> unchama/master
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
 import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
 import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
@@ -12,7 +19,6 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.gui.moduler.RegionMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
@@ -57,8 +63,16 @@ public final class GuiMenu {
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
 		BUILDMENU(BuildMenuManager.class),
 		REGIONMENU(RegionMenuManager.class),
+<<<<<<< HEAD
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
+=======
+		ADMINTYPEMENU(AdminTypeMenuManager.class),
+		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
+		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
+		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+
+>>>>>>> unchama/master
 		;
 
 		// 使用するManagerClass

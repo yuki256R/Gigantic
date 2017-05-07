@@ -13,7 +13,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
-import com.github.unchama.player.gacha.GachaManager;
+import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -34,7 +34,8 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql {
 	//TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
-		GACHA(GachaTableManager.class),
+		GIGANTICGACHA(GiganticGachaTableManager.class),
+		PREMIUMGACHA(PremiumGachaTableManager.class),
 		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
 		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
 		MANA(ManaTableManager.class,ManaManager.class),
@@ -47,7 +48,7 @@ public class Sql {
 		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
 		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
-		PLAYERGACHA(PlayerGachaTableManager.class,GachaManager.class),
+		PLAYERGACHA(PlayerGachaTableManager.class,PlayerGachaManager.class),
 		REGION(RegionTableManager.class,RegionManager.class),
 		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
 		;
