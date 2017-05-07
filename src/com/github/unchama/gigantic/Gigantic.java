@@ -20,10 +20,6 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.task.TimeTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.Yml;
-<<<<<<< HEAD
-import com.github.unchama.player.build.BuildLevelManager;
-=======
->>>>>>> unchama/master
 
 public final class Gigantic extends JavaPlugin {
 
