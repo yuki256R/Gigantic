@@ -6,10 +6,10 @@ import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.PlayerGachaTableManager;
 
-public class GachaManager extends DataManager implements Initializable,UsingSql{
+public class PlayerGachaManager extends DataManager implements Initializable,UsingSql{
 	PlayerGachaTableManager ptm;
 
-	public GachaManager(GiganticPlayer gp) {
+	public PlayerGachaManager(GiganticPlayer gp) {
 		super(gp);
 		ptm = sql.getManager(PlayerGachaTableManager.class);
 	}

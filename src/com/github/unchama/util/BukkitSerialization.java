@@ -36,7 +36,7 @@ public class BukkitSerialization {
 		}
 	}
 
-    public static Inventory fromBase64(String data) throws IOException {
+    public static Inventory getInventoryfromBase64(String data) throws IOException {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
@@ -48,6 +48,34 @@ public class BukkitSerialization {
             }
             dataInput.close();
             return inventory;
+        } catch (ClassNotFoundException | IOException e) {
+            throw new IOException("Unable to decode class type.", e);
+        }
+    }
+	public static String toBase64(ItemStack itemstack) {
+		try {
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(
+					outputStream);
+
+			dataOutput.writeObject(itemstack);
+
+			// Serialize that array
+			dataOutput.close();
+			return Base64Coder.encodeLines(outputStream.toByteArray());
+		} catch (Exception e) {
+			throw new IllegalStateException("Unable to save item stack.", e);
+		}
+	}
+
+    public static ItemStack getItemStackfromBase64(String data) throws IOException {
+        try {
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+
+            ItemStack is = (ItemStack) dataInput.readObject();
+            dataInput.close();
+            return is;
         } catch (ClassNotFoundException | IOException e) {
             throw new IOException("Unable to decode class type.", e);
         }

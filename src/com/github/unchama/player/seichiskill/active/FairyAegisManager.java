@@ -365,7 +365,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 		}
 
 		// 妖精さんの数を確認
-		if (this.getWorker() > fairy) {
+		if (this.getWorker() >= fairy) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":妖精さんは全員出ています．");
 			return false;
@@ -484,9 +484,9 @@ public class FairyAegisManager extends ActiveSkillManager {
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
+		this.addWorker();
 		new FairyAegisTaskRunnable(gp, block, tool, this, skill, breakMap,
 				soundflag).runTaskTimer(plugin, 20, 5);
-		this.addWorker();
 		return true;
 	}
 
