@@ -1,9 +1,7 @@
 package com.github.unchama.player.build;
 
 import java.util.LinkedHashMap;
-
 import org.bukkit.Bukkit;
-
 import com.github.unchama.event.BuildLevelUpEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
@@ -16,7 +14,7 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	// 各レベルのデータ値を格納します．
 	public static LinkedHashMap<Integer, BuildLevelData> buildlevelmap;
 	
-	public BuildLevelManager(GiganticPlayer gp){
+	public BuildLevelManager(GiganticPlayer gp) {
 		super(gp);
 	}
 	@Override
@@ -24,32 +22,31 @@ public class BuildLevelManager extends DataManager implements Initializable{
 		this.calcLevel();
 	}
 	
-	/**buildlevelmapをセットします。Enable時に1度だけ実行してください
-	 * 
+	/**レベルマップを設定します。
+	 * Enable時に1度だけ実行してください
 	 */
-	public static void setBuildLevelMap(){
+	public static void setBuildlevelmap() {
 		buildlevelmap = new LinkedHashMap<Integer, BuildLevelData>();
 		for(int level = 1; level<= 100; level++){
 			buildlevelmap.put(level, new BuildLevelData(level));
 		}
 	}
-
+	
 	/**レベルアップ可能かを調べるメソッドです
 	 * @param buildnum:建築量
 	 * @param buildlevel:建築レベル
 	 * @return
 	 */
-	public boolean canLevelup(){
+	public boolean canLevelup() {
 		double buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return (buildlevelmap.get(buildlevel).getNeed_buildblock() <= buildnum) ? true : false;
+		return (buildlevelmap.get(buildlevel + 1).getNeed_buildnum() <= buildnum) ? true : false;
 	}
 	
 	/**初期処理でプレイヤーのレベルを取得します
 	 * 
 	 */
-	public void calcLevel(){
-		this.buildlevel = 1;
-		while(canLevelup()){
+	public void calcLevel() {
+		while(canLevelup()) {
 			buildlevel++;
 		}
 	}
@@ -74,7 +71,7 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	 */
 	public double getRemainingBuildBlock(){
 		double buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return this.buildlevel < 100 ? (double)buildlevelmap.get(this.buildlevel - 1).getNext_buildblock() - buildnum: 0.0;
+		return this.buildlevel < 100 ? (double)buildlevelmap.get(this.buildlevel + 1).getNeed_buildnum() - buildnum: 0.0;
 	}
 	
 	/**現在のプレイヤーの建築レベルを取得します

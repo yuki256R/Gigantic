@@ -8,11 +8,13 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
+import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -73,6 +75,8 @@ public class GiganticPlayer{
 		PLAYERGACHA(PlayerGachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
+		HUNTINGPOINT(HuntingPointManager.class),
+		BUILDLEVEL(BuildLevelManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

@@ -161,6 +161,21 @@ name: '&5&lメインメニュー'
       - '&r&8共有されます'
   mobhead: 'pouch'
   openinventory: 'toolpouch'
+17:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&l狩りポイント'
+      lore:
+      - '&r&aMobの討伐ポイントです．'
+      - '&r討伐ポイントを使用して'
+      - '&r専用ショップで購入ができます'
+  mobhead: 'pc'
+  openmenu: 'huntmainmenu'
 23:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
