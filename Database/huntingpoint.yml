@@ -1,37 +1,36 @@
 ﻿# 狩りポイント
 
 # ポイントを放出するMOB（現在は敵MOBのみ対応）
-# huntmob: 'Zombie,Skeleton,Spider,Creeper,Enderman,Witch,Slime,Silverfish,Endermite,PigZonbie,WitherSkeleton,Blaze,Ghast,MagmaCube,Shulker,Wither,EnderDragon'
-huntmob: 
-      - 'Zombie'
-      - 'Skeleton'
-      - 'Spider'
-      - 'Creeper'
-      - 'Enderman'
-      - 'Witch'
-      - 'Slime'
-      - 'Silverfish'
-      - 'Endermite'
-      - 'PigZonbie'
-      - 'WitherSkeleton'
-      - 'Blaze'
-      - 'Ghast'
-      - 'MagmaCube'
-      - 'Shulker'
-      - 'Wither'
-      - 'EnderDragon'
+huntmob:
+      - 'Zombie : ゾンビ : pc'
+      - 'Skeleton : スケルトン : pc'
+      - 'Spider : スパイダー : pc'
+      - 'Creeper : クリーパー : pc'
+      - 'Enderman : エンダーマン : pc'
+      - 'Witch : ウィッチ : pc'
+      - 'Slime : スライム : pc'
+      - 'Silverfish : シルバーフィッシュ : pc'
+      - 'Endermite : エンダーマイト : pc'
+      - 'PigZonbie : ゾンビピッグマン : pc'
+      - 'WitherSkeleton : ウィザースケルトン : pc'
+      - 'Blaze : ブレイズ : pc'
+      - 'Ghast : ガスト : pc'
+      - 'MagmaCube : マグマキューブ : pc'
+      - 'Shulker : シュルカー : pc'
+      - 'Wither : ウィザー : pc'
+      - 'EnderDragon : エンダードラゴン : pc'
 
 # 上記の同種扱い（左辺を右辺に変換する）
-huntmob_convert: 'Husk=Zombie,CaveSpider=Spider'
+huntmob_convert:
+      - 'Husk : Zombie'
+      - 'CaveSpider : Spider'
 
 # ショップの陳列
 shop:
   Zombie:
     1:
-      category: 'CustomHead'
-      headname: 'pc'
+      category: 'ToHead'
       price: 2
-      logname: 'テスト頭'
       itemstack:
         ==: org.bukkit.inventory.ItemStack
         type: SKULL_ITEM
@@ -39,31 +38,43 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: SKULL
-          display-name: '§e§n§l%gp_name%'
+          display-name: '&e&n&lモブの頭'
           lore:
-          - '§r§c整地ワールド以外では'
-          - '§r§c整地量とガチャ券は増えません'
-          - '§r§a統計データは'
-          - '§r§a各サバイバルサーバー間で'
-          - '§r§a共有されます'
+          - '&r&c整地ワールド以外では'
+          - '&r&c整地量とガチャ券は増えません'
+          - '&r&a統計データは'
+          - '&r&a各サバイバルサーバー間で'
+          - '&r&a共有されます'
     2:
+      category: 'CustomHead'
+      headname: 'pc'
+      price: 2
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: SKULL_ITEM
+        damage: 3
+        meta:
+          ==: ItemMeta
+          meta-type: SKULL
+          display-name: '&e&n&lなんか違う頭'
+          lore:
+          - '&r&c整地ワールド以外では'
+          - '&r&c整地量とガチャ券は増えません'
+          - '&r&a統計データは'
+          - '&r&a各サバイバルサーバー間で'
+          - '&r&a共有されます'
+    3:
       category: 'Item'
       price: 1
-      logname: 'テストビーコン'
       itemstack:
         ==: org.bukkit.inventory.ItemStack
         type: BEACON
         meta:
           ==: ItemMeta
           meta-type: UNSPECIFIC
-          display-name: '§e§n§lスポーンワールドへワープ'
+          display-name: '&e&n&l特別なビーコン'
           lore:
-          - '§r§7・メインワールド'
-          - '§r§7・資源ワールド'
-          - '§r§7・整地ワールド'
-          - '§r§7・ロビーワールド'
-          - '§r§7・各サバイバルワールド'
-          - '§r§7間を移動する時に使います'
-          - '§r§4§nクリックするとワープします'
-          - '§r§8command->[/spawn]'
+          - '&r&7と見せかけた'
+          - '&r&7普通のビーコン'
+          - '&r&8command->[/spawn]'
     

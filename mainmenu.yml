@@ -155,7 +155,7 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&b&n&l狩りポイント'
+      display-name: '&e&n&l狩りポイント'
       lore:
       - '&r&aMobの討伐ポイントです．'
       - '&r討伐ポイントを使用して'

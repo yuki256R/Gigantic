@@ -27,6 +27,7 @@ import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
+import com.github.unchama.yml.HuntingPointDataManager.HuntMobBaseData;
 
 public class HuntingPointMainMenuManager extends GuiMenuManager {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
@@ -62,18 +63,19 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
-		List<String> mobNames = Gigantic.yml.getManager(
+		List<String> mobNameArray = Gigantic.yml.getManager(
+				HuntingPointDataManager.class).getMobNameArray();
+		Map<String, HuntMobBaseData> mobNames = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 
 		int count = 0;
 		// とりだしボタン
-		for (String name : mobNames) {
+		for (String name : mobNameArray) {
 			// Mobに応じた頭
-			ItemStack button = MobHead.getMobHead("zero");
+			ItemStack button = MobHead.getMobHead(mobNames.get(name).headName);
 			ItemMeta itemMeta = button.getItemMeta();
 			// モンスターの表示名
-			String dispName = name;
-			itemMeta.setDisplayName(dispName);
+			itemMeta.setDisplayName(mobNames.get(name).jpName);
 			itemMeta.setLore(Arrays.asList(
 					//
 					ChatColor.RESET + "" + ChatColor.GREEN + "累計 : "

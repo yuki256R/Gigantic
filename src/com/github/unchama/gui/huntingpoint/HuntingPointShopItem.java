@@ -1,9 +1,11 @@
 package com.github.unchama.gui.huntingpoint;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 public class HuntingPointShopItem {
 	public enum CategoryType{
+		ToHead,		//Mob毎に定められた頭
 		CustomHead,	//カスタムヘッド
 		Item,		//普通にアイテム
 		//実績
@@ -15,8 +17,8 @@ public class HuntingPointShopItem {
 	private ItemStack itemStack;
 	//値段
 	private int price;
-	//ログに流す名前
-	private String logName;
+//	//ログに流す名前
+//	private String logName;
 	//その他のデータ
 	private String meta;
 
@@ -34,16 +36,20 @@ public class HuntingPointShopItem {
 		if(price <= 0){
 			return false;
 		}
-		if(logName == null){
-			return false;
-		}
+//		if(logName == null){
+//			return false;
+//		}
 
 		return true;
 	}
 
 	//カテゴリのsetterとgetter
 	public void setCategory(String type){
+		try{
 		setCategory(CategoryType.valueOf(type));
+		}catch(IllegalArgumentException e){
+			Bukkit.getLogger().warning(type + " というCategoryTypeは存在しません．");
+		}
 	}
 	public void setCategory(CategoryType type){
 		categoryType = type;
@@ -68,13 +74,13 @@ public class HuntingPointShopItem {
 		return price;
 	}
 
-	//ログに流す名前のsetterとgetter
-	public void setLogName(String logName_){
-		logName = logName_;
-	}
-	public String getLogName(){
-		return logName;
-	}
+//	//ログに流す名前のsetterとgetter
+//	public void setLogName(String logName_){
+//		logName = logName_;
+//	}
+//	public String getLogName(){
+//		return logName;
+//	}
 
 	//その他のデータのsetterとgetter
 	public void setMeta(String meta_){
