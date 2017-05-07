@@ -153,6 +153,9 @@ public class HuntingPointDataManager extends YmlManager {
 		if (ConvertNames.containsKey(name)) {
 			ret = ConvertNames.get(name);
 		}
+		//「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
+		//SQL周りで不具合が起こるためこちらで吸い取る
+		ret = ret.replace(" ", "");
 		return ret;
 	}
 
