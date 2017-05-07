@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
+import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
@@ -73,6 +74,7 @@ public class GiganticPlayer{
 		PLAYERGACHA(PlayerGachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
+		BUILDLEVEL(BuildLevelManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
