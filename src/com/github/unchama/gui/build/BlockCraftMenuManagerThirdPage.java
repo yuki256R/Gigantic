@@ -6,16 +6,16 @@ import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.MinestackBlockCraftMenuManager;
 
-public class BlockCraftMenuManagerFirstPage extends MinestackBlockCraftMenuManager {
+public class BlockCraftMenuManagerThirdPage extends MinestackBlockCraftMenuManager {
 
 	@Override
 	public int getMenuNum() {
-		return 1;
+		return 3;
 	}
 	
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(45, GuiMenu.ManagerType.BUILDMENU);
-		if (!(max_menu_num <= this.getMenuNum())) openmap.put(53, GuiMenu.ManagerType.BLOCKCRAFTMENUSECOND);
+		openmap.put(45, GuiMenu.ManagerType.BLOCKCRAFTMENUFIRST);
 	}
+
 }

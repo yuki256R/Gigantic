@@ -26,13 +26,12 @@ import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-import com.github.unchama.yml.Yml;
 
 public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 	
 	public Map<Integer,CraftType> craftmap;
 	public List<ItemStack> skullList;
-	int max_menu_num = 0;
+	public int max_menu_num = 0;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	public MinestackBlockCraftMenuManager() {
@@ -49,10 +48,14 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
         skullList.add(MobHead.getMobHead("left"));
         skullList.add(MobHead.getMobHead("right"));
         ItemMeta meta = skullList.get(0).getItemMeta();
-        meta.setDisplayName("前のページ");
+        List<String>lore = new ArrayList<String>();
+        lore.add(ChatColor.DARK_RED + ""+ ChatColor.UNDERLINE + "クリックで移動");
+        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + ChatColor.BOLD + "前のページ");
+        meta.setLore(lore);
         skullList.get(0).setItemMeta(meta);
         meta = skullList.get(1).getItemMeta();
         meta.setDisplayName("次のページ");
+        meta.setLore(lore);
         skullList.get(1).setItemMeta(meta);
 	}
 	
@@ -69,6 +72,7 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 		//ボタンを並べる
 		for (CraftType ct : craftmap.values()) {
 			ItemStack menu_icon = ct.getMenuIconItemStack();
+			int menu_icon_amount = ct.getMenu_icon_amount();
 			ItemMeta itemmeta = menu_icon.getItemMeta();
 			String need_name = ct.getNeed_JPname();
 			String produce_name = ct.getProduce_JPname();
@@ -91,13 +95,14 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 			lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで変換");
 			itemmeta.setLore(lore);
 			menu_icon.setItemMeta(itemmeta);
+			menu_icon.setAmount(menu_icon_amount);
 			
 			inv.setItem(menu_slot, menu_icon);
 		}
 		
-		//進む・戻るボタン
+		//進む・戻るボタン(進むボタンは最終ページ以降には表示しない)
 		inv.setItem(45, skullList.get(0));
-		inv.setItem(53, skullList.get(1));
+		if (!(max_menu_num <= this.getMenuNum())) inv.setItem(53, skullList.get(1));
 		
 		return inv;
 	}
@@ -191,6 +196,12 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 		return getInventory(player, slot, this.getMenuNum());
 	}
 	  
+	/**
+	 * メニュー移動に使用します
+	 * 進むボタンの際には 
+	 * if (!(max_menu_num <= this.getMenuNum()))
+	 * を加えると見えないボタンが追加されません
+	 */
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 	}

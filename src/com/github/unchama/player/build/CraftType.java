@@ -17,6 +17,29 @@ public enum CraftType {
 	STEP3(1,2,Material.STEP,(short)0,3,StackType.STONE,1000,"石",StackType.STEP,2000,"石ハーフブロック",1),
 	STEP4(1,3,Material.STEP,(short)0,4,StackType.STONE,10000,"石",StackType.STEP,20000,"石ハーフブロック",1),
 	STEP5(1,4,Material.STEP,(short)0,5,StackType.STONE,100000,"石",StackType.STEP,200000,"石ハーフブロック",1),
+	STONEBRICK1(1,9,Material.SMOOTH_BRICK,(short)0,1,StackType.STONE,10,"石",StackType.SMOOTH_BRICK,10,"石レンガ",1),
+	STONEBRICK2(1,10,Material.SMOOTH_BRICK,(short)0,2,StackType.STONE,100,"石",StackType.SMOOTH_BRICK,100,"石レンガ",1),
+	STONEBRICK3(1,11,Material.SMOOTH_BRICK,(short)0,3,StackType.STONE,1000,"石",StackType.SMOOTH_BRICK,1000,"石レンガ",1),
+	STONEBRICK4(1,12,Material.SMOOTH_BRICK,(short)0,4,StackType.STONE,10000,"石",StackType.SMOOTH_BRICK,10000,"石レンガ",1),
+	STONEBRICK5(1,13,Material.SMOOTH_BRICK,(short)0,5,StackType.STONE,100000,"石",StackType.SMOOTH_BRICK,100000,"石レンガ",1),
+	GRANITE1(1,18,Material.STONE,(short)2,1,StackType.GRANITE,10,"花崗岩",StackType.POLISHED_GRANITE,10,"磨かれた花崗岩",2),
+	GRANITE2(1,19,Material.STONE,(short)2,2,StackType.GRANITE,100,"花崗岩",StackType.POLISHED_GRANITE,100,"磨かれた花崗岩",2),
+	GRANITE3(1,20,Material.STONE,(short)2,3,StackType.GRANITE,1000,"花崗岩",StackType.POLISHED_GRANITE,1000,"磨かれた花崗岩",2),
+	GRANITE4(1,21,Material.STONE,(short)2,4,StackType.GRANITE,10000,"花崗岩",StackType.POLISHED_GRANITE,10000,"磨かれた花崗岩",2),
+	DIORITE1(1,23,Material.STONE,(short)4,1,StackType.DIORITE,10,"閃緑岩",StackType.POLISHED_DIORITE,10,"磨かれた閃緑岩",2),
+	DIORITE2(1,24,Material.STONE,(short)4,2,StackType.DIORITE,100,"閃緑岩",StackType.POLISHED_DIORITE,100,"磨かれた閃緑岩",2),
+	DIORITE3(1,25,Material.STONE,(short)4,3,StackType.DIORITE,1000,"閃緑岩",StackType.POLISHED_DIORITE,1000,"磨かれた閃緑岩",2),
+	DIORITE4(1,26,Material.STONE,(short)4,4,StackType.DIORITE,10000,"閃緑岩",StackType.POLISHED_DIORITE,10000,"磨かれた閃緑岩",2),
+	ANDESITE1(1,27,Material.STONE,(short)6,1,StackType.ANDESITE,10,"安山岩",StackType.POLISHED_ANDESITE,10,"磨かれた安山岩",2),
+	ANDESITE2(1,28,Material.STONE,(short)6,2,StackType.ANDESITE,100,"安山岩",StackType.POLISHED_ANDESITE,100,"磨かれた安山岩",2),
+	ANDESITE3(1,29,Material.STONE,(short)6,3,StackType.ANDESITE,1000,"安山岩",StackType.POLISHED_ANDESITE,1000,"磨かれた安山岩",2),
+	ANDESITE4(1,30,Material.STONE,(short)6,4,StackType.ANDESITE,10000,"安山岩",StackType.POLISHED_ANDESITE,10000,"磨かれた安山岩",2),
+	NETHER_QUARTZ_BLOCK1(1,32,Material.QUARTZ_BLOCK,(short)0,1,StackType.QUARTZ,40,"ネザー水晶",StackType.QUARTZ_BLOCK,10,"ネザー水晶ブロック",2),
+	NETHER_QUARTZ_BLOCK2(1,33,Material.QUARTZ_BLOCK,(short)0,2,StackType.QUARTZ,400,"ネザー水晶",StackType.QUARTZ_BLOCK,100,"ネザー水晶ブロック",2),
+	NETHER_QUARTZ_BLOCK3(1,34,Material.QUARTZ_BLOCK,(short)0,3,StackType.QUARTZ,4000,"ネザー水晶",StackType.QUARTZ_BLOCK,1000,"ネザー水晶ブロック",2),
+	NETHER_QUARTZ_BLOCK4(1,35,Material.QUARTZ_BLOCK,(short)0,4,StackType.QUARTZ,40000,"ネザー水晶",StackType.QUARTZ_BLOCK,10000,"ネザー水晶ブロック",2),
+	
+							
 	;
 	
 	//メニュー番号

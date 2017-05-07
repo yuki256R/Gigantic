@@ -30,6 +30,9 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.build.BuildMenuManager;
+import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
+import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
+import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
 
 
 public final class GuiMenu {
@@ -62,6 +65,9 @@ public final class GuiMenu {
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
+		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
+		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
 
 		;
 
