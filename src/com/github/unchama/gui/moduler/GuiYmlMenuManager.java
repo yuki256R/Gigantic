@@ -264,10 +264,14 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 				skullmeta.setOwner(player.getName());
 			}
 		}
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
+		if (itemmeta.getDisplayName() != null) {
+			itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getDisplayName()));
+		}
+		if (itemmeta.getLore() != null) {
+			itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getLore()));
+		}
 
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
