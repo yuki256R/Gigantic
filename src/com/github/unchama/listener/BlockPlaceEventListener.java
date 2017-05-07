@@ -16,8 +16,8 @@ import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class BlockPlaceEventListener implements Listener {
-    Gigantic plugin = Gigantic.plugin;
+public class BlockPlaceEventListener implements Listener{
+	Gigantic plugin = Gigantic.plugin;
     DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
     @EventHandler
@@ -50,7 +50,7 @@ public class BlockPlaceEventListener implements Listener {
         	debug.sendMessage(player, DebugEnum.BUILD, ChatColor.RED + "ムムwwwwwwレベルアップ(建築レベル)  Lv." + gp.getManager(BuildLevelManager.class).getBuildLevel());
         	debug.sendMessage(player, DebugEnum.BUILD, "建築レベルアップ処理終了。");
         }
-        debug.sendMessage(player, DebugEnum.BUILD, "次のレベルまで:" + gp.getManager(BuildLevelManager.class).getRemainingBuildBlock());   
-    }     
-}		 
-    
+        debug.sendMessage(player, DebugEnum.BUILD, "次のレベルまで:" + gp.getManager(BuildLevelManager.class).getRemainingBuildBlock());
+    }
+}
+

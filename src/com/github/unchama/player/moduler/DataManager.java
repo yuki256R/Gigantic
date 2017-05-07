@@ -6,6 +6,7 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.HuntingPointDataManager;
 
 /**全てのマネージャーで必ず実装してください．
  *
@@ -17,6 +18,7 @@ public abstract class DataManager{
 	protected static Gigantic plugin = Gigantic.plugin;
 	protected static ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	protected static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	protected static HuntingPointDataManager huntingpoint = Gigantic.yml.getManager(HuntingPointDataManager.class);
 	protected GiganticPlayer gp;
 	protected boolean loaded;
 
