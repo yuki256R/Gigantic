@@ -71,7 +71,33 @@ public class MobHead {
 					"http://textures.minecraft.net/texture/233b41fa79cd53a230e2db942863843183a70404533bbc01fab744769bcb");
 			put("MHF_Creeper",
 					"http://textures.minecraft.net/texture/295ef836389af993158aba27ff37b6567185f7a721ca90fdfeb937a7cb5747");
-			// put("",
+			put("red_present",
+					"http://textures.minecraft.net/texture/f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca");
+			put("blue_bottle",
+					"http://textures.minecraft.net/texture/d5f3602ec661c7f4beec88c12a5297d877822b8861920bacf49ae2077bb2b3");
+			put("green_bottle",
+					"http://textures.minecraft.net/texture/6daaea616947e00d97f8caa358261fa83e99d65527b8ef522cceffefa38f7");
+			put("green_present",
+					"http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d");
+			put("red_house",
+					"http://textures.minecraft.net/texture/c5a35b5ca15268685c4660535e5883d21a5ec57c55d397234269acb5dc2954f");
+			put("mechanic_box",
+					"http://textures.minecraft.net/texture/23d3908722e8275ca195d2f49ed4f1c988bd27d4fc4a5993acfc392ac2c2c");
+			put("orange",
+					"http://textures.minecraft.net/texture/fba8eabaf9c34eb4b9a53199213b6657637b7a5f121986b52f7dd25a584c26d");
+			put("corn",
+					"http://textures.minecraft.net/texture/99dfac171e3c2029676ecf8d3a0fd9b7bb2857b95efdefc59e0f252576b5c68");
+			put("riceball",
+					"http://textures.minecraft.net/texture/69c2ddf2bd74a4655e8f0153a7453e67db2a21dbfac6756789481adbec483a");
+			put("grape",
+					"http://textures.minecraft.net/texture/f71cc917159f14565f6afe22b9e33d5a23e423ecd8cb5dfba0b3f66d825389ca");
+			put("tomato",
+					"http://textures.minecraft.net/texture/ec29b6926e25a7c725e959648bd4f2a8eee3f2921cbdc45d399df62786a77c");
+			put("milk_chocolate",
+					"http://textures.minecraft.net/texture/819f948d17718adace5dd6e050c586229653fef645d7113ab94d17b639cc466");
+			put("sushi_roll",
+					"http://textures.minecraft.net/texture/2e12f267953e76ae66a8dd025a3286aecbc64b4ad98eeb10b3c67a69aae15");// put("",
+			//put("",
 			// "http://textures.minecraft.net/texture/");
 		}
 	};
@@ -95,7 +121,7 @@ public class MobHead {
 		if (ans == null) {
 			Bukkit.getServer().getLogger()
 					.warning(s + "という名前のMobHeadは見つかりません．");
-			return mobMap.get("grass");
+			return mobMap.get("grass").clone();
 		} else {
 			return ans.clone();
 		}

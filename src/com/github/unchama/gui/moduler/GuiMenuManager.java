@@ -62,7 +62,7 @@ public abstract class GuiMenuManager {
 	/**プレイヤーにオープンさせる．履歴を削除したい場合はflagをtrueにする．
 	 *
 	 * @param player
-	 * @param slot
+	 * @param 前のメニューでクリックされたslot
 	 * @param clearflag
 	 */
 	public void open(Player player,int slot,boolean clearflag){
@@ -266,6 +266,16 @@ public abstract class GuiMenuManager {
 	 */
 	public boolean hasKey() {
 		return keyitem != null;
+	}
+
+
+	/**該当スロットがクリックされた時のロックする条件を記述します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public boolean islocked(Player player,int slot) {
+		return false;
 	}
 
 }

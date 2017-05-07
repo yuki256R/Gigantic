@@ -39,7 +39,7 @@ public class ToolPouchTableManager extends PlayerTableManager {
 		ToolPouchManager m = gp.getManager(ToolPouchManager.class);
 		Inventory pouch;
 		try {
-			pouch = BukkitSerialization.fromBase64(rs.getString("pouchdata").toString());
+			pouch = BukkitSerialization.getInventoryfromBase64(rs.getString("pouchdata").toString());
 			m.setPouch(pouch);
 			m.resize();
 		} catch (IOException e) {

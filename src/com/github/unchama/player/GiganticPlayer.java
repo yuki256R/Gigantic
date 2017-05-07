@@ -10,7 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.fly.FlyManager;
-import com.github.unchama.player.gacha.GachaManager;
+import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
@@ -71,7 +71,7 @@ public class GiganticPlayer{
 		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
-		GACHA(GachaManager.class),
+		PLAYERGACHA(PlayerGachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
 		HUNTINGPOINT(HuntingPointManager.class),
@@ -104,7 +104,7 @@ public class GiganticPlayer{
 	public GiganticPlayer(Player player){
 		this.name = Converter.toString(player);
 		this.uuid = player.getUniqueId();
-		this.setStatus(GiganticStatus.LODING);;
+		this.setStatus(GiganticStatus.LODING);
 		for(ManagerType mt : ManagerType.values()){
 			try {
 				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
