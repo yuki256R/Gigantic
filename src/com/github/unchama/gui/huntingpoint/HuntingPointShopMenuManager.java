@@ -6,14 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -36,6 +35,9 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 	// 戻るボタン
 	private ItemStack backButton;
 	private final int backButtonSlot = 27;
+
+	// 情報ボタンの位置
+	private final int infoButtonSlot = 0;
 
 	private Map<Integer, HuntingPointShopItem> buyItems = new HashMap<Integer, HuntingPointShopItem>();
 
@@ -71,23 +73,23 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		// 所持ポイント表示
 		// Mobに応じた頭
 		ItemStack info = MobHead.getMobHead(mobData.headName);
-		ItemMeta itemMeta = info.getItemMeta();
-		itemMeta.setDisplayName(ChatColor.GREEN + mobData.jpName + "の討伐P");
-		itemMeta.setLore(Arrays.asList(
+		ItemMeta skullItemMeta = info.getItemMeta();
+		skullItemMeta.setDisplayName(ChatColor.GREEN + mobData.jpName + "の討伐P");
+		skullItemMeta.setLore(Arrays.asList(
 				ChatColor.RESET + "" + ChatColor.GREEN + "累計 : "
 						+ manager.getTotalPoint(name) + " P",//
 				ChatColor.RESET + "" + ChatColor.GREEN + "現在 : "
 						+ manager.getCurrentPoint(name) + " P"//
 		));
-		info.setItemMeta(itemMeta);
-		inv.setItem(0, info);
+		info.setItemMeta(skullItemMeta);
+		inv.setItem(infoButtonSlot, info);
 
 		int setSlot = 1;
 		// 商品
 		for (HuntingPointShopItem shopItem : shopItems) {
 			// Mobに応じた頭
 			ItemStack button = shopItem.getItemStack();
-			itemMeta = this.getItemMeta(player, 0, button);
+			ItemMeta itemMeta = this.getItemMeta(player, 0, button);
 			itemMeta.setLore(Arrays.asList(//
 					ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
 							+ shopItem.getPrice() + " P",//
@@ -148,9 +150,9 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		HuntMobBaseData mobData = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobData(name);
 		player.sendMessage("[" + mobData.jpName + "]を購入しました.");
-		getInventory(player, slot);
+		player.openInventory(getInventory(player, slot));
 
-		return false;
+		return true;
 	}
 
 	@Override
@@ -197,12 +199,17 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		ItemMeta itemmeta = itemstack.getItemMeta();
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
+		if (itemmeta.getDisplayName() != null) {
+			itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getDisplayName()));
+		}
+		if (itemmeta.getLore() != null) {
+			itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getLore()));
+		}
 
-		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
+		// itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,
+		// ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
 	}
 

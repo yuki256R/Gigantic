@@ -1,24 +1,26 @@
 ﻿# 狩りポイント
 
 # ポイントを放出するMOB（現在は敵MOBのみ対応）
+# 対象のMob名 : 日本語名 : MobHeadクラスで呼び出す頭の名前
 huntmob:
-      - 'Zombie : ゾンビ : pc'
-      - 'Skeleton : スケルトン : pc'
-      - 'Spider : スパイダー : pc'
-      - 'Creeper : クリーパー : pc'
-      - 'Enderman : エンダーマン : pc'
-      - 'Witch : ウィッチ : pc'
-      - 'Slime : スライム : pc'
-      - 'Silverfish : シルバーフィッシュ : pc'
-      - 'Endermite : エンダーマイト : pc'
-      - 'PigZonbie : ゾンビピッグマン : pc'
-      - 'WitherSkeleton : ウィザースケルトン : pc'
-      - 'Blaze : ブレイズ : pc'
-      - 'Ghast : ガスト : pc'
-      - 'MagmaCube : マグマキューブ : pc'
-      - 'Shulker : シュルカー : pc'
-      - 'Wither : ウィザー : pc'
-      - 'EnderDragon : エンダードラゴン : pc'
+      - 'Zombie : ゾンビ : MHF_Zombie'
+      - 'Skeleton : スケルトン : MHF_Skeleton'
+      - 'Spider : スパイダー : two'
+      - 'Creeper : クリーパー : MHF_Creeper'
+      - 'Enderman : エンダーマン : four'
+      - 'Witch : ウィッチ : five'
+      - 'Guardian : ガーディアン : six'
+      - 'Slime : スライム : seven'
+      - 'Silverfish : シルバーフィッシュ : eight'
+      - 'Endermite : エンダーマイト : nine'
+      - 'PigZonbie : ゾンビピッグマン : zero'
+      - 'WitherSkeleton : ウィザースケルトン : MHF_WSkeleton'
+      - 'Blaze : ブレイズ : two'
+      - 'Ghast : ガスト : three'
+      - 'MagmaCube : マグマキューブ : four'
+      - 'Shulker : シュルカー : five'
+      - 'Wither : ウィザー : six'
+      - 'EnderDragon : エンダードラゴン : seven'
 
 # 上記の同種扱い（左辺を右辺に変換する）
 huntmob_convert:
@@ -77,4 +79,53 @@ shop:
           - '&r&7と見せかけた'
           - '&r&7普通のビーコン'
           - '&r&8command->[/spawn]'
+  Skeleton:
+    1:
+      category: 'Item'
+      price: 1
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: BEACON
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '&e&n&l特別なビーコン'
+          lore:
+          - '&r&7と見せかけた'
+          - '&r&7普通のビーコン'
+    2:
+      category: 'CustomHead'
+      headname: 'pc'
+      price: 2
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: SKULL_ITEM
+        damage: 3
+        meta:
+          ==: ItemMeta
+          meta-type: SKULL
+          display-name: '&e&n&lなんか違う頭'
+          lore:
+          - '&r&c整地ワールド以外では'
+          - '&r&c整地量とガチャ券は増えません'
+          - '&r&a統計データは'
+          - '&r&a各サバイバルサーバー間で'
+          - '&r&a共有されます'
+    3:
+      category: 'ToHead'
+      price: 2
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: SKULL_ITEM
+        damage: 3
+        meta:
+          ==: ItemMeta
+          meta-type: SKULL
+          display-name: '&e&n&lモブの頭'
+          lore:
+          - '&r&c整地ワールド以外では'
+          - '&r&c整地量とガチャ券は増えません'
+          - '&r&a統計データは'
+          - '&r&a各サバイバルサーバー間で'
+          - '&r&a共有されます'
     

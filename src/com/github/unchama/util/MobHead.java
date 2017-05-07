@@ -13,13 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-/**Mobheadの追加方法
- * 1.giveコマンドで使われるvalue:以降のデータをコピー（以下，素材集リンク）
- * http://heads.freshcoal.com/maincollection.php
- * http://www.freshcoal.com/heads/
+/**
+ * Mobheadの追加方法 1.giveコマンドで使われるvalue:以降のデータをコピー（以下，素材集リンク）
+ * http://heads.freshcoal.com/maincollection.php http://www.freshcoal.com/heads/
  *
- * 2.コピーしたデータを以下URLでデコード
- * https://www.base64decode.org/
+ * 2.コピーしたデータを以下URLでデコード https://www.base64decode.org/
  *
  * 3.得られたurlをURLMAPの初期化処理内に追加
  *
@@ -65,6 +63,16 @@ public class MobHead {
 					"http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3");
 			put("pc",
 					"http://textures.minecraft.net/texture/8d19c68461666aacd7628e34a1e2ad39fe4f2bde32e231963ef3b35533");
+			put("MHF_Zombie",
+					"http://textures.minecraft.net/texture/56fc854bb84cf4b7697297973e02b79bc10698460b51a639c60e5e417734e11");
+			put("MHF_Skeleton",
+					"http://textures.minecraft.net/texture/2e5be6a3c0159d2c1f3b1e4e1d8384b6f7ebac993d58b10b9f8989c78a232");
+			put("MHF_WSkeleton",
+					"http://textures.minecraft.net/texture/233b41fa79cd53a230e2db942863843183a70404533bbc01fab744769bcb");
+			put("MHF_Creeper",
+					"http://textures.minecraft.net/texture/295ef836389af993158aba27ff37b6567185f7a721ca90fdfeb937a7cb5747");
+			// put("",
+			// "http://textures.minecraft.net/texture/");
 		}
 	};
 
@@ -89,7 +97,7 @@ public class MobHead {
 					.warning(s + "という名前のMobHeadは見つかりません．");
 			return mobMap.get("grass");
 		} else {
-			return ans;
+			return ans.clone();
 		}
 	}
 
@@ -110,6 +118,11 @@ public class MobHead {
 	 * @param url
 	 */
 	public static void setURL(ItemStack skull, String url) {
+		// 不正なURLをセットすると、表示したクライアントがクラッシュするため
+		if (url == null || !URLMap.containsValue(url)) {
+			return;
+		}
+
 		ItemMeta meta = skull.getItemMeta();
 		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
 		byte[] encodedData = Base64.getEncoder()

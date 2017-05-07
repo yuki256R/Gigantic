@@ -36,7 +36,7 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 	private ItemStack backButton;
 	private final int backButtonSlot = 27;
 
-	//どのMobのショップを開くか
+	// どのMobのショップを開くか
 	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
 
 	public HuntingPointMainMenuManager() {
@@ -69,13 +69,15 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 				HuntingPointDataManager.class).getMobNames();
 
 		int count = 0;
-		// とりだしボタン
+		// 各MOB
 		for (String name : mobNameArray) {
 			// Mobに応じた頭
 			ItemStack button = MobHead.getMobHead(mobNames.get(name).headName);
 			ItemMeta itemMeta = button.getItemMeta();
 			// モンスターの表示名
-			itemMeta.setDisplayName(mobNames.get(name).jpName);
+			itemMeta.setDisplayName(ChatColor.RESET + ""
+					+ ChatColor.GOLD + "" + ChatColor.UNDERLINE
+					+ "" + ChatColor.BOLD + mobNames.get(name).jpName);
 			itemMeta.setLore(Arrays.asList(
 					//
 					ChatColor.RESET + "" + ChatColor.GREEN + "累計 : "
@@ -98,7 +100,7 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	public void closeByOpenMenu(Player player, MenuClickEvent event){
+	public void closeByOpenMenu(Player player, MenuClickEvent event) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 		manager.setShopMobName(shopMobNames.get(event.getSlot()));
@@ -111,16 +113,18 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		//ショップを開く
-		//起動時になぜかここを通るためnullチェック
-		if(shopMobNames != null){
-			for(int slot : shopMobNames.keySet()){
-				openmap.put(slot, GuiMenu.ManagerType.getTypebyClass(HuntingPointShopMenuManager.class));
+		// ショップを開く
+		// 起動時になぜかここを通るためnullチェック
+		if (shopMobNames != null) {
+			for (int slot : shopMobNames.keySet()) {
+				openmap.put(slot, GuiMenu.ManagerType
+						.getTypebyClass(HuntingPointShopMenuManager.class));
 			}
 		}
 
-		//戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot, GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
+		// 戻るボタンでメインメニューを開く
+		openmap.put(backButtonSlot,
+				GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
 	}
 
 	@Override
