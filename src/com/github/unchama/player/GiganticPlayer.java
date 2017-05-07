@@ -74,6 +74,7 @@ public class GiganticPlayer{
 		GACHA(GachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
+		BUILDLEVEL(BuildLevelManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

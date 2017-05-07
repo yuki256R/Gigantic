@@ -82,8 +82,7 @@ public class BuildMenuManager extends GuiMenuManager{
 	}
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		ManagerType mt = GuiMenu.ManagerType.BLOCKCRAFTMENU1;
-		openmap.put(35, mt);
+		openmap.put(35, GuiMenu.ManagerType.BLOCKCRAFTMENUFIRST);
 	}
 
 	@Override

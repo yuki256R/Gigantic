@@ -3,6 +3,8 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
+import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
 import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
 import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
@@ -27,7 +29,6 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.build.BuildMenuManager;
-import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
 
 
 public final class GuiMenu {
@@ -55,8 +56,9 @@ public final class GuiMenu {
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
 		BUILDMENU(BuildMenuManager.class),
-		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
 		REGIONMENU(RegionMenuManager.class),
+		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
+		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		;
 
 		// 使用するManagerClass
