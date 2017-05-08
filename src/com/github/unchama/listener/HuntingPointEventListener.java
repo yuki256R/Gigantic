@@ -4,14 +4,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
-import com.github.unchama.raidhunting.RaidHuntingManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.github.unchama.yml.HuntingPointDataManager;
@@ -48,7 +46,7 @@ public class HuntingPointEventListener implements Listener {
 		} else {
 			message += " 要らない子";
 		}
-event.getEventName()
+
 		// ポイントの追加
 		int addPoint = 1;
 

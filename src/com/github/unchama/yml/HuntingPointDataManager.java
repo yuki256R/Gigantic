@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gui.huntingpoint.HuntingPointShopItem;
@@ -26,7 +27,7 @@ public class HuntingPointDataManager extends YmlManager {
 	static Map<String, List<HuntingPointShopItem>> shopItems;
 
 	static Map<String, HuntMobBaseData> MobNames;
-	//Map.keysetで回すと順番が変わるため
+	// Map.keysetで回すと順番が変わるため
 	static List<String> MobNameArray;
 
 	static Map<String, String> ConvertNames;
@@ -47,15 +48,21 @@ public class HuntingPointDataManager extends YmlManager {
 	// ymlファイルからデータを取りなおす
 	public void reload() {
 		// ドロップ対象のMob名
-		MobNames = new HashMap<String, HuntMobBaseData>();
 		MobNameArray = new ArrayList<String>();
-		List<String> baseData = this.fc.getStringList("huntmob");
-		for (String data : baseData) {
-			String[] d = data.split(" : ");
-			if (d.length == 3) {
-				MobNameArray.add(d[0]);
-				MobNames.put(d[0], new HuntMobBaseData(d[1], d[2]));
+
+		// 表示データ
+		ConfigurationSection basedata = this.fc
+				.getConfigurationSection("mobdata");
+		MobNames = new HashMap<String, HuntMobBaseData>();
+		for (String name : basedata.getKeys(false)) {
+			if (this.fc.getBoolean("mobdata." + name + ".target")) {
+				MobNameArray.add(name);
 			}
+
+			String jpname = this.fc.getString("mobdata." + name + ".jpname");
+			String headname = this.fc
+					.getString("mobdata." + name + ".headname");
+			MobNames.put(name, new HuntMobBaseData(jpname, headname));
 		}
 
 		// 同種判定のリスト
@@ -113,8 +120,8 @@ public class HuntingPointDataManager extends YmlManager {
 				MobHead.setURL(item, url);
 				break;
 			case CustomHead:
-				url = MobHead.getMobURL(this.fc.getString(path
-						+ ".headname", ""));
+				url = MobHead.getMobURL(this.fc.getString(path + ".headname",
+						""));
 				MobHead.setURL(item, url);
 				break;
 			case Item:
@@ -153,8 +160,8 @@ public class HuntingPointDataManager extends YmlManager {
 		if (ConvertNames.containsKey(name)) {
 			ret = ConvertNames.get(name);
 		}
-		//「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
-		//SQL周りで不具合が起こるためこちらで吸い取る
+		// 「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
+		// SQL周りで不具合が起こるためこちらで吸い取る
 		ret = ret.replace(" ", "");
 		return ret;
 	}
@@ -167,7 +174,7 @@ public class HuntingPointDataManager extends YmlManager {
 		return MobNames.get(name);
 	}
 
-	public List<String> getMobNameArray(){
+	public List<String> getMobNameArray() {
 		return MobNameArray;
 	}
 }
