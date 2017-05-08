@@ -24,19 +24,23 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.MobHead;
-/**Ymlから編集できるようにしたMenuClass
+import com.github.unchama.yml.DebugManager.DebugEnum;
+
+/**
+ * Ymlから編集できるようにしたMenuClass
  *
  * @author tar0ss
  *
  */
-public abstract class GuiYmlMenuManager extends GuiMenuManager{
+public abstract class GuiYmlMenuManager extends GuiMenuManager {
 	private File file;
 	private String filename;
 	protected FileConfiguration fc;
 
-	public GuiYmlMenuManager(){
+	public GuiYmlMenuManager() {
 		super();
 		this.plugin = Gigantic.plugin;
 		this.filename = GuiMenu.ManagerType.getMenuNamebyClass(this.getClass());
@@ -46,7 +50,8 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 		setKeyItem();
 		setOpenMenuMap(openmap);
 		setIDMap(id_map);
-		}
+	}
+
 	/**
 	 * デフォルトのファイルを生成します
 	 *
@@ -56,6 +61,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 			plugin.saveResource(filename, false);
 		}
 	}
+
 	/**
 	 * データフォルダーにあるfileを読み込みます
 	 *
@@ -64,6 +70,39 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	 */
 	private FileConfiguration loadFile() {
 		return YamlConfiguration.loadConfiguration(file);
+	}
+
+	@Override
+	public boolean islocked(Player player,int slot) {
+		boolean perm = this.fc.getBoolean(Integer.toString(slot) + ".onlyop");
+		if (perm) {
+			if (!player.isOp()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public void open(Player player, int slot, boolean clearflag) {
+		boolean perm = this.fc.getBoolean(Integer.toString(slot) + ".onlyop");
+		if (perm) {
+			if (!player.isOp()) {
+				return;
+			}
+		}
+		player.openInventory(this.getInventory(player, slot));
+		// 開く音を再生
+		player.playSound(player.getLocation(), getSoundName(), getVolume(),
+				getPitch());
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		PlayerMenuManager m = gp.getManager(PlayerMenuManager.class);
+		if (clearflag) {
+			m.clear();
+		}
+		debug.sendMessage(player, DebugEnum.GUI, getInventoryName(player)
+				+ ChatColor.RESET + "を開きます．");
+		m.push(ManagerType.getTypebyClass(this.getClass()));
 	}
 
 	@Override
@@ -96,8 +135,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 			if (menu != null) {
 				ManagerType mt;
 				try {
-					mt = GuiMenu.ManagerType.valueOf(menu.toUpperCase())
-							;
+					mt = GuiMenu.ManagerType.valueOf(menu.toUpperCase());
 					openmap.put(new Integer(i), mt);
 				} catch (IllegalArgumentException e) {
 					Bukkit.getLogger().warning(menu + " というメニューは存在しません．");
@@ -105,14 +143,16 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 			}
 		}
 	}
+
 	@Override
 	protected void setIDMap(HashMap<Integer, String> methodmap) {
 		for (int i = 0; i < this.getInventorySize(); i++) {
-			String name = this.fc.getString(Integer.toString(i) + ".openinventory");
+			String name = this.fc.getString(Integer.toString(i)
+					+ ".openinventory");
 			if (name == null) {
 				continue;
 			}
-			switch(name){
+			switch (name) {
 			case "toolpouch":
 				methodmap.put(i, "openToolPouch");
 				break;
@@ -128,7 +168,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 			if (name == null) {
 				continue;
 			}
-			switch(name){
+			switch (name) {
 			case "fastcraft":
 				methodmap.put(i, "commandFastCraft");
 				break;
@@ -140,31 +180,37 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 			}
 		}
 	}
+
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		switch(identifier){
+		switch (identifier) {
 		case "openToolPouch":
 			gp.getManager(ToolPouchManager.class).open(player);
 			return true;
 		case "openGarbageCan":
-			player.openInventory(Bukkit.createInventory(player, 54, ChatColor.RED + "" + ChatColor.BOLD + "ゴミ箱(取扱注意)"));
-			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1, (float) 1.5);
+			player.openInventory(Bukkit.createInventory(player, 54,
+					ChatColor.RED + "" + ChatColor.BOLD + "ゴミ箱(取扱注意)"));
+			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1,
+					(float) 1.5);
 			return true;
 		case "commandFastCraft":
 			player.closeInventory();
-			player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+			player.playSound(player.getLocation(),
+					Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
 			player.chat("/fc craft");
 			return true;
 		case "commandSpawn":
 			player.closeInventory();
-			player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+			player.playSound(player.getLocation(),
+					Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
 			player.chat("/spawn");
 			return true;
 		default:
 			return false;
 		}
 	}
+
 	@Override
 	public String getClickType() {
 		return this.fc.getString("click");
@@ -205,7 +251,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	@Override
 	protected ItemMeta getItemMeta(Player player, int i, ItemStack itemstack) {
 		String mobhead = this.fc.getString(i + ".mobhead");
-		if(mobhead != null){
+		if (mobhead != null) {
 			String url = MobHead.getMobURL(mobhead);
 			MobHead.setURL(itemstack, url);
 		}
@@ -213,15 +259,19 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		Boolean b = this.fc.getBoolean(i + ".isSkullofOwner");
 		if (b != null) {
-			if(b && itemmeta instanceof SkullMeta){
+			if (b && itemmeta instanceof SkullMeta) {
 				SkullMeta skullmeta = (SkullMeta) itemmeta;
 				skullmeta.setOwner(player.getName());
 			}
 		}
-		itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getDisplayName()));
-		itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
-				itemmeta.getLore()));
+		if (itemmeta.getDisplayName() != null) {
+			itemmeta.setDisplayName(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getDisplayName()));
+		}
+		if (itemmeta.getLore() != null) {
+			itemmeta.setLore(PlaceholderAPI.setPlaceholders(player,
+					itemmeta.getLore()));
+		}
 
 		itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
@@ -229,6 +279,14 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 
 	@Override
 	protected ItemStack getItemStack(Player player, int i) {
+		boolean perm = this.fc.getBoolean(Integer.toString(i) + ".onlyop");
+
+		if (perm) {
+			if (!player.isOp()) {
+				return null;
+			}
+		}
+
 		String s = Integer.toString(i) + ".itemstack";
 		ItemStack tmp = this.fc.getItemStack(s);
 		ItemStack itemstack = tmp != null ? new ItemStack(tmp) : null;
@@ -250,7 +308,5 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager{
 	public float getPitch() {
 		return (float) this.fc.getDouble("sound.pitch");
 	}
-
-
 
 }

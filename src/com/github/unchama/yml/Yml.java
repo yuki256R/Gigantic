@@ -19,6 +19,7 @@ public final class Yml {
 	public static enum ManagerType {
 		CONFIG(ConfigManager.class),
 		DEBUG(DebugManager.class),
+		HUNTINGPOINT(HuntingPointDataManager.class),
 		;
 		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;

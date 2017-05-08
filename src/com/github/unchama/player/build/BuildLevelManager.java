@@ -14,24 +14,20 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	//建築レベル
 	private int buildlevel;
 	// 各レベルのデータ値を格納します．
-	public static LinkedHashMap<Integer, BuildLevelData> buildlevelmap;
-	
-	public BuildLevelManager(GiganticPlayer gp){
+	public static LinkedHashMap<Integer, BuildLevelData> buildlevelmap = new LinkedHashMap<Integer, BuildLevelData>(){
+		{
+			for(int level = 1; level<= 100; level++){
+				put(level, new BuildLevelData(level));
+			}
+		}
+	};
+
+	public BuildLevelManager(GiganticPlayer gp) {
 		super(gp);
 	}
 	@Override
 	public void init() {
 		this.calcLevel();
-	}
-	
-	/**buildlevelmapをセットします。Enable時に1度だけ実行してください
-	 * 
-	 */
-	public static void setBuildLevelMap(){
-		buildlevelmap = new LinkedHashMap<Integer, BuildLevelData>();
-		for(int level = 1; level<= 100; level++){
-			buildlevelmap.put(level, new BuildLevelData(level));
-		}
 	}
 
 	/**レベルアップ可能かを調べるメソッドです
@@ -39,23 +35,22 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	 * @param buildlevel:建築レベル
 	 * @return
 	 */
-	public boolean canLevelup(){
+	public boolean canLevelup() {
 		double buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return (buildlevelmap.get(buildlevel).getNeed_buildblock() <= buildnum) ? true : false;
+		return (buildlevelmap.get(buildlevel + 1).getNeed_buildnum() <= buildnum) ? true : false;
 	}
-	
+
 	/**初期処理でプレイヤーのレベルを取得します
-	 * 
+	 *
 	 */
-	public void calcLevel(){
-		this.buildlevel = 1;
-		while(canLevelup()){
+	public void calcLevel() {
+		while(canLevelup()) {
 			buildlevel++;
 		}
 	}
-	
+
 	/**レベルが上がるまで、レベルデータを更新します
-	 * 
+	 *
 	 * @return 1でも上がったらtrue
 	 */
 	public boolean updateLevel(){
@@ -67,18 +62,18 @@ public class BuildLevelManager extends DataManager implements Initializable{
 		}
 		return changeflag;
 	}
-	
+
 	/**レベルアップまでに必要な建築量を取得します
-	 * 
+	 *
 	 * @return
 	 */
 	public double getRemainingBuildBlock(){
 		double buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return this.buildlevel < 100 ? (double)buildlevelmap.get(this.buildlevel - 1).getNext_buildblock() - buildnum: 0.0;
+		return this.buildlevel < 100 ? (double)buildlevelmap.get(this.buildlevel + 1).getNeed_buildnum() - buildnum: 0.0;
 	}
-	
+
 	/**現在のプレイヤーの建築レベルを取得します
-	 * 
+	 *
 	 * @return
 	 */
 	public int getBuildLevel(){
