@@ -20,7 +20,6 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.task.TimeTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.Yml;
-import com.github.unchama.player.build.BuildLevelManager;
 
 public final class Gigantic extends JavaPlugin {
 
@@ -64,9 +63,6 @@ public final class Gigantic extends JavaPlugin {
 			seichisql = new SeichiAssistSql();
 		}
 
-		//建築レベル用Mapの初期化操作
-		BuildLevelManager.setBuildlevelmap();
-		
 		maintenance = new Maintenance();
 
 		// ユーザーに対する処理
