@@ -55,7 +55,6 @@ public class SideBarManager extends DataManager implements Initializable,
 				SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
 				gp.getManager(MineBoostManager.class).getBoostLv());
-		updateInfo(Information.BUILDING_LEVEL, 99);
 		updateInfo(Information.SEPARATOR1, "");
 		updateInfo(Information.EX_COOLTIME, "%DELETE%");
 		updateInfo(Information.MD_COOLTIME, "%DELETE%");
@@ -97,11 +96,10 @@ public class SideBarManager extends DataManager implements Initializable,
 		 */
 		SEICHI_LEVEL(ChatColor.GREEN + "整地Lv: ", 14), MINE_BLOCK(
 				ChatColor.DARK_GREEN + "次のLvまで:", 13), MINING_SPEED(
-				ChatColor.GREEN + "採掘速度: ", 12), BUILDING_LEVEL(ChatColor.GREEN
-				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
-				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
-				+ "Explosion:", 9), MD_COOLTIME(ChatColor.BLUE + "MagicDrive:",
-				8),FA_FAIRY(ChatColor.GREEN + "FairyAegis:",7),
+				ChatColor.GREEN + "採掘速度: ", 12),SEPARATOR1(ChatColor.YELLOW
+				+ "===============", 11), EX_COOLTIME(ChatColor.GREEN
+				+ "Explosion:", 10), MD_COOLTIME(ChatColor.BLUE + "MagicDrive:",
+				9),FA_FAIRY(ChatColor.GREEN + "FairyAegis:",8),
 
 		;
 
