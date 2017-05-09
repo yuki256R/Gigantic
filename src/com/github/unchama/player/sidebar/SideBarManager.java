@@ -13,11 +13,11 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineboost.MineBoostManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.util.Util;
 
 public class SideBarManager extends DataManager implements Initializable,
@@ -54,12 +54,11 @@ public class SideBarManager extends DataManager implements Initializable,
 		updateInfo(Information.MINE_BLOCK, Util.Decimal(gp.getManager(
 				SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
-				gp.getManager(MineBoostManager.class).boostlevel);
-		updateInfo(Information.BUILDING_LEVEL, 99);
+				gp.getManager(MineBoostManager.class).getBoostLv());
 		updateInfo(Information.SEPARATOR1, "");
 		updateInfo(Information.EX_COOLTIME, "%DELETE%");
 		updateInfo(Information.MD_COOLTIME, "%DELETE%");
-		updateInfo(Information.C_COOLTIME, "%DELETE%");
+		updateInfo(Information.FA_FAIRY, "%DELETE%");
 
 		// 更新をサイドバーに反映
 		refresh();
@@ -97,11 +96,10 @@ public class SideBarManager extends DataManager implements Initializable,
 		 */
 		SEICHI_LEVEL(ChatColor.GREEN + "整地Lv: ", 14), MINE_BLOCK(
 				ChatColor.DARK_GREEN + "次のLvまで:", 13), MINING_SPEED(
-				ChatColor.GREEN + "採掘速度: ", 12), BUILDING_LEVEL(ChatColor.GREEN
-				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
-				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
-				+ "Explosion:", 9), MD_COOLTIME(ChatColor.BLUE + "MagicDrive:",
-				8), C_COOLTIME(ChatColor.RED + "Condensation:", 7),
+				ChatColor.GREEN + "採掘速度: ", 12),SEPARATOR1(ChatColor.YELLOW
+				+ "===============", 11), EX_COOLTIME(ChatColor.GREEN
+				+ "Explosion:", 10), MD_COOLTIME(ChatColor.BLUE + "MagicDrive:",
+				9),FA_FAIRY(ChatColor.GREEN + "FairyAegis:",8),
 
 		;
 

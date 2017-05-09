@@ -12,6 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
@@ -52,15 +53,16 @@ public abstract class GuiMenuManager {
 	public GuiMenuManager() {
 		if (!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())) {
 			setOpenMenuMap(openmap);
+			setIDMap(id_map);
 		}
-		setIDMap(id_map);
+
 	}
 
 
 	/**プレイヤーにオープンさせる．履歴を削除したい場合はflagをtrueにする．
 	 *
 	 * @param player
-	 * @param slot
+	 * @param 前のメニューでクリックされたslot
 	 * @param clearflag
 	 */
 	public void open(Player player,int slot,boolean clearflag){
@@ -76,6 +78,15 @@ public abstract class GuiMenuManager {
 				getInventoryName(player) + ChatColor.RESET
 						+ "を開きます．");
 		m.push(ManagerType.getTypebyClass(this.getClass()));
+	}
+
+	/**メニューを開くことによって今のメニューが閉じるときの処理
+	 *
+	 * @param player
+	 * @param event
+	 */
+	public void closeByOpenMenu(Player player, MenuClickEvent event){
+
 	}
 
 
@@ -255,6 +266,16 @@ public abstract class GuiMenuManager {
 	 */
 	public boolean hasKey() {
 		return keyitem != null;
+	}
+
+
+	/**該当スロットがクリックされた時のロックする条件を記述します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public boolean islocked(Player player,int slot) {
+		return false;
 	}
 
 }

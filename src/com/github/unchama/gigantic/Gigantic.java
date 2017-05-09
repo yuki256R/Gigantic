@@ -1,19 +1,20 @@
 package com.github.unchama.gigantic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.command.CommandType;
+import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
-import com.github.unchama.player.build.BuildLevelManager;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.task.TimeTaskRunnable;
@@ -28,8 +29,11 @@ public final class Gigantic extends JavaPlugin {
 	// Ymlデータ用クラス
 	public static Yml yml;
 
-	//Menuデータ用クラス
+	// Menuデータ用クラス
 	public static GuiMenu guimenu;
+
+	// Gachaデータ用クラス
+	public static Gacha gacha;
 
 	// メンテナンス用クラス
 	public static Maintenance maintenance;
@@ -39,8 +43,8 @@ public final class Gigantic extends JavaPlugin {
 
 	// SeichiAssistSql用クラス
 	public static SeichiAssistSql seichisql;
-	// タスク用クラス
-	public static BukkitTask task;
+
+	public static List<Block> skilledblocklist = new ArrayList<Block>();
 
 	@Override
 	public void onEnable() {
@@ -48,6 +52,8 @@ public final class Gigantic extends JavaPlugin {
 		plugin = this;
 		// 必ず最初にymlデータを読み込む
 		yml = new Yml();
+		// Guimenuを読み込む前にガチャのインスタンスを生成
+		gacha = new Gacha();
 		// 必ず最初にmenuデータを読み込む
 		guimenu = new GuiMenu();
 		// ymlの次に必ずsqlを読み込む
@@ -56,10 +62,6 @@ public final class Gigantic extends JavaPlugin {
 		if (yml.getManager(ConfigManager.class).getOldDataFlag()) {
 			seichisql = new SeichiAssistSql();
 		}
-		// sqlの次に必ず初期化を行う
-		SeichiLevelManager.setLevelMap();
-		//buildlevelmapの初期化
-		BuildLevelManager.setBuildLevelMap();
 
 		maintenance = new Maintenance();
 
@@ -67,8 +69,7 @@ public final class Gigantic extends JavaPlugin {
 		PlayerManager.onEnable();
 
 		// 1秒毎にタスクを実行
-		task = new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 40,
-				20);
+		new TimeTaskRunnable(plugin).runTaskTimerAsynchronously(this, 40, 20);
 
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
@@ -85,13 +86,18 @@ public final class Gigantic extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		// taskを終了
-		task.cancel();
+		Bukkit.getScheduler().cancelTasks(plugin);
 
 		// Userdata保存処理
 		PlayerManager.onDisable();
 
 		// sql接続終了処理
 		sql.onDisable();
+
+		skilledblocklist.forEach((b) -> {
+			b.setType(Material.AIR);
+			b.removeMetadata("Skilled", plugin);
+		});
 
 		getLogger().info("SeichiAssist is Disabled!");
 	}
@@ -106,7 +112,8 @@ public final class Gigantic extends JavaPlugin {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd,
 			String label, String[] args) {
-		return CommandType.getCommandbyName(cmd.getName()).onTabComplete(sender, cmd, label, args);
+		return CommandType.getCommandbyName(cmd.getName()).onTabComplete(
+				sender, cmd, label, args);
 	}
 
 }

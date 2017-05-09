@@ -3,6 +3,7 @@ package com.github.unchama.listener;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.Inventory;
@@ -25,20 +26,24 @@ public class MenuClickListener implements Listener{
 	public void openMenu(MenuClickEvent event){
 		if(!event.getClick().equals(ClickType.LEFT))return;
 		Player player = event.getPlayer();
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GuiMenu.ManagerType mt = event.getManagerType();
 		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt
 				.getManagerClass());
 		int slot = event.getSlot();
 
+		if(m.islocked(player,slot)){
+			return;
+		}
+
 		ManagerType omt = m.getMenuManager(slot);
 		if(omt == null){
 			return;
 		}
+		m.closeByOpenMenu(player, event);
 
 		GuiMenuManager om = (GuiMenuManager) guimenu.getManager(omt.getManagerClass());
 		om.open(player, slot, false);
-		
+		event.setCancelled(true);
 	}
 
 	@EventHandler
@@ -58,12 +63,14 @@ public class MenuClickListener implements Listener{
 			}
 			GuiMenuManager bm = (GuiMenuManager) guimenu.getManager(pm.get().getManagerClass());
 			player.openInventory(bm.getInventory(player, 0));
+			event.setCancelled(true);
 			return;
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void runMethod(MenuClickEvent event){
+		if(event.isCancelled())return;
 		Player player = event.getPlayer();
 		GuiMenu.ManagerType mt = event.getManagerType();
 		GuiMenuManager m = (GuiMenuManager) guimenu.getManager(mt

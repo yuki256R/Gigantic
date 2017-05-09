@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.seichiskill.CondensationManager;
+import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
@@ -34,8 +34,8 @@ public class CondensationTableManager extends PlayerTableManager{
 	@Override
 	protected boolean newPlayer(GiganticPlayer gp) {
 		CondensationManager m = gp.getManager(CondensationManager.class);
-		Volume v = new Volume(7,7,7);
-		Coordinate c = new Coordinate(3,0,3);
+		Volume v = m.getDefaultVolume();
+		Coordinate c = new Coordinate((v.getWidth() - 1) / 2,v.getHeight() - 1,(v.getDepth() - 1) / 2);
 		m.setRange(new BreakRange(v,c));
 		return true;
 	}

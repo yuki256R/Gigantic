@@ -1,13 +1,10 @@
 package com.github.unchama.player.build;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.BuildTableManager;
-import com.github.unchama.yml.ConfigManager;
-import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 
@@ -17,8 +14,6 @@ public class BuildManager extends DataManager implements UsingSql{
     private int build_num_1min;
 
     BuildTableManager tm = sql.getManager(BuildTableManager.class);
-    ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
-    DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
     public BuildManager(GiganticPlayer gp) {
         super(gp);
@@ -33,7 +28,7 @@ public class BuildManager extends DataManager implements UsingSql{
     /**総建築量に1ブロック分追加処理 + 総建築量更新処理
      * Step1.BlockPlaceEventでは1minを増加させる
      * Step2.BuildTaskの方で1minを1分ごとにリセット
-     * 
+     *
      */
     public void calcBuildNum(){
     	this.build_num_1min += 1;
@@ -43,9 +38,9 @@ public class BuildManager extends DataManager implements UsingSql{
         	debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"1minでの建築量が上限(" + config.getBuildNum1minLimit() + ")を超えました。");
         }
     }
-    
+
     /**1分間の設置量を設定
-     * 
+     *
      * @param buildnum_1min
      */
     public void setBuild_Num_1min(int buildnum_1min){

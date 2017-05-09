@@ -1,5 +1,7 @@
 package com.github.unchama.yml;
 
+import java.util.List;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 
 import org.bukkit.entity.Player;
@@ -207,11 +209,11 @@ public class ConfigManager extends YmlManager {
 	public String getFirstJoinMessage() {
 		return this.fc.getString("firstjoinmessage");
 	}
-	
-	
+
+
 	/**フライ時1分間に消費する経験値量を取得します。
 	 * ※消費する量(正)なので-で減らすこと。
-	 * 
+	 *
 	 * @return
 	 */
 	public int getFlyExp(){
@@ -229,6 +231,53 @@ public class ConfigManager extends YmlManager {
      *
      * @return
      */
-    public String getSeichiWorldName() { return this.fc.getString("SeichiWorldName"); }
+    public String getSeichiWorldName() { return "world_sw"; }
 
+
+    /**スキルの使えるワールドを取得します
+     *
+     * @return
+     */
+    public List<String> getSkillWorldList() {
+    	return this.fc.getStringList("skillworld");
+    }
+
+    /**通常破壊時の許容する高さを取得します
+     *
+     * @return
+     */
+	public int getGeneralGravityHeight() {
+		return this.fc.getInt("generalgravityheight");
+	}
+
+	/**考慮される最高レベルを取得
+	 *
+	 * @return
+	 */
+	public int getConsiderableSeichiLevel() {
+		return this.fc.getInt("considerableseichilevel");
+	}
+
+	/**セキュアブレイクを開放できるレベルを取得
+	 *
+	 * @return
+	 */
+	public int getSecureBreakUnlockLevel() {
+		return this.fc.getInt("securebreakunlocklevel");
+	}
+
+	 /**MineStack一括クラフトシステムの必要経験値
+     * 
+     * @param 
+     * @return
+     */
+    public int getBlockCraftLevel(int x){
+    	switch(x) {
+    		case 1: return this.fc.getInt("minestack_BlockCraft.level1");
+    		case 2: return this.fc.getInt("minestack_BlockCraft.level2");
+    		case 3: return this.fc.getInt("minestack_BlockCraft.level3");
+    		
+    		default: return 0;
+    	}
+    }
 }

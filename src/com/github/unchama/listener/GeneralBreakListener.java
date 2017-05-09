@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -19,18 +20,23 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class GeneralBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
 	public static HashMap<Location, UUID> breakmap = new HashMap<Location, UUID>();
 
 	/**
-	 * 通常破壊が行われた時のドロップ処理行程１
+	 * 通常破壊が行われた時のドロップ処理行程1
 	 *
 	 * @param event
 	 */
@@ -53,11 +59,11 @@ public class GeneralBreakListener implements Listener {
 	}
 
 	/**
-	 * 通常破壊が行われた時のドロップ処理行程２
+	 * 通常破壊が行われた時のドロップ処理行程2
 	 *
 	 * @param event
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void addMineStack(ItemSpawnEvent event) {
 		if (event.isCancelled())
 			return;
@@ -89,6 +95,8 @@ public class GeneralBreakListener implements Listener {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		if (gp == null)
 			return;
+		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
+			return;
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		if (m.add(dropitem)) {
 			debug.sendMessage(player, DebugEnum.MINESTACK,
@@ -108,8 +116,10 @@ public class GeneralBreakListener implements Listener {
 	 *
 	 * @param event
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void giveExp(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
 		int dropexp = event.getExpToDrop();
 		if (dropexp == 0)
 			return;
@@ -118,6 +128,46 @@ public class GeneralBreakListener implements Listener {
 				+ ")を取得します．");
 		player.giveExp(dropexp);
 		event.setExpToDrop(0);
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void calcGravity(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
+		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
+		if (gp == null)
+			return;
+
+		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
+			return;
+
+		GravityManager gm = gp.getManager(GravityManager.class);
+		Block b = event.getBlock();
+		int gravity = gm.calc(config.getGeneralGravityHeight(), b);
+		// 重力値が０より大きければ終了
+		if (gravity > 0) {
+			player.sendMessage(ChatColor.RED + "重力値(" + gravity + ")により破壊できません");
+			event.setCancelled(true);
+			return;
+		}
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void recoveryMana(BlockBreakEvent event) {
+		if (event.isCancelled())
+			return;
+		Player player = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
+		if (gp == null)
+			return;
+
+		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
+			return;
+		ManaRecoveryManager m = gp.getManager(ManaRecoveryManager.class);
+		m.recover(player,event.getBlock());
 	}
 
 	/**

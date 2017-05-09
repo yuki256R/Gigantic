@@ -13,14 +13,21 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.seichiskill.CondensationManager;
-import com.github.unchama.player.seichiskill.ExplosionManager;
-import com.github.unchama.player.seichiskill.MagicDriveManager;
+import com.github.unchama.player.region.RegionManager;
+import com.github.unchama.player.seichiskill.active.CondensationManager;
+import com.github.unchama.player.seichiskill.active.ExplosionManager;
+import com.github.unchama.player.seichiskill.active.FairyAegisManager;
+import com.github.unchama.player.seichiskill.active.MagicDriveManager;
+import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.time.PlayerTimeManager;
+import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.yml.ConfigManager;
@@ -28,19 +35,33 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql {
 	//TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
+		GIGANTICGACHA(GiganticGachaTableManager.class),
+		PREMIUMGACHA(PremiumGachaTableManager.class),
 		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
 		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
 		MANA(ManaTableManager.class,ManaManager.class),
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		TOOLPOUCH(ToolPouchTableManager.class,ToolPouchManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
 		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
+		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
+		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
 		BUILD(BuildTableManager.class,BuildManager.class),
+		PLAYERGACHA(PlayerGachaTableManager.class,PlayerGachaManager.class),
+		REGION(RegionTableManager.class,RegionManager.class),
+		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
+		HUNTINGPOINT(HuntingPointTableManager.class,HuntingPointManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
 		private Class<? extends DataManager> datamanagerClass;
+
+
+		ManagerType(Class<? extends TableManager> tablemanagerClass) {
+			this.tablemanagerClass = tablemanagerClass;
+		}
 
 		ManagerType(Class<? extends TableManager> tablemanagerClass ,Class<? extends DataManager> datamanagerClass) {
 			this.tablemanagerClass = tablemanagerClass;
@@ -50,6 +71,12 @@ public class Sql {
 		public Class<? extends TableManager> getTableManagerClass() {
 			return tablemanagerClass;
 		}
+
+		/**nullを返す場合があります．
+		 *
+		 * @return
+		 */
+		@Deprecated
 		public Class<? extends DataManager> getDataManagerClass() {
 			return datamanagerClass;
 		}
@@ -78,10 +105,11 @@ public class Sql {
 			return "example";
 		}
 		/**class名からデータマネージャークラスを取得します．
-		 *
+		 *nullを返す場合があります．
 		 * @param _class
 		 * @return
 		 */
+		@Deprecated
 		public static Class<? extends DataManager> getDataManagerClassbyClass(
 				Class<? extends TableManager> _class) {
 			for (ManagerType mt : ManagerType.values()) {
@@ -92,10 +120,11 @@ public class Sql {
 			return null;
 		}
 		/**class名からテーブルマネージャークラスを取得します．
-		 *
+		 *nullを返す場合があります．
 		 * @param _class
 		 * @return
 		 */
+		@Deprecated
 		public static Class<? extends TableManager> getTableManagerClassbyClass(
 				Class<? extends DataManager> _class) {
 			for (ManagerType mt : ManagerType.values()) {
@@ -242,6 +271,7 @@ public class Sql {
 		if (!this.managermap.isEmpty() || this.managermap != null) {
 			managermap.clear();
 		}
+		boolean flag = false;
 		// 各テーブル用メソッドに受け渡し
 		for (ManagerType mt : ManagerType.values()) {
 			try {
@@ -250,9 +280,15 @@ public class Sql {
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
+				plugin.getLogger().warning("Failed to create instance of " + mt.name());
 				e.printStackTrace();
-				return false;
+				flag = true;
+				continue;
 			}
+		}
+		if(flag){
+			plugin.getLogger().warning("テーブルインスタンスの生成に失敗しました．");
+			return false;
 		}
 		return true;
 	}
