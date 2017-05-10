@@ -9,16 +9,18 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopItem;
-import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.moduler.YmlManager;
 
 public class HuntingPointDataManager extends YmlManager {
-	public class HuntMobBaseData {
+	public class HuntMobData {
+		public String name; // 呼び出し名の逆引き
 		public String jpName; // 日本語名
 		public String headName; // MobHeadで呼び出すための名前
 
-		public HuntMobBaseData(String jpName_, String headName_) {
+		public HuntMobData(String name_, String jpName_, String headName_) {
+			name = name_;
 			jpName = jpName_;
 			headName = headName_;
 		}
@@ -26,7 +28,7 @@ public class HuntingPointDataManager extends YmlManager {
 
 	static Map<String, List<HuntingPointShopItem>> shopItems;
 
-	static Map<String, HuntMobBaseData> MobNames;
+	static Map<String, HuntMobData> MobNames;
 	// Map.keysetで回すと順番が変わるため
 	static List<String> MobNameArray;
 
@@ -53,16 +55,15 @@ public class HuntingPointDataManager extends YmlManager {
 		// 表示データ
 		ConfigurationSection basedata = this.fc
 				.getConfigurationSection("mobdata");
-		MobNames = new HashMap<String, HuntMobBaseData>();
+		MobNames = new HashMap<String, HuntMobData>();
 		for (String name : basedata.getKeys(false)) {
-			if (this.fc.getBoolean("mobdata." + name + ".target")) {
+			if (basedata.getBoolean(name + ".target")) {
 				MobNameArray.add(name);
 			}
 
-			String jpname = this.fc.getString("mobdata." + name + ".jpname");
-			String headname = this.fc
-					.getString("mobdata." + name + ".headname");
-			MobNames.put(name, new HuntMobBaseData(jpname, headname));
+			String jpname = basedata.getString(name + ".jpname");
+			String headname = basedata.getString(name + ".headname");
+			MobNames.put(name, new HuntMobData(name, jpname, headname));
 		}
 
 		// 同種判定のリスト
@@ -111,18 +112,18 @@ public class HuntingPointDataManager extends YmlManager {
 		// ret.setLogName(this.fc.getString(path + ".logname"));
 		ret.setMeta(this.fc.getString(path + ".meta"));
 		ItemStack item = this.fc.getItemStack(path + ".itemstack", null);
-		String url = "";
+		String headName = "";
 		if (ret.getCategoryType() != null && item != null) {
 			switch (ret.getCategoryType()) {
 			case ToHead:
-				String headName = MobNames.get(name).headName;
-				url = MobHead.getMobURL(headName);
-				MobHead.setURL(item, url);
+				headName = MobNames.get(name).headName;
+				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
+						item, headName);
 				break;
 			case CustomHead:
-				url = MobHead.getMobURL(this.fc.getString(path + ".headname",
-						""));
-				MobHead.setURL(item, url);
+				headName = this.fc.getString(path + ".headname", "");
+				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
+						item, headName);
 				break;
 			case Item:
 				break;
@@ -166,11 +167,11 @@ public class HuntingPointDataManager extends YmlManager {
 		return ret;
 	}
 
-	public Map<String, HuntMobBaseData> getMobNames() {
+	public Map<String, HuntMobData> getMobNames() {
 		return MobNames;
 	}
 
-	public HuntMobBaseData getMobData(String name) {
+	public HuntMobData getMobData(String name) {
 		return MobNames.get(name);
 	}
 
