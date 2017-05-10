@@ -7,9 +7,11 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.player.minestack.StackType;
 
 public enum CraftType {
-	/**MineStack一括クラフトシステムのクラフトメニューで使用する列挙型
-	 * 新規でクラフトメニューを追加したいならば、下に追加すること。
+	/**
+     * MineStack一括クラフトシステムのクラフトメニューで使用する列挙型
+	 * 新規でクラフトメニュー項目を追加したいならば、下に追加すること。
 	 * ※スロット番号に45,53を指定しないこと。メニュー移動skullが使用しているため。
+     * ※精錬タイプについて,未指定の場合NONEが指定されます。
 	 * @author karayuu
 	 */
 	STEP1(1,0,Material.STEP,(short)0,1,StackType.STONE,10,"石",StackType.STEP,20,"石ハーフブロック",1),
@@ -38,8 +40,33 @@ public enum CraftType {
 	NETHER_QUARTZ_BLOCK2(1,33,Material.QUARTZ_BLOCK,(short)0,2,StackType.QUARTZ,400,"ネザー水晶",StackType.QUARTZ_BLOCK,100,"ネザー水晶ブロック",2),
 	NETHER_QUARTZ_BLOCK3(1,34,Material.QUARTZ_BLOCK,(short)0,3,StackType.QUARTZ,4000,"ネザー水晶",StackType.QUARTZ_BLOCK,1000,"ネザー水晶ブロック",2),
 	NETHER_QUARTZ_BLOCK4(1,35,Material.QUARTZ_BLOCK,(short)0,4,StackType.QUARTZ,40000,"ネザー水晶",StackType.QUARTZ_BLOCK,10000,"ネザー水晶ブロック",2),
+	BRICK_BLOCK1(1,36,Material.BRICK,(short)0,1,StackType.BRICK,40,"レンガ",StackType.BRICK_SLAB,10,"レンガブロック",2),
+	BRICK_BLOCK2(1,37,Material.BRICK,(short)0,2,StackType.BRICK,400,"レンガ",StackType.BRICK_SLAB,100,"レンガブロック",2),
+	BRICK_BLOCK3(1,38,Material.BRICK,(short)0,3,StackType.BRICK,4000,"レンガ",StackType.BRICK_SLAB,1000,"レンガブロック",2),
+	BRICK_BLOCK4(1,39,Material.BRICK,(short)0,4,StackType.BRICK,40000,"レンガ",StackType.BRICK_SLAB,10000,"レンガブロック",2),
+	NETHER_BRICK1(1,41,Material.NETHER_BRICK,(short)0,1,StackType.NETHER_BRICK,40,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,10,"ネザーレンガブロック",2),
+	NETHER_BRICK2(1,42,Material.NETHER_BRICK,(short)0,2,StackType.NETHER_BRICK,400,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,100,"ネザーレンガブロック",2),
+	NETHER_BRICK3(1,43,Material.NETHER_BRICK,(short)0,3,StackType.NETHER_BRICK,4000,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,1000,"ネザーレンガブロック",2),
+	NETHER_BRICK4(1,44,Material.NETHER_BRICK,(short)0,4,StackType.NETHER_BRICK,40000,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,10000,"ネザーレンガブロック",2),
 	
-							
+	//2ページ目
+	SNOW_BLOCK1(2,0,Material.SNOW_BLOCK,(short)0,1,StackType.SNOW_BALL,40,"雪玉",StackType.SNOW_BLOCK,10,"雪(ブロック)",2),
+	SNOW_BLOCK2(2,1,Material.SNOW_BLOCK,(short)0,2,StackType.SNOW_BALL,400,"雪玉",StackType.SNOW_BLOCK,100,"雪(ブロック)",2),
+	SNOW_BLOCK3(2,2,Material.SNOW_BLOCK,(short)0,3,StackType.SNOW_BALL,4000,"雪玉",StackType.SNOW_BLOCK,1000,"雪(ブロック)",2),
+	SNOW_BLOCK4(2,3,Material.SNOW_BLOCK,(short)0,4,StackType.SNOW_BALL,40000,"雪玉",StackType.SNOW_BLOCK,10000,"雪(ブロック)",2),
+	RED_NETHER_BRICK1(2,5,Material.RED_NETHER_BRICK,(short)0,1,StackType.NETHER_STALK,20,"ネザーウォート",StackType.RED_NETHER_BRICK,20,"赤いネザーレンガ",2,FurnessType.NETHER_BRICK,20),
+	RED_NETHER_BRICK2(2,6,Material.RED_NETHER_BRICK,(short)0,2,StackType.NETHER_STALK,200,"ネザーウォート",StackType.RED_NETHER_BRICK,200,"赤いネザーレンガ",2,FurnessType.NETHER_BRICK,200),
+	RED_NETHER_BRICK3(2,7,Material.RED_NETHER_BRICK,(short)0,3,StackType.NETHER_STALK,2000,"ネザーウォート",StackType.RED_NETHER_BRICK,2000,"赤いネザーレンガ",2,FurnessType.NETHER_BRICK,2000),
+	RED_NETHER_BRICK4(2,8,Material.RED_NETHER_BRICK,(short)0,4,StackType.NETHER_STALK,20000,"ネザーウォート",StackType.RED_NETHER_BRICK,20000,"赤いネザーレンガ",2,FurnessType.NETHER_BRICK,20000),
+	IRON_INGOT1(2,9,Material.IRON_INGOT,(short)0,0,StackType.IRON_ORE,4,"鉄鉱石",StackType.IRON_INGOT,4,"鉄インゴット",3,FurnessType.COAL,1),
+	IRON_INGOT2(2,10,Material.IRON_INGOT,(short)0,1,StackType.IRON_ORE,40,"鉄鉱石",StackType.IRON_INGOT,40,"鉄インゴット",3,FurnessType.COAL,10),
+	IRON_INGOT3(2,11,Material.IRON_INGOT,(short)0,2,StackType.IRON_ORE,400,"鉄鉱石",StackType.IRON_INGOT,400,"鉄インゴット",3,FurnessType.COAL,100),
+	IRON_INGOT4(2,12,Material.IRON_INGOT,(short)0,3,StackType.IRON_ORE,4000,"鉄鉱石",StackType.IRON_INGOT,4000,"鉄インゴット",3,FurnessType.COAL,1000),
+	IRON_INGOT5(2,14,Material.IRON_INGOT,(short)0,0,StackType.IRON_ORE,50,"鉄鉱石",StackType.IRON_INGOT,50,"鉄インゴット",3,FurnessType.LAVA_BUCKET,1),
+	IRON_INGOT6(2,15,Material.IRON_INGOT,(short)0,1,StackType.IRON_ORE,500,"鉄鉱石",StackType.IRON_INGOT,500,"鉄インゴット",3,FurnessType.LAVA_BUCKET,10),
+	IRON_INGOT7(2,16,Material.IRON_INGOT,(short)0,2,StackType.IRON_ORE,5000,"鉄鉱石",StackType.IRON_INGOT,5000,"鉄インゴット",3,FurnessType.LAVA_BUCKET,100),
+	IRON_INGOT8(2,17,Material.IRON_INGOT,(short)0,3,StackType.IRON_ORE,50000,"鉄鉱石",StackType.IRON_INGOT,50000,"鉄インゴット",3,FurnessType.LAVA_BUCKET,1000),
+	
 	;
 	
 	//メニュー番号
@@ -67,6 +94,10 @@ public enum CraftType {
 	//Configで指定してあるこのブロック一括クラフトを使用できる建築Lvの番号
 	//ConfigManager,config.ymlを参照のこと
 	private final int config_num;
+	//精錬タイプ
+	private final FurnessType furnessType;
+	//燃料消費量
+	private final int fuel;
 	
 	//コンストラクタ
 	private CraftType(int menunum,int slot,Material menu_icon,short durability,int menu_icon_amount,
@@ -84,6 +115,28 @@ public enum CraftType {
 		this.produce_amount = produce_amount;
 		this.produce_jpname = produce_jpname;
 		this.config_num = config_num;
+		this.furnessType = FurnessType.NONE;
+		this.fuel = 0;
+		
+	}
+	
+	private CraftType(int menunum,int slot,Material menu_icon,short durability,int menu_icon_amount,
+			StackType need_stacktype,int need_amount,String need_jpname,StackType produce_stacktype,
+			int produce_amount,String produce_jpname,int config_num,FurnessType furnessType,int fuel) {
+		this.menunum = menunum;
+		this.slot = slot;
+		this.menu_icon = menu_icon;
+		this.durability = durability;
+		this.menu_icon_amount = menu_icon_amount;
+		this.need_stacktype = need_stacktype;
+		this.need_amount = need_amount;
+		this.need_jpname = need_jpname;
+		this.produce_stacktype = produce_stacktype;
+		this.produce_amount = produce_amount;
+		this.produce_jpname = produce_jpname;
+		this.config_num = config_num;
+		this.furnessType = furnessType;
+		this.fuel = fuel;
 	}
 	
 	/**
@@ -197,6 +250,22 @@ public enum CraftType {
 		itemstack.setDurability(this.getDurability());
 		return itemstack;
 	}
+
+    /**
+     * 精錬タイプを返します
+     * @return
+     */
+    public FurnessType getFurnessType() {
+        return furnessType;
+    }
+    
+    /**
+     * 燃料消費量を返します
+     * @return
+     */
+    public int getFuel() {
+    	return this.fuel;
+    }
 }
 
 

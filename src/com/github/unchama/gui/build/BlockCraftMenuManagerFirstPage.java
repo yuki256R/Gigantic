@@ -16,6 +16,6 @@ public class BlockCraftMenuManagerFirstPage extends MinestackBlockCraftMenuManag
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(45, GuiMenu.ManagerType.BUILDMENU);
-		if (!(max_menu_num <= this.getMenuNum())) openmap.put(53, GuiMenu.ManagerType.BLOCKCRAFTMENUSECOND);
+		if (!(max_menu_num == this.getMenuNum())) openmap.put(53, GuiMenu.ManagerType.BLOCKCRAFTMENUSECOND);
 	}
 }
