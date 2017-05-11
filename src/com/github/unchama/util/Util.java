@@ -1,6 +1,10 @@
 package com.github.unchama.util;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.coreprotect.CoreProtect;
@@ -59,6 +63,15 @@ public class Util {
 		return time;
 	}
 
+	// 指定した文字列をクリップボードにコピーする
+	public static void setClipboard(String str){
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Clipboard clip = kit.getSystemClipboard();
+
+		StringSelection ss = new StringSelection(str);
+		clip.setContents(ss, ss);
+	}
+
 	// プレイヤーネームを格納（toLowerCaseで全て小文字にする。)
 	public static String getName(Player p) {
 		return p.getName().toLowerCase();
@@ -110,6 +123,11 @@ public class Util {
 	}
 
 	// 指定された文字配列を指定されたアイテム説明文に付与する
+	public static void setLore(ItemStack item, String lore_){
+		List<String> lore = new ArrayList<String>();
+		lore.add(lore_);
+		setLore(item, lore);
+	}
 	public static void setLore(ItemStack item, List<String> lore){
 		ItemMeta meta = item.getItemMeta();
 		meta.setLore(lore);

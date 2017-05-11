@@ -27,13 +27,17 @@ public class CustomHeadDataManager extends YmlManager {
 		public String dispName;	// 表示名
 		public String category; // カテゴリ
 		public String url;		// url
-		public ItemStack skull;	// 頭
+		private ItemStack skull;	// 頭
 		public CustomHeadData(String name_, String dispName_, String category_, String url_, ItemStack skull_){
 			name = name_;
 			dispName = dispName_;
 			category = category_;
 			url = url_;
 			skull = skull_;
+		}
+
+		public ItemStack getSkull(){
+			return skull.clone();
 		}
 	}
 

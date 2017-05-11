@@ -1,8 +1,11 @@
 package com.github.unchama.gui.admin;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -55,14 +58,14 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		Util.setDisplayName(prevButton, "前のページ");
 		menuButtons.put(prevButtonSlot, prevButton);
 
-		nextButton = headManager.getMobHead("left");
+		nextButton = headManager.getMobHead("right");
 		Util.setDisplayName(nextButton, "次のページ");
 		menuButtons.put(nextButtonSlot, nextButton);
 
 		// Invoke設定
-        for (int i = 0; i < 54; i++) {
-            id_map.put(i, String.valueOf(i));
-        }
+		for (int i = 0; i < 54; i++) {
+			id_map.put(i, String.valueOf(i));
+		}
 	}
 
 	@Override
@@ -84,7 +87,12 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 			if (i >= heads.size()) {
 				break;
 			}
-			ItemStack item = heads.get(i).skull;
+			CustomHeadData data = heads.get(i);
+			ItemStack item = data.getSkull();
+			Util.setLore(
+					item,
+					Arrays.asList("ID : " + data.name, ChatColor.RESET
+							+ "クリックすると頭を付与して", ChatColor.RESET + "IDをクリップボードにコピーします"));
 			inv.setItem(i - 45 * (page - 1), item);
 		}
 
@@ -108,31 +116,38 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		int slot = Integer.valueOf(identifier);
 		// ページ戻るボタン
 		if (slot == prevButtonSlot) {
-			if (currentPage <= 1){
+			if (currentPage <= 1) {
 				return false;
 			}
-			player.openInventory(getInventory(player, prevButtonSlot, prevButtonSlot - 1));
+			player.openInventory(getInventory(player, prevButtonSlot,
+					currentPage - 1));
 			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN,
 					(float) 1.0, (float) 4.0);
 		}
 		// ページ進むボタン
 		else if (slot == nextButtonSlot) {
-			if (heads.size() <= 45 * currentPage){
+			if (heads.size() <= 45 * currentPage) {
 				return false;
 			}
-			player.openInventory(getInventory(player, nextButtonSlot, currentPage + 1));
+			player.openInventory(getInventory(player, nextButtonSlot,
+					currentPage + 1));
 			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN,
 					(float) 1.0, (float) 4.0);
 		}
 		// とりだしボタン
 		else if (slot < 45) {
 			// 空スロットならおわり
-			if (heads.size() <= slot + 45 * (currentPage - 1)){
+			int index = slot + 45 * (currentPage - 1);
+			if (heads.size() <= index) {
 				return false;
 			}
-			ItemStack item = heads.get(slot).skull;
+			CustomHeadData data = heads.get(index);
+			ItemStack item = data.getSkull();
 
 			Util.giveItem(player, item);
+
+			// クリップボードに呼び出し名をコピーする
+			Util.setClipboard(data.name);
 		}
 		return false;
 	}
@@ -197,6 +212,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	public float getPitch() {
-		return (float)0.5;
+		return (float) 0.5;
 	}
 }
