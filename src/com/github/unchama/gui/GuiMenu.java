@@ -3,6 +3,7 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.admin.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.AdminGachaTypeMenuManager;
 import com.github.unchama.gui.admin.AdminGiganticGachaMenuManager;
 import com.github.unchama.gui.admin.AdminPremiumGachaMenuManager;
@@ -69,6 +70,7 @@ public final class GuiMenu {
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),

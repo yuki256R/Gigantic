@@ -1,0 +1,148 @@
+﻿# 
+mobhead: 
+  left:
+    dispname: '左矢印'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/3ebf907494a935e955bfcadab81beafb90fb9be49c7026ba97d798d5f1a23'
+  right:
+    dispname: '右矢印'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b'
+  up:
+    dispname: '上矢印'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/d48b768c623432dfb259fb3c3978e98dec111f79dbd6cd88f21155374b70b3c'
+  down:
+    dispname: '下矢印'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/2dadd755d08537352bf7a93e3bb7dd4d733121d39f2fb67073cd471f561194dd'
+  zero:
+    dispname: '数字「0」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/0ebe7e5215169a699acc6cefa7b73fdb108db87bb6dae2849fbe24714b27'
+  one:
+    dispname: '数字「1」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/71bc2bcfb2bd3759e6b1e86fc7a79585e1127dd357fc202893f9de241bc9e530'
+  two:
+    dispname: '数字「2」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/4cd9eeee883468881d83848a46bf3012485c23f75753b8fbe8487341419847'
+  three:
+    dispname: '数字「3」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/1d4eae13933860a6df5e8e955693b95a8c3b15c36b8b587532ac0996bc37e5'
+  four:
+    dispname: '数字「4」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/d2e78fb22424232dc27b81fbcb47fd24c1acf76098753f2d9c28598287db5'
+  five:
+    dispname: '数字「5」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/6d57e3bc88a65730e31a14e3f41e038a5ecf0891a6c243643b8e5476ae2'
+  six:
+    dispname: '数字「6」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/334b36de7d679b8bbc725499adaef24dc518f5ae23e716981e1dcc6b2720ab'
+  seven:
+    dispname: '数字「7」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/6db6eb25d1faabe30cf444dc633b5832475e38096b7e2402a3ec476dd7b9'
+  eight:
+    dispname: '数字「8」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/59194973a3f17bda9978ed6273383997222774b454386c8319c04f1f4f74c2b5'
+  nine:
+    dispname: '数字「9」'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/e67caf7591b38e125a8017d58cfc6433bfaf84cd499d794f41d10bff2e5b840'
+  grass:
+    dispname: '芝'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/349c63bc508723328a19e597f40862d27ad5c1d545663ac24466582f568d9'
+  letterbox:
+    dispname: 'レターボックス'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/70799f5effc891e334faa7f45d0bdd956d4e215d8a7ad55c310941aa96723'
+  pouch:
+    dispname: 'ポーチ'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3'
+  pc:
+    dispname: 'パソコン'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/8d19c68461666aacd7628e34a1e2ad39fe4f2bde32e231963ef3b35533'
+  MHF_Zombie:
+    dispname: 'ゾンビ'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/56fc854bb84cf4b7697297973e02b79bc10698460b51a639c60e5e417734e11'
+  MHF_Skeleton:
+    dispname: 'スケルトン'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/2e5be6a3c0159d2c1f3b1e4e1d8384b6f7ebac993d58b10b9f8989c78a232'
+  MHF_WSkeleton:
+    dispname: 'ウィザースケルトン'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/233b41fa79cd53a230e2db942863843183a70404533bbc01fab744769bcb'
+  MHF_Creeper:
+    dispname: 'クリーパー'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/295ef836389af993158aba27ff37b6567185f7a721ca90fdfeb937a7cb5747'
+  red_present:
+    dispname: 'プレゼント箱(赤)'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca'
+  green_present:
+    dispname: 'プレゼント箱(緑)'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d'
+  blue_bottle:
+    dispname: 'ボトル(青)'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/d5f3602ec661c7f4beec88c12a5297d877822b8861920bacf49ae2077bb2b3'
+  green_bottle:
+    dispname: 'ボトル(緑)'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/6daaea616947e00d97f8caa358261fa83e99d65527b8ef522cceffefa38f7'
+  red_house:
+    dispname: '馬(赤)'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/c5a35b5ca15268685c4660535e5883d21a5ec57c55d397234269acb5dc2954f'
+  mechanic_box:
+    dispname: 'メカニックボックス'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/23d3908722e8275ca195d2f49ed4f1c988bd27d4fc4a5993acfc392ac2c2c'
+  orange:
+    dispname: 'オレンジ'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/fba8eabaf9c34eb4b9a53199213b6657637b7a5f121986b52f7dd25a584c26d'
+  corn:
+    dispname: 'トウモロコシ'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/99dfac171e3c2029676ecf8d3a0fd9b7bb2857b95efdefc59e0f252576b5c68'
+  riceball:
+    dispname: 'おむすび'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/69c2ddf2bd74a4655e8f0153a7453e67db2a21dbfac6756789481adbec483a'
+  grape:
+    dispname: 'グレープ'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/f71cc917159f14565f6afe22b9e33d5a23e423ecd8cb5dfba0b3f66d825389ca'
+  tomato:
+    dispname: 'トマト'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/ec29b6926e25a7c725e959648bd4f2a8eee3f2921cbdc45d399df62786a77c'
+  milk_chocolate:
+    dispname: 'ミルクショコラ'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/819f948d17718adace5dd6e050c586229653fef645d7113ab94d17b639cc466'
+  sushi_roll:
+    dispname: '寿司巻'
+    category: 'other'
+    url: 'http://textures.minecraft.net/texture/2e12f267953e76ae66a8dd025a3286aecbc64b4ad98eeb10b3c67a69aae15'
+
+
+
+category:
+  other:
+    dispname: その他

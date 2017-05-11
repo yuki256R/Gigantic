@@ -1,6 +1,7 @@
 package com.github.unchama.util;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
@@ -11,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import zedly.zenchantments.Zenchantments;
@@ -98,6 +100,20 @@ public class Util {
 	// 指定されたアイテムを指定されたプレイヤーにドロップする
 	public static void dropItem(Player player, ItemStack itemstack) {
 		player.getWorld().dropItemNaturally(player.getLocation(), itemstack);
+	}
+
+	// 指定された文字列を指定されたアイテム名に付与する
+	public static void setDisplayName(ItemStack item, String displayName){
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(displayName);
+		item.setItemMeta(meta);
+	}
+
+	// 指定された文字配列を指定されたアイテム説明文に付与する
+	public static void setLore(ItemStack item, List<String> lore){
+		ItemMeta meta = item.getItemMeta();
+		meta.setLore(lore);
+		item.setItemMeta(meta);
 	}
 
 	// 文字列からアイテムのマテリアルを作成

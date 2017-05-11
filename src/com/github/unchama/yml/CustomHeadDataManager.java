@@ -9,11 +9,13 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.moduler.YmlManager;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
@@ -75,14 +77,16 @@ public class CustomHeadDataManager extends YmlManager {
 		ConfigurationSection basedata = this.fc
 				.getConfigurationSection("mobhead");
 
+		// ヘッド生成
 		for (String name : basedata.getKeys(false)) {
 			headArray.add(name);
 			String dispname = basedata.getString(name + ".dispname");
 			String category = basedata.getString(name + ".category");
 			String url = basedata.getString(name + ".url");
 			ItemStack skull = getSkull(url);
-			Bukkit.getServer().getLogger()
-			.info("name : " + name + ", dispname: " + dispname + ", url : " + url + "," + (skull != null));
+			Util.setDisplayName(skull, ChatColor.RESET + dispname);
+//			Bukkit.getServer().getLogger()
+//			.info("name : " + name + ", dispname: " + dispname + ", url : " + url + "," + (skull != null));
 			CustomHeadData headData = new CustomHeadData(name, dispname, category, url, skull);
 			customHeads.put(name, headData);
 			//カテゴリに追加
@@ -171,5 +175,10 @@ public class CustomHeadDataManager extends YmlManager {
 		ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
 		setURL(skull, url);
 		return skull;
+	}
+
+	// 指定したカテゴリのデータの配列を返す
+	public List<CustomHeadData> getCategoryHeads(String category){
+		return headCategory.get(category);
 	}
 }
