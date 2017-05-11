@@ -7,20 +7,18 @@ import com.github.unchama.yml.moduler.YmlManager;
 
 /**
  * Ymlファイルを管理するクラスです． プラグイン始動時にスタティックインスタンスが生成されます． Gigantic.ymlで取得できます．
- * 新しくYmlファイルを追加する方法
- * 1.YmlEnumに"FILENAME(ManagerName.class)"と入力
- * 2.ManagerClassを作成．必ずYmlManagerをextendsすること．
- * 3.
+ * 新しくYmlファイルを追加する方法 1.YmlEnumに"FILENAME(ManagerName.class)"と入力
+ * 2.ManagerClassを作成．必ずYmlManagerをextendsすること． 3.
  *
  * @author tar0ss
  *
  */
 public final class Yml {
 	public static enum ManagerType {
-		CONFIG(ConfigManager.class),
-		MOBHEAD(CustomHeadDataManager.class),
-		DEBUG(DebugManager.class),
-		HUNTINGPOINT(HuntingPointDataManager.class),
+		CONFIG(ConfigManager.class), //
+		DEBUG(DebugManager.class), //
+		MOBHEAD(CustomHeadDataManager.class), //
+		HUNTINGPOINT(HuntingPointDataManager.class), //
 		;
 		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;
@@ -74,7 +72,8 @@ public final class Yml {
 	public Yml() {
 	}
 
-	public void Initialize(){
+	// コンストラクタで読み込むと他のyml管理クラスにアクセスできなかったため分離
+	public void Initialize() {
 		managermap.clear();
 		// instance作成
 		for (ManagerType ye : ManagerType.values()) {
