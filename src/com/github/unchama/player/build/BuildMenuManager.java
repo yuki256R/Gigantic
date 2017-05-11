@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.github.unchama.player.minestack.MineStack;
+import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.minestack.StackType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -37,14 +40,12 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
 		
-		idmap.put(13, "TotalBuildNum=0");
+		idmap.put(13, "DEBUG");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		BuildManager bm = gp.getManager(BuildManager.class);
-		BuildLevelManager blm = gp.getManager(BuildLevelManager.class);
 		
 		switch(identifier){
 			//FLY1分
@@ -69,10 +70,11 @@ public class BuildMenuManager extends GuiMenuManager{
 				
 			//TODO:スキルについては後で
 				
-			case "TotalBuildNum=0":
-				bm.setTotalbuildnum(0);
-				blm.calcLevel();
-				player.sendMessage(ChatColor.RED + "総建築量を0にセットしました。");
+			case "DEBUG":
+				for (StackType st : StackType.values()) {
+				    MineStack ms = gp.getManager(MineStackManager.class).datamap.get(st);
+				    ms.add(99999999);
+                }
 				break;
 			
 			default:
@@ -204,9 +206,9 @@ public class BuildMenuManager extends GuiMenuManager{
 			
 		//DEBUG
 		case 13:
-			itemmeta.setDisplayName("[DEBUG]総建築量を0にセット");
+			itemmeta.setDisplayName("[DEBUG]MineStack個数調整");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.GREEN + "総建築量=0");
+			lore.add("" + ChatColor.RESET + ChatColor.GREEN + "MineStack全アイテム個数=99999999");
 			lore.add("" + ChatColor.RESET + ChatColor.RED + "※DEBUG用。本番環境での使用厳禁");//TODO:DEBUG
 			itemmeta.setLore(lore);
 			break;

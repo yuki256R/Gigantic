@@ -56,7 +56,7 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
         meta.setLore(lore);
         skullList.get(0).setItemMeta(meta);
         meta = skullList.get(1).getItemMeta();
-        meta.setDisplayName("次のページ");
+        meta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + ChatColor.BOLD +"次のページ");
         meta.setLore(lore);
         skullList.get(1).setItemMeta(meta);
 	}
@@ -88,22 +88,22 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 			List<String>lore = new ArrayList<String>();
 			
 			if (furnessType == FurnessType.NONE) {
-				itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
-						+ "" + ChatColor.BOLD + need_name + "を" + produce_name + "に変換します");
-				lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
-						+ "個→" + produce_name + produce_amount + "個");
-			} else if (furnessType == FurnessType.NETHER_BRICK) {
-				itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
-						+ "" + ChatColor.BOLD + need_name + "と" + furnessType.getJPname() + "を" + produce_name + "に変換します");
-				lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
-						+ "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
-			} else {
-				itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
-						+ "" + ChatColor.BOLD + furnessType.getJPname() + "を消費して" + need_name 
-						+ "を" + produce_name + "に変換します");
-				lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
-						+ "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
-			}
+                itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
+                        + "" + ChatColor.BOLD + need_name + "を" + produce_name + "に変換します");
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
+                        + "個→" + produce_name + produce_amount + "個");
+            } else if (furnessType == FurnessType.NETHER_BRICK) {
+                itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
+                        + "" + ChatColor.BOLD + need_name + "と" + furnessType.getJPname() + "を" + produce_name + "に変換します");
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
+                        + "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
+            } else {
+                itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
+                        + "" + ChatColor.BOLD + furnessType.getJPname() + "を消費して" + need_name
+                        + "を" + produce_name + "に変換します");
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
+                        + "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
+            }
 			
 			
 			lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + "の数:" + String.format("%,d",need_minestack_amount));
@@ -183,11 +183,6 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 				player.sendMessage(ChatColor.RED + ct.getNeed_JPname() + "が不足しています。必要数:" + ct.getNeed_amount());
 				return false;
 			}
-					
-			//あった場合は変換を開始する
-			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
-			
-			need_minestack.add(-ct.getNeed_amount());
 			
 			//精錬タイプによって動作分割
 			if (furnessType == FurnessType.COAL) {
@@ -208,10 +203,17 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 				MineStack nether_brick = gp.getManager(MineStackManager.class).datamap.get(StackType.NETHER_BRICK);
 				if(!(ct.getFuel() <= nether_brick.getNum())) {
 					player.sendMessage(ChatColor.RED + "ネザーレンガが不足しています。必要数:" + ct.getFuel());
+					return false;
 				}
+				nether_brick.add(-ct.getFuel());
 			}
-			
+
+			//燃料も確認,減らしたらできたらやっと素材を減らす
+            need_minestack.add(-ct.getNeed_amount());
+			//生成物を増やす
 			produce_minestack.add(ct.getProduce_amount());
+			//音鳴らす
+            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
 			debug.sendMessage(player,DebugEnum.BUILD, "変換終了");
 			
 			//ボタンの更新処理
@@ -227,10 +229,39 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 			int produce_amount = ct.getProduce_amount();
 			
 			List<String>lore = new ArrayList<String>();
-			
-			lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
-					+ "個→" + produce_name + produce_amount + "個");
+
+            if (furnessType == FurnessType.NONE) {
+                buttonmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
+                        + "" + ChatColor.BOLD + need_name + "を" + produce_name + "に変換します");
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
+                        + "個→" + produce_name + produce_amount + "個");
+            } else if (furnessType == FurnessType.NETHER_BRICK) {
+                buttonmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
+                        + "" + ChatColor.BOLD + need_name + "と" + furnessType.getJPname() + "を" + produce_name + "に変換します");
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
+                        + "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
+            } else {
+                buttonmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
+                        + "" + ChatColor.BOLD + furnessType.getJPname() + "を消費して" + need_name
+                        + "を" + produce_name + "に変換します");
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
+                        + "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
+            }
+
 			lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + "の数:" + String.format("%,d",need_minestack_amount));
+
+            //精錬系アイテム変換の場合
+            if (furnessType == FurnessType.COAL) {
+                long coal_amount = ms.datamap.get(StackType.COAL).getNum();
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "石炭の数:" + String.format("%,d",coal_amount));
+            } else if (furnessType == FurnessType.LAVA_BUCKET) {
+                long lava_bucket_amount = ms.datamap.get(StackType.LAVA_BUCKET).getNum();
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "溶岩バケツの数:" + String.format("%,d", lava_bucket_amount));
+            } else if (furnessType == FurnessType.NETHER_BRICK) {
+                long nether_brick_amount = ms.datamap.get(StackType.NETHER_BRICK).getNum();
+                lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "ネザーレンガの数:" + String.format("%,d", nether_brick_amount));
+            }
+
 			lore.add(ChatColor.RESET + "" + ChatColor.GRAY + produce_name + "の数:" + String.format("%,d",produce_minestack_amount));
 			lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "建築レベル" + config.getBlockCraftLevel(ct.getConfig_Num()) + "以上で利用可能");
 			lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで変換");
