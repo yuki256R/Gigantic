@@ -85,7 +85,7 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 			itemstack = MobHead.getMobHead("red_present");
 			break;
 		case customHeadSlot:
-			itemstack = headManager.getMobHead("MHF_Zombie");
+			itemstack = headManager.getMobHead("Zombie");
 			break;
 		default:
 			break;

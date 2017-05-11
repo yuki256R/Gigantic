@@ -34,7 +34,7 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	// 戻るボタン
 	private ItemStack backButton;
-	private final int backButtonSlot = 27;
+	private final int backButtonSlot = 45;
 
 	// どのMobのショップを開くか
 	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
@@ -141,12 +141,12 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public int getInventorySize() {
-		return 9 * 4;
+		return 9 * 6;
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return "討伐ポイント";
+		return "狩猟ポイント";
 	}
 
 	@Override
