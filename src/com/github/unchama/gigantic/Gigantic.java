@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.unchama.command.CommandType;
+import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
@@ -31,6 +32,9 @@ public final class Gigantic extends JavaPlugin {
 	// Menuデータ用クラス
 	public static GuiMenu guimenu;
 
+	// Gachaデータ用クラス
+	public static Gacha gacha;
+
 	// メンテナンス用クラス
 	public static Maintenance maintenance;
 
@@ -48,6 +52,8 @@ public final class Gigantic extends JavaPlugin {
 		plugin = this;
 		// 必ず最初にymlデータを読み込む
 		yml = new Yml();
+		// Guimenuを読み込む前にガチャのインスタンスを生成
+		gacha = new Gacha();
 		// 必ず最初にmenuデータを読み込む
 		guimenu = new GuiMenu();
 		// ymlの次に必ずsqlを読み込む

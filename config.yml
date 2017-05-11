@@ -63,6 +63,12 @@ flyexp: 50
 #ブロック設置カウントの1分上限
 BuildNum1minLimit: 100
 
+#MineStackブロック一括クラフト・必要経験値量
+minestack_BlockCraft:
+  level1: 25
+  level2: 35
+  level3: 45 
+  
 #スキルの使えるワールド
 skillworld:
   - world_sw
@@ -78,7 +84,6 @@ generalgravityheight: 10
 #パッシブスキル設定
 #セキュアブレイクが解放されるレベル
 securebreakunlocklevel: 60
-
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'

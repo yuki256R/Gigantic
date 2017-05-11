@@ -16,15 +16,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
-import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.player.sidebar.SideBarManager;
-import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.sql.MagicDriveTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
@@ -210,18 +206,6 @@ public class MagicDriveManager extends ActiveSkillManager{
 		breaklist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
-
-		// レベルを更新
-		if (gp.getManager(SeichiLevelManager.class).updateLevel()) {
-			int level = gp.getManager(SeichiLevelManager.class).getLevel();
-			gp.getManager(ManaManager.class).Levelup();
-			gp.getManager(SideBarManager.class).updateInfo(
-					Information.SEICHI_LEVEL, level);
-		}
-		double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-		gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK,
-				rb);
-		gp.getManager(SideBarManager.class).refresh();
 
 		int cooltime = this.getCoolTime(breaklist.size());
 

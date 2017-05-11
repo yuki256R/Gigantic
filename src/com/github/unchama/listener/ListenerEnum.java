@@ -25,7 +25,8 @@ public enum ListenerEnum {
 	GIGANTICINTERACT(new GiganticInteractListener()),
 	PLAYERSWAPHANDITEMS(new PlayerSwapHandItemsListener()),
     BUILD(new BlockPlaceEventListener()),
-    MINEBLOCKINCREMENT(new MineBlockIncrementListener())
+    MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
+    HUNTINGPOINT(new HuntingPointEventListener()),
 	;
 	private Listener listener;
 
