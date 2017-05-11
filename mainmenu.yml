@@ -220,3 +220,17 @@ name: '&5&lメインメニュー'
       - '&r&c復活しないので取扱注意'
       - '&r&4&nクリックで開く'
   openinventory: 'garbagecan'
+27:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&l整地報酬を受け取る'
+      lore:
+      - '&r整地で得られる報酬を'
+      - '&r受け取ることができます．'
+  mobhead: 'red_present'
+  openmenu: 'seichirewardmenu'

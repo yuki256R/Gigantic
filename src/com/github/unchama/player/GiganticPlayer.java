@@ -59,6 +59,7 @@ public class GiganticPlayer{
 		MANARECOVERY(ManaRecoveryManager.class),
 		MENU(PlayerMenuManager.class),
 		BUILD(BuildManager.class),
+		PLAYERGACHA(PlayerGachaManager.class),
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
 		TOOLPOUCH(ToolPouchManager.class),
@@ -69,14 +70,13 @@ public class GiganticPlayer{
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
-		SIDEBAR(SideBarManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
-		PLAYERGACHA(PlayerGachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
 		HUNTINGPOINT(HuntingPointManager.class),
 		BUILDLEVEL(BuildLevelManager.class),
+		SIDEBAR(SideBarManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

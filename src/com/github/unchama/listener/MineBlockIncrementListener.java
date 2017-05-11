@@ -1,6 +1,7 @@
 package com.github.unchama.listener;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.event.MineBlockIncrementEvent;
@@ -26,7 +27,7 @@ public class MineBlockIncrementListener implements Listener {
 		}
 		GiganticPlayer gp = event.getGiganticPlayer();
 
-		gp.getManager(PlayerGachaManager.class).give(GachaType.GIGANTIC,1);
+		gp.getManager(PlayerGachaManager.class).add(GachaType.GIGANTIC,1);
 	}
 	/**フェアリーの数を更新する
 	 *
@@ -56,13 +57,15 @@ public class MineBlockIncrementListener implements Listener {
 	}
 
 	//サイドバーを更新する
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void refreshSideBar(MineBlockIncrementEvent event) {
 		GiganticPlayer gp = event.getGiganticPlayer();
+		PlayerGachaManager Pm = gp.getManager(PlayerGachaManager.class);
 		SeichiLevelManager Lm = gp.getManager(SeichiLevelManager.class);
 		SideBarManager Sm = gp.getManager(SideBarManager.class);
-		double rb = Lm.getRemainingBlock();
-		Sm.updateInfo(Information.MINE_BLOCK, rb);
+		Sm.updateInfo(Information.GACHA_TICKET, Pm.getTicket(GachaType.GIGANTIC) + "枚");
+		Sm.updateInfo(Information.MINE_TICKET, Pm.getRemainingBlock(GachaType.GIGANTIC));
+		Sm.updateInfo(Information.MINE_BLOCK, Lm.getRemainingBlock());
 		Sm.refresh();
 	}
 }

@@ -1,19 +1,26 @@
 package com.github.unchama.command;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
+import com.github.unchama.gacha.moduler.Rarity;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.PlayerGachaTableManager;
 import com.github.unchama.sql.Sql;
+import com.github.unchama.sql.moduler.GachaTableManager;
 import com.github.unchama.util.Converter;
+import com.github.unchama.util.Util;
 
 public class gachaCommand implements TabExecutor {
 
@@ -45,15 +52,16 @@ public class gachaCommand implements TabExecutor {
 			sender.sendMessage("メンテナンスモードのON,OFF切り替え。ONだとガチャが引けなくなる");
 			sender.sendMessage(ChatColor.RED
 					+ "/gacha give <ガチャの種類> <all/プレイヤー名> <個数>");
-			sender.sendMessage("ガチャ券配布コマンドです。allを指定で全員に配布(マルチ鯖対応済)");
+			sender.sendMessage("ガチャ券配布コマンドです。allを指定で全員に配布");
 			// sender.sendMessage(ChatColor.RED + "/gacha vote <プレイヤー名>");
 			// sender.sendMessage("投票特典配布用コマンドです(マルチ鯖対応済)");
 			// sender.sendMessage(ChatColor.RED +
 			// "/gacha donate <プレイヤー名> <ポイント数>");
 			// sender.sendMessage("寄付者用プレミアムエフェクトポイント配布コマンドです(マルチ鯖対応済)");
-			sender.sendMessage(ChatColor.RED + "/gacha get <ID> (<名前>)");
-			sender.sendMessage("指定したガチャリストのIDを入手 (所有者付きにもできます) IDを0に指定するとガチャリンゴを入手できます");
-			sender.sendMessage(ChatColor.RED + "/gacha add <確率>");
+			sender.sendMessage(ChatColor.RED + "/gacha get <ガチャの種類> <ID>");
+			sender.sendMessage("指定したガチャリストのIDを入手 ");
+			sender.sendMessage(ChatColor.RED
+					+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
 			sender.sendMessage("現在のメインハンドをガチャリストに追加。確率は1.0までで指定");
 			// sender.sendMessage(ChatColor.RED +
 			// "/gacha addms2 <確率> <名前> <レベル>");
@@ -64,31 +72,33 @@ public class gachaCommand implements TabExecutor {
 			// sender.sendMessage(ChatColor.DARK_GRAY + "※ゲーム内でのみ実行できます");
 			sender.sendMessage(ChatColor.RED + "/gacha list");
 			sender.sendMessage("現在のガチャリストを表示");
-			sender.sendMessage(ChatColor.RED + "/gacha listms");
-			sender.sendMessage("現在のMineStack用ガチャリストを表示");
-			sender.sendMessage(ChatColor.RED + "/gacha remove <番号>");
-			sender.sendMessage("リスト該当番号のガチャ景品を削除");
-			sender.sendMessage(ChatColor.RED + "/gacha removems");
-			sender.sendMessage("リスト一番下のMineStackガチャ景品を削除(追加失敗した場合の修正用)");
-			sender.sendMessage(ChatColor.RED + "/gacha setamount <番号> <個数>");
-			sender.sendMessage("リスト該当番号のガチャ景品の個数変更。64まで");
-			sender.sendMessage(ChatColor.RED + "/gacha setprob <番号> <確率>");
-			sender.sendMessage("リスト該当番号のガチャ景品の確率変更");
-			sender.sendMessage(ChatColor.RED + "/gacha move <番号> <移動先番号>");
-			sender.sendMessage("リスト該当番号のガチャ景品の並び替えを行う");
-			sender.sendMessage(ChatColor.RED + "/gacha clear");
-			sender.sendMessage("ガチャリストを全消去する。取扱注意");
-			sender.sendMessage(ChatColor.RED + "/gacha save");
+			// sender.sendMessage(ChatColor.RED + "/gacha listms");
+			// sender.sendMessage("現在のMineStack用ガチャリストを表示");
+			sender.sendMessage(ChatColor.RED + "/gacha lock <ガチャの種類> <ID>");
+			sender.sendMessage("リスト該当番号のガチャ景品を排出停止");
+			// sender.sendMessage(ChatColor.RED + "/gacha removems");
+			// sender.sendMessage("リスト一番下のMineStackガチャ景品を削除(追加失敗した場合の修正用)");
+			//sender.sendMessage(ChatColor.RED
+			//		+ "/gacha setamount <ガチャの種類> <ID> <個数>");
+			//sender.sendMessage("リスト該当番号のガチャ景品の個数変更。64まで");
+			//sender.sendMessage(ChatColor.RED
+			//		+ "/gacha setprob <ガチャの種類> <ID> <確率>");
+			//sender.sendMessage("リスト該当番号のガチャ景品の確率変更");
+			// sender.sendMessage(ChatColor.RED + "/gacha move <番号> <移動先番号>");
+			// sender.sendMessage("リスト該当番号のガチャ景品の並び替えを行う");
+			//sender.sendMessage(ChatColor.RED + "/gacha clear");
+			//sender.sendMessage("ガチャリストを全消去する。取扱注意");
+			sender.sendMessage(ChatColor.RED + "/gacha save <ガチャの種類>");
 			sender.sendMessage("コマンドによるガチャリストへの変更をmysqlに送信");
 			// sender.sendMessage(ChatColor.RED + "/gacha savems");
 			// sender.sendMessage("コマンドによるMineStack用ガチャリストへの変更をmysqlに送信");
 			// sender.sendMessage(ChatColor.DARK_RED +
 			// "※変更したら必ずsaveコマンドを実行(セーブされません)");
-			sender.sendMessage(ChatColor.RED + "/gacha reload");
+			sender.sendMessage(ChatColor.RED + "/gacha reload <ガチャの種類>");
 			sender.sendMessage("ガチャリストをmysqlから読み込む");
 			sender.sendMessage(ChatColor.DARK_GRAY + "※onEnable時と同じ処理");
-			sender.sendMessage(ChatColor.RED + "/gacha demo <回数>");
-			sender.sendMessage("現在のガチャリストで指定回数試行し結果を表示。100万回まで");
+			// sender.sendMessage(ChatColor.RED + "/gacha demo <回数>");
+			// sender.sendMessage("現在のガチャリストで指定回数試行し結果を表示。100万回まで");
 			return true;
 		} else if (args[0].equalsIgnoreCase("mente")) {
 			// gacha mente と入力したとき
@@ -187,7 +197,247 @@ public class gachaCommand implements TabExecutor {
 			}
 			return true;
 
+		} else if (args[0].equalsIgnoreCase("get")) {
+			// gacha get と入力したとき
+			// [1]:ガチャの種類
+			// [2]:ID
+
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内で実行して下さい");
+				return true;
+			}
+
+			Player player = (Player) sender;
+			if (args.length != 3) {
+				// 引数が3でない時の処理
+				sender.sendMessage(ChatColor.RED + "/gacha get <ガチャの種類> <ID> ");
+				sender.sendMessage("指定したガチャリストのIDを入手します");
+				return true;
+			}
+			GachaType gt;
+			int id;
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha give <ガチャの種類> <all/プレイヤー名> <個数>");
+				return true;
+			}
+			try {
+				// id
+				id = Converter.toInt(args[2]);
+			} catch (NumberFormatException e) {
+				sender.sendMessage(ChatColor.RED + "指定されたIDは数値ではありません");
+				sender.sendMessage(ChatColor.RED + "/gacha get <ID> ");
+				return true;
+			}
+
+			GachaManager m = gacha.getManager(gt.getManagerClass());
+			ItemStack is = m.getGachaItem(id);
+
+			if (is == null) {
+				sender.sendMessage(ChatColor.RED + "指定されたIDは登録されていません．");
+				sender.sendMessage(ChatColor.RED + "/gacha get <ID> ");
+				return true;
+			}
+			Util.addItem(player, is);
+			return true;
+
+		} else if (args[0].equalsIgnoreCase("add")) {
+			// gacha add と入力したとき
+			// [1]:ガチャの種類
+			// [2]:Rarity
+			// [3]:確率
+			// [4]:個数
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内で実行して下さい");
+				return true;
+			}
+
+			Player player = (Player) sender;
+			if (args.length < 4 || args.length > 5) {
+				// 引数が4か5でない時の処理
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+				sender.sendMessage("手に持っているアイテムをガチャに追加します．");
+				return true;
+			}
+			GachaType gt;
+			Rarity r;
+			double probability;
+			int amount = 1;
+
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+				return true;
+			}
+			try {
+				// rarity
+				r = Rarity.valueOf(args[2].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定されたレアリティが間違っています");
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+				return true;
+			}
+			try {
+				// probability
+				probability = Converter.toDouble(args[3]);
+			} catch (NumberFormatException e) {
+				sender.sendMessage(ChatColor.RED + "指定された確率の値が不正です");
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+				return true;
+			}
+
+			if (probability > 1.0) {
+				sender.sendMessage(ChatColor.RED + "指定された確率の値が1を超えています");
+				return true;
+			}
+
+			if (args.length == 5) {
+				try {
+					// amount
+					amount = Converter.toInt(args[4]);
+				} catch (NumberFormatException e) {
+					sender.sendMessage(ChatColor.RED + "指定された個数の値が不正です");
+					sender.sendMessage(ChatColor.RED
+							+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+					return true;
+				}
+			}
+			ItemStack is = player.getInventory().getItemInMainHand();
+			GachaManager m = gacha.getManager(gt.getManagerClass());
+			m.addGachaItem(is, r, probability, amount);
+			sender.sendMessage(ChatColor.GREEN + "正常に追加されました．");
+			return true;
+
+		} else if (args[0].equalsIgnoreCase("list")) {
+			// gacha list と入力したとき
+			// [1]:ガチャの種類
+			if (args.length != 2) {
+				// 引数が2でない時の処理
+				sender.sendMessage(ChatColor.RED + "/gacha list <ガチャの種類>");
+				sender.sendMessage("現在のガチャリストを表示");
+				return true;
+			}
+			GachaType gt;
+
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED + "/gacha list <ガチャの種類>");
+				return true;
+			}
+			GachaManager m = gacha.getManager(gt.getManagerClass());
+			LinkedHashMap<Integer, GachaItem> items = m.getGachaItemMap();
+			sender.sendMessage(ChatColor.GREEN + "id|名前|確率|排出");
+			items.forEach((id, gi) -> {
+				sender.sendMessage("" + ChatColor.GREEN + id + "|"
+						+ gi.getItem().getItemMeta().getDisplayName() + "|"
+						+ Util.Decimal(gi.getProbability()) + "|"
+						+ gi.isLocked());
+			});
+			return true;
+		} else if (args[0].equalsIgnoreCase("lock")) {
+			// gacha remove と入力したとき
+			// [1]:ガチャの種類
+			// [2]:ID
+			if (args.length != 3) {
+				// 引数が3でない時の処理
+				sender.sendMessage(ChatColor.RED + "/gacha lock <ガチャの種類> <ID>");
+				sender.sendMessage("リスト該当番号のガチャ景品を排出停止");
+				return true;
+			}
+			GachaType gt;
+			int id;
+
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED + "/gacha lock <ガチャの種類> <ID>");
+				return true;
+			}
+			try {
+				// id
+				id = Converter.toInt(args[2]);
+			} catch (NumberFormatException e) {
+				sender.sendMessage(ChatColor.RED + "指定されたIDは数値ではありません");
+				sender.sendMessage(ChatColor.RED + "/gacha lock <ガチャの種類> <ID>");
+				return true;
+			}
+			GachaManager m = gacha.getManager(gt.getManagerClass());
+			m.lock(id);
+			sender.sendMessage(ChatColor.GREEN + "正常に排出停止されました．");
+			return true;
+		} else if (args[0].equalsIgnoreCase("save")) {
+			// gacha save と入力したとき
+			// [1]:ガチャの種類
+			if (args.length != 2) {
+				// 引数が2でない時の処理
+				sender.sendMessage(ChatColor.RED + "/gacha save <ガチャの種類>");
+				sender.sendMessage("sqlに現在の設定を保存");
+				return true;
+			}
+			GachaType gt;
+
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED + "/gacha save <ガチャの種類>");
+				return true;
+			}
+			GachaTableManager tm = sql.getManager(gt.getTableManagerClass());
+			tm.save();
+			sender.sendMessage(ChatColor.GREEN + "正常に保存されました");
+			return true;
+		} else if (args[0].equalsIgnoreCase("reload")) {
+			// gacha reload と入力したとき
+			// [1]:ガチャの種類
+			if (args.length != 2) {
+				// 引数が2でない時の処理
+				sender.sendMessage(ChatColor.RED + "/gacha reload <ガチャの種類>");
+				sender.sendMessage("ガチャリストをmysqlから読み込む");
+				sender.sendMessage(ChatColor.DARK_GRAY + "※onEnable時と同じ処理");
+				return true;
+			}
+			GachaType gt;
+
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED + "/gacha save <ガチャの種類>");
+				return true;
+			}
+			GachaTableManager tm = sql.getManager(gt.getTableManagerClass());
+			tm.load();
+			sender.sendMessage(ChatColor.GREEN + "正常に読み込まれました");
+			return true;
 		}
+		/*
+		 * sender.sendMessage(ChatColor.RED + "/gacha remove <ガチャの種類> <ID>");
+		 * sender.sendMessage("リスト該当番号のガチャ景品を削除");
+		 * sender.sendMessage(ChatColor.RED + "/gacha save <ガチャの種類>");
+		 * sender.sendMessage("コマンドによるガチャリストへの変更をmysqlに送信");
+		 * sender.sendMessage(ChatColor.RED + "/gacha reload <ガチャの種類>");
+		 * sender.sendMessage("ガチャリストをmysqlから読み込む");
+		 * sender.sendMessage(ChatColor.DARK_GRAY + "※onEnable時と同じ処理");
+		 */
 		/*
 		 * else if(args[0].equalsIgnoreCase("vote")){ if(args.length != 2){
 		 * //引数が2でない時の処理 sender.sendMessage(ChatColor.RED +

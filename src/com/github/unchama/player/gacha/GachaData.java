@@ -1,5 +1,6 @@
 package com.github.unchama.player.gacha;
 
+
 public class GachaData {
 	//獲得したガチャ券の累計
 	private long st_ticket;
@@ -57,11 +58,11 @@ public class GachaData {
 		this.apolo = apolo;
 	}
 
-	/**i個のガチャ券を与える
+	/**i個のガチャ券を追加
 	 *
 	 * @param i
 	 */
-	public void give(int i) {
+	public void add(int i) {
 		this.ticket += i;
 		this.st_ticket += i;
 	}
@@ -78,6 +79,14 @@ public class GachaData {
 	 */
 	public boolean isReceived() {
 		return receiveflag;
+	}
+
+	/**i個のガチャ券を削除
+	 *
+	 * @param i
+	 */
+	public void remove(int i) {
+		this.ticket -= i;
 	}
 
 

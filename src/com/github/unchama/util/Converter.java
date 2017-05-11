@@ -22,8 +22,7 @@ public class Converter {
 	}
 
 	public static float toFloat(String s)throws NumberFormatException{
-		float f = Float.valueOf(s);
-		return f;
+		return Float.valueOf(s);
 	}
 
 	public static int toInt(String s)throws NumberFormatException {
@@ -87,6 +86,11 @@ public class Converter {
 		}
 
 		return time;
+	}
+
+
+	public static double toDouble(String s)throws NumberFormatException{
+		return Double.valueOf(s);
 	}
 
 }
