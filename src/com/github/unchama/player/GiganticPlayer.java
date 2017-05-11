@@ -104,7 +104,7 @@ public class GiganticPlayer{
 
 
 	public GiganticPlayer(Player player){
-		this.name = Converter.toString(player);
+		this.name = Converter.getName(player);
 		this.uuid = player.getUniqueId();
 		this.setStatus(GiganticStatus.LODING);
 		for(ManagerType mt : ManagerType.values()){

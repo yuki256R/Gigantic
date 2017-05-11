@@ -18,8 +18,10 @@ public abstract class GachaManager {
 	// ガチャアイテムリスト
 	private LinkedHashMap<Integer, GachaItem> items;
 	private ItemStack gachaTicket;
+	private boolean maintenance;
 
 	public GachaManager() {
+		// gachaTicketを作成
 		items = new LinkedHashMap<Integer, GachaItem>();
 		gachaTicket = this.getMobhead();
 		ItemMeta gachameta = gachaTicket.getItemMeta();
@@ -28,9 +30,18 @@ public abstract class GachaManager {
 		lore.add(ChatColor.GRAY + "右クリックで使用");
 		gachameta.setLore(lore);
 		gachaTicket.setItemMeta(gachameta);
+
+		//メンテナンスモードを解除
+		this.maintenance = false;
 	}
 
+	/**
+	 * ガチャ券に使用するモブヘッドを取得します
+	 *
+	 * @return
+	 */
 	protected abstract ItemStack getMobhead();
+
 	/**
 	 * ガチャの名前を取得する．
 	 *
@@ -57,7 +68,7 @@ public abstract class GachaManager {
 	 *
 	 * @return
 	 */
-	public ItemStack getGachaTicket(){
+	public ItemStack getGachaTicket() {
 		return new ItemStack(gachaTicket);
 	}
 
@@ -81,6 +92,25 @@ public abstract class GachaManager {
 			r = Rarity.getRarity(rs.getInt("rarity"));
 			items.put(id, new GachaItem(is, amount, r));
 		}
+	}
+
+	/**
+	 * メンテ中の時trueを返します
+	 *
+	 * @return maintenance
+	 */
+	public boolean isMaintenance() {
+		return maintenance;
+	}
+
+	/**
+	 * メンテナンスフラグを設定します
+	 *
+	 * @param maintenance
+	 *            セットする maintenance
+	 */
+	public void setMaintenance(boolean maintenance) {
+		this.maintenance = maintenance;
 	}
 
 }

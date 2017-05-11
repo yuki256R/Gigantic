@@ -4,14 +4,30 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.event.MineBlockIncrementEvent;
+import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 
 public class MineBlockIncrementListener implements Listener {
+	/**ギガンティックガチャ券を付与する
+	 *
+	 * @param event
+	 */
+	@EventHandler
+	public void addGiganticGachaTicket(MineBlockIncrementEvent event) {
+		int pre = (int) (event.getPreAll() / 1000);
+		int next = (int) (event.getNextAll() / 1000);
+		if(pre == next){
+			return;
+		}
+		GiganticPlayer gp = event.getGiganticPlayer();
 
+		gp.getManager(PlayerGachaManager.class).give(GachaType.GIGANTIC,1);
+	}
 	/**フェアリーの数を更新する
 	 *
 	 * @param event
