@@ -18,8 +18,8 @@ import com.github.unchama.yml.moduler.YmlManager;
 public final class Yml {
 	public static enum ManagerType {
 		CONFIG(ConfigManager.class),
-		DEBUG(DebugManager.class),
 		MOBHEAD(CustomHeadDataManager.class),
+		DEBUG(DebugManager.class),
 		HUNTINGPOINT(HuntingPointDataManager.class),
 		;
 		// 使用するManagerClass
@@ -72,6 +72,9 @@ public final class Yml {
 	 * Class Ymlのコンストラクタです． プラグイン始動時に一度だけ呼び出されます．
 	 */
 	public Yml() {
+	}
+
+	public void Initialize(){
 		managermap.clear();
 		// instance作成
 		for (ManagerType ye : ManagerType.values()) {
