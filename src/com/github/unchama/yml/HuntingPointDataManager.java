@@ -18,11 +18,13 @@ public class HuntingPointDataManager extends YmlManager {
 		public String name; // 呼び出し名の逆引き
 		public String jpName; // 日本語名
 		public String headName; // MobHeadで呼び出すための名前
+		public boolean isTarget; // 狩猟対象ならtrue
 
-		public HuntMobData(String name_, String jpName_, String headName_) {
+		public HuntMobData(String name_, String jpName_, String headName_, boolean isTarget_) {
 			name = name_;
 			jpName = jpName_;
 			headName = headName_;
+			isTarget = isTarget_;
 		}
 	}
 
@@ -57,13 +59,15 @@ public class HuntingPointDataManager extends YmlManager {
 				.getConfigurationSection("mobdata");
 		MobNames = new HashMap<String, HuntMobData>();
 		for (String name : basedata.getKeys(false)) {
+			boolean isTarget = false;
 			if (basedata.getBoolean(name + ".target")) {
+				isTarget = true;
 				MobNameArray.add(name);
 			}
 
 			String jpname = basedata.getString(name + ".jpname");
 			String headname = basedata.getString(name + ".headname");
-			MobNames.put(name, new HuntMobData(name, jpname, headname));
+			MobNames.put(name, new HuntMobData(name, jpname, headname, isTarget));
 		}
 
 		// 同種判定のリスト
@@ -148,11 +152,12 @@ public class HuntingPointDataManager extends YmlManager {
 	// 狩猟対象か否か
 	public boolean isHuntMob(String name) {
 		reload();
-		boolean ret = false;
 		name = ConvertName(name);
+		if(!MobNames.containsKey(name)){
+			return false;
+		}
 
-		ret = MobNames.containsKey(name);
-		return ret;
+		return MobNames.get(name).isTarget;
 	}
 
 	// 同種として扱われるMob名の変換

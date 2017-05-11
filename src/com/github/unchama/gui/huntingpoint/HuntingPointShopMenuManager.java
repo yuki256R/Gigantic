@@ -189,7 +189,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		HuntMobData mobData = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobData(name);
 
-		return mobData.jpName + "の討伐Pショップ";
+		return mobData.jpName + "の狩猟Pショップ";
 	}
 
 	@Override
