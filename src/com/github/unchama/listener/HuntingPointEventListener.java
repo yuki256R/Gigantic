@@ -1,5 +1,6 @@
 package com.github.unchama.listener;
 
+import org.bukkit.entity.Guardian;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
@@ -20,6 +21,12 @@ public class HuntingPointEventListener implements Listener {
 	HuntingPointDataManager huntingPointData = Gigantic.yml
 			.getManager(HuntingPointDataManager.class);
 
+	// // モンスターを攻撃したとき
+	// @EventHandler
+	// public void onDamage(EntityDamageByEntityEvent event){
+	// RaidHuntingManager.Instance().onAttack(event);
+	// }
+
 	// モンスターを倒した時
 	@EventHandler
 	public void onKill(EntityDeathEvent event) {
@@ -31,9 +38,10 @@ public class HuntingPointEventListener implements Listener {
 		Player player = (Player) event.getEntity().getKiller();
 
 		String name = event.getEntity().getName();
-		String message = name;
 
 		name = nameConvert(name, event);
+
+		String message = name;
 		if (huntingPointData.isHuntMob(name)) {
 			message += " 狩猟対象";
 		} else {
@@ -61,16 +69,17 @@ public class HuntingPointEventListener implements Listener {
 			if (((Skeleton) event.getEntity()).getSkeletonType() == Skeleton.SkeletonType.WITHER) {
 				ret = "WitherSkeleton";
 			}
-
-			// 同種扱い
-		} else {
-			ret = huntingPointData.ConvertName(name);
+			// エルダーガーディアン
+		} else if ((event.getEntity() instanceof Guardian)) {
+			if (((Guardian) event.getEntity()).isElder()) {
+				ret = "ElderGuardian";
+			}
 		}
-		// //エルダーガーディアン
-		// if ((event.getEntity() instanceof Guardian)){
-		// message += " : " + (((Guardian)event.getEntity()).isElder() ?
-		// ":elder" : "not elder");
-		// }
+//			// 同種扱い
+//		} else {
+//			ret = huntingPointData.ConvertName(name);
+//		}
+
 		return ret;
 	}
 }

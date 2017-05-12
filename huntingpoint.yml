@@ -1,31 +1,155 @@
 ﻿# 狩りポイント
 
-# ポイントを放出するMOB（現在は敵MOBのみ対応）
-# 対象のMob名 : 日本語名 : MobHeadクラスで呼び出す頭の名前
-huntmob:
-      - 'Zombie : ゾンビ : MHF_Zombie'
-      - 'Skeleton : スケルトン : MHF_Skeleton'
-      - 'Spider : スパイダー : two'
-      - 'Creeper : クリーパー : MHF_Creeper'
-      - 'Enderman : エンダーマン : four'
-      - 'Witch : ウィッチ : five'
-      - 'Guardian : ガーディアン : six'
-      - 'Slime : スライム : seven'
-      - 'Silverfish : シルバーフィッシュ : eight'
-      - 'Endermite : エンダーマイト : nine'
-      - 'PigZonbie : ゾンビピッグマン : zero'
-      - 'WitherSkeleton : ウィザースケルトン : MHF_WSkeleton'
-      - 'Blaze : ブレイズ : two'
-      - 'Ghast : ガスト : three'
-      - 'MagmaCube : マグマキューブ : four'
-      - 'Shulker : シュルカー : five'
-      - 'Wither : ウィザー : six'
-      - 'EnderDragon : エンダードラゴン : seven'
+# モブごとの設定
+#  Zombie:			内部で使用されているMob名
+#    jpname: 'ゾンビ'		日本語名
+#    headname: 'MHF_Zombie'	頭の名前
+#    target: true		狩りの対象にするか
+
+mobdata:
+  Pig:
+    jpname: '豚'
+    headname: 'Pig'
+    target: true
+  Sheep:
+    jpname: '羊'
+    headname: 'WhiteSheep'
+    target: true
+  Cow:
+    jpname: '牛'
+    headname: 'Cow'
+    target: true
+  Mooshroom:
+    jpname: 'キノコ牛'
+    headname: 'Mushroom'
+    target: true
+  Chicken:
+    jpname: '鶏'
+    headname: 'Chicken'
+    target: true
+  Squid:
+    jpname: 'イカ'
+    headname: 'Squid'
+    target: true
+  Wolf:
+    jpname: 'オオカミ'
+    headname: 'Dog1'
+    target: true
+  Ocelot:
+    jpname: 'ヤマネコ'
+    headname: 'Ocelot'
+    target: true
+  Horse:
+    jpname: '馬'
+    headname: 'Horse2'
+    target: true
+  SkeletonHorse:
+    jpname: 'スケルトンホース'
+    headname: 'Horse1'
+    target: true
+  Rabbit:
+    jpname: '兎'
+    headname: 'Rabbit1'
+    target: true
+  PolarBear:
+    jpname: 'シロクマ'
+    headname: 'PolarBear'
+    target: true
+  Villager:
+    jpname: '村人'
+    headname: 'Villager'
+    target: true
+  Zombie:
+    jpname: 'ゾンビ'
+    headname: 'Zombie'
+    target: true
+  Husk:
+    jpname: 'ハスク'
+    headname: 'Husk'
+    target: true
+  Skeleton:
+    jpname: 'スケルトン'
+    headname: 'Skeleton'
+    target: true
+  Spider:
+    jpname: 'スパイダー'
+    headname: 'Spider'
+    target: true
+  CaveSpider:
+    jpname: '毒蜘蛛'
+    headname: 'CaveSpider'
+    target: true
+  Creeper:
+    jpname: 'クリーパー'
+    headname: 'Creeper'
+    target: true
+  Enderman:
+    jpname: 'エンダーマン'
+    headname: 'Enderman'
+    target: true
+  Witch:
+    jpname: 'ウィッチ'
+    headname: 'Witch'
+    target: true
+  Guardian:
+    jpname: 'ガーディアン'
+    headname: 'Guardian'
+    target: true
+  ElderGuardian:
+    jpname: 'エルダーガーディアン'
+    headname: 'ElderGuardian'
+    target: true
+  Slime:
+    jpname: 'スライム'
+    headname: 'Slime'
+    target: true
+  Silverfish:
+    jpname: 'シルバーフィッシュ'
+    headname: 'SilverfishEgg'
+    target: true
+  Endermite:
+    jpname: 'エンダーマイト'
+    headname: 'EndermiteEgg'
+    target: true
+  PigZonbie:
+    jpname: 'ゾンビピッグマン'
+    headname: 'Pigzombie'
+    target: true
+  WitherSkeleton:
+    jpname: 'ウィザースケルトン'
+    headname: 'WSkeleton'
+    target: true
+  Blaze:
+    jpname: 'ブレイズ'
+    headname: 'Blaze'
+    target: true
+  Ghast:
+    jpname: 'ガスト'
+    headname: 'Ghast'
+    target: true
+  #正式には「Magma Cube」だが、間が空くとSQLの動作に支障があるのでコード内で吸い取っている
+  MagmaCube:
+    jpname: 'マグマキューブ'
+    headname: 'MagmaCube'
+    target: true
+  Shulker:
+    jpname: 'シュルカー'
+    headname: 'Shulker'
+    target: true
+  Wither:
+    jpname: 'ウィザー'
+    headname: 'Wither'
+    target: true
+  EnderDragon:
+    jpname: 'エンダードラゴン'
+    headname: 'Enderdragon'
+    target: true
+
 
 # 上記の同種扱い（左辺を右辺に変換する）
 huntmob_convert:
-      - 'Husk : Zombie'
-      - 'CaveSpider : Spider'
+#      - 'Husk : Zombie'
+#      - 'CaveSpider : Spider'
 
 # ショップの陳列
 shop:
