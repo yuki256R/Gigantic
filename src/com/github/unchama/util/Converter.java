@@ -21,20 +21,19 @@ public class Converter {
 		return flag;
 	}
 
-	public static float toFloat(String s) {
-		float f = Float.valueOf(s);
-		return f;
+	public static float toFloat(String s)throws NumberFormatException{
+		return Float.valueOf(s);
 	}
 
-	public static int toInt(String s) {
+	public static int toInt(String s)throws NumberFormatException {
 		return Integer.valueOf(s);
 	}
 
-	public static short toShort(String s) {
+	public static short toShort(String s)throws NumberFormatException {
 		return Short.valueOf(s);
 	}
 
-	public static long toLong(String s) {
+	public static long toLong(String s)throws NumberFormatException {
 		return Long.valueOf(s);
 	}
 
@@ -44,16 +43,6 @@ public class Converter {
 
 	public static String getName(String name) {
 		return name.toLowerCase();// 小文字に
-	}
-
-	/**
-	 * プレイヤー型からプレイヤーネームを返す
-	 *
-	 * @param p
-	 * @return
-	 */
-	public static String toString(Player p) {
-		return p.getName().toLowerCase();
 	}
 
 	/**与えられたtick数から時間表示を返します
@@ -97,6 +86,11 @@ public class Converter {
 		}
 
 		return time;
+	}
+
+
+	public static double toDouble(String s)throws NumberFormatException{
+		return Double.valueOf(s);
 	}
 
 }

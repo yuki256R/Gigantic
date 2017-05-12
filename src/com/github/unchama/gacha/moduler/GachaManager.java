@@ -11,15 +11,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.BukkitSerialization;
+import com.github.unchama.yml.CustomHeadManager;
+
+import de.tr7zw.itemnbtapi.NBTItem;
 
 public abstract class GachaManager {
 
 	// ガチャアイテムリスト
 	private LinkedHashMap<Integer, GachaItem> items;
 	private ItemStack gachaTicket;
+	private boolean maintenance;
+	private GachaType gt;
 
-	public GachaManager() {
+	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);
+
+	public GachaManager(GachaType gt) {
+		this.gt = gt;
+		// gachaTicketを作成
 		items = new LinkedHashMap<Integer, GachaItem>();
 		gachaTicket = this.getMobhead();
 		ItemMeta gachameta = gachaTicket.getItemMeta();
@@ -28,9 +39,21 @@ public abstract class GachaManager {
 		lore.add(ChatColor.GRAY + "右クリックで使用");
 		gachameta.setLore(lore);
 		gachaTicket.setItemMeta(gachameta);
+		NBTItem nbti = new NBTItem(gachaTicket);
+		nbti.setString("ticket", gt.name());
+		gachaTicket = nbti.getItem();
+
+		// メンテナンスモードを解除
+		this.maintenance = false;
 	}
 
-	protected abstract ItemStack getMobhead();
+	/**
+	 * ガチャ券に使用するモブヘッドを取得します
+	 *
+	 * @return
+	 */
+	public abstract ItemStack getMobhead();
+
 	/**
 	 * ガチャの名前を取得する．
 	 *
@@ -57,8 +80,8 @@ public abstract class GachaManager {
 	 *
 	 * @return
 	 */
-	public ItemStack getGachaTicket(){
-		return new ItemStack(gachaTicket);
+	public ItemStack getGachaTicket() {
+		return gachaTicket.clone();
 	}
 
 	/**
@@ -73,14 +96,78 @@ public abstract class GachaManager {
 		ItemStack is;
 		int amount;
 		Rarity r;
+		double probability;
+		boolean locked;
 		while (rs.next()) {
 			id = rs.getInt("id");
 			is = BukkitSerialization.getItemStackfromBase64(rs.getString(
 					"itemstack").toString());
 			amount = rs.getInt("amount");
 			r = Rarity.getRarity(rs.getInt("rarity"));
-			items.put(id, new GachaItem(is, amount, r));
+			probability = rs.getDouble("probability");
+			locked = rs.getBoolean("locked");
+			items.put(id, new GachaItem(id, is, amount, r, probability, locked));
 		}
+	}
+
+	/**
+	 * メンテ中の時trueを返します
+	 *
+	 * @return maintenance
+	 */
+	public boolean isMaintenance() {
+		return maintenance;
+	}
+
+	/**
+	 * メンテナンスフラグを設定します
+	 *
+	 * @param maintenance
+	 *            セットする maintenance
+	 */
+	public void setMaintenance(boolean maintenance) {
+		this.maintenance = maintenance;
+	}
+
+	/**
+	 * 指定されたidのアイテムを取得します
+	 *
+	 * @param id
+	 * @return
+	 */
+	public ItemStack getGachaItem(int id) {
+		return items.get(id).getItem();
+	}
+
+	/**
+	 * ガチャアイテムを追加します．
+	 *
+	 * @param is
+	 * @param r
+	 * @param probability
+	 * @param amount
+	 */
+	public void addGachaItem(ItemStack is, Rarity r, double probability,
+			int amount) {
+		int i = 0;
+		while (items.containsKey(i)) {
+			i++;
+		}
+		items.put(i, new GachaItem(i, is, amount, r, probability, false));
+	}
+
+	/**
+	 * ガチャアイテムリストを取得します
+	 *
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public LinkedHashMap<Integer, GachaItem> getGachaItemMap() {
+		return (LinkedHashMap<Integer, GachaItem>) items.clone();
+	}
+
+	public void lock(int id) {
+		items.get(id).lock();
 	}
 
 }

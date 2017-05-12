@@ -73,13 +73,13 @@ public class Gacha {
 	private LinkedHashMap<Class<? extends GachaManager>,GachaManager> managermap = new LinkedHashMap<Class<? extends GachaManager>,GachaManager>();
 
 	public Gacha(){
-		for(GachaType mt : GachaType.values()){
+		for(GachaType gt : GachaType.values()){
 			try {
-				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor().newInstance());
+				this.managermap.put(gt.getManagerClass(),gt.getManagerClass().getConstructor(GachaType.class).newInstance(gt));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
-				Bukkit.getServer().getLogger().warning("Failed to create new Instance of gacha:" + mt.name());
+				Bukkit.getServer().getLogger().warning("Failed to create new Instance of gacha:" + gt.name());
 				e.printStackTrace();
 			}
 		}

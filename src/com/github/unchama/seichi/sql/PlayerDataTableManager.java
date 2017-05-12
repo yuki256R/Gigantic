@@ -177,6 +177,46 @@ public class PlayerDataTableManager extends SeichiTableManager {
         return ans;
 	}
 
+	public int getGachaTicket(GiganticPlayer gp) {
+		String command = "";
+	    final String struuid = gp.uuid.toString().toLowerCase();
+	    int ans = 0;
+
+	    command = "select gachapoint from " + db + "." + table + " where uuid = '" + struuid + "'";
+	    this.checkStatement();
+	    try{
+	        rs = stmt.executeQuery(command);
+	        while(rs.next()){
+	        	ans = rs.getInt("gachapoint");
+            }
+            rs.close();
+        }catch (SQLException e){
+	        plugin.getLogger().warning("Failed to load gachapoint player:" + gp.name);
+	        e.printStackTrace();
+        }
+        return ans;
+	}
+
+	public int getSorryForBugs(GiganticPlayer gp) {
+		String command = "";
+	    final String struuid = gp.uuid.toString().toLowerCase();
+	    int ans = 0;
+
+	    command = "select numofsorryforbug from " + db + "." + table + " where uuid = '" + struuid + "'";
+	    this.checkStatement();
+	    try{
+	        rs = stmt.executeQuery(command);
+	        while(rs.next()){
+	        	ans = rs.getInt("numofsorryforbug");
+            }
+            rs.close();
+        }catch (SQLException e){
+	        plugin.getLogger().warning("Failed to load numofsorryforbug player:" + gp.name);
+	        e.printStackTrace();
+        }
+        return ans;
+	}
+
 
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 }

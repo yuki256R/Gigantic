@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.util.MobHead;
 import com.github.unchama.util.Util;
 
 public abstract class AdminGachaMenuManager extends AdminMenuManager {
@@ -184,25 +183,25 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 			is = gm.getGachaTypeInfo();
 			break;
 		case GIVE:
-			is = MobHead.getMobHead("orange");
+			is = head.getMobHead("orange");
 			break;
 		case LIST:
-			is = MobHead.getMobHead("corn");
+			is = head.getMobHead("corn");
 			break;
 		case EDIT:
-			is = MobHead.getMobHead("riceball");
+			is = head.getMobHead("riceball");
 			break;
 		case MENTE:
-			is = MobHead.getMobHead("grape");
+			is = head.getMobHead("grape");
 			break;
 		case SAVE:
-			is = MobHead.getMobHead("tomato");
+			is = head.getMobHead("tomato");
 			break;
 		case RELOAD:
-			is = MobHead.getMobHead("milk_chocolate");
+			is = head.getMobHead("milk_chocolate");
 			break;
 		case DEMO:
-			is = MobHead.getMobHead("sushi_roll");
+			is = head.getMobHead("sushi_roll");
 			break;
 		default:
 			break;
