@@ -121,12 +121,12 @@ public class HuntingPointDataManager extends YmlManager {
 			switch (ret.getCategoryType()) {
 			case ToHead:
 				headName = MobNames.get(name).headName;
-				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
+				Gigantic.yml.getManager(CustomHeadManager.class).setSkull(
 						item, headName);
 				break;
 			case CustomHead:
 				headName = this.fc.getString(path + ".headname", "");
-				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
+				Gigantic.yml.getManager(CustomHeadManager.class).setSkull(
 						item, headName);
 				break;
 			case Item:

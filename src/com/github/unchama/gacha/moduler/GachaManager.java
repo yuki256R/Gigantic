@@ -12,7 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.BukkitSerialization;
+import com.github.unchama.yml.CustomHeadManager;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
@@ -23,6 +25,8 @@ public abstract class GachaManager {
 	private ItemStack gachaTicket;
 	private boolean maintenance;
 	private GachaType gt;
+
+	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);
 
 	public GachaManager(GachaType gt) {
 		this.gt = gt;

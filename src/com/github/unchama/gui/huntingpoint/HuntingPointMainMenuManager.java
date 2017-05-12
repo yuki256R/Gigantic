@@ -24,7 +24,6 @@ import com.github.unchama.gui.MainMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
-import com.github.unchama.yml.CustomHeadDataManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
@@ -40,8 +39,7 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
 
 	public HuntingPointMainMenuManager() {
-		backButton = Gigantic.yml.getManager(
-				CustomHeadDataManager.class).getMobHead("left");
+		backButton = head.getMobHead("left");
 		ItemMeta itemMeta = backButton.getItemMeta();
 		// モンスターの表示名
 		itemMeta.setDisplayName("戻る");
@@ -73,8 +71,7 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 		// 各MOB
 		for (String name : mobNameArray) {
 			// Mobに応じた頭
-			ItemStack button = Gigantic.yml.getManager(
-					CustomHeadDataManager.class).getMobHead(mobNames.get(name).headName);
+			ItemStack button = head.getMobHead(mobNames.get(name).headName);
 			ItemMeta itemMeta = button.getItemMeta();
 			// モンスターの表示名
 			itemMeta.setDisplayName(ChatColor.RESET + ""

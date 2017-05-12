@@ -5,7 +5,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
-import com.github.unchama.util.MobHead;
 
 public class PremiumGachaManager extends GachaManager {
 
@@ -20,6 +19,6 @@ public class PremiumGachaManager extends GachaManager {
 	}
 	@Override
 	public ItemStack getMobhead() {
-		return MobHead.getMobHead("green_present");
+		return head.getMobHead("green_present");
 	}
 }
