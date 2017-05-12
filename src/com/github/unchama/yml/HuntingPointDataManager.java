@@ -6,27 +6,32 @@ import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopItem;
-import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.moduler.YmlManager;
 
 public class HuntingPointDataManager extends YmlManager {
-	public class HuntMobBaseData {
+	public class HuntMobData {
+		public String name; // 呼び出し名の逆引き
 		public String jpName; // 日本語名
 		public String headName; // MobHeadで呼び出すための名前
+		public boolean isTarget; // 狩猟対象ならtrue
 
-		public HuntMobBaseData(String jpName_, String headName_) {
+		public HuntMobData(String name_, String jpName_, String headName_, boolean isTarget_) {
+			name = name_;
 			jpName = jpName_;
 			headName = headName_;
+			isTarget = isTarget_;
 		}
 	}
 
 	static Map<String, List<HuntingPointShopItem>> shopItems;
 
-	static Map<String, HuntMobBaseData> MobNames;
-	//Map.keysetで回すと順番が変わるため
+	static Map<String, HuntMobData> MobNames;
+	// Map.keysetで回すと順番が変わるため
 	static List<String> MobNameArray;
 
 	static Map<String, String> ConvertNames;
@@ -47,15 +52,22 @@ public class HuntingPointDataManager extends YmlManager {
 	// ymlファイルからデータを取りなおす
 	public void reload() {
 		// ドロップ対象のMob名
-		MobNames = new HashMap<String, HuntMobBaseData>();
 		MobNameArray = new ArrayList<String>();
-		List<String> baseData = this.fc.getStringList("huntmob");
-		for (String data : baseData) {
-			String[] d = data.split(" : ");
-			if (d.length == 3) {
-				MobNameArray.add(d[0]);
-				MobNames.put(d[0], new HuntMobBaseData(d[1], d[2]));
+
+		// 表示データ
+		ConfigurationSection basedata = this.fc
+				.getConfigurationSection("mobdata");
+		MobNames = new HashMap<String, HuntMobData>();
+		for (String name : basedata.getKeys(false)) {
+			boolean isTarget = false;
+			if (basedata.getBoolean(name + ".target")) {
+				isTarget = true;
+				MobNameArray.add(name);
 			}
+
+			String jpname = basedata.getString(name + ".jpname");
+			String headname = basedata.getString(name + ".headname");
+			MobNames.put(name, new HuntMobData(name, jpname, headname, isTarget));
 		}
 
 		// 同種判定のリスト
@@ -104,18 +116,18 @@ public class HuntingPointDataManager extends YmlManager {
 		// ret.setLogName(this.fc.getString(path + ".logname"));
 		ret.setMeta(this.fc.getString(path + ".meta"));
 		ItemStack item = this.fc.getItemStack(path + ".itemstack", null);
-		String url = "";
+		String headName = "";
 		if (ret.getCategoryType() != null && item != null) {
 			switch (ret.getCategoryType()) {
 			case ToHead:
-				String headName = MobNames.get(name).headName;
-				url = MobHead.getMobURL(headName);
-				MobHead.setURL(item, url);
+				headName = MobNames.get(name).headName;
+				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
+						item, headName);
 				break;
 			case CustomHead:
-				url = MobHead.getMobURL(this.fc.getString(path
-						+ ".headname", ""));
-				MobHead.setURL(item, url);
+				headName = this.fc.getString(path + ".headname", "");
+				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
+						item, headName);
 				break;
 			case Item:
 				break;
@@ -140,11 +152,12 @@ public class HuntingPointDataManager extends YmlManager {
 	// 狩猟対象か否か
 	public boolean isHuntMob(String name) {
 		reload();
-		boolean ret = false;
 		name = ConvertName(name);
+		if(!MobNames.containsKey(name)){
+			return false;
+		}
 
-		ret = MobNames.containsKey(name);
-		return ret;
+		return MobNames.get(name).isTarget;
 	}
 
 	// 同種として扱われるMob名の変換
@@ -153,21 +166,21 @@ public class HuntingPointDataManager extends YmlManager {
 		if (ConvertNames.containsKey(name)) {
 			ret = ConvertNames.get(name);
 		}
-		//「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
-		//SQL周りで不具合が起こるためこちらで吸い取る
+		// 「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
+		// SQL周りで不具合が起こるためこちらで吸い取る
 		ret = ret.replace(" ", "");
 		return ret;
 	}
 
-	public Map<String, HuntMobBaseData> getMobNames() {
+	public Map<String, HuntMobData> getMobNames() {
 		return MobNames;
 	}
 
-	public HuntMobBaseData getMobData(String name) {
+	public HuntMobData getMobData(String name) {
 		return MobNames.get(name);
 	}
 
-	public List<String> getMobNameArray(){
+	public List<String> getMobNameArray() {
 		return MobNameArray;
 	}
 }

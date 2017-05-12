@@ -169,10 +169,10 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&e&n&l狩りポイント'
+      display-name: '&e&n&l狩猟ポイント'
       lore:
-      - '&r&aMobの討伐ポイントです．'
-      - '&r討伐ポイントを使用して'
+      - '&r&aMobの狩猟ポイントです．'
+      - '&r対象の狩猟ポイントを使用して'
       - '&r専用ショップで購入ができます'
   mobhead: 'pc'
   openmenu: 'huntmainmenu'
