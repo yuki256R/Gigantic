@@ -3,6 +3,7 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.admin.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.AdminGachaTypeMenuManager;
 import com.github.unchama.gui.admin.AdminGiganticGachaMenuManager;
 import com.github.unchama.gui.admin.AdminPremiumGachaMenuManager;
@@ -19,6 +20,7 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.seichireward.SeichiRewardMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
@@ -69,9 +71,11 @@ public final class GuiMenu {
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
+		SEICHIREWARDMENU(SeichiRewardMenuManager.class);
 		;
 
 		// 使用するManagerClass

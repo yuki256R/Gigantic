@@ -23,11 +23,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
-import com.github.unchama.util.MobHead;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
-import com.github.unchama.yml.HuntingPointDataManager.HuntMobBaseData;
+import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
 public class HuntingPointShopMenuManager extends GuiMenuManager {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
@@ -43,7 +42,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
-		backButton = MobHead.getMobHead("left");
+		backButton = head.getMobHead("left");
 		ItemMeta itemMeta = backButton.getItemMeta();
 		// モンスターの表示名
 		itemMeta.setDisplayName("戻る");
@@ -60,7 +59,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 				HuntingPointDataManager.class).getShopItems(name);
 
 		// Mobの表示情報を取得
-		HuntMobBaseData mobData = Gigantic.yml.getManager(
+		HuntMobData mobData = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobData(name);
 
 		// インベントリ基本情報
@@ -72,7 +71,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 		// 所持ポイント表示
 		// Mobに応じた頭
-		ItemStack info = MobHead.getMobHead(mobData.headName);
+		ItemStack info = head.getMobHead(mobData.headName);
 		ItemMeta skullItemMeta = info.getItemMeta();
 		skullItemMeta.setDisplayName(ChatColor.GREEN + mobData.jpName + "の討伐P");
 		skullItemMeta.setLore(Arrays.asList(
@@ -147,7 +146,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		}
 		manager.payPoint(name, shopItem.getPrice());
 
-		HuntMobBaseData mobData = Gigantic.yml.getManager(
+		HuntMobData mobData = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobData(name);
 		player.sendMessage("[" + mobData.jpName + "]を購入しました.");
 		player.openInventory(getInventory(player, slot));
@@ -184,10 +183,10 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 		String name = manager.getShopMobName();
-		HuntMobBaseData mobData = Gigantic.yml.getManager(
+		HuntMobData mobData = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobData(name);
 
-		return mobData.jpName + "の討伐Pショップ";
+		return mobData.jpName + "の狩猟Pショップ";
 	}
 
 	@Override

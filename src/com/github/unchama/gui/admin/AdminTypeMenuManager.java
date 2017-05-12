@@ -13,9 +13,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
-import com.github.unchama.util.MobHead;
 
 public class AdminTypeMenuManager extends AdminMenuManager {
+	// 各ボタンのスロット番号
+	private final int gachaSlot = 0;
+	private final int customHeadSlot = 4;
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
@@ -31,7 +33,8 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(0, ManagerType.ADMINGACHATYPEMENU);
+		openmap.put(gachaSlot, ManagerType.ADMINGACHATYPEMENU);
+		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADGIBEMENU);
 	}
 
 	@Override
@@ -54,8 +57,12 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore = new ArrayList<String>();
 		switch (slot) {
-		case 0:
+		case gachaSlot:
 			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "ガチャシステム");
+			itemmeta.setLore(lore);
+			break;
+		case customHeadSlot:
+			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "カスタムヘッド");
 			itemmeta.setLore(lore);
 			break;
 		default:
@@ -69,8 +76,11 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 	protected ItemStack getItemStack(Player player, int slot) {
 		ItemStack itemstack = null;
 		switch (slot) {
-		case 0:
-			itemstack = MobHead.getMobHead("red_present");
+		case gachaSlot:
+			itemstack = head.getMobHead("red_present");
+			break;
+		case customHeadSlot:
+			itemstack = head.getMobHead("Zombie");
 			break;
 		default:
 			break;

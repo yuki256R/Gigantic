@@ -10,7 +10,7 @@ import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.yml.HuntingPointDataManager;
-import com.github.unchama.yml.HuntingPointDataManager.HuntMobBaseData;
+import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
 public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	HuntingPointDataManager huntingPointData = Gigantic.yml
@@ -28,7 +28,7 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	protected String addColumnCommand() {
 		String command = "";
-		Map<String, HuntMobBaseData> names = Gigantic.yml.getManager(
+		Map<String, HuntMobData> names = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 		for (String name : names.keySet()) {
 			command += "add column if not exists " + name + currentFoot
@@ -43,7 +43,7 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		HuntingPointManager m = gp.getManager(HuntingPointManager.class);
-		Map<String, HuntMobBaseData> names = Gigantic.yml.getManager(
+		Map<String, HuntMobData> names = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 		for (String name : names.keySet()) {
 			m.addCurrent(name, rs.getInt(name + currentFoot));
@@ -55,7 +55,7 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	protected String saveCommand(GiganticPlayer gp) {
 		HuntingPointManager m = gp.getManager(HuntingPointManager.class);
 		String command = "";
-		Map<String, HuntMobBaseData> names = Gigantic.yml.getManager(
+		Map<String, HuntMobData> names = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 		for (String name : names.keySet()) {
 			command += name + currentFoot + " = '" + m.getCurrentPoint(name)
@@ -73,7 +73,7 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		HuntingPointManager m = gp.getManager(HuntingPointManager.class);
-		Map<String, HuntMobBaseData> names = Gigantic.yml.getManager(
+		Map<String, HuntMobData> names = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 		for (String name : names.keySet()) {
 			m.addCurrent(name, 0);
