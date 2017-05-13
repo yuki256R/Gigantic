@@ -119,9 +119,7 @@ public class RuinFieldMenuManager extends ActiveSkillMenuManager{
 			itemstack = new ItemStack(Material.GLASS);
 			break;
 		case ORIGIN:
-			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-			String url = head.getURL("pc");
-			head.setURL(itemstack, url);
+			itemstack = head.getMobHead("pc");
 			break;
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);

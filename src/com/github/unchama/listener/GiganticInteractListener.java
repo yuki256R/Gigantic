@@ -88,6 +88,10 @@ public class GiganticInteractListener implements Listener {
 		int count = 1;
 
 		ItemStack item = event.getItem();
+
+		if(item == null)return;
+
+
 		if (player.isSneaking()) {
 			count = item.getAmount();
 		}
