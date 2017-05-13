@@ -87,5 +87,14 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 		Mm = gp.getManager(MineBlockManager.class);
 	}
 
+	/**ガチャを回します．
+	 *
+	 * @param player
+	 * @param ガチャの種類
+	 */
+	public void roll(Player player, GachaType gt) {
+
+	}
+
 
 }

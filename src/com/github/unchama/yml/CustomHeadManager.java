@@ -167,11 +167,12 @@ public class CustomHeadManager extends YmlManager {
 	 * @param skull
 	 * @param url
 	 */
-	public void setURL(ItemStack skull, String url) {
-		// // 不正なURLをセットすると、表示したクライアントがクラッシュするため
-		// if (url == null || !URLMap.containsValue(url)) {
-		// return;
-		// }
+	private void setURL(ItemStack skull, String url) {
+		// privateに変更して動作の担保が取れたためコメントアウト
+//		// 不正なURLをセットすると、表示したクライアントがクラッシュするため
+//		if (url == null || !URLMap.containsValue(url)) {
+//			return;
+//		}
 
 		ItemMeta meta = skull.getItemMeta();
 		GameProfile profile = new GameProfile(UUID.randomUUID(), null);
