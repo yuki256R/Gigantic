@@ -4,10 +4,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.admin.AdminCustomHeadGiveMenuManager;
-import com.github.unchama.gui.admin.AdminGachaTypeMenuManager;
-import com.github.unchama.gui.admin.AdminGiganticGachaMenuManager;
-import com.github.unchama.gui.admin.AdminPremiumGachaMenuManager;
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
+import com.github.unchama.gui.admin.gacha.AdminGachaTypeMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_AppleGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_EditGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_ListGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_TicketGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_AppleGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_EditGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_ListGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_TicketGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
 import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
@@ -70,7 +78,15 @@ public final class GuiMenu {
 		ADMINTYPEMENU(AdminTypeMenuManager.class),
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
+		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
+		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
+		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
+		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
+		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
+		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
+		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
 		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),

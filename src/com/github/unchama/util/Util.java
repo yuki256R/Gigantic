@@ -95,7 +95,11 @@ public class Util {
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP,
 					(float) 0.1, (float) 1);
 		} else {
-			player.sendMessage(itemstack.getItemMeta().getDisplayName() + ChatColor.RESET + " は持ち切れなかったためドロップしました.");
+			if(itemstack.getItemMeta().hasDisplayName()){
+				player.sendMessage(itemstack.getItemMeta().getDisplayName() + ChatColor.RESET + " は持ち切れなかったためドロップしました.");
+			}else{
+				player.sendMessage(itemstack.getType().toString() + ChatColor.RESET + " は持ち切れなかったためドロップしました.");
+			}
 			dropItem(player, itemstack);
 		}
 	}

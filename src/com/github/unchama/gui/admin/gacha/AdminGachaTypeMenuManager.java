@@ -1,4 +1,4 @@
-package com.github.unchama.gui.admin;
+package com.github.unchama.gui.admin.gacha;
 
 import java.util.HashMap;
 
@@ -24,6 +24,7 @@ public class AdminGachaTypeMenuManager extends AdminMenuManager {
 					.getGachaTypeInfo();
 			if (itemstack == null)
 				continue;
+
 			inv.setItem(i, itemstack);
 		}
 		return inv;
@@ -45,7 +46,8 @@ public class AdminGachaTypeMenuManager extends AdminMenuManager {
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		GachaType[] gt = GachaType.values();
 		for (int i = 0; i < gt.length; i++) {
-			openmap.put(i, ManagerType.getTypebyClass(gt[i].getMenuManagerClass()));
+			openmap.put(i,
+					ManagerType.getTypebyClass(gt[i].getMenuManagerClass()));
 		}
 	}
 
