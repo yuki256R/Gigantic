@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import zedly.zenchantments.Zenchantments;
 
 import com.github.unchama.event.GiganticInteractEvent;
+import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
@@ -50,6 +51,7 @@ public class GiganticInteractListener implements Listener {
 	GuiMenu guimenu = Gigantic.guimenu;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	Gacha gacha = Gigantic.gacha;
 	Zenchantments Ze;
 
 	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
@@ -102,6 +104,13 @@ public class GiganticInteractListener implements Listener {
 		if (GachaManager.isTicket(nbti)) {
 			GiganticPlayer gp = event.getGiganticPlayer();
 			GachaType gt = GachaManager.getGachaType(nbti);
+			GachaManager gm = gacha.getManager(gt.getManagerClass());
+
+			if(gm.isMaintenance()){
+				player.sendMessage(ChatColor.AQUA + "メンテナンス中です．");
+				event.setCancelled(true);
+				return;
+			}
 			PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
 
 			for (int i = 0; i < count; i++) {
