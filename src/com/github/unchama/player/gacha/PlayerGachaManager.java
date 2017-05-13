@@ -7,6 +7,8 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaItem;
+import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
@@ -89,10 +91,13 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 
 	/**ガチャを回します．
 	 *
-	 * @param player
 	 * @param ガチャの種類
 	 */
-	public void roll(Player player, GachaType gt) {
+	public ItemStack roll(GachaType gt) {
+		GachaManager gm = gacha.getManager(gt.getManagerClass());
+		GachaItem gi = gm.roll();
+		dataMap.get(gt).use(gi.getRarity());
+		return gi.getItem();
 
 	}
 

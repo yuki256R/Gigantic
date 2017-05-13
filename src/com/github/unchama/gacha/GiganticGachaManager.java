@@ -1,7 +1,9 @@
 package com.github.unchama.gacha;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
@@ -19,9 +21,15 @@ public class GiganticGachaManager extends GachaManager {
 	}
 
 	@Override
-	public ItemStack getMobhead() {
-		return head.getMobHead("red_present");
+	protected List<String> getLore() {
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "通常ガチャ");
+		lore.add(ChatColor.GRAY + "1000ブロック掘るごとに");
+		lore.add(ChatColor.GRAY + "１つ獲得できます．");
+		return lore;
 	}
+
+
 
 
 

@@ -21,6 +21,7 @@ import zedly.zenchantments.Zenchantments;
 
 import com.github.unchama.event.GiganticInteractEvent;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
@@ -89,8 +90,8 @@ public class GiganticInteractListener implements Listener {
 
 		ItemStack item = event.getItem();
 
-		if(item == null)return;
-
+		if (item == null)
+			return;
 
 		if (player.isSneaking()) {
 			count = item.getAmount();
@@ -98,13 +99,21 @@ public class GiganticInteractListener implements Listener {
 		NBTItem nbti = new NBTItem(item);
 
 		// gacha券tagを判定
-		if (nbti.hasKey("ticket")) {
+		if (GachaManager.isTicket(nbti)) {
 			GiganticPlayer gp = event.getGiganticPlayer();
-			GachaType gt = GachaType.valueOf(nbti.getString("ticket"));
+			GachaType gt = GachaManager.getGachaType(nbti);
 			PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
 
-			// ガチャを回す
-			//ItemStack gachaitem = pm.roll(player, gt);
+			for (int i = 0; i < count; i++) {
+				// ガチャを回す
+				ItemStack gachaitem = pm.roll(gt);
+				Util.giveItem(player, gachaitem);
+			}
+			if (player.isSneaking()) {
+				player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+			} else {
+				item.setAmount(item.getAmount() - 1);
+			}
 
 			event.setCancelled(true);
 			return;

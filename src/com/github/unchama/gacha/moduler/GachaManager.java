@@ -3,11 +3,10 @@ package com.github.unchama.gacha.moduler;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Random;
 
-import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -20,39 +19,36 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public abstract class GachaManager {
 
+	//**************絶対に変更しないでください************
+	// ガチャの種類
+	private static final String GACHATYPENBT = "gachaType";
+	// チケットを保存しているid
+	private static final int TICKETID = 0;
+	private static final String TICKETNBT = "ticket";
+	// ガチャリンゴを保存しているid
+	private static final int APPLEID = 1;
+
+	private static final String GACHAITEMIDNBT = "gachaItemID";
+
+
+	//**********************************************
+
+	private Random rnd;
 	// ガチャアイテムリスト
 	private LinkedHashMap<Integer, GachaItem> items;
-	private ItemStack gachaTicket;
 	private boolean maintenance;
 	private GachaType gt;
 
-	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);
+	protected CustomHeadManager head = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
 	public GachaManager(GachaType gt) {
+		rnd = new Random();
 		this.gt = gt;
-		// gachaTicketを作成
 		items = new LinkedHashMap<Integer, GachaItem>();
-		gachaTicket = this.getMobhead();
-		ItemMeta gachameta = gachaTicket.getItemMeta();
-		gachameta.setDisplayName(this.getGachaName() + "券");
-		List<String> lore = new ArrayList<String>();
-		lore.add(ChatColor.GRAY + "右クリックで使用");
-		gachameta.setLore(lore);
-		gachaTicket.setItemMeta(gachameta);
-		NBTItem nbti = new NBTItem(gachaTicket);
-		nbti.setString("ticket", gt.name());
-		gachaTicket = nbti.getItem();
-
 		// メンテナンスモードを解除
 		this.maintenance = false;
 	}
-
-	/**
-	 * ガチャ券に使用するモブヘッドを取得します
-	 *
-	 * @return
-	 */
-	public abstract ItemStack getMobhead();
 
 	/**
 	 * ガチャの名前を取得する．
@@ -70,7 +66,7 @@ public abstract class GachaManager {
 		ItemStack is = this.getGachaTicket();
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(this.getGachaName());
-		im.setLore(new ArrayList<String>());
+		im.setLore(this.getLore());
 		is.setItemMeta(im);
 		return is;
 	}
@@ -81,7 +77,8 @@ public abstract class GachaManager {
 	 * @return
 	 */
 	public ItemStack getGachaTicket() {
-		return gachaTicket.clone();
+		GachaItem gi = items.get(TICKETID);
+		return gi == null ? head.getMobHead("grass") : gi.getItem();
 	}
 
 	/**
@@ -135,8 +132,46 @@ public abstract class GachaManager {
 	 * @param id
 	 * @return
 	 */
-	public ItemStack getGachaItem(int id) {
-		return items.get(id).getItem();
+	public GachaItem getGachaItem(int id) {
+		return items.get(id);
+	}
+
+	/**
+	 * ガチャリンゴを更新します．
+	 *
+	 * @param is
+	 */
+	public void updateGachaApple(ItemStack apple) {
+		// ガチャID,ガチャの種類をNBTタグに追加
+		NBTItem nbti = new NBTItem(apple);
+		nbti.setInteger(GACHAITEMIDNBT, APPLEID);
+		nbti.setString(GACHATYPENBT, this.getGachaNBT());
+		apple = nbti.getItem();
+
+		Rarity r = Rarity.APPLE;
+
+		items.put(APPLEID, new GachaItem(APPLEID, apple, r));
+	}
+
+	private String getGachaNBT() {
+		return gt.name();
+	}
+
+	/**
+	 * ガチャチケットを更新します．
+	 *
+	 * @param is
+	 */
+	public void updateGachaTicket(ItemStack ticket) {
+		// ガチャID,ガチャの種類をNBTタグに追加
+		NBTItem nbti = new NBTItem(ticket);
+		nbti.setInteger(TICKETNBT, TICKETID);
+		nbti.setString(GACHATYPENBT, this.getGachaNBT());
+		ticket = nbti.getItem();
+
+		Rarity r = Rarity.TICKET;
+
+		items.put(TICKETID, new GachaItem(TICKETID, ticket, r));
 	}
 
 	/**
@@ -150,14 +185,20 @@ public abstract class GachaManager {
 	public void addGachaItem(ItemStack is, Rarity r, double probability,
 			int amount) {
 		int i = 0;
-		while (items.containsKey(i)) {
+		while (items.containsKey(i) || i == TICKETID || i == APPLEID) {
 			i++;
 		}
+		// ガチャID,ガチャの種類をNBTタグに追加
+		NBTItem nbti = new NBTItem(is);
+		nbti.setInteger(GACHAITEMIDNBT, i);
+		nbti.setString(GACHATYPENBT, this.getGachaNBT());
+		is = nbti.getItem();
+
 		items.put(i, new GachaItem(i, is, amount, r, probability, false));
 	}
 
 	/**
-	 * ガチャアイテムリストを取得します
+	 * ガチャアイテムリストを取得します ticketIDにはガチャ券が格納されています
 	 *
 	 * @return
 	 */
@@ -166,8 +207,64 @@ public abstract class GachaManager {
 		return (LinkedHashMap<Integer, GachaItem>) items.clone();
 	}
 
-	public void lock(int id) {
+	/**
+	 * idのアイテムを排出停止にします．
+	 *
+	 * @param id
+	 */
+	public boolean lock(int id) {
+		if (id == TICKETID || id == APPLEID)
+			return false;
 		items.get(id).lock();
+		return true;
+	}
+
+	/**
+	 * ガチャを回します
+	 *
+	 * @return
+	 */
+	public GachaItem roll() {
+		double r = rnd.nextDouble();
+		double p = 1.0;
+		GachaItem ans = null;
+
+		for (GachaItem gi : items.values()) {
+			if (gi.isLocked())
+				continue;
+			int id = gi.getID();
+			if (id == TICKETID || id == APPLEID)
+				continue;
+			p -= gi.getProbability();
+			if (r > p) {
+				ans = gi;
+				break;
+			}
+		}
+		return ans == null ? this.getGachaItem(APPLEID) : ans;
+	}
+
+	public static boolean isTicket(NBTItem nbti){
+		return nbti.hasKey(TICKETNBT);
+
+	}
+
+	public static GachaType getGachaType(NBTItem nbti) {
+		return GachaType.valueOf(nbti.getString(GACHATYPENBT));
+	}
+
+	/**このガチャの説明文を取得します
+	 *
+	 * @return
+	 */
+	protected abstract List<String> getLore();
+
+	public static boolean isTicket(int i) {
+		return i == TICKETID;
+	}
+
+	public static boolean isApple(int i) {
+		return i == APPLEID;
 	}
 
 }

@@ -6,9 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.Rarity;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gacha.GachaData;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gacha.RarityData;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -29,7 +31,13 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 			command += "add column if not exists " + gt.name()
 					+ "_ticket bigint default 0,";
 			command += "add column if not exists " + gt.name()
+					+ "_usedticket bigint default 0,";
+			command += "add column if not exists " + gt.name()
 					+ "_apolo bigint default 0,";
+			for(Rarity r : Rarity.values()){
+				command += "add column if not exists " + gt.name()
+						+ "_r_" + r.name() + " bigint default 0,";
+			}
 		}
 		return command;
 	}
@@ -45,9 +53,14 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 			command += "statistic_" + gt.name() + "_ticket = '"
 					+ gd.getStatisticTicket() + "',";
 			command += gt.name() + "_ticket = '" + gd.getTicket() + "',";
+			command += gt.name() + "_usedticket = '" + gd.getUsedTicket() + "',";
 			if (gd.isReceived()) {
 				command += gt.name() + "_apolo = " + gt.name() + "_apolo - "
 						+ gd.getApologizeTicket() + ",";
+			}
+			for(Rarity r : Rarity.values()){
+				command += gt.name() + "_r_" + r.name() + " = '" + gd.getRarityData(r) + "',";
+
 			}
 		}
 		return command;
@@ -61,9 +74,9 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 			if (gt.equals(GachaType.GIGANTIC)) {
 				int ticket = tm.getGachaTicket(gp);
 				int apolo = tm.getSorryForBugs(gp);
-				dataMap.put(gt, new GachaData(ticket, ticket, apolo));
+				dataMap.put(gt, new GachaData(ticket, apolo));
 			} else {
-				dataMap.put(gt, new GachaData(0, 0, 0));
+				dataMap.put(gt, new GachaData());
 			}
 		}
 	}
@@ -73,7 +86,7 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		for (GachaType gt : GachaType.values()) {
-			dataMap.put(gt, new GachaData(0, 0, 0));
+			dataMap.put(gt, new GachaData());
 		}
 	}
 
@@ -82,11 +95,19 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		for (GachaType gt : GachaType.values()) {
-			dataMap.put(
-					gt,
-					new GachaData(rs.getLong("statistic_" + gt.name()
-							+ "_ticket"), rs.getLong(gt.name() + "_ticket"), rs
-							.getLong(gt.name() + "_apolo")));
+			long st_ticket = rs.getLong("statistic_" + gt.name()
+					+ "_ticket");
+			long ticket = rs.getLong(gt.name() + "_ticket");
+			long usedticket = rs.getLong(gt.name() + "_usedticket");
+			long apolo = rs
+					.getLong(gt.name() + "_apolo");
+			LinkedHashMap<Rarity, RarityData> rarityMap = new LinkedHashMap<Rarity, RarityData>();
+			for(Rarity r : Rarity.values()){
+				long rd = rs.getLong(gt.name() + "_r_" + r.name());
+				rarityMap.put(r, new RarityData(rd));
+			}
+			dataMap.put(gt, new GachaData(st_ticket,ticket,usedticket,apolo,rarityMap));
+
 		}
 	}
 
