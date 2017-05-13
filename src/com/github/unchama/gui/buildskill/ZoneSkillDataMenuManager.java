@@ -71,7 +71,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemstack = new ItemStack(Material.BARRIER);
 
             //設置時に下の空洞を埋める機能
-            case 
+
         }
         return null;
     }
