@@ -161,7 +161,7 @@ public class CustomHeadManager extends YmlManager {
 	 * @param skull
 	 * @param url
 	 */
-	public void setURL(ItemStack skull, String url) {
+	private void setURL(ItemStack skull, String url) {
 //		// 不正なURLをセットすると、表示したクライアントがクラッシュするため
 //		if (url == null || !URLMap.containsValue(url)) {
 //			return;

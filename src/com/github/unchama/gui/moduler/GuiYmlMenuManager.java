@@ -251,10 +251,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 	protected ItemMeta getItemMeta(Player player, int i, ItemStack itemstack) {
 		String mobhead = this.fc.getString(i + ".mobhead");
 		if (mobhead != null) {
-			String url = head.getURL(mobhead);
-			if(url != null){
-				head.setURL(itemstack, url);
-			}
+			itemstack = head.getMobHead(mobhead);
 		}
 
 		ItemMeta itemmeta = itemstack.getItemMeta();
