@@ -20,15 +20,15 @@ import com.github.unchama.yml.moduler.YmlManager;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-public class CustomHeadDataManager extends YmlManager {
+public class CustomHeadManager extends YmlManager {
 
-	public class CustomHeadData{
+	public class CustomHead{
 		public String name;		// 呼び出し名の逆引き
 		public String dispName;	// 表示名
 		public String category; // カテゴリ
 		public String url;		// url
 		private ItemStack skull;	// 頭
-		public CustomHeadData(String name_, String dispName_, String category_, String url_, ItemStack skull_){
+		public CustomHead(String name_, String dispName_, String category_, String url_, ItemStack skull_){
 			name = name_;
 			dispName = dispName_;
 			category = category_;
@@ -41,10 +41,10 @@ public class CustomHeadDataManager extends YmlManager {
 		}
 	}
 
-	public class headCategoryData{
+	public class headCategory{
 		public String name;		// 呼び出し名の逆引き
 		public String dispName; // 表示名
-		public headCategoryData(String name_, String dispName_){
+		public headCategory(String name_, String dispName_){
 			name = name_;
 			dispName = dispName_;
 		}
@@ -52,14 +52,14 @@ public class CustomHeadDataManager extends YmlManager {
 
 	// Map.keysetで回すと順番が変わるため
 	static private List<String> headArray;
-	static private Map<String, CustomHeadData> customHeads;
+	static private Map<String, CustomHead> customHeads;
 	// カテゴリごとのリスト
-	static private Map<String, List<CustomHeadData>> headCategory;
+	static private Map<String, List<CustomHead>> headCategory;
 
-	static private Map<String, headCategoryData> categoryData;
+	static private Map<String, headCategory> categoryData;
 
 	// コンストラクタ
-	public CustomHeadDataManager() {
+	public CustomHeadManager() {
 		super();
 		reload();
 	}
@@ -75,8 +75,8 @@ public class CustomHeadDataManager extends YmlManager {
 	public void reload() {
 		// ヘッドデータ
 		headArray = new ArrayList<String>();
-		customHeads = new HashMap<String, CustomHeadData>();
-		headCategory = new HashMap<String, List<CustomHeadData>>();
+		customHeads = new HashMap<String, CustomHead>();
+		headCategory = new HashMap<String, List<CustomHead>>();
 
 		ConfigurationSection basedata = this.fc
 				.getConfigurationSection("mobhead");
@@ -91,24 +91,24 @@ public class CustomHeadDataManager extends YmlManager {
 			Util.setDisplayName(skull, ChatColor.RESET + dispname);
 //			Bukkit.getServer().getLogger()
 //			.info("name : " + name + ", dispname: " + dispname + ", url : " + url + "," + (skull != null));
-			CustomHeadData headData = new CustomHeadData(name, dispname, category, url, skull);
+			CustomHead headData = new CustomHead(name, dispname, category, url, skull);
 			customHeads.put(name, headData);
 			//カテゴリに追加
 			if(!headCategory.containsKey(category)){
-				headCategory.put(category, new ArrayList<CustomHeadData>());
+				headCategory.put(category, new ArrayList<CustomHead>());
 			}
 			headCategory.get(category).add(headData);
 		}
 
 
 		// カテゴリデータ
-		categoryData = new HashMap<String, headCategoryData>();
+		categoryData = new HashMap<String, headCategory>();
 		ConfigurationSection categorydata = this.fc
 				.getConfigurationSection("mobhead");
 
 		for (String name : categorydata.getKeys(false)) {
 			String dispname = basedata.getString(name + ".dispname");
-			categoryData.put(name, new headCategoryData(name, dispname));
+			categoryData.put(name, new headCategory(name, dispname));
 		}
 	}
 
@@ -140,6 +140,19 @@ public class CustomHeadDataManager extends YmlManager {
 			return;
 		}
 		setURL(skull, customHeads.get(name).url);
+	}
+
+	/**
+	 * 与えられた文字に合致する頭のURLを取得する．
+	 * @param name
+	 * @return
+	 */
+	public String getURL(String name){
+		if(!customHeads.containsKey(name)){
+			return null;
+		}
+		return customHeads.get(name).url;
+
 	}
 
 	/**
@@ -182,7 +195,7 @@ public class CustomHeadDataManager extends YmlManager {
 	}
 
 	// 指定したカテゴリのデータの配列を返す
-	public List<CustomHeadData> getCategoryHeads(String category){
+	public List<CustomHead> getCategoryHeads(String category){
 		return headCategory.get(category);
 	}
 }

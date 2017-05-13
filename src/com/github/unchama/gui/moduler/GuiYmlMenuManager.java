@@ -26,7 +26,6 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
-import com.github.unchama.util.MobHead;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
@@ -252,8 +251,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 	protected ItemMeta getItemMeta(Player player, int i, ItemStack itemstack) {
 		String mobhead = this.fc.getString(i + ".mobhead");
 		if (mobhead != null) {
-			String url = MobHead.getMobURL(mobhead);
-			MobHead.setURL(itemstack, url);
+			itemstack = head.getMobHead(mobhead);
 		}
 
 		ItemMeta itemmeta = itemstack.getItemMeta();

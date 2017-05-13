@@ -20,6 +20,7 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -35,6 +36,7 @@ public abstract class GuiMenuManager {
 			.getManager(ConfigManager.class);
 	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	public static GuiMenu gui = Gigantic.guimenu;
+	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);
 
 	/**
 	 * マテリアル，ダメージ値，名前，説明文を保存する． このキーをもって左（右）クリックするとこのクラスのメニューを開く．

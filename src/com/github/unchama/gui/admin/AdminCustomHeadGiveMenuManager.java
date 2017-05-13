@@ -16,22 +16,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.util.Util;
-import com.github.unchama.yml.CustomHeadDataManager;
-import com.github.unchama.yml.CustomHeadDataManager.CustomHeadData;
+import com.github.unchama.yml.CustomHeadManager;
+import com.github.unchama.yml.CustomHeadManager.CustomHead;
 
 public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
-	// 戻るボタン
-	private ItemStack backButton;
-	private final int backButtonSlot = 45;
 
 	// 前のページへボタン
 	private ItemStack prevButton;
-	private final int prevButtonSlot = 46;
+	private final int prevButtonSlot = 45;
 
 	// 次のページへボタン
 	private ItemStack nextButton;
@@ -42,17 +38,15 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 	private Map<Integer, ItemStack> menuButtons;
 
 	// 選択中のカテゴリの頭
-	List<CustomHeadData> heads;
+	List<CustomHead> heads;
 
-	private CustomHeadDataManager headManager = Gigantic.yml
-			.getManager(CustomHeadDataManager.class);
+	private CustomHeadManager headManager = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
 	public AdminCustomHeadGiveMenuManager() {
 		// メニューボタンの表示設定
 		menuButtons = new HashMap<Integer, ItemStack>();
-		backButton = headManager.getMobHead("left");
-		Util.setDisplayName(backButton, "戻る");
-		menuButtons.put(backButtonSlot, backButton);
+
 
 		prevButton = headManager.getMobHead("left");
 		Util.setDisplayName(prevButton, "前のページ");
@@ -87,7 +81,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 			if (i >= heads.size()) {
 				break;
 			}
-			CustomHeadData data = heads.get(i);
+			CustomHead data = heads.get(i);
 			ItemStack item = data.getSkull();
 			Util.setLore(
 					item,
@@ -141,7 +135,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 			if (heads.size() <= index) {
 				return false;
 			}
-			CustomHeadData data = heads.get(index);
+			CustomHead data = heads.get(index);
 			ItemStack item = data.getSkull();
 
 			Util.giveItem(player, item);
@@ -154,9 +148,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		// 戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot,
-				GuiMenu.ManagerType.getTypebyClass(AdminTypeMenuManager.class));
 	}
 
 	@Override

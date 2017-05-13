@@ -23,7 +23,6 @@ import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.util.MobHead;
 
 /**
  * Created by Mon_chi on 2017/03/25.
@@ -46,8 +45,8 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
 
         skullList = new ArrayList<>();
-        skullList.add(MobHead.getMobHead("left"));
-        skullList.add(MobHead.getMobHead("right"));
+        skullList.add(head.getMobHead("left"));
+        skullList.add(head.getMobHead("right"));
         ItemMeta meta = skullList.get(0).getItemMeta();
         meta.setDisplayName("前のページ");
         skullList.get(0).setItemMeta(meta);

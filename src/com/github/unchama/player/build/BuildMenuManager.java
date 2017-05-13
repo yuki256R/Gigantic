@@ -28,6 +28,9 @@ import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
 public class BuildMenuManager extends GuiMenuManager{
+    /**
+     * Created by karayuu on 2017/05/12.
+     */
 
 	public BuildMenuManager(){
 		setKeyItem();
@@ -39,8 +42,6 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(4, "FLY=5");
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
-		
-		idmap.put(13, "DEBUG");
 	}
 
 	@Override
@@ -69,13 +70,6 @@ public class BuildMenuManager extends GuiMenuManager{
 				break;
 				
 			//TODO:スキルについては後で
-				
-			case "DEBUG":
-				for (StackType st : StackType.values()) {
-				    MineStack ms = gp.getManager(MineStackManager.class).datamap.get(st);
-				    ms.add(99999999);
-                }
-				break;
 			
 			default:
 				return false;
@@ -152,9 +146,9 @@ public class BuildMenuManager extends GuiMenuManager{
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
 					ChatColor.AQUA + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(1分)");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.YELLOW + "クリックすると以降1分間に渡り");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降1分間に渡り");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
+			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
 					"必要経験値量:毎分 " + config.getFlyExp());
 			itemmeta.setLore(lore);
 			break;
@@ -164,9 +158,9 @@ public class BuildMenuManager extends GuiMenuManager{
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
 					ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(5分)");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.YELLOW + "クリックすると以降5分間に渡り");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降5分間に渡り");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
+			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
 					"必要経験値量:毎分 " + config.getFlyExp());
 			itemmeta.setLore(lore);
 			break;
@@ -176,9 +170,9 @@ public class BuildMenuManager extends GuiMenuManager{
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
 					ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(無制限)");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.YELLOW + "クリックすると以降OFFにするまで");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降OFFにするまで");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
+			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
 					"必要経験値量:毎分 " + config.getFlyExp());
 			itemmeta.setLore(lore);
 			break;
@@ -187,14 +181,48 @@ public class BuildMenuManager extends GuiMenuManager{
 		case 6:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 OFF");
 			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + "" +  ChatColor.RED + "クリックすると残り時間にかかわらず");
+			lore.add("" + ChatColor.RESET + "" + ChatColor.RED + "クリックすると残り時間にかかわらず");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.RED + "FLYを終了します。");
 			itemmeta.setLore(lore);
 			itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 			break;
 			
-		//TODO:スキル系の作成は後で
-			
+		//範囲設置スキル
+        case 18:
+            itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+                + "「範囲設置スキル」現在:" + "ふにゃぺけ");
+            lore = new ArrayList<String>();
+            lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "「スニーク+左クリック」をすると、");
+            lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "オフハンドに持っているブロックと同じものを");
+            lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "インベントリ内から消費し設置します。");
+            lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックでON/OFF切り替え＞");
+            lore.add("" + ChatColor.RESET + "" + ChatColor.GRAY + "建築Lv" + "ふにゃぺけ" + "以上で利用可能");//TODO:Configから読み込み
+			itemmeta.setLore(lore);
+			break;
+
+        //範囲設置スキル・設定
+        case 19:
+            itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+                + "「範囲設置スキル」設定画面へ");
+            lore = new ArrayList<String>();
+            lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE
+                + "クリックで移動");
+            itemmeta.setLore(lore);
+            SkullMeta skullmeta_skill = (SkullMeta) itemmeta;
+            skullmeta_skill.setOwner("MHF_Exclamation");
+            break;
+
+        //ブロックを並べるスキル
+        case 27:
+            itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+                + "「ブロックを並べるスキル」現在:" + "ふにゃぺけ");
+            lore = new ArrayList<String>();
+            lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "オフハンドに木の棒、メインハンドに設置したいブロックを持って");
+            lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "左クリックすると向いてる方向に並べて設置します。");
+            lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "建築Lv" + "ふにゃぺけ" + "以上で利用可能");//TODO:Configより読み込み
+            itemmeta.setLore(lore);
+            break;
+
 		//MineStack一括クラフトシステム
 		case 35:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" 
@@ -203,86 +231,72 @@ public class BuildMenuManager extends GuiMenuManager{
 			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
 			itemmeta.setLore(lore);
 			break;
-			
-		//DEBUG
-		case 13:
-			itemmeta.setDisplayName("[DEBUG]MineStack個数調整");
-			lore = new ArrayList<String>();
-			lore.add("" + ChatColor.RESET + ChatColor.GREEN + "MineStack全アイテム個数=99999999");
-			lore.add("" + ChatColor.RESET + ChatColor.RED + "※DEBUG用。本番環境での使用厳禁");//TODO:DEBUG
-			itemmeta.setLore(lore);
-			break;
 		}
 		return itemmeta;
 	}
 
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
-		ItemStack itemstack = null;
-		
-		switch(slot){
-		//自身の統計データ
-		case 0:
-			itemstack = new ItemStack(Material.SKULL_ITEM,1,(short)3);
-			break;
-			
-		//Flyの情報
-		case 2:
-			itemstack = new ItemStack(Material.COOKED_CHICKEN);
-			break;
-			
-		//Fly1分追加
-		case 3:
-			itemstack = new ItemStack(Material.FEATHER);
-			break;
-		
-		//Fly5分追加
-		case 4:
-			itemstack = new ItemStack(Material.FEATHER,5);
-			break;
-			
-		//Fly無制限
-		case 5:
-			itemstack = new ItemStack(Material.ELYTRA);
-			break;
-			
-		//Fly終了
-		case 6:
-			itemstack = new ItemStack(Material.CHAINMAIL_BOOTS);
-			break;
-			
-		//範囲設置スキル
-		case 18:
-			itemstack = new ItemStack(Material.STONE);
-			break;
-			
-		//範囲設置スキル・設定画面
-		case 19:
-			itemstack = new ItemStack(Material.SKULL_ITEM,1,(short)2);
-			break;
-			
-		//ブロックを並べるスキル
-		case 27:
-			itemstack = new ItemStack(Material.WOOD,1,(short)1);
-			break;
-		
-		//ブロックを並べるスキル・設定画面
-		case 28:
-			itemstack = new ItemStack(Material.PAPER);
-			break;
-			
-		//MineStack一括クラフト
-		case 35:
-			itemstack = new ItemStack(Material.WORKBENCH);
-			break;
-			
-		//DEBUG
-		case 13:
-			itemstack = new ItemStack(Material.BEDROCK,64);
-			break;
-		}
-		return itemstack;
-	}
+        ItemStack itemstack = null;
+
+        switch (slot) {
+            //自身の統計データ
+            case 0:
+                itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                break;
+
+            //Flyの情報
+            case 2:
+                itemstack = new ItemStack(Material.COOKED_CHICKEN);
+                break;
+
+            //Fly1分追加
+            case 3:
+                itemstack = new ItemStack(Material.FEATHER);
+                break;
+
+            //Fly5分追加
+            case 4:
+                itemstack = new ItemStack(Material.FEATHER, 5);
+                break;
+
+            //Fly無制限
+            case 5:
+                itemstack = new ItemStack(Material.ELYTRA);
+                break;
+
+            //Fly終了
+            case 6:
+                itemstack = new ItemStack(Material.CHAINMAIL_BOOTS);
+                break;
+
+            //範囲設置スキル
+            case 18:
+                itemstack = new ItemStack(Material.STONE);
+                break;
+
+            //範囲設置スキル・設定画面
+            case 19:
+                itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                break;
+
+            //ブロックを並べるスキル
+            case 27:
+                itemstack = new ItemStack(Material.WOOD, 1, (short) 1);
+                break;
+
+            //ブロックを並べるスキル・設定画面
+            case 28:
+                itemstack = new ItemStack(Material.PAPER);
+                break;
+
+            //MineStack一括クラフト
+            case 35:
+                itemstack = new ItemStack(Material.WORKBENCH);
+                break;
+        }
+            return itemstack;
+    }
 
 	@Override
 	public Sound getSoundName() {
