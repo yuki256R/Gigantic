@@ -116,12 +116,17 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 		PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
-
+		boolean dropped = false;;
 		for (int i = 0; i < count; i++) {
 			// ガチャを回す
 			ItemStack gachaitem = pm.roll(gt);
-			Util.giveItem(player, gachaitem);
+			dropped = Util.giveItem(player, gachaitem,false);
 		}
+
+		if(dropped){
+			player.sendMessage(ChatColor.AQUA + "プレゼントがドロップしました．");
+		}
+
 		if (player.isSneaking() || item.getAmount() == 1) {
 			player.getInventory()
 					.setItemInMainHand(new ItemStack(Material.AIR));
