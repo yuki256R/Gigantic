@@ -93,7 +93,6 @@ public final class GuiMenu {
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
 		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
-        ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
 		;
 
 		// 使用するManagerClass
