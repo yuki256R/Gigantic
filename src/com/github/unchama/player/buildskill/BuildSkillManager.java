@@ -13,12 +13,19 @@ public class BuildSkillManager extends DataManager{
 
     public BuildSkillManager(GiganticPlayer gp) {
         super(gp);
+        this.zone_toggle = false;
+        this.zone_minestack_toggle = false;
+        this.AREAint = 1;
+        this.blocklineup_toggle = false;
+        this.blocklineup_minestack_toggle = false;
     }
 
     //範囲設置スキルトグル
     private boolean zone_toggle;
     //範囲設置スキルMineStack優先設定トグル
     private boolean zone_minestack_toggle;
+    //範囲設定用
+    private int AREAint;
     //ブロックを並べるスキルトグル
     private boolean blocklineup_toggle;
     //ブロックを並べるスキルMineStack優先設定トグル

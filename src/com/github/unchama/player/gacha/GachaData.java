@@ -19,13 +19,13 @@ public class GachaData {
 	private LinkedHashMap<Rarity, RarityData> rarityMap;
 
 	// 初期値コンストラクタ
-	public GachaData() {
-		this(0, 0);
+	public GachaData(LinkedHashMap<Rarity, RarityData> rarityMap) {
+		this(0, 0,rarityMap);
 	}
 
 	// 引き継ぎ値からのコンストラクタ
-	public GachaData(long ticket, long apolo) {
-		this(ticket, ticket, 0, apolo, new LinkedHashMap<Rarity, RarityData>());
+	public GachaData(long ticket, long apolo,LinkedHashMap<Rarity, RarityData> rarityMap) {
+		this(ticket, ticket, 0, apolo, rarityMap);
 	}
 
 	public GachaData(long st_ticket, long ticket, long usedticket, long apolo,

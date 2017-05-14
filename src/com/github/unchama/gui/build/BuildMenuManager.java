@@ -7,9 +7,6 @@ import java.util.List;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
-import com.github.unchama.player.minestack.MineStack;
-import com.github.unchama.player.minestack.MineStackManager;
-import com.github.unchama.player.minestack.StackType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -195,20 +192,20 @@ public class BuildMenuManager extends GuiMenuManager{
 		//範囲設置スキル
         case 18:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
-                + "「範囲設置スキル」現在:" + bsm.getZoneSkillStatus());
+                    + "「範囲設置スキル」現在:" + bsm.getZoneSkillStatus());
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "「スニーク+左クリック」をすると、");
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "オフハンドに持っているブロックと同じものを");
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "インベントリ内から消費し設置します。");
             lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックでON/OFF切り替え＞");
-            lore.add("" + ChatColor.RESET + "" + ChatColor.GRAY + "建築Lv" + "ふにゃぺけ" + "以上で利用可能");//TODO:Configから読み込み
+            lore.add("" + ChatColor.RESET + "" + ChatColor.GRAY + "建築Lv" + "??" + "以上で利用可能");//TODO:Configから読み込み
 			itemmeta.setLore(lore);
 			break;
 
         //範囲設置スキル・設定
         case 19:
             itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
-                + "「範囲設置スキル」設定画面へ");
+                    + "「範囲設置スキル」設定画面へ");
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE
                 + "クリックで移動");
@@ -220,11 +217,25 @@ public class BuildMenuManager extends GuiMenuManager{
         //ブロックを並べるスキル
         case 27:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
-                + "「ブロックを並べるスキル」現在:" + bsm.getBlockLineUpStatus());
+                    + "「ブロックを並べるスキル」現在:" + bsm.getBlockLineUpStatus());
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "オフハンドに木の棒、メインハンドに設置したいブロックを持って");
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "左クリックすると向いてる方向に並べて設置します。");
-            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + "ふにゃぺけ" + "以上で利用可能");//TODO:Configより読み込み
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + "??" + "以上で利用可能");//TODO:Configより読み込み
+            itemmeta.setLore(lore);
+            break;
+
+        //ブロックを並べるスキル・設定
+        case 28:
+             itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+                     + "「ブロックを並べるスキル」設定画面へ");
+            lore = new ArrayList<String>();
+            lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "現在の設定");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "スキル設定:" + "??");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "ハーフブロック設定:" + "??");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "破壊設定:" + "??");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "マインスタック優先設定:" + "??");
             itemmeta.setLore(lore);
             break;
 

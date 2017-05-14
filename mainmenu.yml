@@ -100,6 +100,22 @@ name: '&5&lメインメニュー'
       - '&r&7土地の保護が行えます'
       - '&r&4&nクリックで開く'
   openmenu: 'regionmenu'
+6:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lサーバー間移動'
+      lore:
+      - '&r&7・第一ベータ鯖'
+      - '&r&7・第二ベータ鯖'
+      - '&r&7間を移動する時に使います'
+      - '&r&4&nクリックで開く'
+  mobhead: 'weighted_cube'
+  openinventory: 'lobbyswitch'
 8:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

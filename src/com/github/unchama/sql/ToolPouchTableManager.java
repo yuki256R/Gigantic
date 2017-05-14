@@ -41,7 +41,6 @@ public class ToolPouchTableManager extends PlayerTableManager {
 		try {
 			pouch = BukkitSerialization.getInventoryfromBase64(rs.getString("pouchdata").toString());
 			m.setPouch(pouch);
-			m.resize();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

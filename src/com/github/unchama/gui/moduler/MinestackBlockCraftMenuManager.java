@@ -213,7 +213,9 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 			//あった場合は変換を開始する
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
 			produce_minestack.add(ct.getProduce_amount());
-			debug.sendMessage(player,DebugEnum.BUILD, "変換終了");
+
+            player.sendMessage(ChatColor.GREEN + ct.getNeed_JPname() + ct.getNeed_amount() + "→"
+                        + ct.getProduce_JPname() + ct.getProduce_amount() + "変換完了");
 
 			//更新処理
             player.openInventory(this.getInventory(player,slot));

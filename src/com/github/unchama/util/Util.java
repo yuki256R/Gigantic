@@ -85,22 +85,35 @@ public class Util {
 			return;
 		}
 		ItemStack itemstack = new ItemStack(material);
-		giveItem(player, itemstack);
+		giveItem(player, itemstack,true);
 	}
-	public static void giveItem(Player player, ItemStack itemstack) {
+
+	/**プレイヤーにアイテムを正常に与える
+	 *
+	 * @param player
+	 * @param itemstack
+	 * @param messageflag
+	 * @return 足元にドロップしたときtrue
+	 */
+	public static boolean giveItem(Player player, ItemStack itemstack, boolean messageflag) {
 		//インベントリがフルなら足元に落とす
 		if (!isPlayerInventryFill(player)) {
 			addItem(player, itemstack);
 			//拾った音
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP,
 					(float) 0.1, (float) 1);
-		} else {
+			return false;
+		} else if(messageflag){
 			if(itemstack.getItemMeta().hasDisplayName()){
 				player.sendMessage(itemstack.getItemMeta().getDisplayName() + ChatColor.RESET + " は持ち切れなかったためドロップしました.");
 			}else{
 				player.sendMessage(itemstack.getType().toString() + ChatColor.RESET + " は持ち切れなかったためドロップしました.");
 			}
 			dropItem(player, itemstack);
+			return true;
+		}else{
+			dropItem(player, itemstack);
+			return true;
 		}
 	}
 

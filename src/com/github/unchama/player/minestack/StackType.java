@@ -288,7 +288,7 @@ public enum StackType {
 	BLACK_STAINED_GLASS_PANE(Material.STAINED_GLASS_PANE,15,StackCategory.BUILD),
 	LEAVES_2(StackCategory.ITEM),
 	DARK_OAK_LEAVES(Material.LEAVES_2,1,StackCategory.ITEM),
-	LOG_2(StackCategory.BUILD),
+	ACACIA_WOOD(Material.LOG_2,1,StackCategory.BUILD),
 	DARK_OAK_WOOD(Material.LOG_2,1,StackCategory.BUILD),
 	ACACIA_STAIRS(StackCategory.BUILD),
 	DARK_OAK_STAIRS(StackCategory.BUILD),
