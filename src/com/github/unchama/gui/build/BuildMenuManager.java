@@ -1,9 +1,12 @@
-package com.github.unchama.player.build;
+package com.github.unchama.gui.build;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.github.unchama.player.build.BuildLevelManager;
+import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
@@ -47,30 +50,30 @@ public class BuildMenuManager extends GuiMenuManager{
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		
+
 		switch(identifier){
 			//FLY1分
 			case "FLY=1":
 				player.chat("/fly 1");
 				break;
-				
+
 			//FLY5分
 			case "FLY=5":
 				player.chat("/fly 5");
 				break;
-				
+
 			//FLY無制限
 			case "FLY=endless":
 				player.chat("/fly endless");
 				break;
-				
+
 			//FLY終了
 			case "FLY=fin":
 				player.chat("/fly finish");
 				break;
-				
+
 			//TODO:スキルについては後で
-			
+
 			default:
 				return false;
 		}
@@ -79,6 +82,7 @@ public class BuildMenuManager extends GuiMenuManager{
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(35, GuiMenu.ManagerType.BLOCKCRAFTMENUFIRST);
+		openmap.put(19, ManagerType.ZONESKILLDATAMENU);
 	}
 
 	@Override
@@ -109,12 +113,13 @@ public class BuildMenuManager extends GuiMenuManager{
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		
+
 		FlyManager fm = gp.getManager(FlyManager.class);
 		ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 		BuildManager bm = gp.getManager(BuildManager.class);
 		BuildLevelManager blm = gp.getManager(BuildLevelManager.class);
-		
+        BuildSkillManager bsm = gp.getManager(BuildSkillManager.class);
+
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		List<String> lore;
 
@@ -190,7 +195,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		//範囲設置スキル
         case 18:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
-                + "「範囲設置スキル」現在:" + "ふにゃぺけ");
+                + "「範囲設置スキル」現在:" + bsm.getZoneSkillStatus());
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "「スニーク+左クリック」をすると、");
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "オフハンドに持っているブロックと同じものを");
@@ -214,12 +219,12 @@ public class BuildMenuManager extends GuiMenuManager{
 
         //ブロックを並べるスキル
         case 27:
-            itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
-                + "「ブロックを並べるスキル」現在:" + "ふにゃぺけ");
+            itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+                + "「ブロックを並べるスキル」現在:" + bsm.getBlockLineUpStatus());
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "オフハンドに木の棒、メインハンドに設置したいブロックを持って");
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "左クリックすると向いてる方向に並べて設置します。");
-            lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "建築Lv" + "ふにゃぺけ" + "以上で利用可能");//TODO:Configより読み込み
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + "ふにゃぺけ" + "以上で利用可能");//TODO:Configより読み込み
             itemmeta.setLore(lore);
             break;
 

@@ -8,9 +8,9 @@ import com.github.unchama.player.moduler.DataManager;
  */
 public class BuildSkillManager extends DataManager{
     /**
-     * 建築スキルのためのデータを保管するスキル
-     * @param gp
+     * 建築スキルのためのデータを保管するクラス
      */
+
     public BuildSkillManager(GiganticPlayer gp) {
         super(gp);
     }
@@ -24,5 +24,27 @@ public class BuildSkillManager extends DataManager{
     //ブロックを並べるスキルMineStack優先設定トグル
     private boolean blocklineup_minestack_toggle;
 
+    /**
+     * 範囲設置スキルの状態を取得します。
+     * @return ON/OFF
+     */
+    public String getZoneSkillStatus() {
+        if (this.zone_toggle) {
+            return "ON";
+        } else {
+            return "OFF";
+        }
+    }
 
+    /**
+     * ブロックを並べるスキルの状態を取得します。
+     * @return ON/OFF
+     */
+    public String getBlockLineUpStatus() {
+        if (this.blocklineup_toggle) {
+            return "ON";
+        } else {
+            return "OFF";
+        }
+    }
 }
