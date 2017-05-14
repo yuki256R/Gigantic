@@ -1,0 +1,671 @@
+﻿# 
+mobhead: 
+  left:
+    dispname: '左矢印'
+    url: 'http://textures.minecraft.net/texture/3ebf907494a935e955bfcadab81beafb90fb9be49c7026ba97d798d5f1a23'
+  right:
+    dispname: '右矢印'
+    url: 'http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b'
+  up:
+    dispname: '上矢印'
+    url: 'http://textures.minecraft.net/texture/d48b768c623432dfb259fb3c3978e98dec111f79dbd6cd88f21155374b70b3c'
+  down:
+    dispname: '下矢印'
+    url: 'http://textures.minecraft.net/texture/2dadd755d08537352bf7a93e3bb7dd4d733121d39f2fb67073cd471f561194dd'
+  zero:
+    dispname: '数字「0」'
+    url: 'http://textures.minecraft.net/texture/0ebe7e5215169a699acc6cefa7b73fdb108db87bb6dae2849fbe24714b27'
+  one:
+    dispname: '数字「1」'
+    url: 'http://textures.minecraft.net/texture/71bc2bcfb2bd3759e6b1e86fc7a79585e1127dd357fc202893f9de241bc9e530'
+  two:
+    dispname: '数字「2」'
+    url: 'http://textures.minecraft.net/texture/4cd9eeee883468881d83848a46bf3012485c23f75753b8fbe8487341419847'
+  three:
+    dispname: '数字「3」'
+    url: 'http://textures.minecraft.net/texture/1d4eae13933860a6df5e8e955693b95a8c3b15c36b8b587532ac0996bc37e5'
+  four:
+    dispname: '数字「4」'
+    url: 'http://textures.minecraft.net/texture/d2e78fb22424232dc27b81fbcb47fd24c1acf76098753f2d9c28598287db5'
+  five:
+    dispname: '数字「5」'
+    url: 'http://textures.minecraft.net/texture/6d57e3bc88a65730e31a14e3f41e038a5ecf0891a6c243643b8e5476ae2'
+  six:
+    dispname: '数字「6」'
+    url: 'http://textures.minecraft.net/texture/334b36de7d679b8bbc725499adaef24dc518f5ae23e716981e1dcc6b2720ab'
+  seven:
+    dispname: '数字「7」'
+    url: 'http://textures.minecraft.net/texture/6db6eb25d1faabe30cf444dc633b5832475e38096b7e2402a3ec476dd7b9'
+  eight:
+    dispname: '数字「8」'
+    url: 'http://textures.minecraft.net/texture/59194973a3f17bda9978ed6273383997222774b454386c8319c04f1f4f74c2b5'
+  nine:
+    dispname: '数字「9」'
+    url: 'http://textures.minecraft.net/texture/e67caf7591b38e125a8017d58cfc6433bfaf84cd499d794f41d10bff2e5b840'
+  grass:
+    dispname: '芝'
+    url: 'http://textures.minecraft.net/texture/349c63bc508723328a19e597f40862d27ad5c1d545663ac24466582f568d9'
+  letterbox:
+    dispname: 'レターボックス'
+    url: 'http://textures.minecraft.net/texture/70799f5effc891e334faa7f45d0bdd956d4e215d8a7ad55c310941aa96723'
+  pouch:
+    dispname: 'ポーチ'
+    url: 'http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3'
+  pc:
+    dispname: 'パソコン'
+    url: 'http://textures.minecraft.net/texture/8d19c68461666aacd7628e34a1e2ad39fe4f2bde32e231963ef3b35533'
+  red_present:
+    dispname: 'プレゼント箱(赤)'
+    url: 'http://textures.minecraft.net/texture/f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca'
+  green_present:
+    dispname: 'プレゼント箱(緑)'
+    url: 'http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d'
+  blue_bottle:
+    dispname: 'ボトル(青)'
+    url: 'http://textures.minecraft.net/texture/d5f3602ec661c7f4beec88c12a5297d877822b8861920bacf49ae2077bb2b3'
+  green_bottle:
+    dispname: 'ボトル(緑)'
+    url: 'http://textures.minecraft.net/texture/6daaea616947e00d97f8caa358261fa83e99d65527b8ef522cceffefa38f7'
+  mechanic_box:
+    dispname: 'メカニックボックス'
+    url: 'http://textures.minecraft.net/texture/23d3908722e8275ca195d2f49ed4f1c988bd27d4fc4a5993acfc392ac2c2c'
+  pastel1_00:
+    dispname: 'パステル1「　」'
+    url: 'http://textures.minecraft.net/texture/3f24b83e37a21a3c767957c7f4932c163d86642f18689707377eaef7221170'
+  pastel1_a01:
+    dispname: 'パステル1「ぁ」'
+    url: 'http://textures.minecraft.net/texture/cc7018e589fa801236eba818177c2c48b5ec5cd89a52d9b5ad38ca7708f37'
+  pastel1_a02:
+    dispname: 'パステル1「あ」'
+    url: 'http://textures.minecraft.net/texture/43da3f12de88a488f1164d0618fc573e0d58ad3deb854a7cf848d6bce5409d'
+  pastel1_a03:
+    dispname: 'パステル1「ぃ」'
+    url: 'http://textures.minecraft.net/texture/44d3ad0232164eb1fa1b2b7ff3a6ca217bf627739ad75292e1dc9980a517'
+  pastel1_a04:
+    dispname: 'パステル1「い」'
+    url: 'http://textures.minecraft.net/texture/d4c81063a33453953e271b393d39b2a65d7c5359865baebdb2d4dd28acf4117'
+  pastel1_a05:
+    dispname: 'パステル1「ぅ」'
+    url: 'http://textures.minecraft.net/texture/6148c7d9443922f65e24c4386371c3f8f96bade47e796e92f662a33af0d7'
+  pastel1_a06:
+    dispname: 'パステル1「う」'
+    url: 'http://textures.minecraft.net/texture/84ed3e5a28416efdb9147148f735743e6193c4251881e19d12c9ebd83265'
+  pastel1_a07:
+    dispname: 'パステル1「ぇ」'
+    url: 'http://textures.minecraft.net/texture/de70617c637348a3b95ad33a549a7491be319ee76bf484757ba73b8bd156e1'
+  pastel1_a08:
+    dispname: 'パステル1「え」'
+    url: 'http://textures.minecraft.net/texture/f43be4716fcd124810a9586ee516c72a69e275caf2e2d195b376b3b0c99'
+  pastel1_a09:
+    dispname: 'パステル1「ぉ」'
+    url: 'http://textures.minecraft.net/texture/12484e4c8e2edb9629d1833e245890514879b694138f7363ad35d2f9ca584d4'
+  pastel1_a10:
+    dispname: 'パステル1「お」'
+    url: 'http://textures.minecraft.net/texture/fb893e6cfa528d95ae748f693c639c090b5e53bb0e8a9de1266fe23629166'
+  pastel1_b01:
+    dispname: 'パステル1「か」'
+    url: 'http://textures.minecraft.net/texture/201244d6dcb60c4d28f2d405d71c297759133abb9e7b16072637b6e4e3ea6b3'
+  pastel1_b02:
+    dispname: 'パステル1「が」'
+    url: 'http://textures.minecraft.net/texture/929945e7fe97d2f0e69a3efc57534a3559519831d8d25ade8ad055556bfb0'
+  pastel1_b03:
+    dispname: 'パステル1「き」'
+    url: 'http://textures.minecraft.net/texture/5a9d7010213b1d98c9b5aaee9ee54a0c777227ef6723da0f8291fd929f1fe76'
+  pastel1_b04:
+    dispname: 'パステル1「ぎ」'
+    url: 'http://textures.minecraft.net/texture/c78d691aa1433ec89715229702c596a2a8a8497e3529f1a606c474bb5a13'
+  pastel1_b05:
+    dispname: 'パステル1「く」'
+    url: 'http://textures.minecraft.net/texture/ac2c2f86153ea3f550621dcc8e85a9c8222d1f207b2a7aa312ddc79b2a7ba244'
+  pastel1_b06:
+    dispname: 'パステル1「ぐ」'
+    url: 'http://textures.minecraft.net/texture/2d705a7aff1c96319a3d83eb4e73d685b2858978315129feb18bea11fcaff2'
+  pastel1_b07:
+    dispname: 'パステル1「け」'
+    url: 'http://textures.minecraft.net/texture/63f4d863e857b02543ce113c1f66569722a38982768e87b4898a27107979b73'
+  pastel1_b08:
+    dispname: 'パステル1「げ」'
+    url: 'http://textures.minecraft.net/texture/33b1445d048af9a5c3c62132f27caf67cf992c722d71d6eb23b57f82217caf'
+  pastel1_b09:
+    dispname: 'パステル1「こ」'
+    url: 'http://textures.minecraft.net/texture/f9bc99f3dc148945ae7c2c47b791e1c69f492499ab3f7563a8670739826673c'
+  pastel1_b10:
+    dispname: 'パステル1「ご」'
+    url: 'http://textures.minecraft.net/texture/cb33cc72238d62a854cafb83d52529deab45f6131fde76a1b43793431ba5'
+  pastel1_c01:
+    dispname: 'パステル1「さ」'
+    url: 'http://textures.minecraft.net/texture/91142b23ec6bff3c97dfd7cc43e4a46b53ea575c2f8f6ca8b3d167d57c97e8'
+  pastel1_c02:
+    dispname: 'パステル1「ざ」'
+    url: 'http://textures.minecraft.net/texture/6a246cd2c0c0753232b948777483c9904e93f0cdaf43e9d514b60f5b469bf0'
+  pastel1_c03:
+    dispname: 'パステル1「し」'
+    url: 'http://textures.minecraft.net/texture/c6a66bc9fddeb65c6c1096b17ef7c899bc1e16c6b7b87fb5c36f3d6e4b33f2'
+  pastel1_c04:
+    dispname: 'パステル1「じ」'
+    url: 'http://textures.minecraft.net/texture/c9b3fabb437b498e22dfa4c3e7267de81942c491e4bc56290fda9757a151'
+  pastel1_c05:
+    dispname: 'パステル1「す」'
+    url: 'http://textures.minecraft.net/texture/3c8ae5691772f0db50a14cda6a8b551d7a3c8e8df24a2831dbe2e8b553ab67a'
+  pastel1_c06:
+    dispname: 'パステル1「ず」'
+    url: 'http://textures.minecraft.net/texture/368b3286e7b9a6faf87d4f662508e33860e3e0cff65affd8f7104c2d66fdd9'
+  pastel1_c07:
+    dispname: 'パステル1「せ」'
+    url: 'http://textures.minecraft.net/texture/e2f0122c5dd9f4f7882bdc298753f5dd1f1fa064ad7e9b1aab7cb9b78d3a'
+  pastel1_c08:
+    dispname: 'パステル1「ぜ」'
+    url: 'http://textures.minecraft.net/texture/f9ef8ed8b45c57589a946ffacac15157e4c9c3a048a5aad8dfe3d375f0ad2f'
+  pastel1_c09:
+    dispname: 'パステル1「そ」'
+    url: 'http://textures.minecraft.net/texture/52f3f2f9f4da9db54f4fdc81295f84d1cbe316c0c8fc865eb5a7de3c53c51e5'
+  pastel1_c10:
+    dispname: 'パステル1「ぞ」'
+    url: 'http://textures.minecraft.net/texture/1b7a9157d0c6b68f97d17a4a4718c9a4dbb3eabf9306d17a4f01c8d57124c5'
+  pastel1_d01:
+    dispname: 'パステル1「た」'
+    url: 'http://textures.minecraft.net/texture/80ff6cf67853b0732eb4b25448a6c681ac710e16492c5d019a501256c6c830'
+  pastel1_d02:
+    dispname: 'パステル1「だ」'
+    url: 'http://textures.minecraft.net/texture/893b2c1ccfc6ff616905f8ee1ad5516d642f1bf0548fec5f0514c6963537a'
+  pastel1_d03:
+    dispname: 'パステル1「ち」'
+    url: 'http://textures.minecraft.net/texture/83fa35eb58ab17dac2f914030caa274be9fc42cbf69fc7a1366a3244666de6c'
+  pastel1_d04:
+    dispname: 'パステル1「ぢ」'
+    url: 'http://textures.minecraft.net/texture/35488f4c7eac709a1055fa146cc2eb35963f2b965f82c3c0c82497f24966aef8'
+  pastel1_d05:
+    dispname: 'パステル1「っ」'
+    url: 'http://textures.minecraft.net/texture/bf4870137682856fa42943938cbeb6dd5598cc2b91eebbb11cb5b33f0c4ba13'
+  pastel1_d06:
+    dispname: 'パステル1「つ」'
+    url: 'http://textures.minecraft.net/texture/b3cba61b12593fe7dff6e745418857521daf43fad65042393aff42b1cd6f47'
+  pastel1_d07:
+    dispname: 'パステル1「づ」'
+    url: 'http://textures.minecraft.net/texture/e1da1dedf888257d4bd5aee4734ca5e8be497f69fe36e240585211ec742bf7'
+  pastel1_d08:
+    dispname: 'パステル1「て」'
+    url: 'http://textures.minecraft.net/texture/131d3c1ad2b8abe81ccd35b66fc1c5e3ce9d97a2d13b2f3165f450e354be7c'
+  pastel1_d09:
+    dispname: 'パステル1「で」'
+    url: 'http://textures.minecraft.net/texture/dc201e5f7817a77cb8592d3ec774dcacaf776ec4f8ce1c4abfb6a2e28b6ef'
+  pastel1_d10:
+    dispname: 'パステル1「と」'
+    url: 'http://textures.minecraft.net/texture/49d22d3d13a5abe72628cb137881ec96a6de11dc2d5039f1a297fc61c59abdb'
+  pastel1_d11:
+    dispname: 'パステル1「ど」'
+    url: 'http://textures.minecraft.net/texture/57179722434728a3a5f3d93911487fd48139f48be036853bc0c331ae885925'
+  pastel1_e01:
+    dispname: 'パステル1「な」'
+    url: 'http://textures.minecraft.net/texture/7d523433c3dfbb1abb7cc41a5ddc503194b12f79ec9ffdf7ed2ca43a6923b7e'
+  pastel1_e02:
+    dispname: 'パステル1「に」'
+    url: 'http://textures.minecraft.net/texture/66d7fb3965f1cb29bec4e16c9a8c5ef464d376eb9ba213f49b1cbaf18922eb3'
+  pastel1_e03:
+    dispname: 'パステル1「ぬ」'
+    url: 'http://textures.minecraft.net/texture/3b8d4c73916dda57e964291b9d6fe123271ea4b3f29c2f1ab13dc17ec2616b3'
+  pastel1_e04:
+    dispname: 'パステル1「ね」'
+    url: 'http://textures.minecraft.net/texture/8a7046e39447bdd398bbe98b2b4bdb2637e684f8e72a84b626f16236d5627'
+  pastel1_e05:
+    dispname: 'パステル1「の」'
+    url: 'http://textures.minecraft.net/texture/db6b97e3c980dcd55dad7b4a3b2b3af8e38b281750e906e4317b6a243c7e0'
+  pastel1_f01:
+    dispname: 'パステル1「は」'
+    url: 'http://textures.minecraft.net/texture/5c5232cf3a14c89e21bd896171ecada45675f317a8787267a66d8f623f0e2'
+  pastel1_f02:
+    dispname: 'パステル1「ば」'
+    url: 'http://textures.minecraft.net/texture/c2fd2631e2ab9313fc61307219e17a7a1a913a9eb7f8cd25145b9f4cc5667e'
+  pastel1_f03:
+    dispname: 'パステル1「ぱ」'
+    url: 'http://textures.minecraft.net/texture/8f63d7b08a851d5edcfb0a39a5c504d95ddb123495f6b1d161ed19d1dcc5c'
+  pastel1_f04:
+    dispname: 'パステル1「ひ」'
+    url: 'http://textures.minecraft.net/texture/5e42997d471f257b54442dba9a2c68801f7ba6fce0787991576fd42b1fc122'
+  pastel1_f05:
+    dispname: 'パステル1「び」'
+    url: 'http://textures.minecraft.net/texture/2d8bfc75172de0f0bec64e6ddc4c69dd1a64ce1d8bb4a8e35dd9620bf231d82'
+  pastel1_f06:
+    dispname: 'パステル1「ぴ」'
+    url: 'http://textures.minecraft.net/texture/3f41b2e1c243d014d4fd44c38a494438ca93b893449da892b0281d5f171f70'
+  pastel1_f07:
+    dispname: 'パステル1「ふ」'
+    url: 'http://textures.minecraft.net/texture/6bb772c0351c2541e8f0757e37db58386aa6298a649548ab9bffa1b50d6b2'
+  pastel1_f08:
+    dispname: 'パステル1「ぶ」'
+    url: 'http://textures.minecraft.net/texture/5c6567eafe7bbb4b31835698f18b7d1c4f1b4aeeb1fc4d33a8e0255df7416a80'
+  pastel1_f09:
+    dispname: 'パステル1「ぷ」'
+    url: 'http://textures.minecraft.net/texture/df22cf7cab1f7b59e947b64724ddd063d4a6e27168222dc94d915724577d'
+  pastel1_f10:
+    dispname: 'パステル1「へ」'
+    url: 'http://textures.minecraft.net/texture/eb9e28aae56e59956225e4da632592b39c0fb5d3dd42e6a876039e9408cc9'
+  pastel1_f11:
+    dispname: 'パステル1「べ」'
+    url: 'http://textures.minecraft.net/texture/aee34d4e31846f23d3486e94866bc1f9e82f8436cfcc194644d4c85f64dae4f'
+  pastel1_f12:
+    dispname: 'パステル1「ぺ」'
+    url: 'http://textures.minecraft.net/texture/924d451420eb55623b44ada95b44a89acf68855f9f66c2fb7775a5e4cf4199'
+  pastel1_f13:
+    dispname: 'パステル1「ほ」'
+    url: 'http://textures.minecraft.net/texture/74695b1a18666e3c11fb966afde3b989fba37b1aed35af1eee60f13511ad2f3d'
+  pastel1_f14:
+    dispname: 'パステル1「ぼ」'
+    url: 'http://textures.minecraft.net/texture/f4c66232c9786d580346a30a5eaff71bb186ceca133cca9736ec8957af72b1'
+  pastel1_f15:
+    dispname: 'パステル1「ぽ」'
+    url: 'http://textures.minecraft.net/texture/1bc15b3d72bc3eb2b67b967506eff5fe15c256b928fde3741adc13aa576c7'
+  pastel1_g01:
+    dispname: 'パステル1「ま」'
+    url: 'http://textures.minecraft.net/texture/e1a933d8c811a25d098e3dad6d5859d3c10aa4e5a89c599a1ece8485a1b56'
+  pastel1_g02:
+    dispname: 'パステル1「み」'
+    url: 'http://textures.minecraft.net/texture/3470e024246ce8ce934a414c9dfee8f7a48dfb22c24cee8ea4e544cbae6754eb'
+  pastel1_g03:
+    dispname: 'パステル1「む」'
+    url: 'http://textures.minecraft.net/texture/8796b5df81fdabf05fd12f34373edcace4d4cf43951a1358f3adbcc46c15e'
+  pastel1_g04:
+    dispname: 'パステル1「め」'
+    url: 'http://textures.minecraft.net/texture/e834331c39a9fa4cfefcc996cf3e24501df3fc1e5551821682ec922b898929e4'
+  pastel1_g05:
+    dispname: 'パステル1「も」'
+    url: 'http://textures.minecraft.net/texture/ab2422cff57107ca7fa878df1ea2337b85180edd95e892890bf241c5eee8'
+  pastel1_h01:
+    dispname: 'パステル1「ゃ」'
+    url: 'http://textures.minecraft.net/texture/99c3d7feafebab89b8e9daeb26b3a6e730e5acb86f6d44b18dc64b5451424f'
+  pastel1_h02:
+    dispname: 'パステル1「や」'
+    url: 'http://textures.minecraft.net/texture/f175f7e5ae0c43ebbd4e68f12a7c066f1e55dfa35f73fe06b11896ccce6e2'
+  pastel1_h03:
+    dispname: 'パステル1「ゅ」'
+    url: 'http://textures.minecraft.net/texture/a23489271d6fb3d6a485764c99151acb4867fc81b8156fc785923ccdb2b4d'
+  pastel1_h04:
+    dispname: 'パステル1「ゆ」'
+    url: 'http://textures.minecraft.net/texture/7c1028c5ef7386b6fc99cfbfff6cd4e42767a9018dc712393ca854d2a48058'
+  pastel1_h05:
+    dispname: 'パステル1「ょ」'
+    url: 'http://textures.minecraft.net/texture/efe05bab5a813964877aa4c03639ab697238d4f4bf567552185ae165eb578a9b'
+  pastel1_h06:
+    dispname: 'パステル1「よ」'
+    url: 'http://textures.minecraft.net/texture/34c6eba42946c9be9427d944c1432690cc8a6f227f02b1885a1ca7b16b3da2'
+  pastel1_i01:
+    dispname: 'パステル1「ら」'
+    url: 'http://textures.minecraft.net/texture/bf1a4a56e2fe7dba12f5268763bea8cde66d2fa37e56d43fddcab811e456d'
+  pastel1_i02:
+    dispname: 'パステル1「り」'
+    url: 'http://textures.minecraft.net/texture/d9f5b17bf9cf296c6b5a1ecb32af1f2b1f123b65e8fb1bf8a36d2e72c5e0'
+  pastel1_i03:
+    dispname: 'パステル1「る」'
+    url: 'http://textures.minecraft.net/texture/e5f722c5ea828d47e43fcf6e336447f9dc7e63de30c1fd304b5d9aa326a03242'
+  pastel1_i04:
+    dispname: 'パステル1「れ」'
+    url: 'http://textures.minecraft.net/texture/5e42a49feeba9ca621b188314a732fa6b39d85f65ecac3744ee475714069'
+  pastel1_i05:
+    dispname: 'パステル1「ろ」'
+    url: 'http://textures.minecraft.net/texture/e1ef19b10c0b1c1256f64ad3cfb67baa901ebedb9135718638ff5a7a79995'
+  pastel1_j01:
+    dispname: 'パステル1「ゎ」'
+    url: 'http://textures.minecraft.net/texture/3095a957c823fbd38d3e0ae799e26bd2237609b45dd5f58835bee525f2b852'
+  pastel1_j02:
+    dispname: 'パステル1「わ」'
+    url: 'http://textures.minecraft.net/texture/4d261a262c7043f2b4b471edaf0268d97a5bc39152780cc38fecf95b5fc58d2'
+  pastel1_j03:
+    dispname: 'パステル1「を」'
+    url: 'http://textures.minecraft.net/texture/f03f4848edac6b40daa8772f7734183b17644ae3e2274c858cbd7954a7dae71'
+  pastel1_j04:
+    dispname: 'パステル1「ん」'
+    url: 'http://textures.minecraft.net/texture/dc2f202711ea64b491d997443f7fa4e8364676379820e2445a318f7997383e'
+  pastel1_k01:
+    dispname: 'パステル1「ァ」'
+    url: 'http://textures.minecraft.net/texture/99e3b9ce10a8ed382de91e71e7d8ccdc3bb3853df71769033e5d34874bde8'
+  pastel1_k02:
+    dispname: 'パステル1「ア」'
+    url: 'http://textures.minecraft.net/texture/a4f8c74c3041edb8a4f36f7b45d846c12e5d312954ca3c558d4fb2976e26c066'
+  pastel1_k03:
+    dispname: 'パステル1「ィ」'
+    url: 'http://textures.minecraft.net/texture/29c26b6646b16fca5c77238a7a47d30e8b371d48635d88031c11c30bfdb9817'
+  pastel1_k04:
+    dispname: 'パステル1「イ」'
+    url: 'http://textures.minecraft.net/texture/10e4907573b5cc82b7321b56bdd11a27d3ca07c2c2579e385eda263e176ed'
+  pastel1_k05:
+    dispname: 'パステル1「ゥ」'
+    url: 'http://textures.minecraft.net/texture/1c925e44cb583217937051ede4a7e7e736c16ac4a7e77ab2b6a82a2166'
+  pastel1_k06:
+    dispname: 'パステル1「ウ」'
+    url: 'http://textures.minecraft.net/texture/5c8f8b5bf5785ad1d626fca068fd2ad27956b863a08cb0f5756a6e02fc4d36c'
+  pastel1_k07:
+    dispname: 'パステル1「ェ」'
+    url: 'http://textures.minecraft.net/texture/4ad95a7a3293201cc257e46fce8e1f6298941b1f7b86fad02f6985149e2029'
+  pastel1_k08:
+    dispname: 'パステル1「エ」'
+    url: 'http://textures.minecraft.net/texture/136f7eead270917c8ba5d4bcb86fd9312279af6e33cfb7bc8b54cced716968'
+  pastel1_k09:
+    dispname: 'パステル1「ォ」'
+    url: 'http://textures.minecraft.net/texture/ca31fffc18e3908659a242cbbbed4f9c33eeb5a6368cc859976e9946a585b'
+  pastel1_k10:
+    dispname: 'パステル1「オ」'
+    url: 'http://textures.minecraft.net/texture/fa2440b4628b42542ad8a56baf546b2d588f65681f76d81f2fad62430589c67'
+  pastel1_l01:
+    dispname: 'パステル1「カ」'
+    url: 'http://textures.minecraft.net/texture/3b26dd5513e5eeb7cd99ca1e7be72a87e67b18cfa7e4f08f89b72b2c8bef9b61'
+  pastel1_l02:
+    dispname: 'パステル1「ガ」'
+    url: 'http://textures.minecraft.net/texture/eec535c7a46346ad23be73f2998aee6c53f9b8b760c2a3c284a77a1373f97b6d'
+  pastel1_l03:
+    dispname: 'パステル1「キ」'
+    url: 'http://textures.minecraft.net/texture/3abc26a4a0f56d940d38b4135717636d1d7394c2914fea34c3b69d0753e51b6'
+  pastel1_l04:
+    dispname: 'パステル1「ギ」'
+    url: 'http://textures.minecraft.net/texture/a109a1f90da5239d3c428869e93cec7761bf8499405685691757298bb74'
+  pastel1_l05:
+    dispname: 'パステル1「ク」'
+    url: 'http://textures.minecraft.net/texture/70ad26e3d0c74592c8af6688e919cbcfc145ce89fa926d5317785d66e2a05a'
+  pastel1_l06:
+    dispname: 'パステル1「グ」'
+    url: 'http://textures.minecraft.net/texture/1af8a62f31a7fc8b3fd3b1294bfa9f9ae1109ce85e3c23673df9a3c79f5'
+  pastel1_l07:
+    dispname: 'パステル1「ケ」'
+    url: 'http://textures.minecraft.net/texture/c5f01b642e1922a4c2a794921aa7ca356135c91ea789c88c30b429d590cf67'
+  pastel1_l08:
+    dispname: 'パステル1「ゲ」'
+    url: 'http://textures.minecraft.net/texture/3f5c9fbde15981dc339968801f97cffd7f7a7c65e99fdfa5bed31f9d4b223'
+  pastel1_l09:
+    dispname: 'パステル1「コ」'
+    url: 'http://textures.minecraft.net/texture/5ceecdfcc0329ef731e383ef9b8d72dcff8659638b69eac2ab53dda76fab7a'
+  pastel1_l10:
+    dispname: 'パステル1「ゴ」'
+    url: 'http://textures.minecraft.net/texture/81ae57f37e7945f9e7b82ff1ba857eda375a7af17aa22e4d6471e503ee0e696'
+  pastel1_m01:
+    dispname: 'パステル1「サ」'
+    url: 'http://textures.minecraft.net/texture/487f4ab2c8b8428e4e373dc53034fa8fa95afcd330c9a56f8d9b2a36e11f51'
+  pastel1_m02:
+    dispname: 'パステル1「ザ」'
+    url: 'http://textures.minecraft.net/texture/7b3c48c65c1fe88d9a3d2a1cd0f2a483778ddadc851a21d716a7dadd935b05b'
+  pastel1_m03:
+    dispname: 'パステル1「シ」'
+    url: 'http://textures.minecraft.net/texture/ccc8edb98ab169f8d57655cb9dfff9660f153878666559a32671e43e5b6caf'
+  pastel1_m04:
+    dispname: 'パステル1「ジ」'
+    url: 'http://textures.minecraft.net/texture/a1c8d21b2ef31b4445b524cc9ce87fe3b8dd6836185dab72f6099d7c143824'
+  pastel1_m05:
+    dispname: 'パステル1「ス」'
+    url: 'http://textures.minecraft.net/texture/def5a79ff17f8bd264d9e3c2a3c414804aebda612f77fdaece3ca7a677d3e9'
+  pastel1_m06:
+    dispname: 'パステル1「ズ」'
+    url: 'http://textures.minecraft.net/texture/de6496b19ef7d6534b1d464a32327ad58badab78d52159e84eea2c2ee973e'
+  pastel1_m07:
+    dispname: 'パステル1「セ」'
+    url: 'http://textures.minecraft.net/texture/c414eba2fc8f4957ed7d09a1ba3d6761a61ff1eeff3fe68a9b514b5a61e90'
+  pastel1_m08:
+    dispname: 'パステル1「ゼ」'
+    url: 'http://textures.minecraft.net/texture/9b7a1b9bc345bf6492bfa6b38a5f38acd34f179fa50cc6f0368e3af55847'
+  pastel1_m09:
+    dispname: 'パステル1「ソ」'
+    url: 'http://textures.minecraft.net/texture/236da3604efa3088562139c19cd677b51e356855e9e5122862925adde84922'
+  pastel1_m10:
+    dispname: 'パステル1「ゾ」'
+    url: 'http://textures.minecraft.net/texture/52c769494aa7b84d651ce50c8b6ad74e8ffcfa49c16a1f84e6637fdbdaff'
+  pastel1_n01:
+    dispname: 'パステル1「タ」'
+    url: 'http://textures.minecraft.net/texture/7a85f9eefc9fbb7a823a8d3e6ee8da371976a5f6d1f5d3f2f377e1f1716a63e'
+  pastel1_n02:
+    dispname: 'パステル1「ダ」'
+    url: 'http://textures.minecraft.net/texture/a5113b539fe858fa1607c5a83b9818487b21a53b1bd2d6358655a2df734cba1'
+  pastel1_n03:
+    dispname: 'パステル1「チ」'
+    url: 'http://textures.minecraft.net/texture/7b54dda7d21aef841dfe26ec1c25c6694d644a687ec98fdb1f83298ada67b4'
+  pastel1_n04:
+    dispname: 'パステル1「ヂ」'
+    url: 'http://textures.minecraft.net/texture/3b54b3af52d9a04247f640e1e393eb2b69f104dff10c792d649cfeee210'
+  pastel1_n05:
+    dispname: 'パステル1「ッ」'
+    url: 'http://textures.minecraft.net/texture/e2bbf025225fd2e25addbf8ad4dba195ab440149cbb861f51c613cf6343a45'
+  pastel1_n06:
+    dispname: 'パステル1「ツ」'
+    url: 'http://textures.minecraft.net/texture/f2c18390a319dbc0cb6d80c818ebc9d44bc33ff31458bef171f6fb3d13e93aeb'
+  pastel1_n07:
+    dispname: 'パステル1「ヅ」'
+    url: 'http://textures.minecraft.net/texture/1383c1286ec9b78f9e64fc76dcd5afebe634798be4da37f2bf79b707224b6'
+  pastel1_n08:
+    dispname: 'パステル1「テ」'
+    url: 'http://textures.minecraft.net/texture/77af50e6791c6db6691895881383185bdc7d4d16bdddc0e52ed0128b32c76'
+  pastel1_n09:
+    dispname: 'パステル1「デ」'
+    url: 'http://textures.minecraft.net/texture/1ee4acbc8d2c7fffd0e795c2d348a287dfa6fa9366e6991b634e77bbd0bbe5'
+  pastel1_n10:
+    dispname: 'パステル1「ト」'
+    url: 'http://textures.minecraft.net/texture/7f12e81699a976f4987eeb3f1cea594f917b6ad3524c80c37a51685d1dfbe5'
+  pastel1_n11:
+    dispname: 'パステル1「ド」'
+    url: 'http://textures.minecraft.net/texture/1eefe9781acc15b4b3bbca06f65ad9965f238c13d23c783193dc298c5538'
+  pastel1_o01:
+    dispname: 'パステル1「ナ」'
+    url: 'http://textures.minecraft.net/texture/9966915aebccdd84a2b8917a8c46771651eb56eaa6bcfcf6d29475b851164'
+  pastel1_o02:
+    dispname: 'パステル1「ニ」'
+    url: 'http://textures.minecraft.net/texture/edd52724a1c2c1d58fc61d650100e3d73ceb74d0897f212997f8c2a4523dba'
+  pastel1_o03:
+    dispname: 'パステル1「ヌ」'
+    url: 'http://textures.minecraft.net/texture/b242aee3519f3b21c978d435d73c86df3294f58125bdd6508d8ca42150d0ed2d'
+  pastel1_o04:
+    dispname: 'パステル1「ネ」'
+    url: 'http://textures.minecraft.net/texture/531e6cae1ac54d78d317764e74d43bd3ea0bc52e88547efdad9bfcb968a355'
+  pastel1_o05:
+    dispname: 'パステル1「ノ」'
+    url: 'http://textures.minecraft.net/texture/f88fb4d1683b56de82bf567c1c71de806bb737f5f610da7c91f9bde9e49124'
+  pastel1_p01:
+    dispname: 'パステル1「ハ」'
+    url: 'http://textures.minecraft.net/texture/f3162b363c6a83ff948b763bca803542f1599ce5d83144460c33ca7aec5373'
+  pastel1_p02:
+    dispname: 'パステル1「バ」'
+    url: 'http://textures.minecraft.net/texture/3ad2ca35be24a0e6c04ebcbe2a75ab657a62ed1205bff76392cf331ae22'
+  pastel1_p03:
+    dispname: 'パステル1「パ」'
+    url: 'http://textures.minecraft.net/texture/9bc61533a5e97b31dadd8b11c6f8148951ede925b3d9a623f95d63b2a49e6'
+  pastel1_p04:
+    dispname: 'パステル1「ヒ」'
+    url: 'http://textures.minecraft.net/texture/77a17cdc91cfa7c039b5ba5d43c8c9b3646303f3c3c89beb5dc465a63a30'
+  pastel1_p05:
+    dispname: 'パステル1「ビ」'
+    url: 'http://textures.minecraft.net/texture/c7393f5eabc9f1b0e45431e4a8c6b2c28ccfbce415db67a2de52972b64e2a65'
+  pastel1_p06:
+    dispname: 'パステル1「ピ」'
+    url: 'http://textures.minecraft.net/texture/c761b162fe8de4e72a3294c5bfde43f852748439b8a2f21058724a1e82cbe868'
+  pastel1_p07:
+    dispname: 'パステル1「フ」'
+    url: 'http://textures.minecraft.net/texture/ea115eab8310832933def837e19dc3b5c4841cbe1e43989cdf7d3d13c922db1'
+  pastel1_p08:
+    dispname: 'パステル1「ブ」'
+    url: 'http://textures.minecraft.net/texture/29ce7b5fce3544e2a461cf2b92b7b37338b1f9a8cf5e3fe8b1d79cdf93877'
+  pastel1_p09:
+    dispname: 'パステル1「プ」'
+    url: 'http://textures.minecraft.net/texture/de8aaeb4edb69486d651a2e87a3d6d673c9eb9be69661cce4663f1717763'
+  pastel1_p10:
+    dispname: 'パステル1「ヘ」'
+    url: 'http://textures.minecraft.net/texture/ee449fb7365e9e79767e5a177cb68d53bce463a02dedd9b771fea73474b0a4'
+  pastel1_p11:
+    dispname: 'パステル1「ベ」'
+    url: 'http://textures.minecraft.net/texture/42b4192ee561cf074212c40d67f37b5bef9db36fd8cf1f3376099d6d375234d'
+  pastel1_p12:
+    dispname: 'パステル1「ペ」'
+    url: 'http://textures.minecraft.net/texture/d6aed9588788e54e2d79caca7e5d82d42152967af4932b614ab2cd7462f'
+  pastel1_p13:
+    dispname: 'パステル1「ホ」'
+    url: 'http://textures.minecraft.net/texture/c5c7f016d898295afb42a11a649e82114e89e75f3e98218563f9b8f693143de'
+  pastel1_p14:
+    dispname: 'パステル1「ボ」'
+    url: 'http://textures.minecraft.net/texture/3f3f75f7d5172cc24e0e0d6ed1f8b297d646ac7b9cb8c4914a388c405ce4'
+  pastel1_p15:
+    dispname: 'パステル1「ポ」'
+    url: 'http://textures.minecraft.net/texture/1a74ebf937b886860135e56bae1cb883fdc1ed57b5e1a2ad380aad9916a5564'
+  pastel1_q01:
+    dispname: 'パステル1「マ」'
+    url: 'http://textures.minecraft.net/texture/891c319f7ca5427410b3886921fa26586913867da523eb9205089ddef49'
+  pastel1_q02:
+    dispname: 'パステル1「ミ」'
+    url: 'http://textures.minecraft.net/texture/a45d6ccaa0da1632762b67bf57668ec53f7c16731cfdf9b54a8adea51bc2d5b3'
+  pastel1_q03:
+    dispname: 'パステル1「ム」'
+    url: 'http://textures.minecraft.net/texture/7bd29c41b57d8c7b326a2cd9c554c33d2a0c52a8bdbd9982457592ea5639'
+  pastel1_q04:
+    dispname: 'パステル1「メ」'
+    url: 'http://textures.minecraft.net/texture/f536c14188b583d11d72d488da29e03c1c3f2aaac475a5f80dae761ffce2c8d'
+  pastel1_q05:
+    dispname: 'パステル1「モ」'
+    url: 'http://textures.minecraft.net/texture/64766561bac945a4cf3df3fd36480ce7c8e3c30f7b76bf29c868aaa438f7ce2'
+  pastel1_r01:
+    dispname: 'パステル1「ャ」'
+    url: 'http://textures.minecraft.net/texture/c5a6d9614b5b8950748ff31dd69a615c4e931996d38b64cf1c99fb4442a6ef'
+  pastel1_r02:
+    dispname: 'パステル1「ヤ」'
+    url: 'http://textures.minecraft.net/texture/61d723326f46b0d798cd2220c0a46f8052861096f610578193f4e6980854c2d'
+  pastel1_r03:
+    dispname: 'パステル1「ュ」'
+    url: 'http://textures.minecraft.net/texture/acd7ef256ed04c7591aaac251a8e131be650ef607f812b92b579523ac5222'
+  pastel1_r04:
+    dispname: 'パステル1「ユ」'
+    url: 'http://textures.minecraft.net/texture/a13ed2448158cb384e1199175aa436d28b27b1139eb733ef6eed2dc33f26d3'
+  pastel1_r05:
+    dispname: 'パステル1「ョ」'
+    url: 'http://textures.minecraft.net/texture/cae3b335cc98c72f336d28fb7b1ca57d8bd45efd77cefdf2ef3612e74f460'
+  pastel1_r06:
+    dispname: 'パステル1「ヨ」'
+    url: 'http://textures.minecraft.net/texture/e7a6c162c11f7218ee9b9eab14db25b92a239f3f642f9e105baaa836441dfc'
+  pastel1_s01:
+    dispname: 'パステル1「ラ」'
+    url: 'http://textures.minecraft.net/texture/1ba7797bfd48787c37057a5bec9fedded8beb7b47274be4a1db4d131783b661'
+  pastel1_s02:
+    dispname: 'パステル1「リ」'
+    url: 'http://textures.minecraft.net/texture/fe33f0392bd37ff83bf016c847bebafffbef3e9582a506867d24b8d8eb61492'
+  pastel1_s03:
+    dispname: 'パステル1「ル」'
+    url: 'http://textures.minecraft.net/texture/dfe6577f74eff41f7f81332142fe63d2918f22737f122afa43641779e14f'
+  pastel1_s04:
+    dispname: 'パステル1「レ」'
+    url: 'http://textures.minecraft.net/texture/f5336797a9361097a8a2a0f93073ae5164ce211d28bf4c1b62d93a9eeae8df0'
+  pastel1_s05:
+    dispname: 'パステル1「ロ」'
+    url: 'http://textures.minecraft.net/texture/e8e8c0b3d54a3b242186df9d94e91962b3f7614a86a58b36126712af6ac36cff'
+  pastel1_t01:
+    dispname: 'パステル1「ヮ」'
+    url: 'http://textures.minecraft.net/texture/9790454376cfabe3edf29a523c5925fc145daa8875736b9be4de75313de'
+  pastel1_t02:
+    dispname: 'パステル1「ワ」'
+    url: 'http://textures.minecraft.net/texture/de37a9d71eafe99d2c3373c0729e35a5d4c13acdc0843a49906a27a5bb11'
+  pastel1_t03:
+    dispname: 'パステル1「ヲ」'
+    url: 'http://textures.minecraft.net/texture/adc8bec4405d7eb131254814fd2b65710b0af3b19453f699bf3a9e1c9ec1d8'
+  pastel1_t04:
+    dispname: 'パステル1「ン」'
+    url: 'http://textures.minecraft.net/texture/f0d9918ca3fe450d91d6371ed2efcf5297a5d2e1aa2e7a2e9efe10376c5860'
+  pastel1_t05:
+    dispname: 'パステル1「ヴ」'
+    url: 'http://textures.minecraft.net/texture/48c3cf44248fb73283d21893ab0d947a123acb7935f5b2781b77a2e36567fb6'
+  pastel1_u01:
+    dispname: 'パステル1「０」'
+    url: 'http://textures.minecraft.net/texture/3b558fb769675cc7b7cac0509ea0b46395a1412e7947b66cbe450cdcea2273b'
+  pastel1_u02:
+    dispname: 'パステル1「１」'
+    url: 'http://textures.minecraft.net/texture/2d2d38c2a99c0cd54d3abf4b89d52cc31a2972c98aa519ee0301add4f25852a'
+  pastel1_u03:
+    dispname: 'パステル1「２」'
+    url: 'http://textures.minecraft.net/texture/4afff1ed2df36dcab8e62c236f9dc754ced16c696b3c3aea8ac491114396'
+  pastel1_u04:
+    dispname: 'パステル1「３」'
+    url: 'http://textures.minecraft.net/texture/49ba43c5f79b4371649d79d91ab3b98e89a81cfdbeb7828c257c55ed11ae852'
+  pastel1_u05:
+    dispname: 'パステル1「４」'
+    url: 'http://textures.minecraft.net/texture/9fa8e2495814b1e9523f880d99944ee5ec4867916b23fd4cb9bbf5db8122cd'
+  pastel1_u06:
+    dispname: 'パステル1「５」'
+    url: 'http://textures.minecraft.net/texture/f31325d629bedfbf749f07e49483cea6b9c15f55f1d4fab26371bf578776'
+  pastel1_u07:
+    dispname: 'パステル1「６」'
+    url: 'http://textures.minecraft.net/texture/518f7bce2e6194ee3f1e8d3dd9adae759bd4d56df38e48bc0f784ff218bf22'
+  pastel1_u08:
+    dispname: 'パステル1「７」'
+    url: 'http://textures.minecraft.net/texture/13c39fe1aacf4719ed60f44146a1d83aca9ed3a770bf246ff18946f67a6cd638'
+  pastel1_u09:
+    dispname: 'パステル1「８」'
+    url: 'http://textures.minecraft.net/texture/98a3ec399caadf1ffb15709e7d8afffec91e4021834d4b88eb91c943fb720f1'
+  pastel1_u10:
+    dispname: 'パステル1「９」'
+    url: 'http://textures.minecraft.net/texture/7986265a026d115c36b5c4f793f84a8b9775a5285d342f0d790e2eb4cc69'
+  pastel1_u11:
+    dispname: 'パステル1「Ａ」'
+    url: 'http://textures.minecraft.net/texture/1d60752737be9ded78b4d8aca29a51c19591ac4caa97b9fa513c5a71fb7d878'
+  pastel1_u12:
+    dispname: 'パステル1「Ｂ」'
+    url: 'http://textures.minecraft.net/texture/dfe2f184edac904afdbdefdb22d91c4152a4da53b9d267b34b0a621a2882f40'
+  pastel1_u13:
+    dispname: 'パステル1「Ｃ」'
+    url: 'http://textures.minecraft.net/texture/4b5f1b9623c450bf371599195a75f215b6ad105e113d1ba7b541d01a9d2195'
+  pastel1_u14:
+    dispname: 'パステル1「Ｄ」'
+    url: 'http://textures.minecraft.net/texture/f7ed567d9e9d19df7e8e3defc5eabc6789dd79be12fae3f76760f7fd77396f47'
+  pastel1_u15:
+    dispname: 'パステル1「Ｅ」'
+    url: 'http://textures.minecraft.net/texture/771fbacd7867ba9b1122e4ba399535a688927feb588a774e545b481febfe29'
+  pastel1_u16:
+    dispname: 'パステル1「Ｆ」'
+    url: 'http://textures.minecraft.net/texture/43f02f89b9cad3ddeb4e98f64dfa7d7cc6a86cf845258bf8db7f78827411f3'
+  pastel1_u17:
+    dispname: 'パステル1「Ｇ」'
+    url: 'http://textures.minecraft.net/texture/4d9b6d5567f96d5725c6c72878ed4d66bfca97e1eddc96ba87457b4fe8d7eb'
+  pastel1_u18:
+    dispname: 'パステル1「Ｈ」'
+    url: 'http://textures.minecraft.net/texture/da86e336f6e197e5750b21a5b51f82a696f6c5e593c893135c2a1f61d7052b0'
+  pastel1_u19:
+    dispname: 'パステル1「Ｉ」'
+    url: 'http://textures.minecraft.net/texture/7d4ea9a6de74b5654bc291563bc87ca2241f292c6ee67671326814014b5eda'
+  pastel1_u20:
+    dispname: 'パステル1「Ｊ」'
+    url: 'http://textures.minecraft.net/texture/13b0d92e92de56bb8a8b718b9635e70112bbaed3abc20ac229b3e7c0a91af'
+  pastel1_u21:
+    dispname: 'パステル1「Ｋ」'
+    url: 'http://textures.minecraft.net/texture/19dcb0f29c613b9cf99b55b6ad5b3ee129ea2c9be6c1f5f830c2c964eaceea'
+  pastel1_u22:
+    dispname: 'パステル1「Ｌ」'
+    url: 'http://textures.minecraft.net/texture/a31bd3f35ecf0f82f241d6125a639f942a7caf98577ade3841b4a2dc71d0'
+  pastel1_u23:
+    dispname: 'パステル1「Ｍ」'
+    url: 'http://textures.minecraft.net/texture/b9baad4bf1ecc2bea737998d18545ff6d4edf9aa4db48b3ce7fb6a4707dbd'
+  pastel1_u24:
+    dispname: 'パステル1「Ｎ」'
+    url: 'http://textures.minecraft.net/texture/e21391367469710cc3ea7d354f5994343f0ff8bbbefdccb3c8cb3e0642b42'
+  pastel1_u25:
+    dispname: 'パステル1「Ｏ」'
+    url: 'http://textures.minecraft.net/texture/a3cfffc717cccc4e7c6d2bd9aaf05d6af5ee772766c853df53292f5cbfd85de2'
+  pastel1_u26:
+    dispname: 'パステル1「Ｐ」'
+    url: 'http://textures.minecraft.net/texture/62ac43b62b15b499c9f79d48ab37b8f93d8e53171d4c8fcd1054fa748074cfca'
+  pastel1_u27:
+    dispname: 'パステル1「Ｑ」'
+    url: 'http://textures.minecraft.net/texture/dcb27c9a284a168d1e74164971e641544eea47ed8fd0b88291cfbc83d529c'
+  pastel1_u28:
+    dispname: 'パステル1「Ｒ」'
+    url: 'http://textures.minecraft.net/texture/373e31583269b5dcda5986bd76e5ad3f892afb45948c56ffefa1ea81dde557'
+  pastel1_u29:
+    dispname: 'パステル1「Ｓ」'
+    url: 'http://textures.minecraft.net/texture/964f811d03d8eb28bad6fdb73f9073888427bef4f1f642bb7f25992c18cd3d'
+  pastel1_u30:
+    dispname: 'パステル1「Ｔ」'
+    url: 'http://textures.minecraft.net/texture/a967821ece8f51658de8de915dc8115e81abf817eceedbad93ef08883701b60'
+  pastel1_u31:
+    dispname: 'パステル1「Ｕ」'
+    url: 'http://textures.minecraft.net/texture/096b818155e578f45958f8228d27b8d4b648271aa668ba36c762eca8557bd'
+  pastel1_u32:
+    dispname: 'パステル1「Ｖ」'
+    url: 'http://textures.minecraft.net/texture/c23d74cca51bef3bdda1d2598449561127246649d17eadaffd642c546db9021'
+  pastel1_u33:
+    dispname: 'パステル1「Ｗ」'
+    url: 'http://textures.minecraft.net/texture/9fa2a06d6f7180d2888d96f1b85aac92b9a802377691b479d6bde2c6b124'
+  pastel1_u34:
+    dispname: 'パステル1「Ｘ」'
+    url: 'http://textures.minecraft.net/texture/96a26167fa7015eaef101d4b4aeab869228e7b208e6df57576628f2bc58d5cc'
+  pastel1_u35:
+    dispname: 'パステル1「Ｙ」'
+    url: 'http://textures.minecraft.net/texture/97ef6a1e47bd463aef5d34f8761e4a1ecc322ac4d5ac6be39679b67af3786e1'
+  pastel1_u36:
+    dispname: 'パステル1「Ｚ」'
+    url: 'http://textures.minecraft.net/texture/da4ceb5123c72c37dc5a16d817fddb972eccc45ccf1aed2c8153a23c3eaef'
