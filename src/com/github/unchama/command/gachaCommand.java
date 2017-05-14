@@ -245,7 +245,7 @@ public class gachaCommand implements TabExecutor {
 				sender.sendMessage(ChatColor.RED + "/gacha get <ID> ");
 				return true;
 			}
-			Util.addItem(player, is);
+			Util.giveItem(player, is, true);
 			return true;
 
 		} else if (args[0].equalsIgnoreCase("add")) {

@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.md_5.bungee.api.ChatColor;
 
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
@@ -92,13 +91,7 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 		case GIVE:
 			ItemStack gacha = gm.getGachaTicket();
 			gacha.setAmount(64);
-			if (!Util.isPlayerInventryFill(player)) {
-				Util.addItem(player, gacha);
-				player.playSound(player.getLocation(),
-						Sound.ENTITY_ITEM_PICKUP, (float) 0.1, (float) 1);
-			} else {
-				Util.dropItem(player, gacha);
-			}
+			Util.giveItem(player, gacha, false);
 			break;
 		case LIST:
 			break;
