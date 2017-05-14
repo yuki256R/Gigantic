@@ -158,9 +158,10 @@ public class HuntingPointDataManager extends YmlManager {
 	// 同種として扱われるMob名の変換
 	public String ConvertName(String name) {
 		String ret = name;
-		if (ConvertNames.containsKey(name)) {
-			ret = ConvertNames.get(name);
-		}
+		// 現状、「同種判定はいらない」とのことなのでコメントアウト
+//		if (ConvertNames.containsKey(name)) {
+//			ret = ConvertNames.get(name);
+//		}
 		// 「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
 		// SQL周りで不具合が起こるためこちらで吸い取る
 		ret = ret.replace(" ", "");
