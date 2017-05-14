@@ -3,8 +3,8 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
-import com.github.unchama.gui.admin.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
+import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.gacha.AdminGachaTypeMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_AppleGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_EditGachaMenuManager;
