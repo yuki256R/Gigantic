@@ -71,12 +71,17 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		for (GachaType gt : GachaType.values()) {
+			LinkedHashMap<Rarity, RarityData> rarityMap = new LinkedHashMap<Rarity, RarityData>();
+			for(Rarity r : Rarity.values()){
+				rarityMap.put(r, new RarityData());
+			}
 			if (gt.equals(GachaType.GIGANTIC)) {
 				int ticket = tm.getGachaTicket(gp);
 				int apolo = tm.getSorryForBugs(gp);
-				dataMap.put(gt, new GachaData(ticket, apolo));
+
+				dataMap.put(gt, new GachaData(ticket, apolo,rarityMap));
 			} else {
-				dataMap.put(gt, new GachaData());
+				dataMap.put(gt, new GachaData(rarityMap));
 			}
 		}
 	}
@@ -86,7 +91,11 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		for (GachaType gt : GachaType.values()) {
-			dataMap.put(gt, new GachaData());
+			LinkedHashMap<Rarity, RarityData> rarityMap = new LinkedHashMap<Rarity, RarityData>();
+			for(Rarity r : Rarity.values()){
+				rarityMap.put(r, new RarityData());
+			}
+			dataMap.put(gt, new GachaData(rarityMap));
 		}
 	}
 

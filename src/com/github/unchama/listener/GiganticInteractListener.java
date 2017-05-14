@@ -75,6 +75,18 @@ public class GiganticInteractListener implements Listener {
 		// アクションを起こした手を取得
 		EquipmentSlot equipmentslot = event.getHand();
 
+		ItemStack item = event.getItem();
+		if (item == null)
+			return;
+
+		NBTItem nbti = new NBTItem(item);
+		// gacha券tagを判定
+		if (GachaManager.isTicket(nbti)) {
+			event.setCancelled(true);
+		} else {
+			return;
+		}
+
 		if (equipmentslot == null) {
 			return;
 		}
@@ -90,44 +102,33 @@ public class GiganticInteractListener implements Listener {
 
 		int count = 1;
 
-		ItemStack item = event.getItem();
-
-		if (item == null)
-			return;
-
 		if (player.isSneaking()) {
 			count = item.getAmount();
 		}
-		NBTItem nbti = new NBTItem(item);
 
-		// gacha券tagを判定
-		if (GachaManager.isTicket(nbti)) {
-			GiganticPlayer gp = event.getGiganticPlayer();
-			GachaType gt = GachaManager.getGachaType(nbti);
-			GachaManager gm = gacha.getManager(gt.getManagerClass());
+		GiganticPlayer gp = event.getGiganticPlayer();
+		GachaType gt = GachaManager.getGachaType(nbti);
+		GachaManager gm = gacha.getManager(gt.getManagerClass());
 
-			if(gm.isMaintenance()){
-				player.sendMessage(ChatColor.AQUA + "メンテナンス中です．");
-				event.setCancelled(true);
-				return;
-			}
-			PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
-
-			for (int i = 0; i < count; i++) {
-				// ガチャを回す
-				ItemStack gachaitem = pm.roll(gt);
-				Util.giveItem(player, gachaitem);
-			}
-			if (player.isSneaking()) {
-				player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-			} else {
-				item.setAmount(item.getAmount() - 1);
-			}
-
+		if (gm.isMaintenance()) {
+			player.sendMessage(ChatColor.AQUA + "メンテナンス中です．");
 			event.setCancelled(true);
 			return;
 		}
+		PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
 
+		for (int i = 0; i < count; i++) {
+			// ガチャを回す
+			ItemStack gachaitem = pm.roll(gt);
+			Util.giveItem(player, gachaitem);
+		}
+		if (player.isSneaking() || item.getAmount() == 1) {
+			player.getInventory()
+					.setItemInMainHand(new ItemStack(Material.AIR));
+		} else {
+			item.setAmount(item.getAmount() - 1);
+		}
+		return;
 	}
 
 	/**

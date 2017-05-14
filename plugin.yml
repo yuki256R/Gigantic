@@ -2,7 +2,7 @@ name: Gigantic
 main: com.github.unchama.gigantic.Gigantic
 version: 0.1.0
 description: Gigantic Seichi Server Plugin
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI,LobbySwitch]
 
 
 
@@ -30,10 +30,14 @@ commands:
       permission-message: You don't have <permission>
   stick:
       description: This is stick command
-      aliases: stick
-      default: op
+      aliases: [st,sti]
+      default: true
       permission: gigantic.stick
       permission-message: You don't have <permission>
   fly:
       description: This is stick command
       usage: /<command> <finish/amount/endless>
+      aliases: [giganticfly,gfly]
+      default: true
+      permission: gigantic.fly
+      permission-message: You don't have <permission>
