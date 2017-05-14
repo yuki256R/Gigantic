@@ -52,6 +52,7 @@ public final class Gigantic extends JavaPlugin {
 		plugin = this;
 		// 必ず最初にymlデータを読み込む
 		yml = new Yml();
+		yml.Initialize();
 		// Guimenuを読み込む前にガチャのインスタンスを生成
 		gacha = new Gacha();
 		// 必ず最初にmenuデータを読み込む

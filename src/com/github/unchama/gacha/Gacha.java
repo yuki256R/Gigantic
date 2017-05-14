@@ -7,9 +7,9 @@ import java.util.LinkedHashMap;
 import org.bukkit.Bukkit;
 
 import com.github.unchama.gacha.moduler.GachaManager;
-import com.github.unchama.gui.admin.AdminGiganticGachaMenuManager;
-import com.github.unchama.gui.admin.AdminPremiumGachaMenuManager;
-import com.github.unchama.gui.moduler.AdminGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.moduler.AdminGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
 import com.github.unchama.sql.GiganticGachaTableManager;
 import com.github.unchama.sql.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.GachaTableManager;
@@ -23,15 +23,15 @@ public class Gacha {
 		private Class<? extends GachaTableManager> tm;
 		private Class<? extends AdminGachaMenuManager> mm;
 
-		private static HashMap<Class<? extends GachaTableManager>,Class<? extends GachaManager>> tablemap;
-		private static HashMap<Class<? extends AdminGachaMenuManager>,Class<? extends GachaManager>> menumap;
+		private static HashMap<Class<? extends GachaTableManager>,GachaType> tablemap;
+		private static HashMap<Class<? extends AdminGachaMenuManager>,GachaType> menumap;
 
 		static{
-			tablemap = new HashMap<Class<? extends GachaTableManager>,Class<? extends GachaManager>>();
-			menumap = new HashMap<Class<? extends AdminGachaMenuManager>,Class<? extends GachaManager>>();
+			tablemap = new HashMap<Class<? extends GachaTableManager>,GachaType>();
+			menumap = new HashMap<Class<? extends AdminGachaMenuManager>,GachaType>();
 			for(GachaType gt : values()){
-				tablemap.put(gt.getTableManagerClass(), gt.getManagerClass());
-				menumap.put(gt.getMenuManagerClass(), gt.getManagerClass());
+				tablemap.put(gt.getTableManagerClass(), gt);
+				menumap.put(gt.getMenuManagerClass(), gt);
 			}
 		}
 
@@ -57,7 +57,7 @@ public class Gacha {
 		 * @param tm
 		 * @return
 		 */
-		public static Class<? extends GachaManager> getManagerClassbyTable(Class<? extends GachaTableManager> tm){
+		public static GachaType getGachaTypebyTable(Class<? extends GachaTableManager> tm){
 			return tablemap.get(tm);
 		}
 		/**MenuManagerクラスからManagerクラスを取得します
@@ -65,21 +65,22 @@ public class Gacha {
 		 * @param tm
 		 * @return
 		 */
-		public static Class<? extends GachaManager> getManagerClassbyMenu(Class<? extends AdminGachaMenuManager> mm){
+		public static GachaType getGachaTypebyMenu(Class<? extends AdminGachaMenuManager> mm){
 			return menumap.get(mm);
 		}
+
 	}
 
 	private LinkedHashMap<Class<? extends GachaManager>,GachaManager> managermap = new LinkedHashMap<Class<? extends GachaManager>,GachaManager>();
 
 	public Gacha(){
-		for(GachaType mt : GachaType.values()){
+		for(GachaType gt : GachaType.values()){
 			try {
-				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor().newInstance());
+				this.managermap.put(gt.getManagerClass(),gt.getManagerClass().getConstructor(GachaType.class).newInstance(gt));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
-				Bukkit.getServer().getLogger().warning("Failed to create new Instance of gacha:" + mt.name());
+				Bukkit.getServer().getLogger().warning("Failed to create new Instance of gacha:" + gt.name());
 				e.printStackTrace();
 			}
 		}

@@ -20,11 +20,15 @@ import org.bukkit.inventory.ItemStack;
 import zedly.zenchantments.Zenchantments;
 
 import com.github.unchama.event.GiganticInteractEvent;
+import com.github.unchama.gacha.Gacha;
+import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.task.MagicDriveTaskRunnable;
@@ -32,6 +36,8 @@ import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+
+import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
  * プレイヤーがGiganticPlayerデータを持っている時にのみコールされます．
@@ -45,6 +51,7 @@ public class GiganticInteractListener implements Listener {
 	GuiMenu guimenu = Gigantic.guimenu;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	Gacha gacha = Gigantic.gacha;
 	Zenchantments Ze;
 
 	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
@@ -53,6 +60,74 @@ public class GiganticInteractListener implements Listener {
 
 	GiganticInteractListener() {
 		Ze = Util.getZenchantments();
+	}
+
+	/**
+	 * ガチャを引く処理
+	 *
+	 * @param event
+	 */
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void rollGacha(GiganticInteractEvent event) {
+		Player player = event.getPlayer();
+		// プレイヤーが起こしたアクションを取得
+		Action action = event.getAction();
+		// アクションを起こした手を取得
+		EquipmentSlot equipmentslot = event.getHand();
+
+		if (equipmentslot == null) {
+			return;
+		}
+
+		if (equipmentslot.equals(EquipmentSlot.OFF_HAND)) {
+			return;
+		}
+
+		if (action.equals(Action.LEFT_CLICK_AIR)
+				|| action.equals(Action.LEFT_CLICK_BLOCK)) {
+			return;
+		}
+
+		int count = 1;
+
+		ItemStack item = event.getItem();
+
+		if (item == null)
+			return;
+
+		if (player.isSneaking()) {
+			count = item.getAmount();
+		}
+		NBTItem nbti = new NBTItem(item);
+
+		// gacha券tagを判定
+		if (GachaManager.isTicket(nbti)) {
+			GiganticPlayer gp = event.getGiganticPlayer();
+			GachaType gt = GachaManager.getGachaType(nbti);
+			GachaManager gm = gacha.getManager(gt.getManagerClass());
+
+			if(gm.isMaintenance()){
+				player.sendMessage(ChatColor.AQUA + "メンテナンス中です．");
+				event.setCancelled(true);
+				return;
+			}
+			PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
+
+			for (int i = 0; i < count; i++) {
+				// ガチャを回す
+				ItemStack gachaitem = pm.roll(gt);
+				Util.giveItem(player, gachaitem);
+			}
+			if (player.isSneaking()) {
+				player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+			} else {
+				item.setAmount(item.getAmount() - 1);
+			}
+
+			event.setCancelled(true);
+			return;
+		}
+
 	}
 
 	/**
@@ -144,8 +219,10 @@ public class GiganticInteractListener implements Listener {
 					continue;
 				}
 			}
-			if(!player.getInventory().getItemInOffHand().getType().equals(Material.AIR)){
-				player.sendMessage(ChatColor.RED + "オフハンドにアイテムを持った状態でメニューを開くことはできません");
+			if (!player.getInventory().getItemInOffHand().getType()
+					.equals(Material.AIR)) {
+				player.sendMessage(ChatColor.RED
+						+ "オフハンドにアイテムを持った状態でメニューを開くことはできません");
 				return;
 			}
 			event.setCancelled(true);

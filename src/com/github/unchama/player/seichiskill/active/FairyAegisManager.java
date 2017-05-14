@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
@@ -34,12 +35,13 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.FairyAegisTableManager;
 import com.github.unchama.task.FairyAegisTaskRunnable;
-import com.github.unchama.util.MobHead;
 import com.github.unchama.util.breakblock.BreakUtil;
+import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class FairyAegisManager extends ActiveSkillManager {
 
+	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);
 	private static Information info = Information.FA_FAIRY;
 	public static Random rnd = new Random();
 	FairyAegisTableManager tm;
@@ -255,7 +257,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 	}
 
 	/**
-	 * 与えられた数で割った答えに該当するMobHeadを取得します．
+	 * 与えられた数で割った答えに該当するheadを取得します．
 	 *
 	 * @param 1 or 10 or 100 or 1000
 	 * @return
@@ -280,25 +282,25 @@ public class FairyAegisManager extends ActiveSkillManager {
 		if (b >= 0 && b < 10) {
 			switch (b) {
 			case 1:
-				return (MobHead.getMobHead("one"));
+				return (head.getMobHead("one"));
 			case 2:
-				return (MobHead.getMobHead("two"));
+				return (head.getMobHead("two"));
 			case 3:
-				return (MobHead.getMobHead("three"));
+				return (head.getMobHead("three"));
 			case 4:
-				return (MobHead.getMobHead("four"));
+				return (head.getMobHead("four"));
 			case 5:
-				return (MobHead.getMobHead("five"));
+				return (head.getMobHead("five"));
 			case 6:
-				return (MobHead.getMobHead("six"));
+				return (head.getMobHead("six"));
 			case 7:
-				return (MobHead.getMobHead("seven"));
+				return (head.getMobHead("seven"));
 			case 8:
-				return (MobHead.getMobHead("eight"));
+				return (head.getMobHead("eight"));
 			case 9:
-				return (MobHead.getMobHead("nine"));
+				return (head.getMobHead("nine"));
 			default:
-				return (MobHead.getMobHead("zero"));
+				return (head.getMobHead("zero"));
 			}
 		} else {
 			return new ItemStack(Material.GRASS);
