@@ -177,7 +177,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
         return ans;
 	}
 
-	public int getGachaTicket(GiganticPlayer gp) {
+	public int getGachaPoint(GiganticPlayer gp) {
 		String command = "";
 	    final String struuid = gp.uuid.toString().toLowerCase();
 	    int ans = 0;

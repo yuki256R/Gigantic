@@ -74,7 +74,7 @@ public class AG_ListGachaMenuManager extends AdminMenuManager {
 		int id = Converter.toInt(identifier);
 		GachaItem gi = gm.getGachaItem(id);
 		if (gi != null) {
-			Util.giveItem(player, gi.getItem());
+			Util.giveItem(player, gi.getItem(),true);
 			return true;
 		}
 		return false;

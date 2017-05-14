@@ -71,7 +71,7 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 		if(i > 64)return;
 		ItemStack ts = gacha.getManager(gt.getManagerClass()).getGachaTicket();
 		ts.setAmount(i);
-		Util.giveItem(player, ts);
+		Util.giveItem(player, ts,true);
 		dataMap.get(gt).remove(i);
 	}
 
