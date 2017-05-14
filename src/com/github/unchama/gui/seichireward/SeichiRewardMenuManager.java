@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gacha.Gacha;
-import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.GiganticGachaManager;
+import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -49,7 +49,7 @@ public class SeichiRewardMenuManager extends GuiMenuManager {
 			Sm.updateInfo(Information.GACHA_TICKET, pgm.getTicket(GachaType.GIGANTIC));
 			Sm.refresh();
 		}
-		this.open(player,0, false);
+		this.update(player);
 		return true;
 	}
 
@@ -113,7 +113,7 @@ public class SeichiRewardMenuManager extends GuiMenuManager {
 		ItemStack is = null;
 		switch (slot) {
 		case 0:
-			is = gacha.getManager(GiganticGachaManager.class).getMobhead();
+			is = gacha.getManager(GiganticGachaManager.class).getGachaTicket();
 			break;
 		default:
 			break;

@@ -20,8 +20,8 @@ public abstract class GachaTableManager extends TableManager {
 
 	public GachaTableManager(Sql sql) {
 		super(sql);
-		this.gm = gacha.getManager(GachaType.getManagerClassbyTable(this
-				.getClass()));
+		this.gm = gacha.getManager(GachaType.getGachaTypebyTable(this
+				.getClass()).getManagerClass());
 		load();
 	}
 
@@ -81,7 +81,8 @@ public abstract class GachaTableManager extends TableManager {
 		return true;
 	}
 
-	/**成功したときtrueを返す
+	/**
+	 * 成功したときtrueを返す
 	 *
 	 * @return
 	 */
@@ -113,8 +114,7 @@ public abstract class GachaTableManager extends TableManager {
 		command = command.replaceAll(",last", "");
 
 		if (!sendCommand(command)) {
-			plugin.getLogger().warning(
-					"Failed to save in " + table + " Table");
+			plugin.getLogger().warning("Failed to save in " + table + " Table");
 			return false;
 		}
 

@@ -1,4 +1,4 @@
-package com.github.unchama.gui.moduler;
+package com.github.unchama.gui.admin.gacha.moduler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,13 +14,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
-import com.github.unchama.gui.GuiMenu.ManagerType;
+import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Util;
 
 public abstract class AdminGachaMenuManager extends AdminMenuManager {
 	public static enum MenuType {
-		INFO(0), GIVE(1), LIST(2), EDIT(3), MENTE(4), SAVE(5), RELOAD(6), DEMO(
-				7);
+		INFO(0), GIVE(1), LIST(2), EDIT(3), TICKET(4),APPLE(5),MENTE(6), SAVE(7), RELOAD(8),;
 
 		private int slot;
 
@@ -46,13 +45,15 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 		}
 	}
 
-	Class<? extends GachaManager> gachaClass;
+
 	GachaManager gm;
+	GachaType gt;
 
 	public AdminGachaMenuManager() {
 		super();
-		gachaClass = GachaType.getManagerClassbyMenu(this.getClass());
-		gm = gacha.getManager(gachaClass);
+		gt = GachaType.getGachaTypebyMenu(this.getClass());
+		gm = gacha.getManager(gt.getManagerClass());
+
 	}
 
 	@Override
@@ -90,6 +91,7 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 			break;
 		case GIVE:
 			ItemStack gacha = gm.getGachaTicket();
+			gacha.setAmount(64);
 			if (!Util.isPlayerInventryFill(player)) {
 				Util.addItem(player, gacha);
 				player.playSound(player.getLocation(),
@@ -102,23 +104,25 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 			break;
 		case EDIT:
 			break;
+		case TICKET:
+			break;
+		case APPLE:
+			break;
 		case MENTE:
+			player.chat("/gacha mente " + gt.name());
 			break;
 		case SAVE:
+			player.chat("/gacha save " + gt.name());
 			break;
 		case RELOAD:
+			player.chat("/gacha reload " + gt.name());
 			break;
-		case DEMO:
-			break;
-
 		}
 
 		return true;
 	}
 
-	@Override
-	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-	}
+
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
@@ -126,12 +130,12 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 		List<String> lore;
 		switch (MenuType.getType(slot)) {
 		case INFO:
-			im.setDisplayName(ChatColor.GREEN + "コマンド一覧");
-			lore = new ArrayList<String>();
+			lore = im.getLore();
+			lore.add(ChatColor.GREEN + "クリックしてガチャのデモを回す（未実装）");
 			im.setLore(lore);
 			break;
 		case GIVE:
-			im.setDisplayName(ChatColor.YELLOW + "ガチャ券配布");
+			im.setDisplayName(ChatColor.YELLOW + "ガチャ券を配布する（未実装）");
 			lore = new ArrayList<String>();
 			im.setLore(lore);
 			break;
@@ -142,6 +146,16 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 			break;
 		case EDIT:
 			im.setDisplayName(ChatColor.LIGHT_PURPLE + "ガチャの内容を編集");
+			lore = new ArrayList<String>();
+			im.setLore(lore);
+			break;
+		case TICKET:
+			im.setDisplayName(ChatColor.LIGHT_PURPLE + "ガチャ券を変更する");
+			lore = new ArrayList<String>();
+			im.setLore(lore);
+			break;
+		case APPLE:
+			im.setDisplayName(ChatColor.LIGHT_PURPLE + "がちゃりんごを変更する");
 			lore = new ArrayList<String>();
 			im.setLore(lore);
 			break;
@@ -157,11 +171,6 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 			break;
 		case RELOAD:
 			im.setDisplayName(ChatColor.RED + "Sqlからデータをロード");
-			lore = new ArrayList<String>();
-			im.setLore(lore);
-			break;
-		case DEMO:
-			im.setDisplayName(ChatColor.WHITE+ "デモ");
 			lore = new ArrayList<String>();
 			im.setLore(lore);
 			break;
@@ -191,6 +200,12 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 		case EDIT:
 			is = head.getMobHead("riceball");
 			break;
+		case TICKET:
+			is = head.getMobHead("sushi_roll");
+			break;
+		case APPLE:
+			is = head.getMobHead("apple");
+			break;
 		case MENTE:
 			is = head.getMobHead("grape");
 			break;
@@ -199,9 +214,6 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 			break;
 		case RELOAD:
 			is = head.getMobHead("milk_chocolate");
-			break;
-		case DEMO:
-			is = head.getMobHead("sushi_roll");
 			break;
 		default:
 			break;
