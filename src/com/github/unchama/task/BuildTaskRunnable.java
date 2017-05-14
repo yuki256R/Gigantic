@@ -34,7 +34,7 @@ public class BuildTaskRunnable extends BukkitRunnable{
 	
 	@Override
 	public void run() {
-		//TODO:ここで1分ごとに1minを0に設定
+		//ここで1分ごとに1minを0に設定
 		Bukkit.getScheduler().runTask(plugin, new Runnable() {
 			@Override
 			public void run(){

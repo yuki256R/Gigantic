@@ -15,7 +15,7 @@ public class BlockCraftMenuManagerThirdPage extends MinestackBlockCraftMenuManag
 	
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		openmap.put(45, GuiMenu.ManagerType.BLOCKCRAFTMENUFIRST);
+		openmap.put(45, ManagerType.BLOCKCRAFTMENUSECOND);
 	}
 
 }
