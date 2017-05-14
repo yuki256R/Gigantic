@@ -76,7 +76,7 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 				rarityMap.put(r, new RarityData());
 			}
 			if (gt.equals(GachaType.GIGANTIC)) {
-				int ticket = tm.getGachaTicket(gp);
+				int ticket = tm.getGachaPoint(gp) / 1000 + 1;
 				int apolo = tm.getSorryForBugs(gp);
 
 				dataMap.put(gt, new GachaData(ticket, apolo,rarityMap));
