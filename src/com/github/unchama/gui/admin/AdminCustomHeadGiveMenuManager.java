@@ -145,7 +145,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 			CustomHead data = category.heads.get(index);
 			ItemStack item = data.getSkull();
 
-			Util.giveItem(player, item);
+			Util.giveItem(player, item,true);
 
 			// クリップボードに呼び出し名をコピーする
 			Util.setClipboard(data.name);

@@ -27,6 +27,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+import com.lobbyswitch.LobbySwitch;
 
 /**
  * Ymlから編集できるようにしたMenuClass
@@ -72,7 +73,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	public boolean islocked(Player player,int slot) {
+	public boolean islocked(Player player, int slot) {
 		boolean perm = this.fc.getBoolean(Integer.toString(slot) + ".onlyop");
 		if (perm) {
 			if (!player.isOp()) {
@@ -158,6 +159,9 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			case "garbagecan":
 				methodmap.put(i, "openGarbageCan");
 				break;
+			case "lobbyswitch":
+				methodmap.put(i, "openServerMenu");
+				break;
 			default:
 				break;
 			}
@@ -205,6 +209,11 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 					Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
 			player.chat("/spawn");
 			return true;
+		case "openServerMenu":
+			if(Bukkit.getPluginManager().isPluginEnabled("LobbySwitch")){
+				LobbySwitch.p.getConfigManager().getInventory();
+			}
+			return true;
 		default:
 			return false;
 		}
@@ -249,11 +258,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int i, ItemStack itemstack) {
-		String mobhead = this.fc.getString(i + ".mobhead");
-		if (mobhead != null) {
-			itemstack = head.getMobHead(mobhead);
-		}
-
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		Boolean b = this.fc.getBoolean(i + ".isSkullofOwner");
 		if (b != null) {
@@ -288,6 +292,17 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 		String s = Integer.toString(i) + ".itemstack";
 		ItemStack tmp = this.fc.getItemStack(s);
 		ItemStack itemstack = tmp != null ? new ItemStack(tmp) : null;
+
+		String mobhead = this.fc.getString(i + ".mobhead");
+		if (mobhead != null) {
+			itemstack = head.getMobHead(mobhead);
+			ItemMeta tmpim = tmp.getItemMeta();
+			ItemMeta im = itemstack.getItemMeta();
+			im.setDisplayName(tmpim.getDisplayName());
+			im.setLore(tmpim.getLore());
+			itemstack.setItemMeta(im);
+		}
+
 		return itemstack;
 	}
 

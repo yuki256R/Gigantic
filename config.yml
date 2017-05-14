@@ -71,11 +71,11 @@ minestack_BlockCraft:
   
 #スキルの使えるワールド
 skillworld:
-  - world_sw
-  - world
-  - world_2
-  - world_nether
-  - world_the_end
+  - world_SW
+  - world_SW_2
+  - world_SW_nether
+  - world_SW_the_end
+  - world_SW_zero
   
 #重力値設定
 #通常破壊時に許容する高さ

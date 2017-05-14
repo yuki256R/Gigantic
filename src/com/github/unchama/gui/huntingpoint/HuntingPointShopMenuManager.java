@@ -136,13 +136,13 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		}
 		switch (shopItem.getCategoryType()) {
 		case ToHead:
-			Util.giveItem(player, giveItem);
+			Util.giveItem(player, giveItem,true);
 			break;
 		case CustomHead:
-			Util.giveItem(player, giveItem);
+			Util.giveItem(player, giveItem,true);
 			break;
 		case Item:
-			Util.giveItem(player, giveItem);
+			Util.giveItem(player, giveItem,true);
 			break;
 		default:
 			break;
