@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.player.buildskill.BuildSkillManager;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
@@ -79,6 +80,7 @@ public class GiganticPlayer{
 		HUNTINGPOINT(HuntingPointManager.class),
 		BUILDLEVEL(BuildLevelManager.class),
 		SIDEBAR(SideBarManager.class),
+        BUILDSKILL(BuildSkillManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
