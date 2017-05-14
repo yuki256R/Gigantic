@@ -2,6 +2,7 @@ package com.github.unchama.yml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,6 @@ public class HuntingPointDataManager extends YmlManager {
 	static Map<String, List<HuntingPointShopItem>> shopItems;
 
 	static Map<String, HuntMobData> MobNames;
-	// Map.keysetで回すと順番が変わるため
-	static List<String> MobNameArray;
 
 	static Map<String, String> ConvertNames;
 
@@ -51,19 +50,15 @@ public class HuntingPointDataManager extends YmlManager {
 
 	// ymlファイルからデータを取りなおす
 	public void reload() {
-		// ドロップ対象のMob名
-		MobNameArray = new ArrayList<String>();
-
 		// 表示データ
 		ConfigurationSection basedata = this.fc
 				.getConfigurationSection("mobdata");
-		MobNames = new HashMap<String, HuntMobData>();
+		MobNames = new LinkedHashMap<String, HuntMobData>();
 		for (String name : basedata.getKeys(false)) {
-			boolean isTarget = false;
-			if (basedata.getBoolean(name + ".target")) {
-				isTarget = true;
-				MobNameArray.add(name);
-			}
+			// 半角スペースが入るとSQLのコマンドに支障がある為
+			name = name.replace(" ", "");
+
+			boolean isTarget = basedata.getBoolean(name + ".target", false);
 
 			String jpname = basedata.getString(name + ".jpname");
 			String headname = basedata.getString(name + ".headname");
@@ -163,9 +158,10 @@ public class HuntingPointDataManager extends YmlManager {
 	// 同種として扱われるMob名の変換
 	public String ConvertName(String name) {
 		String ret = name;
-		if (ConvertNames.containsKey(name)) {
-			ret = ConvertNames.get(name);
-		}
+		// 現状、「同種判定はいらない」とのことなのでコメントアウト
+//		if (ConvertNames.containsKey(name)) {
+//			ret = ConvertNames.get(name);
+//		}
 		// 「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
 		// SQL周りで不具合が起こるためこちらで吸い取る
 		ret = ret.replace(" ", "");
@@ -178,9 +174,5 @@ public class HuntingPointDataManager extends YmlManager {
 
 	public HuntMobData getMobData(String name) {
 		return MobNames.get(name);
-	}
-
-	public List<String> getMobNameArray() {
-		return MobNameArray;
 	}
 }
