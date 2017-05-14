@@ -2,7 +2,6 @@ package com.github.unchama.gui.admin;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.md_5.bungee.api.ChatColor;
@@ -16,11 +15,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.CustomHeadManager.CustomHead;
+import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 
 public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
@@ -33,12 +36,11 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 	private ItemStack nextButton;
 	private final int nextButtonSlot = 53;
 
-	private int currentPage = 1;
 	// 下部メニューボタン
 	private Map<Integer, ItemStack> menuButtons;
 
 	// 選択中のカテゴリの頭
-	List<CustomHead> heads;
+	HeadCategory category;
 
 	private CustomHeadManager headManager = Gigantic.yml
 			.getManager(CustomHeadManager.class);
@@ -65,12 +67,14 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 	@Override
 	public Inventory getInventory(Player player, int slot) {
 		// とりあえずいまはotherカテゴリだけ
-		heads = headManager.getCategoryHeads("other");
+		category = headManager.getCategoryHeads("other");
 		return getInventory(player, slot, 1);
 	}
 
 	public Inventory getInventory(Player player, int slot, int page) {
-		currentPage = page;
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		manager.setCurrentPage(this, page);
 
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(),
@@ -78,10 +82,10 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 		// とりだしボタン
 		for (int i = 45 * (page - 1); i < 45 * page; i++) {
-			if (i >= heads.size()) {
+			if (i >= category.heads.size()) {
 				break;
 			}
-			CustomHead data = heads.get(i);
+			CustomHead data = category.heads.get(i);
 			ItemStack item = data.getSkull();
 			Util.setLore(
 					item,
@@ -107,6 +111,9 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		int currentPage = manager.getCurrentPage(this);
 		int slot = Integer.valueOf(identifier);
 		// ページ戻るボタン
 		if (slot == prevButtonSlot) {
@@ -120,7 +127,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		}
 		// ページ進むボタン
 		else if (slot == nextButtonSlot) {
-			if (heads.size() <= 45 * currentPage) {
+			if (category.heads.size() <= 45 * currentPage) {
 				return false;
 			}
 			player.openInventory(getInventory(player, nextButtonSlot,
@@ -132,10 +139,10 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		else if (slot < 45) {
 			// 空スロットならおわり
 			int index = slot + 45 * (currentPage - 1);
-			if (heads.size() <= index) {
+			if (category.heads.size() <= index) {
 				return false;
 			}
-			CustomHead data = heads.get(index);
+			CustomHead data = category.heads.get(index);
 			ItemStack item = data.getSkull();
 
 			Util.giveItem(player, item);
