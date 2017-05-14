@@ -2,7 +2,6 @@ package com.github.unchama.gui.huntingpoint;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.md_5.bungee.api.ChatColor;
@@ -62,14 +61,12 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
-		List<String> mobNameArray = Gigantic.yml.getManager(
-				HuntingPointDataManager.class).getMobNameArray();
 		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 
 		int count = 0;
 		// 各MOB
-		for (String name : mobNameArray) {
+		for (String name : mobNames.keySet()) {
 			// Mobに応じた頭
 			ItemStack button = head.getMobHead(mobNames.get(name).headName);
 			ItemMeta itemMeta = button.getItemMeta();

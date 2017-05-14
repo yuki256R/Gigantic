@@ -74,11 +74,10 @@ public class HuntingPointEventListener implements Listener {
 			if (((Guardian) event.getEntity()).isElder()) {
 				ret = "ElderGuardian";
 			}
+			// 同種扱い
+		} else {
+			ret = huntingPointData.ConvertName(name);
 		}
-//			// 同種扱い
-//		} else {
-//			ret = huntingPointData.ConvertName(name);
-//		}
 
 		return ret;
 	}
