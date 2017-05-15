@@ -27,6 +27,7 @@ public enum ListenerEnum {
     BUILD(new BlockPlaceEventListener()),
     MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
     HUNTINGPOINT(new HuntingPointEventListener()),
+    PLAYERPICKUPITEM(new PlayerPickupItemListener()),
 	;
 	private Listener listener;
 
