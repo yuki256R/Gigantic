@@ -4,7 +4,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +54,8 @@ public class CustomHeadManager extends YmlManager {
 			name = name_;
 			dispName = dispName_;
 			mainSkull = getMobHead(mainSkullName);
+			Util.setDisplayName(mainSkull, ChatColor.RESET + dispName);
+
 			heads = heads_;
 		}
 	}
@@ -86,7 +87,7 @@ public class CustomHeadManager extends YmlManager {
 		// headCategory = new LinkedHashMap<String, List<CustomHead>>();
 
 		// カテゴリデータ
-		categoryData = new HashMap<String, HeadCategory>();
+		categoryData = new LinkedHashMap<String, HeadCategory>();
 		ConfigurationSection categorydata = this.fc
 				.getConfigurationSection("category");
 
@@ -211,7 +212,7 @@ public class CustomHeadManager extends YmlManager {
 		return skull;
 	}
 
-	// 指定したカテゴリのデータの配列を返す
+	// 指定したカテゴリのデータを返す
 	public HeadCategory getCategoryHeads(String category) {
 		if (!categoryData.containsKey(category)) {
 			notFindWarning(category + "という名前のCustomHeadCategoryは見つかりません．");
@@ -219,6 +220,10 @@ public class CustomHeadManager extends YmlManager {
 		}
 
 		return categoryData.get(category);
+	}
+
+	public Map<String, HeadCategory> getMapCategory(){
+		return categoryData;
 	}
 
 	// nameに一致する頭が見つからなかった時のwarningメッセージ

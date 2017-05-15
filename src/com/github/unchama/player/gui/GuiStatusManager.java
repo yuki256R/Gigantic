@@ -10,7 +10,7 @@ import com.github.unchama.player.moduler.DataManager;
 public class GuiStatusManager extends DataManager{
 
 	private Map<GuiMenuManager, Integer> currentPage = new HashMap<GuiMenuManager, Integer>();
-	private String SelectedCategory = "";
+	private Map<String, String> SelectedCategory = new HashMap<String, String>();;
 
 	public GuiStatusManager(GiganticPlayer gp) {
 		super(gp);
@@ -29,10 +29,14 @@ public class GuiStatusManager extends DataManager{
 	}
 
 	// メインメニューなどで選択した名前
-	public void setSelectedCategory(String category){
-		SelectedCategory = category;
+	public void setSelectedCategory(String menu, String category){
+		SelectedCategory.put(menu, category);
 	}
-	public String getSelectedCategory(){
-		return SelectedCategory;
+	public String getSelectedCategory(String menu){
+		if(!SelectedCategory.containsKey(menu)){
+			return "";
+		}
+
+		return SelectedCategory.get(menu);
 	}
 }

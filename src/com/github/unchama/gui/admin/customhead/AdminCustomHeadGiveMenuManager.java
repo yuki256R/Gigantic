@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -27,10 +28,13 @@ import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 
 public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
+	// 戻るボタン
+	private ItemStack backButton;
+	private final int backButtonSlot = 45;
 
 	// 前のページへボタン
 	private ItemStack prevButton;
-	private final int prevButtonSlot = 45;
+	private final int prevButtonSlot = 46;
 
 	// 次のページへボタン
 	private ItemStack nextButton;
@@ -49,6 +53,9 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		// メニューボタンの表示設定
 		menuButtons = new HashMap<Integer, ItemStack>();
 
+		backButton = headManager.getMobHead("left");
+		Util.setDisplayName(backButton, "戻る");
+		menuButtons.put(backButtonSlot, backButton);
 
 		prevButton = headManager.getMobHead("left");
 		Util.setDisplayName(prevButton, "前のページ");
@@ -62,12 +69,16 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		for (int i = 0; i < 54; i++) {
 			id_map.put(i, String.valueOf(i));
 		}
+
+		setOpenMenuMap(openmap);
 	}
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
-		// とりあえずいまはotherカテゴリだけ
-		category = headManager.getCategoryHeads("other");
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		String categoryName = gp.getManager(GuiStatusManager.class)
+				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+		category = headManager.getCategoryHeads(categoryName);
 		return getInventory(player, slot, 1);
 	}
 
@@ -90,7 +101,8 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 			Util.setLore(
 					item,
 					Arrays.asList("ID : " + data.name, ChatColor.RESET
-							+ "クリックすると頭を付与して", ChatColor.RESET + "IDをクリップボードにコピーします"));
+							+ "クリックすると頭を付与して", ChatColor.RESET
+							+ "IDをクリップボードにコピーします"));
 			inv.setItem(i - 45 * (page - 1), item);
 		}
 
@@ -145,7 +157,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 			CustomHead data = category.heads.get(index);
 			ItemStack item = data.getSkull();
 
-			Util.giveItem(player, item,true);
+			Util.giveItem(player, item, true);
 
 			// クリップボードに呼び出し名をコピーする
 			Util.setClipboard(data.name);
@@ -155,6 +167,9 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
+		// 戻るボタンでメインメニューを開く
+		openmap.put(backButtonSlot,
+				GuiMenu.ManagerType.getTypebyClass(AdminCustomHeadMainMenuManager.class));
 	}
 
 	@Override

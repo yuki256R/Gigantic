@@ -43,10 +43,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
 		backButton = head.getMobHead("left");
-		ItemMeta itemMeta = backButton.getItemMeta();
-		// モンスターの表示名
-		itemMeta.setDisplayName("戻る");
-		backButton.setItemMeta(itemMeta);
+		Util.setDisplayName(backButton, "戻る");
 	}
 
 	@Override

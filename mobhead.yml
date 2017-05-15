@@ -11,3 +11,6 @@
   mob:
     dispname: 'MOB'
     mainhead: 'Zombie'
+  pastel1:
+    dispname: '文字「パステル１」'
+    mainhead: 'pastel1_a02'
