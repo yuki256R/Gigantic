@@ -1,10 +1,11 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
 public class FairyAegisTableManager extends PlayerTableManager{

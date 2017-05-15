@@ -27,8 +27,25 @@ import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.gacha.GiganticGachaTableManager;
+import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.TableManager;
+import com.github.unchama.sql.player.BuildTableManager;
+import com.github.unchama.sql.player.CondensationTableManager;
+import com.github.unchama.sql.player.ExplosionTableManager;
+import com.github.unchama.sql.player.FairyAegisTableManager;
+import com.github.unchama.sql.player.GiganticTableManager;
+import com.github.unchama.sql.player.HuntingPointTableManager;
+import com.github.unchama.sql.player.MagicDriveTableManager;
+import com.github.unchama.sql.player.ManaTableManager;
+import com.github.unchama.sql.player.MineBlockTableManager;
+import com.github.unchama.sql.player.MineStackTableManager;
+import com.github.unchama.sql.player.PlayerGachaTableManager;
+import com.github.unchama.sql.player.PlayerTimeTableManager;
+import com.github.unchama.sql.player.RegionTableManager;
+import com.github.unchama.sql.player.RuinFieldTableManager;
+import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.yml.ConfigManager;
 
 public class Sql {

@@ -1,8 +1,9 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 import java.sql.ResultSet;
