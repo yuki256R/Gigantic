@@ -4,13 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.github.unchama.player.buildskill.BuildSkillManager;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
@@ -73,7 +72,6 @@ public class GiganticPlayer{
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
-		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),

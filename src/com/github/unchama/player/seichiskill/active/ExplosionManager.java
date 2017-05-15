@@ -23,6 +23,7 @@ import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.ExplosionTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
+import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -177,7 +178,7 @@ public class ExplosionManager extends ActiveSkillManager {
 				debug.sendMessage(player, DebugEnum.SKILL,
 						"your item is added in minestack");
 			} else {
-				player.getInventory().addItem(dropitem);
+				Util.giveItem(player, dropitem, false);
 				debug.sendMessage(player, DebugEnum.SKILL,
 						"your item is added in inventory");
 			}

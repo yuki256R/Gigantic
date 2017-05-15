@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
@@ -41,7 +40,6 @@ public class Sql {
 		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
 		MANA(ManaTableManager.class,ManaManager.class),
 		MINESTACK(MineStackTableManager.class,MineStackManager.class),
-		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		TOOLPOUCH(ToolPouchTableManager.class,ToolPouchManager.class),
 		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
 		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
