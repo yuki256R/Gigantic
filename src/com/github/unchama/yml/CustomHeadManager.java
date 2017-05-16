@@ -116,10 +116,10 @@ public class CustomHeadManager extends YmlManager {
 			String url = basedata.getString(name + ".url");
 			ItemStack skull = getSkull(url);
 			Util.setDisplayName(skull, ChatColor.RESET + dispname);
-//			Bukkit.getServer()
-//					.getLogger()
-//					.info("name : " + name + ", dispname: " + dispname
-//							+ ", url : " + url + "," + (skull != null));
+			// Bukkit.getServer()
+			// .getLogger()
+			// .info("name : " + name + ", dispname: " + dispname
+			// + ", url : " + url + "," + (skull != null));
 			CustomHead headData = new CustomHead(name, dispname, url, skull);
 
 			ret.add(headData);
@@ -222,7 +222,7 @@ public class CustomHeadManager extends YmlManager {
 		return categoryData.get(category);
 	}
 
-	public Map<String, HeadCategory> getMapCategory(){
+	public Map<String, HeadCategory> getMapCategory() {
 		return categoryData;
 	}
 

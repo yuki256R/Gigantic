@@ -43,9 +43,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 	// 下部メニューボタン
 	private Map<Integer, ItemStack> menuButtons;
 
-	// 選択中のカテゴリの頭
-	HeadCategory category;
-
 	private CustomHeadManager headManager = Gigantic.yml
 			.getManager(CustomHeadManager.class);
 
@@ -75,10 +72,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		String categoryName = gp.getManager(GuiStatusManager.class)
-				.getSelectedCategory("AdminCustomHeadMainMenuManager");
-		category = headManager.getCategoryHeads(categoryName);
 		return getInventory(player, slot, 1);
 	}
 
@@ -90,6 +83,10 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(),
 				this.getInventoryName(player) + "- " + page + "ページ");
+
+		String categoryName = gp.getManager(GuiStatusManager.class)
+				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+		HeadCategory category = headManager.getCategoryHeads(categoryName);
 
 		// とりだしボタン
 		for (int i = 45 * (page - 1); i < 45 * page; i++) {
@@ -110,7 +107,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		for (int index : menuButtons.keySet()) {
 			inv.setItem(index, menuButtons.get(index));
 		}
-		setOpenMenuMap(openmap);
 
 		return inv;
 	}
@@ -127,6 +123,11 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
 		int currentPage = manager.getCurrentPage(this);
 		int slot = Integer.valueOf(identifier);
+
+		String categoryName = gp.getManager(GuiStatusManager.class)
+				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+		HeadCategory category = headManager.getCategoryHeads(categoryName);
+
 		// ページ戻るボタン
 		if (slot == prevButtonSlot) {
 			if (currentPage <= 1) {

@@ -68,7 +68,6 @@ public class AdminCustomHeadMainMenuManager extends GuiMenuManager {
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
 
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		Map<String, HeadCategory> map = headManager.getMapCategory();
 
 		int count = countInit;
