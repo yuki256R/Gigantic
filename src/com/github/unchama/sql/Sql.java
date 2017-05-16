@@ -52,22 +52,38 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql {
 	// TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
-		GIGANTICGACHA(GiganticGachaTableManager.class), PREMIUMGACHA(
-				PremiumGachaTableManager.class), GIGANTIC(
-				GiganticTableManager.class, GiganticManager.class), MINEBLOCK(
-				MineBlockTableManager.class, MineBlockManager.class), MANA(
-				ManaTableManager.class, ManaManager.class), MINESTACK(
-				MineStackTableManager.class, MineStackManager.class), TOOLPOUCH(
-				ToolPouchTableManager.class, ToolPouchManager.class), EXPLOSION(
-				ExplosionTableManager.class, ExplosionManager.class), MAGICDRIVE(
-				MagicDriveTableManager.class, MagicDriveManager.class), CONDENSATION(
-				CondensationTableManager.class, CondensationManager.class), RUINFIELD(
-				RuinFieldTableManager.class, RuinFieldManager.class), FAIRYAEGIS(
-				FairyAegisTableManager.class, FairyAegisManager.class), BUILD(
-				BuildTableManager.class, BuildManager.class), PLAYERGACHA(
-				PlayerGachaTableManager.class, PlayerGachaManager.class), REGION(
-				RegionTableManager.class, RegionManager.class), PLAYERTIME(
-				PlayerTimeTableManager.class, PlayerTimeManager.class), HUNTINGPOINT(
+		GIGANTICGACHA(GiganticGachaTableManager.class),
+		PREMIUMGACHA(
+				PremiumGachaTableManager.class),
+		GIGANTIC(
+				GiganticTableManager.class, GiganticManager.class),
+		MINEBLOCK(
+				MineBlockTableManager.class, MineBlockManager.class),
+		MANA(
+				ManaTableManager.class, ManaManager.class),
+		MINESTACK(
+				MineStackTableManager.class, MineStackManager.class),
+		TOOLPOUCH(
+				ToolPouchTableManager.class, ToolPouchManager.class),
+		EXPLOSION(
+				ExplosionTableManager.class, ExplosionManager.class),
+		MAGICDRIVE(
+				MagicDriveTableManager.class, MagicDriveManager.class),
+		CONDENSATION(
+				CondensationTableManager.class, CondensationManager.class),
+		RUINFIELD(
+				RuinFieldTableManager.class, RuinFieldManager.class),
+		FAIRYAEGIS(
+				FairyAegisTableManager.class, FairyAegisManager.class),
+		BUILD(
+				BuildTableManager.class, BuildManager.class),
+		PLAYERGACHA(
+				PlayerGachaTableManager.class, PlayerGachaManager.class),
+		REGION(
+				RegionTableManager.class, RegionManager.class),
+		PLAYERTIME(
+				PlayerTimeTableManager.class, PlayerTimeManager.class),
+		HUNTINGPOINT(
 				HuntingPointTableManager.class, HuntingPointManager.class), ;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -262,14 +278,13 @@ public class Sql {
 			con = (Connection) DriverManager.getConnection(url, id, pw);
 			Properties p = con.getClientInfo();
 			/*
-			 * validationQuery
-			 *  コネクションの有効性検証用のクエリ。このクエリは少なくとも1行を返すSQL SELECT文でなければなりません。
+			 * validationQuery コネクションの有効性検証用のクエリ。このクエリは少なくとも1行を返すSQL
+			 * SELECT文でなければなりません。
 			 *
-			 * testOnBorrow
-			 *  trueに設定すると、プールからコネクションを取得する際に検証を行います。
+			 * testOnBorrow trueに設定すると、プールからコネクションを取得する際に検証を行います。
 			 *
 			 * testWhileIdle
-			 *  trueに設定すると、監視スレッドがアイドル状態のコネクションの生存確認を行う際に、有効性の検証も行います
+			 * trueに設定すると、監視スレッドがアイドル状態のコネクションの生存確認を行う際に、有効性の検証も行います
 			 * 。検証に失敗した場合は、プールから削除されます。
 			 */
 			p.setProperty("validationQuery", "SELECT 1 FROM DUAL");

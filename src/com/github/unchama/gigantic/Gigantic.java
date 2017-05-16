@@ -35,8 +35,6 @@ public final class Gigantic extends JavaPlugin {
 	// Gachaデータ用クラス
 	public static Gacha gacha;
 
-	// メンテナンス用クラス
-	public static Maintenance maintenance;
 
 	// SQL用クラス
 	public static Sql sql;
@@ -69,7 +67,6 @@ public final class Gigantic extends JavaPlugin {
 			seichisql = new SeichiAssistSql();
 		}
 
-		maintenance = new Maintenance();
 
 		// ユーザーに対する処理
 		PlayerManager.onEnable();

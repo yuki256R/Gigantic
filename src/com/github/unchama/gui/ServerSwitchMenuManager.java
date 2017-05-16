@@ -15,7 +15,7 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
-public class LobbySwitchMenuManager extends GuiMenuManager {
+public class ServerSwitchMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
