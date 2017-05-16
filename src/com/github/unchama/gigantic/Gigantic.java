@@ -46,10 +46,15 @@ public final class Gigantic extends JavaPlugin {
 
 	public static List<Block> skilledblocklist = new ArrayList<Block>();
 
+	private String pluginChannel = "BungeeCord";
+
 	@Override
 	public void onEnable() {
 		// 必ず最初に宣言
 		plugin = this;
+		//チャンネルを追加
+		Bukkit.getMessenger().registerOutgoingPluginChannel(this,
+				this.pluginChannel);
 		// 必ず最初にymlデータを読み込む
 		yml = new Yml();
 		yml.Initialize();

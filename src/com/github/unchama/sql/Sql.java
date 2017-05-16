@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Properties;
 import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
@@ -49,36 +50,35 @@ import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.yml.ConfigManager;
 
 public class Sql {
-	//TableManagerとそれに対応するDataManagerClass
+	// TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
-		GIGANTICGACHA(GiganticGachaTableManager.class),
-		PREMIUMGACHA(PremiumGachaTableManager.class),
-		GIGANTIC(GiganticTableManager.class,GiganticManager.class),
-		MINEBLOCK(MineBlockTableManager.class,MineBlockManager.class),
-		MANA(ManaTableManager.class,ManaManager.class),
-		MINESTACK(MineStackTableManager.class,MineStackManager.class),
-		TOOLPOUCH(ToolPouchTableManager.class,ToolPouchManager.class),
-		EXPLOSION(ExplosionTableManager.class,ExplosionManager.class),
-		MAGICDRIVE(MagicDriveTableManager.class,MagicDriveManager.class),
-		CONDENSATION(CondensationTableManager.class,CondensationManager.class),
-		RUINFIELD(RuinFieldTableManager.class,RuinFieldManager.class),
-		FAIRYAEGIS(FairyAegisTableManager.class,FairyAegisManager.class),
-		BUILD(BuildTableManager.class,BuildManager.class),
-		PLAYERGACHA(PlayerGachaTableManager.class,PlayerGachaManager.class),
-		REGION(RegionTableManager.class,RegionManager.class),
-		PLAYERTIME(PlayerTimeTableManager.class,PlayerTimeManager.class),
-		HUNTINGPOINT(HuntingPointTableManager.class,HuntingPointManager.class),
-		;
+		GIGANTICGACHA(GiganticGachaTableManager.class), PREMIUMGACHA(
+				PremiumGachaTableManager.class), GIGANTIC(
+				GiganticTableManager.class, GiganticManager.class), MINEBLOCK(
+				MineBlockTableManager.class, MineBlockManager.class), MANA(
+				ManaTableManager.class, ManaManager.class), MINESTACK(
+				MineStackTableManager.class, MineStackManager.class), TOOLPOUCH(
+				ToolPouchTableManager.class, ToolPouchManager.class), EXPLOSION(
+				ExplosionTableManager.class, ExplosionManager.class), MAGICDRIVE(
+				MagicDriveTableManager.class, MagicDriveManager.class), CONDENSATION(
+				CondensationTableManager.class, CondensationManager.class), RUINFIELD(
+				RuinFieldTableManager.class, RuinFieldManager.class), FAIRYAEGIS(
+				FairyAegisTableManager.class, FairyAegisManager.class), BUILD(
+				BuildTableManager.class, BuildManager.class), PLAYERGACHA(
+				PlayerGachaTableManager.class, PlayerGachaManager.class), REGION(
+				RegionTableManager.class, RegionManager.class), PLAYERTIME(
+				PlayerTimeTableManager.class, PlayerTimeManager.class), HUNTINGPOINT(
+				HuntingPointTableManager.class, HuntingPointManager.class), ;
 
 		private Class<? extends TableManager> tablemanagerClass;
 		private Class<? extends DataManager> datamanagerClass;
-
 
 		ManagerType(Class<? extends TableManager> tablemanagerClass) {
 			this.tablemanagerClass = tablemanagerClass;
 		}
 
-		ManagerType(Class<? extends TableManager> tablemanagerClass ,Class<? extends DataManager> datamanagerClass) {
+		ManagerType(Class<? extends TableManager> tablemanagerClass,
+				Class<? extends DataManager> datamanagerClass) {
 			this.tablemanagerClass = tablemanagerClass;
 			this.datamanagerClass = datamanagerClass;
 		}
@@ -87,7 +87,8 @@ public class Sql {
 			return tablemanagerClass;
 		}
 
-		/**nullを返す場合があります．
+		/**
+		 * nullを返す場合があります．
 		 *
 		 * @return
 		 */
@@ -105,7 +106,8 @@ public class Sql {
 			return this.name().toLowerCase();
 		}
 
-		/**class名からテーブル名を取得します．
+		/**
+		 * class名からテーブル名を取得します．
 		 *
 		 * @param _class
 		 * @return
@@ -119,8 +121,10 @@ public class Sql {
 			}
 			return "example";
 		}
-		/**class名からデータマネージャークラスを取得します．
-		 *nullを返す場合があります．
+
+		/**
+		 * class名からデータマネージャークラスを取得します． nullを返す場合があります．
+		 *
 		 * @param _class
 		 * @return
 		 */
@@ -134,8 +138,10 @@ public class Sql {
 			}
 			return null;
 		}
-		/**class名からテーブルマネージャークラスを取得します．
-		 *nullを返す場合があります．
+
+		/**
+		 * class名からテーブルマネージャークラスを取得します． nullを返す場合があります．
+		 *
 		 * @param _class
 		 * @return
 		 */
@@ -254,6 +260,22 @@ public class Sql {
 				con.close();
 			}
 			con = (Connection) DriverManager.getConnection(url, id, pw);
+			Properties p = con.getClientInfo();
+			/*
+			 * validationQuery
+			 *  コネクションの有効性検証用のクエリ。このクエリは少なくとも1行を返すSQL SELECT文でなければなりません。
+			 *
+			 * testOnBorrow
+			 *  trueに設定すると、プールからコネクションを取得する際に検証を行います。
+			 *
+			 * testWhileIdle
+			 *  trueに設定すると、監視スレッドがアイドル状態のコネクションの生存確認を行う際に、有効性の検証も行います
+			 * 。検証に失敗した場合は、プールから削除されます。
+			 */
+			p.setProperty("validationQuery", "SELECT 1 FROM DUAL");
+			p.setProperty("testonBorrow", "true");
+			p.setProperty("testWhileIdle", "true");
+			con.setClientInfo(p);
 			stmt = con.createStatement();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -290,18 +312,20 @@ public class Sql {
 		// 各テーブル用メソッドに受け渡し
 		for (ManagerType mt : ManagerType.values()) {
 			try {
-				this.managermap.put(mt.getTableManagerClass(), mt.getTableManagerClass()
-						.getConstructor(Sql.class).newInstance(this));
+				this.managermap.put(mt.getTableManagerClass(), mt
+						.getTableManagerClass().getConstructor(Sql.class)
+						.newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
-				plugin.getLogger().warning("Failed to create instance of " + mt.name());
+				plugin.getLogger().warning(
+						"Failed to create instance of " + mt.name());
 				e.printStackTrace();
 				flag = true;
 				continue;
 			}
 		}
-		if(flag){
+		if (flag) {
 			plugin.getLogger().warning("テーブルインスタンスの生成に失敗しました．");
 			return false;
 		}

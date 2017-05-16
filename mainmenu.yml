@@ -115,7 +115,7 @@ name: '&5&lメインメニュー'
       - '&r&7間を移動する時に使います'
       - '&r&4&nクリックで開く'
   mobhead: 'weighted_cube'
-  openinventory: 'lobbyswitch'
+  openmenu: 'lobbyswitchmenu'
 8:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

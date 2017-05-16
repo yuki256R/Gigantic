@@ -19,6 +19,7 @@ import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
 import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
+import com.github.unchama.gui.build.BuildMenuManager;
 import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopMenuManager;
@@ -45,7 +46,6 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
-import com.github.unchama.gui.build.BuildMenuManager;
 
 
 public final class GuiMenu {
@@ -94,6 +94,7 @@ public final class GuiMenu {
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
 		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
         ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
+        LOBBYSWITCHMENU(LobbySwitchMenuManager.class),
 		;
 
 		// 使用するManagerClass
