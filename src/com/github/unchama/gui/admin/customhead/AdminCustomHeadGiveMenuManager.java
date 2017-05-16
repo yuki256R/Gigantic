@@ -169,8 +169,8 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		// 戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot,
-				GuiMenu.ManagerType.getTypebyClass(AdminCustomHeadMainMenuManager.class));
+		openmap.put(backButtonSlot, GuiMenu.ManagerType
+				.getTypebyClass(AdminCustomHeadMainMenuManager.class));
 	}
 
 	@Override

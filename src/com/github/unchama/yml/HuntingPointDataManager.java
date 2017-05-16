@@ -123,7 +123,7 @@ public class HuntingPointDataManager extends YmlManager {
 				headName = MobNames.get(name).headName;
 				if (item != null) {
 					headManager.setSkull(item, headName);
-				}else{
+				} else {
 					item = headManager.getMobHead(headName);
 				}
 				break;
@@ -131,7 +131,7 @@ public class HuntingPointDataManager extends YmlManager {
 				headName = this.fc.getString(path + ".headname", "");
 				if (item != null) {
 					headManager.setSkull(item, headName);
-				}else{
+				} else {
 					item = headManager.getMobHead(headName);
 				}
 				break;

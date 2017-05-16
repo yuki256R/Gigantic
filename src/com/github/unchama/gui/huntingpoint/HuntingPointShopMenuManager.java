@@ -82,14 +82,15 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		// 購入可能なアイテムを各MOBごとに保持
 		HuntingPointDataManager manager = Gigantic.yml
 				.getManager(HuntingPointDataManager.class);
-		for(String name : manager.getMobNames().keySet()){
+		for (String name : manager.getMobNames().keySet()) {
 			List<HuntingPointShopItem> list = manager.getShopItems(name);
 			List<HuntingPointShopItem> sellList = new ArrayList<HuntingPointShopItem>();
 			for (HuntingPointShopItem shopItem : list) {
 				if (shopItem.getCategoryType() == CategoryType.HeadCategory) {
 					String categoryName = shopItem.getMeta();
 					HeadCategory category = Gigantic.yml.getManager(
-							CustomHeadManager.class).getCategoryHeads(categoryName);
+							CustomHeadManager.class).getCategoryHeads(
+							categoryName);
 					for (CustomHead head : category.heads) {
 						HuntingPointShopItem item = shopItem.clone();
 						item.setItemStack(head.getSkull());
@@ -101,12 +102,13 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 				}
 
 			}
-			//Bukkit.getServer().getLogger().info("HuntingPointShopMenuManager" + name + list.size() + ":" + sellList.size());
+			// Bukkit.getServer().getLogger().info("HuntingPointShopMenuManager"
+			// + name + list.size() + ":" + sellList.size());
 			sellItems.put(name, sellList);
 		}
 
 		// Invoke設定
-		for(int i = 0; i < getInventorySize(); i++){
+		for (int i = 0; i < getInventorySize(); i++) {
 			id_map.put(i, Integer.toString(i));
 		}
 
@@ -121,6 +123,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 	public Inventory getInventory(Player player, int slot) {
 		return getInventory(player, slot, 1);
 	}
+
 	public Inventory getInventory(Player player, int slot, int page) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		gp.getManager(GuiStatusManager.class).setCurrentPage(this, page);
@@ -162,7 +165,8 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		}
 
 		// 商品
-		for (int i = (45 - indexOffset) * (page - 1); i < (45 - indexOffset) * page; i++) {
+		for (int i = (45 - indexOffset) * (page - 1); i < (45 - indexOffset)
+				* page; i++) {
 			if (i >= shopItems.size()) {
 				break;
 			}
@@ -176,25 +180,26 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 					ChatColor.RESET + "" + ChatColor.DARK_RED + ""
 							+ ChatColor.UNDERLINE + "クリックで購入"));
 			button.setItemMeta(itemMeta);
-			inv.setItem(i - (45 - indexOffset) * (page - 1) + indexOffset, button);
+			inv.setItem(i - (45 - indexOffset) * (page - 1) + indexOffset,
+					button);
 		}
 
 		return inv;
 	}
 
-//	private void setButton(Player player, Inventory inv,
-//			HuntingPointShopItem shopItem, ItemStack button, int setSlot) {
-//		ItemMeta itemMeta = this.getItemMeta(player, 0, button);
-//		itemMeta.setLore(Arrays.asList(//
-//				ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
-//						+ shopItem.getPrice() + " P",//
-//				ChatColor.RESET + "" + ChatColor.DARK_RED + ""
-//						+ ChatColor.UNDERLINE + "クリックで購入"));
-//		button.setItemMeta(itemMeta);
-//		inv.setItem(setSlot, button);
-//		id_map.put(setSlot, Integer.toString(setSlot));
-//		// buyItems.put(setSlot, shopItem);
-//	}
+	// private void setButton(Player player, Inventory inv,
+	// HuntingPointShopItem shopItem, ItemStack button, int setSlot) {
+	// ItemMeta itemMeta = this.getItemMeta(player, 0, button);
+	// itemMeta.setLore(Arrays.asList(//
+	// ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
+	// + shopItem.getPrice() + " P",//
+	// ChatColor.RESET + "" + ChatColor.DARK_RED + ""
+	// + ChatColor.UNDERLINE + "クリックで購入"));
+	// button.setItemMeta(itemMeta);
+	// inv.setItem(setSlot, button);
+	// id_map.put(setSlot, Integer.toString(setSlot));
+	// // buyItems.put(setSlot, shopItem);
+	// }
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
@@ -210,7 +215,8 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 		String name = manager.getShopMobName();
 		List<HuntingPointShopItem> shopItems = sellItems.get(name);
-		int currentPage = gp.getManager(GuiStatusManager.class).getCurrentPage(this);
+		int currentPage = gp.getManager(GuiStatusManager.class).getCurrentPage(
+				this);
 		if (shopItems == null) {
 			return false;
 		}
@@ -270,9 +276,10 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 			// ポイントを支払う
 			manager.payPoint(name, shopItem.getPrice());
 
-//			HuntMobData mobData = Gigantic.yml.getManager(
-//					HuntingPointDataManager.class).getMobData(name);
-			player.sendMessage("[" + giveItem.getItemMeta().getDisplayName() + ChatColor.RESET + "]を購入しました.");
+			// HuntMobData mobData = Gigantic.yml.getManager(
+			// HuntingPointDataManager.class).getMobData(name);
+			player.sendMessage("[" + giveItem.getItemMeta().getDisplayName()
+					+ ChatColor.RESET + "]を購入しました.");
 			player.openInventory(getInventory(player, index));
 		}
 

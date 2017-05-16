@@ -95,7 +95,8 @@ public class AdminCustomHeadMainMenuManager extends GuiMenuManager {
 	public void closeByOpenMenu(Player player, MenuClickEvent event) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
-		//Bukkit.getServer().getLogger().info("closeByOpenMenu : " + event.getSlot() + " " + giveCategoryNames.get(event.getSlot()));
+		// Bukkit.getServer().getLogger().info("closeByOpenMenu : " +
+		// event.getSlot() + " " + giveCategoryNames.get(event.getSlot()));
 		manager.setSelectedCategory("AdminCustomHeadMainMenuManager",
 				giveCategoryNames.get(event.getSlot()));
 	}
