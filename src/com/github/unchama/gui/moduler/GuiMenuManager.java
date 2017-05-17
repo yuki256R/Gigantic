@@ -230,6 +230,22 @@ public abstract class GuiMenuManager {
 		return inv;
 	}
 
+    public Inventory getInventory(Player player) {
+        Inventory inv = this.getEmptyInventory(player);
+
+        for (int i = 0; i < inv.getSize(); i++) {
+            ItemStack itemstack = this.getItemStack(player, i);
+            if (itemstack == null)
+                continue;
+            ItemMeta itemmeta = this.getItemMeta(player, i, itemstack);
+            if (itemmeta != null)
+                itemstack.setItemMeta(itemmeta);
+            inv.setItem(i, itemstack);
+        }
+        inv.setMaxStackSize(Integer.MAX_VALUE);
+        return inv;
+    }
+
 	protected Inventory getEmptyInventory(Player player) {
 		Inventory inv;
 		InventoryType it = this.getInventoryType();
