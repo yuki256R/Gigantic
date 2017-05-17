@@ -47,10 +47,7 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/unchama/master
 
 public final class GuiMenu {
 	public static enum ManagerType {
