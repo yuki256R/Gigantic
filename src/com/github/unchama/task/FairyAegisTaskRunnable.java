@@ -60,6 +60,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 
 		if (Fm.isunlocked()) {
 			Sm.updateInfo(info, Fm.getBreakingFairy());
+			Sm.refresh();
 		}
 
 	}
@@ -79,6 +80,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 				} else {
 					Sm.updateInfo(info, Fm.getBreakingFairy());
 				}
+				Sm.refresh();
 			}
 			return;
 		}

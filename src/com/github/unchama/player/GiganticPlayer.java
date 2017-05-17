@@ -7,13 +7,14 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
+import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
@@ -39,26 +40,26 @@ import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
 
-
-
 /**各プレイヤーにデータを保存したい時はここにマネージャーを追加します．
  *
  * @author tar0ss
  *
  */
-public class GiganticPlayer{
+public class GiganticPlayer {
 
-	public static enum ManagerType{
+	public static enum ManagerType {
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
 		GIGANTIC(GiganticManager.class),
+		GUISTATUS(GuiStatusManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
 		MANA(ManaManager.class),
 		MANARECOVERY(ManaRecoveryManager.class),
 		MENU(PlayerMenuManager.class),
 		BUILD(BuildManager.class),
+		PLAYERGACHA(PlayerGachaManager.class),
 		MINEBOOST(MineBoostManager.class),
 		MINESTACK(MineStackManager.class),
 		TOOLPOUCH(ToolPouchManager.class),
@@ -69,28 +70,26 @@ public class GiganticPlayer{
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
-		SIDEBAR(SideBarManager.class),
-		ACHIEVEMENT(AchievementManager.class),
 		FLY(FlyManager.class),
-		PLAYERGACHA(PlayerGachaManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
 		HUNTINGPOINT(HuntingPointManager.class),
 		BUILDLEVEL(BuildLevelManager.class),
+		SIDEBAR(SideBarManager.class),
+		BUILDSKILL(BuildSkillManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
 
-		ManagerType(Class<? extends DataManager> managerClass){
+		ManagerType(Class<? extends DataManager> managerClass) {
 			this.managerClass = managerClass;
 		}
 
-		public Class<? extends DataManager> getManagerClass(){
+		public Class<? extends DataManager> getManagerClass() {
 			return managerClass;
 		}
 
 	}
-
 
 	Gigantic plugin = Gigantic.plugin;
 
@@ -98,18 +97,16 @@ public class GiganticPlayer{
 	public final UUID uuid;
 	private GiganticStatus gs;
 
+	private LinkedHashMap<Class<? extends DataManager>, DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>, DataManager>();
 
-	private LinkedHashMap<Class<? extends DataManager>,DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>,DataManager>();
-
-
-
-	public GiganticPlayer(Player player){
-		this.name = Converter.toString(player);
+	public GiganticPlayer(Player player) {
+		this.name = Converter.getName(player);
 		this.uuid = player.getUniqueId();
 		this.setStatus(GiganticStatus.LODING);
-		for(ManagerType mt : ManagerType.values()){
+		for (ManagerType mt : ManagerType.values()) {
 			try {
-				this.managermap.put(mt.getManagerClass(),mt.getManagerClass().getConstructor(GiganticPlayer.class).newInstance(this));
+				this.managermap.put(mt.getManagerClass(), mt.getManagerClass().getConstructor(GiganticPlayer.class)
+						.newInstance(this));
 			} catch (InstantiationException | IllegalAccessException
 					| IllegalArgumentException | InvocationTargetException
 					| NoSuchMethodException | SecurityException e) {
@@ -119,10 +116,10 @@ public class GiganticPlayer{
 			}
 		}
 		//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
-		for(Class<? extends DataManager> mc : this.managermap.keySet()){
-			if(!ClassUtil.isImplemented(mc, UsingSql.class)){
+		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+			if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
 				try {
-					mc.getMethod("setLoaded",Boolean.class).invoke(this.managermap.get(mc),true);
+					mc.getMethod("setLoaded", Boolean.class).invoke(this.managermap.get(mc), true);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
@@ -134,17 +131,16 @@ public class GiganticPlayer{
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends DataManager> T getManager(Class<T> type){
+	public <T extends DataManager> T getManager(Class<T> type) {
 		return (T) managermap.get(type);
 	}
 
-
 	public boolean isloaded() {
-		for(Class<? extends DataManager> mc : this.managermap.keySet()){
-			if(ClassUtil.isImplemented(mc, UsingSql.class)){
+		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 				try {
 					boolean loaded = (Boolean) mc.getMethod("isLoaded").invoke(this.managermap.get(mc));
-					if(loaded == false){
+					if (loaded == false) {
 						return false;
 					}
 				} catch (IllegalAccessException | IllegalArgumentException
@@ -164,8 +160,8 @@ public class GiganticPlayer{
 
 	public void init() {
 		this.setStatus(GiganticStatus.INITIALIZE);
-		for(Class<? extends DataManager> mc : this.managermap.keySet()){
-			if(ClassUtil.isImplemented(mc, Initializable.class)){
+		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+			if (ClassUtil.isImplemented(mc, Initializable.class)) {
 				try {
 					mc.getMethod("init").invoke(this.managermap.get(mc));
 				} catch (IllegalAccessException | IllegalArgumentException
@@ -179,11 +175,10 @@ public class GiganticPlayer{
 		this.setStatus(GiganticStatus.AVAILABLE);
 	}
 
-
 	public void fin() {
 		this.setStatus(GiganticStatus.FINALIZE);
-		for(Class<? extends DataManager> mc : this.managermap.keySet()){
-			if(ClassUtil.isImplemented(mc, Finalizable.class)){
+		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+			if (ClassUtil.isImplemented(mc, Finalizable.class)) {
 				try {
 					mc.getMethod("fin").invoke(this.managermap.get(mc));
 				} catch (IllegalAccessException | IllegalArgumentException
@@ -195,6 +190,7 @@ public class GiganticPlayer{
 			}
 		}
 	}
+
 	/**プレイヤーデータを保存します．
 	 * このメソッドをプレイヤーのログアウト時に呼び出す場合は，loginflagをfalseにしてください．
 	 * 定期セーブ時に呼び出す場合はloginflagをtrueにしてください．
@@ -202,13 +198,13 @@ public class GiganticPlayer{
 	 * @param loginflag:
 	 */
 	public void save(boolean loginflag) {
-		if(!loginflag){
+		if (!loginflag) {
 			this.setStatus(GiganticStatus.SAVING);
 		}
-		for(Class<? extends DataManager> mc : this.managermap.keySet()){
-			if(ClassUtil.isImplemented(mc, UsingSql.class)){
+		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 				try {
-					mc.getMethod("save",Boolean.class).invoke(this.managermap.get(mc),loginflag);
+					mc.getMethod("save", Boolean.class).invoke(this.managermap.get(mc), loginflag);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
 						| SecurityException e) {
@@ -223,20 +219,17 @@ public class GiganticPlayer{
 	 *
 	 * @param gs
 	 */
-	private void setStatus(GiganticStatus gs){
+	private void setStatus(GiganticStatus gs) {
 		this.gs = gs;
 	}
+
 	/**プレイヤーデータのステータスを取得します．
 	 *
 	 * @return ステータス
 	 */
-	public GiganticStatus getStatus(){
+	public GiganticStatus getStatus() {
 		return this.gs;
 	}
-
-
-
-
 
 	/*
 	//３０分間のデータを保存する．
@@ -320,5 +313,5 @@ public class GiganticPlayer{
 	private int build_count;
 	//設置ブロックサーバー統合フラグ
 	private byte build_count_flg;
-*/
+	*/
 }

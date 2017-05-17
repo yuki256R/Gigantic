@@ -11,14 +11,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
-import com.github.unchama.util.MobHead;
-import com.github.unchama.yml.CustomHeadDataManager;
 
 public class AdminTypeMenuManager extends AdminMenuManager {
-
 	// 各ボタンのスロット番号
 	private final int gachaSlot = 0;
 	private final int customHeadSlot = 4;
@@ -38,7 +34,7 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(gachaSlot, ManagerType.ADMINGACHATYPEMENU);
-		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADGIBEMENU);
+		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADMAINMENU);
 	}
 
 	@Override
@@ -79,13 +75,12 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
 		ItemStack itemstack = null;
-		CustomHeadDataManager headManager = Gigantic.yml.getManager(CustomHeadDataManager.class);
 		switch (slot) {
 		case gachaSlot:
-			itemstack = MobHead.getMobHead("red_present");
+			itemstack = head.getMobHead("red_present");
 			break;
 		case customHeadSlot:
-			itemstack = headManager.getMobHead("Zombie");
+			itemstack = head.getMobHead("Zombie");
 			break;
 		default:
 			break;

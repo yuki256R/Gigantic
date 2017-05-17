@@ -2,6 +2,7 @@ package com.github.unchama.yml;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,8 @@ public class HuntingPointDataManager extends YmlManager {
 		public String headName; // MobHeadで呼び出すための名前
 		public boolean isTarget; // 狩猟対象ならtrue
 
-		public HuntMobData(String name_, String jpName_, String headName_, boolean isTarget_) {
+		public HuntMobData(String name_, String jpName_, String headName_,
+				boolean isTarget_) {
 			name = name_;
 			jpName = jpName_;
 			headName = headName_;
@@ -31,10 +33,11 @@ public class HuntingPointDataManager extends YmlManager {
 	static Map<String, List<HuntingPointShopItem>> shopItems;
 
 	static Map<String, HuntMobData> MobNames;
-	// Map.keysetで回すと順番が変わるため
-	static List<String> MobNameArray;
 
 	static Map<String, String> ConvertNames;
+
+	CustomHeadManager headManager = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
 	// コンストラクタ
 	public HuntingPointDataManager() {
@@ -51,23 +54,20 @@ public class HuntingPointDataManager extends YmlManager {
 
 	// ymlファイルからデータを取りなおす
 	public void reload() {
-		// ドロップ対象のMob名
-		MobNameArray = new ArrayList<String>();
-
 		// 表示データ
 		ConfigurationSection basedata = this.fc
 				.getConfigurationSection("mobdata");
-		MobNames = new HashMap<String, HuntMobData>();
+		MobNames = new LinkedHashMap<String, HuntMobData>();
 		for (String name : basedata.getKeys(false)) {
-			boolean isTarget = false;
-			if (basedata.getBoolean(name + ".target")) {
-				isTarget = true;
-				MobNameArray.add(name);
-			}
+			// 半角スペースが入るとSQLのコマンドに支障がある為
+			name = name.replace(" ", "");
+
+			boolean isTarget = basedata.getBoolean(name + ".target", false);
 
 			String jpname = basedata.getString(name + ".jpname");
 			String headname = basedata.getString(name + ".headname");
-			MobNames.put(name, new HuntMobData(name, jpname, headname, isTarget));
+			MobNames.put(name,
+					new HuntMobData(name, jpname, headname, isTarget));
 		}
 
 		// 同種判定のリスト
@@ -117,17 +117,30 @@ public class HuntingPointDataManager extends YmlManager {
 		ret.setMeta(this.fc.getString(path + ".meta"));
 		ItemStack item = this.fc.getItemStack(path + ".itemstack", null);
 		String headName = "";
-		if (ret.getCategoryType() != null && item != null) {
+		if (ret.getCategoryType() != null) {
 			switch (ret.getCategoryType()) {
 			case ToHead:
 				headName = MobNames.get(name).headName;
-				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
-						item, headName);
+				if (item != null) {
+					headManager.setSkull(item, headName);
+				} else {
+					item = headManager.getMobHead(headName);
+				}
 				break;
 			case CustomHead:
 				headName = this.fc.getString(path + ".headname", "");
-				Gigantic.yml.getManager(CustomHeadDataManager.class).setSkull(
-						item, headName);
+				if (item != null) {
+					headManager.setSkull(item, headName);
+				} else {
+					item = headManager.getMobHead(headName);
+				}
+				break;
+			case HeadCategory:
+				String CategoryName = this.fc.getString(path + ".categoryname",
+						"");
+				;
+				item = headManager.getCategoryHeads(CategoryName).mainSkull;
+				ret.setMeta(CategoryName);
 				break;
 			case Item:
 				break;
@@ -153,7 +166,7 @@ public class HuntingPointDataManager extends YmlManager {
 	public boolean isHuntMob(String name) {
 		reload();
 		name = ConvertName(name);
-		if(!MobNames.containsKey(name)){
+		if (!MobNames.containsKey(name)) {
 			return false;
 		}
 
@@ -163,9 +176,10 @@ public class HuntingPointDataManager extends YmlManager {
 	// 同種として扱われるMob名の変換
 	public String ConvertName(String name) {
 		String ret = name;
-		if (ConvertNames.containsKey(name)) {
-			ret = ConvertNames.get(name);
-		}
+		// 現状、「同種判定はいらない」とのことなのでコメントアウト
+		// if (ConvertNames.containsKey(name)) {
+		// ret = ConvertNames.get(name);
+		// }
 		// 「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
 		// SQL周りで不具合が起こるためこちらで吸い取る
 		ret = ret.replace(" ", "");
@@ -178,9 +192,5 @@ public class HuntingPointDataManager extends YmlManager {
 
 	public HuntMobData getMobData(String name) {
 		return MobNames.get(name);
-	}
-
-	public List<String> getMobNameArray() {
-		return MobNameArray;
 	}
 }

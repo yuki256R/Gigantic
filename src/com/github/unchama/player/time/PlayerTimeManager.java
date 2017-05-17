@@ -9,7 +9,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.PlayerTimeTableManager;
+import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
