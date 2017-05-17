@@ -10,8 +10,8 @@ import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.moduler.AdminGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
-import com.github.unchama.sql.GiganticGachaTableManager;
-import com.github.unchama.sql.PremiumGachaTableManager;
+import com.github.unchama.sql.gacha.GiganticGachaTableManager;
+import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.GachaTableManager;
 
 public class Gacha {

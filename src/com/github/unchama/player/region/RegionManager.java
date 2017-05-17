@@ -3,7 +3,7 @@ package com.github.unchama.player.region;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.RegionTableManager;
+import com.github.unchama.sql.player.RegionTableManager;
 
 public class RegionManager extends DataManager implements UsingSql {
 

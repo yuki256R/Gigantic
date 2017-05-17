@@ -23,7 +23,7 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.sql.RuinFieldTableManager;
+import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.task.RuinFieldTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;

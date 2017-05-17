@@ -33,7 +33,7 @@ import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
-import com.github.unchama.sql.FairyAegisTableManager;
+import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.task.FairyAegisTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
