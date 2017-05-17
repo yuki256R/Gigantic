@@ -42,11 +42,13 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(4, "FLY=5");
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
+		idmap.put(18, "ZoneSkill");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+	    GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+	    BuildSkillManager bsm = gp.getManager(BuildSkillManager.class);
 
 		switch(identifier){
 			//FLY1分
@@ -69,11 +71,15 @@ public class BuildMenuManager extends GuiMenuManager{
 				player.chat("/fly finish");
 				break;
 
-			//TODO:スキルについては後で
+            case "ZoneSkill":
+                bsm.toggle_ZoneSkill();
+                break;
 
 			default:
 				return false;
 		}
+        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+		player.openInventory(this.getInventory(player));
 		return true;
 	}
 	@Override
@@ -198,17 +204,23 @@ public class BuildMenuManager extends GuiMenuManager{
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "オフハンドに持っているブロックと同じものを");
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "インベントリ内から消費し設置します。");
             lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックでON/OFF切り替え＞");
-            lore.add("" + ChatColor.RESET + "" + ChatColor.GRAY + "建築Lv" + "??" + "以上で利用可能");//TODO:Configから読み込み
+            lore.add("" + ChatColor.RESET + "" + ChatColor.GRAY + "建築Lv"
+                    + config.getZoneSetSkillLevel() + "以上で利用可能");
 			itemmeta.setLore(lore);
 			break;
 
         //範囲設置スキル・設定
         case 19:
+            int AREAint = bsm.getAREAint() * 2 + 1;
             itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                     + "「範囲設置スキル」設定画面へ");
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE
                 + "クリックで移動");
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "現在の設定");
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "スキル:" + bsm.getZoneSkillStatus());
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "設置範囲:" + AREAint + "×" + AREAint);
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "MineStack優先設定:" + bsm.getZoneMinestackStatus());
             itemmeta.setLore(lore);
             SkullMeta skullmeta_skill = (SkullMeta) itemmeta;
             skullmeta_skill.setOwner("MHF_Exclamation");

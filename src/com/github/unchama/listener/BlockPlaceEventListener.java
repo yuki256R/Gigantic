@@ -26,7 +26,7 @@ public class BlockPlaceEventListener implements Listener{
         //Playerを取得
         Player player = event.getPlayer();
         //カウント対象かどうか
-        if(BuildData.isBlockCount(player) == false){
+        if(!BuildData.isBlockCount(player)){
         	debug.sendMessage(player, DebugEnum.BUILD, "このワールドでは建築量は増えません");
             return;
         }

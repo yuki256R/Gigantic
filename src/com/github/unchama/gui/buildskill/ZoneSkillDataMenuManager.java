@@ -1,8 +1,12 @@
 package com.github.unchama.gui.buildskill;
 
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import org.bukkit.Bukkit;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.buildskill.BuildSkillManager;
+import com.github.unchama.yml.ConfigManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -20,14 +24,55 @@ import java.util.List;
  * Created by karayuu on 2017/05/12.
  */
 public class ZoneSkillDataMenuManager extends GuiMenuManager{
+
     @Override
     protected void setIDMap(HashMap<Integer, String> idmap) {
-
+        idmap.put(4, "ZSDirt");
+        idmap.put(13, "ZSSkill");
+        idmap.put(19, "ZSAreaMax");
+        idmap.put(20, "ZSAreaInc");
+        idmap.put(22, "ZSAreaDef");
+        idmap.put(24, "ZSAreaDec");
+        idmap.put(25, "ZSAreaMin");
+        idmap.put(35, "ZSMinestack");
     }
 
     @Override
     public boolean invoke(Player player, String identifier) {
-        return false;
+        GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+        BuildSkillManager bsm = gp.getManager(BuildSkillManager.class);
+
+        switch (identifier) {
+            case "ZSDirt":
+                bsm.toggle_ZoneSkillDirt();
+                break;
+            case "ZSSkill":
+                bsm.toggle_ZoneSkill();
+                break;
+            case "ZSAreaMax":
+                bsm.setAREAint(5);
+                break;
+            case "ZSAreaInc":
+                bsm.incAREAint(1);
+                break;
+            case "ZSAreaDef":
+                bsm.setAREAint(2);
+                break;
+            case "ZSAreaDec":
+                bsm.incAREAint(-1);
+                break;
+            case "ZSAreaMin":
+                bsm.setAREAint(1);
+                break;
+            case "ZSMinestack":
+                bsm.toggle_ZoneSkillMineStack();
+                break;
+            default:
+                return false;
+        }
+        player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
+        player.openInventory(this.getInventory(player));
+        return true;
     }
 
     @Override
@@ -62,6 +107,15 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
 
     @Override
     protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
+        GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+        BuildSkillManager buildSkillManager = gp.getManager(BuildSkillManager.class);
+        ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+
+        String ZSSkill = buildSkillManager.getZoneSkillStatus();
+        String ZSDirt = buildSkillManager.getZoneDirtStatus();
+        int ZSSkillA = buildSkillManager.getAREAint() * 2 + 1;
+        String ZSSkillM = buildSkillManager.getZoneMinestackStatus();
+
         ItemMeta itemmeta = itemstack.getItemMeta();
         List<String> lore;
 
@@ -70,7 +124,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "メインページへ");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");//TODO:ページ移動
+                lore.add("" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
                 itemmeta.setLore(lore);
                 break;
 
@@ -78,7 +132,8 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "設置時に下の空洞を埋める機能");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "機能の使用設定:" + "??");//TODO:Managerより取得
+                lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "機能の使用設定:"
+                        + ZSDirt);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "機能の範囲:地下5マスまで");
                 itemmeta.setLore(lore);
                 break;
@@ -88,9 +143,9 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                         + "現在の設定は以下の通りです");
                 lore = new ArrayList<String>();
                 lore.add("" + ChatColor.RESET + "" +  ChatColor.AQUA + "" + ChatColor.UNDERLINE
-                        + "スキルの使用設定:" + "??");
+                        + "スキルの使用設定:" + ZSSkill);
                 lore.add("" + ChatColor.RESET + "" +  ChatColor.AQUA + "" + ChatColor.UNDERLINE
-                        + "スキルの範囲設定:" + "?×?");
+                        + "スキルの範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 itemmeta.setLore(lore);
                 break;
 
@@ -98,7 +153,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を最大値に変更");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + "?×?");//TODO:Managerより取得
+                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:11×11");
                 itemmeta.setLore(lore);
                 SkullMeta skullmeta = (SkullMeta) itemmeta;
@@ -109,8 +164,15 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を一段階大きくする");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + "?×?");//TODO:Managerより取得
-                lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:" + "?×?");
+                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
+                if (ZSSkillA >= 11) {
+                    lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:"
+                            + ZSSkillA + "×" + ZSSkillA);
+                } else {
+                    lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:"
+                            + (ZSSkillA + 2) + "×" + (ZSSkillA + 2));
+                }
+                lore.add("" + ChatColor.RESET + "" +  ChatColor.RED + "" + "※範囲設定の最大値は11×11※");
                 itemmeta.setLore(lore);
                 SkullMeta skullmeta1 = (SkullMeta) itemmeta;
                 skullmeta1.setOwner("MHF_ArrowUp");
@@ -120,7 +182,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を初期値に変更");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + "?×?");//TODO:Managerより取得
+                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:5×5");
                 itemmeta.setLore(lore);
                 SkullMeta skullmeta2 = (SkullMeta) itemmeta;
@@ -131,8 +193,15 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を一段階小さくする");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + "?×?");//TODO:Managerより取得
-                lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:" + "?×?");
+                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
+                if (ZSSkillA <= 3) {
+                    lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:"
+                            + ZSSkillA + "×" + ZSSkillA);
+                } else {
+                    lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:"
+                            + (ZSSkillA - 2) + "×" + (ZSSkillA - 2));
+                }
+                lore.add("" + ChatColor.RESET + "" +  ChatColor.RED + "" + "※範囲設定の最小値は3×3※");
                 itemmeta.setLore(lore);
                 SkullMeta skullmeta3 = (SkullMeta) itemmeta;
                 skullmeta3.setOwner("MHF_ArrowDown");
@@ -142,7 +211,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を最小値に変更");
                 lore = new ArrayList<String>();
-                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + "?×?");//TODO:Managerより取得
+                lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:3×3");
                 itemmeta.setLore(lore);
                 SkullMeta skullmeta4 = (SkullMeta) itemmeta;
@@ -154,8 +223,10 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
                         + "MineStack優先設定");
                 lore = new ArrayList<String>();
                 lore.add("" + ChatColor.YELLOW + "範囲設置時にMineStackからアイテムを優先して");
-                lore.add("" + ChatColor.YELLOW + "取り出すかどうかを設定します。");
-                lore.add("" + ChatColor.AQUA + "現在の設定:??");
+                lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "取り出すかどうかを設定します。");
+                lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の設定:" + ZSSkillM);
+                lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + config.getZoneSetSkillMinestack()
+                        + "以上で使用可能");
                 itemmeta.setLore(lore);
                 break;
         }
