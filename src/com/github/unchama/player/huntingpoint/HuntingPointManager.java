@@ -6,7 +6,7 @@ import java.util.Map;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.HuntingPointTableManager;
+import com.github.unchama.sql.player.HuntingPointTableManager;
 
 public class HuntingPointManager extends DataManager implements UsingSql {
 	private Map<String, Integer> currentPoints = new HashMap<String, Integer>();

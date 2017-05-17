@@ -6,7 +6,7 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.sql.MineStackTableManager;
+import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerDataTableManager extends SeichiTableManager {

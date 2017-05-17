@@ -95,7 +95,8 @@ public final class GuiMenu {
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
 		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
-        ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
+		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
+		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
 		;
 
 		// 使用するManagerClass
@@ -108,8 +109,8 @@ public final class GuiMenu {
 			this.managerClass = managerClass;
 		}
 
-		static{
-			for(ManagerType mt : ManagerType.values()){
+		static {
+			for (ManagerType mt : ManagerType.values()) {
 				managertypemap.put(mt.getManagerClass(), mt);
 			}
 		}
@@ -148,19 +149,16 @@ public final class GuiMenu {
 			return "example";
 		}
 
-
 		/**
 		 * ManagerClassからmanagerTypeを取得します．
 		 * @param _class
 		 * @return
 		 */
 		public static ManagerType getTypebyClass(
-				Class<? extends GuiMenuManager> _class){
+				Class<? extends GuiMenuManager> _class) {
 			return managertypemap.get(_class);
 		}
 	}
-
-
 
 	// 全てのGuiMenuManagerを格納するMap
 	private LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager> managermap = new LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager>();

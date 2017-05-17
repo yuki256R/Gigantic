@@ -4,7 +4,7 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.BuildTableManager;
+import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 
