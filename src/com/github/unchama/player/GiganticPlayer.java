@@ -14,6 +14,7 @@ import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
+import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
@@ -51,6 +52,7 @@ public class GiganticPlayer {
 		 * Managerを追加するときはここに書く．
 		 */
 		GIGANTIC(GiganticManager.class),
+		GUISTATUS(GuiStatusManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
 		MANA(ManaManager.class),

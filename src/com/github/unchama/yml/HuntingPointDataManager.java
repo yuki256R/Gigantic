@@ -21,7 +21,8 @@ public class HuntingPointDataManager extends YmlManager {
 		public String headName; // MobHeadで呼び出すための名前
 		public boolean isTarget; // 狩猟対象ならtrue
 
-		public HuntMobData(String name_, String jpName_, String headName_, boolean isTarget_) {
+		public HuntMobData(String name_, String jpName_, String headName_,
+				boolean isTarget_) {
 			name = name_;
 			jpName = jpName_;
 			headName = headName_;
@@ -34,6 +35,9 @@ public class HuntingPointDataManager extends YmlManager {
 	static Map<String, HuntMobData> MobNames;
 
 	static Map<String, String> ConvertNames;
+
+	CustomHeadManager headManager = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
 	// コンストラクタ
 	public HuntingPointDataManager() {
@@ -62,7 +66,8 @@ public class HuntingPointDataManager extends YmlManager {
 
 			String jpname = basedata.getString(name + ".jpname");
 			String headname = basedata.getString(name + ".headname");
-			MobNames.put(name, new HuntMobData(name, jpname, headname, isTarget));
+			MobNames.put(name,
+					new HuntMobData(name, jpname, headname, isTarget));
 		}
 
 		// 同種判定のリスト
@@ -112,17 +117,30 @@ public class HuntingPointDataManager extends YmlManager {
 		ret.setMeta(this.fc.getString(path + ".meta"));
 		ItemStack item = this.fc.getItemStack(path + ".itemstack", null);
 		String headName = "";
-		if (ret.getCategoryType() != null && item != null) {
+		if (ret.getCategoryType() != null) {
 			switch (ret.getCategoryType()) {
 			case ToHead:
 				headName = MobNames.get(name).headName;
-				Gigantic.yml.getManager(CustomHeadManager.class).setSkull(
-						item, headName);
+				if (item != null) {
+					headManager.setSkull(item, headName);
+				} else {
+					item = headManager.getMobHead(headName);
+				}
 				break;
 			case CustomHead:
 				headName = this.fc.getString(path + ".headname", "");
-				Gigantic.yml.getManager(CustomHeadManager.class).setSkull(
-						item, headName);
+				if (item != null) {
+					headManager.setSkull(item, headName);
+				} else {
+					item = headManager.getMobHead(headName);
+				}
+				break;
+			case HeadCategory:
+				String CategoryName = this.fc.getString(path + ".categoryname",
+						"");
+				;
+				item = headManager.getCategoryHeads(CategoryName).mainSkull;
+				ret.setMeta(CategoryName);
 				break;
 			case Item:
 				break;
@@ -148,7 +166,7 @@ public class HuntingPointDataManager extends YmlManager {
 	public boolean isHuntMob(String name) {
 		reload();
 		name = ConvertName(name);
-		if(!MobNames.containsKey(name)){
+		if (!MobNames.containsKey(name)) {
 			return false;
 		}
 
@@ -159,9 +177,9 @@ public class HuntingPointDataManager extends YmlManager {
 	public String ConvertName(String name) {
 		String ret = name;
 		// 現状、「同種判定はいらない」とのことなのでコメントアウト
-//		if (ConvertNames.containsKey(name)) {
-//			ret = ConvertNames.get(name);
-//		}
+		// if (ConvertNames.containsKey(name)) {
+		// ret = ConvertNames.get(name);
+		// }
 		// 「Magma Cube」が半角スペースが入っているせいでそちらに合わせると
 		// SQL周りで不具合が起こるためこちらで吸い取る
 		ret = ret.replace(" ", "");
