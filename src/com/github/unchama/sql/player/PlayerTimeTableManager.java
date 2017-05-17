@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {

@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +12,7 @@ import com.github.unchama.player.gacha.GachaData;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gacha.RarityData;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 

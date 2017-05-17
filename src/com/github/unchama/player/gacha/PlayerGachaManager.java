@@ -16,7 +16,7 @@ import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.PlayerGachaTableManager;
+import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Util;
 
 public class PlayerGachaManager extends DataManager implements Initializable,UsingSql{

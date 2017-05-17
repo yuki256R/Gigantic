@@ -69,3 +69,27 @@ mobhead:
   mechanic_box:
     dispname: 'メカニックボックス'
     url: 'http://textures.minecraft.net/texture/23d3908722e8275ca195d2f49ed4f1c988bd27d4fc4a5993acfc392ac2c2c'
+  weighted_cube:
+    dispname: '時空間移動キューブ'
+    url: 'http://textures.minecraft.net/texture/52baeb4a35da8a85d14bdccf7184f5545088f954da55144f235c2983fdb8e05b'
+  orange_core:
+    dispname: 'オレンジコア'
+    url: 'http://textures.minecraft.net/texture/14d844fee24d5f27ddb669438528d83b684d901b75a6889fe7488dfc4cf7a1c'
+  green_core:
+    dispname: 'グリーンコア'
+    url: 'http://textures.minecraft.net/texture/32fa8f38c7b22096619c3a6d6498b405530e48d5d4f91e2aacea578844d5c67'
+  blue_core:
+    dispname: 'ブルーコア'
+    url: 'http://textures.minecraft.net/texture/dc9365642c6eddcfedf5b5e14e2bc71257d9e4a3363d123c6f33c55cafbf6d'
+  purple_core:
+    dispname: 'パープルコア'
+    url: 'http://textures.minecraft.net/texture/163bcaf6d2679d8d7d9bf6a474a48a77a8e91747a1084c09256ebc86cb74811'
+  yellow_core:
+    dispname: 'イエローコア'
+    url: 'http://textures.minecraft.net/texture/cbfb41f866e7e8e593659986c9d6e88cd37677b3f7bd44253e5871e66d1d424'
+  black_core:
+    dispname: 'ブラックコア'
+    url: 'http://textures.minecraft.net/texture/9e95293acbcd4f55faf5947bfc5135038b275a7ab81087341b9ec6e453e839'
+  red_core:
+    dispname: 'レッドコア'
+    url: 'http://textures.minecraft.net/texture/faff2eb498e5c6a04484f0c9f785b448479ab213df95ec91176a308a12add70'

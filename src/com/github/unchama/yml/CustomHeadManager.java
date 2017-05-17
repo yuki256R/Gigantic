@@ -24,6 +24,9 @@ import com.mojang.authlib.properties.Property;
 
 public class CustomHeadManager extends YmlManager {
 
+	private static String FOLDERNAME = "mobhead";
+
+
 	public class CustomHead {
 		public String name; // 呼び出し名の逆引き
 		public String dispName; // 表示名
@@ -67,10 +70,12 @@ public class CustomHeadManager extends YmlManager {
 
 	static private Map<String, HeadCategory> categoryData;
 
+	private File folder;
+
 	// コンストラクタ
 	public CustomHeadManager() {
 		super();
-		reload();
+		loadmobhead();
 	}
 
 	@Override
@@ -78,10 +83,25 @@ public class CustomHeadManager extends YmlManager {
 		if (!file.exists()) {
 			plugin.saveResource(filename, false);
 		}
+		//フォルダーインスタンス
+		folder = new File(
+				plugin.getDataFolder(), FOLDERNAME);
+		//フォルダがない場合は生成
+		if(!folder.exists()){
+			if(!folder.mkdirs()){
+				Bukkit.getServer().getLogger()
+				.warning(FOLDERNAME + "というディレクトリを作成できませんでした．");
+				return;
+			}
+		}else if(!folder.isDirectory()){
+			Bukkit.getServer().getLogger()
+			.warning(FOLDERNAME + "という名前のファイルを削除してください");
+			return;
+		}
 	}
 
 	// ymlファイルからデータを取りなおす
-	public void reload() {
+	public void loadmobhead() {
 		// ヘッドデータ
 		customHeads = new LinkedHashMap<String, CustomHead>();
 		// headCategory = new LinkedHashMap<String, List<CustomHead>>();
@@ -101,13 +121,15 @@ public class CustomHeadManager extends YmlManager {
 
 	private List<CustomHead> readCategoryHeads(String categoryName) {
 		List<CustomHead> ret = new ArrayList<CustomHead>();
-		YamlConfiguration yml = YamlConfiguration.loadConfiguration(new File(
-				plugin.getDataFolder(), "mobhead_" + categoryName + ".yml"));
-		if (yml == null) {
-			Bukkit.getServer().getLogger()
-					.warning("mobhead_" + categoryName + ".yml" + "はありませんでした");
-			return ret;
+
+		String cname = categoryName + ".yml";
+		File file = new File(
+				folder, cname);
+		if (!file.exists()) {
+			plugin.saveResource(FOLDERNAME + "\\" + cname, false);
 		}
+		YamlConfiguration yml = YamlConfiguration.loadConfiguration(file);
+
 		ConfigurationSection basedata = yml.getConfigurationSection("mobhead");
 
 		// ヘッド生成

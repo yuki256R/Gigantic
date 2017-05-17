@@ -21,7 +21,7 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.sql.MagicDriveTableManager;
+import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
