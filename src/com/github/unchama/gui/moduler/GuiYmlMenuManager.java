@@ -72,7 +72,7 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	public boolean islocked(Player player,int slot) {
+	public boolean islocked(Player player, int slot) {
 		boolean perm = this.fc.getBoolean(Integer.toString(slot) + ".onlyop");
 		if (perm) {
 			if (!player.isOp()) {
@@ -249,14 +249,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 
 	@Override
 	protected ItemMeta getItemMeta(Player player, int i, ItemStack itemstack) {
-		String mobhead = this.fc.getString(i + ".mobhead");
-		if (mobhead != null) {
-			String url = head.getURL(mobhead);
-			if(url != null){
-				head.setURL(itemstack, url);
-			}
-		}
-
 		ItemMeta itemmeta = itemstack.getItemMeta();
 		Boolean b = this.fc.getBoolean(i + ".isSkullofOwner");
 		if (b != null) {
@@ -291,6 +283,17 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 		String s = Integer.toString(i) + ".itemstack";
 		ItemStack tmp = this.fc.getItemStack(s);
 		ItemStack itemstack = tmp != null ? new ItemStack(tmp) : null;
+
+		String mobhead = this.fc.getString(i + ".mobhead");
+		if (mobhead != null) {
+			itemstack = head.getMobHead(mobhead);
+			ItemMeta tmpim = tmp.getItemMeta();
+			ItemMeta im = itemstack.getItemMeta();
+			im.setDisplayName(tmpim.getDisplayName());
+			im.setLore(tmpim.getLore());
+			itemstack.setItemMeta(im);
+		}
+
 		return itemstack;
 	}
 

@@ -68,14 +68,22 @@ minestack_BlockCraft:
   level1: 25
   level2: 35
   level3: 45 
-  
+
+#範囲設置スキル
+ZoneSetSkill:
+  level: 15
+  minestack: 30
+
+#スキルを使ってブロックを並べたときの建築量上昇倍率
+BlockCountMag: 0.2
+
 #スキルの使えるワールド
 skillworld:
-  - world_sw
-  - world
-  - world_2
-  - world_nether
-  - world_the_end
+  - world_SW
+  - world_SW_2
+  - world_SW_nether
+  - world_SW_the_end
+  - world_SW_zero
   
 #重力値設定
 #通常破壊時に許容する高さ

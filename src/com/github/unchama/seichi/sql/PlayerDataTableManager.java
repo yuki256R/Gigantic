@@ -6,7 +6,7 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.sql.MineStackTableManager;
+import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerDataTableManager extends SeichiTableManager {
@@ -177,7 +177,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
         return ans;
 	}
 
-	public int getGachaTicket(GiganticPlayer gp) {
+	public int getGachaPoint(GiganticPlayer gp) {
 		String command = "";
 	    final String struuid = gp.uuid.toString().toLowerCase();
 	    int ans = 0;

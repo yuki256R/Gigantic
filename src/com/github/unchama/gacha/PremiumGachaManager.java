@@ -1,7 +1,9 @@
 package com.github.unchama.gacha;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
-import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
@@ -18,7 +20,11 @@ public class PremiumGachaManager extends GachaManager {
 				+ "プレミアムガチャ";
 	}
 	@Override
-	public ItemStack getMobhead() {
-		return head.getMobHead("green_present");
+	protected List<String> getLore() {
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + "特殊ガチャ");
+		lore.add(ChatColor.GRAY + "未実装です．");
+		return lore;
 	}
+
 }

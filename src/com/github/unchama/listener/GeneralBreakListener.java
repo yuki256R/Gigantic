@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,6 +25,7 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -101,8 +103,11 @@ public class GeneralBreakListener implements Listener {
 		if (m.add(dropitem)) {
 			debug.sendMessage(player, DebugEnum.MINESTACK,
 					"your item is added in minestack");
+			// 拾った音を再生
+			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP,
+					(float) 0.1, (float) 1);
 		} else {
-			player.getInventory().addItem(dropitem);
+			Util.giveItem(player, dropitem, false);
 			debug.sendMessage(player, DebugEnum.BREAK,
 					"your item is added in inventory");
 		}
@@ -167,7 +172,7 @@ public class GeneralBreakListener implements Listener {
 		if (!gp.getStatus().equals(GiganticStatus.AVAILABLE))
 			return;
 		ManaRecoveryManager m = gp.getManager(ManaRecoveryManager.class);
-		m.recover(player,event.getBlock());
+		m.recover(player, event.getBlock());
 	}
 
 	/**

@@ -4,14 +4,14 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.BuildTableManager;
+import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 
 public class BuildManager extends DataManager implements UsingSql{
     //トータル設置ブロック数
     private double totalbuildnum;
-    private int build_num_1min;
+    private double build_num_1min;
 
     BuildTableManager tm = sql.getManager(BuildTableManager.class);
 
@@ -43,7 +43,7 @@ public class BuildManager extends DataManager implements UsingSql{
      *
      * @param buildnum_1min
      */
-    public void setBuild_Num_1min(int buildnum_1min){
+    public void setBuild_Num_1min(double buildnum_1min){
     	this.build_num_1min = buildnum_1min;
     }
 
@@ -51,7 +51,7 @@ public class BuildManager extends DataManager implements UsingSql{
      *
      * @return
      */
-    public int getBuild_num_1min(){
+    public double getBuild_num_1min(){
         return this.build_num_1min;
     }
 
@@ -69,5 +69,13 @@ public class BuildManager extends DataManager implements UsingSql{
      */
     public void setTotalbuildnum(double totalbuildnum){
         this.totalbuildnum = totalbuildnum;
+    }
+
+    /**
+     * 1分間の設置量に加算
+     * @param addnum
+     */
+    public void addBuild_num_1min(double addnum) {
+        this.build_num_1min += addnum;
     }
 }

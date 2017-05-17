@@ -280,4 +280,29 @@ public class ConfigManager extends YmlManager {
     		default: return 0;
     	}
     }
+
+    /**
+     * 範囲設置スキルの使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getZoneSetSkillLevel() {
+        return fc.getInt("ZoneSetSkill.level");
+    }
+
+    /**
+     * 範囲設置スキルのMineStack優先設定使用可能レベルを取得します
+     * @return 使用可能レベル
+     */
+    public int getZoneSetSkillMinestack() {
+        return fc.getInt("ZoneSetSkill.minestack");
+    }
+
+
+    /**
+     * 建築スキルを使用してブロックを並べたときの建築量上昇倍率を取得します
+     * @return 倍率
+     */
+    public double getBlockCountMag() {
+        return fc.getDouble("BlockCountMag");
+    }
 }

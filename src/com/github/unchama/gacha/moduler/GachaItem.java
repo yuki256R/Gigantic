@@ -10,7 +10,14 @@ public class GachaItem {
 	private double probability;
 	private boolean locked;
 
+
+	//ガチャ券,りんご用コンストラクタ
+	public GachaItem(int id, ItemStack is,Rarity r) {
+		this(id,is,1,r,-1.0D,false);
+	}
+
 	public GachaItem(int id,ItemStack item,int amount,Rarity rarity,double probability,boolean locked){
+		item.setAmount(amount);
 		this.id = id;
 		this.item = item;
 		this.amount = amount;
@@ -19,8 +26,12 @@ public class GachaItem {
 		this.locked = locked;
 	}
 
+
+
 	public ItemStack getItem() {
-		return this.item;
+		ItemStack c = this.item.clone();
+		c.setAmount(amount);
+		return c;
 	}
 
 	public double getProbability() {
@@ -44,6 +55,10 @@ public class GachaItem {
 
 	public Rarity getRarity() {
 		return this.rarity;
+	}
+
+	public int getID() {
+		return this.id;
 	}
 
 }

@@ -1,0 +1,26 @@
+﻿# 
+mobhead: 
+  orange:
+    dispname: 'オレンジ'
+    url: 'http://textures.minecraft.net/texture/fba8eabaf9c34eb4b9a53199213b6657637b7a5f121986b52f7dd25a584c26d'
+  corn:
+    dispname: 'トウモロコシ'
+    url: 'http://textures.minecraft.net/texture/99dfac171e3c2029676ecf8d3a0fd9b7bb2857b95efdefc59e0f252576b5c68'
+  riceball:
+    dispname: 'おにぎり'
+    url: 'http://textures.minecraft.net/texture/69c2ddf2bd74a4655e8f0153a7453e67db2a21dbfac6756789481adbec483a'
+  grape:
+    dispname: 'グレープ'
+    url: 'http://textures.minecraft.net/texture/f71cc917159f14565f6afe22b9e33d5a23e423ecd8cb5dfba0b3f66d825389ca'
+  tomato:
+    dispname: 'トマト'
+    url: 'http://textures.minecraft.net/texture/ec29b6926e25a7c725e959648bd4f2a8eee3f2921cbdc45d399df62786a77c'
+  milk_chocolate:
+    dispname: 'ミルクチョコレート'
+    url: 'http://textures.minecraft.net/texture/819f948d17718adace5dd6e050c586229653fef645d7113ab94d17b639cc466'
+  sushi_roll:
+    dispname: '寿司巻'
+    url: 'http://textures.minecraft.net/texture/2e12f267953e76ae66a8dd025a3286aecbc64b4ad98eeb10b3c67a69aae15'
+  apple:
+    dispname: 'りんご'
+    url: 'http://textures.minecraft.net/texture/cbb311f3ba1c07c3d1147cd210d81fe11fd8ae9e3db212a0fa748946c3633'

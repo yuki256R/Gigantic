@@ -16,9 +16,9 @@ import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gacha.moduler.Rarity;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.sql.PlayerGachaTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.GachaTableManager;
+import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
 
@@ -70,7 +70,7 @@ public class gachaCommand implements TabExecutor {
 			// "/gacha addms <名前> <レベル> <ID>");
 			// sender.sendMessage("指定したガチャリストのIDを指定した名前とレベル(実際のレベルではないことに注意)でMineStack用ガチャリストに追加");
 			// sender.sendMessage(ChatColor.DARK_GRAY + "※ゲーム内でのみ実行できます");
-			sender.sendMessage(ChatColor.RED + "/gacha list");
+			sender.sendMessage(ChatColor.RED + "/gacha list <ガチャの種類>");
 			sender.sendMessage("現在のガチャリストを表示");
 			// sender.sendMessage(ChatColor.RED + "/gacha listms");
 			// sender.sendMessage("現在のMineStack用ガチャリストを表示");
@@ -78,16 +78,16 @@ public class gachaCommand implements TabExecutor {
 			sender.sendMessage("リスト該当番号のガチャ景品を排出停止");
 			// sender.sendMessage(ChatColor.RED + "/gacha removems");
 			// sender.sendMessage("リスト一番下のMineStackガチャ景品を削除(追加失敗した場合の修正用)");
-			//sender.sendMessage(ChatColor.RED
-			//		+ "/gacha setamount <ガチャの種類> <ID> <個数>");
-			//sender.sendMessage("リスト該当番号のガチャ景品の個数変更。64まで");
-			//sender.sendMessage(ChatColor.RED
-			//		+ "/gacha setprob <ガチャの種類> <ID> <確率>");
-			//sender.sendMessage("リスト該当番号のガチャ景品の確率変更");
+			// sender.sendMessage(ChatColor.RED
+			// + "/gacha setamount <ガチャの種類> <ID> <個数>");
+			// sender.sendMessage("リスト該当番号のガチャ景品の個数変更。64まで");
+			// sender.sendMessage(ChatColor.RED
+			// + "/gacha setprob <ガチャの種類> <ID> <確率>");
+			// sender.sendMessage("リスト該当番号のガチャ景品の確率変更");
 			// sender.sendMessage(ChatColor.RED + "/gacha move <番号> <移動先番号>");
 			// sender.sendMessage("リスト該当番号のガチャ景品の並び替えを行う");
-			//sender.sendMessage(ChatColor.RED + "/gacha clear");
-			//sender.sendMessage("ガチャリストを全消去する。取扱注意");
+			// sender.sendMessage(ChatColor.RED + "/gacha clear");
+			// sender.sendMessage("ガチャリストを全消去する。取扱注意");
 			sender.sendMessage(ChatColor.RED + "/gacha save <ガチャの種類>");
 			sender.sendMessage("コマンドによるガチャリストへの変更をmysqlに送信");
 			// sender.sendMessage(ChatColor.RED + "/gacha savems");
@@ -99,6 +99,9 @@ public class gachaCommand implements TabExecutor {
 			sender.sendMessage(ChatColor.DARK_GRAY + "※onEnable時と同じ処理");
 			// sender.sendMessage(ChatColor.RED + "/gacha demo <回数>");
 			// sender.sendMessage("現在のガチャリストで指定回数試行し結果を表示。100万回まで");
+			sender.sendMessage(ChatColor.RED
+					+ "/gacha update <ガチャの種類> <ticket/apple> ");
+			sender.sendMessage("ガチャで使用されるガチャ券や，ガチャリンゴを手に持っているものに更新する．");
 			return true;
 		} else if (args[0].equalsIgnoreCase("mente")) {
 			// gacha mente と入力したとき
@@ -235,14 +238,14 @@ public class gachaCommand implements TabExecutor {
 			}
 
 			GachaManager m = gacha.getManager(gt.getManagerClass());
-			ItemStack is = m.getGachaItem(id);
+			ItemStack is = m.getGachaItem(id).getItem();
 
 			if (is == null) {
 				sender.sendMessage(ChatColor.RED + "指定されたIDは登録されていません．");
 				sender.sendMessage(ChatColor.RED + "/gacha get <ID> ");
 				return true;
 			}
-			Util.addItem(player, is);
+			Util.giveItem(player, is, true);
 			return true;
 
 		} else if (args[0].equalsIgnoreCase("add")) {
@@ -314,6 +317,10 @@ public class gachaCommand implements TabExecutor {
 				}
 			}
 			ItemStack is = player.getInventory().getItemInMainHand();
+
+			if (is == null)
+				return true;
+
 			GachaManager m = gacha.getManager(gt.getManagerClass());
 			m.addGachaItem(is, r, probability, amount);
 			sender.sendMessage(ChatColor.GREEN + "正常に追加されました．");
@@ -343,7 +350,8 @@ public class gachaCommand implements TabExecutor {
 			sender.sendMessage(ChatColor.GREEN + "id|名前|確率|排出");
 			items.forEach((id, gi) -> {
 				sender.sendMessage("" + ChatColor.GREEN + id + "|"
-						+ gi.getItem().getItemMeta().getDisplayName() + "|"
+						+ gi.getItem().getItemMeta().getDisplayName()
+						+ ChatColor.RESET + ChatColor.GREEN + "|"
 						+ Util.Decimal(gi.getProbability()) + "|"
 						+ gi.isLocked());
 			});
@@ -377,9 +385,14 @@ public class gachaCommand implements TabExecutor {
 				sender.sendMessage(ChatColor.RED + "/gacha lock <ガチャの種類> <ID>");
 				return true;
 			}
+
 			GachaManager m = gacha.getManager(gt.getManagerClass());
-			m.lock(id);
-			sender.sendMessage(ChatColor.GREEN + "正常に排出停止されました．");
+			if(m.lock(id)){
+				sender.sendMessage(ChatColor.GREEN + "正常に排出停止されました．");
+			}else{
+				sender.sendMessage(ChatColor.RED + "実行失敗しました．");
+			}
+
 			return true;
 		} else if (args[0].equalsIgnoreCase("save")) {
 			// gacha save と入力したとき
@@ -427,6 +440,53 @@ public class gachaCommand implements TabExecutor {
 			GachaTableManager tm = sql.getManager(gt.getTableManagerClass());
 			tm.load();
 			sender.sendMessage(ChatColor.GREEN + "正常に読み込まれました");
+			return true;
+		} else if (args[0].equalsIgnoreCase("update")) {
+			// gacha update と入力したとき
+			// [1]: ガチャの種類
+			// [2]: ガチャ券かガチャリンゴ
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内で実行して下さい");
+				return true;
+			}
+
+			Player player = (Player) sender;
+			if (args.length != 3) {
+				// 引数が2でない時の処理
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha update <ガチャの種類> <ticket/apple> ");
+				sender.sendMessage("ガチャで使用されるガチャ券や，ガチャリンゴを手に持っているものに更新する．");
+				return true;
+			}
+			GachaType gt;
+			String s;
+
+			// ガチャの種類を取得
+			try {
+				gt = GachaType.valueOf(args[1].toUpperCase());
+			} catch (IllegalArgumentException e) {
+				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha update <ガチャの種類> <ticket/apple> ");
+				return true;
+			}
+			ItemStack is = player.getInventory().getItemInMainHand();
+			if (is == null)
+				return true;
+			GachaManager gm = gacha.getManager(gt.getManagerClass());
+			s = args[2];
+			if (s.equalsIgnoreCase("ticket")) {
+				gm.updateGachaTicket(is);
+				sender.sendMessage(ChatColor.GREEN + "ガチャ券が正常に更新されました");
+			} else if (s.equalsIgnoreCase("apple")) {
+				gm.updateGachaApple(is);
+				sender.sendMessage(ChatColor.GREEN + "ガチャリンゴが正常に更新されました");
+			}else{
+				sender.sendMessage(ChatColor.RED + "ticketかappleを入力してください");
+				sender.sendMessage(ChatColor.RED
+						+ "/gacha update <ガチャの種類> <ticket/apple> ");
+				return true;
+			}
 			return true;
 		}
 		/*
