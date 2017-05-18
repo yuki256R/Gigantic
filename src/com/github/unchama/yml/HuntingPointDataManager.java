@@ -20,13 +20,15 @@ public class HuntingPointDataManager extends YmlManager {
 		public String jpName; // 日本語名
 		public String headName; // MobHeadで呼び出すための名前
 		public boolean isTarget; // 狩猟対象ならtrue
+		public double raidDistance; // ボス
 
 		public HuntMobData(String name_, String jpName_, String headName_,
-				boolean isTarget_) {
+				boolean isTarget_, double raidDistance_) {
 			name = name_;
 			jpName = jpName_;
 			headName = headName_;
 			isTarget = isTarget_;
+			raidDistance = raidDistance_;
 		}
 	}
 
@@ -66,8 +68,9 @@ public class HuntingPointDataManager extends YmlManager {
 
 			String jpname = basedata.getString(name + ".jpname");
 			String headname = basedata.getString(name + ".headname");
+			double raidDistance = basedata.getDouble(name + ".raiddistance", 0);
 			MobNames.put(name,
-					new HuntMobData(name, jpname, headname, isTarget));
+					new HuntMobData(name, jpname, headname, isTarget, raidDistance));
 		}
 
 		// 同種判定のリスト
