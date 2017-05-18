@@ -36,6 +36,8 @@ public class PlayerManager {
 					+ "既にログインしています．一度ログアウトを行い，時間が経ってからログインし直してください．");
 			return;
 		}
+		player.sendMessage(ChatColor.GREEN
+				+ "データをロードしています．しばらくお待ちください．．．");
 		gp = new GiganticPlayer(player);
 		waitingloadmap.put(uuid, gp);
 		gmap.put(uuid, gp);
