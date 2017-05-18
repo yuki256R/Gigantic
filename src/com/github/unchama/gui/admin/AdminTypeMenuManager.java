@@ -34,7 +34,7 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(gachaSlot, ManagerType.ADMINGACHATYPEMENU);
-		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADGIBEMENU);
+		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADMAINMENU);
 	}
 
 	@Override

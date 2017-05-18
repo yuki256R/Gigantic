@@ -1,4 +1,4 @@
-package com.github.unchama.gui.huntingpoint;
+package com.github.unchama.gui.admin.customhead;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,41 +19,40 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.MainMenuManager;
+import com.github.unchama.gui.admin.AdminTypeMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.huntingpoint.HuntingPointManager;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.HuntingPointDataManager;
-import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
+import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.util.Util;
+import com.github.unchama.yml.CustomHeadManager;
+import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 
-public class HuntingPointMainMenuManager extends GuiMenuManager {
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+public class AdminCustomHeadMainMenuManager extends GuiMenuManager {
 
 	// 戻るボタン
 	private ItemStack backButton;
-	private final int backButtonSlot = 45;
+	private final int backButtonSlot = 18;
 
-	// どのMobのショップを開くか
-	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
+	// どのカテゴリを開くか
+	private Map<Integer, String> giveCategoryNames = new HashMap<Integer, String>();
 
-	// for文で配置するMob頭の先頭のスロット
+	// for文で配置するカテゴリの先頭のスロット
 	private final int countInit = 0;
 
-	public HuntingPointMainMenuManager() {
-		// 戻るボタン
-		backButton = head.getMobHead("left");
-		ItemMeta itemMeta = backButton.getItemMeta();
-		itemMeta.setDisplayName("戻る");
-		backButton.setItemMeta(itemMeta);
+	private CustomHeadManager headManager = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
-		// 各Mobボタン
-		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(
-				HuntingPointDataManager.class).getMobNames();
+	public AdminCustomHeadMainMenuManager() {
+		// 戻るボタン
+		backButton = headManager.getMobHead("left");
+		Util.setDisplayName(backButton, "戻る");
+
+		// 各カテゴリボタン
+		Map<String, HeadCategory> map = headManager.getMapCategory();
 		int count = countInit;
 		// 各MOB
-		for (String name : mobNames.keySet()) {
-			shopMobNames.put(count, name);
+		for (String name : map.keySet()) {
+			giveCategoryNames.put(count, name);
 			count++;
 		}
 		setOpenMenuMap(openmap);
@@ -61,8 +60,6 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
@@ -71,29 +68,18 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
 
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
-		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(
-				HuntingPointDataManager.class).getMobNames();
+		Map<String, HeadCategory> map = headManager.getMapCategory();
 
 		int count = countInit;
 		// 各MOB
-		for (String name : mobNames.keySet()) {
+		for (String name : map.keySet()) {
 			// Mobに応じた頭
-			ItemStack button = head.getMobHead(mobNames.get(name).headName);
+			ItemStack button = map.get(name).mainSkull;
 			ItemMeta itemMeta = button.getItemMeta();
 			// モンスターの表示名
-			itemMeta.setDisplayName(ChatColor.RESET + ""
-					+ ChatColor.GOLD + "" + ChatColor.UNDERLINE
-					+ "" + ChatColor.BOLD + mobNames.get(name).jpName);
-			itemMeta.setLore(Arrays.asList(
-					//
-					ChatColor.RESET + "" + ChatColor.GREEN + "累計 : "
-							+ manager.getTotalPoint(name) + " P",//
-					ChatColor.RESET + "" + ChatColor.GREEN + "現在 : "
-							+ manager.getCurrentPoint(name) + " P",//
-					ChatColor.RESET + "" + ChatColor.DARK_RED + ""
-							+ ChatColor.UNDERLINE + "クリックでショップへ"));
+			itemMeta.setLore(Arrays.asList( //
+					ChatColor.RESET + "" + ChatColor.BLUE + ""
+							+ ChatColor.UNDERLINE + "クリックで各カテゴリへ"));
 			button.setItemMeta(itemMeta);
 			inv.setItem(count, button);
 			count++;
@@ -108,8 +94,11 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 	@Override
 	public void closeByOpenMenu(Player player, MenuClickEvent event) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
-		manager.setShopMobName(shopMobNames.get(event.getSlot()));
+		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		// Bukkit.getServer().getLogger().info("closeByOpenMenu : " +
+		// event.getSlot() + " " + giveCategoryNames.get(event.getSlot()));
+		manager.setSelectedCategory("AdminCustomHeadMainMenuManager",
+				giveCategoryNames.get(event.getSlot()));
 	}
 
 	@Override
@@ -121,21 +110,20 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		// ショップを開く
 		// 起動時になぜかここを通るためnullチェック
-		if (shopMobNames != null) {
-			for (int slot : shopMobNames.keySet()) {
+		if (giveCategoryNames != null) {
+			for (int slot : giveCategoryNames.keySet()) {
 				openmap.put(slot, GuiMenu.ManagerType
-						.getTypebyClass(HuntingPointShopMenuManager.class));
+						.getTypebyClass(AdminCustomHeadGiveMenuManager.class));
 			}
 		}
 
 		// 戻るボタンでメインメニューを開く
 		openmap.put(backButtonSlot,
-				GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
+				GuiMenu.ManagerType.getTypebyClass(AdminTypeMenuManager.class));
 	}
 
 	@Override
 	protected void setKeyItem() {
-
 	}
 
 	@Override
@@ -145,12 +133,12 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public int getInventorySize() {
-		return 9 * 6;
+		return 9 * 3;
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return "狩猟ポイント";
+		return "カスタムヘッド付与 - メインメニュー";
 	}
 
 	@Override

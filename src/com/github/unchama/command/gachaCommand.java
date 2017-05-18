@@ -16,9 +16,9 @@ import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gacha.moduler.Rarity;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.sql.PlayerGachaTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.GachaTableManager;
+import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
 

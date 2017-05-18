@@ -1,0 +1,95 @@
+﻿# 
+mobhead: 
+  left:
+    dispname: '左矢印'
+    url: 'http://textures.minecraft.net/texture/3ebf907494a935e955bfcadab81beafb90fb9be49c7026ba97d798d5f1a23'
+  right:
+    dispname: '右矢印'
+    url: 'http://textures.minecraft.net/texture/1b6f1a25b6bc199946472aedb370522584ff6f4e83221e5946bd2e41b5ca13b'
+  up:
+    dispname: '上矢印'
+    url: 'http://textures.minecraft.net/texture/d48b768c623432dfb259fb3c3978e98dec111f79dbd6cd88f21155374b70b3c'
+  down:
+    dispname: '下矢印'
+    url: 'http://textures.minecraft.net/texture/2dadd755d08537352bf7a93e3bb7dd4d733121d39f2fb67073cd471f561194dd'
+  zero:
+    dispname: '数字「0」'
+    url: 'http://textures.minecraft.net/texture/0ebe7e5215169a699acc6cefa7b73fdb108db87bb6dae2849fbe24714b27'
+  one:
+    dispname: '数字「1」'
+    url: 'http://textures.minecraft.net/texture/71bc2bcfb2bd3759e6b1e86fc7a79585e1127dd357fc202893f9de241bc9e530'
+  two:
+    dispname: '数字「2」'
+    url: 'http://textures.minecraft.net/texture/4cd9eeee883468881d83848a46bf3012485c23f75753b8fbe8487341419847'
+  three:
+    dispname: '数字「3」'
+    url: 'http://textures.minecraft.net/texture/1d4eae13933860a6df5e8e955693b95a8c3b15c36b8b587532ac0996bc37e5'
+  four:
+    dispname: '数字「4」'
+    url: 'http://textures.minecraft.net/texture/d2e78fb22424232dc27b81fbcb47fd24c1acf76098753f2d9c28598287db5'
+  five:
+    dispname: '数字「5」'
+    url: 'http://textures.minecraft.net/texture/6d57e3bc88a65730e31a14e3f41e038a5ecf0891a6c243643b8e5476ae2'
+  six:
+    dispname: '数字「6」'
+    url: 'http://textures.minecraft.net/texture/334b36de7d679b8bbc725499adaef24dc518f5ae23e716981e1dcc6b2720ab'
+  seven:
+    dispname: '数字「7」'
+    url: 'http://textures.minecraft.net/texture/6db6eb25d1faabe30cf444dc633b5832475e38096b7e2402a3ec476dd7b9'
+  eight:
+    dispname: '数字「8」'
+    url: 'http://textures.minecraft.net/texture/59194973a3f17bda9978ed6273383997222774b454386c8319c04f1f4f74c2b5'
+  nine:
+    dispname: '数字「9」'
+    url: 'http://textures.minecraft.net/texture/e67caf7591b38e125a8017d58cfc6433bfaf84cd499d794f41d10bff2e5b840'
+  grass:
+    dispname: '芝'
+    url: 'http://textures.minecraft.net/texture/349c63bc508723328a19e597f40862d27ad5c1d545663ac24466582f568d9'
+  letterbox:
+    dispname: 'レターボックス'
+    url: 'http://textures.minecraft.net/texture/70799f5effc891e334faa7f45d0bdd956d4e215d8a7ad55c310941aa96723'
+  pouch:
+    dispname: 'ポーチ'
+    url: 'http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3'
+  pc:
+    dispname: 'パソコン'
+    url: 'http://textures.minecraft.net/texture/8d19c68461666aacd7628e34a1e2ad39fe4f2bde32e231963ef3b35533'
+  red_present:
+    dispname: 'プレゼント箱(赤)'
+    url: 'http://textures.minecraft.net/texture/f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca'
+  green_present:
+    dispname: 'プレゼント箱(緑)'
+    url: 'http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d'
+  blue_bottle:
+    dispname: 'ボトル(青)'
+    url: 'http://textures.minecraft.net/texture/d5f3602ec661c7f4beec88c12a5297d877822b8861920bacf49ae2077bb2b3'
+  green_bottle:
+    dispname: 'ボトル(緑)'
+    url: 'http://textures.minecraft.net/texture/6daaea616947e00d97f8caa358261fa83e99d65527b8ef522cceffefa38f7'
+  mechanic_box:
+    dispname: 'メカニックボックス'
+    url: 'http://textures.minecraft.net/texture/23d3908722e8275ca195d2f49ed4f1c988bd27d4fc4a5993acfc392ac2c2c'
+  weighted_cube:
+    dispname: '時空間移動キューブ'
+    url: 'http://textures.minecraft.net/texture/52baeb4a35da8a85d14bdccf7184f5545088f954da55144f235c2983fdb8e05b'
+  orange_core:
+    dispname: 'オレンジコア'
+    url: 'http://textures.minecraft.net/texture/14d844fee24d5f27ddb669438528d83b684d901b75a6889fe7488dfc4cf7a1c'
+  green_core:
+    dispname: 'グリーンコア'
+    url: 'http://textures.minecraft.net/texture/32fa8f38c7b22096619c3a6d6498b405530e48d5d4f91e2aacea578844d5c67'
+  blue_core:
+    dispname: 'ブルーコア'
+    url: 'http://textures.minecraft.net/texture/dc9365642c6eddcfedf5b5e14e2bc71257d9e4a3363d123c6f33c55cafbf6d'
+  purple_core:
+    dispname: 'パープルコア'
+    url: 'http://textures.minecraft.net/texture/163bcaf6d2679d8d7d9bf6a474a48a77a8e91747a1084c09256ebc86cb74811'
+  yellow_core:
+    dispname: 'イエローコア'
+    url: 'http://textures.minecraft.net/texture/cbfb41f866e7e8e593659986c9d6e88cd37677b3f7bd44253e5871e66d1d424'
+  black_core:
+    dispname: 'ブラックコア'
+    url: 'http://textures.minecraft.net/texture/9e95293acbcd4f55faf5947bfc5135038b275a7ab81087341b9ec6e453e839'
+  red_core:
+    dispname: 'レッドコア'
+    url: 'http://textures.minecraft.net/texture/faff2eb498e5c6a04484f0c9f785b448479ab213df95ec91176a308a12add70'

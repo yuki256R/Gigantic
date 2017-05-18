@@ -27,7 +27,6 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-import com.lobbyswitch.LobbySwitch;
 
 /**
  * Ymlから編集できるようにしたMenuClass
@@ -159,9 +158,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			case "garbagecan":
 				methodmap.put(i, "openGarbageCan");
 				break;
-			case "lobbyswitch":
-				methodmap.put(i, "openServerMenu");
-				break;
 			default:
 				break;
 			}
@@ -208,11 +204,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			player.playSound(player.getLocation(),
 					Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
 			player.chat("/spawn");
-			return true;
-		case "openServerMenu":
-			if(Bukkit.getPluginManager().isPluginEnabled("LobbySwitch")){
-				LobbySwitch.p.getConfigManager().getInventory();
-			}
 			return true;
 		default:
 			return false;
