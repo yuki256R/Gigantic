@@ -1,50 +1,51 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.region.RegionManager;
+import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
-public class RegionTableManager extends PlayerFromSeichiTableManager {
+public class ManaTableManager extends PlayerFromSeichiTableManager {
 
-	public RegionTableManager(Sql sql) {
+	public ManaTableManager(Sql sql) {
 		super(sql);
 	}
 
 	@Override
 	protected String addColumnCommand() {
 		String command = "";
-		command += "add column if not exists rgnum int default 0,";
+		command += "add column if not exists mana double default 0.0,";
 		return command;
 	}
 
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
-		RegionManager m = gp.getManager(RegionManager.class);
+		ManaManager m = gp.getManager(ManaManager.class);
 		String command = "";
-		command += "rgnum = '" + m.getRgnum() + "',";
+		command += "mana = '" + m.getMana() + "',";
 		return command;
 	}
 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
-		RegionManager m = gp.getManager(RegionManager.class);
-		m.setRgnum(tm.getRgnum(gp));
+		ManaManager m = gp.getManager(ManaManager.class);
+		m.setMana(tm.getMana(gp));
 	}
-
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
-		RegionManager m = gp.getManager(RegionManager.class);
-		m.setRgnum(0);
+		ManaManager m = gp.getManager(ManaManager.class);
+		m.setMana(0);
 	}
 
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
-		RegionManager m = gp.getManager(RegionManager.class);
-		m.setRgnum(rs.getInt("rgnum"));
+		ManaManager m = gp.getManager(ManaManager.class);
+		m.setMana(rs.getDouble("mana"));
 	}
+
 }

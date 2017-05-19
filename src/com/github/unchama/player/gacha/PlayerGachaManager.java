@@ -16,7 +16,7 @@ import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.PlayerGachaTableManager;
+import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Util;
 
 public class PlayerGachaManager extends DataManager implements Initializable,UsingSql{
@@ -71,7 +71,7 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 		if(i > 64)return;
 		ItemStack ts = gacha.getManager(gt.getManagerClass()).getGachaTicket();
 		ts.setAmount(i);
-		Util.giveItem(player, ts);
+		Util.giveItem(player, ts,true);
 		dataMap.get(gt).remove(i);
 	}
 

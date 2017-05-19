@@ -33,8 +33,9 @@ import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
-import com.github.unchama.sql.FairyAegisTableManager;
+import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.task.FairyAegisTaskRunnable;
+import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -455,7 +456,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 				debug.sendMessage(player, DebugEnum.SKILL,
 						"your item is added in minestack");
 			} else {
-				player.getInventory().addItem(dropitem);
+				Util.giveItem(player, dropitem, false);
 				debug.sendMessage(player, DebugEnum.SKILL,
 						"your item is added in inventory");
 			}

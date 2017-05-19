@@ -10,12 +10,14 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
-import com.github.unchama.sql.ToolPouchTableManager;
+import com.github.unchama.sql.player.ToolPouchTableManager;
 
-public class ToolPouchManager extends DataManager implements UsingSql {
+public class ToolPouchManager extends DataManager implements UsingSql,
+		Initializable {
 	ToolPouchTableManager tm;
 
 	private Inventory pouch;
@@ -23,6 +25,11 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 	public ToolPouchManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(ToolPouchTableManager.class);
+	}
+
+	@Override
+	public void init() {
+		this.resize();
 	}
 
 	@Override
@@ -73,13 +80,17 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 
 	// サイズの更新処理
 	public void resize() {
+		// 今のポーチとサイズが違う場合
 		if (pouch.getSize() != this.getSize()) {
-			Inventory n_pouch = Bukkit.getServer().createInventory(null, this.getSize(),
-					this.getName());
-			if(pouch.getSize() <= this.getSize()){
+			// 新しいポーチを作成
+			Inventory n_pouch = Bukkit.getServer().createInventory(null,
+					this.getSize(), this.getName());
+			// 新しいポーチのほうが大きい場合
+			if (pouch.getSize() <= this.getSize()) {
 				n_pouch.setContents(pouch.getContents());
-			}else{
-				for(int i = 0;i < n_pouch.getSize() ; i++){
+			} else {
+				// 新しいポーチのほうが小さい場合
+				for (int i = 0; i < n_pouch.getSize(); i++) {
 					n_pouch.setItem(i, pouch.getItem(i));
 				}
 			}
@@ -87,16 +98,22 @@ public class ToolPouchManager extends DataManager implements UsingSql {
 		}
 	}
 
-	public boolean replace(Player player,short useDurability,ItemStack handtool) {
-		for(int i = 0; i < pouch.getSize() ; i++){
+	public boolean replace(Player player, short useDurability,
+			ItemStack handtool) {
+		for (int i = 0; i < pouch.getSize(); i++) {
 			ItemStack pouchtool = pouch.getItem(i);
-			if(pouchtool == null)continue;
-			if(ActiveSkillManager.canBreak(pouchtool)){
-				if(pouchtool.getItemMeta().spigot().isUnbreakable() || pouchtool.getType().getMaxDurability() > pouchtool.getDurability() + useDurability){
+			if (pouchtool == null)
+				continue;
+			if (ActiveSkillManager.canBreak(pouchtool)) {
+				if (pouchtool.getItemMeta().spigot().isUnbreakable()
+						|| pouchtool.getType().getMaxDurability() > pouchtool
+								.getDurability() + useDurability) {
 					pouch.setItem(i, handtool);
 					player.getInventory().setItemInMainHand(pouchtool);
-					player.sendMessage(ChatColor.YELLOW + "ツールポーチからツールを引き出しました．");
-					player.playSound(player.getLocation(), Sound.BLOCK_IRON_TRAPDOOR_OPEN, 4.0F, 1.7F);
+					player.sendMessage(ChatColor.YELLOW
+							+ "ツールポーチからツールを引き出しました．");
+					player.playSound(player.getLocation(),
+							Sound.BLOCK_IRON_TRAPDOOR_OPEN, 4.0F, 1.7F);
 					return true;
 				}
 			}

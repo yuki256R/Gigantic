@@ -4,89 +4,105 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
 public class HuntingPointShopItem {
-	public enum CategoryType{
-		ToHead,		//Mob毎に定められた頭
-		CustomHead,	//カスタムヘッド
-		Item,		//普通にアイテム
-		//実績
+	public enum CategoryType {
+		ToHead, // Mob毎に定められた頭
+		CustomHead, // カスタムヘッド
+		HeadCategory, // カテゴリまるごと
+		Item, // 普通にアイテム
+		// 実績
 	}
 
-	//カテゴリ
+	// カテゴリ
 	private CategoryType categoryType;
-	//陳列するアイテム（アイテム系の場合はこれを渡す）
+	// 陳列するアイテム（アイテム系の場合はこれを渡す）
 	private ItemStack itemStack;
-	//値段
+	// 値段
 	private int price;
-//	//ログに流す名前
-//	private String logName;
-	//その他のデータ
+	// //ログに流す名前
+	// private String logName;
+	// その他のデータ
 	private String meta;
 
-	public HuntingPointShopItem(){
+	public HuntingPointShopItem clone(){
+		HuntingPointShopItem ret = new HuntingPointShopItem();
+		ret.setCategory(categoryType);
+		ret.setItemStack(itemStack.clone());
+		ret.setPrice(price);
+		ret.setMeta(meta);
+
+		return ret;
 	}
 
-	//有効なデータならtrue
-	public boolean isEnable(){
-		if(categoryType == null){
+	public HuntingPointShopItem() {
+	}
+
+	// 有効なデータならtrue
+	public boolean isEnable() {
+		if (categoryType == null) {
 			return false;
 		}
-		if(itemStack == null){
+		if (itemStack == null) {
 			return false;
 		}
-		if(price <= 0){
+		if (price <= 0) {
 			return false;
 		}
-//		if(logName == null){
-//			return false;
-//		}
+		// if(logName == null){
+		// return false;
+		// }
 
 		return true;
 	}
 
-	//カテゴリのsetterとgetter
-	public void setCategory(String type){
-		try{
-		setCategory(CategoryType.valueOf(type));
-		}catch(IllegalArgumentException e){
+	// カテゴリのsetterとgetter
+	public void setCategory(String type) {
+		try {
+			setCategory(CategoryType.valueOf(type));
+		} catch (IllegalArgumentException e) {
 			Bukkit.getLogger().warning(type + " というCategoryTypeは存在しません．");
 		}
 	}
-	public void setCategory(CategoryType type){
+
+	public void setCategory(CategoryType type) {
 		categoryType = type;
 	}
-	public CategoryType getCategoryType(){
+
+	public CategoryType getCategoryType() {
 		return categoryType;
 	}
 
-	//アイテムデータのsetterとgetter
-	public void setItemStack(ItemStack item){
+	// アイテムデータのsetterとgetter
+	public void setItemStack(ItemStack item) {
 		itemStack = item;
 	}
-	public ItemStack getItemStack(){
+
+	public ItemStack getItemStack() {
 		return itemStack.clone();
 	}
 
-	//値段のsetterとgetter
-	public void setPrice(int price_){
+	// 値段のsetterとgetter
+	public void setPrice(int price_) {
 		price = price_;
 	}
-	public int getPrice(){
+
+	public int getPrice() {
 		return price;
 	}
 
-//	//ログに流す名前のsetterとgetter
-//	public void setLogName(String logName_){
-//		logName = logName_;
-//	}
-//	public String getLogName(){
-//		return logName;
-//	}
+	// //ログに流す名前のsetterとgetter
+	// public void setLogName(String logName_){
+	// logName = logName_;
+	// }
+	// public String getLogName(){
+	// return logName;
+	// }
 
-	//その他のデータのsetterとgetter
-	public void setMeta(String meta_){
+	// その他のデータのsetterとgetter
+	public void setMeta(String meta_) {
 		meta = meta_;
 	}
-	public String getMeta(){
+
+	public String getMeta() {
 		return meta;
 	}
 }

@@ -1,0 +1,68 @@
+﻿# 
+mobhead: 
+  Villager:
+    dispname: '村人'
+    url: 'http://textures.minecraft.net/texture/822d8e751c8f2fd4c8942c44bdb2f5ca4d8ae8e575ed3eb34c18a86e93b'
+  Zombie:
+    dispname: 'ゾンビ'
+    url: 'http://textures.minecraft.net/texture/56fc854bb84cf4b7697297973e02b79bc10698460b51a639c60e5e417734e11'
+  Skeleton:
+    dispname: 'スケルトン'
+    url: 'http://textures.minecraft.net/texture/2e5be6a3c0159d2c1f3b1e4e1d8384b6f7ebac993d58b10b9f8989c78a232'
+  WSkeleton:
+    dispname: 'ウィザースケルトン'
+    url: 'http://textures.minecraft.net/texture/233b41fa79cd53a230e2db942863843183a70404533bbc01fab744769bcb'
+  Creeper:
+    dispname: 'クリーパー'
+    url: 'http://textures.minecraft.net/texture/295ef836389af993158aba27ff37b6567185f7a721ca90fdfeb937a7cb5747'
+  Husk:
+    dispname: 'ハスク'
+    url: 'http://textures.minecraft.net/texture/d674c63c8db5f4ca628d69a3b1f8a36e29d8fd775e1a6bdb6cabb4be4db121'
+  Spider:
+    dispname: 'スパイダー'
+    url: 'http://textures.minecraft.net/texture/cd541541daaff50896cd258bdbdd4cf80c3ba816735726078bfe393927e57f1'
+  CaveSpider:
+    dispname: '毒蜘蛛'
+    url: 'http://textures.minecraft.net/texture/41645dfd77d09923107b3496e94eeb5c30329f97efc96ed76e226e98224'
+  Enderman:
+    dispname: 'エンダーマン'
+    url: 'http://textures.minecraft.net/texture/7a59bb0a7a32965b3d90d8eafa899d1835f424509eadd4e6b709ada50b9cf'
+  Witch:
+    dispname: 'ウィッチ'
+    url: 'http://textures.minecraft.net/texture/20e13d18474fc94ed55aeb7069566e4687d773dac16f4c3f8722fc95bf9f2dfa'
+  Guardian:
+    dispname: 'ガーディアン'
+    url: 'http://textures.minecraft.net/texture/a0bf34a71e7715b6ba52d5dd1bae5cb85f773dc9b0d457b4bfc5f9dd3cc7c94'
+  ElderGuardian:
+    dispname: 'エルダーガーディアン'
+    url: 'http://textures.minecraft.net/texture/1c797482a14bfcb877257cb2cff1b6e6a8b8413336ffb4c29a6139278b436b'
+  Slime:
+    dispname: 'スライム'
+    url: 'http://textures.minecraft.net/texture/895aeec6b842ada8669f846d65bc49762597824ab944f22f45bf3bbb941abe6c'
+  MagmaCube:
+    dispname: 'マグマキューブ'
+    url: 'http://textures.minecraft.net/texture/38957d5023c937c4c41aa2412d43410bda23cf79a9f6ab36b76fef2d7c429'
+  SilverfishEgg:
+    dispname: 'シルバーフィッシュの卵'
+    url: 'http://textures.minecraft.net/texture/d06310a8952b265c6e6bed4348239ddea8e5482c8c68be6fff981ba8056bf2e'
+  EndermiteEgg:
+    dispname: 'エンダーマイトの卵'
+    url: 'http://textures.minecraft.net/texture/3beac501e97db1cc035287d068a8eb538e55ef802f5cca25683933a243136c'
+  Pigzombie:
+    dispname: 'ゾンビピッグマン'
+    url: 'http://textures.minecraft.net/texture/74e9c6e98582ffd8ff8feb3322cd1849c43fb16b158abb11ca7b42eda7743eb'
+  Blaze:
+    dispname: 'ブレイズ'
+    url: 'http://textures.minecraft.net/texture/b78ef2e4cf2c41a2d14bfde9caff10219f5b1bf5b35a49eb51c6467882cb5f0'
+  Ghast:
+    dispname: 'ガスト'
+    url: 'http://textures.minecraft.net/texture/8b6a72138d69fbbd2fea3fa251cabd87152e4f1c97e5f986bf685571db3cc0'
+  Shulker:
+    dispname: 'シュルカー'
+    url: 'http://textures.minecraft.net/texture/b1d3534d21fe8499262de87affbeac4d25ffde35c8bdca069e61e1787ff2f'
+  Wither:
+    dispname: 'ウィザー'
+    url: 'http://textures.minecraft.net/texture/cdf74e323ed41436965f5c57ddf2815d5332fe999e68fbb9d6cf5c8bd4139f'
+  Enderdragon:
+    dispname: 'エンダードラゴン'
+    url: 'http://textures.minecraft.net/texture/74ecc040785e54663e855ef0486da72154d69bb4b7424b7381ccf95b095a'

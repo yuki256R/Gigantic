@@ -1,8 +1,7 @@
-package com.github.unchama.gui.admin;
+package com.github.unchama.gui.admin.customhead;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.md_5.bungee.api.ChatColor;
@@ -16,29 +15,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.CustomHeadManager.CustomHead;
+import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 
 public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
+	// 戻るボタン
+	private ItemStack backButton;
+	private final int backButtonSlot = 45;
 
 	// 前のページへボタン
 	private ItemStack prevButton;
-	private final int prevButtonSlot = 45;
+	private final int prevButtonSlot = 46;
 
 	// 次のページへボタン
 	private ItemStack nextButton;
 	private final int nextButtonSlot = 53;
 
-	private int currentPage = 1;
 	// 下部メニューボタン
 	private Map<Integer, ItemStack> menuButtons;
-
-	// 選択中のカテゴリの頭
-	List<CustomHead> heads;
 
 	private CustomHeadManager headManager = Gigantic.yml
 			.getManager(CustomHeadManager.class);
@@ -47,6 +50,9 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		// メニューボタンの表示設定
 		menuButtons = new HashMap<Integer, ItemStack>();
 
+		backButton = headManager.getMobHead("left");
+		Util.setDisplayName(backButton, "戻る");
+		menuButtons.put(backButtonSlot, backButton);
 
 		prevButton = headManager.getMobHead("left");
 		Util.setDisplayName(prevButton, "前のページ");
@@ -60,33 +66,40 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		for (int i = 0; i < 54; i++) {
 			id_map.put(i, String.valueOf(i));
 		}
+
+		setOpenMenuMap(openmap);
 	}
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
-		// とりあえずいまはotherカテゴリだけ
-		heads = headManager.getCategoryHeads("other");
 		return getInventory(player, slot, 1);
 	}
 
 	public Inventory getInventory(Player player, int slot, int page) {
-		currentPage = page;
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		manager.setCurrentPage(this, page);
 
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(),
 				this.getInventoryName(player) + "- " + page + "ページ");
 
+		String categoryName = gp.getManager(GuiStatusManager.class)
+				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+		HeadCategory category = headManager.getCategoryHeads(categoryName);
+
 		// とりだしボタン
 		for (int i = 45 * (page - 1); i < 45 * page; i++) {
-			if (i >= heads.size()) {
+			if (i >= category.heads.size()) {
 				break;
 			}
-			CustomHead data = heads.get(i);
+			CustomHead data = category.heads.get(i);
 			ItemStack item = data.getSkull();
 			Util.setLore(
 					item,
 					Arrays.asList("ID : " + data.name, ChatColor.RESET
-							+ "クリックすると頭を付与して", ChatColor.RESET + "IDをクリップボードにコピーします"));
+							+ "クリックすると頭を付与して", ChatColor.RESET
+							+ "IDをクリップボードにコピーします"));
 			inv.setItem(i - 45 * (page - 1), item);
 		}
 
@@ -94,7 +107,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		for (int index : menuButtons.keySet()) {
 			inv.setItem(index, menuButtons.get(index));
 		}
-		setOpenMenuMap(openmap);
 
 		return inv;
 	}
@@ -107,7 +119,15 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		int currentPage = manager.getCurrentPage(this);
 		int slot = Integer.valueOf(identifier);
+
+		String categoryName = gp.getManager(GuiStatusManager.class)
+				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+		HeadCategory category = headManager.getCategoryHeads(categoryName);
+
 		// ページ戻るボタン
 		if (slot == prevButtonSlot) {
 			if (currentPage <= 1) {
@@ -120,7 +140,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		}
 		// ページ進むボタン
 		else if (slot == nextButtonSlot) {
-			if (heads.size() <= 45 * currentPage) {
+			if (category.heads.size() <= 45 * currentPage) {
 				return false;
 			}
 			player.openInventory(getInventory(player, nextButtonSlot,
@@ -132,13 +152,13 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		else if (slot < 45) {
 			// 空スロットならおわり
 			int index = slot + 45 * (currentPage - 1);
-			if (heads.size() <= index) {
+			if (category.heads.size() <= index) {
 				return false;
 			}
-			CustomHead data = heads.get(index);
+			CustomHead data = category.heads.get(index);
 			ItemStack item = data.getSkull();
 
-			Util.giveItem(player, item);
+			Util.giveItem(player, item, true);
 
 			// クリップボードに呼び出し名をコピーする
 			Util.setClipboard(data.name);
@@ -148,6 +168,9 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
+		// 戻るボタンでメインメニューを開く
+		openmap.put(backButtonSlot, GuiMenu.ManagerType
+				.getTypebyClass(AdminCustomHeadMainMenuManager.class));
 	}
 
 	@Override

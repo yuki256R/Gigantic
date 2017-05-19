@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +12,7 @@ import com.github.unchama.player.gacha.GachaData;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gacha.RarityData;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -71,12 +72,17 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		for (GachaType gt : GachaType.values()) {
+			LinkedHashMap<Rarity, RarityData> rarityMap = new LinkedHashMap<Rarity, RarityData>();
+			for(Rarity r : Rarity.values()){
+				rarityMap.put(r, new RarityData());
+			}
 			if (gt.equals(GachaType.GIGANTIC)) {
-				int ticket = tm.getGachaTicket(gp);
+				int ticket = tm.getGachaPoint(gp) / 1000 + 1;
 				int apolo = tm.getSorryForBugs(gp);
-				dataMap.put(gt, new GachaData(ticket, apolo));
+
+				dataMap.put(gt, new GachaData(ticket, apolo,rarityMap));
 			} else {
-				dataMap.put(gt, new GachaData());
+				dataMap.put(gt, new GachaData(rarityMap));
 			}
 		}
 	}
@@ -86,7 +92,11 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		for (GachaType gt : GachaType.values()) {
-			dataMap.put(gt, new GachaData());
+			LinkedHashMap<Rarity, RarityData> rarityMap = new LinkedHashMap<Rarity, RarityData>();
+			for(Rarity r : Rarity.values()){
+				rarityMap.put(r, new RarityData());
+			}
+			dataMap.put(gt, new GachaData(rarityMap));
 		}
 	}
 

@@ -3,8 +3,9 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
-import com.github.unchama.gui.admin.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
+import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
+import com.github.unchama.gui.admin.customhead.AdminCustomHeadMainMenuManager;
 import com.github.unchama.gui.admin.gacha.AdminGachaTypeMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_AppleGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_EditGachaMenuManager;
@@ -19,6 +20,8 @@ import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
 import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
+import com.github.unchama.gui.build.BuildMenuManager;
+import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopMenuManager;
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
@@ -44,12 +47,17 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
-import com.github.unchama.player.build.BuildMenuManager;
 
 
 public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
+		ADMINTYPEMENU(AdminTypeMenuManager.class),
+		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
+		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
+		ADMINCUSTOMHEADMAINMENU(AdminCustomHeadMainMenuManager.class),
+		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
+		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -75,23 +83,20 @@ public final class GuiMenu {
 		REGIONMENU(RegionMenuManager.class),
 		HUNTMAINMENU(HuntingPointMainMenuManager.class),
 		HUNTSHOPMENU(HuntingPointShopMenuManager.class),
-		ADMINTYPEMENU(AdminTypeMenuManager.class),
-		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
-		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
 		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
 		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
 		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
-		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
 		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
 		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
 		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
-		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
-		SEICHIREWARDMENU(SeichiRewardMenuManager.class);
+		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
+		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
+		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
 		;
 
 		// 使用するManagerClass
@@ -104,8 +109,8 @@ public final class GuiMenu {
 			this.managerClass = managerClass;
 		}
 
-		static{
-			for(ManagerType mt : ManagerType.values()){
+		static {
+			for (ManagerType mt : ManagerType.values()) {
 				managertypemap.put(mt.getManagerClass(), mt);
 			}
 		}
@@ -144,19 +149,16 @@ public final class GuiMenu {
 			return "example";
 		}
 
-
 		/**
 		 * ManagerClassからmanagerTypeを取得します．
 		 * @param _class
 		 * @return
 		 */
 		public static ManagerType getTypebyClass(
-				Class<? extends GuiMenuManager> _class){
+				Class<? extends GuiMenuManager> _class) {
 			return managertypemap.get(_class);
 		}
 	}
-
-
 
 	// 全てのGuiMenuManagerを格納するMap
 	private LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager> managermap = new LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager>();

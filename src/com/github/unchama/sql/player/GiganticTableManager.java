@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import com.github.unchama.event.PlayerFirstJoinEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
 public class GiganticTableManager extends PlayerFromSeichiTableManager {

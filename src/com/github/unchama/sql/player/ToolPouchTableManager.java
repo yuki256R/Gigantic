@@ -1,4 +1,4 @@
-package com.github.unchama.sql;
+package com.github.unchama.sql.player;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.util.BukkitSerialization;
 
@@ -41,7 +42,6 @@ public class ToolPouchTableManager extends PlayerTableManager {
 		try {
 			pouch = BukkitSerialization.getInventoryfromBase64(rs.getString("pouchdata").toString());
 			m.setPouch(pouch);
-			m.resize();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

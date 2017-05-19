@@ -221,22 +221,14 @@ shop:
       category: 'CustomHead'
       headname: 'pc'
       price: 2
-      itemstack:
-        ==: org.bukkit.inventory.ItemStack
-        type: SKULL_ITEM
-        damage: 3
-        meta:
-          ==: ItemMeta
-          meta-type: SKULL
-          display-name: '&e&n&lなんか違う頭'
-          lore:
-          - '&r&c整地ワールド以外では'
-          - '&r&c整地量とガチャ券は増えません'
-          - '&r&a統計データは'
-          - '&r&a各サバイバルサーバー間で'
-          - '&r&a共有されます'
+
     3:
       category: 'ToHead'
+      price: 2
+  Sheep:
+    1:
+      category: 'HeadCategory'
+      categoryname: 'pastel1'
       price: 2
       itemstack:
         ==: org.bukkit.inventory.ItemStack
@@ -245,11 +237,10 @@ shop:
         meta:
           ==: ItemMeta
           meta-type: SKULL
-          display-name: '&e&n&lモブの頭'
+          display-name: '&e&n&lテスト'
           lore:
           - '&r&c整地ワールド以外では'
           - '&r&c整地量とガチャ券は増えません'
           - '&r&a統計データは'
           - '&r&a各サバイバルサーバー間で'
           - '&r&a共有されます'
-    
