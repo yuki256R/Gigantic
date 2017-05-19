@@ -112,7 +112,7 @@ mobdata:
     jpname: 'エンダーマイト'
     headname: 'EndermiteEgg'
     target: true
-  PigZonbie:
+  PigZombie:
     jpname: 'ゾンビピッグマン'
     headname: 'Pigzombie'
     target: true
