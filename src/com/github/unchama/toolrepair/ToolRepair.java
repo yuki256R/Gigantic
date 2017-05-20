@@ -1,5 +1,10 @@
 package com.github.unchama.toolrepair;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -11,6 +16,7 @@ import org.bukkit.inventory.PlayerInventory;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.util.ExperienceManager;
+
 //ToolRepair.RepairTool(player, ToolRepair.RepairType.Mending);
 public class ToolRepair {
 	public enum RepairType {
@@ -35,12 +41,12 @@ public class ToolRepair {
 		}
 
 		int usedExp = beforeExp - expmanager.getCurrentExp();
-		if(type == RepairType.Mending){
-			if(usedExp > 0){
+		if (type == RepairType.Mending) {
+			if (usedExp > 0) {
 				player.sendMessage(usedExp + " の経験値を消費して,手持ちの修繕ツールを修理しました.");
-			}else if(expmanager.getCurrentExp() == 0){
+			} else if (expmanager.getCurrentExp() == 0) {
 				player.sendMessage("経験値がありません.");
-			}else if(usedExp == 0){
+			} else if (usedExp == 0) {
 				player.sendMessage("修繕できるツールがありません.");
 			}
 		}
@@ -52,7 +58,7 @@ public class ToolRepair {
 			break;
 
 		case Mending:
-			if(usedExp > 0){
+			if (usedExp > 0) {
 				player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE,
 						(float) 1.0, (float) 4.0);
 			}
@@ -68,13 +74,14 @@ public class ToolRepair {
 	}
 
 	// 除外するアイテムであればfalse
-	static public boolean isMendingTool(ItemStack item){
+	static public boolean isMendingTool(ItemStack item) {
 		// 頭のダメージ値を変えると見た目が変わってしまうため
-		if(item.getType() == Material.SKULL_ITEM){
+		if (item.getType() == Material.SKULL_ITEM) {
 			return false;
 		}
 		// 耐久無限は除外
-		if(item.getItemMeta().spigot().isUnbreakable()){
+		if (item.getItemMeta() == null || item.getItemMeta().spigot() == null
+				|| item.getItemMeta().spigot().isUnbreakable()) {
 			return false;
 		}
 		return true;
@@ -95,7 +102,8 @@ public class ToolRepair {
 	}
 
 	// アイテム単体の修繕
-	static public void RepairTool(Player player, ItemStack item, RepairType type, ExperienceManager expmanager) {
+	static public void RepairTool(Player player, ItemStack item,
+			RepairType type, ExperienceManager expmanager) {
 		switch (type) {
 		case Free:
 			Repair(item, item.getDurability());
@@ -118,7 +126,8 @@ public class ToolRepair {
 			break;
 
 		case Damage:
-			Repair(item, (short) (item.getDurability() - item.getType().getMaxDurability()));
+			Repair(item, (short) (item.getDurability() - item.getType()
+					.getMaxDurability()));
 			break;
 		default:
 			break;
@@ -129,5 +138,51 @@ public class ToolRepair {
 	// 指定した値分だけ耐久値を回復する
 	static private void Repair(ItemStack item, short curePoint) {
 		item.setDurability((short) (item.getDurability() - curePoint));
+	}
+
+	static public int VanillaMending(Player player, int addExp) {
+		PlayerInventory playerInventory = player.getInventory();
+		List<ItemStack> mendingSlots = new ArrayList<ItemStack>();
+		for (ItemStack item : playerInventory.getArmorContents()) {
+			mendingSlots.add(item);
+		}
+		mendingSlots.add(playerInventory.getItemInMainHand());
+		mendingSlots.add(playerInventory.getItemInOffHand());
+		for (int i = mendingSlots.size() - 1; 0 <= i; i--) {
+			ItemStack item = mendingSlots.get(i);
+			if (item != null) {
+				if (isMendingTool(item)
+						&& item.getEnchantments().containsKey(
+								Enchantment.MENDING)) {
+					continue;
+				}
+			}
+
+			// 条件の合わないスロットは抽選の対象外
+			mendingSlots.remove(i);
+		}
+
+		// 抽選対象が1つもなかったら終了
+		if (mendingSlots.size() == 0) {
+			return addExp;
+		}
+
+		// 抽選
+		Random rnd = new Random();
+		int ran = rnd.nextInt(mendingSlots.size());
+		ItemStack mendingItem = mendingSlots.get(ran);
+
+		// 修繕処理
+		float mendingRate = 2.0f;
+		// ツールの疲労度(回復する値)
+		short curePoint = mendingItem.getDurability();
+		// 所持している経験値が全回復に足りるか
+		if (curePoint > addExp * mendingRate) {
+			curePoint = (short) (addExp * mendingRate);
+		}
+		Repair(mendingItem, curePoint);
+		int ret = addExp - Math.round(curePoint / mendingRate);
+		Bukkit.getServer().getLogger().info("exp : " + ret);
+		return ret;
 	}
 }

@@ -36,6 +36,11 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 	ItemStack repairDamageButton;
 	private final int repairDamageSlot = 1;
 
+	// 経験値の直接付与でバニラ修繕と同じ抽選を行う
+	ItemStack VanillaMendingButton;
+	private final int VanillaMendingDamageSlot = 2;
+	private final int MendingAddExp = 250;
+
 	private CustomHeadManager headManager = Gigantic.yml
 			.getManager(CustomHeadManager.class);
 
@@ -51,6 +56,10 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 		repairDamageButton = new ItemStack(Material.STONE_PICKAXE);
 		Util.setDisplayName(repairDamageButton, "ツール全損");
 		Util.setLore(repairDamageButton, "手持ちのツールを耐久値0");
+		// 経験値の直接付与
+		VanillaMendingButton = new ItemStack(Material.EXP_BOTTLE);
+		Util.setDisplayName(VanillaMendingButton, "経験値の直接付与");
+		Util.setLore(VanillaMendingButton, "バニラ修繕と同じ抽選を行う(" + MendingAddExp + "付与)");
 
 		// Invoke設定
 		for (int i = 0; i < getInventorySize(); i++) {
@@ -67,8 +76,6 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-
 		// インベントリ基本情報
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
@@ -79,6 +86,8 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 		inv.setItem(repairFreeSlot, repairFreeButton);
 		//ツール全損
 		inv.setItem(repairDamageSlot, repairDamageButton);
+		//ツール全損
+		inv.setItem(VanillaMendingDamageSlot, VanillaMendingButton);
 
 		return inv;
 	}
@@ -96,6 +105,12 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 			ToolRepair.RepairTool(player, ToolRepair.RepairType.Free);
 		}else if(slot == repairDamageSlot){
 			ToolRepair.RepairTool(player, ToolRepair.RepairType.Damage);
+		}else if(slot == VanillaMendingDamageSlot){
+			int exp = ToolRepair.VanillaMending(player, MendingAddExp);
+			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+			gp.getExpManager().changeExp(exp);
+			player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
+					(float) 1.0, (float) 4.0);
 		}
 
 		return true;
