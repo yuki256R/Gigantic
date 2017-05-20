@@ -43,6 +43,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
 		idmap.put(18, "ZoneSkill");
+		idmap.put(27, "LineUp");
 	}
 
 	@Override
@@ -71,8 +72,14 @@ public class BuildMenuManager extends GuiMenuManager{
 				player.chat("/fly finish");
 				break;
 
+			//範囲設置スキルのON/OFF
             case "ZoneSkill":
                 bsm.toggle_ZoneSkill();
+                break;
+
+            //ブロックを並べるスキルのON/OFF
+            case "LineUp":
+                bsm.toggle_LineUp();
                 break;
 
 			default:
@@ -85,7 +92,8 @@ public class BuildMenuManager extends GuiMenuManager{
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(35, GuiMenu.ManagerType.BLOCKCRAFTMENUFIRST);
-		openmap.put(19, ManagerType.ZONESKILLDATAMENU);
+		openmap.put(19, GuiMenu.ManagerType.ZONESKILLDATAMENU);
+		openmap.put(28, GuiMenu.ManagerType.BLOCKLINEUPMENU);
 	}
 
 	@Override
@@ -217,7 +225,7 @@ public class BuildMenuManager extends GuiMenuManager{
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE
                 + "クリックで移動");
-            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "現在の設定");
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "<現在の設定>");
             lore.add("" + ChatColor.RESET + ChatColor.GRAY + "スキル:" + bsm.getZoneSkillStatus());
             lore.add("" + ChatColor.RESET + ChatColor.GRAY + "設置範囲:" + AREAint + "×" + AREAint);
             lore.add("" + ChatColor.RESET + ChatColor.GRAY + "MineStack優先設定:" + bsm.getZoneMinestackStatus());
@@ -233,7 +241,9 @@ public class BuildMenuManager extends GuiMenuManager{
             lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "オフハンドに木の棒、メインハンドに設置したいブロックを持って");
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "左クリックすると向いてる方向に並べて設置します。");
-            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + "??" + "以上で利用可能");//TODO:Configより読み込み
+            lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックで切り替え＞");
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + config.getBlockLineUpSkillLevel()
+                    + "以上で利用可能");
             itemmeta.setLore(lore);
             break;
 
@@ -243,11 +253,11 @@ public class BuildMenuManager extends GuiMenuManager{
                      + "「ブロックを並べるスキル」設定画面へ");
             lore = new ArrayList<String>();
             lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "現在の設定");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "スキル設定:" + "??");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "ハーフブロック設定:" + "??");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "破壊設定:" + "??");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "マインスタック優先設定:" + "??");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "<現在の設定>");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "スキル設定:" + bsm.getBlockLineUpStatus());
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "ハーフブロック設定:" + bsm.getHalfblock_modeStatus());
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "破壊設定:" + bsm.getBlockBreakStatus());
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "MineStack優先設定:" + bsm.getBlockLineUpMinestackStatus());
             itemmeta.setLore(lore);
             break;
 

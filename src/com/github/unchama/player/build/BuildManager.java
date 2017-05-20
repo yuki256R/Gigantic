@@ -1,11 +1,13 @@
 package com.github.unchama.player.build;
 
+import com.github.unchama.event.BuildBlockIncrementEvent;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+import org.bukkit.Bukkit;
 
 
 public class BuildManager extends DataManager implements UsingSql{
@@ -34,6 +36,9 @@ public class BuildManager extends DataManager implements UsingSql{
     	this.build_num_1min += 1;
         if(this.build_num_1min <= config.getBuildNum1minLimit()){
         	this.totalbuildnum += 1;
+            Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,1,this.totalbuildnum - 1));
+            debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。totalbuildnum:"
+                + (this.totalbuildnum-1) + "→" +this.totalbuildnum);
         }else{
         	debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"1minでの建築量が上限(" + config.getBuildNum1minLimit() + ")を超えました。");
         }

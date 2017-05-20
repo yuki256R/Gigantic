@@ -74,6 +74,11 @@ ZoneSetSkill:
   level: 15
   minestack: 30
 
+#ブロックを並べるスキル
+BlockLineUpSkill:
+  level: 15
+  minestack: 30
+
 #スキルを使ってブロックを並べたときの建築量上昇倍率
 BlockCountMag: 0.2
 

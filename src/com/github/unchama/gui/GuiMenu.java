@@ -21,6 +21,7 @@ import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
 import com.github.unchama.gui.build.BuildMenuManager;
+import com.github.unchama.gui.buildskill.BlockLineUpMenuManager;
 import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopMenuManager;
@@ -97,6 +98,7 @@ public final class GuiMenu {
 		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
 		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
+        BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
 		;
 
 		// 使用するManagerClass
