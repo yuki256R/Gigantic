@@ -23,13 +23,77 @@ public class HuntingPointDataManager extends YmlManager {
 		public String jpName; // 日本語名
 		public String headName; // MobHeadで呼び出すための名前
 		public boolean isTarget; // 狩猟対象ならtrue
+		public double raidDistance; // ボス
 
 		public HuntMobData(String name_, String jpName_, String headName_,
-				boolean isTarget_) {
+				boolean isTarget_, double raidDistance_) {
 			name = name_;
 			jpName = jpName_;
 			headName = headName_;
 			isTarget = isTarget_;
+			raidDistance = raidDistance_;
+		}
+	}
+
+	public static enum HuntingMobType{
+		PIG("Pig"),
+		SHEEP("Sheep"),
+		COW("Cow"),
+		MOOSHROOM("Mooshroom"),
+		CHICKEN("Chicken"),
+		SQUID("Squid"),
+		WOLF("Wolf"),
+		OCELOT("Ocelot"),
+		HORSE("Horse"),
+		SKELETONHORSE("SkeletonHorse"),
+		RABBIT("Rabbit"),
+		POLARBEAR("PolarBear"),
+		VILLAGER("Villager"),
+		ZOMBIE("Zombie"),
+		HUSK("Husk"),
+		SKELETON("Skeleton"),
+		SPIDER("Spider"),
+		CAVEPIDER("CaveSpider"),
+		CREEPER("Creeper"),
+		ENDERMAN("Enderman"),
+		WITCH("Witch"),
+		GUARDIAN("Guardian"),
+		ELDERGUARDIAN("ElderGuardian"),
+		SLIME("Slime"),
+		SILVERFISH("Silverfish"),
+		ENDERMITE("Endermite"),
+		PIGZOMBIE("PigZombie"),
+		WITHERSKELETON("WitherSkeleton"),
+		BLAZE("Blaze"),
+		GHAST("Ghast"),
+		MAGMACUBE("MagmaCube"),
+		SHULKER("Shulker"),
+		WITHER("Wither"),
+		ENDERDRAGON("EnderDragon"),
+		;
+
+		private String MobName;
+		private static Map<String, HuntingMobType> typeMap = new LinkedHashMap<String, HuntingMobType>();
+
+		// Enum用コンストラクタ
+		HuntingMobType(String name){
+			MobName = name;
+		}
+
+		static {
+			for(HuntingMobType mobType : HuntingMobType.values()){
+				typeMap.put(mobType.getMobName(), mobType);
+			}
+		}
+
+		// HuntMobData.nameに使われている名前を返す
+		public String getMobName(){
+			return MobName;
+		}
+
+		// モンスター名からHuntingMobTypeを取得
+		public static HuntingMobType getMobType(String name){
+			return typeMap.get(name);
 		}
 	}
 
@@ -69,8 +133,9 @@ public class HuntingPointDataManager extends YmlManager {
 
 			String jpname = basedata.getString(name + ".jpname");
 			String headname = basedata.getString(name + ".headname");
+			double raidDistance = basedata.getDouble(name + ".raiddistance", 0);
 			MobNames.put(name,
-					new HuntMobData(name, jpname, headname, isTarget));
+					new HuntMobData(name, jpname, headname, isTarget, raidDistance));
 		}
 
 		// 同種判定のリスト

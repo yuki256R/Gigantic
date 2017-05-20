@@ -5,6 +5,7 @@
 #    jpname: 'ゾンビ'		日本語名
 #    headname: 'MHF_Zombie'	頭の名前
 #    target: true		狩りの対象にするか
+#    raiddistance: 30		討伐時、各辺をこの値×2とする矩形の中にいるプレイヤー全員にポイントを付与する（省略可）
 
 mobdata:
   Pig:
@@ -111,7 +112,7 @@ mobdata:
     jpname: 'エンダーマイト'
     headname: 'EndermiteEgg'
     target: true
-  PigZonbie:
+  PigZombie:
     jpname: 'ゾンビピッグマン'
     headname: 'Pigzombie'
     target: true
@@ -140,10 +141,12 @@ mobdata:
     jpname: 'ウィザー'
     headname: 'Wither'
     target: true
+    raiddistance: 30
   EnderDragon:
     jpname: 'エンダードラゴン'
     headname: 'Enderdragon'
     target: true
+    raiddistance: 200
 
 
 # 上記の同種扱い（左辺を右辺に変換する）
