@@ -1,6 +1,5 @@
 package com.github.unchama.gui.huntingpoint;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -21,15 +20,12 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.huntingpoint.HuntingPointShopItem.CategoryType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.CustomHeadManager;
-import com.github.unchama.yml.CustomHeadManager.CustomHead;
-import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
@@ -58,10 +54,10 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 	// for文で商品を配置するスロットの開始位置
 	private final int indexOffset = 1;
 
-	private Map<String, List<HuntingPointShopItem>> sellItems = new HashMap<String, List<HuntingPointShopItem>>();
-
 	private CustomHeadManager headManager = Gigantic.yml
 			.getManager(CustomHeadManager.class);
+	private HuntingPointDataManager huntingManager = Gigantic.yml
+			.getManager(HuntingPointDataManager.class);
 
 	public HuntingPointShopMenuManager() {
 		// メニューボタンの表示設定
@@ -78,34 +74,6 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		nextButton = headManager.getMobHead("right");
 		Util.setDisplayName(nextButton, "次のページ");
 		menuButtons.put(nextButtonSlot, nextButton);
-
-		// 購入可能なアイテムを各MOBごとに保持
-		HuntingPointDataManager manager = Gigantic.yml
-				.getManager(HuntingPointDataManager.class);
-		for (String name : manager.getMobNames().keySet()) {
-			List<HuntingPointShopItem> list = manager.getShopItems(name);
-			List<HuntingPointShopItem> sellList = new ArrayList<HuntingPointShopItem>();
-			for (HuntingPointShopItem shopItem : list) {
-				if (shopItem.getCategoryType() == CategoryType.HeadCategory) {
-					String categoryName = shopItem.getMeta();
-					HeadCategory category = Gigantic.yml.getManager(
-							CustomHeadManager.class).getCategoryHeads(
-							categoryName);
-					for (CustomHead head : category.heads) {
-						HuntingPointShopItem item = shopItem.clone();
-						item.setItemStack(head.getSkull());
-						sellList.add(item);
-					}
-
-				} else {
-					sellList.add(shopItem);
-				}
-
-			}
-			// Bukkit.getServer().getLogger().info("HuntingPointShopMenuManager"
-			// + name + list.size() + ":" + sellList.size());
-			sellItems.put(name, sellList);
-		}
 
 		// Invoke設定
 		for (int i = 0; i < getInventorySize(); i++) {
@@ -131,7 +99,8 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 		// アイテムリストを取得
 		String name = manager.getShopMobName();
-		List<HuntingPointShopItem> shopItems = sellItems.get(name);
+		List<HuntingPointShopItem> shopItems = huntingManager
+				.getShopItems(name);
 
 		// Mobの表示情報を取得
 		HuntMobData mobData = Gigantic.yml.getManager(
@@ -187,20 +156,6 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		return inv;
 	}
 
-	// private void setButton(Player player, Inventory inv,
-	// HuntingPointShopItem shopItem, ItemStack button, int setSlot) {
-	// ItemMeta itemMeta = this.getItemMeta(player, 0, button);
-	// itemMeta.setLore(Arrays.asList(//
-	// ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
-	// + shopItem.getPrice() + " P",//
-	// ChatColor.RESET + "" + ChatColor.DARK_RED + ""
-	// + ChatColor.UNDERLINE + "クリックで購入"));
-	// button.setItemMeta(itemMeta);
-	// inv.setItem(setSlot, button);
-	// id_map.put(setSlot, Integer.toString(setSlot));
-	// // buyItems.put(setSlot, shopItem);
-	// }
-
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		int index;
@@ -214,7 +169,8 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 		String name = manager.getShopMobName();
-		List<HuntingPointShopItem> shopItems = sellItems.get(name);
+		List<HuntingPointShopItem> shopItems = huntingManager
+				.getShopItems(name);
 		int currentPage = gp.getManager(GuiStatusManager.class).getCurrentPage(
 				this);
 		if (shopItems == null) {
@@ -241,7 +197,7 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 					(float) 1.0, (float) 4.0);
 		}
 		// とりだしボタン
-		else if (slot > indexOffset && slot < 45) {
+		else if (slot >= indexOffset && slot < 45) {
 			// 空スロットならおわり
 			int i = index + (45 - indexOffset) * (currentPage - 1);
 			if (shopItems.size() <= i) {
@@ -276,11 +232,9 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 			// ポイントを支払う
 			manager.payPoint(name, shopItem.getPrice());
 
-			// HuntMobData mobData = Gigantic.yml.getManager(
-			// HuntingPointDataManager.class).getMobData(name);
 			player.sendMessage("[" + giveItem.getItemMeta().getDisplayName()
 					+ ChatColor.RESET + "]を購入しました.");
-			player.openInventory(getInventory(player, index));
+			player.openInventory(getInventory(player, index, currentPage));
 		}
 
 		return true;
@@ -295,13 +249,10 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setKeyItem() {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
 	public String getClickType() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -323,7 +274,6 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 
 	@Override
 	protected InventoryType getInventoryType() {
-		// TODO 自動生成されたメソッド・スタブ
 		return null;
 	}
 
@@ -339,8 +289,6 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 					itemmeta.getLore()));
 		}
 
-		// itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,
-		// ItemFlag.HIDE_ENCHANTS);
 		return itemmeta;
 	}
 

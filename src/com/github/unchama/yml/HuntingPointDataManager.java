@@ -12,6 +12,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopItem;
+import com.github.unchama.gui.huntingpoint.HuntingPointShopItem.CategoryType;
+import com.github.unchama.yml.CustomHeadManager.CustomHead;
+import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 import com.github.unchama.yml.moduler.YmlManager;
 
 public class HuntingPointDataManager extends YmlManager {
@@ -84,27 +87,47 @@ public class HuntingPointDataManager extends YmlManager {
 		shopItems = new HashMap<String, List<HuntingPointShopItem>>();
 		for (String name : MobNames.keySet()) {
 			List<HuntingPointShopItem> list = new ArrayList<HuntingPointShopItem>();
-			int count = 1;
-			boolean isLoop = true;
-			while (isLoop) {
-				String path = "shop." + name + "." + count;
-				String str = this.fc.getString(path + ".category", "");
-				// Bukkit.getServer().getLogger().info(path + " : " + str);
-				if (str != "") {
-					HuntingPointShopItem item = getShopItem(path, name);
-					// データが不足していなければ追加
-					if (item.isEnable()) {
-						list.add(item);
-					} else {
-						Bukkit.getServer().getLogger()
-								.warning(path + " : disable");
+			ConfigurationSection shopSection = this.fc
+					.getConfigurationSection("shop." + name);
+			if (shopSection != null) {
+				for (String index : shopSection.getKeys(false)) {
+					String path = "shop." + name + "." + index;
+					String str = this.fc.getString(path + ".category", "");
+					// Bukkit.getServer().getLogger().info(path + " : " + str);
+					if (str != "") {
+						HuntingPointShopItem item = getShopItem(path, name);
+						addShopList(list, item, path);
 					}
-					count++;
-				} else {
-					isLoop = false;
 				}
 			}
 			shopItems.put(name, list);
+		}
+	}
+
+	private void addShopList(List<HuntingPointShopItem> list,
+			HuntingPointShopItem shopItem, String path) {
+		// データが不足していなければ追加
+		if (!shopItem.isEnable()) {
+			Bukkit.getServer().getLogger().warning(path + " : disable");
+			return;
+		}
+		if (shopItem.getCategoryType() == CategoryType.HeadCategory) {
+			HeadCategory category = headManager.getCategoryHeads(shopItem
+					.getMeta());
+			for (CustomHead head : category.heads) {
+				HuntingPointShopItem item = shopItem.clone();
+				item.setItemStack(head.getSkull());
+				// 例外設定を試したかったが何かうまくいかなかった
+//				int price = this.fc.getInt(path + ".exception." + head.name
+//						+ ".price", item.getPrice());
+//				Bukkit.getServer().getLogger()
+//						.info(path + ".exception." + head.name + ".price");
+//				item.setPrice(price);
+
+				list.add(item);
+			}
+		} else {
+			list.add(shopItem);
 		}
 	}
 

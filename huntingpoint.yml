@@ -151,7 +151,18 @@ huntmob_convert:
 #      - 'Husk : Zombie'
 #      - 'CaveSpider : Spider'
 
+
 # ショップの陳列
+# ・category: 販売物のタイプ
+#     ToHead: そのMobのシンボルとなる頭
+#     CustomHead: headnameで指定したカスタムヘッド
+#     HeadCategory: categorynameで指定したカスタムヘッドを全て並べる
+#     Item: ItemStackで指定したアイテム
+#
+# ・price: 購入に必要なポイント
+#     
+# ・itemstack: 陳列時に見せるアイコン、Itemの場合はこれを付与する（一部categoryでは省略可）
+
 shop:
   Zombie:
     1:
@@ -230,17 +241,3 @@ shop:
       category: 'HeadCategory'
       categoryname: 'pastel1'
       price: 2
-      itemstack:
-        ==: org.bukkit.inventory.ItemStack
-        type: SKULL_ITEM
-        damage: 3
-        meta:
-          ==: ItemMeta
-          meta-type: SKULL
-          display-name: '&e&n&lテスト'
-          lore:
-          - '&r&c整地ワールド以外では'
-          - '&r&c整地量とガチャ券は増えません'
-          - '&r&a統計データは'
-          - '&r&a各サバイバルサーバー間で'
-          - '&r&a共有されます'
