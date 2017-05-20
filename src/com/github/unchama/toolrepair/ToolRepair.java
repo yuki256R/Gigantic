@@ -8,6 +8,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.util.ExperienceManager;
 //ToolRepair.RepairTool(player, ToolRepair.RepairType.Mending);
 public class ToolRepair {
@@ -19,13 +21,14 @@ public class ToolRepair {
 
 	// プレイヤーの手持ちから全て修繕
 	static public void RepairTool(Player player, RepairType type) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		// 経験値データを取得
-		ExperienceManager expmanager = new ExperienceManager(player);
+		ExperienceManager expmanager = gp.getExpManager();
 		int beforeExp = expmanager.getCurrentExp();
 
 		PlayerInventory playerInventory = player.getInventory();
 		for (ItemStack item : playerInventory.getContents()) {
-			if (item == null || !isTool(item)) {
+			if (item == null || !isMendingTool(item)) {
 				continue;
 			}
 			RepairTool(player, item, type, expmanager);
@@ -64,9 +67,17 @@ public class ToolRepair {
 		}
 	}
 
-	// 頭のダメージ値を変えると見た目が変わってしまうため
-	static private boolean isTool(ItemStack item){
-		return item.getType() != Material.SKULL_ITEM;
+	// 除外するアイテムであればfalse
+	static public boolean isMendingTool(ItemStack item){
+		// 頭のダメージ値を変えると見た目が変わってしまうため
+		if(item.getType() == Material.SKULL_ITEM){
+			return false;
+		}
+		// 耐久無限は除外
+		if(item.getItemMeta().spigot().isUnbreakable()){
+			return false;
+		}
+		return true;
 	}
 
 	// 指定のインベントリ内を全て修繕
@@ -118,12 +129,5 @@ public class ToolRepair {
 	// 指定した値分だけ耐久値を回復する
 	static private void Repair(ItemStack item, short curePoint) {
 		item.setDurability((short) (item.getDurability() - curePoint));
-		// //単純に値を変えるだけでは更新の関係でうまく動かないことがあるっぽい？
-		// ItemStack newItem = item.clone();
-		// //setDurability(0)が新品
-		// short durability = (short) (item.getType().getMaxDurability() -
-		// curePoint);
-		// newItem.setDurability(durability);
-		// item = newItem;
 	}
 }
