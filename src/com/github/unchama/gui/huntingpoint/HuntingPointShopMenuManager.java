@@ -187,20 +187,6 @@ public class HuntingPointShopMenuManager extends GuiMenuManager {
 		return inv;
 	}
 
-	// private void setButton(Player player, Inventory inv,
-	// HuntingPointShopItem shopItem, ItemStack button, int setSlot) {
-	// ItemMeta itemMeta = this.getItemMeta(player, 0, button);
-	// itemMeta.setLore(Arrays.asList(//
-	// ChatColor.RESET + "" + ChatColor.GREEN + "値段 : "
-	// + shopItem.getPrice() + " P",//
-	// ChatColor.RESET + "" + ChatColor.DARK_RED + ""
-	// + ChatColor.UNDERLINE + "クリックで購入"));
-	// button.setItemMeta(itemMeta);
-	// inv.setItem(setSlot, button);
-	// id_map.put(setSlot, Integer.toString(setSlot));
-	// // buyItems.put(setSlot, shopItem);
-	// }
-
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		int index;
