@@ -39,6 +39,7 @@ import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
+import com.github.unchama.util.ExperienceManager;
 
 /**各プレイヤーにデータを保存したい時はここにマネージャーを追加します．
  *
@@ -96,12 +97,15 @@ public class GiganticPlayer {
 	public final String name;
 	public final UUID uuid;
 	private GiganticStatus gs;
+	private ExperienceManager expManager;
+	// Player型は突然消えることがあるため保持しない
 
 	private LinkedHashMap<Class<? extends DataManager>, DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>, DataManager>();
 
 	public GiganticPlayer(Player player) {
 		this.name = Converter.getName(player);
 		this.uuid = player.getUniqueId();
+		this.expManager = new ExperienceManager(player);
 		this.setStatus(GiganticStatus.LODING);
 		for (ManagerType mt : ManagerType.values()) {
 			try {
@@ -230,6 +234,16 @@ public class GiganticPlayer {
 	public GiganticStatus getStatus() {
 		return this.gs;
 	}
+
+	/**経験値マネージャーを取得します．
+	 *
+	 * @return ステータス
+	 */
+	public ExperienceManager getExpManager(){
+		return this.expManager;
+	}
+
+
 
 	/*
 	//３０分間のデータを保存する．
