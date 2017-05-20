@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemFlag;
@@ -17,7 +18,15 @@ import com.github.unchama.gui.moduler.AdminMenuManager;
 public class AdminTypeMenuManager extends AdminMenuManager {
 	// 各ボタンのスロット番号
 	private final int gachaSlot = 0;
+	private final int repairSlot = 3;
 	private final int customHeadSlot = 4;
+
+	// ツール修理
+	ItemStack repairButton;
+
+	public AdminTypeMenuManager(){
+		repairButton = new ItemStack(Material.ANVIL);
+	}
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
@@ -27,7 +36,6 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
-		// TODO 自動生成されたメソッド・スタブ
 		return false;
 	}
 
@@ -35,6 +43,7 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(gachaSlot, ManagerType.ADMINGACHATYPEMENU);
 		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADMAINMENU);
+		openmap.put(repairSlot, ManagerType.ADMINTOOLREPAIRMENU);
 	}
 
 	@Override
@@ -65,6 +74,10 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "カスタムヘッド");
 			itemmeta.setLore(lore);
 			break;
+		case repairSlot:
+			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "ツール耐久値操作");
+			itemmeta.setLore(lore);
+			break;
 		default:
 			break;
 		}
@@ -81,6 +94,9 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 			break;
 		case customHeadSlot:
 			itemstack = head.getMobHead("Zombie");
+			break;
+		case repairSlot:
+			itemstack = repairButton;
 			break;
 		default:
 			break;

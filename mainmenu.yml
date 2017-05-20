@@ -223,6 +223,19 @@ name: '&5&lメインメニュー'
       - '&r&8各サバイバルサーバー間で'
       - '&r&8共有されます'
   openmenu: 'minestackcategorymenu'
+25:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: ANVIL
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lツール修繕'
+      lore:
+      - '&r&7所持経験値を消費して'
+      - '&r&7修繕ツールを修理'
+      - '&r&2&l&nクリックで修理'
+  invoke: 'ToolRepair'
 26:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

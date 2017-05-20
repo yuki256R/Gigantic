@@ -17,6 +17,7 @@ import com.github.unchama.gui.admin.gacha.premium.AP_EditGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_ListGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_TicketGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
+import com.github.unchama.gui.admin.toolrepair.AdminToolRepairMenuManager;
 import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
@@ -58,6 +59,7 @@ public final class GuiMenu {
 		ADMINCUSTOMHEADMAINMENU(AdminCustomHeadMainMenuManager.class),
 		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
