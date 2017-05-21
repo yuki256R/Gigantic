@@ -4,12 +4,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
+import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
@@ -37,6 +40,7 @@ import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakMana
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.ExperienceManager;
@@ -78,6 +82,7 @@ public class GiganticPlayer {
 		BUILDLEVEL(BuildLevelManager.class),
 		SIDEBAR(SideBarManager.class),
 		BUILDSKILL(BuildSkillManager.class),
+		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -93,6 +98,7 @@ public class GiganticPlayer {
 	}
 
 	Gigantic plugin = Gigantic.plugin;
+	Sql sql = Gigantic.sql;
 
 	public final String name;
 	public final UUID uuid;
@@ -177,6 +183,10 @@ public class GiganticPlayer {
 			}
 		}
 		this.setStatus(GiganticStatus.AVAILABLE);
+		Player player = PlayerManager.getPlayer(this);
+		player.sendMessage(ChatColor.GREEN
+				+ "ロードが完了しました．");
+		sql.onAvailavle(this);
 	}
 
 	public void fin() {
