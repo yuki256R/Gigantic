@@ -88,9 +88,13 @@ public class BuildManager extends DataManager implements UsingSql{
         if (build_num_1min + addnum <= config.getBuildNum1minLimit()) {
             this.totalbuildnum += addnum;
             this.build_num_1min += addnum;
-            Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,addnum,this.totalbuildnum));
-            debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。increase:"
-                    + addnum + ",afterall:" + this.totalbuildnum);
+
+            if (build_num_1min != this.build_num_1min) {
+                Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,addnum,this.totalbuildnum));
+                debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。increase:"
+                        + addnum + ",afterall:" + this.totalbuildnum);
+            }
+
         } else {
             //例えば、1分建築量が50で追加分が100だったら、100までは追加、つまり Limit - buildnum1min で追加。それ以外は破棄
             int increase = Integer.max(0,config.getBuildNum1minLimit() - this.build_num_1min);
