@@ -1,4 +1,4 @@
-package com.github.unchama.sql.dimensionalinventory;
+package com.github.unchama.sql.player;
 
 import java.io.IOException;
 import java.sql.ResultSet;
