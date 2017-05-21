@@ -84,6 +84,10 @@ skillworld:
   - world_SW_nether
   - world_SW_the_end
   - world_SW_zero
+
+#整地経験値が2倍になるワールド
+bonusworld:
+  - world_SW_zero
   
 #重力値設定
 #通常破壊時に許容する高さ
