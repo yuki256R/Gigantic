@@ -11,10 +11,11 @@ public class BuildBlockIncrementEvent extends CustomEvent{
     private double increase;
     private double before_all, after_all;
 
-    public BuildBlockIncrementEvent(GiganticPlayer gp, double increase, double before_all) {
+    public BuildBlockIncrementEvent(GiganticPlayer gp, double increase, double after_all) {
         this.gp = gp;
-        this.before_all = before_all;
-        this.after_all = before_all + increase;
+        this.increase = increase;
+        this.before_all = after_all - increase;
+        this.after_all = after_all;
     }
 
     /**

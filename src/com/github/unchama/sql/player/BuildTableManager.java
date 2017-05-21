@@ -17,14 +17,14 @@ public class BuildTableManager extends PlayerFromSeichiTableManager{
     @Override
     protected String addColumnCommand() {
         String command = "";
-        command += "add column if not exists totalbuildnum double default 0,";
+        command += "add column if not exists totalbuildnum int default 0,";
         return command;
     }
 
     @Override
     public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
         BuildManager m = gp.getManager(BuildManager.class);
-        m.setTotalbuildnum(rs.getDouble("totalbuildnum"));
+        m.setTotalbuildnum(rs.getInt("totalbuildnum"));
     }
 
     @Override

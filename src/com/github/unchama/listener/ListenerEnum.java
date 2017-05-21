@@ -29,6 +29,7 @@ public enum ListenerEnum {
     HUNTINGPOINT(new HuntingPointEventListener()),
     PLAYERPICKUPITEM(new PlayerPickupItemListener()),
     ZONESKILL(new PlayerRightClickListener()),
+    BlockLineUp(new BlockLineUpListener()),
 
 	;
 	private Listener listener;

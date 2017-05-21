@@ -9,11 +9,13 @@ import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import org.bukkit.Bukkit;
 
+import java.math.BigDecimal;
+
 
 public class BuildManager extends DataManager implements UsingSql{
     //トータル設置ブロック数
-    private double totalbuildnum;
-    private double build_num_1min;
+    private int totalbuildnum;
+    private int build_num_1min;
 
     BuildTableManager tm = sql.getManager(BuildTableManager.class);
 
@@ -36,19 +38,20 @@ public class BuildManager extends DataManager implements UsingSql{
     	this.build_num_1min += 1;
         if(this.build_num_1min <= config.getBuildNum1minLimit()){
         	this.totalbuildnum += 1;
-            Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,1,this.totalbuildnum - 1));
-            debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。totalbuildnum:"
-                + (this.totalbuildnum-1) + "→" +this.totalbuildnum);
+            Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,1,this.totalbuildnum));
+            debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。increase:1"
+                    + ",after_all" + this.totalbuildnum);
         }else{
-        	debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"1minでの建築量が上限(" + config.getBuildNum1minLimit() + ")を超えました。");
+        	debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,
+                    "1minでの建築量が上限(" + config.getBuildNum1minLimit() + ")を超えました。");
         }
     }
 
     /**1分間の設置量を設定
      *
-     * @param buildnum_1min
+     * @param buildnum_1min (BigDecimal)
      */
-    public void setBuild_Num_1min(double buildnum_1min){
+    public void setBuild_Num_1min(int buildnum_1min){
     	this.build_num_1min = buildnum_1min;
     }
 
@@ -56,7 +59,7 @@ public class BuildManager extends DataManager implements UsingSql{
      *
      * @return
      */
-    public double getBuild_num_1min(){
+    public int getBuild_num_1min(){
         return this.build_num_1min;
     }
 
@@ -64,7 +67,7 @@ public class BuildManager extends DataManager implements UsingSql{
      *
      * @return
      */
-    public double getTotalbuildnum(){
+    public int getTotalbuildnum(){
         return this.totalbuildnum;
     }
 
@@ -72,7 +75,7 @@ public class BuildManager extends DataManager implements UsingSql{
      *
      *@param totalbuildnum
      */
-    public void setTotalbuildnum(double totalbuildnum){
+    public void setTotalbuildnum(int totalbuildnum){
         this.totalbuildnum = totalbuildnum;
     }
 
@@ -80,7 +83,26 @@ public class BuildManager extends DataManager implements UsingSql{
      * 1分間の設置量に加算
      * @param addnum
      */
-    public void addBuild_num_1min(double addnum) {
-        this.build_num_1min += addnum;
+    public void addBuild_num_1min(int addnum) {
+        int build_num_1min = this.build_num_1min;
+        if (build_num_1min + addnum <= config.getBuildNum1minLimit()) {
+            this.totalbuildnum += addnum;
+            this.build_num_1min += addnum;
+            Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,addnum,this.totalbuildnum));
+            debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。increase:"
+                    + addnum + ",afterall:" + this.totalbuildnum);
+
+        } else {
+            int increase = (build_num_1min + addnum - config.getBuildNum1minLimit());
+            this.totalbuildnum += increase;
+            this.build_num_1min += addnum;
+            Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,
+                    addnum - (config.getBuildNum1minLimit() - build_num_1min),this.totalbuildnum));
+            debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.BUILD,"イベント呼び出し。increase:"
+                    + (addnum - (config.getBuildNum1minLimit() - this.build_num_1min)) + ",after_all:"
+                    + this.totalbuildnum);
+        }
+
+
     }
 }

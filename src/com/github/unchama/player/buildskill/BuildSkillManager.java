@@ -36,6 +36,7 @@ public class BuildSkillManager extends DataManager{
         NONE,
         UP,
         DOWN,
+        BOTH,
         ;
     }
 
@@ -136,7 +137,7 @@ public class BuildSkillManager extends DataManager{
 
     /**
      * ブロックを並べるスキル・ハーフブロック設置位置を取得します
-     * @return 上側/下側
+     * @return 上側/下側/両方
      */
     public String getHalfblock_modeStatus() {
         switch (this.halfblock_mode) {
@@ -144,6 +145,8 @@ public class BuildSkillManager extends DataManager{
                 return "上側";
             case DOWN:
                 return "下側";
+            case BOTH:
+                return "両方";
             default:
                 return null;
         }
@@ -272,6 +275,9 @@ public class BuildSkillManager extends DataManager{
                 this.halfblock_mode = LineUpMode.DOWN;
                 break;
             case DOWN:
+                this.halfblock_mode = LineUpMode.BOTH;
+                break;
+            case BOTH:
                 this.halfblock_mode = LineUpMode.UP;
                 break;
         }
@@ -308,5 +314,37 @@ public class BuildSkillManager extends DataManager{
      */
     public boolean isZone_minestack_flag() {
         return zone_minestack_flag;
+    }
+
+    /**
+     * ブロックを並べるスキルの状態を返します
+     * @return NONE,UP,DOWN
+     */
+     public LineUpMode getBlocklineup_mode() {
+         return this.blocklineup_mode;
+     }
+
+    /**
+     * ブロックを並べるスキル・MineStack優先設定の状態を真偽値で返します
+     * @return true/false
+     */
+    public boolean isBlocklineup_minestack_flag() {
+        return this.blocklineup_minestack_flag;
+    }
+
+    /**
+     * ブロックを並べるスキル・ハーフブロック設置位置を返します
+     * @return 上側/下側
+     */
+    public LineUpMode getBlockLineUp_HalfMode() {
+        return this.halfblock_mode;
+    }
+
+    /**
+     * ブロックを並べるスキル・破壊処理フラグの状態を真偽値で返します
+     * @return ture/false
+     */
+    public boolean isBlockbreak_flag() {
+        return blockbreak_flag;
     }
 }
