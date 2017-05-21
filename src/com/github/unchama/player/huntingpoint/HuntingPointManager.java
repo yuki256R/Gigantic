@@ -3,6 +3,9 @@ package com.github.unchama.player.huntingpoint;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+
+import com.github.unchama.event.HuntingPointIncrementEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -34,8 +37,13 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		if(!currentPoints.containsKey(key) || !totalPoints.containsKey(key)){
 			return;
 		}
+		int currentPoint = currentPoints.get(key);
+		int totalPoint = totalPoints.get(key);
+
 		currentPoints.put(key, currentPoints.get(key) + value);
 		totalPoints.put(key, totalPoints.get(key) + value);
+
+		Bukkit.getPluginManager().callEvent(new HuntingPointIncrementEvent(gp, key, value, currentPoint, totalPoint));
 	}
 
 	// 現在ポイントをロード時などに追加する
