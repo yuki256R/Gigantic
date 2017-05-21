@@ -1,13 +1,17 @@
 package com.github.unchama.listener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,7 +26,9 @@ import zedly.zenchantments.Zenchantments;
 import com.github.unchama.event.GiganticInteractEvent;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
+import com.github.unchama.gacha.moduler.Rarity;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
@@ -116,17 +122,23 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 		PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
-		boolean dropped = false;;
+		boolean dropped = false;
+		// 通知用のガチャ結果リスト
+		List<GachaItem> gachaItems = new ArrayList<GachaItem>();
+
+		// まとめてガチャを開封する
 		for (int i = 0; i < count; i++) {
 			// ガチャを回す
-			ItemStack gachaitem = pm.roll(gt);
-			dropped = Util.giveItem(player, gachaitem,false);
+			GachaItem gachaitem = pm.roll(gt);
+			gachaItems.add(gachaitem);
+			ItemStack itemstack = gachaitem.getItem();
+			dropped |= Util.giveItem(player, itemstack, false);
 		}
 
-		if(dropped){
-			player.sendMessage(ChatColor.AQUA + "プレゼントがドロップしました．");
-		}
+		// 引いた物の通知
+		GachaNotification(player, gachaItems, dropped);
 
+		// ガチャ券を減らす
 		if (player.isSneaking() || item.getAmount() == 1) {
 			player.getInventory()
 					.setItemInMainHand(new ItemStack(Material.AIR));
@@ -134,6 +146,74 @@ public class GiganticInteractListener implements Listener {
 			item.setAmount(item.getAmount() - 1);
 		}
 		return;
+	}
+
+	// ガチャを引いたときの個人、全体宛ての通知
+	private void GachaNotification(Player player, List<GachaItem> gachaItems,
+			boolean dropped) {
+		if (gachaItems.size() == 1) {
+			// 1個だけの時
+			GachaItem gachaItem = gachaItems.get(0);
+			String message = gachaItem.getItem().getItemMeta().getDisplayName()
+					+ " " + gachaItem.getRarity().getRarityName();
+			player.sendMessage(message);
+		} else {
+			// 複数の時
+			Map<Rarity, List<GachaItem>> rarityMap = new LinkedHashMap<Rarity, List<GachaItem>>();
+			for (Rarity rarity : Rarity.values()) {
+				rarityMap.put(rarity, new ArrayList<GachaItem>());
+			}
+			for (GachaItem gachaItem : gachaItems) {
+				rarityMap.get(gachaItem.getRarity()).add(gachaItem);
+
+				// GTならその度に全体通知
+				if (gachaItem.getRarity() == Rarity.GIGANTIC) {
+					String str = gachaItem.getItem().getItemMeta()
+							.getDisplayName();
+					Util.sendEveryMessage(ChatColor.GOLD
+							+ player.getDisplayName() + "がガチャでGigantic☆大当たり！\n"
+							+ ChatColor.AQUA + str + ChatColor.GOLD
+							+ "を引きました！おめでとうございます！");
+				}
+			}
+
+			// 最高レアリティ
+			Rarity highRarity = Rarity.APPLE;
+
+			// メッセージ
+			String message = "";
+			for (Rarity rarity : rarityMap.keySet()) {
+				List<GachaItem> list = rarityMap.get(rarity);
+				if (list.size() > 0) {
+					if (message != "") {
+						message += ",";
+					}
+					message += rarity.getRarityName() + " × " + list.size();
+					if(highRarity.getId() < rarity.getId()){
+						highRarity = rarity;
+					}
+				}
+			}
+			player.sendMessage(message);
+
+			// 引いた中で最大のレアリティを鳴らす
+			Sound sound = highRarity.getSound();
+			if (sound != null) {
+				if (highRarity == Rarity.GIGANTIC) {
+					// GTなら全体にサウンドを鳴らす
+					Util.sendEverySound(sound, (float) 0.5, 2);
+				} else {
+					// その他
+					player.playSound(player.getLocation(), sound, (float) 0.8,
+							1);
+				}
+			}
+
+		}
+
+		if (dropped) {
+			player.sendMessage(ChatColor.AQUA + "プレゼントがドロップしました．");
+		}
 	}
 
 	/**
