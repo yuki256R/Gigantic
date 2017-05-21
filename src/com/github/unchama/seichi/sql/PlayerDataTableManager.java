@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
@@ -246,8 +248,15 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		try {
 			rs = stmt.executeQuery(command);
 			while (rs.next()) {
-				ans = BukkitSerialization.fromBase64(rs.getString(
-						"inventory").toString());
+				String inventoryStr = rs.getString("inventory");
+				if (inventoryStr != null) {
+					ans = BukkitSerialization.fromBase64(inventoryStr
+							.toString());
+				} else {
+					// 解放レベルが1になる前のデータを引き継ごうとした場合、エラーになるっぽい
+					ans = Bukkit.getServer().createInventory(
+							PlayerManager.getPlayer(gp), 27, "四次元ポケット");
+				}
 			}
 			rs.close();
 		} catch (IOException e) {
@@ -259,6 +268,5 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 		return ans;
 	}
-
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 }
