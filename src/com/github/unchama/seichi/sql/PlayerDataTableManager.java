@@ -145,48 +145,6 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
-<<<<<<< HEAD
-	public int getTotalBuildNum(GiganticPlayer gp){
-	    String command = "";
-	    final String struuid = gp.uuid.toString().toLowerCase();
-	    int ans = 0;
-
-	    command = "select build_count from " + db + "." + table + " where uuid = '" + struuid + "'";
-
-	    this.checkStatement();
-	    try{
-	        rs = stmt.executeQuery(command);
-	        while(rs.next()){
-	            ans = rs.getInt("build_count");
-            }
-            rs.close();
-        }catch (SQLException e){
-	        plugin.getLogger().warning("Failed to load build_count player:" + gp.name);
-	        e.printStackTrace();
-        }
-        return ans;
-    }
-
-	public int getPlayTick(GiganticPlayer gp){
-	    String command = "";
-	    final String struuid = gp.uuid.toString().toLowerCase();
-	    int ans = 0;
-
-	    command = "select playtick from " + db + "." + table + " where uuid = '" + struuid + "'";
-
-	    this.checkStatement();
-	    try{
-	        rs = stmt.executeQuery(command);
-	        while(rs.next()){
-	            ans = rs.getInt("playtick");
-            }
-            rs.close();
-        }catch (SQLException e){
-	        plugin.getLogger().warning("Failed to load playtick player:" + gp.name);
-	        e.printStackTrace();
-        }
-	    return ans;
-=======
 	public int getPlayTick(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -208,7 +166,6 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			e.printStackTrace();
 		}
 		return ans;
->>>>>>> unchama/master
 	}
 
 	public int getRgnum(GiganticPlayer gp) {
