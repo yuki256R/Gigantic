@@ -242,6 +242,14 @@ public class ConfigManager extends YmlManager {
     	return this.fc.getStringList("skillworld");
     }
 
+    /**整地量が2倍になるワールドを取得します
+    *
+    * @return
+    */
+   public List<String> getBonusWorldList() {
+   	return this.fc.getStringList("bonusworld");
+   }
+
     /**通常破壊時の許容する高さを取得します
      *
      * @return
@@ -267,8 +275,8 @@ public class ConfigManager extends YmlManager {
 	}
 
 	 /**MineStack一括クラフトシステムの必要経験値
-     * 
-     * @param 
+     *
+     * @param
      * @return
      */
     public int getBlockCraftLevel(int x){
@@ -276,7 +284,7 @@ public class ConfigManager extends YmlManager {
     		case 1: return this.fc.getInt("minestack_BlockCraft.level1");
     		case 2: return this.fc.getInt("minestack_BlockCraft.level2");
     		case 3: return this.fc.getInt("minestack_BlockCraft.level3");
-    		
+
     		default: return 0;
     	}
     }

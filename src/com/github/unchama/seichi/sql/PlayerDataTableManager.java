@@ -1,12 +1,16 @@
 package com.github.unchama.seichi.sql;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+
+import org.bukkit.inventory.Inventory;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.sql.player.MineStackTableManager;
+import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public class PlayerDataTableManager extends SeichiTableManager {
@@ -60,25 +64,29 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
-	public HashMap<StackType,MineStack> getMineStack(GiganticPlayer gp) {
+	public HashMap<StackType, MineStack> getMineStack(GiganticPlayer gp) {
 		String command = "";
-		HashMap<StackType,MineStack> datamap = new HashMap<StackType,MineStack>();
+		HashMap<StackType, MineStack> datamap = new HashMap<StackType, MineStack>();
 		final String struuid = gp.uuid.toString().toLowerCase();
 
-		command = "select * from " + db + "." + table
-				+ " where uuid = '" + struuid + "'";
+		command = "select * from " + db + "." + table + " where uuid = '"
+				+ struuid + "'";
 
 		this.checkStatement();
 		try {
 			rs = stmt.executeQuery(command);
 			while (rs.next()) {
 				for (StackType st : StackType.values()) {
-					if(MineStackTableManager.StackConvert.isExist(st.name())){
-						MineStackTableManager.StackConvert sc = MineStackTableManager.StackConvert.valueOf(st.name());
-						long n = (long)rs.getInt(sc.getOldName());
-						if(n!=0)debug.info(DebugEnum.SQL, gp.name + "の" + sc.getOldName() + "(" + n + ")を引き継ぎます．");
+					if (MineStackTableManager.StackConvert.isExist(st.name())) {
+						MineStackTableManager.StackConvert sc = MineStackTableManager.StackConvert
+								.valueOf(st.name());
+						long n = (long) rs.getInt(sc.getOldName());
+						if (n != 0)
+							debug.info(DebugEnum.SQL,
+									gp.name + "の" + sc.getOldName() + "(" + n
+											+ ")を引き継ぎます．");
 						datamap.put(st, new MineStack(n));
-					}else{
+					} else {
 						datamap.put(st, new MineStack());
 					}
 				}
@@ -97,8 +105,8 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		final String struuid = gp.uuid.toString().toLowerCase();
 		double ans = 0;
 
-		command = "select mana from " + db + "." + table
-				+ " where uuid = '" + struuid + "'";
+		command = "select mana from " + db + "." + table + " where uuid = '"
+				+ struuid + "'";
 
 		this.checkStatement();
 		try {
@@ -108,13 +116,36 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			plugin.getLogger().warning(
-					"Failed to load mana player:" + gp.name);
+			plugin.getLogger().warning("Failed to load mana player:" + gp.name);
 			e.printStackTrace();
 		}
 		return ans;
 	}
 
+	public double getTotalBuildNum(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		double ans = 0;
+
+		command = "select build_count from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("build_count");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load build_count player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+<<<<<<< HEAD
 	public int getTotalBuildNum(GiganticPlayer gp){
 	    String command = "";
 	    final String struuid = gp.uuid.toString().toLowerCase();
@@ -155,68 +186,122 @@ public class PlayerDataTableManager extends SeichiTableManager {
 	        e.printStackTrace();
         }
 	    return ans;
+=======
+	public int getPlayTick(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select playtick from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("playtick");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load playtick player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+>>>>>>> unchama/master
 	}
 
-	public int getRgnum(GiganticPlayer gp){
+	public int getRgnum(GiganticPlayer gp) {
 		String command = "";
-	    final String struuid = gp.uuid.toString().toLowerCase();
-	    int ans = 0;
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
 
-	    command = "select rgnum from " + db + "." + table + " where uuid = '" + struuid + "'";
-	    this.checkStatement();
-	    try{
-	        rs = stmt.executeQuery(command);
-	        while(rs.next()){
-	        	ans = rs.getInt("rgnum");
-            }
-            rs.close();
-        }catch (SQLException e){
-	        plugin.getLogger().warning("Failed to load rgnum player:" + gp.name);
-	        e.printStackTrace();
-        }
-        return ans;
+		command = "select rgnum from " + db + "." + table + " where uuid = '"
+				+ struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("rgnum");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger()
+					.warning("Failed to load rgnum player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
 	}
 
 	public int getGachaPoint(GiganticPlayer gp) {
 		String command = "";
-	    final String struuid = gp.uuid.toString().toLowerCase();
-	    int ans = 0;
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
 
-	    command = "select gachapoint from " + db + "." + table + " where uuid = '" + struuid + "'";
-	    this.checkStatement();
-	    try{
-	        rs = stmt.executeQuery(command);
-	        while(rs.next()){
-	        	ans = rs.getInt("gachapoint");
-            }
-            rs.close();
-        }catch (SQLException e){
-	        plugin.getLogger().warning("Failed to load gachapoint player:" + gp.name);
-	        e.printStackTrace();
-        }
-        return ans;
+		command = "select gachapoint from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("gachapoint");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load gachapoint player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
 	}
 
 	public int getSorryForBugs(GiganticPlayer gp) {
 		String command = "";
-	    final String struuid = gp.uuid.toString().toLowerCase();
-	    int ans = 0;
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
 
-	    command = "select numofsorryforbug from " + db + "." + table + " where uuid = '" + struuid + "'";
-	    this.checkStatement();
-	    try{
-	        rs = stmt.executeQuery(command);
-	        while(rs.next()){
-	        	ans = rs.getInt("numofsorryforbug");
-            }
-            rs.close();
-        }catch (SQLException e){
-	        plugin.getLogger().warning("Failed to load numofsorryforbug player:" + gp.name);
-	        e.printStackTrace();
-        }
-        return ans;
+		command = "select numofsorryforbug from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("numofsorryforbug");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load numofsorryforbug player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
 	}
 
+	// 四次元ポケット
+	public Inventory getInventory(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		Inventory ans = null;
+
+		command = "select inventory from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = BukkitSerialization.fromBase64(rs.getString(
+						"inventory").toString());
+			}
+			rs.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load inventory player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
 
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 }
