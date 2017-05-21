@@ -10,6 +10,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
+import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
@@ -78,6 +79,7 @@ public class GiganticPlayer {
 		BUILDLEVEL(BuildLevelManager.class),
 		SIDEBAR(SideBarManager.class),
 		BUILDSKILL(BuildSkillManager.class),
+		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

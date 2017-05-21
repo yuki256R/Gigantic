@@ -24,6 +24,7 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.toolrepair.ToolRepair;
@@ -159,6 +160,9 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			case "garbagecan":
 				methodmap.put(i, "openGarbageCan");
 				break;
+			case "dimensionalinventory":
+				methodmap.put(i, "openDimensionalInventory");
+				break;
 			default:
 				break;
 			}
@@ -200,6 +204,14 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 					ChatColor.RED + "" + ChatColor.BOLD + "ゴミ箱(取扱注意)"));
 			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1,
 					(float) 1.5);
+			return true;
+		case "openDimensionalInventory":
+			DimensionalInventoryManager dimensionalInventoryManager = gp.getManager(DimensionalInventoryManager.class);
+			if(dimensionalInventoryManager.isUse()){
+				gp.getManager(DimensionalInventoryManager.class).open(player);
+			}else{
+				player.sendMessage("四次元ポケットは,整地レベルが上がると利用可能になります.");
+			}
 			return true;
 		case "commandFastCraft":
 			player.closeInventory();
