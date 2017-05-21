@@ -13,6 +13,7 @@ import java.util.UUID;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
@@ -28,6 +29,7 @@ import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.dimensionalinventory.DimensionalInventoryTableManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
@@ -55,6 +57,7 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql {
 	// TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
+<<<<<<< HEAD
 		GIGANTICGACHA(GiganticGachaTableManager.class),
 		PREMIUMGACHA(
 				PremiumGachaTableManager.class),
@@ -89,6 +92,28 @@ public class Sql {
 		HUNTINGPOINT(
 				HuntingPointTableManager.class, HuntingPointManager.class),
 		MINEBLOCKRANKING(MineBlockRankingManager.class), ;
+=======
+		GIGANTICGACHA(GiganticGachaTableManager.class), //
+		PREMIUMGACHA(PremiumGachaTableManager.class), //
+		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
+		MINEBLOCK(MineBlockTableManager.class, MineBlockManager.class), //
+		MANA(ManaTableManager.class, ManaManager.class), //
+		MINESTACK(MineStackTableManager.class, MineStackManager.class), //
+		TOOLPOUCH(ToolPouchTableManager.class, ToolPouchManager.class), //
+		EXPLOSION(ExplosionTableManager.class, ExplosionManager.class), //
+		MAGICDRIVE(MagicDriveTableManager.class, MagicDriveManager.class), //
+		CONDENSATION(CondensationTableManager.class, CondensationManager.class), //
+		RUINFIELD(RuinFieldTableManager.class, RuinFieldManager.class), //
+		FAIRYAEGIS(FairyAegisTableManager.class, FairyAegisManager.class), //
+		BUILD(BuildTableManager.class, BuildManager.class), //
+		PLAYERGACHA(PlayerGachaTableManager.class, PlayerGachaManager.class), //
+		REGION(RegionTableManager.class, RegionManager.class), //
+		PLAYERTIME(PlayerTimeTableManager.class, PlayerTimeManager.class), //
+		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
+		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
+				DimensionalInventoryManager.class), //
+		;
+>>>>>>> refs/remotes/unchama/master
 
 		private Class<? extends TableManager> tablemanagerClass;
 		private Class<? extends DataManager> datamanagerClass;
