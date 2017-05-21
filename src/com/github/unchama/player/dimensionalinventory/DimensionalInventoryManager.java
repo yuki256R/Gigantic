@@ -13,7 +13,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.sql.dimensionalinventory.DimensionalInventoryTableManager;
+import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.yml.DimensionalInventoryYmlManager;
 
 // 四次元ポケット
