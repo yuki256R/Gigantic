@@ -153,10 +153,12 @@ public class GiganticInteractListener implements Listener {
 			boolean dropped) {
 		if (gachaItems.size() == 1) {
 			// 1個だけの時
+
 			GachaItem gachaItem = gachaItems.get(0);
-			String message = gachaItem.getItem().getItemMeta().getDisplayName()
-					+ " " + gachaItem.getRarity().getRarityName();
-			player.sendMessage(message);
+			// メッセージ
+			gachaRarityMessage(player, gachaItem, false);
+			// SE
+			gachaRaritySound(player, gachaItem.getRarity());
 		} else {
 			// 複数の時
 			Map<Rarity, List<GachaItem>> rarityMap = new LinkedHashMap<Rarity, List<GachaItem>>();
@@ -167,14 +169,7 @@ public class GiganticInteractListener implements Listener {
 				rarityMap.get(gachaItem.getRarity()).add(gachaItem);
 
 				// GTならその度に全体通知
-				if (gachaItem.getRarity() == Rarity.GIGANTIC) {
-					String str = gachaItem.getItem().getItemMeta()
-							.getDisplayName();
-					Util.sendEveryMessage(ChatColor.GOLD
-							+ player.getDisplayName() + "がガチャでGigantic☆大当たり！\n"
-							+ ChatColor.AQUA + str + ChatColor.GOLD
-							+ "を引きました！おめでとうございます！");
-				}
+				gachaRarityMessage(player, gachaItem, true);
 			}
 
 			// 最高レアリティ
@@ -197,22 +192,45 @@ public class GiganticInteractListener implements Listener {
 			player.sendMessage(message);
 
 			// 引いた中で最大のレアリティを鳴らす
-			Sound sound = highRarity.getSound();
-			if (sound != null) {
-				if (highRarity == Rarity.GIGANTIC) {
-					// GTなら全体にサウンドを鳴らす
-					Util.sendEverySound(sound, (float) 0.5, 2);
-				} else {
-					// その他
-					player.playSound(player.getLocation(), sound, (float) 0.8,
-							1);
-				}
-			}
-
+			gachaRaritySound(player, highRarity);
 		}
 
+		// 持ち切れなかった時
 		if (dropped) {
 			player.sendMessage(ChatColor.AQUA + "プレゼントがドロップしました．");
+		}
+	}
+
+	// レア度に応じたSEを鳴らす
+	private void gachaRaritySound(Player player, Rarity rarity){
+		Sound sound = rarity.getSound();
+		if (sound != null) {
+			if (rarity == Rarity.GIGANTIC) {
+				// GTなら全体にサウンドを鳴らす
+				Util.sendEverySound(sound, (float) 0.5, 2);
+			} else {
+				// その他
+				player.playSound(player.getLocation(), sound, (float) 0.8,
+						1);
+			}
+		}
+	}
+
+	// メッセージ通知
+	private void gachaRarityMessage(Player player, GachaItem gachaItem, boolean isGtOnly){
+		if (gachaItem.getRarity() == Rarity.GIGANTIC) {
+			// GTなら全体通知
+			String str = gachaItem.getItem().getItemMeta()
+					.getDisplayName();
+			Util.sendEveryMessage(ChatColor.GOLD
+					+ player.getDisplayName() + "がガチャでGigantic☆大当たり！\n"
+					+ ChatColor.AQUA + str + ChatColor.GOLD
+					+ "を引きました！おめでとうございます！");
+		}else if(!isGtOnly){
+			// それ以外なら個人宛
+			String message = gachaItem.getItem().getItemMeta().getDisplayName()
+					+ " " + gachaItem.getRarity().getRarityName();
+			player.sendMessage(message);
 		}
 	}
 
