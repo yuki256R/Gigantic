@@ -299,7 +299,7 @@ public class ConfigManager extends YmlManager {
 
     /**
      * 範囲設置スキルのMineStack優先設定使用可能レベルを取得します
-     * @return 使用可能レベル
+     * @return 使用可能建築レベル
      */
     public int getZoneSetSkillMinestack() {
         return fc.getInt("ZoneSetSkill.minestack");
@@ -312,5 +312,21 @@ public class ConfigManager extends YmlManager {
      */
     public double getBlockCountMag() {
         return fc.getDouble("BlockCountMag");
+    }
+
+    /**
+     * ブロックを並べるスキルの使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockLineUpSkillLevel() {
+        return fc.getInt("BlockLineUpSkill.level");
+    }
+
+    /**
+     * ブロックを並べるスキルMineStack優先設定使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockLineUpSkillMSLevel() {
+        return fc.getInt("BlockLineUpSkill.minestack");
     }
 }

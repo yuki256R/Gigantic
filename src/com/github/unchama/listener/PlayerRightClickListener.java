@@ -343,7 +343,7 @@ public class PlayerRightClickListener implements Listener{
                     debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "設置ブロック数:" + block_cnt);
 
                     if (BuildData.isBlockCount(player)) {
-                        gp.getManager(BuildManager.class).addBuild_num_1min(block_cnt * blockCountMag);//設置した数を足す
+                        gp.getManager(BuildManager.class).addBuild_num_1min((int) (block_cnt * blockCountMag));//設置した数を足す
                         debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "建築量上昇:" + block_cnt * blockCountMag);
                     }
 
