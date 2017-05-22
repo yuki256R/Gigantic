@@ -16,7 +16,7 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	// 各レベルのデータ値を格納します．
 	public static LinkedHashMap<Integer, BuildLevelData> buildlevelmap = new LinkedHashMap<Integer, BuildLevelData>(){
 		{
-			for(int level = 1; level<= 100; level++){
+			for(int level = 1; level<= 101; level++){
 				put(level, new BuildLevelData(level));
 			}
 		}
