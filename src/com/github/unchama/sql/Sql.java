@@ -27,6 +27,7 @@ import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
+import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
@@ -46,6 +47,7 @@ import com.github.unchama.sql.player.ManaTableManager;
 import com.github.unchama.sql.player.MineBlockTableManager;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
+import com.github.unchama.sql.player.PlayerSettingsTableManager;
 import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
@@ -57,42 +59,29 @@ import com.github.unchama.yml.ConfigManager;
 public class Sql {
 	// TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
-		GIGANTICGACHA(GiganticGachaTableManager.class),
-		PREMIUMGACHA(
-				PremiumGachaTableManager.class),
-		GIGANTIC(
-				GiganticTableManager.class, GiganticManager.class),
-		MINEBLOCK(
-				MineBlockTableManager.class, MineBlockManager.class),
-		MANA(
-				ManaTableManager.class, ManaManager.class),
-		MINESTACK(
-				MineStackTableManager.class, MineStackManager.class),
-		TOOLPOUCH(
-				ToolPouchTableManager.class, ToolPouchManager.class),
-		EXPLOSION(
-				ExplosionTableManager.class, ExplosionManager.class),
-		MAGICDRIVE(
-				MagicDriveTableManager.class, MagicDriveManager.class),
-		CONDENSATION(
-				CondensationTableManager.class, CondensationManager.class),
-		RUINFIELD(
-				RuinFieldTableManager.class, RuinFieldManager.class),
-		FAIRYAEGIS(
-				FairyAegisTableManager.class, FairyAegisManager.class),
-		BUILD(
-				BuildTableManager.class, BuildManager.class),
-		PLAYERGACHA(
-				PlayerGachaTableManager.class, PlayerGachaManager.class),
-		REGION(
-				RegionTableManager.class, RegionManager.class),
-		PLAYERTIME(
-				PlayerTimeTableManager.class, PlayerTimeManager.class),
-		HUNTINGPOINT(
-				HuntingPointTableManager.class, HuntingPointManager.class),
+		GIGANTICGACHA(GiganticGachaTableManager.class), //
+		PREMIUMGACHA(PremiumGachaTableManager.class), //
+		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
+		PLAYERSETTINGS(PlayerSettingsTableManager.class,
+				PlayerSettingsManager.class), //
+		MINEBLOCK(MineBlockTableManager.class, MineBlockManager.class), //
+		MANA(ManaTableManager.class, ManaManager.class), //
+		MINESTACK(MineStackTableManager.class, MineStackManager.class), //
+		TOOLPOUCH(ToolPouchTableManager.class, ToolPouchManager.class), //
+		EXPLOSION(ExplosionTableManager.class, ExplosionManager.class), //
+		MAGICDRIVE(MagicDriveTableManager.class, MagicDriveManager.class), //
+		CONDENSATION(CondensationTableManager.class, CondensationManager.class), //
+		RUINFIELD(RuinFieldTableManager.class, RuinFieldManager.class), //
+		FAIRYAEGIS(FairyAegisTableManager.class, FairyAegisManager.class), //
+		BUILD(BuildTableManager.class, BuildManager.class), //
+		PLAYERGACHA(PlayerGachaTableManager.class, PlayerGachaManager.class), //
+		REGION(RegionTableManager.class, RegionManager.class), //
+		PLAYERTIME(PlayerTimeTableManager.class, PlayerTimeManager.class), //
+		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
-				DimensionalInventoryManager.class),
-		MINEBLOCKRANKING(MineBlockRankingManager.class), ;
+				DimensionalInventoryManager.class), //
+		MINEBLOCKRANKING(MineBlockRankingManager.class), //
+		;
 
 		private Class<? extends TableManager> tablemanagerClass;
 		private Class<? extends DataManager> datamanagerClass;
@@ -487,8 +476,8 @@ public class Sql {
 		}
 	}
 
-	/*毎分のランキング処理
-	 *
+	/*
+	 * 毎分のランキング処理
 	 */
 	public void updateRanking() {
 		int delay = 1;
@@ -496,13 +485,15 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				new RankingSendTaskRunnable(rtm).runTaskLaterAsynchronously(plugin, delay);
+				new RankingSendTaskRunnable(rtm).runTaskLaterAsynchronously(
+						plugin, delay);
 				delay++;
 			}
 		}
 	}
 
-	/**gpが初期化を終了した後に処理される
+	/**
+	 * gpが初期化を終了した後に処理される
 	 *
 	 * @param gp
 	 */

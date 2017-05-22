@@ -63,7 +63,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		menuButtons.put(nextButtonSlot, nextButton);
 
 		// Invoke設定
-		for (int i = 0; i < 54; i++) {
+		for (int i = 0; i < getInventorySize(); i++) {
 			id_map.put(i, String.valueOf(i));
 		}
 
