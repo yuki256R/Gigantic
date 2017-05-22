@@ -7,7 +7,8 @@ public enum CommandType {
 	DEBUG(new debugCommand()),
 	MINEBOOST(new mineboostCommand()),
 	STICK(new stickCommand()),
-    FLY(new flyCommand())
+    FLY(new flyCommand()),
+    GROWTHTOOL(new growthCommand()),
 	;
 
 

@@ -16,7 +16,7 @@ commands:
       permission-message: You don't have <permission>
   debug:
       description: This is debug command.
-      usage: /<command> set 
+      usage: /<command> set
       aliases: [gigadebug,giganticdebug]
       default: op
       permission: gigantic.debug
@@ -40,4 +40,11 @@ commands:
       aliases: [giganticfly,gfly]
       default: true
       permission: gigantic.fly
+      permission-message: You don't have <permission>
+  growth:
+      description: This is growth command
+      usage: /<command>
+      aliases: [giganticgrowth,grw]
+      default: true
+      permission: gigantic.growth
       permission-message: You don't have <permission>

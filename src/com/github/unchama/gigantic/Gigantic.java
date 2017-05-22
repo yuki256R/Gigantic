@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.unchama.command.CommandType;
 import com.github.unchama.gacha.Gacha;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
 import com.github.unchama.listener.ListenerEnum;
@@ -79,6 +80,9 @@ public final class Gigantic extends JavaPlugin {
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			new GiganticPlaceholders(plugin).hook();
 		}
+
+		// GrowthTool関連の有効化
+		new GrowthTool();
 
 		getLogger().info("Gigantic is Enabled!");
 

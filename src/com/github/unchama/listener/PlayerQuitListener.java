@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.passive.mineboost.BoostType;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
@@ -32,4 +33,13 @@ public class PlayerQuitListener implements Listener {
 		}
 	}
 
+	/**
+	 * GrowthToolのログアウトメッセージ出力処理。
+	 *
+	 * @param event
+	 */
+	@EventHandler(priority = EventPriority.NORMAL)
+	public void speakGrowthTool(PlayerQuitEvent event) {
+		GrowthTool.onPlayerQuitEvent(event);
+	}
 }
