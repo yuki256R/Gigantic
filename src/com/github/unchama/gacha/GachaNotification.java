@@ -11,6 +11,9 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.Rarity;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.util.Util;
 
 public class GachaNotification {
@@ -72,8 +75,13 @@ public class GachaNotification {
 		Sound sound = rarity.getSound();
 		if (sound != null) {
 			if (rarity == Rarity.GIGANTIC) {
-				// GTなら全体にサウンドを鳴らす
-				Util.sendEverySound(sound, (float) 0.5, 2);
+				GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+				PlayerSettingsManager manager = gp.getManager(PlayerSettingsManager.class);
+				// 設定ONなら通知
+				if(manager.getGiganticRareNotificationSend()){
+					// GTなら全体にサウンドを鳴らす
+					Util.sendEverySound(sound, (float) 0.5, 2);
+				}
 			} else {
 				// その他
 				player.playSound(player.getLocation(), sound, (float) 0.8,
@@ -85,15 +93,22 @@ public class GachaNotification {
 	// メッセージ通知
 	static public void gachaRarityMessage(Player player, GachaItem gachaItem, boolean isGtOnly){
 		if (gachaItem.getRarity() == Rarity.GIGANTIC) {
-			// GTなら全体通知
-			String str = gachaItem.getItem().getItemMeta()
-					.getDisplayName();
-			Util.sendEveryMessage(ChatColor.GOLD
-					+ player.getDisplayName() + "がガチャでGigantic☆大当たり！\n"
-					+ ChatColor.AQUA + str + ChatColor.GOLD
-					+ "を引きました！おめでとうございます！");
-		}else if(!isGtOnly){
-			// それ以外なら個人宛
+			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+			PlayerSettingsManager manager = gp.getManager(PlayerSettingsManager.class);
+			// 設定ONなら通知
+			if(manager.getGiganticRareNotificationSend()){
+				// GTなら全体通知
+				String str = gachaItem.getItem().getItemMeta()
+						.getDisplayName();
+				Util.sendEveryMessage(ChatColor.GOLD
+						+ player.getDisplayName() + "がガチャでGigantic☆大当たり！\n"
+						+ ChatColor.AQUA + str + ChatColor.GOLD
+						+ "を引きました！おめでとうございます！");
+			}
+		}
+
+		if(!isGtOnly){
+			// 個人宛
 			String message = gachaItem.getItem().getItemMeta().getDisplayName()
 					+ " " + gachaItem.getRarity().getRarityName();
 			player.sendMessage(message);

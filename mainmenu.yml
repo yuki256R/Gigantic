@@ -88,6 +88,18 @@ name: '&5&lメインメニュー'
   mobhead: 'mechanic_box'
   openmenu: 'admintypemenu'
   onlyop: yes
+2:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: TRIPWIRE_HOOK
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l各種設定'
+      lore:
+      - '&r&7細かな設定が行えます'
+      - '&r&4&nクリックで開く'
+  openmenu: 'playersettingsmenu'
 4:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
