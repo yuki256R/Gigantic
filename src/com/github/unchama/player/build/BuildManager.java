@@ -1,14 +1,11 @@
 package com.github.unchama.player.build;
 
 import com.github.unchama.event.BuildBlockIncrementEvent;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.BuildTableManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 

@@ -28,7 +28,7 @@ public class BuildTaskRunnable extends BukkitRunnable{
 	private int count;
 
 	public BuildTaskRunnable(List<Player> playerlist) {
-		this.playerlist = new ArrayList<Player>(playerlist);
+		this.playerlist = new ArrayList<>(playerlist);
 		this.size = this.playerlist.size();
 		this.count = -1;
 	}

@@ -55,21 +55,21 @@ public class BlockLineUpListener implements Listener{
 
 
         //プレイヤーデータが無い場合は処理終了
-        if(gp == null){
+        if (gp == null) {
             return;
         }
 
         //スキルOFFなら終了
-        if(line_up_flg == LineUpMode.NONE){
+        if (line_up_flg == LineUpMode.NONE) {
             return;
         }
 
         //スキル利用可能でないワールドの場合終了
-        if(BuildData.isSkillEnable(player) == false ){
+        if (!BuildData.isSkillEnable(player)) {
             return;
         }
         //左クリックの処理
-        if(action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)){
+        if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
             //プレイヤーインベントリを取得
             PlayerInventory inventory = player.getInventory();
             //メインハンドとオフハンドを取得
@@ -77,9 +77,9 @@ public class BlockLineUpListener implements Listener{
             ItemStack offhanditem = inventory.getItemInOffHand();
 
             //メインハンドにブロックがあるとき
-            if( BuildData.materiallist2.contains(mainhanditem.getType()) == true
-                    || BuildData.material_slab2.contains(mainhanditem.getType()) == true ) {
-                if(offhanditem.getType() != Material.STICK){//オフハンドに木の棒を持ってるときのみ発動する
+            if (BuildData.materiallist2.contains(mainhanditem.getType())
+                    || BuildData.material_slab2.contains(mainhanditem.getType())) {
+                if (offhanditem.getType() != Material.STICK) {//オフハンドに木の棒を持ってるときのみ発動する
                     return;
                 }
 
@@ -104,32 +104,32 @@ public class BlockLineUpListener implements Listener{
                 StackType current_stacktype = null;		//マインスタックのType
                 int double_mag = 1;//ハーフブロック重ね起きしたときフラグ
                 //プレイヤーの向いてる方向を判定
-                if (pitch > 45 ){//下
+                if (pitch > 45 ) {//下
                     step_y = -1;
 //					py--;
                     py = pl.getBlockY();
-                }else if (pitch < -45 ){//上
+                } else if (pitch < -45) {//上
                     step_y = 1;
-                }else{
-                    if(line_up_flg == LineUpMode.DOWN){//下設置設定の場合は一段下げる
+                } else {
+                    if (line_up_flg == LineUpMode.DOWN) {//下設置設定の場合は一段下げる
                         py--;
                     }
-                    if (yaw > 315 || yaw < 45 ){//南
+                    if (yaw > 315 || yaw < 45) {//南
                         step_z = 1;
-                    }else if(yaw < 135 ){//西
+                    } else if(yaw < 135) {//西
                         step_x = -1;
-                    }else if(yaw < 225 ){//北
+                    } else if(yaw < 225) {//北
                         step_z = -1;
-                    }else{//東
+                    } else {//東
                         step_x = 1;
                     }
                 }
 
                 int max = mainhanditem.getAmount();//メインハンドのアイテム数を最大値に
                 //マインスタック優先の場合最大値をマインスタックの数を足す
-                if(line_up_minestack_flg){
-                    for(StackType st : StackType.values()){
-                        if( m.equals( st.getMaterial() ) &&
+                if (line_up_minestack_flg) {
+                    for (StackType st : StackType.values()) {
+                        if (m.equals(st.getMaterial()) &&
                                 d == st.getDurability()){
                             max += sm.datamap.get(st).getNum();
                             current_stacktype = st;
@@ -140,18 +140,18 @@ public class BlockLineUpListener implements Listener{
                 }
 
                 //手に持ってるのがハーフブロックの場合
-                if(BuildData.material_slab2.contains(m)){
-                    if(line_up_step_flg == LineUpMode.UP){
+                if (BuildData.material_slab2.contains(m)) {
+                    if (line_up_step_flg == LineUpMode.UP) {
                         d += 8;	//上設置設定の場合は上側のデータに書き換え
-                    }else if(line_up_step_flg == LineUpMode.BOTH){
+                    } else if (line_up_step_flg == LineUpMode.BOTH) {
                         //両方設置の場合マテリアルの種類を変える
-                        if (m == Material.STONE_SLAB2){
+                        if (m == Material.STONE_SLAB2) {
                             m = Material.DOUBLE_STONE_SLAB2;//赤砂岩
-                        }else if (m == Material.PURPUR_SLAB){
+                        } else if (m == Material.PURPUR_SLAB) {
                             m = Material.PURPUR_DOUBLE_SLAB;//プルパー
-                        }else if (m == Material.WOOD_STEP){
+                        } else if (m == Material.WOOD_STEP) {
                             m = Material.WOOD_DOUBLE_STEP;//木
-                        }else if (m == Material.STEP){
+                        } else if (m == Material.STEP) {
                             m = Material.DOUBLE_STEP;//石
                         }
                         max /= 2;
@@ -161,32 +161,32 @@ public class BlockLineUpListener implements Listener{
                 }
 //				player.sendMessage("max:" + max );
                 //ループ数を64に制限
-                if( max > 64 ){
+                if ( max > 64 ) {
                     max = 64;
                 }
                 long v = 0;	//設置した数
-                for( v = 0 ; v < max ; v++){//設置ループ
+                for ( v = 0 ; v < max ; v++) {//設置ループ
                     px += step_x;
                     py += step_y;
                     pz += step_z;
                     Block b = pl.getWorld().getBlockAt(px , py , pz );
 
                     //空気以外にぶつかったら設置終わり
-                    if (b.getType() != Material.AIR){
+                    if (b.getType() != Material.AIR) {
 //						player.sendMessage(":"+b.getType().toString());
-                        if(BuildData.material_destruction.contains(b.getType()) == false || line_up_des_flg == false){
+                        if (!BuildData.material_destruction.contains(b.getType()) || !line_up_des_flg) {
 //							player.sendMessage("stop:"+b.getType().toString());
                             break;
                         }
                         Collection<ItemStack> i = b.getDrops();
 
-                        if(i.iterator().hasNext() == true){
+                        if (i.iterator().hasNext()) {
                             b.getLocation().getWorld().dropItemNaturally(pl, i.iterator().next());
                         }
                     }
 
                     //他人の保護がかかっている場合は設置終わり
-                    if(!Util.getWorldGuard().canBuild(player, b.getLocation())){
+                    if (!Util.getWorldGuard().canBuild(player, b.getLocation())) {
                         break;
                     }
 
@@ -196,13 +196,13 @@ public class BlockLineUpListener implements Listener{
                 }
                 v *= double_mag;	//ハーフ2段重ねの場合は2倍
                 //カウント対象ワールドの場合カウント値を足す
-                if( BuildData.isBlockCount(player) == true){	//対象ワールドかチェック
+                if (BuildData.isBlockCount(player)) {	//対象ワールドかチェック
                     BigDecimal add = config.getBlockCountMag().multiply(new BigDecimal(v));
                     gp.getManager(BuildManager.class).addBuild_num_1min(add);	//設置した数を足す
                 }
 
                 //マインスタック優先の場合マインスタックの数を減らす
-                if( line_up_minestack_flg == true && (current_stacktype != null)){
+                if (line_up_minestack_flg && (current_stacktype != null)) {
 //					if ( m == Material.STEP && (d == 0 || d == 8 ) || ( m == Material.DOUBLE_STEP && d == 0 )){
                     long num = sm.datamap.get(current_stacktype).getNum() - v;
                     sm.datamap.get(current_stacktype).add(-v);
@@ -217,11 +217,11 @@ public class BlockLineUpListener implements Listener{
 //						player.sendMessage("メインハンド消費:" + v + "マインスタック残:" + num);
 //					}
                 }
-                if (mainhanditem.getAmount() - v <= 0 ){//アイテム数が0ならメインハンドのアイテムをクリア
+                if (mainhanditem.getAmount() - v <= 0) {//アイテム数が0ならメインハンドのアイテムをクリア
 //					mainhanditem.setType(Material.AIR);
 //					mainhanditem.setAmount(-1);
                     inventory.setItemInMainHand(new ItemStack(Material.AIR,-1));//アイテム数が0になっても消えないので自前で消す
-                }else{	//0じゃないなら設置した分を引く
+                } else {	//0じゃないなら設置した分を引く
                     mainhanditem.setAmount(mainhanditem.getAmount() - (int)v );
                 }
 //				playerdata_s.activeskilldata.mana.decreaseMana((double)(v) * mana_mag , player, playerdata_s.level);
