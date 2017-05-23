@@ -124,10 +124,10 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
-	public int getTotalBuildNum(GiganticPlayer gp) {
+	public double getTotalBuildNum(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
-		int ans = 0;
+		double ans = 0;
 
 		command = "select build_count from " + db + "." + table
 				+ " where uuid = '" + struuid + "'";

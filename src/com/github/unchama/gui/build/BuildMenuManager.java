@@ -1,5 +1,6 @@
 package com.github.unchama.gui.build;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -137,11 +138,12 @@ public class BuildMenuManager extends GuiMenuManager{
 		switch(slot){
 		//自身の統計データ
 		case 0:
+		    String totalnum = bm.getTotalbuildnum().setScale(1, BigDecimal.ROUND_FLOOR).toPlainString();
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + 
 					ChatColor.BOLD + gp.name + "の統計データ");
 			lore = new ArrayList<String>();
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:" + blm.getBuildLevel());
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + bm.getTotalbuildnum());
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + totalnum);
 			itemmeta.setLore(lore);
 			SkullMeta skullmeta = (SkullMeta) itemmeta;
 			skullmeta.setOwner(gp.name);

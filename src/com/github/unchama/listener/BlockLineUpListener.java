@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 /**
@@ -196,14 +197,16 @@ public class BlockLineUpListener implements Listener{
                 v *= double_mag;	//ハーフ2段重ねの場合は2倍
                 //カウント対象ワールドの場合カウント値を足す
                 if( BuildData.isBlockCount(player) == true){	//対象ワールドかチェック
-                    gp.getManager(BuildManager.class).addBuild_num_1min((int) (v * config.getBlockCountMag()));	//設置した数を足す
+                    BigDecimal add = config.getBlockCountMag().multiply(new BigDecimal(v));
+                    gp.getManager(BuildManager.class).addBuild_num_1min(add);	//設置した数を足す
                 }
 
                 //マインスタック優先の場合マインスタックの数を減らす
                 if( line_up_minestack_flg == true && (current_stacktype != null)){
 //					if ( m == Material.STEP && (d == 0 || d == 8 ) || ( m == Material.DOUBLE_STEP && d == 0 )){
                     long num = sm.datamap.get(current_stacktype).getNum() - v;
-//						player.sendMessage("マインスタック設置前残:" + playerdata_s.minestack.getNum(no));
+                    sm.datamap.get(current_stacktype).add(-v);
+//						player.sendMessage("マインスタック設置前残:" + sm.datamap.get(current_stacktype).getNum());
 //						player.sendMessage("設置数:" + v);
                     if( num < 0 ){
                         v = num * (-1);
@@ -211,8 +214,7 @@ public class BlockLineUpListener implements Listener{
                     }else{
                         v = 0;
                     }
-//						player.sendMessage("メインハンド消費:" + v +" マインスタック残:" + num);
-                    sm.datamap.get(current_stacktype).add(-v);
+//						player.sendMessage("メインハンド消費:" + v + "マインスタック残:" + num);
 //					}
                 }
                 if (mainhanditem.getAmount() - v <= 0 ){//アイテム数が0ならメインハンドのアイテムをクリア

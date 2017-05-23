@@ -1,5 +1,6 @@
 package com.github.unchama.yml;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -225,7 +226,7 @@ public class ConfigManager extends YmlManager {
 	 *
 	 * @return
 	 */
-	public int getBuildNum1minLimit() { return this.fc.getInt("BuildNum1minLimit"); }
+	public BigDecimal getBuildNum1minLimit() { return new BigDecimal(this.fc.getInt("BuildNum1minLimit")); }
 
     /**整地ワールド名を取得します
      *
@@ -310,8 +311,8 @@ public class ConfigManager extends YmlManager {
      * 建築スキルを使用してブロックを並べたときの建築量上昇倍率を取得します
      * @return 倍率
      */
-    public double getBlockCountMag() {
-        return fc.getDouble("BlockCountMag");
+    public BigDecimal getBlockCountMag() {
+        return new BigDecimal(fc.getDouble("BlockCountMag"));
     }
 
     /**
