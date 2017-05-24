@@ -1,5 +1,6 @@
 package com.github.unchama.player.build;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
@@ -31,13 +32,11 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	}
 
 	/**レベルアップ可能かを調べるメソッドです
-	 * @param buildnum:建築量
-	 * @param buildlevel:建築レベル
 	 * @return
 	 */
 	public boolean canLevelup() {
-		double buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return (buildlevelmap.get(buildlevel + 1).getNeed_buildnum() <= buildnum) ? true : false;
+		BigDecimal buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
+		return (buildlevelmap.get(buildlevel + 1).getNeed_buildnum() <= buildnum.doubleValue()) ? true : false;
 	}
 
 	/**初期処理でプレイヤーのレベルを取得します
@@ -67,9 +66,9 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	 *
 	 * @return
 	 */
-	public double getRemainingBuildBlock(){
-		double buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return this.buildlevel < 100 ? (double)buildlevelmap.get(this.buildlevel + 1).getNeed_buildnum() - buildnum: 0.0;
+	public BigDecimal getRemainingBuildBlock(){
+		BigDecimal buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
+		return this.buildlevel < 100 ? new BigDecimal(buildlevelmap.get(this.buildlevel + 1).getNeed_buildnum()).subtract(buildnum): BigDecimal.ZERO;
 	}
 
 	/**現在のプレイヤーの建築レベルを取得します

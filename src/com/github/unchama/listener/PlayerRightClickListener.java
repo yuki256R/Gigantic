@@ -20,6 +20,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import java.math.BigDecimal;
+
 /**
  * Created by karayuu on 2017/05/17.
  */
@@ -45,7 +47,7 @@ public class PlayerRightClickListener implements Listener{
         //コンフィグ
         ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
         //スキル使用時の倍率を取得しておく
-        double blockCountMag = config.getBlockCountMag();
+        BigDecimal blockCountMag = config.getBlockCountMag();
 
         //スキルフラグ
         boolean zoneSetSkillFlag = gp.getManager(BuildSkillManager.class).isZone_flag();
@@ -343,8 +345,9 @@ public class PlayerRightClickListener implements Listener{
                     debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "設置ブロック数:" + block_cnt);
 
                     if (BuildData.isBlockCount(player)) {
-                        gp.getManager(BuildManager.class).addBuild_num_1min((int) (block_cnt * blockCountMag));//設置した数を足す
-                        debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "建築量上昇:" + block_cnt * blockCountMag);
+                        BigDecimal add = blockCountMag.multiply(new BigDecimal(block_cnt));
+                        gp.getManager(BuildManager.class).addBuild_num_1min(add);//設置した数を足す
+                        debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "建築量上昇:" + add.doubleValue());
                     }
 
                     return;
