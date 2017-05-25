@@ -30,6 +30,10 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(0, ManagerType.TOTALMINEBLOCKRANKINGMENU);
+		openmap.put(9, ManagerType.DAYMINEBLOCKRANKINGMENU);
+		openmap.put(18, ManagerType.WEEKMINEBLOCKRANKINGMENU);
+		openmap.put(27, ManagerType.MONTHMINEBLOCKRANKINGMENU);
+		openmap.put(36, ManagerType.YEARMINEBLOCKRANKINGMENU);
 	}
 
 	@Override
@@ -72,13 +76,21 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 			itemstack = head.getMobHead("blue_chalice");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（総合）");
 			break;
-		case 1:
+		case 9:
+			itemstack = head.getMobHead("blue_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（日間）");
 			break;
-		case 2:
+		case 18:
+			itemstack = head.getMobHead("blue_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（週間）");
 			break;
-		case 3:
+		case 27:
+			itemstack = head.getMobHead("blue_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（月間）");
 			break;
-		case 4:
+		case 36:
+			itemstack = head.getMobHead("blue_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（年間）");
 			break;
 		case 5:
 			break;

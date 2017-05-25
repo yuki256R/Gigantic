@@ -5,9 +5,11 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
+import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
+import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
 
-public final class TotalMineBlockRankingMenuManager extends RankingMenuManager {
+public class WeekMineBlockRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
@@ -16,7 +18,8 @@ public final class TotalMineBlockRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		return ChatColor.BLUE + "整地量ランキング（総合）";
+		String date = TimeUtil.getDateTimeName(TimeType.WEEK, 0);
+		return ChatColor.BLUE + "週間整地量ﾗﾝｷﾝｸﾞ(" + date + "~)";
 	}
 
 }

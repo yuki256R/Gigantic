@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.util.Util;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public abstract class RankingMenuManager extends GuiMenuManager {
 	//ランクとスロットの対応付け
@@ -42,6 +41,8 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 	private ItemStack nextButton;
 	private final int nextButtonSlot = 53;
 
+	private boolean loadflag = false;
+
 	public RankingMenuManager() {
 		super();
 		prevButton = head.getMobHead("left");
@@ -56,7 +57,6 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 	}
 
 	public void updateRanking(LinkedHashMap<String, Double> rankMap) {
-		debug.sendMessage(DebugEnum.GUI, this.getInventoryName(null) +  "をアップデートします");
 		int rank = 1;
 		for (Map.Entry<String, Double> e : rankMap.entrySet()) {
 			int page = (rank - 1) / 50 + 1;
@@ -67,12 +67,9 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 			Util.setLore(is, "" + ChatColor.GREEN + this.getLore(value));
 			int slot = rankslotMap.get(rank);
 			invMap.get(page).setItem(slot, is);
-
-			if(invMap.get(page).contains(is)){
-				debug.sendMessage(DebugEnum.GUI, "page:" + page + " slot:" + slot + "に正しくセットしました");
-			}
 			rank++;
 		}
+		loadflag = true;
 	}
 
 	protected abstract String getLore(double value);
@@ -82,10 +79,10 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 		InventoryType it = this.getInventoryType();
 		if (it == null) {
 			inv = Bukkit.getServer().createInventory(null,
-					this.getInventorySize(), this.getInventoryName(null) + "-" + page);
+					this.getInventorySize(), this.getInventoryName(null) + "-" + page + "ページ");
 		} else {
 			inv = Bukkit.getServer().createInventory(null,
-					this.getInventoryType(), this.getInventoryName(null) + "-" + page);
+					this.getInventoryType(), this.getInventoryName(null) + "-" + page + "ページ");
 		}
 		if (page != 1) {
 			inv.setItem(prevButtonSlot, prevButton);
@@ -97,19 +94,42 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	public Inventory getInventory(Player player) {
+	public Inventory getInventory(Player player, int slot) {
+		if (!loadflag) {
+			player.sendMessage(ChatColor.RED + "読み込み中です．しばらくお待ちください．");
+		}
 		return invMap.get(1);
 	}
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
-		idmap.put(prevButtonSlot, "go");
-		idmap.put(nextButtonSlot, "back");
+		idmap.put(nextButtonSlot, "go");
+		idmap.put(prevButtonSlot, "back");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		String title = player.getOpenInventory().getTitle();
+		int namelength = this.getInventoryName(player).length();
+		int page = Integer.valueOf(title.substring(namelength + 1, namelength + 2));
+		switch (identifier) {
+		case "go":
+			if(page != 3){
+				player.openInventory(invMap.get(page + 1));
+				player.playSound(player.getLocation(), getSoundName(), getVolume(),
+						getPitch());
+			}
+			break;
+		case "back":
+			if(page != 1){
+				player.openInventory(invMap.get(page - 1));
+				player.playSound(player.getLocation(), getSoundName(), getVolume(),
+						getPitch());
+			}
+			break;
+		default:
+			break;
+		}
 		return false;
 	}
 

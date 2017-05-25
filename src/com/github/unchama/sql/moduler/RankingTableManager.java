@@ -10,9 +10,39 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
+import com.github.unchama.util.TimeUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public abstract class RankingTableManager extends TableManager {
+	public static enum TimeType {
+		DAY(0),
+		WEEK(1),
+		MONTH(2),
+		YEAR(3);
+
+		private static HashMap<Integer,TimeType> tMap = new HashMap<Integer,TimeType>(){
+			{
+				put(TimeType.DAY.getNum(),TimeType.DAY);
+				put(TimeType.WEEK.getNum(),TimeType.WEEK);
+				put(TimeType.MONTH.getNum(),TimeType.MONTH);
+				put(TimeType.YEAR.getNum(),TimeType.YEAR);
+			}
+		};
+		int n;
+
+		TimeType(int n){
+			this.n = n;
+		}
+
+		public int getNum(){
+			return n;
+		}
+
+		public static TimeType getTypebyNum(int n){
+			return tMap.get(n);
+		}
+	}
+
 	//列名
 	private String columnName;
 	//テーブル名
@@ -24,14 +54,97 @@ public abstract class RankingTableManager extends TableManager {
 	//上位150名のデータマップ
 	private LinkedHashMap<String, Double> totalMap;
 
+	private HashMap<TimeType,LinkedHashMap<String, Double>> timeMap;
+
+	private HashMap<UUID,String> nameMap;
+
 	public RankingTableManager(Sql sql) {
 		super(sql);
 		map = new HashMap<UUID, Double>();
 		minuteMap = new HashMap<UUID, Double>();
 		totalMap = new LinkedHashMap<String, Double>();
+		timeMap = new HashMap<TimeType,LinkedHashMap<String, Double>>();
+		for(TimeType tt : TimeType.values()){
+			timeMap.put(tt, new LinkedHashMap<String, Double>());
+		}
+		nameMap = new HashMap<UUID,String>();
 	}
 
-	/**上位150名のデータをロードします．
+	/**TimeTypeごとのランキングを更新します．
+	 *
+	 * @param tt
+	 */
+	public void updateLimitMap(TimeType tt) {
+		updateNameMap();
+		String command = "";
+		LinkedHashMap<String, Double> map = timeMap.get(tt);
+		map.clear();
+		/**SELECT * FROM `mineblockranking` WHERE datetime BETWEEN '2017-05-18 00:00:00' and '2017-05-20 00:00:00'
+		 *
+		 */
+		String startDatetime = TimeUtil.getDateTimeOnString(tt, 0);
+		String endDatetime = TimeUtil.getDateTimeOnString(tt, 1);
+
+		command = "SELECT uuid," + columnName + " FROM " + db + "." + table + " "
+				+ "WHERE datetime BETWEEN '" + startDatetime + "' and '" + endDatetime + "' "
+				+ "ORDER BY " + columnName + " DESC LIMIT 150";
+		UUID uuid;
+		String name;
+		double value;
+		// ロード
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				// nameを取得
+				uuid = UUID.fromString(rs.getString("uuid"));
+				name = nameMap.get(uuid);
+				if(map.containsKey(name)){
+					value = rs.getDouble(columnName) + map.get(name);
+				}else{
+					value = rs.getDouble(columnName);
+				}
+
+				map.put(name, value);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to loadTimeMap in " + table + " Table");
+			e.printStackTrace();
+		}
+		updateMenu(tt,map);
+	}
+	private void updateNameMap() {
+		nameMap.clear();
+		String command = "";
+		command = "SELECT uuid,name FROM " + db + ".gigantic" + " WHERE 1";
+		UUID uuid;
+		String name;
+		// ロード
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				// nameを取得
+				uuid = UUID.fromString(rs.getString("uuid"));
+				name = rs.getString("name");
+				nameMap.put(uuid, name);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to loadTotalMap in " + table + " Table");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *メニューを更新する．
+	 * @param tt
+	 * @param map
+	 */
+	protected abstract void updateMenu(TimeType tt, LinkedHashMap<String, Double> map);
+
+	/**総合ランキング上位150名のデータをロードします．
 	 * @param totalMap
 	 *
 	 */
@@ -43,8 +156,8 @@ public abstract class RankingTableManager extends TableManager {
 		 * WHERE 1 ORDER BY allmineblock DESC LIMIT 150
 		 *
 		 */
-		command = "SELECT name," + columnName + " FROM " + db +"." + tableName + " "
-				+ "WHERE 1 ORDER BY " + columnName + " DESC LIMIT 150";
+		command = "SELECT name," + columnName + " FROM " + db + "." + tableName
+				+ " WHERE 1 ORDER BY " + columnName + " DESC LIMIT 150";
 
 		String name;
 		double value;
@@ -52,10 +165,12 @@ public abstract class RankingTableManager extends TableManager {
 		try {
 			rs = stmt.executeQuery(command);
 			while (rs.next()) {
-				// uuidを取得
+				// nameを取得
 				name = rs.getString("name");
 				value = rs.getDouble(columnName);
-				totalMap.put(name, value);
+				if(value != 0D){
+					totalMap.put(name, value);
+				}
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -79,7 +194,8 @@ public abstract class RankingTableManager extends TableManager {
 	protected Boolean createTable() {
 		String command;
 		// create Table
-		command = "CREATE TABLE IF NOT EXISTS " + db + "." + table + " (datetime timestamp)";
+		command = "CREATE TABLE IF NOT EXISTS " + db + "." + table
+				+ " (id int primary key auto_increment,datetime timestamp)";
 		// send
 		if (!sendCommand(command)) {
 			plugin.getLogger().warning("Failed to Create " + table + " Table");
@@ -109,11 +225,13 @@ public abstract class RankingTableManager extends TableManager {
 		}
 		return true;
 	}
+
 	/**
 	 * 追加する列名が存在するテーブル名を入れてください．
 	 * @return
 	 */
 	protected abstract String getTableName();
+
 	/**
 	 * 追加する列の名前を入れてください．
 	 * @return
@@ -224,6 +342,5 @@ public abstract class RankingTableManager extends TableManager {
 	public boolean isEmpty() {
 		return map.isEmpty() || minuteMap.isEmpty();
 	}
-
 
 }

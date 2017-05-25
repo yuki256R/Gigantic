@@ -23,6 +23,7 @@ import com.github.unchama.yml.Yml;
 
 public final class Gigantic extends JavaPlugin {
 
+
 	// 自身のインスタンスを生成
 	public static Gigantic plugin;
 
@@ -68,6 +69,7 @@ public final class Gigantic extends JavaPlugin {
 			seichisql = new SeichiAssistSql();
 		}
 
+		sql.loadRankingData();
 
 		// ユーザーに対する処理
 		PlayerManager.onEnable();

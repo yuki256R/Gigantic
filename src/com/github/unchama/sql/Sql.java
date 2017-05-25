@@ -34,6 +34,7 @@ import com.github.unchama.sql.gacha.GiganticGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
+import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.sql.player.CondensationTableManager;
@@ -53,6 +54,8 @@ import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
+import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
+import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
 import com.github.unchama.task.RankingUpdateTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
@@ -498,6 +501,23 @@ public class Sql {
 
 	}
 
+	/**期間式ランキングのアップデート
+	 *
+	 * @param timeType
+	 */
+	public void update(TimeType tt) {
+		int delay = 1;
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if (RankingTableManager.class.isAssignableFrom(mt)) {
+				RankingTableManager rtm = (RankingTableManager) managermap
+						.get(mt);
+				new LimitedRankingLoadTaskRunnable(rtm,tt).runTaskLaterAsynchronously(
+						plugin, delay);
+				delay++;
+
+			}
+		}
+	}
 	/**
 	 * gpが初期化を終了した後に処理される
 	 *
@@ -512,5 +532,18 @@ public class Sql {
 			}
 		}
 	}
+
+	public void loadRankingData() {
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if (RankingTableManager.class.isAssignableFrom(mt)) {
+				RankingTableManager rtm = (RankingTableManager) managermap
+						.get(mt);
+				new RankingLoadTaskRunnable(rtm).runTaskTimerAsynchronously(
+						plugin, 5, 5);
+
+			}
+		}
+	}
+
 
 }
