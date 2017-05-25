@@ -3,12 +3,9 @@ package com.github.unchama.player.buildskill;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.build.BuildLevelData;
 import com.github.unchama.player.build.BuildLevelManager;
-import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.yml.ConfigManager;
-import com.github.unchama.yml.DebugManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -39,11 +36,12 @@ public class BuildSkillManager extends DataManager{
         BOTH,
         ;
     }
+    
 
     //プレイヤー
     private Player player = PlayerManager.getPlayer(gp);
     //Config
-    ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+    private  ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
     //範囲設置スキルフラグ
     private boolean zone_flag;

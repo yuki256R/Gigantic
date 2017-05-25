@@ -234,12 +234,12 @@ public class GiganticInteractListener implements Listener {
 					continue;
 				}
 			}
-			if (!player.getInventory().getItemInOffHand().getType()
+			/*if (!player.getInventory().getItemInOffHand().getType()
 					.equals(Material.AIR)) {
 				player.sendMessage(ChatColor.RED
 						+ "オフハンドにアイテムを持った状態でメニューを開くことはできません");
 				return;
-			}
+			}*/
 			event.setCancelled(true);
 			m.open(player, 0, true);
 			continue;

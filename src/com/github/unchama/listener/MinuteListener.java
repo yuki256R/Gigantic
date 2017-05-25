@@ -9,7 +9,6 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.event.MinuteEvent;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.sql.Sql;
 import com.github.unchama.task.AddPotionTaskRunnable;
 import com.github.unchama.task.BuildTaskRunnable;
 import com.github.unchama.task.FlyTaskRunnable;
@@ -18,7 +17,6 @@ import com.github.unchama.task.PlayerTimeTaskRunnable;
 
 public class MinuteListener implements Listener {
 	private Gigantic plugin = Gigantic.plugin;
-	private Sql sql = Gigantic.sql;
 
 	/**
 	 * 定期セーブタスク
@@ -106,8 +104,4 @@ public class MinuteListener implements Listener {
 		new PlayerTimeTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
 	}
 
-	@EventHandler
-	public void RankingListener(MinuteEvent event) {
-		sql.updateRanking();
-	}
 }

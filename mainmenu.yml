@@ -313,3 +313,16 @@ name: '&5&lメインメニュー'
       lore:
       - '&r&aβ専用機能'
   invoke: "betamanacure"
+31:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&l各種ランキング'
+      lore:
+      - '&r※毎分更新されます．'
+  mobhead: 'crown'
+  openmenu: 'rankingselectmenu'
