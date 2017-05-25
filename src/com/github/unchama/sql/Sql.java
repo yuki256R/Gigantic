@@ -21,6 +21,7 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
@@ -49,6 +50,7 @@ import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.sql.player.PlayerSettingsTableManager;
 import com.github.unchama.sql.player.PlayerTimeTableManager;
+import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
@@ -81,6 +83,7 @@ public class Sql {
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
 				DimensionalInventoryManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingManager.class), //
+		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
