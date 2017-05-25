@@ -23,9 +23,13 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 		{
 			for (int i = 1; i <= 45; i++) {
 				put(i, i - 1);
+				put(i + 50, i - 1);
+				put(i + 100, i - 1);
 			}
 			for (int i = 46; i <= 50; i++) {
 				put(i, i + 1);
+				put(i + 50, i + 1);
+				put(i + 100, i + 1);
 			}
 		}
 	};
