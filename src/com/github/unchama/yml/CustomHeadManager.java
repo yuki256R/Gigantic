@@ -16,6 +16,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.moduler.YmlManager;
@@ -251,5 +252,14 @@ public class CustomHeadManager extends YmlManager {
 	// nameに一致する頭が見つからなかった時のwarningメッセージ
 	private void notFindWarning(String text) {
 		Bukkit.getServer().getLogger().warning(text);
+	}
+
+	public ItemStack getPlayerHead(String name) {
+		ItemStack is = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+		ItemMeta im = is.getItemMeta();
+		SkullMeta sm = (SkullMeta)im;
+		sm.setOwner(name);
+		is.setItemMeta(im);
+		return is;
 	}
 }

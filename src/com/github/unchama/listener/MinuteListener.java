@@ -108,6 +108,6 @@ public class MinuteListener implements Listener {
 
 	@EventHandler
 	public void RankingListener(MinuteEvent event) {
-		sql.updateRanking();
+		sql.update();
 	}
 }

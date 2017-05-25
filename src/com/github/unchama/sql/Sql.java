@@ -52,8 +52,9 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
-import com.github.unchama.sql.ranking.MineBlockRankingManager;
+import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 import com.github.unchama.task.RankingSendTaskRunnable;
+import com.github.unchama.task.RankingUpdateTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
 
 public class Sql {
@@ -80,7 +81,7 @@ public class Sql {
 		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
 				DimensionalInventoryManager.class), //
-		MINEBLOCKRANKING(MineBlockRankingManager.class), //
+		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -479,7 +480,7 @@ public class Sql {
 	/*
 	 * 毎分のランキング処理
 	 */
-	public void updateRanking() {
+	public void update() {
 		int delay = 1;
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
@@ -488,8 +489,13 @@ public class Sql {
 				new RankingSendTaskRunnable(rtm).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
+				new RankingUpdateTaskRunnable(rtm).runTaskLaterAsynchronously(
+						plugin, delay);
+				delay++;
+
 			}
 		}
+
 	}
 
 	/**
@@ -502,7 +508,7 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				rtm.onJoin(gp);
+				rtm.join(gp);
 			}
 		}
 	}

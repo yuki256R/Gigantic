@@ -33,6 +33,8 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.ranking.RankingSelectMenuManager;
+import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
 import com.github.unchama.gui.seichireward.SeichiRewardMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
@@ -103,6 +105,8 @@ public final class GuiMenu {
 		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
         BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
+        RANKINGSELECTMENU(RankingSelectMenuManager.class),
+        TOTALMINEBLOCKRANKINGMENU(TotalMineBlockRankingMenuManager.class),
 		;
 
 		// 使用するManagerClass

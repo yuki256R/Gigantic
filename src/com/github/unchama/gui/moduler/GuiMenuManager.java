@@ -19,6 +19,7 @@ import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.menu.PlayerMenuManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.DebugManager;
@@ -31,11 +32,14 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
  *
  */
 public abstract class GuiMenuManager {
-	protected Gigantic plugin = Gigantic.plugin;
-	protected ConfigManager config = Gigantic.yml
+	public static final Gigantic plugin = Gigantic.plugin;
+	public static final GuiMenu gui = Gigantic.guimenu;
+	public static final Sql sql = Gigantic.sql;
+
+	public final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+
+	public final ConfigManager config = Gigantic.yml
 			.getManager(ConfigManager.class);
-	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-	public static GuiMenu gui = Gigantic.guimenu;
 	protected CustomHeadManager head = Gigantic.yml
 			.getManager(CustomHeadManager.class);
 

@@ -19,7 +19,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
@@ -44,7 +43,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 
 	public GuiYmlMenuManager() {
 		super();
-		this.plugin = Gigantic.plugin;
 		this.filename = GuiMenu.ManagerType.getMenuNamebyClass(this.getClass());
 		this.file = new File(plugin.getDataFolder(), filename);
 		saveDefaultFile();
