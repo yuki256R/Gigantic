@@ -34,14 +34,15 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 
 	//討伐時にポイントを加算する
 	public void addPoint(String key, int value){
-		if(!currentPoints.containsKey(key) || !totalPoints.containsKey(key)){
-			return;
+		int currentPoint = 0;
+		int totalPoint = 0;
+		if(currentPoints.containsKey(key) && totalPoints.containsKey(key)){
+			currentPoint = currentPoints.get(key);
+			totalPoint = totalPoints.get(key);
 		}
-		int currentPoint = currentPoints.get(key);
-		int totalPoint = totalPoints.get(key);
 
-		currentPoints.put(key, currentPoints.get(key) + value);
-		totalPoints.put(key, totalPoints.get(key) + value);
+		currentPoints.put(key, currentPoint + value);
+		totalPoints.put(key, totalPoint + value);
 
 		Bukkit.getPluginManager().callEvent(new HuntingPointIncrementEvent(gp, key, value, currentPoint, totalPoint));
 	}
