@@ -74,6 +74,8 @@ public class PresentBoxManager extends DataManager implements UsingSql {
 	public ItemStack giveItem(int slot) {
 		ItemStack item = inventory.getItem(slot);
 		if (item != null) {
+			Player player = PlayerManager.getPlayer(gp);
+			Util.giveItem(player, item, true);
 			// 受け取ったら詰める
 			for (int i = slot + 1; i < inventory.getSize(); i++) {
 				ItemStack temp = inventory.getItem(i);
