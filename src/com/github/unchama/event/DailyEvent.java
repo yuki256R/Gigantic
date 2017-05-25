@@ -1,6 +1,7 @@
 package com.github.unchama.event;
 
 import com.github.unchama.event.moduler.CustomEvent;
+import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 
 /**毎日0時に実行される
  *
@@ -10,10 +11,12 @@ import com.github.unchama.event.moduler.CustomEvent;
 public class DailyEvent extends CustomEvent {
 	private int day;
 	private int wday;
+	private TimeType tt;
 
 	public DailyEvent(int day,int wday){
 		this.day = day;
 		this.wday = wday;
+		this.tt = TimeType.DAY;
 	}
 	/**日にちを取得
 	 *
@@ -28,5 +31,13 @@ public class DailyEvent extends CustomEvent {
 	 */
 	public int getDayofWeek(){
 		return wday;
+	}
+
+	/**時間定数を取得
+	 * 
+	 * @return
+	 */
+	public TimeType getTimeType(){
+		return tt;
 	}
 }

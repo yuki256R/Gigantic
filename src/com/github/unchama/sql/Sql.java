@@ -34,6 +34,7 @@ import com.github.unchama.sql.gacha.GiganticGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
+import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.sql.moduler.TableManager;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.sql.player.CondensationTableManager;
@@ -52,8 +53,11 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
-import com.github.unchama.sql.ranking.MineBlockRankingManager;
+import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
+import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
+import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
+import com.github.unchama.task.RankingUpdateTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
 
 public class Sql {
@@ -80,7 +84,7 @@ public class Sql {
 		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
 				DimensionalInventoryManager.class), //
-		MINEBLOCKRANKING(MineBlockRankingManager.class), //
+		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -479,7 +483,7 @@ public class Sql {
 	/*
 	 * 毎分のランキング処理
 	 */
-	public void updateRanking() {
+	public void update() {
 		int delay = 1;
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
@@ -488,10 +492,32 @@ public class Sql {
 				new RankingSendTaskRunnable(rtm).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
+				new RankingUpdateTaskRunnable(rtm).runTaskLaterAsynchronously(
+						plugin, delay);
+				delay++;
+
+			}
+		}
+
+	}
+
+	/**期間式ランキングのアップデート
+	 *
+	 * @param timeType
+	 */
+	public void update(TimeType tt) {
+		int delay = 1;
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if (RankingTableManager.class.isAssignableFrom(mt)) {
+				RankingTableManager rtm = (RankingTableManager) managermap
+						.get(mt);
+				new LimitedRankingLoadTaskRunnable(rtm,tt).runTaskLaterAsynchronously(
+						plugin, delay);
+				delay++;
+
 			}
 		}
 	}
-
 	/**
 	 * gpが初期化を終了した後に処理される
 	 *
@@ -502,9 +528,22 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				rtm.onJoin(gp);
+				rtm.join(gp);
 			}
 		}
 	}
+
+	public void loadRankingData() {
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if (RankingTableManager.class.isAssignableFrom(mt)) {
+				RankingTableManager rtm = (RankingTableManager) managermap
+						.get(mt);
+				new RankingLoadTaskRunnable(rtm).runTaskTimerAsynchronously(
+						plugin, 5, 5);
+
+			}
+		}
+	}
+
 
 }
