@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import com.github.unchama.event.HuntingPointIncrementEvent;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -15,6 +17,8 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 	private Map<String, Integer> currentPoints = new HashMap<String, Integer>();
 	private Map<String, Integer> totalPoints = new HashMap<String, Integer>();
 
+	// フライ中はポイントが入らない旨を説明したか
+	private boolean isFlyWarned = false;
 
 	//どのMobのショップを開くか
 	private String shopMobName;
@@ -100,4 +104,12 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		return shopMobName;
 	}
 
+	// フライ中はポイントが入らない旨をログイン中1度だけ警告
+	public void FlyWarning(){
+		if(!isFlyWarned){
+			Player player = PlayerManager.getPlayer(gp);
+			player.sendMessage("狩猟ポイントはfly中には反映されません.");
+			isFlyWarned = true;
+		}
+	}
 }
