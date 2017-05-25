@@ -17,10 +17,12 @@ import com.github.unchama.gui.admin.gacha.premium.AP_EditGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_ListGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_TicketGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
+import com.github.unchama.gui.admin.toolrepair.AdminToolRepairMenuManager;
 import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
 import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
 import com.github.unchama.gui.build.BuildMenuManager;
+import com.github.unchama.gui.buildskill.BlockLineUpMenuManager;
 import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopMenuManager;
@@ -31,6 +33,12 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.ranking.RankingSelectMenuManager;
+import com.github.unchama.gui.ranking.mineblock.DayMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.MonthMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.WeekMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.YearMineBlockRankingMenuManager;
 import com.github.unchama.gui.seichireward.SeichiRewardMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
@@ -47,17 +55,20 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
+import com.github.unchama.gui.settings.PlayerSettingsMenuManager;
 
 
 public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
+		PLAYERSETTINGSMENU(PlayerSettingsMenuManager.class),
 		ADMINTYPEMENU(AdminTypeMenuManager.class),
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		ADMINCUSTOMHEADMAINMENU(AdminCustomHeadMainMenuManager.class),
 		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -97,6 +108,13 @@ public final class GuiMenu {
 		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
 		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
+        BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
+        RANKINGSELECTMENU(RankingSelectMenuManager.class),
+        TOTALMINEBLOCKRANKINGMENU(TotalMineBlockRankingMenuManager.class),
+        DAYMINEBLOCKRANKINGMENU(DayMineBlockRankingMenuManager.class),
+        WEEKMINEBLOCKRANKINGMENU(WeekMineBlockRankingMenuManager.class),
+        MONTHMINEBLOCKRANKINGMENU(MonthMineBlockRankingMenuManager.class),
+        YEARMINEBLOCKRANKINGMENU(YearMineBlockRankingMenuManager.class),
 		;
 
 		// 使用するManagerClass

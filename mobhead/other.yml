@@ -93,3 +93,21 @@ mobhead:
   red_core:
     dispname: 'レッドコア'
     url: 'http://textures.minecraft.net/texture/faff2eb498e5c6a04484f0c9f785b448479ab213df95ec91176a308a12add70'
+  crown:
+    dispname: '王冠'
+    url: 'http://textures.minecraft.net/texture/53415667de3fb89c5f40c880c39e4971a0caa7f3a9d2c8f712ba37fadcee'
+  blue_chalice:
+    dispname: '聖杯（ブルージェム）'
+    url: 'http://textures.minecraft.net/texture/c1b184768d6f12e35a9b2e9d2e96e116686bfbf0d92fabbd62c8357ba205927'
+  green_chalice:
+    dispname: '聖杯（グリーンジェム）'
+    url: 'http://textures.minecraft.net/texture/3432b9c47b9b5d61d16988492596d4ced8e042a66313e12c22e66d230b2c1'
+  red_chalice:
+    dispname: '聖杯（レッドジェム）'
+    url: 'http://textures.minecraft.net/texture/4da8a8c9384e2323e137fb14eed9a7173981fc76590c8bf89be8b5bfc47d92f'
+  sky_chalice:
+    dispname: '聖杯（スカイジェム）'
+    url: 'http://textures.minecraft.net/texture/c754eed8d05a196c3fc2d2511417eb56262621414ce3b3dfb3571aea4dddc470'
+  purple_chalice:
+    dispname: '聖杯（パープルジェム）'
+    url: 'http://textures.minecraft.net/texture/cd404270c6ebeb8fc94a3946af5334e4a5b657a9bf25e7335e74ab185'

@@ -6,6 +6,7 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -24,7 +25,7 @@ public class BuildTableManager extends PlayerFromSeichiTableManager{
     @Override
     public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
         BuildManager m = gp.getManager(BuildManager.class);
-        m.setTotalbuildnum(rs.getDouble("totalbuildnum"));
+        m.setTotalbuildnum(new BigDecimal(rs.getDouble("totalbuildnum")));
     }
 
     @Override
@@ -38,12 +39,12 @@ public class BuildTableManager extends PlayerFromSeichiTableManager{
     @Override
     protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
         BuildManager m = gp.getManager(BuildManager.class);
-        m.setTotalbuildnum(tm.getTotalBuildNum(gp));
+        m.setTotalbuildnum(new BigDecimal(tm.getTotalBuildNum(gp)));
     }
 
     @Override
     protected void firstjoinPlayer(GiganticPlayer gp) {
         BuildManager m = gp.getManager(BuildManager.class);
-        m.setTotalbuildnum(0);
+        m.setTotalbuildnum(BigDecimal.ZERO);
     }
 }
