@@ -1,5 +1,6 @@
 package com.github.unchama.listener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,8 @@ import zedly.zenchantments.Zenchantments;
 import com.github.unchama.event.GiganticInteractEvent;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.GachaNotification;
+import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
@@ -116,17 +119,23 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 		PlayerGachaManager pm = gp.getManager(PlayerGachaManager.class);
-		boolean dropped = false;;
+		boolean dropped = false;
+		// 通知用のガチャ結果リスト
+		List<GachaItem> gachaItems = new ArrayList<GachaItem>();
+
+		// まとめてガチャを開封する
 		for (int i = 0; i < count; i++) {
 			// ガチャを回す
-			ItemStack gachaitem = pm.roll(gt);
-			dropped = Util.giveItem(player, gachaitem,false);
+			GachaItem gachaitem = pm.roll(gt);
+			gachaItems.add(gachaitem);
+			ItemStack itemstack = gachaitem.getItem();
+			dropped |= Util.giveItem(player, itemstack, false);
 		}
 
-		if(dropped){
-			player.sendMessage(ChatColor.AQUA + "プレゼントがドロップしました．");
-		}
+		// 引いた物の通知
+		GachaNotification.Notification(player, gachaItems, dropped);
 
+		// ガチャ券を減らす
 		if (player.isSneaking() || item.getAmount() == 1) {
 			player.getInventory()
 					.setItemInMainHand(new ItemStack(Material.AIR));
@@ -225,12 +234,12 @@ public class GiganticInteractListener implements Listener {
 					continue;
 				}
 			}
-			if (!player.getInventory().getItemInOffHand().getType()
+			/*if (!player.getInventory().getItemInOffHand().getType()
 					.equals(Material.AIR)) {
 				player.sendMessage(ChatColor.RED
 						+ "オフハンドにアイテムを持った状態でメニューを開くことはできません");
 				return;
-			}
+			}*/
 			event.setCancelled(true);
 			m.open(player, 0, true);
 			continue;

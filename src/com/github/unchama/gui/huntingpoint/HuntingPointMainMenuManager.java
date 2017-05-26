@@ -23,12 +23,10 @@ import com.github.unchama.gui.MainMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
-import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
 public class HuntingPointMainMenuManager extends GuiMenuManager {
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	// 戻るボタン
 	private ItemStack backButton;

@@ -4,12 +4,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
+import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
@@ -34,11 +37,14 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
+import com.github.unchama.util.ExperienceManager;
 
 /**各プレイヤーにデータを保存したい時はここにマネージャーを追加します．
  *
@@ -52,6 +58,7 @@ public class GiganticPlayer {
 		 * Managerを追加するときはここに書く．
 		 */
 		GIGANTIC(GiganticManager.class),
+		SETTINGS(PlayerSettingsManager.class),
 		GUISTATUS(GuiStatusManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
@@ -77,6 +84,7 @@ public class GiganticPlayer {
 		BUILDLEVEL(BuildLevelManager.class),
 		SIDEBAR(SideBarManager.class),
 		BUILDSKILL(BuildSkillManager.class),
+		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -92,16 +100,20 @@ public class GiganticPlayer {
 	}
 
 	Gigantic plugin = Gigantic.plugin;
+	Sql sql = Gigantic.sql;
 
 	public final String name;
 	public final UUID uuid;
 	private GiganticStatus gs;
+	private ExperienceManager expManager;
+	// Player型は突然消えることがあるため保持しない
 
 	private LinkedHashMap<Class<? extends DataManager>, DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>, DataManager>();
 
 	public GiganticPlayer(Player player) {
 		this.name = Converter.getName(player);
 		this.uuid = player.getUniqueId();
+		this.expManager = new ExperienceManager(player);
 		this.setStatus(GiganticStatus.LODING);
 		for (ManagerType mt : ManagerType.values()) {
 			try {
@@ -173,6 +185,10 @@ public class GiganticPlayer {
 			}
 		}
 		this.setStatus(GiganticStatus.AVAILABLE);
+		Player player = PlayerManager.getPlayer(this);
+		player.sendMessage(ChatColor.GREEN
+				+ "ロードが完了しました．");
+		sql.onAvailavle(this);
 	}
 
 	public void fin() {
@@ -230,6 +246,16 @@ public class GiganticPlayer {
 	public GiganticStatus getStatus() {
 		return this.gs;
 	}
+
+	/**経験値マネージャーを取得します．
+	 *
+	 * @return ステータス
+	 */
+	public ExperienceManager getExpManager(){
+		return this.expManager;
+	}
+
+
 
 	/*
 	//３０分間のデータを保存する．

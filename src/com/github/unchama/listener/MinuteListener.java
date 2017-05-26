@@ -26,7 +26,7 @@ public class MinuteListener implements Listener {
 	@EventHandler
 	public void GiganticSaveListener(MinuteEvent event) {
 		//３０分に１度実行する．
-		if(event.getMinute() % 30 != 0){
+		if (event.getMinute() % 30 != 0) {
 			return;
 		}
 
@@ -40,6 +40,7 @@ public class MinuteListener implements Listener {
 				plugin, 0, 1);
 
 	}
+
 	/**
 	 * MineBoost
 	 *
@@ -47,35 +48,26 @@ public class MinuteListener implements Listener {
 	 */
 	@EventHandler
 	public void MineBoostListener(MinuteEvent event) {
-		List<Player> playerlist = new ArrayList<Player>(plugin.getServer()
-				.getOnlinePlayers());
+		List<Player> playerlist = event.getOnlinePlayers();
 
 		if (playerlist.isEmpty()) {
 			return;
 		}
 		// 1tickにつき1人にMineBoostを付加
-		new AddPotionTaskRunnable(playerlist,event.getMinute()).runTaskTimerAsynchronously(
+		new AddPotionTaskRunnable(playerlist, event.getMinute()).runTaskTimerAsynchronously(
 				plugin, 0, 1);
-
-		/*
-		 * //run process one by one for(Player p :
-		 * plugin.getServer().getOnlinePlayers()){
-		 * PlayerManager.getGiganticPlayer
-		 * (p).getManager(MineBoostManager.class).updataMinuteMine();
-		 * debug.sendMessage(p, DebugEnum.MINEBOOST,
-		 * "updata MinuteMine for player:" + p.getName()); }
-		 */
 	}
+
 	/**
 	 * Fly
-     *
+	 *
 	 * @param
 	 */
 	@EventHandler
-	public void FlyListener(MinuteEvent event){
-		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+	public void FlyListener(MinuteEvent event) {
+		List<Player> playerlist = event.getOnlinePlayers();
 
-		if(playerlist.isEmpty()){
+		if (playerlist.isEmpty()) {
 			return;
 		}
 		//1tickにつき1人に処理
@@ -88,10 +80,10 @@ public class MinuteListener implements Listener {
 	 * @param
 	 */
 	@EventHandler
-	public void BuildNum1minListener(MinuteEvent event){
-		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+	public void BuildNum1minListener(MinuteEvent event) {
+		List<Player> playerlist = event.getOnlinePlayers();
 
-		if(playerlist.isEmpty()){
+		if (playerlist.isEmpty()) {
 			return;
 		}
 		new BuildTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
@@ -103,12 +95,13 @@ public class MinuteListener implements Listener {
 	 * @param
 	 */
 	@EventHandler
-	public void PlayerTimeListener(MinuteEvent event){
-		List<Player> playerlist = new ArrayList<Player>(plugin.getServer().getOnlinePlayers());
+	public void PlayerTimeListener(MinuteEvent event) {
+		List<Player> playerlist = event.getOnlinePlayers();
 
-		if(playerlist.isEmpty()){
+		if (playerlist.isEmpty()) {
 			return;
 		}
 		new PlayerTimeTaskRunnable(playerlist).runTaskTimerAsynchronously(plugin, 0, 1);
 	}
+
 }
