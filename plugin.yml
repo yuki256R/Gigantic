@@ -43,7 +43,7 @@ commands:
       permission-message: You don't have <permission>
   presentbox:
       description: This is presentbox command.
-      usage: /<command> send <playername/all>
+      usage: /<command> send <playername/all/uuid>
       default: op
       permission: gigantic.presentbox
       permission-message: You don't have <permission>

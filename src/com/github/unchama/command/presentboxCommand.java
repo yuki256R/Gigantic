@@ -40,7 +40,7 @@ public class presentboxCommand implements TabExecutor {
 		if (!(sender instanceof Player)) {
 			sender.sendMessage(ChatColor.GREEN + "このコマンドはゲーム内から実行してください。");
 			return true;
-		}else if (args.length == 2){
+		}else if(args.length >= 2){
 			// 送るアイテムを取得
 			ItemStack sendItem = player.getInventory().getItemInMainHand();
 			if(sendItem == null){
@@ -54,33 +54,45 @@ public class presentboxCommand implements TabExecutor {
 
 			//プレイヤー名をlowercaseする
 			String name = Converter.getName(args[1]);
+			if(name.equalsIgnoreCase("uuid")){
+				// 個人宛 UUIDの場合「/presentbox send uuid xxxxxx(ハイフン付き)」
+				if(args.length == 3){
+					boolean isSuccess = sendItem(player, args[2], sendItem, true);
+					if(isSuccess){
+						player.sendMessage("UUID : " + name + "にプレゼントを贈りました.");
+					}else{
+						player.sendMessage("UUID : " + name + "というプレイヤーはいませんでした.");
+					}
+				}else{
+					return false;
+				}
+			}else if(name.equalsIgnoreCase("all")){
+				// 全員
 
-			if(!name.equalsIgnoreCase("all")){
-				// 個人宛
+			}else{
+				// 個人宛(ID)
 				boolean isSuccess = sendItem(player, name, sendItem, false);
 				if(isSuccess){
 					player.sendMessage(name + "にプレゼントを贈りました.");
 				}else{
 					player.sendMessage(name + "というプレイヤーはいませんでした.");
 				}
-			}else{
-				// 全員
 			}
 		}
 		return false;
 	}
 
-	private boolean sendItem(Player sendDlayer, String name, ItemStack sendItem, boolean isUUID){
+	private boolean sendItem(Player sendDlayer, String id, ItemStack sendItem, boolean isUUID){
 		Player player = null;
 		if(isUUID){
-			player = Bukkit.getServer().getPlayer(UUID.fromString(name));
+			player = Bukkit.getServer().getPlayer(UUID.fromString(id));
 		}else{
-			player = Bukkit.getServer().getPlayer(name);
+			player = Bukkit.getServer().getPlayer(id);
 		}
 
 		// ログインしていない
 		if(player == null){
-			sendDlayer.sendMessage(name + "はいません");
+			sendDlayer.sendMessage(id + "はいません");
 			return true;
 		// ログインしている
 		}else{
