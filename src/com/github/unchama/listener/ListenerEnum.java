@@ -28,7 +28,13 @@ public enum ListenerEnum {
     MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
     HUNTINGPOINT(new HuntingPointEventListener()),
     PLAYERPICKUPITEM(new PlayerPickupItemListener()),
+<<<<<<< HEAD
     BLOCKLINEUP(new BlockLineUpListener()),
+=======
+    ZONESKILL(new PlayerRightClickListener()),
+    BLOCKLINEUP(new BlockLineUpListener()),
+    RANKINGUPDATE(new RankingUpdateListener()),
+>>>>>>> unchama/master
 
 	;
 	private Listener listener;

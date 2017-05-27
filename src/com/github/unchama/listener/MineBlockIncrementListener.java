@@ -14,20 +14,20 @@ import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.sql.Sql;
-import com.github.unchama.sql.ranking.MineBlockRankingManager;
+import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 
 public class MineBlockIncrementListener implements Listener {
 	Sql sql = Gigantic.sql;
-	MineBlockRankingManager rm;
+	MineBlockRankingTableManager rm;
 
 
 	public MineBlockIncrementListener() {
-		rm = sql.getManager(MineBlockRankingManager.class);
+		rm = sql.getManager(MineBlockRankingTableManager.class);
 	}
 
 
 	@EventHandler
-	public void addRunking(MineBlockIncrementEvent event){
+	public void addRanking(MineBlockIncrementEvent event){
 		double n = event.getNextAll();
 		GiganticPlayer gp = event.getGiganticPlayer();
 
