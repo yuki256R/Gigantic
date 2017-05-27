@@ -27,6 +27,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
@@ -85,6 +86,7 @@ public class GiganticPlayer {
 		SIDEBAR(SideBarManager.class),
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
+		PRESENTBOX(PresentBoxManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

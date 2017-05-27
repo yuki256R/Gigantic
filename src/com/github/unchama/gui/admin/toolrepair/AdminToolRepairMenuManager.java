@@ -11,22 +11,14 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.admin.AdminTypeMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.toolrepair.ToolRepair;
 import com.github.unchama.util.Util;
-import com.github.unchama.yml.CustomHeadManager;
 
 public class AdminToolRepairMenuManager extends GuiMenuManager{
-
-	// 戻るボタン
-	private ItemStack backButton;
-	private final int backButtonSlot = 18;
 
 	// ツール全修理
 	ItemStack repairFreeButton;
@@ -41,13 +33,7 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 	private final int VanillaMendingDamageSlot = 2;
 	private final int MendingAddExp = 250;
 
-	private CustomHeadManager headManager = Gigantic.yml
-			.getManager(CustomHeadManager.class);
-
 	public AdminToolRepairMenuManager(){
-		// 戻るボタン
-		backButton = headManager.getMobHead("left");
-		Util.setDisplayName(backButton, "戻る");
 		// ツール全修理
 		repairFreeButton = new ItemStack(Material.ANVIL);
 		Util.setDisplayName(repairFreeButton, "ツール全修理");
@@ -65,8 +51,6 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 		for (int i = 0; i < getInventorySize(); i++) {
 			id_map.put(i, Integer.toString(i));
 		}
-
-		setOpenMenuMap(openmap);
 	}
 
 	@Override
@@ -80,8 +64,6 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
 
-		//戻るボタン
-		inv.setItem(backButtonSlot, backButton);
 		//ツール全修理
 		inv.setItem(repairFreeSlot, repairFreeButton);
 		//ツール全損
@@ -118,11 +100,6 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		// 戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot,
-				GuiMenu.ManagerType.getTypebyClass(AdminTypeMenuManager.class));
-
-
 	}
 
 	@Override

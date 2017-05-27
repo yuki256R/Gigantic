@@ -56,38 +56,43 @@ public class BuildMenuManager extends GuiMenuManager{
 			//FLY1分
 			case "FLY=1":
 				player.chat("/fly 1");
+				player.closeInventory();
 				break;
 
 			//FLY5分
 			case "FLY=5":
 				player.chat("/fly 5");
+				player.closeInventory();
 				break;
 
 			//FLY無制限
 			case "FLY=endless":
 				player.chat("/fly endless");
+				player.closeInventory();
 				break;
 
 			//FLY終了
 			case "FLY=fin":
 				player.chat("/fly finish");
+				player.closeInventory();
 				break;
 
 			//範囲設置スキルのON/OFF
             case "ZoneSkill":
                 bsm.toggle_ZoneSkill();
+                player.openInventory(this.getInventory(player));
                 break;
 
             //ブロックを並べるスキルのON/OFF
             case "LineUp":
                 bsm.toggle_LineUp();
+                player.openInventory(this.getInventory(player));
                 break;
 
 			default:
 				return false;
 		}
         player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
-		player.openInventory(this.getInventory(player));
 		return true;
 	}
 	@Override

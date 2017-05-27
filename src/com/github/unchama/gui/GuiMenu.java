@@ -33,6 +33,7 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.presentbox.PresentBoxMenuManager;
 import com.github.unchama.gui.ranking.RankingSelectMenuManager;
 import com.github.unchama.gui.ranking.mineblock.DayMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.MonthMineBlockRankingMenuManager;
@@ -109,6 +110,7 @@ public final class GuiMenu {
 		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
         BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
+        PRESENTBOX(PresentBoxMenuManager.class),
         RANKINGSELECTMENU(RankingSelectMenuManager.class),
         TOTALMINEBLOCKRANKINGMENU(TotalMineBlockRankingMenuManager.class),
         DAYMINEBLOCKRANKINGMENU(DayMineBlockRankingMenuManager.class),
