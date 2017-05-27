@@ -16,7 +16,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -28,13 +27,9 @@ import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 
 public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
-	// 戻るボタン
-	private ItemStack backButton;
-	private final int backButtonSlot = 45;
-
 	// 前のページへボタン
 	private ItemStack prevButton;
-	private final int prevButtonSlot = 46;
+	private final int prevButtonSlot = 45;
 
 	// 次のページへボタン
 	private ItemStack nextButton;
@@ -50,10 +45,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		// メニューボタンの表示設定
 		menuButtons = new HashMap<Integer, ItemStack>();
 
-		backButton = headManager.getMobHead("left");
-		Util.setDisplayName(backButton, "戻る");
-		menuButtons.put(backButtonSlot, backButton);
-
 		prevButton = headManager.getMobHead("left");
 		Util.setDisplayName(prevButton, "前のページ");
 		menuButtons.put(prevButtonSlot, prevButton);
@@ -66,8 +57,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		for (int i = 0; i < getInventorySize(); i++) {
 			id_map.put(i, String.valueOf(i));
 		}
-
-		setOpenMenuMap(openmap);
 	}
 
 	@Override
@@ -168,9 +157,6 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		// 戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot, GuiMenu.ManagerType
-				.getTypebyClass(AdminCustomHeadMainMenuManager.class));
 	}
 
 	@Override
