@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -43,7 +44,7 @@ public class presentboxCommand implements TabExecutor {
 		}else if(args.length >= 2){
 			// 送るアイテムを取得
 			ItemStack sendItem = player.getInventory().getItemInMainHand();
-			if(sendItem == null){
+			if(sendItem.getType() == Material.AIR){
 				player.sendMessage("メインハンドに送るアイテムを持ってください.");
 				return true;
 			}
