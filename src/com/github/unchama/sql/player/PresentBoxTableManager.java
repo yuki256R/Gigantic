@@ -46,7 +46,8 @@ public class PresentBoxTableManager extends PlayerFromSeichiTableManager {
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
-
+		PresentBoxManager m = gp.getManager(PresentBoxManager.class);
+		m.createInventory();
 	}
 
 	@Override
