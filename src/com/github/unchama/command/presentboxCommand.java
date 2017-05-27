@@ -54,45 +54,40 @@ public class presentboxCommand implements TabExecutor {
 
 			//プレイヤー名をlowercaseする
 			String name = Converter.getName(args[1]);
-			if(name.equalsIgnoreCase("uuid")){
-				// 個人宛 UUIDの場合「/presentbox send uuid xxxxxx(ハイフン付き)」
-				if(args.length == 3){
-					boolean isSuccess = sendItem(player, args[2], sendItem, true);
-					if(isSuccess){
-						player.sendMessage("UUID : " + name + "にプレゼントを贈りました.");
-					}else{
-						player.sendMessage("UUID : " + name + "というプレイヤーはいませんでした.");
-					}
-				}else{
-					return false;
-				}
-			}else if(name.equalsIgnoreCase("all")){
+			if(name.equalsIgnoreCase("all")){
 				// 全員
-
+				/* サーバーから全プレイヤーのUUIDを取得後に
+				for(String uuid : uuids){
+					boolean isSuccess = sendItem(player, uuid, sendItem, true);
+				}
+				的な感じで全プレイヤーに配布していく
+				*/
+				return true;
 			}else{
 				// 個人宛(ID)
-				boolean isSuccess = sendItem(player, name, sendItem, false);
+				boolean isSuccess = sendItem(player, name, sendItem);
 				if(isSuccess){
-					player.sendMessage(name + "にプレゼントを贈りました.");
+					player.sendMessage("UUID : " + name + "にプレゼントを贈りました.");
 				}else{
-					player.sendMessage(name + "というプレイヤーはいませんでした.");
+					player.sendMessage("UUID : " + name + "というプレイヤーはいませんでした.");
 				}
+				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean sendItem(Player sendDlayer, String id, ItemStack sendItem, boolean isUUID){
-		Player player = null;
-		if(isUUID){
-			player = Bukkit.getServer().getPlayer(UUID.fromString(id));
-		}else{
-			player = Bukkit.getServer().getPlayer(id);
-		}
+	private boolean sendItem(Player sendDlayer, String uuid, ItemStack sendItem){
+		Player player = Bukkit.getServer().getPlayer(UUID.fromString(uuid));
 
 		// ログインしていない
 		if(player == null){
-			sendDlayer.sendMessage(id + "はいません");
+			sendDlayer.sendMessage(uuid + "はいません");
+			/*
+			 サーバーから直接インベントリを引っ張ってきて突っ込む
+
+			 InventoryUtil.addNewItemStack(inventory, item);
+			 */
 			return true;
 		// ログインしている
 		}else{
