@@ -25,18 +25,23 @@ public class BuildSkillManager extends DataManager{
         this.AREAint = 2;
         this.blocklineup_mode = LineUpMode.NONE;
         this.blocklineup_minestack_flag = false;
-        this.halfblock_mode = LineUpMode.UP;
+        this.halfblock_mode = HalfLineUpMode.UP;
         this.blockbreak_flag = false;
     }
 
-    public enum LineUpMode{
+    public enum LineUpMode {
         NONE,
+        UP,
+        DOWN,
+        ;
+    }
+
+    public enum HalfLineUpMode {
         UP,
         DOWN,
         BOTH,
         ;
     }
-    
 
     //プレイヤー
     private Player player = PlayerManager.getPlayer(gp);
@@ -56,7 +61,7 @@ public class BuildSkillManager extends DataManager{
     //ブロックを並べるスキルMineStack優先設定フラグ
     private boolean blocklineup_minestack_flag;
     //ブロックを並べるスキル・ハーフブロック設置位置
-    private LineUpMode halfblock_mode;
+    private HalfLineUpMode halfblock_mode;
     //ブロックを並べるスキル・破壊設定
     private boolean blockbreak_flag;
 
@@ -270,13 +275,13 @@ public class BuildSkillManager extends DataManager{
     public void toggle_LineUpHalfBlock() {
         switch (this.halfblock_mode) {
             case UP:
-                this.halfblock_mode = LineUpMode.DOWN;
+                this.halfblock_mode = HalfLineUpMode.DOWN;
                 break;
             case DOWN:
-                this.halfblock_mode = LineUpMode.BOTH;
+                this.halfblock_mode = HalfLineUpMode.BOTH;
                 break;
             case BOTH:
-                this.halfblock_mode = LineUpMode.UP;
+                this.halfblock_mode = HalfLineUpMode.UP;
                 break;
         }
         player.sendMessage(ChatColor.GREEN + "[ブロックを並べるスキル設定]ハーフブロック:" + this.getHalfblock_modeStatus());
@@ -334,7 +339,7 @@ public class BuildSkillManager extends DataManager{
      * ブロックを並べるスキル・ハーフブロック設置位置を返します
      * @return 上側/下側
      */
-    public LineUpMode getBlockLineUp_HalfMode() {
+    public HalfLineUpMode getBlockLineUp_HalfMode() {
         return this.halfblock_mode;
     }
 

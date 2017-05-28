@@ -254,6 +254,8 @@ public class BuildData {
             case DOWN:
                 y -= 1;
                 break;
+            default:
+                break;
         }
         World world = player.getWorld();
         return new Location(world, x, y, z);
