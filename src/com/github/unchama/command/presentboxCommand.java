@@ -17,6 +17,7 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
+import com.github.unchama.task.PresentAllPlayerTaskRunnable;
 import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
@@ -59,20 +60,8 @@ public class presentboxCommand implements TabExecutor {
 			String name = Converter.getName(args[1]);
 			if(name.equalsIgnoreCase("all")){
 				// 非同期処理
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						List<String> uuids = Gigantic.sql.getManager(PresentBoxTableManager.class).getUUIDs();
-						if(uuids == null){
-							player.sendMessage("uuids == null");
-							return;
-						}
-						for(String uuid : uuids){
-							sendItem(player, uuid, sendItem);
-						}
-						player.sendMessage(uuids.size() + " 名にプレゼントを贈りました.");
-					}
-				}).start();
+				new PresentAllPlayerTaskRunnable(player, sendItem).runTaskTimerAsynchronously(
+						plugin, 0, 1);;
 				return true;
 			}else{
 				boolean isSuccess = sendItem(player, name, sendItem);
@@ -87,7 +76,7 @@ public class presentboxCommand implements TabExecutor {
 		return false;
 	}
 
-	private boolean sendItem(Player sendDlayer, String uuid, ItemStack sendItem){
+	static public boolean sendItem(Player sendDlayer, String uuid, ItemStack sendItem){
 		Player player = Bukkit.getServer().getPlayer(UUID.fromString(uuid));
 
 		// ログインしていない
