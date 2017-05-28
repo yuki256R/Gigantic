@@ -98,7 +98,7 @@ public class BlockLineUpMenuManager extends GuiMenuManager{
             case 0:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "ブロックを並べるスキル:" + bsm.getBlockLineUpStatus());
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "オフハンドに木の棒、メインハンドに設置したいブロックを持って");
                 lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "左クリックすると向いてる方向に並べて設置します。");
                 lore.add("" + ChatColor.RESET + ChatColor.LIGHT_PURPLE + "＜クリックで切り替え＞");
@@ -110,7 +110,7 @@ public class BlockLineUpMenuManager extends GuiMenuManager{
             case 1:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "ハーフブロック設定:" + bsm.getHalfblock_modeStatus());
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.RESET + ChatColor.GRAY + "ハーフブロックを並べる時の位置を設定します。");
                 lore.add("" + ChatColor.RESET + ChatColor.LIGHT_PURPLE + "＜クリックで切り替え＞");
                 itemmeta.setLore(lore);
@@ -119,7 +119,7 @@ public class BlockLineUpMenuManager extends GuiMenuManager{
             case 2:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "破壊設定:" + bsm.getBlockBreakStatus());
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.RESET + ChatColor.GRAY + "ブロックを並べる際、対象のブロックを破壊して並べます");
                 lore.add("" + ChatColor.RESET + ChatColor.GRAY + "破壊対象ブロック:草,花,水,雪,松明,きのこ");
                 lore.add("" + ChatColor.RESET + ChatColor.LIGHT_PURPLE + "＜クリックで切り替え＞");
@@ -129,7 +129,7 @@ public class BlockLineUpMenuManager extends GuiMenuManager{
             case 8:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "MineStack優先設定:" + bsm.getBlockLineUpMinestackStatus());
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.GRAY + "スキルでブロックを並べる際");
                 lore.add("" + ChatColor.RESET + ChatColor.GRAY + "MineStackの在庫を優先して消費するか指定します。");
                 lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + config.getBlockLineUpSkillMSLevel()
@@ -140,7 +140,7 @@ public class BlockLineUpMenuManager extends GuiMenuManager{
             case 9:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "ホームメニューへ");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE
                         + "クリックで移動");
                 itemmeta.setLore(lore);
