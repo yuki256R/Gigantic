@@ -16,6 +16,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.presentbox.PresentBoxManager;
+import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
@@ -53,19 +54,27 @@ public class presentboxCommand implements TabExecutor {
 				return false;
 			}
 
+
 			//プレイヤー名をlowercaseする
 			String name = Converter.getName(args[1]);
 			if(name.equalsIgnoreCase("all")){
-				// 全員
-				/* サーバーから全プレイヤーのUUIDを取得後に
-				for(String uuid : uuids){
-					boolean isSuccess = sendItem(player, uuid, sendItem, true);
-				}
-				的な感じで全プレイヤーに配布していく
-				*/
+				// 非同期処理
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						List<String> uuids = Gigantic.sql.getManager(PresentBoxTableManager.class).getUUIDs();
+						if(uuids == null){
+							player.sendMessage("uuids == null");
+							return;
+						}
+						for(String uuid : uuids){
+							sendItem(player, uuid, sendItem);
+						}
+						player.sendMessage(uuids.size() + " 名にプレゼントを贈りました.");
+					}
+				}).start();
 				return true;
 			}else{
-				// 個人宛(ID)
 				boolean isSuccess = sendItem(player, name, sendItem);
 				if(isSuccess){
 					player.sendMessage("UUID : " + name + "にプレゼントを贈りました.");
@@ -83,13 +92,7 @@ public class presentboxCommand implements TabExecutor {
 
 		// ログインしていない
 		if(player == null){
-			sendDlayer.sendMessage(uuid + "はいません");
-			/*
-			 サーバーから直接インベントリを引っ張ってきて突っ込む
-
-			 InventoryUtil.addNewItemStack(inventory, item);
-			 */
-			return true;
+			return Gigantic.sql.getManager(PresentBoxTableManager.class).addItem(uuid, sendItem);
 		// ログインしている
 		}else{
 			//プレイヤーデータを取得
@@ -97,7 +100,7 @@ public class presentboxCommand implements TabExecutor {
 			//エラー分岐
 			if(gp == null){
 				sendDlayer.sendMessage(ChatColor.RED + "playerdataがありません。管理者に報告してください");
-				return true;
+				return false;
 			}
 			gp.getManager(PresentBoxManager.class).addItem(sendItem);
 			return true;
