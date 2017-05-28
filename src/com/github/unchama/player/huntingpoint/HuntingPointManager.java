@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import com.github.unchama.event.HuntingPointIncrementEvent;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -15,6 +17,8 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 	private Map<String, Integer> currentPoints = new HashMap<String, Integer>();
 	private Map<String, Integer> totalPoints = new HashMap<String, Integer>();
 
+	// フライ中はポイントが入らない旨を説明したか
+	private boolean isFlyWarned = false;
 
 	//どのMobのショップを開くか
 	private String shopMobName;
@@ -34,14 +38,15 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 
 	//討伐時にポイントを加算する
 	public void addPoint(String key, int value){
-		if(!currentPoints.containsKey(key) || !totalPoints.containsKey(key)){
-			return;
+		int currentPoint = 0;
+		int totalPoint = 0;
+		if(currentPoints.containsKey(key) && totalPoints.containsKey(key)){
+			currentPoint = currentPoints.get(key);
+			totalPoint = totalPoints.get(key);
 		}
-		int currentPoint = currentPoints.get(key);
-		int totalPoint = totalPoints.get(key);
 
-		currentPoints.put(key, currentPoints.get(key) + value);
-		totalPoints.put(key, totalPoints.get(key) + value);
+		currentPoints.put(key, currentPoint + value);
+		totalPoints.put(key, totalPoint + value);
 
 		Bukkit.getPluginManager().callEvent(new HuntingPointIncrementEvent(gp, key, value, currentPoint, totalPoint));
 	}
@@ -99,4 +104,12 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 		return shopMobName;
 	}
 
+	// フライ中はポイントが入らない旨をログイン中1度だけ警告
+	public void FlyWarning(){
+		if(!isFlyWarned){
+			Player player = PlayerManager.getPlayer(gp);
+			player.sendMessage("狩猟ポイントはfly中には反映されません.");
+			isFlyWarned = true;
+		}
+	}
 }

@@ -19,7 +19,6 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.MainMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
@@ -28,10 +27,6 @@ import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
 public class HuntingPointMainMenuManager extends GuiMenuManager {
 
-	// 戻るボタン
-	private ItemStack backButton;
-	private final int backButtonSlot = 45;
-
 	// どのMobのショップを開くか
 	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
 
@@ -39,12 +34,6 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 	private final int countInit = 0;
 
 	public HuntingPointMainMenuManager() {
-		// 戻るボタン
-		backButton = head.getMobHead("left");
-		ItemMeta itemMeta = backButton.getItemMeta();
-		itemMeta.setDisplayName("戻る");
-		backButton.setItemMeta(itemMeta);
-
 		// 各Mobボタン
 		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
@@ -97,9 +86,6 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 			count++;
 		}
 
-		// ページ遷移ボタン
-
-		inv.setItem(backButtonSlot, backButton);
 		return inv;
 	}
 
@@ -125,10 +111,6 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 						.getTypebyClass(HuntingPointShopMenuManager.class));
 			}
 		}
-
-		// 戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot,
-				GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
 	}
 
 	@Override
