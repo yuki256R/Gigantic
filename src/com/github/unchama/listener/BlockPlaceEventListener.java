@@ -51,7 +51,7 @@ public class BlockPlaceEventListener implements Listener{
 //        debug.sendMessage(player, DebugEnum.BUILD, "建築量更新処理終了。プレイヤー:[" + player.getName() + "]");
 
         if(gp.getManager(BuildLevelManager.class).updateLevel()){
-        	debug.sendMessage(player, DebugEnum.BUILD, ChatColor.RED + "ムムwwwwwwレベルアップ(建築レベル)  Lv." + gp.getManager(BuildLevelManager.class).getBuildLevel());
+//        	debug.sendMessage(player, DebugEnum.BUILD, ChatColor.RED + "ムムwwwwwwレベルアップ(建築レベル)  Lv." + gp.getManager(BuildLevelManager.class).getBuildLevel());
         	debug.sendMessage(player, DebugEnum.BUILD, "建築レベルアップ処理終了。");
         }
 //        debug.sendMessage(player, DebugEnum.BUILD, "次のレベルまで:" + gp.getManager(BuildLevelManager.class).getRemainingBuildBlock().toPlainString());

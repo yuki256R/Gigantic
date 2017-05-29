@@ -4,6 +4,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildData;
+import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.buildskill.BuildSkillManager.LineUpMode;
@@ -201,6 +202,7 @@ public class BlockLineUpListener implements Listener{
                 if (BuildData.isBlockCount(player)) {	//対象ワールドかチェック
                     BigDecimal add = config.getBlockCountMag().multiply(new BigDecimal(v));
                     gp.getManager(BuildManager.class).addBuild_num_1min(add);	//設置した数を足す
+                    gp.getManager(BuildLevelManager.class).checkLevel();
                 }
 
                 //マインスタック優先の場合マインスタックの数を減らす
