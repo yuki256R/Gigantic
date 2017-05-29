@@ -9,7 +9,6 @@ import java.util.Set;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.build.BuildData;
-import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -663,7 +662,6 @@ public class GiganticInteractListener implements Listener {
                         BigDecimal add = blockCountMag.multiply(new BigDecimal(block_cnt));
                         gp.getManager(BuildManager.class).addBuild_num_1min(add);//設置した数を足す
                         debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "建築量上昇:" + add.doubleValue());
-                        gp.getManager(BuildLevelManager.class).checkLevel();
                     }
 
                     return;

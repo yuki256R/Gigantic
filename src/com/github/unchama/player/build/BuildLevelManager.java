@@ -67,16 +67,6 @@ public class BuildLevelManager extends DataManager implements Initializable{
 		return changeflag;
 	}
 
-    /**
-     * レベルが上がるまで、レベルデータを更新します
-     */
-    public void checkLevel() {
-        while (this.canLevelup()) {
-            Bukkit.getServer().getPluginManager().callEvent(new BuildLevelUpEvent(gp, buildlevel + 1));
-            buildlevel++;
-        }
-    }
-
 	/**レベルアップまでに必要な建築量を取得します
 	 *
 	 * @return

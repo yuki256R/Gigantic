@@ -30,7 +30,6 @@ public enum ListenerEnum {
     PLAYERPICKUPITEM(new PlayerPickupItemListener()),
     BLOCKLINEUP(new BlockLineUpListener()),
     RANKINGUPDATE(new RankingUpdateListener()),
-    BUILDLEVEL(new BuildLevelListener()),
 	;
 	private Listener listener;
 
