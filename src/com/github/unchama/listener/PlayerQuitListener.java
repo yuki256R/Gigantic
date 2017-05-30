@@ -27,7 +27,8 @@ public class PlayerQuitListener implements Listener {
 			if (p.equals(event.getPlayer()))
 				continue;
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
-			if(gp == null)continue;
+			if (gp == null)
+				continue;
 			gp.getManager(MineBoostManager.class).updata(BoostType.NUMBER_OF_PEOPLE);
 			gp.getManager(MineBoostManager.class).refresh();
 		}
@@ -40,6 +41,6 @@ public class PlayerQuitListener implements Listener {
 	 */
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void speakGrowthTool(PlayerQuitEvent event) {
-		GrowthTool.onPlayerQuitEvent(event);
+		GrowthTool.onEvent(event);
 	}
 }

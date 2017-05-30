@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
+import com.github.unchama.growthtool.moduler.status.GrwEnchants;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.github.unchama.yml.moduler.YmlManager;
 
@@ -35,6 +36,14 @@ public class GrowthToolDataManager extends YmlManager {
 		int ret = fc.getInt("talk-interval", 0);
 		if (ret <= 0) {
 			ret = 120;
+		}
+		return ret;
+	}
+
+	public int getTalkPercentage() {
+		int ret = fc.getInt("talk-percentage", 50);
+		if (ret < 0) {
+			ret = 0;
 		}
 		return ret;
 	}
@@ -89,7 +98,7 @@ public class GrowthToolDataManager extends YmlManager {
 	 * @return
 	 */
 	public String getWikiUrl(GrowthToolType tool) {
-		return fc.getString("wiki", "");
+		return fc.getString(tool.name().toLowerCase() + ".wiki", "");
 	}
 
 	/**
@@ -170,12 +179,12 @@ public class GrowthToolDataManager extends YmlManager {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public Map<Enchantment, List<Integer>> getEnchantments(GrowthToolType tool) {
-		Map<Enchantment, List<Integer>> ret = new LinkedHashMap<Enchantment, List<Integer>>();
+	public GrwEnchants getEnchantments(GrowthToolType tool) {
+		GrwEnchants ret = new GrwEnchants(getDefaultEnchantment(tool));
 		List<Map<String, ?>> ench = (List<Map<String, ?>>) fc.getList(tool.name().toLowerCase() + ".enchant");
 		try {
 			for (Map<String, ?> e : ench) {
-				ret.put(Enchantment.getByName((String) e.get("type")), Arrays.<Integer> asList((Integer) e.get("maxLv"), (Integer) e.get("premise")));
+				ret.put(Enchantment.getByName((String) e.get("type")), (Integer) e.get("maxLv"), (Integer) e.get("premise"));
 			}
 		} catch (NullPointerException | NumberFormatException e) {
 			ret.clear();

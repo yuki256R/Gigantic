@@ -6,22 +6,30 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
+import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerItemBreakEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
+import com.github.unchama.growthtool.moduler.message.GrwMessage;
+import com.github.unchama.growthtool.moduler.message.GrwTips;
+import com.github.unchama.growthtool.moduler.status.GrwEnchants;
+import com.github.unchama.growthtool.moduler.status.GrwStatus;
+import com.github.unchama.growthtool.moduler.tool.GrwNbti;
+import com.github.unchama.growthtool.moduler.tool.GrwTool;
+import com.github.unchama.task.GrowthToolTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -29,87 +37,78 @@ import com.github.unchama.yml.GrowthToolDataManager;
 
 public abstract class GrowthToolManager {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-	// 配色設定
-	private static final String NAMEHEAD = ChatColor.RESET + "" + ChatColor.GOLD + "" + ChatColor.BOLD + "";
-	private static final String IDENTHEAD = ChatColor.RESET + "" + ChatColor.AQUA + "";
-	private static final String ILHEAD = ChatColor.RESET + "" + ChatColor.RED + "" + ChatColor.BOLD + "アイテムLv. ";
-	private static final String CUSTOM1HEAD = ChatColor.RESET + "" + ChatColor.GOLD + "" + ChatColor.ITALIC + "";
-	private static final String CUSTOM2HEAD = ChatColor.RESET + "" + ChatColor.GRAY + "" + ChatColor.ITALIC + "";
-	private static final String OWNERHEAD = ChatColor.RESET + "" + ChatColor.DARK_GREEN + "所有者：";
 
+	// 成長ツール名称
+	private String name;
 	// ドロップバランス
 	private int dropBalanceRate;
 	// 識別用固有メッセージ
 	private List<String> identLore;
-	// wikiTips一覧
-	private List<String> wikiTipsMsg;
-	// ベースアイテム一覧
-	private Map<Integer, Material> bases;
 	// ステータス一覧
-	private List<State> status;
-	// デフォルトエンチャント
-	private Map<Enchantment, Integer> defench;
+	private GrwStatus status;
 	// エンチャント一覧
-	private List<Enchant> enchant;
-	// 耐久無限レベル
-	private int unbreakable;
-	// 固有Tipsメッセージリスト
-	private List<String> originalTipsMsg;
+	private GrwEnchants enchant;
+	// Tips一覧
+	private GrwTips tipsMsg;
 	// 整地時のメッセージリスト
-	private List<String> onBlockBreakMsg;
+	private GrwMessage onBlockBreakMsg;
 	// 命名時のメッセージリスト
-	private List<String> onRenameItemMsg;
+	private GrwMessage onRenameItemMsg;
 	// 討伐時のメッセージリスト
-	private List<String> onMonsterKillMsg;
+	private GrwMessage onMonsterKillMsg;
 	// 被ダメージ時のメッセージリスト
-	private List<String> onGetDamageMsg;
+	private GrwMessage onGetDamageMsg;
 	// 破損警告時のメッセージリスト
-	private List<String> onWarnItemMsg;
+	private GrwMessage onWarnItemMsg;
 	// 破損時のメッセージリスト
-	private List<String> onBreakItemMsg;
+	private GrwMessage onBreakItemMsg;
 	// プレイヤーログアウト時のメッセージリスト
-	private List<String> onPlayerQuitMsg;
+	private GrwMessage onPlayerQuitMsg;
 
-	protected abstract boolean isEquip(Player player);
+	/**
+	 * 装備中の一致する成長ツールを取得する。装備中ではない場合はnullが返却される。
+	 *
+	 * @param player
+	 * @return
+	 */
+	protected abstract GrwTool getTool(Player player);
 
-	public abstract boolean rename(Player player, String name);
+	/**
+	 * 装備中の一致する成長ツールを置換する。
+	 *
+	 * @param player
+	 * @return
+	 */
+	protected abstract void setTool(Player player, GrwTool newtool);
+	// TODO setTool不要説
 
 	public GrowthToolManager(GrowthToolType type) {
+		name = type.name();
 		// ymlからの読み込み
 		GrowthToolDataManager configmanager = Gigantic.yml.getManager(GrowthToolDataManager.class);
 		dropBalanceRate = configmanager.getDropBalance(type);
 		identLore = configmanager.getIdent(type);
-		// wiki
-		loadTips(configmanager.getWikiUrl(type));
-		// bases
-		bases = configmanager.getBaseItem(type);
-		// status
-		List<Integer> exp = configmanager.getExp(type);
-		List<List<String>> custom1 = configmanager.getStringListList(type, "custom1");
-		List<List<String>> custom2 = configmanager.getStringListList(type, "custom2");
-		status = new ArrayList<State>();
-		for (int lv = 0; lv < exp.size(); lv++) {
-			status.add(new State(exp.get(lv), custom1.get(lv), custom2.get(lv)));
-		}
-		defench = configmanager.getDefaultEnchantment(type);
-		// enchant
-		enchant = new ArrayList<Enchant>();
-		Map<Enchantment, List<Integer>> ench = configmanager.getEnchantments(type);
-		for (Map.Entry<Enchantment, List<Integer>> e : ench.entrySet()) {
-			enchant.add(new Enchant(e.getKey(), e.getValue().get(0), e.getValue().get(1)));
-		}
-		unbreakable = configmanager.getUnbreakableLv(type);
+		// Status
+		final Map<Integer, Material> base = configmanager.getBaseItem(type);
+		final List<Integer> nextExp = configmanager.getExp(type);
+		final List<List<String>> custom1 = configmanager.getStringListList(type, "custom1");
+		final List<List<String>> custom2 = configmanager.getStringListList(type, "custom2");
+		final Integer unbreakable = configmanager.getUnbreakableLv(type);
+		status = new GrwStatus(base, nextExp, custom1, custom2, unbreakable);
+		// Enchants
+		enchant = configmanager.getEnchantments(type);
+		// Tips
+		List<String> original = configmanager.getStringList(type, "tipsmsg");
+		List<String> wiki = loadTips(configmanager.getWikiUrl(type));
+		tipsMsg = new GrwTips(name, original, wiki, custom1);
 		// メッセージリスト
-		originalTipsMsg = configmanager.getStringList(type, "tipsmsg");
-		onBlockBreakMsg = configmanager.getStringList(type, "breakmsg");
-		onRenameItemMsg = configmanager.getStringList(type, "renamemsg");
-		onMonsterKillMsg = configmanager.getStringList(type, "killmsg");
-		onGetDamageMsg = configmanager.getStringList(type, "damagemsg");
-		onWarnItemMsg = configmanager.getStringList(type, "warnmsg");
-		onBreakItemMsg = configmanager.getStringList(type, "destroymsg");
-		onPlayerQuitMsg = configmanager.getStringList(type, "quitmsg");
-
-		debug.info(DebugEnum.GROWTHTOOL, this.getClass().getSimpleName() + " Loaded.");
+		onBlockBreakMsg = new GrwMessage(name, configmanager.getStringList(type, "breakmsg"));
+		onRenameItemMsg = new GrwMessage(name, configmanager.getStringList(type, "renamemsg"));
+		onMonsterKillMsg = new GrwMessage(name, configmanager.getStringList(type, "killmsg"));
+		onGetDamageMsg = new GrwMessage(name, configmanager.getStringList(type, "damagemsg"));
+		onWarnItemMsg = new GrwMessage(name, configmanager.getStringList(type, "warnmsg"));
+		onBreakItemMsg = new GrwMessage(name, configmanager.getStringList(type, "destroymsg"));
+		onPlayerQuitMsg = new GrwMessage(name, configmanager.getStringList(type, "quitmsg"));
 	}
 
 	/**
@@ -119,51 +118,123 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public boolean giveDefault(Player player) {
-		State currentstate = status.get(0);
-		Material material = getCurrentBase(1);
-		ItemStack tool = new ItemStack(material);
-		ItemMeta meta = Bukkit.getItemFactory().getItemMeta(material);
-
-		// LOREの生成
-		List<String> lore = new ArrayList<String>();
-		lore.add("");
-		// 固有部分
-		for (String s : identLore) {
-			lore.add(IDENTHEAD + s);
-		}
-		lore.add("");
-		// アイテムレベル
-		lore.add(ILHEAD + "1");
-		// カスタム1
-		for (String s : currentstate.custom1) {
-			lore.add(CUSTOM1HEAD + s);
-		}
-		// カスタム2
-		for (String s : currentstate.custom2) {
-			lore.add(CUSTOM2HEAD + s);
-		}
-		lore.add("");
-		// 所有者
-		lore.add(OWNERHEAD + player.getDisplayName().toLowerCase());
-		meta.setLore(lore);
-
-		// 名前を設定
-		String name = NAMEHEAD + this.getClass().getSimpleName().toUpperCase();
-		meta.setDisplayName(name);
-		// エンチャントを設定
-		for (Map.Entry<Enchantment, Integer> ench : defench.entrySet()) {
-			meta.addEnchant(ench.getKey(), ench.getValue().intValue(), true);
-		}
-		// 耐久無限を設定
-		meta.spigot().setUnbreakable((unbreakable == 1));
-		// フラグ設定
-		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-		meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-		// meta反映
-		tool.setItemMeta(meta);
-		// 配布
-		Util.giveItem(player, tool, false);
+		Util.giveItem(player, create(player).get(), false);
 		return true;
+	}
+
+	/**
+	 * アイテムの表示名を変更する。
+	 *
+	 * @param player
+	 * @param name
+	 * @return
+	 */
+	public boolean rename(Player player, String name) {
+		if (isEquip(player)) {
+			GrwTool tool = getTool(player);
+			String trim = trimInputText(name);
+			if (trim.isEmpty()) {
+				tool.setName(this.name);
+				tool.setNBT(GrwNbti.PlayerName, player.getDisplayName());
+				player.sendMessage(this.name + "の名前を初期化しました。");
+			} else {
+				tool.setName(trim);
+				player.sendMessage(this.name + "の名前を" + trim + "に変更しました。");
+			}
+			setTool(player, tool);
+			// TODO taskで一元管理して名前を付けて喋らせる
+			GrowthToolTaskRunnable.talk(player, onRenameItemMsg.talk(tool, player, null), false);
+			return true;
+		}
+		player.sendMessage(this.name + "を装備していません。");
+		return false;
+	}
+
+	/**
+	 * ドロップバランスを取得する。
+	 *
+	 * @return
+	 */
+	public int getDropBalance() {
+		return dropBalanceRate;
+	}
+
+	/**
+	 * Tips出力時の出力候補メッセージ選定。装備中かつメッセージが設定されている場合は1つ選択して返却。該当しない場合はnullを返却する。
+	 *
+	 * @param player
+	 * @return
+	 */
+	public String getTipsMsg(Player player) {
+		// 装備中の場合
+		if (isEquip(player)) {
+			return tipsMsg.getTips(getTool(player));
+		}
+		return null;
+	}
+
+	/**
+	 * ブロック破壊時の出力候補メッセージ選定。 装備中かつメッセージが設定されている場合は1つ選択して返却。該当しない場合はnullを返却する。
+	 *
+	 * @param player
+	 * @return
+	 */
+	public String getBlockBreakMsg(Player player) {
+		addExp(player);
+		if (isEquip(player)) {
+			GrwTool tool = getTool(player);
+			return onBlockBreakMsg.talk(tool, player, null);
+		}
+		return null;
+	}
+
+	/**
+	 * モンスター討伐時の出力候補メッセージ選定。 装備中かつメッセージが設定されている場合は1つ選択して返却。該当しない場合はnullを返却する。
+	 *
+	 * @param player
+	 * @param monster
+	 * @return
+	 */
+	public String getMonsterKillMsg(Player player, Monster monster) {
+		if (isEquip(player)) {
+			GrwTool tool = getTool(player);
+			return onMonsterKillMsg.talk(tool, player, monster);
+		}
+		return null;
+	}
+
+	/**
+	 * 被ダメージ時の出力候補メッセージ選定。 装備中かつメッセージが設定されている場合は1つ選択して返却。該当しない場合はnullを返却する。
+	 *
+	 * @param player
+	 * @param monster
+	 * @return
+	 */
+	public String getDamage(Player player, Monster monster) {
+		if (isEquip(player)) {
+			GrwTool tool = getTool(player);
+			if (tool.isWarn()) {
+				return onWarnItemMsg.talk(tool, player, monster);
+			} else {
+				return onGetDamageMsg.talk(tool, player, monster);
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 破損時の出力候補メッセージ選定。 破損アイテムと一致かつメッセージが設定されている場合は1つ選択して返却。該当しない場合はnullを返却する。
+	 *
+	 * @param player
+	 * @param tool
+	 * @return
+	 */
+	public String getBreakMsg(Player player, ItemStack broke) {
+		GrwTool tool = new GrwTool(broke);
+		if (isEqual(tool)) {
+			return onBreakItemMsg.talk(tool, player,null);
+		}
+		return null;
 	}
 
 	/**
@@ -173,10 +244,8 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public String getPlayerQuitMsg(Player player) {
-		// 装備中かつメッセージが登録されている場合
-		if (isEquip(player) && onPlayerQuitMsg.size() > 0) {
-			// ランダムに1つ選択して返却する
-			return onPlayerQuitMsg.get(new Random().nextInt(onPlayerQuitMsg.size()));
+		if (isEquip(player)) {
+			return onPlayerQuitMsg.talk(getTool(player), player,null);
 		}
 		return null;
 	}
@@ -184,9 +253,9 @@ public abstract class GrowthToolManager {
 	/**
 	 * webからのTipsリスト読み込み処理
 	 */
-	private void loadTips(String wikiurl) {
+	private List<String> loadTips(String wikiurl) {
+		List<String> tips = new ArrayList<String>();
 		try {
-			wikiTipsMsg = new ArrayList<String>();
 			// HTTP通信でJSONデータを取得
 			URL url = new URL(wikiurl);
 			URLConnection urlCon = url.openConnection();
@@ -206,58 +275,141 @@ public abstract class GrowthToolManager {
 				if (line.contains("</ul>")) {
 					break;
 				} else {
-					wikiTipsMsg.add(line.replace("<li> ", "").replace("</li>", ""));
+					tips.add(line.replace("<li> ", "").replace("</li>", ""));
 				}
 			}
 			reader.close();
 			in.close();
 		} catch (Exception e) {
 			debug.warning(DebugEnum.GROWTHTOOL, "tips読み込み失敗: " + wikiurl);
-			wikiTipsMsg.clear();
+			tips.clear();
 		}
+		return tips;
 	}
 
 	/**
-	 * 現在のアイテムレベルに適したMaterialを返却する。存在しない場合はGOLD_HELMETを返却する。
+	 * 現在成長ツールを装備しているかを取得する。
 	 *
-	 * @param itemLv
+	 * @param player
 	 * @return
 	 */
-	private Material getCurrentBase(int itemLv) {
-		List<Integer> threshLv = new ArrayList<Integer>(bases.keySet());
-		Collections.sort(threshLv);
-		Material ret = Material.GOLD_HELMET;
-		for (Integer i : threshLv) {
-			if (i <= itemLv) {
-				ret = bases.get(i);
+	private boolean isEquip(Player player) {
+		return getTool(player) != null;
+	}
+
+	/**
+	 * 引数のアイテムが成長ツールに一致するかを判定する。
+	 *
+	 * @param tool
+	 * @return
+	 */
+	protected boolean isEqual(GrwTool tool) {
+		return false;
+//		return tool.getIdentify().equals(identLore);
+	}
+
+	protected boolean isEqual(ItemStack item) {
+		GrwTool tool = new GrwTool(item);
+		return isEqual(tool);
+	}
+
+	/**
+	 * 成長ツールに経験値を加算する。
+	 *
+	 * @param player
+	 * @return
+	 */
+	private void addExp(Player player) {
+		GrwTool tool = getTool(player);
+		if (tool.getItemLv() < status.size()) {
+			if (tool.addExp()) {
+				// レベルアップ
+				tool = levelUp(tool);
 			}
-		}
-		return ret;
-	}
-
-	// Lv毎の設定情報クラス
-	private class State {
-		private int exp;
-		private List<String> custom1;
-		private List<String> custom2;
-
-		private State(Integer exp, List<String> custom1, List<String> custom2) {
-			this.exp = exp;
-			this.custom1 = custom1;
-			this.custom2 = custom2;
+			setTool(player, tool);
 		}
 	}
 
-	// エンチャント毎の設定情報クラス
-	private class Enchant {
-		private Enchantment type;
-		private int maxLv;
-		private int premise;
+	private GrwTool levelUp(GrwTool tool) {
+		int itemLv = tool.getItemLv();
+/*		Material oldType = tool.getType();
+		tool.setItemLv(itemLv + 1);
+		tool.setCurrentExp(0);
+		status.get(itemLv).set(tool);
+		if (oldType.equals(tool.getType())) {
+			enchant.addEnchant(tool);
+		}*/
+		return tool;
+	}
 
-		private Enchant(Enchantment type, int maxLv, int premise) {
-			this.type = type;
-			this.maxLv = maxLv;
-			this.premise = premise;
+	private GrwTool create(Player player) {
+		GrwTool tool = getTool(player);
+		/*		tool.setGrowthToolName(name);
+		tool.setIdentify(identLore);
+		tool.setItemLv(1);
+		tool.setOwner(player.getDisplayName());
+		tool.setNBT(GrwNbti.PlayerName, player.getDisplayName());
+		tool.setPlayerUuid(player.getUniqueId());
+		tool.setCurrentExp(0);
+		enchant.addDefaultEnchant(tool);
+		status.get(0).set(tool);*/
+		return tool;
+	}
+
+	/**
+	 * msg内の<name>に対応する呼び名を設定する。
+	 *
+	 * @param player
+	 * @param called
+	 * @return
+	 */
+	public boolean setPlayerCalled(Player player, String called) {
+		if (isEquip(player)) {
+			GrwTool tool = getTool(player);
+			String trim = trimInputText(called);
+			if (trim.isEmpty()) {
+				tool.setNBT(GrwNbti.PlayerName, player.getDisplayName());
+				player.sendMessage(name + "からの呼び名を初期化しました。");
+			} else {
+				tool.setNBT(GrwNbti.PlayerName, trim);
+				player.sendMessage(name + "からの呼び名を" + trim + "に変更しました。");
+			}
+			setTool(player, tool);
+			return true;
 		}
+		player.sendMessage(name + "からの呼び名を変更出来ませんでした。");
+		return false;
+	}
+
+	/**
+	 * 入力文字列から除外文字を除去する。Color Codeを除去し、10文字を上限として返却する。
+	 *
+	 * @param text
+	 * @return
+	 */
+	private String trimInputText(String text) {
+		ChatColor.stripColor(text);
+		text = text.replace("<", "").replace(">", "");
+		if (text.length() > 10) {
+			text = text.substring(0, 10);
+		}
+		return text;
+	}
+
+	public String getMessage(Event event) {
+		if (event instanceof BlockBreakEvent) {
+			// player
+		} else if (event instanceof EntityDamageByEntityEvent) {
+			// player, monster ... warning cast error entity->player, monster
+			// if durability warning, out the warning msg
+		} else if (event instanceof EntityDeathEvent) {
+			// player, monster ... warning cast error entity->player, monster
+		} else if (event instanceof PlayerItemBreakEvent) {
+			// player ... with SystemMsg + SystemSound
+			// is broken this tool?
+		} else if (event instanceof PlayerQuitEvent) {
+			// player
+		}
+		return "";
 	}
 }

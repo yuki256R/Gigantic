@@ -1,15 +1,18 @@
 package com.github.unchama.growthtool;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Random;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.Event;
+import org.bukkit.event.block.BlockBreakEvent;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.detail.Mebius;
 import com.github.unchama.growthtool.moduler.GrowthToolManager;
+import com.github.unchama.growthtool.moduler.util.GrwRandomList;
 import com.github.unchama.task.GrowthToolTaskRunnable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -19,8 +22,6 @@ public final class GrowthTool {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	// classとinstanceを紐づけるHashMap
 	private static LinkedHashMap<Class<? extends GrowthToolManager>, GrowthToolManager> managermap = new LinkedHashMap<Class<? extends GrowthToolManager>, GrowthToolManager>();
-	// お喋り間隔（秒）
-	private static int interval;
 	// 成長ツールドロップ率
 	private static int droprate;
 
@@ -32,7 +33,9 @@ public final class GrowthTool {
 		GrowthToolDataManager configmanager = Gigantic.yml.getManager(GrowthToolDataManager.class);
 
 		// お喋り間隔を取得
-		interval = configmanager.getTalkInterval();
+		int interval = configmanager.getTalkInterval();
+		// お喋り確率を取得
+		int talkPer = configmanager.getTalkPercentage();
 		// 成長ツールドロップ率を取得
 		droprate = configmanager.getDropDenom();
 
@@ -43,28 +46,27 @@ public final class GrowthTool {
 		for (GrowthToolType gt : GrowthToolType.values()) {
 			try {
 				// 該当ツールのインスタンスを生成する
-				// TODO Debug用のnew
-				new Mebius(gt);
-//				managermap.put(gt.getManagerClass(), gt.getManagerClass().getConstructor(GrowthToolType.class).newInstance(gt));
-			} catch (Exception e) {
+				managermap.put(gt.getManagerClass(), gt.getManagerClass().getConstructor(GrowthToolType.class).newInstance(gt));
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
+			debug.info(DebugEnum.GROWTHTOOL, gt.name() + " Loaded.");
 		}
 
 		// お喋りタスクの開始
-		new GrowthToolTaskRunnable().runTaskTimerAsynchronously(Gigantic.plugin, 40, interval * 20);
-
+		new GrowthToolTaskRunnable(talkPer).runTaskTimerAsynchronously(Gigantic.plugin, 40, interval * 20);
 		debug.info(DebugEnum.GROWTHTOOL, "DebugModeで起動しました。");
 		debug.sendMessage(DebugEnum.GROWTHTOOL, "DebugModeで起動しました。");
 	}
 
 	public static enum GrowthToolType {
 		MEBIUS(Mebius.class),;
+
 		// 使用するManagerClass
 		private Class<? extends GrowthToolManager> managerClass;
 
 		// Enum用コンストラクタ
-		GrowthToolType(Class<? extends GrowthToolManager> managerClass) {
+		private GrowthToolType(Class<? extends GrowthToolManager> managerClass) {
 			this.managerClass = managerClass;
 		}
 
@@ -73,7 +75,7 @@ public final class GrowthTool {
 		 *
 		 * @return Class<? extends GrowthToolManager>
 		 */
-		public Class<? extends GrowthToolManager> getManagerClass() {
+		private Class<? extends GrowthToolManager> getManagerClass() {
 			return managerClass;
 		}
 	}
@@ -86,7 +88,7 @@ public final class GrowthTool {
 	 * @return
 	 */
 	public static boolean giveDefault(GrowthToolType gt, Player player) {
-		return managermap.get(gt).giveDefault(player);
+		return managermap.get(gt.getManagerClass()).giveDefault(player);
 	}
 
 	/**
@@ -98,35 +100,48 @@ public final class GrowthTool {
 	 * @return
 	 */
 	public static boolean rename(GrowthToolType gt, Player player, String name) {
-		return managermap.get(gt).rename(player, name);
-	}
-
-	// お喋りメソッド（スタブ）
-	private static void doSpeak(Player player, String msg) {
-		// player名の置換を行う？
-		player.sendMessage(msg);
+		return managermap.get(gt.getManagerClass()).rename(player, name);
 	}
 
 	/**
-	 * プレイヤーログアウト時のメッセージ出力処理。
+	 * 呼び名変更処理。対象ツールを装備した状態でコマンド実行により呼び出される。
 	 *
-	 * @param event
+	 * @param gt
+	 * @param player
+	 * @param called
+	 * @return
 	 */
-	public static void onPlayerQuitEvent(PlayerQuitEvent event) {
-		// 全GrowthToolから候補を取得
-		Player player = event.getPlayer();
-		List<String> candidate = new ArrayList<String>();
+	public static boolean setPlayerCalled(GrowthToolType gt, Player player, String called) {
+		return managermap.get(gt.getManagerClass()).setPlayerCalled(player, called);
+	}
+
+	public static void onTaskRunnableEvent() {
+		for (Player player : Gigantic.plugin.getServer().getOnlinePlayers()) {
+			GrwRandomList<String> candidate = new GrwRandomList<String>();
+			for (GrowthToolManager manager : managermap.values()) {
+				String msg = manager.getTipsMsg(player);
+				if (msg != null) {
+					candidate.add(msg);
+				}
+			}
+			GrowthToolTaskRunnable.talk(player, candidate.getRandom(), false);
+		}
+	}
+
+	public static void dropChance() {
+	}
+
+	public static void onEvent(Event event) {
+		if (event instanceof BlockBreakEvent) {
+			dropChance();
+		}
+		List<String> message = new ArrayList<String>();
 		for (GrowthToolManager manager : managermap.values()) {
-			// 各Toolから候補を1つ取得して登録、未装備や未設定ならnullが返却されるため無視する
-			String msg = manager.getPlayerQuitMsg(player);
+			String msg = manager.getMessage(event);
 			if (msg != null) {
-				candidate.add(msg);
+				message.add(manager.getMessage(event));
 			}
 		}
-
-		// お喋り可能状態かつ候補が存在すれば、その中から1つ選定して出力する
-		if (GrowthToolTaskRunnable.canTalk(player) && candidate.size() > 0) {
-			doSpeak(player, candidate.get(new Random().nextInt(candidate.size())));
-		}
+		// TODO ランダム出力
 	}
 }

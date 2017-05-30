@@ -43,7 +43,6 @@ commands:
       permission-message: You don't have <permission>
   growth:
       description: This is growth command
-      usage: /<command>
       aliases: [giganticgrowth,grw]
       default: true
       permission: gigantic.growth
