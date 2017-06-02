@@ -26,6 +26,9 @@ public final class DebugManager extends YmlManager {
 		BREAK(true, ChatColor.DARK_GRAY),
 		MINESTACK(true,ChatColor.GOLD),
 		SKILL(true,ChatColor.DARK_GRAY),
+		BUILD(true,ChatColor.GREEN),
+		MANA(true,ChatColor.DARK_BLUE),
+		HUNT(true,ChatColor.DARK_PURPLE),
 		;
 		// ファイル生成時の初期値
 		private Boolean flag;
@@ -135,7 +138,7 @@ public final class DebugManager extends YmlManager {
 	 * @param de
 	 * @return
 	 */
-	private Boolean getFlag(DebugEnum de) {
+	public Boolean getFlag(DebugEnum de) {
 		return debugmap.get(de);
 	}
 

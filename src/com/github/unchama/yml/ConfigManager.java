@@ -1,5 +1,12 @@
 package com.github.unchama.yml;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import me.clip.placeholderapi.PlaceholderAPI;
+
+import org.bukkit.entity.Player;
+
 import com.github.unchama.yml.moduler.YmlManager;
 
 /**
@@ -178,8 +185,11 @@ public class ConfigManager extends YmlManager {
 	 * @param level
 	 * @return
 	 */
-	public String getSeichiLevelMessage(int level) {
+	public String getSeichiLevelMessage(Player player,int level) {
 		String message = this.fc.getString("seichi.levelmessage." + level);
+		if(message != null){
+			message = PlaceholderAPI.setPlaceholders(player, message);
+		}
 		return message != null ? message : null;
 	}
 
@@ -201,4 +211,123 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getString("firstjoinmessage");
 	}
 
+
+	/**フライ時1分間に消費する経験値量を取得します。
+	 * ※消費する量(正)なので-で減らすこと。
+	 *
+	 * @return
+	 */
+	public int getFlyExp(){
+		return this.fc.getInt("flyexp");
+	}
+
+
+	/**プロック設置カウントの1分上限を取得します。
+	 *
+	 * @return
+	 */
+	public BigDecimal getBuildNum1minLimit() { return new BigDecimal(this.fc.getInt("BuildNum1minLimit")); }
+
+    /**整地ワールド名を取得します
+     *
+     * @return
+     */
+    public String getSeichiWorldName() { return "world_sw"; }
+
+
+    /**スキルの使えるワールドを取得します
+     *
+     * @return
+     */
+    public List<String> getSkillWorldList() {
+    	return this.fc.getStringList("skillworld");
+    }
+
+    /**整地量が2倍になるワールドを取得します
+    *
+    * @return
+    */
+   public List<String> getBonusWorldList() {
+   	return this.fc.getStringList("bonusworld");
+   }
+
+    /**通常破壊時の許容する高さを取得します
+     *
+     * @return
+     */
+	public int getGeneralGravityHeight() {
+		return this.fc.getInt("generalgravityheight");
+	}
+
+	/**考慮される最高レベルを取得
+	 *
+	 * @return
+	 */
+	public int getConsiderableSeichiLevel() {
+		return this.fc.getInt("considerableseichilevel");
+	}
+
+	/**セキュアブレイクを開放できるレベルを取得
+	 *
+	 * @return
+	 */
+	public int getSecureBreakUnlockLevel() {
+		return this.fc.getInt("securebreakunlocklevel");
+	}
+
+	 /**MineStack一括クラフトシステムの必要経験値
+     *
+     * @param
+     * @return
+     */
+    public int getBlockCraftLevel(int x){
+    	switch(x) {
+    		case 1: return this.fc.getInt("minestack_BlockCraft.level1");
+    		case 2: return this.fc.getInt("minestack_BlockCraft.level2");
+    		case 3: return this.fc.getInt("minestack_BlockCraft.level3");
+
+    		default: return 0;
+    	}
+    }
+
+    /**
+     * 範囲設置スキルの使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getZoneSetSkillLevel() {
+        return fc.getInt("ZoneSetSkill.level");
+    }
+
+    /**
+     * 範囲設置スキルのMineStack優先設定使用可能レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getZoneSetSkillMinestack() {
+        return fc.getInt("ZoneSetSkill.minestack");
+    }
+
+
+    /**
+     * 建築スキルを使用してブロックを並べたときの建築量上昇倍率を取得します
+     * @return 倍率
+     */
+    public BigDecimal getBlockCountMag() {
+        return new BigDecimal(fc.getDouble("BlockCountMag"));
+    }
+
+    /**
+     * ブロックを並べるスキルの使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockLineUpSkillLevel() {
+        return fc.getInt("BlockLineUpSkill.level");
+    }
+
+    /**
+     * ブロックを並べるスキルMineStack優先設定使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockLineUpSkillMSLevel() {
+        return fc.getInt("BlockLineUpSkill.minestack");
+    }
 }

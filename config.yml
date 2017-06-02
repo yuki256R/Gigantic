@@ -42,20 +42,65 @@ mineboost:
     minutemine: 0.01
 
 # 整地レベル設定
-maxseichilevel: 300
+# レベルアップできる最大値
+maxseichilevel: 500
+# レベルが考慮される最大値
+considerableseichilevel: 300
+
 
 # 機能：整地レベルメッセージ設定
 # levelupmessage:レベルアップの度に表示
 # levelmessage:特定のレベルに上がると表示(1は指定できません）
 
 seichi:
-  levelupmessage: '§6整地レベルが%gp_level%になりました．'
+  levelupmessage: '&6整地レベルが%gp_seichilevel%になりました．'
   levelmessage:
-    2: ''
+    10: "&e初めてのアクティブスキル%gp_skill_explosion_jpname%&r&eを習得できます！\n習得するには木の棒メニューのスキルブックをクリック！\n"
 
+#Fly時の1分当たりの経験値消費量
+flyexp: 50
 
+#ブロック設置カウントの1分上限
+BuildNum1minLimit: 100
 
+#MineStackブロック一括クラフト・必要経験値量
+minestack_BlockCraft:
+  level1: 25
+  level2: 35
+  level3: 45 
 
+#範囲設置スキル
+ZoneSetSkill:
+  level: 15
+  minestack: 30
+
+#ブロックを並べるスキル
+BlockLineUpSkill:
+  level: 15
+  minestack: 30
+
+#スキルを使ってブロックを並べたときの建築量上昇倍率
+BlockCountMag: 0.2
+
+#スキルの使えるワールド
+skillworld:
+  - world_SW
+  - world_SW_2
+  - world_SW_nether
+  - world_SW_the_end
+  - world_SW_zero
+
+#整地経験値が2倍になるワールド
+bonusworld:
+  - world_SW_zero
+  
+#重力値設定
+#通常破壊時に許容する高さ
+generalgravityheight: 10
+
+#パッシブスキル設定
+#セキュアブレイクが解放されるレベル
+securebreakunlocklevel: 60
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'
@@ -139,7 +184,7 @@ lv12message: "MineStack機能を解除しました！木の棒メニューから
 lv13message: "建築の時など、採掘速度のブースト効果が邪魔な時は\n木の棒メニューから効果のONとOFFを変更できます。"
 lv14message: "「ガチャ券がイチイチ地面に落っこちるのがうざい！」\nって人に朗報です。木の棒メニューからガチャ券の取得方法を変更できます。"
 lv15message: "家を建てたら木の棒メニューからホームポイントを設定しておきましょう。\nどこからでもクリック1つで自宅へ瞬間移動できますよ！"
-lv16message: "新しいパッシブスキル[4次元ポケット]を解除しました！\n四次元ポケットは木の棒メニューから開くことが出来ます。\nレベルを上げるとポケットの容量が増えていきます。"
+lv16message: "新しいパッシブスキル[四次元ポケット]を解除しました！\n四次元ポケットは木の棒メニューから開くことが出来ます。\nレベルを上げるとポケットの容量が増えていきます。"
 lv17message: "MineStack機能の対象ブロックが増えました！\n新たに丸石と石がスタックされるようになります。"
 lv18message: "整地の際に獲得できる経験値量が増えました。\n経験値量は10レベルごとに増加し、スキルがより長く使えるようになります！"
 lv20message: "新しいアクティブスキル[トリアルブレイク]を習得できます！\n習得するには木の棒メニューのスキルブックをクリック！"

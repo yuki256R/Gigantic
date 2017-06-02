@@ -16,12 +16,20 @@ public enum ListenerEnum {
 	SECOND(new SecondListener()),
 	MINUTE(new MinuteListener()),
 	STATISTIC(new PlayerStatisticListener()),
-	PLAYERCLICK(new PlayerClickListener()),
+	PLAYERCLICK(new PlayerInteractListener()),
 	INVNETORYCLICK(new InventoryClickListener()),
 	SEICHILEVEL(new SeichiLevelListener()),
 	GENERALBREAK(new GeneralBreakListener()),
 	BLOCKBREAK(new BlockBreakListener()),
 	MENUCLICK(new MenuClickListener()),
+	GIGANTICINTERACT(new GiganticInteractListener()),
+	PLAYERSWAPHANDITEMS(new PlayerSwapHandItemsListener()),
+    BUILD(new BlockPlaceEventListener()),
+    MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
+    HUNTINGPOINT(new HuntingPointEventListener()),
+    PLAYERPICKUPITEM(new PlayerPickupItemListener()),
+    BLOCKLINEUP(new BlockLineUpListener()),
+    RANKINGUPDATE(new RankingUpdateListener()),
 	;
 	private Listener listener;
 

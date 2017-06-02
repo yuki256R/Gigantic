@@ -5,9 +5,10 @@ import java.util.LinkedHashMap;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.MineStackTableManager;
+import com.github.unchama.sql.player.MineStackTableManager;
 
 public class MineStackManager extends DataManager implements UsingSql{
 	MineStackTableManager tm ;
@@ -25,7 +26,7 @@ public class MineStackManager extends DataManager implements UsingSql{
 	}
 
 	public boolean add(ItemStack itemstack){
-		if(StackType.canStack(itemstack) && this.isLoaded()){
+		if(StackType.canStack(itemstack) && gp.getStatus().equals(GiganticStatus.AVAILABLE)){
 			StackType st = StackType.getStackType(itemstack);
 			datamap.get(st).add(itemstack.getAmount());
 			return true;

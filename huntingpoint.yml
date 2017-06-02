@@ -1,0 +1,246 @@
+﻿# 狩りポイント
+
+# モブごとの設定
+#  Zombie:			内部で使用されているMob名
+#    jpname: 'ゾンビ'		日本語名
+#    headname: 'MHF_Zombie'	頭の名前
+#    target: true		狩りの対象にするか
+#    raiddistance: 30		討伐時、各辺をこの値×2とする矩形の中にいるプレイヤー全員にポイントを付与する（省略可）
+
+mobdata:
+  Pig:
+    jpname: '豚'
+    headname: 'Pig'
+    target: true
+  Sheep:
+    jpname: '羊'
+    headname: 'WhiteSheep'
+    target: true
+  Cow:
+    jpname: '牛'
+    headname: 'Cow'
+    target: true
+  Mooshroom:
+    jpname: 'キノコ牛'
+    headname: 'Mushroom'
+    target: true
+  Chicken:
+    jpname: '鶏'
+    headname: 'Chicken'
+    target: true
+  Squid:
+    jpname: 'イカ'
+    headname: 'Squid'
+    target: true
+  Wolf:
+    jpname: 'オオカミ'
+    headname: 'Dog1'
+    target: true
+  Ocelot:
+    jpname: 'ヤマネコ'
+    headname: 'Ocelot'
+    target: true
+  Horse:
+    jpname: '馬'
+    headname: 'Horse2'
+    target: true
+  SkeletonHorse:
+    jpname: 'スケルトンホース'
+    headname: 'Horse1'
+    target: true
+  Rabbit:
+    jpname: '兎'
+    headname: 'Rabbit1'
+    target: true
+  PolarBear:
+    jpname: 'シロクマ'
+    headname: 'PolarBear'
+    target: true
+  Villager:
+    jpname: '村人'
+    headname: 'Villager'
+    target: true
+  Zombie:
+    jpname: 'ゾンビ'
+    headname: 'Zombie'
+    target: true
+  Husk:
+    jpname: 'ハスク'
+    headname: 'Husk'
+    target: true
+  Skeleton:
+    jpname: 'スケルトン'
+    headname: 'Skeleton'
+    target: true
+  Spider:
+    jpname: 'スパイダー'
+    headname: 'Spider'
+    target: true
+  CaveSpider:
+    jpname: '毒蜘蛛'
+    headname: 'CaveSpider'
+    target: true
+  Creeper:
+    jpname: 'クリーパー'
+    headname: 'Creeper'
+    target: true
+  Enderman:
+    jpname: 'エンダーマン'
+    headname: 'Enderman'
+    target: true
+  Witch:
+    jpname: 'ウィッチ'
+    headname: 'Witch'
+    target: true
+  Guardian:
+    jpname: 'ガーディアン'
+    headname: 'Guardian'
+    target: true
+  ElderGuardian:
+    jpname: 'エルダーガーディアン'
+    headname: 'ElderGuardian'
+    target: true
+  Slime:
+    jpname: 'スライム'
+    headname: 'Slime'
+    target: true
+  Silverfish:
+    jpname: 'シルバーフィッシュ'
+    headname: 'SilverfishEgg'
+    target: true
+  Endermite:
+    jpname: 'エンダーマイト'
+    headname: 'EndermiteEgg'
+    target: true
+  PigZombie:
+    jpname: 'ゾンビピッグマン'
+    headname: 'Pigzombie'
+    target: true
+  WitherSkeleton:
+    jpname: 'ウィザースケルトン'
+    headname: 'WSkeleton'
+    target: true
+  Blaze:
+    jpname: 'ブレイズ'
+    headname: 'Blaze'
+    target: true
+  Ghast:
+    jpname: 'ガスト'
+    headname: 'Ghast'
+    target: true
+  #正式には「Magma Cube」だが、間が空くとSQLの動作に支障があるのでコード内で吸い取っている
+  MagmaCube:
+    jpname: 'マグマキューブ'
+    headname: 'MagmaCube'
+    target: true
+  Shulker:
+    jpname: 'シュルカー'
+    headname: 'Shulker'
+    target: true
+  Wither:
+    jpname: 'ウィザー'
+    headname: 'Wither'
+    target: true
+    raiddistance: 30
+  EnderDragon:
+    jpname: 'エンダードラゴン'
+    headname: 'Enderdragon'
+    target: true
+    raiddistance: 200
+
+
+# 上記の同種扱い（左辺を右辺に変換する）
+huntmob_convert:
+#      - 'Husk : Zombie'
+#      - 'CaveSpider : Spider'
+
+
+# ショップの陳列
+# ・category: 販売物のタイプ
+#     ToHead: そのMobのシンボルとなる頭
+#     CustomHead: headnameで指定したカスタムヘッド
+#     HeadCategory: categorynameで指定したカスタムヘッドを全て並べる
+#     Item: ItemStackで指定したアイテム
+#
+# ・price: 購入に必要なポイント
+#     
+# ・itemstack: 陳列時に見せるアイコン、Itemの場合はこれを付与する（一部categoryでは省略可）
+
+shop:
+  Zombie:
+    1:
+      category: 'ToHead'
+      price: 2
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: SKULL_ITEM
+        damage: 3
+        meta:
+          ==: ItemMeta
+          meta-type: SKULL
+          display-name: '&e&n&lモブの頭'
+          lore:
+          - '&r&c整地ワールド以外では'
+          - '&r&c整地量とガチャ券は増えません'
+          - '&r&a統計データは'
+          - '&r&a各サバイバルサーバー間で'
+          - '&r&a共有されます'
+    2:
+      category: 'CustomHead'
+      headname: 'pc'
+      price: 2
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: SKULL_ITEM
+        damage: 3
+        meta:
+          ==: ItemMeta
+          meta-type: SKULL
+          display-name: '&e&n&lなんか違う頭'
+          lore:
+          - '&r&c整地ワールド以外では'
+          - '&r&c整地量とガチャ券は増えません'
+          - '&r&a統計データは'
+          - '&r&a各サバイバルサーバー間で'
+          - '&r&a共有されます'
+    3:
+      category: 'Item'
+      price: 1
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: BEACON
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '&e&n&l特別なビーコン'
+          lore:
+          - '&r&7と見せかけた'
+          - '&r&7普通のビーコン'
+          - '&r&8command->[/spawn]'
+  Skeleton:
+    1:
+      category: 'Item'
+      price: 1
+      itemstack:
+        ==: org.bukkit.inventory.ItemStack
+        type: BEACON
+        meta:
+          ==: ItemMeta
+          meta-type: UNSPECIFIC
+          display-name: '&e&n&l特別なビーコン'
+          lore:
+          - '&r&7と見せかけた'
+          - '&r&7普通のビーコン'
+    2:
+      category: 'CustomHead'
+      headname: 'pc'
+      price: 2
+
+    3:
+      category: 'ToHead'
+      price: 2
+  Sheep:
+    1:
+      category: 'HeadCategory'
+      categoryname: 'pastel1'
+      price: 2

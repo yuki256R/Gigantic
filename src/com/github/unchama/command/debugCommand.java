@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
@@ -64,10 +65,12 @@ public class debugCommand implements TabExecutor {
 
 				Player player = (Player) sender;
 
+
+
 				GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 
-				if(gp == null){
-					sender.sendMessage("あなたのデータを見つけることができませんでした．");
+				if(!gp.getStatus().equals(GiganticStatus.AVAILABLE)){
+					sender.sendMessage("プレイヤーデータがロードされていません．しばらくお待ちください．");
 					return true;
 				}
 
@@ -102,6 +105,15 @@ public class debugCommand implements TabExecutor {
         	String prefix = args[1].toLowerCase();
             ArrayList<String> commands = new ArrayList<String>();
             for ( String c : new String[]{"seichilevel"} ) {
+                if ( c.startsWith(prefix) ) {
+                    commands.add(c);
+                }
+            }
+            return commands;
+        }else if( args.length == 3 && args[1].equalsIgnoreCase("seichilevel")){
+        	String prefix = "";
+        	ArrayList<String> commands = new ArrayList<String>();
+            for ( String c : new String[]{"10","50","100","150","200","250","300"} ) {
                 if ( c.startsWith(prefix) ) {
                     commands.add(c);
                 }

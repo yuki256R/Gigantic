@@ -11,12 +11,8 @@ import org.bukkit.event.player.PlayerStatisticIncrementEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.BlockType;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.sidebar.SideBarManager;
-import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -37,16 +33,7 @@ public class PlayerStatisticListener implements Listener {
 				}
 				gp.getManager(MineBlockManager.class).increase(material,diff);
 				debug.sendMessage(p, DebugEnum.MINEBLOCK, material.name() + " is increment(" + diff + ")for player:" + p.getName());
-				if(gp.getManager(SeichiLevelManager.class).updateLevel()){
-					int level = gp.getManager(SeichiLevelManager.class).getLevel();
-					gp.getManager(ManaManager.class).Levelup();
-					gp.getManager(SideBarManager.class).updateInfo(Information.SEICHI_LEVEL,level);
-				}
-				double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-				gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK, rb);
-				gp.getManager(SideBarManager.class).refresh();
 			}
 		}
 	}
-
 }

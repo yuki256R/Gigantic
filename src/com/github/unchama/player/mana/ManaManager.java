@@ -15,7 +15,7 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.sql.ManaTableManager;
+import com.github.unchama.sql.player.ManaTableManager;
 import com.github.unchama.util.Util;
 
 public class ManaManager extends DataManager implements Initializable, UsingSql, Finalizable{
@@ -24,18 +24,20 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	private double max;
 	BossBar manabar;
 	ManaTableManager tm;
+	SeichiLevelManager Sm;
 
 	//デバッグ時のマナ保存用
 	private double debugmana = -1;
 
 	public ManaManager(GiganticPlayer gp) {
-		super(gp);
-		tm = sql.getManager(ManaTableManager.class);
+	    super(gp);
+        tm = sql.getManager(ManaTableManager.class);
 	}
 
 	@Override
 	public void init() {
-		this.updateMaxMana();
+		Sm = gp.getManager(SeichiLevelManager.class);
+		this.updateMaxMana(Sm.getLevel());
 		Player player = PlayerManager.getPlayer(gp);
 		display(player);
 	}
@@ -47,7 +49,6 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 
 	@Override
 	public void fin() {
-		this.updateMaxMana();
 		if(this.debugmana != -1){
 			this.m = this.debugmana;
 		}
@@ -66,16 +67,17 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 		if (max == 0)
 			return;
 
-		manabar = Bukkit.getServer().createBossBar(
-				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
-						+ "/" + max + ")", BarColor.BLUE, BarStyle.SOLID);
-
 		double progress = 0;
 		if (m / max > 1.0) {
 			m = max;
 		}
 		progress = m / max;
 
+		BarColor bc = getColor(progress);
+
+		manabar = Bukkit.getServer().createBossBar(
+				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
+						+ "/" + max + ")", bc, BarStyle.SOLID);
 		manabar.setProgress(progress);
 		manabar.addPlayer(player);
 	}
@@ -84,8 +86,33 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	 * @return
 	 */
 	private void updateBar(){
-		manabar.setProgress( m / max > 1.0 ? 1.0 : m / max);
+		double progress =  m / max > 1.0 ? 1.0 : m / max;
+		manabar.setProgress(progress);
+		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
+				+ "/" + max + ")");
+		BarColor bc = getColor(progress);
+
+		manabar.setColor(bc);
+
+
+
 	}
+	private BarColor getColor(double progress) {
+		if(progress > 0.99){
+			//マックス表示
+			return BarColor.PURPLE;
+		}else if(progress > 0.1){
+			//通常表示
+			return BarColor.BLUE;
+		}else if(progress > 0.01){
+			//ピンク表示
+			return BarColor.PINK;
+		}else{
+			//赤表示
+			return BarColor.RED;
+		}
+	}
+
 	/**iだけマナを増加させます．maxを超えた場合はmaxとなります．
 	 *
 	 * @param i
@@ -152,16 +179,15 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	 * 現在のレベルに応じてMaxManaを変更します．
 	 *
 	 */
-	public void updateMaxMana() {
-		int level = gp.getManager(SeichiLevelManager.class).getLevel();
+	public void updateMaxMana(int level) {
 		this.max = SeichiLevelManager.levelmap.get(level).getMaxMana();
 	}
 
 	/**ユーザーのレベルアップ時に実行します．
 	 *
 	 */
-	public void Levelup(){
-		this.updateMaxMana();
+	public void Levelup(int level){
+		this.updateMaxMana(level);
 		this.fullMana();
 		Player player = PlayerManager.getPlayer(gp);
 		this.display(player);
@@ -171,7 +197,7 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 	 *
 	 */
 	public void setDebugMana(){
-		this.updateMaxMana();
+		this.updateMaxMana(Sm.getLevel());
 		if(this.debugmana == -1){
 			this.debugmana = m;
 		}

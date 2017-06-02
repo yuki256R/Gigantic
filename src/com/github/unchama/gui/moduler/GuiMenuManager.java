@@ -2,6 +2,8 @@ package com.github.unchama.gui.moduler;
 
 import java.util.HashMap;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -10,8 +12,18 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.GuiMenu.ManagerType;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.menu.PlayerMenuManager;
+import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.CustomHeadManager;
+import com.github.unchama.yml.DebugManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * Menu用のManagerです．Menuを作る時はこのクラスを継承すると簡単に作成できます．
@@ -20,9 +32,16 @@ import com.github.unchama.yml.ConfigManager;
  *
  */
 public abstract class GuiMenuManager {
-	protected Gigantic plugin = Gigantic.plugin;
-	protected ConfigManager config = Gigantic.yml
+	public static final Gigantic plugin = Gigantic.plugin;
+	public static final GuiMenu gui = Gigantic.guimenu;
+	public static final Sql sql = Gigantic.sql;
+
+	public final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+
+	public final ConfigManager config = Gigantic.yml
 			.getManager(ConfigManager.class);
+	protected CustomHeadManager head = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
 	/**
 	 * マテリアル，ダメージ値，名前，説明文を保存する． このキーをもって左（右）クリックするとこのクラスのメニューを開く．
@@ -34,15 +53,60 @@ public abstract class GuiMenuManager {
 	 * スロット番号と開くメニューのクラスを保存する．
 	 *
 	 */
-	protected HashMap<Integer, Class<? extends GuiMenuManager>> openmap = new HashMap<Integer, Class<? extends GuiMenuManager>>();
+	protected HashMap<Integer, ManagerType> openmap = new HashMap<Integer, ManagerType>();
 
 	protected HashMap<Integer, String> id_map = new HashMap<Integer, String>();
 
 	public GuiMenuManager() {
 		if (!GuiYmlMenuManager.class.isAssignableFrom(this.getClass())) {
 			setOpenMenuMap(openmap);
+			setIDMap(id_map);
 		}
-		setIDMap(id_map);
+
+	}
+
+	/**
+	 * インベントリ内を更新する．
+	 *
+	 * @param player
+	 */
+	public void update(Player player) {
+		player.openInventory(this.getInventory(player, 0));
+		// 開く音を再生
+		player.playSound(player.getLocation(), getSoundName(), getVolume(),
+				getPitch());
+	}
+
+	/**
+	 * プレイヤーにオープンさせる．履歴を削除したい場合はflagをtrueにする．
+	 *
+	 * @param player
+	 * @param 前のメニューでクリックされたslot
+	 * @param clearflag
+	 */
+	public void open(Player player, int slot, boolean clearflag) {
+		player.openInventory(this.getInventory(player, slot));
+		// 開く音を再生
+		player.playSound(player.getLocation(), getSoundName(), getVolume(),
+				getPitch());
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		PlayerMenuManager m = gp.getManager(PlayerMenuManager.class);
+		if (clearflag) {
+			m.clear();
+		}
+		debug.sendMessage(player, DebugEnum.GUI, getInventoryName(player)
+				+ ChatColor.RESET + "を開きます．");
+		m.push(ManagerType.getTypebyClass(this.getClass()));
+	}
+
+	/**
+	 * メニューを開くことによって今のメニューが閉じるときの処理
+	 *
+	 * @param player
+	 * @param event
+	 */
+	public void closeByOpenMenu(Player player, MenuClickEvent event) {
+
 	}
 
 	/**
@@ -79,8 +143,7 @@ public abstract class GuiMenuManager {
 	 * メニューを開くスロット番号を設定します．
 	 *
 	 */
-	protected abstract void setOpenMenuMap(
-			HashMap<Integer, Class<? extends GuiMenuManager>> openmap);
+	protected abstract void setOpenMenuMap(HashMap<Integer, ManagerType> openmap);
 
 	/**
 	 * このメニュ内のスロットから次に開くメニューのクラスを取得します．
@@ -88,7 +151,7 @@ public abstract class GuiMenuManager {
 	 * @param slot
 	 * @return
 	 */
-	public Class<? extends GuiMenuManager> getMenuManager(int slot) {
+	public ManagerType getMenuManager(int slot) {
 		Integer s = new Integer(slot);
 		return openmap.isEmpty() ? null : (openmap.containsKey(s) ? openmap
 				.get(s) : null);
@@ -167,15 +230,26 @@ public abstract class GuiMenuManager {
 				itemstack.setItemMeta(itemmeta);
 			inv.setItem(i, itemstack);
 		}
+		inv.setMaxStackSize(Integer.MAX_VALUE);
 		return inv;
 	}
 
-	/**
-	 * 空のインベントリを取得します．
-	 *
-	 * @param player
-	 * @return
-	 */
+    public Inventory getInventory(Player player) {
+        Inventory inv = this.getEmptyInventory(player);
+
+        for (int i = 0; i < inv.getSize(); i++) {
+            ItemStack itemstack = this.getItemStack(player, i);
+            if (itemstack == null)
+                continue;
+            ItemMeta itemmeta = this.getItemMeta(player, i, itemstack);
+            if (itemmeta != null)
+                itemstack.setItemMeta(itemmeta);
+            inv.setItem(i, itemstack);
+        }
+        inv.setMaxStackSize(Integer.MAX_VALUE);
+        return inv;
+    }
+
 	protected Inventory getEmptyInventory(Player player) {
 		Inventory inv;
 		InventoryType it = this.getInventoryType();
@@ -220,12 +294,22 @@ public abstract class GuiMenuManager {
 	public abstract float getPitch();
 
 	/**
-	 * 鍵となるアイテムを持っている時trueとなります． メニューで作成した項目からジャンプするタイプのメニューではfalseになります．
+	 * 鍵となるアイテムを持っている時trueとなります．
 	 *
 	 * @return
 	 */
 	public boolean hasKey() {
-		return keyitem.getMaterial() != null;
+		return keyitem != null;
+	}
+
+	/**
+	 * 該当スロットがクリックされた時のロックする条件を記述します．
+	 *
+	 * @param slot
+	 * @return
+	 */
+	public boolean islocked(Player player, int slot) {
+		return false;
 	}
 
 }
