@@ -20,6 +20,7 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 	private final int gachaSlot = 0;
 	private final int repairSlot = 3;
 	private final int customHeadSlot = 4;
+	private final int buildSlot = 2;
 
 	// ツール修理
 	ItemStack repairButton;
@@ -44,6 +45,7 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 		openmap.put(gachaSlot, ManagerType.ADMINGACHATYPEMENU);
 		openmap.put(customHeadSlot, ManagerType.ADMINCUSTOMHEADMAINMENU);
 		openmap.put(repairSlot, ManagerType.ADMINTOOLREPAIRMENU);
+		openmap.put(buildSlot, ManagerType.ADMINBUILDMENU);
 	}
 
 	@Override
@@ -78,6 +80,8 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 			itemmeta.setDisplayName(ChatColor.DARK_AQUA + "ツール耐久値操作");
 			itemmeta.setLore(lore);
 			break;
+        case buildSlot:
+            itemmeta.setDisplayName(ChatColor.DARK_AQUA + "建築系システム操作");
 		default:
 			break;
 		}
@@ -98,6 +102,8 @@ public class AdminTypeMenuManager extends AdminMenuManager {
 		case repairSlot:
 			itemstack = repairButton;
 			break;
+        case buildSlot:
+            itemstack = new ItemStack(Material.STONE);
 		default:
 			break;
 		}

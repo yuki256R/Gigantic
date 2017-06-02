@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
+import com.github.unchama.gui.admin.build.AdminBuildMenuManager;
 import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.customhead.AdminCustomHeadMainMenuManager;
 import com.github.unchama.gui.admin.gacha.AdminGachaTypeMenuManager;
@@ -70,6 +71,7 @@ public final class GuiMenu {
 		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
+        ADMINBUILDMENU(AdminBuildMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
