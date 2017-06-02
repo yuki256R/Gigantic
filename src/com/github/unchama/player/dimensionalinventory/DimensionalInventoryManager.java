@@ -10,7 +10,6 @@ import org.bukkit.inventory.Inventory;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
@@ -18,7 +17,7 @@ import com.github.unchama.yml.DimensionalInventoryYmlManager;
 
 // 四次元ポケット
 public class DimensionalInventoryManager extends DataManager implements
-		UsingSql, Initializable {
+		UsingSql {
 
 	private Inventory inventory;
 
@@ -87,10 +86,4 @@ public class DimensionalInventoryManager extends DataManager implements
 		tableManager.save(gp, loginflag);
 
 	}
-
-	@Override
-	public void init() {
-		this.resize();
-	}
-
 }
