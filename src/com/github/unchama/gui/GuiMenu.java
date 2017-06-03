@@ -35,6 +35,11 @@ import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.presentbox.PresentBoxMenuManager;
 import com.github.unchama.gui.ranking.RankingSelectMenuManager;
+import com.github.unchama.gui.ranking.build.DayBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.TotalBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.WeekBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.YearBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.DayMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.MonthMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
@@ -121,6 +126,12 @@ public final class GuiMenu {
         WEEKMINEBLOCKRANKINGMENU(WeekMineBlockRankingMenuManager.class),
         MONTHMINEBLOCKRANKINGMENU(MonthMineBlockRankingMenuManager.class),
         YEARMINEBLOCKRANKINGMENU(YearMineBlockRankingMenuManager.class),
+        TOTALBUILDRANKINGMENU(TotalBuildRankingMenuManager.class),
+        DAYBUILDRANKINGMENU(DayBuildRankingMenuManager.class),
+        WEEKBUILDRANKINGMENU(WeekBuildRankingMenuManager.class),
+        MONTHBUILDRANKINGMENU(MonthBuildRankingMenuManager.class),
+        YEARBUILDRANKINGMENU(YearBuildRankingMenuManager.class),
+
 		;
 
 		// 使用するManagerClass

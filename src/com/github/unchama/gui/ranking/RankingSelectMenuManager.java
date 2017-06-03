@@ -38,6 +38,11 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 		openmap.put(18, ManagerType.WEEKMINEBLOCKRANKINGMENU);
 		openmap.put(27, ManagerType.MONTHMINEBLOCKRANKINGMENU);
 		openmap.put(36, ManagerType.YEARMINEBLOCKRANKINGMENU);
+		openmap.put(1, ManagerType.TOTALBUILDRANKINGMENU);
+		openmap.put(10, ManagerType.DAYBUILDRANKINGMENU);
+		openmap.put(19, ManagerType.WEEKBUILDRANKINGMENU);
+		openmap.put(28, ManagerType.MONTHBUILDRANKINGMENU);
+		openmap.put(37, ManagerType.YEARBUILDRANKINGMENU);
 	}
 
 	@Override
@@ -96,13 +101,25 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 			itemstack = head.getMobHead("blue_chalice");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（年間）");
 			break;
-		case 5:
+		case 1:
+			itemstack = head.getMobHead("purple_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（総合）");
 			break;
-		case 6:
+		case 10:
+			itemstack = head.getMobHead("purple_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（日間）");
 			break;
-		case 7:
+		case 19:
+			itemstack = head.getMobHead("purple_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（週間）");
 			break;
-		case 8:
+		case 28:
+			itemstack = head.getMobHead("purple_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（月間）");
+			break;
+		case 37:
+			itemstack = head.getMobHead("purple_chalice");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（年間）");
 			break;
 		default:
 			break;
