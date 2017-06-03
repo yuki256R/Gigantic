@@ -7,23 +7,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-<<<<<<< HEAD
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.build.BuildData;
-import com.github.unchama.player.build.BuildLevelManager;
-import com.github.unchama.player.build.BuildManager;
-import com.github.unchama.player.buildskill.BuildSkillManager;
-import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.minestack.MineStackManager;
-import com.github.unchama.player.minestack.StackType;
-import org.bukkit.*;
-=======
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
->>>>>>> unchama/master
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -647,19 +635,8 @@ public class GiganticInteractListener implements Listener {
                             }
                         }
                     }
-<<<<<<< HEAD
-                    player.sendMessage(ChatColor.RED + "敷き詰めスキル：処理終了");
-                    debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "設置ブロック数:" + block_cnt);
-
-                    if (BuildData.isBlockCount(player)) {
-                        BigDecimal add = blockCountMag.multiply(new BigDecimal(block_cnt));
-                        gp.getManager(BuildManager.class).addBuild_num_1min(add);//設置した数を足す
-                        debug.sendMessage(player, DebugManager.DebugEnum.BUILD, "建築量上昇:" + add.doubleValue());
-                        gp.getManager(BuildLevelManager.class).checkLevel();
-=======
                     if (searchedInv == 36) {
                         break;
->>>>>>> unchama/master
                     }
 
                     setblockX++;
