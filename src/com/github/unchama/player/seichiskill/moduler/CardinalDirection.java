@@ -2,6 +2,10 @@ package com.github.unchama.player.seichiskill.moduler;
 
 import org.bukkit.entity.Entity;
 
+/**
+ * @author tar0ss
+ *
+ */
 public enum CardinalDirection {
 	NORTH, EAST, SOUTH, WEST;
 

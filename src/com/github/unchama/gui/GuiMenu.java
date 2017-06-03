@@ -59,6 +59,10 @@ import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.gui.settings.PlayerSettingsMenuManager;
 
 
+/**
+ * @author tar0ss
+ *
+ */
 public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
