@@ -1,0 +1,16 @@
+﻿category:
+  other:
+    dispname: 'その他'
+    mainhead: 'letterbox'
+  food:
+    dispname: '食べ物'
+    mainhead: 'orange'
+  animal:
+    dispname: '動物'
+    mainhead: 'Fox1'
+  mob:
+    dispname: 'MOB'
+    mainhead: 'Zombie'
+  pastel1:
+    dispname: '文字「パステル１」'
+    mainhead: 'pastel1_a02'

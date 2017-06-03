@@ -21,11 +21,16 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.sql.MagicDriveTableManager;
+import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
+import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MagicDriveManager extends ActiveSkillManager{
 
 	MagicDriveTableManager tm;
@@ -174,7 +179,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 				debug.sendMessage(player, DebugEnum.SKILL,
 						"your item is added in minestack");
 			} else {
-				player.getInventory().addItem(dropitem);
+				Util.giveItem(player, dropitem, false);
 				debug.sendMessage(player, DebugEnum.SKILL,
 						"your item is added in inventory");
 			}

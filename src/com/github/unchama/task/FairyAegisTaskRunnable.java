@@ -20,6 +20,10 @@ import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakMana
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class FairyAegisTaskRunnable extends BukkitRunnable {
 	private Gigantic plugin = Gigantic.plugin;
 
@@ -60,6 +64,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 
 		if (Fm.isunlocked()) {
 			Sm.updateInfo(info, Fm.getBreakingFairy());
+			Sm.refresh();
 		}
 
 	}
@@ -79,6 +84,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 				} else {
 					Sm.updateInfo(info, Fm.getBreakingFairy());
 				}
+				Sm.refresh();
 			}
 			return;
 		}

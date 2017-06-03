@@ -15,9 +15,13 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.sql.ManaTableManager;
+import com.github.unchama.sql.player.ManaTableManager;
 import com.github.unchama.util.Util;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ManaManager extends DataManager implements Initializable, UsingSql, Finalizable{
 
 	private double m;

@@ -17,6 +17,10 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ActiveSkillToggleMenuManager extends GuiMenuManager {
 
 	@Override
@@ -102,7 +106,7 @@ public class ActiveSkillToggleMenuManager extends GuiMenuManager {
 
 	@Override
 	public Sound getSoundName() {
-		return Sound.valueOf("BLOCK_ENCHANTMENT_TABLE_USE");
+		return Sound.BLOCK_ENCHANTMENT_TABLE_USE;
 	}
 
 	@Override

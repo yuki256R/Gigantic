@@ -6,6 +6,10 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class BreakRange {
 
 	// 破壊する体積情報

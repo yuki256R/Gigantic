@@ -1,5 +1,6 @@
 package com.github.unchama.task;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,14 +28,14 @@ public class BuildTaskRunnable extends BukkitRunnable{
 	private int count;
 
 	public BuildTaskRunnable(List<Player> playerlist) {
-		this.playerlist = new ArrayList<Player>(playerlist);
+		this.playerlist = new ArrayList<>(playerlist);
 		this.size = this.playerlist.size();
 		this.count = -1;
 	}
 	
 	@Override
 	public void run() {
-		//TODO:ここで1分ごとに1minを0に設定
+		//ここで1分ごとに1minを0に設定
 		Bukkit.getScheduler().runTask(plugin, new Runnable() {
 			@Override
 			public void run(){
@@ -48,7 +49,7 @@ public class BuildTaskRunnable extends BukkitRunnable{
 						GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 						GiganticStatus gs = PlayerManager.getStatus(gp);
 						if(gs.equals(GiganticStatus.AVAILABLE)){
-							gp.getManager(BuildManager.class).setBuild_Num_1min(0);
+							gp.getManager(BuildManager.class).setBuild_Num_1min(BigDecimal.ZERO);
 							debug.sendMessage(player,DebugEnum.BUILD,"1分経過--Build_Num_1minを0にリセット。");
 						}
 					}

@@ -23,7 +23,7 @@ import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.util.MobHead;
+import com.github.unchama.util.Util;
 
 /**
  * Created by Mon_chi on 2017/03/25.
@@ -46,8 +46,8 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
         }
 
         skullList = new ArrayList<>();
-        skullList.add(MobHead.getMobHead("left"));
-        skullList.add(MobHead.getMobHead("right"));
+        skullList.add(head.getMobHead("left"));
+        skullList.add(head.getMobHead("right"));
         ItemMeta meta = skullList.get(0).getItemMeta();
         meta.setDisplayName("前のページ");
         skullList.get(0).setItemMeta(meta);
@@ -151,7 +151,7 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
             	player.sendMessage(ChatColor.RED + "インベントリを空けてください．");
                 return false;
             }else{
-                player.getInventory().addItem(itemStack);
+				Util.giveItem(player, itemStack, false);
                 player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
             }
 

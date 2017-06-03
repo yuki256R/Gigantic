@@ -11,7 +11,10 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.task.GiganticInitializeTaskRunnable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
 	private static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
@@ -36,6 +39,8 @@ public class PlayerManager {
 					+ "既にログインしています．一度ログアウトを行い，時間が経ってからログインし直してください．");
 			return;
 		}
+		player.sendMessage(ChatColor.GREEN
+				+ "データをロードしています．しばらくお待ちください．．．");
 		gp = new GiganticPlayer(player);
 		waitingloadmap.put(uuid, gp);
 		gmap.put(uuid, gp);

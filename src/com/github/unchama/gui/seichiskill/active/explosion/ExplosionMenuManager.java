@@ -22,8 +22,11 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
-import com.github.unchama.util.MobHead;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ExplosionMenuManager extends ActiveSkillMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = ExplosionManager.class;
 
@@ -169,9 +172,7 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 			itemstack = new ItemStack(Material.GLASS);
 			break;
 		case ORIGIN:
-			itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
-			String url = MobHead.getMobURL("pc");
-			MobHead.setURL(itemstack, url);
+			itemstack = head.getMobHead("pc");
 			break;
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);

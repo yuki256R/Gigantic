@@ -11,8 +11,10 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
@@ -55,8 +57,16 @@ public class SideBarManager extends DataManager implements Initializable,
 				SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
 				gp.getManager(MineBoostManager.class).getBoostLv());
-		updateInfo(Information.BUILDING_LEVEL, 99);
-		updateInfo(Information.SEPARATOR1, "");
+		updateInfo(
+				Information.GACHA_TICKET,
+				gp.getManager(PlayerGachaManager.class).getTicket(
+						GachaType.GIGANTIC)
+						+ "枚");
+		updateInfo(
+				Information.MINE_TICKET,
+				gp.getManager(PlayerGachaManager.class).getRemainingBlock(
+						GachaType.GIGANTIC));
+		updateInfo(Information.SEPARATOR2, "");
 		updateInfo(Information.EX_COOLTIME, "%DELETE%");
 		updateInfo(Information.MD_COOLTIME, "%DELETE%");
 		updateInfo(Information.FA_FAIRY, "%DELETE%");
@@ -97,11 +107,12 @@ public class SideBarManager extends DataManager implements Initializable,
 		 */
 		SEICHI_LEVEL(ChatColor.GREEN + "整地Lv: ", 14), MINE_BLOCK(
 				ChatColor.DARK_GREEN + "次のLvまで:", 13), MINING_SPEED(
-				ChatColor.GREEN + "採掘速度: ", 12), BUILDING_LEVEL(ChatColor.GREEN
-				+ "建築Lv: ", 11), SEPARATOR1(ChatColor.YELLOW
-				+ "===============", 10), EX_COOLTIME(ChatColor.GREEN
-				+ "Explosion:", 9), MD_COOLTIME(ChatColor.BLUE + "MagicDrive:",
-				8),FA_FAIRY(ChatColor.GREEN + "FairyAegis:",7),
+				ChatColor.GREEN + "採掘速度: ", 12), GACHA_TICKET(ChatColor.GREEN
+				+ "ガチャ券: ", 11), MINE_TICKET(ChatColor.DARK_GREEN + "獲得まで: ", 10), SEPARATOR2(
+				ChatColor.YELLOW + "===============", 9), EX_COOLTIME(
+				ChatColor.GREEN + "Explosion:", 3), MD_COOLTIME(ChatColor.BLUE
+				+ "MagicDrive:", 2), FA_FAIRY(ChatColor.GREEN + "FairyAegis:",
+				1),
 
 		;
 

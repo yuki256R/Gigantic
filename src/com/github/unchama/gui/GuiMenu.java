@@ -3,6 +3,29 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.admin.AdminTypeMenuManager;
+import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
+import com.github.unchama.gui.admin.customhead.AdminCustomHeadMainMenuManager;
+import com.github.unchama.gui.admin.gacha.AdminGachaTypeMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_AppleGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_EditGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_ListGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AG_TicketGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_AppleGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_EditGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_ListGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AP_TicketGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
+import com.github.unchama.gui.admin.toolrepair.AdminToolRepairMenuManager;
+import com.github.unchama.gui.build.BlockCraftMenuManagerFirstPage;
+import com.github.unchama.gui.build.BlockCraftMenuManagerSecondPage;
+import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
+import com.github.unchama.gui.build.BuildMenuManager;
+import com.github.unchama.gui.buildskill.BlockLineUpMenuManager;
+import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
+import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
+import com.github.unchama.gui.huntingpoint.HuntingPointShopMenuManager;
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
 import com.github.unchama.gui.minestack.build.CategoryBuildMenuManager;
 import com.github.unchama.gui.minestack.item.CategoryItemMenuManager;
@@ -10,7 +33,14 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.gui.moduler.RegionMenuManager;
+import com.github.unchama.gui.presentbox.PresentBoxMenuManager;
+import com.github.unchama.gui.ranking.RankingSelectMenuManager;
+import com.github.unchama.gui.ranking.mineblock.DayMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.MonthMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.WeekMineBlockRankingMenuManager;
+import com.github.unchama.gui.ranking.mineblock.YearMineBlockRankingMenuManager;
+import com.github.unchama.gui.seichireward.SeichiRewardMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
@@ -26,13 +56,24 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
-import com.github.unchama.player.build.BuildMenuManager;
-import com.github.unchama.player.build.gui.BlockCraftMenuManager1;
+import com.github.unchama.gui.settings.PlayerSettingsMenuManager;
 
 
+/**
+ * @author tar0ss
+ *
+ */
 public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
+		PLAYERSETTINGSMENU(PlayerSettingsMenuManager.class),
+		ADMINTYPEMENU(AdminTypeMenuManager.class),
+		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
+		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
+		ADMINCUSTOMHEADMAINMENU(AdminCustomHeadMainMenuManager.class),
+		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
+		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
+		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -55,8 +96,31 @@ public final class GuiMenu {
 		MATERIALCATEGORYMENU(CategoryMaterialMenuManager.class),
 		OTHERWISECATEGORYMENU(CategoryOtherwiseMenuManager.class),
 		BUILDMENU(BuildMenuManager.class),
-		BLOCKCRAFTMENU1(BlockCraftMenuManager1.class),
 		REGIONMENU(RegionMenuManager.class),
+		HUNTMAINMENU(HuntingPointMainMenuManager.class),
+		HUNTSHOPMENU(HuntingPointShopMenuManager.class),
+		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
+		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
+		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
+		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
+		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
+		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
+		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
+		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
+		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
+		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
+		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
+		SEICHIREWARDMENU(SeichiRewardMenuManager.class),
+		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
+		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
+        BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
+        PRESENTBOX(PresentBoxMenuManager.class),
+        RANKINGSELECTMENU(RankingSelectMenuManager.class),
+        TOTALMINEBLOCKRANKINGMENU(TotalMineBlockRankingMenuManager.class),
+        DAYMINEBLOCKRANKINGMENU(DayMineBlockRankingMenuManager.class),
+        WEEKMINEBLOCKRANKINGMENU(WeekMineBlockRankingMenuManager.class),
+        MONTHMINEBLOCKRANKINGMENU(MonthMineBlockRankingMenuManager.class),
+        YEARMINEBLOCKRANKINGMENU(YearMineBlockRankingMenuManager.class),
 		;
 
 		// 使用するManagerClass
@@ -69,8 +133,8 @@ public final class GuiMenu {
 			this.managerClass = managerClass;
 		}
 
-		static{
-			for(ManagerType mt : ManagerType.values()){
+		static {
+			for (ManagerType mt : ManagerType.values()) {
 				managertypemap.put(mt.getManagerClass(), mt);
 			}
 		}
@@ -109,19 +173,16 @@ public final class GuiMenu {
 			return "example";
 		}
 
-
 		/**
 		 * ManagerClassからmanagerTypeを取得します．
 		 * @param _class
 		 * @return
 		 */
 		public static ManagerType getTypebyClass(
-				Class<? extends GuiMenuManager> _class){
+				Class<? extends GuiMenuManager> _class) {
 			return managertypemap.get(_class);
 		}
 	}
-
-
 
 	// 全てのGuiMenuManagerを格納するMap
 	private LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager> managermap = new LinkedHashMap<Class<? extends GuiMenuManager>, GuiMenuManager>();

@@ -16,8 +16,11 @@ import com.github.unchama.gui.moduler.RangeMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
-import com.github.unchama.util.MobHead;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class F_RangeMenuManager extends RangeMenuManager {
 
 	@Override
@@ -265,13 +268,13 @@ public class F_RangeMenuManager extends RangeMenuManager {
 		ItemStack itemstack = null;
 		switch (slot) {
 		case 0:
-			itemstack = MobHead.getMobHead("up");
+			itemstack = head.getMobHead("up");
 			break;
 		case 1:
-			itemstack = MobHead.getMobHead("up");
+			itemstack = head.getMobHead("up");
 			break;
 		case 2:
-			itemstack = MobHead.getMobHead("up");
+			itemstack = head.getMobHead("up");
 			break;
 		case 3:
 			itemstack = m.getBreakNumHead(1000,m.getBreakNum());
@@ -283,13 +286,13 @@ public class F_RangeMenuManager extends RangeMenuManager {
 			itemstack = m.getBreakNumHead(10,m.getBreakNum());
 			break;
 		case 6:
-			itemstack = MobHead.getMobHead("down");
+			itemstack = head.getMobHead("down");
 			break;
 		case 7:
-			itemstack = MobHead.getMobHead("down");
+			itemstack = head.getMobHead("down");
 			break;
 		case 8:
-			itemstack = MobHead.getMobHead("down");
+			itemstack = head.getMobHead("down");
 			break;
 		}
 		return itemstack;

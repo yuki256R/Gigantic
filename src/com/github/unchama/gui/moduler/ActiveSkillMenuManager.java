@@ -64,7 +64,7 @@ public abstract class ActiveSkillMenuManager extends GuiMenuManager{
 
 	@Override
 	public Sound getSoundName() {
-		return Sound.valueOf("BLOCK_ENCHANTMENT_TABLE_USE");
+		return Sound.BLOCK_ENCHANTMENT_TABLE_USE;
 	}
 
 	@Override

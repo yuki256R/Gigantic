@@ -30,10 +30,20 @@ commands:
       permission-message: You don't have <permission>
   stick:
       description: This is stick command
-      aliases: stick
-      default: op
+      aliases: [st,sti]
+      default: true
       permission: gigantic.stick
       permission-message: You don't have <permission>
   fly:
       description: This is stick command
       usage: /<command> <finish/amount/endless>
+      aliases: [giganticfly,gfly]
+      default: true
+      permission: gigantic.fly
+      permission-message: You don't have <permission>
+  presentbox:
+      description: This is presentbox command.
+      usage: /<command> send <playername/all>
+      default: op
+      permission: gigantic.presentbox
+      permission-message: You don't have <permission>

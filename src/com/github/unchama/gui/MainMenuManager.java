@@ -4,5 +4,9 @@ import com.github.unchama.gui.moduler.GuiYmlMenuManager;
 
 
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MainMenuManager extends GuiYmlMenuManager{
 }

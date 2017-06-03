@@ -4,17 +4,23 @@ import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import com.github.unchama.event.MineBlockIncrementEvent;
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
-import com.github.unchama.sql.MineBlockTableManager;
+import com.github.unchama.sql.player.MineBlockTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineBlockManager extends DataManager implements UsingSql,
 		Finalizable {
 
@@ -47,6 +53,13 @@ public class MineBlockManager extends DataManager implements UsingSql,
 	 * @param breaknum
 	 */
 	public void increase(Material material, int breaknum) {
+		// 整地量が2倍になるワールドなら2倍
+		Player player = PlayerManager.getPlayer(gp);
+		String worldName = player.getWorld().getName();
+		if (config.getBonusWorldList().contains(worldName)) {
+			breaknum *= 2;
+		}
+
 		if (ActiveSkillManager.isLiquid(material)) {
 			condensMap.get(material).increase(breaknum);
 		} else {

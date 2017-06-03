@@ -8,8 +8,12 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.sql.MineStackTableManager;
+import com.github.unchama.sql.player.MineStackTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineStackManager extends DataManager implements UsingSql{
 	MineStackTableManager tm ;
 	public LinkedHashMap<StackType,MineStack> datamap;
