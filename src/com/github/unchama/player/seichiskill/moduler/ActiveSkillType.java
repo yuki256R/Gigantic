@@ -15,6 +15,10 @@ import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 
+/**
+ * @author tar0ss
+ *
+ */
 public enum ActiveSkillType {
 	EXPLOSION(ExplosionManager.class, ExplosionMenuManager.class,
 			Information.EX_COOLTIME), MAGICDRIVE(MagicDriveManager.class,

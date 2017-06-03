@@ -170,6 +170,19 @@ name: '&5&lメインメニュー'
       - '&r&7スキルを使って整地の効率を上げよう'
       - '&r&2&l&nクリックで開く'
   openmenu: 'activeskilltypemenu'
+15:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: ENDER_PORTAL_FRAME
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l四次元ポケット'
+      lore:
+      - '&r&7※保存したアイテムは'
+      - '&r&7サーバー間で共有されます'
+      - '&r&2&l&nクリックで開く'
+  openinventory: 'dimensionalinventory'
 16:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -276,6 +289,20 @@ name: '&5&lメインメニュー'
   mobhead: 'red_present'
   openmenu: 'seichirewardmenu'
 28:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lプレゼントを受け取る'
+      lore:
+      - '&r運営からのプレゼントを'
+      - '&r受け取ることができます．'
+  mobhead: 'green_present'
+  openmenu: 'presentbox'
+29:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: GOLDEN_APPLE

@@ -23,6 +23,10 @@ import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MagicDriveMenuManager extends ActiveSkillMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = MagicDriveManager.class;
 

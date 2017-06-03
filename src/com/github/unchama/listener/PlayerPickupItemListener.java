@@ -17,6 +17,10 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerPickupItemListener implements Listener {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 

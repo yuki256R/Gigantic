@@ -15,6 +15,10 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ServerSwitchMenuManager extends GuiMenuManager {
 
 	@Override

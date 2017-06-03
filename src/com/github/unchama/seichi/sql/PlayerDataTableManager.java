@@ -2,10 +2,13 @@ package com.github.unchama.seichi.sql;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -15,6 +18,10 @@ import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerDataTableManager extends SeichiTableManager {
 
 	public PlayerDataTableManager(SeichiAssistSql sql) {
@@ -264,6 +271,35 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		} catch (SQLException e) {
 			plugin.getLogger().warning(
 					"Failed to load inventory player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	// 共有インベントリ
+	public List<ItemStack> getShareInv(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		List<ItemStack> ans = null;
+
+		command = "select shareinv from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				String inventoryStr = rs.getString("shareinv");
+				if (inventoryStr != null && inventoryStr != "") {
+					ans = BukkitSerialization
+							.getItemStackListfromBase64(inventoryStr.toString());
+				} else {
+					ans = new ArrayList<ItemStack>();
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load shareinv player:" + gp.name);
 			e.printStackTrace();
 		}
 		return ans;

@@ -15,19 +15,24 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
 
-public class AG_TicketGachaMenuManager  extends AdminMenuManager{
+/**
+ * @author tar0ss
+ *
+ */
+public class AG_TicketGachaMenuManager extends AdminMenuManager {
 	private GachaType gt = GachaType.GIGANTIC;
 	private GachaManager gm;
 
 	public AG_TicketGachaMenuManager() {
 		gm = gacha.getManager(gt.getManagerClass());
 	}
+
 	@Override
 	public Inventory getInventory(Player player, int slot) {
 		Inventory pinv = player.getOpenInventory().getBottomInventory();
 		Inventory inv = this.getEmptyInventory(player);
 		ItemStack[] is = pinv.getContents();
-		for(int i = 0; i < this.getInventorySize() ; i++){
+		for (int i = 0; i < this.getInventorySize(); i++) {
 			inv.setItem(i, is[i]);
 		}
 		return inv;
@@ -36,7 +41,7 @@ public class AG_TicketGachaMenuManager  extends AdminMenuManager{
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
-		for(int i = 0; i < this.getInventorySize() ; i++){
+		for (int i = 0; i < this.getInventorySize(); i++) {
 			id_map.put(i, Integer.toString(i));
 		}
 	}

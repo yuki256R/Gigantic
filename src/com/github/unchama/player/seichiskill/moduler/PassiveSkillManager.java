@@ -6,6 +6,10 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class PassiveSkillManager extends DataManager{
 
 	public PassiveSkillManager(GiganticPlayer gp) {

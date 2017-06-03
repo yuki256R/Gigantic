@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
+import com.github.unchama.gui.admin.build.AdminBuildMenuManager;
 import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
 import com.github.unchama.gui.admin.customhead.AdminCustomHeadMainMenuManager;
 import com.github.unchama.gui.admin.gacha.AdminGachaTypeMenuManager;
@@ -33,7 +34,18 @@ import com.github.unchama.gui.minestack.material.CategoryMaterialMenuManager;
 import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.gui.presentbox.PresentBoxMenuManager;
 import com.github.unchama.gui.ranking.RankingSelectMenuManager;
+import com.github.unchama.gui.ranking.build.DayBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.TotalBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.WeekBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.build.YearBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.DayLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.MonthLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.TotalLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.WeekLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.YearLoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.DayMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.MonthMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
@@ -58,6 +70,10 @@ import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.gui.settings.PlayerSettingsMenuManager;
 
 
+/**
+ * @author tar0ss
+ *
+ */
 public final class GuiMenu {
 	public static enum ManagerType {
 		MAINMENU(MainMenuManager.class),
@@ -69,6 +85,7 @@ public final class GuiMenu {
 		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
+        ADMINBUILDMENU(AdminBuildMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -109,12 +126,24 @@ public final class GuiMenu {
 		ZONESKILLDATAMENU(ZoneSkillDataMenuManager.class),
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
         BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
+        PRESENTBOX(PresentBoxMenuManager.class),
         RANKINGSELECTMENU(RankingSelectMenuManager.class),
         TOTALMINEBLOCKRANKINGMENU(TotalMineBlockRankingMenuManager.class),
         DAYMINEBLOCKRANKINGMENU(DayMineBlockRankingMenuManager.class),
         WEEKMINEBLOCKRANKINGMENU(WeekMineBlockRankingMenuManager.class),
         MONTHMINEBLOCKRANKINGMENU(MonthMineBlockRankingMenuManager.class),
         YEARMINEBLOCKRANKINGMENU(YearMineBlockRankingMenuManager.class),
+        TOTALBUILDRANKINGMENU(TotalBuildRankingMenuManager.class),
+        DAYBUILDRANKINGMENU(DayBuildRankingMenuManager.class),
+        WEEKBUILDRANKINGMENU(WeekBuildRankingMenuManager.class),
+        MONTHBUILDRANKINGMENU(MonthBuildRankingMenuManager.class),
+        YEARBUILDRANKINGMENU(YearBuildRankingMenuManager.class),
+        TOTALLOGINTIMERANKINGMENU(TotalLoginTimeRankingMenuManager.class),
+        DAYLOGINTIMERANKINGMENU(DayLoginTimeRankingMenuManager.class),
+        WEEKLOGINTIMERANKINGMENU(WeekLoginTimeRankingMenuManager.class),
+        MONTHLOGINTIMERANKINGMENU(MonthLoginTimeRankingMenuManager.class),
+        YEARLOGINTIMERANKINGMENU(YearLoginTimeRankingMenuManager.class),
+
 		;
 
 		// 使用するManagerClass

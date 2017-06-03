@@ -62,6 +62,13 @@ public class HuntingPointEventListener implements Listener {
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 			HuntingPointManager huntingPointManager = gp
 					.getManager(HuntingPointManager.class);
+
+			// フライ中は無効
+			if(player.isFlying()){
+				huntingPointManager.FlyWarning();
+				return;
+			}
+
 			huntingPointManager.addPoint(name, addPoint);
 		}
 		debug.sendMessage(player, DebugEnum.HUNT, message);
@@ -80,8 +87,15 @@ public class HuntingPointEventListener implements Listener {
 			if(gp.getManager(PlayerTimeManager.class).isIdle()){
 				continue;
 			}
+
 			HuntingPointManager huntingPointManager = gp
 					.getManager(HuntingPointManager.class);
+
+			// フライ中は無効
+			if(player.isFlying()){
+				huntingPointManager.FlyWarning();
+				continue;
+			}
 			huntingPointManager.addPoint(name, addPoint);
 
 			player.sendMessage(huntingPointData.getMobData(name).jpName

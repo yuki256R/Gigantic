@@ -2,6 +2,10 @@ package com.github.unchama.util;
 
 import org.bukkit.entity.Player;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class Converter {
 	/**
 	 * "true"or"1"と一致したときTRUE，そうでない場合FALSEを返す

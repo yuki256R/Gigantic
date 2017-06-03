@@ -8,6 +8,10 @@ import org.bukkit.block.BlockFace;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class GravityManager extends DataManager {
 	public static enum GravityType {
 		GENERAL, EXPLOSION, MAGICDRIVE, CONDENSATION, RUINFIELD;

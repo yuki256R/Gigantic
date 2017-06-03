@@ -27,8 +27,10 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -82,9 +84,11 @@ public class GiganticPlayer {
 		PLAYERTIME(PlayerTimeManager.class),
 		HUNTINGPOINT(HuntingPointManager.class),
 		BUILDLEVEL(BuildLevelManager.class),
-		SIDEBAR(SideBarManager.class),
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
+		PRESENTBOX(PresentBoxManager.class),
+		//EFFECT(SkillEffectManager.class),
+		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 
 		private Class<? extends DataManager> managerClass;

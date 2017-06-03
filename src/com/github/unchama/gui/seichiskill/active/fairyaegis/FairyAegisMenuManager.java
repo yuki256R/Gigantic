@@ -19,6 +19,10 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 
 	@Override
