@@ -4,9 +4,11 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildData;
+import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.buildskill.BuildSkillManager.LineUpMode;
+import com.github.unchama.player.buildskill.BuildSkillManager.HalfLineUpMode;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.util.Util;
@@ -28,10 +30,11 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 /**
- * Created by karayuu on 2017/05/20.
+ * @author karayuu
  */
 public class BlockLineUpListener implements Listener{
 
+    @SuppressWarnings("deprecation")
     @EventHandler
     public void onPlayerClick(PlayerInteractEvent e){
         //プレイヤーを取得
@@ -49,7 +52,7 @@ public class BlockLineUpListener implements Listener{
         //MineStack優先設定取得
         Boolean line_up_minestack_flg = gp.getManager(BuildSkillManager.class).isBlocklineup_minestack_flag();
         //ハーフブロック設置位置フラグ取得
-        LineUpMode line_up_step_flg = gp.getManager(BuildSkillManager.class).getBlockLineUp_HalfMode();
+        HalfLineUpMode line_up_step_flg = gp.getManager(BuildSkillManager.class).getBlockLineUp_HalfMode();
         //破壊処理フラグ取得
         Boolean line_up_des_flg = gp.getManager(BuildSkillManager.class).isBlockbreak_flag();
 
@@ -141,9 +144,9 @@ public class BlockLineUpListener implements Listener{
 
                 //手に持ってるのがハーフブロックの場合
                 if (BuildData.material_slab2.contains(m)) {
-                    if (line_up_step_flg == LineUpMode.UP) {
+                    if (line_up_step_flg == HalfLineUpMode.UP) {
                         d += 8;	//上設置設定の場合は上側のデータに書き換え
-                    } else if (line_up_step_flg == LineUpMode.BOTH) {
+                    } else if (line_up_step_flg == HalfLineUpMode.BOTH) {
                         //両方設置の場合マテリアルの種類を変える
                         if (m == Material.STONE_SLAB2) {
                             m = Material.DOUBLE_STONE_SLAB2;//赤砂岩
@@ -199,6 +202,7 @@ public class BlockLineUpListener implements Listener{
                 if (BuildData.isBlockCount(player)) {	//対象ワールドかチェック
                     BigDecimal add = config.getBlockCountMag().multiply(new BigDecimal(v));
                     gp.getManager(BuildManager.class).addBuild_num_1min(add);	//設置した数を足す
+                    gp.getManager(BuildLevelManager.class).checkLevel();
                 }
 
                 //マインスタック優先の場合マインスタックの数を減らす

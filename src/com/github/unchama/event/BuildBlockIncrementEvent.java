@@ -6,7 +6,7 @@ import com.github.unchama.player.GiganticPlayer;
 import java.math.BigDecimal;
 
 /**
- * Created by karayuu on 2017/05/19.
+ * @author karayuu
  */
 public class BuildBlockIncrementEvent extends CustomEvent{
     private GiganticPlayer gp;

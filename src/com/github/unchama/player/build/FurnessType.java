@@ -1,5 +1,8 @@
 package com.github.unchama.player.build;
 
+/**
+ * @author karayuu
+ */
 public enum FurnessType {
     /**
      * MineStack一括クラフトシステム・精錬系クラフトで使用する列挙型
