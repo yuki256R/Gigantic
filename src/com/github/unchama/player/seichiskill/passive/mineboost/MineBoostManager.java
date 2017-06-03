@@ -27,7 +27,11 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-public class MineBoostManager extends PassiveSkillManager implements Initializable{
+/**
+ * @author tar0ss
+ *
+ */
+public class MineBoostManager extends PassiveSkillManager implements Initializable {
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	private GuiMenu guimenu = Gigantic.guimenu;
 
@@ -77,7 +81,7 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 
 		if (boostlevel > maxboostlevel) {
 			boostlevel = maxboostlevel;
-		}else if(!toggle){
+		} else if (!toggle) {
 			boostlevel = 0;
 		}
 
@@ -142,7 +146,7 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 	 * @param amplifier
 	 */
 	public void updata(BoostType boosttype, short amplifier) {
-		updata(boosttype,amplifier,0);
+		updata(boosttype, amplifier, 0);
 	}
 
 	/**ブーストタイプを与えられた値で更新し，与えられたtick数で効果を消します．
@@ -173,17 +177,16 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 				}, tick);
 	}
 
-	public boolean getToggle(){
+	public boolean getToggle() {
 		return this.toggle;
 	}
-
 
 	@Override
 	public ItemStack getSkillTypeInfo() {
 		ItemStack is;
-		if(this.getToggle()){
+		if (this.getToggle()) {
 			is = new ItemStack(Material.CLAY_BRICK);
-		}else{
+		} else {
 			is = new ItemStack(Material.CLAY);
 		}
 
@@ -204,12 +207,12 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 			lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "トグル："
 					+ ChatColor.RESET + ChatColor.RED + "  OFF");
 		}
-		if(this.getBoostLv() == maxboostlevel){
+		if (this.getBoostLv() == maxboostlevel) {
 			lore.add("" + ChatColor.RESET + ChatColor.GOLD
-					+ "現在の上昇量:" + (this.getBoostLv()+1) + "(※最大値です)");
-		}else{
+					+ "現在の上昇量:" + (this.getBoostLv() + 1) + "(※最大値です)");
+		} else {
 			lore.add("" + ChatColor.RESET + ChatColor.GOLD
-					+ "現在の上昇量:" + (this.getBoostLv()+1));
+					+ "現在の上昇量:" + (this.getBoostLv() + 1));
 		}
 		lore.add("" + ChatColor.RESET + ChatColor.YELLOW + ChatColor.UNDERLINE
 				+ "上昇量の内訳");
@@ -237,7 +240,7 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 		this.setToggle(!toggle);
 	}
 
-	public void setToggle(boolean toggle){
+	public void setToggle(boolean toggle) {
 		this.toggle = toggle;
 		add();
 		refresh();

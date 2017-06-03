@@ -11,6 +11,10 @@ import com.github.unchama.event.YearEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.Sql;
 
+/**
+ * @author tar0ss
+ *
+ */
 public final class RankingUpdateListener implements Listener {
 	private Sql sql = Gigantic.sql;
 

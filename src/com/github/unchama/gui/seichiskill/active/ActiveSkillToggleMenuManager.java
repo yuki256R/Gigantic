@@ -17,6 +17,10 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ActiveSkillToggleMenuManager extends GuiMenuManager {
 
 	@Override

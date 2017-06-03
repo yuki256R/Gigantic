@@ -9,6 +9,10 @@ import org.bukkit.event.inventory.InventoryType;
 
 import com.github.unchama.gui.GuiMenu.ManagerType;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class OriginMenuManager extends GuiMenuManager{
 
 

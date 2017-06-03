@@ -21,7 +21,10 @@ import com.github.unchama.sql.moduler.GachaTableManager;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class gachaCommand implements TabExecutor {
 
 	@Override

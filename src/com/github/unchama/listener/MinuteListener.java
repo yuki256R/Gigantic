@@ -15,6 +15,10 @@ import com.github.unchama.task.FlyTaskRunnable;
 import com.github.unchama.task.GiganticSaveTaskRunnable;
 import com.github.unchama.task.PlayerTimeTaskRunnable;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MinuteListener implements Listener {
 	private Gigantic plugin = Gigantic.plugin;
 

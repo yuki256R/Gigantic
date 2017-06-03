@@ -13,6 +13,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.util.Util;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class RankingSelectMenuManager extends GuiMenuManager {
 
 	@Override

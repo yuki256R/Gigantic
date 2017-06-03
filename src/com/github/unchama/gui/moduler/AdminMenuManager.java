@@ -5,6 +5,10 @@ import org.bukkit.Sound;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gigantic.Gigantic;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class AdminMenuManager extends GuiMenuManager {
 	protected Gacha gacha = Gigantic.gacha;
 
