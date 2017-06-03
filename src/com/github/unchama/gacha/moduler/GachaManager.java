@@ -253,6 +253,10 @@ public abstract class GachaManager {
 		return GachaType.valueOf(nbti.getString(GACHATYPENBT));
 	}
 
+	public static int getGachaID(NBTItem nbti) {
+		return Integer.valueOf(nbti.getString(GACHAITEMIDNBT));
+	}
+
 	/**このガチャの説明文を取得します
 	 *
 	 * @return

@@ -15,6 +15,7 @@ import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
@@ -87,6 +88,7 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
+		GACHASTACK(GachaStackManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
