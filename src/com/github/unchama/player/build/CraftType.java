@@ -6,6 +6,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.minestack.StackType;
 
+/**
+ * @author karayuu
+ */
 public enum CraftType {
 	/**
      * MineStack一括クラフトシステムのクラフトメニューで使用する列挙型

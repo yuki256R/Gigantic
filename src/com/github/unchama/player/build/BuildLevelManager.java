@@ -10,6 +10,9 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 
+/**
+ * @author karayuu
+ */
 public class BuildLevelManager extends DataManager implements Initializable{
 
 	//建築レベル
@@ -17,7 +20,7 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	// 各レベルのデータ値を格納します．
 	public static LinkedHashMap<Integer, BuildLevelData> buildlevelmap = new LinkedHashMap<Integer, BuildLevelData>(){
 		{
-			for(int level = 1; level<= 101; level++){
+			for(int level = 1; level<= 100; level++){
 				put(level, new BuildLevelData(level));
 			}
 		}
@@ -36,7 +39,12 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	 */
 	public boolean canLevelup() {
 		BigDecimal buildnum = gp.getManager(BuildManager.class).getTotalbuildnum();
-		return (buildlevelmap.get(buildlevel + 1).getNeed_buildnum() <= buildnum.doubleValue()) ? true : false;
+
+		if (!buildlevelmap.containsKey(buildlevel + 1)) {
+		    return false;
+        }
+
+        return buildlevelmap.get(buildlevel + 1).getNeed_buildnum() <= buildnum.doubleValue();
 	}
 
 	/**初期処理でプレイヤーのレベルを取得します
@@ -61,6 +69,16 @@ public class BuildLevelManager extends DataManager implements Initializable{
 		}
 		return changeflag;
 	}
+
+    /**
+     * レベルが上がるまで、レベルデータを更新します
+     */
+    public void checkLevel() {
+        while (this.canLevelup()) {
+            Bukkit.getServer().getPluginManager().callEvent(new BuildLevelUpEvent(gp, buildlevel + 1));
+            buildlevel++;
+        }
+    }
 
 	/**レベルアップまでに必要な建築量を取得します
 	 *

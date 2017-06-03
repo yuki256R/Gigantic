@@ -31,7 +31,6 @@ import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -89,7 +88,7 @@ public class GiganticPlayer {
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
 		GACHASTACK(GachaStackManager.class),
-		EFFECT(SkillEffectManager.class),
+		//EFFECT(SkillEffectManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 

@@ -17,6 +17,9 @@ import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author karayuu
+ */
 public class BuildTaskRunnable extends BukkitRunnable{
 
 	Gigantic plugin = Gigantic.plugin;
