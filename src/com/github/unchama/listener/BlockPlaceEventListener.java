@@ -18,6 +18,9 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 
 import java.math.BigDecimal;
 
+/**
+ * @author karayuu
+ */
 public class BlockPlaceEventListener implements Listener{
 	Gigantic plugin = Gigantic.plugin;
     DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.MinestackBlockCraftMenuManager;
 
+/**
+ * @author karayuu
+ */
 public class BlockCraftMenuManagerThirdPage extends MinestackBlockCraftMenuManager {
 
 	@Override

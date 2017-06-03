@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Arrays;
 
 /**
- * Created by karayuu on 2017/05/30.
+ * @author karayuu
  */
 public class ManaPotion {
 

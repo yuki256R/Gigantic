@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * Created by karayuu on 2017/05/31.
+ * @author karayuu
  */
 public class GachaAppleListener implements Listener{
 

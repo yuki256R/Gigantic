@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 /**
- * Created by karayuu on 2017/05/31.
+ * @author karayuu
  */
 public class AdminBuildMenuManager extends GuiMenuManager{
     @Override

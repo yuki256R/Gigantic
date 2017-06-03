@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author karayuu
+ */
 public class BuildLevelData {
 	//lv
 	public static final List<Integer> Buildlevellist = new ArrayList<>(Arrays.asList(

@@ -10,6 +10,9 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Initializable;
 
+/**
+ * @author karayuu
+ */
 public class BuildLevelManager extends DataManager implements Initializable{
 
 	//建築レベル
