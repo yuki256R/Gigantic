@@ -17,6 +17,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.util.Util;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class RankingMenuManager extends GuiMenuManager {
 	//ランクとスロットの対応付け
 	private static final HashMap<Integer, Integer> rankslotMap = new HashMap<Integer, Integer>() {

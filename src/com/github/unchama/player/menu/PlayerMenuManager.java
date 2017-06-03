@@ -7,6 +7,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerMenuManager extends DataManager{
 	Deque<ManagerType> menuType;
 

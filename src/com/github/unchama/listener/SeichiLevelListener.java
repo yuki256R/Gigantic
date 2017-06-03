@@ -18,6 +18,10 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.util.ParticleUtil;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class SeichiLevelListener implements Listener {
 	private Gigantic plugin = Gigantic.plugin;
 	private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);

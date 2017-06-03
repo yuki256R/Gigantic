@@ -15,6 +15,10 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerInteractListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 

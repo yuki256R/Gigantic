@@ -14,6 +14,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.util.BukkitSerialization;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class GachaTableManager extends TableManager {
 	private Gacha gacha = Gigantic.gacha;
 	private GachaManager gm;

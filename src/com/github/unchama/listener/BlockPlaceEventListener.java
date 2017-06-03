@@ -1,11 +1,9 @@
 package com.github.unchama.listener;
 
 
-import com.github.unchama.player.mineblock.MineBlockManager;
+import java.math.BigDecimal;
+
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,8 +17,6 @@ import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-
-import java.math.BigDecimal;
 
 public class BlockPlaceEventListener implements Listener{
 	Gigantic plugin = Gigantic.plugin;
