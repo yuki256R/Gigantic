@@ -55,6 +55,8 @@ import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
+import com.github.unchama.sql.ranking.BuildRankingTableManager;
+import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
@@ -62,6 +64,10 @@ import com.github.unchama.task.RankingSendTaskRunnable;
 import com.github.unchama.task.RankingUpdateTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class Sql {
 	// TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
@@ -88,6 +94,9 @@ public class Sql {
 				DimensionalInventoryManager.class), //
 		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
+		BUILDRANKING(BuildRankingTableManager.class),//
+		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -514,13 +523,14 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				new LimitedRankingLoadTaskRunnable(rtm,tt).runTaskLaterAsynchronously(
+				new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
 
 			}
 		}
 	}
+
 	/**
 	 * gpが初期化を終了した後に処理される
 	 *
@@ -547,6 +557,5 @@ public class Sql {
 			}
 		}
 	}
-
 
 }

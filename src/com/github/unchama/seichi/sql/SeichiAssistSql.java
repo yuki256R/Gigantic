@@ -10,6 +10,10 @@ import java.util.HashMap;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class SeichiAssistSql{
 	static enum SeichiTableManagerType{
 		PLAYERDATA(PlayerDataTableManager.class),

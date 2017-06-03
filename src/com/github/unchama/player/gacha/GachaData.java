@@ -4,6 +4,10 @@ import java.util.LinkedHashMap;
 
 import com.github.unchama.gacha.moduler.Rarity;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class GachaData {
 	// 獲得したガチャ券の累計
 	private long st_ticket;

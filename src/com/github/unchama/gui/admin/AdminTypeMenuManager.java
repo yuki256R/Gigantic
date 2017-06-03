@@ -15,6 +15,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class AdminTypeMenuManager extends AdminMenuManager {
 	// 各ボタンのスロット番号
 	private final int gachaSlot = 0;

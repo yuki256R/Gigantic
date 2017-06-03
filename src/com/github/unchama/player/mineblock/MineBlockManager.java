@@ -17,6 +17,10 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.sql.player.MineBlockTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineBlockManager extends DataManager implements UsingSql,
 		Finalizable {
 

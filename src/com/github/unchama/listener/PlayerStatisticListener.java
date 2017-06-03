@@ -16,6 +16,10 @@ import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerStatisticListener implements Listener {
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 

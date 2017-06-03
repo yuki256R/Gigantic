@@ -13,12 +13,11 @@ import com.github.unchama.gui.moduler.StackCategory;
 
 
 
-/*
- * 同じMaterial名でもアイテムとして種類が違えば，別々に定義すること．
- * わからない箇所は印をつけてスキップしてください．
+
+/**
+ * @author tar0ss
  *
  */
-
 
 public enum StackType {
 //全てのアイテム列挙

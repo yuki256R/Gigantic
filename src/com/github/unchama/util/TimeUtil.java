@@ -6,6 +6,10 @@ import java.util.Date;
 
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 
+/**
+ * @author tar0ss
+ *
+ */
 public final class TimeUtil {
 	public static Calendar getCalendar(){
 		return Calendar.getInstance();

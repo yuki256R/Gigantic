@@ -13,7 +13,10 @@ import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.GachaTableManager;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class Gacha {
 	public static enum GachaType{
 		GIGANTIC(GiganticGachaManager.class,GiganticGachaTableManager.class,AdminGiganticGachaMenuManager.class),

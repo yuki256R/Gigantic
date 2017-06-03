@@ -4,6 +4,10 @@ import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryMa
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public enum PassiveSkillType {
 	MINEBOOST(MineBoostManager.class),MANARECOVERY(ManaRecoveryManager.class),SECUREBREAK(SecureBreakManager.class)
 	;

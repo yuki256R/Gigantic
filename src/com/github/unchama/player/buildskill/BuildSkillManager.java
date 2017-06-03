@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
- * Created by karayuu on 2017/05/12.
+ * @author karayuu
  */
 public class BuildSkillManager extends DataManager{
     /**

@@ -25,6 +25,10 @@ import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.task.CondensationTaskRunnable;
 import com.github.unchama.util.breakblock.BreakUtil;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class CondensationManager extends ActiveSkillManager implements Finalizable {
 
 	CondensationTableManager tm;
