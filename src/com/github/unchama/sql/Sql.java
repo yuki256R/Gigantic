@@ -54,9 +54,9 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
-import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
+import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
@@ -95,7 +95,8 @@ public class Sql {
 		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		BUILDRANKING(BuildRankingTableManager.class),//
-		PLAYEREFFECT(SkillEffectTableManager.class),//
+		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;

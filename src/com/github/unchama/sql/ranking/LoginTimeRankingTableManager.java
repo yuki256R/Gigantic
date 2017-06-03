@@ -6,8 +6,8 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.DayLoginTimeRankingMenuManager;
-import com.github.unchama.gui.ranking.logintime.LoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.MonthLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.TotalLoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.WeekLoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.YearLoginTimeRankingMenuManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -58,7 +58,7 @@ public class LoginTimeRankingTableManager extends RankingTableManager {
 		if (guimenu == null) {
 			return;
 		}
-		RankingMenuManager rmm = guimenu.getManager(LoginTimeRankingMenuManager.class);
+		RankingMenuManager rmm = guimenu.getManager(TotalLoginTimeRankingMenuManager.class);
 		rmm.updateRanking(totalMap);
 	}
 

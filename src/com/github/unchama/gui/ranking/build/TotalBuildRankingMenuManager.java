@@ -8,8 +8,6 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
-import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
-import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
 
 /**
@@ -25,8 +23,7 @@ public final class TotalBuildRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		String date = TimeUtil.getDateTimeName(TimeType.DAY, 0);
-		return ChatColor.BLUE + "建築量ﾗﾝｷﾝｸﾞ(" + date + "~)";
+		return ChatColor.BLUE + "建築量ランキング（総合）";
 	}
 
 }

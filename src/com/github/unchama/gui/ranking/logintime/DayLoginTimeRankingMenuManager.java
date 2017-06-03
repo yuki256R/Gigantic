@@ -3,9 +3,14 @@
  */
 package com.github.unchama.gui.ranking.logintime;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
+import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
+import com.github.unchama.util.TimeUtil;
+import com.github.unchama.util.Util;
 
 /**
  * @author ten_niti
@@ -13,29 +18,15 @@ import com.github.unchama.gui.ranking.RankingMenuManager;
  */
 public final class DayLoginTimeRankingMenuManager extends RankingMenuManager {
 
-	/**
-	 *
-	 */
-	public DayLoginTimeRankingMenuManager() {
-		// TODO 自動生成されたコンストラクター・スタブ
-	}
-
-	/* (非 Javadoc)
-	 * @see com.github.unchama.gui.ranking.RankingMenuManager#getLore(double)
-	 */
 	@Override
 	protected String getLore(double value) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		return "総接続時間:" + Util.Decimal(value);
 	}
 
-	/* (非 Javadoc)
-	 * @see com.github.unchama.gui.moduler.GuiMenuManager#getInventoryName(org.bukkit.entity.Player)
-	 */
 	@Override
 	public String getInventoryName(Player player) {
-		// TODO 自動生成されたメソッド・スタブ
-		return null;
+		String date = TimeUtil.getDateTimeName(TimeType.DAY, 0);
+		return ChatColor.BLUE + "日間接続時間ﾗﾝｷﾝｸﾞ(" + date + "~)";
 	}
 
 }

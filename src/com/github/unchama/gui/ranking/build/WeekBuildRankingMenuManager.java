@@ -25,7 +25,7 @@ public final class WeekBuildRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		String date = TimeUtil.getDateTimeName(TimeType.DAY, 0);
+		String date = TimeUtil.getDateTimeName(TimeType.WEEK, 0);
 		return ChatColor.BLUE + "週間建築量ﾗﾝｷﾝｸﾞ(" + date + "~)";
 	}
 

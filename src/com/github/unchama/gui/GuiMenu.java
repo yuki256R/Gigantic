@@ -40,6 +40,11 @@ import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.TotalBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.WeekBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.YearBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.DayLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.MonthLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.TotalLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.WeekLoginTimeRankingMenuManager;
+import com.github.unchama.gui.ranking.logintime.YearLoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.DayMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.MonthMineBlockRankingMenuManager;
 import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
@@ -131,6 +136,11 @@ public final class GuiMenu {
         WEEKBUILDRANKINGMENU(WeekBuildRankingMenuManager.class),
         MONTHBUILDRANKINGMENU(MonthBuildRankingMenuManager.class),
         YEARBUILDRANKINGMENU(YearBuildRankingMenuManager.class),
+        TOTALLOGINTIMERANKINGMENU(TotalLoginTimeRankingMenuManager.class),
+        DAYLOGINTIMERANKINGMENU(DayLoginTimeRankingMenuManager.class),
+        WEEKLOGINTIMERANKINGMENU(WeekLoginTimeRankingMenuManager.class),
+        MONTHLOGINTIMERANKINGMENU(MonthLoginTimeRankingMenuManager.class),
+        YEARLOGINTIMERANKINGMENU(YearLoginTimeRankingMenuManager.class),
 
 		;
 

@@ -87,7 +87,7 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
-		EFFECT(SkillEffectManager.class),
+		//EFFECT(SkillEffectManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 

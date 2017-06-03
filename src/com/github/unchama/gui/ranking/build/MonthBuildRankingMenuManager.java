@@ -24,7 +24,7 @@ public final class MonthBuildRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		String date = TimeUtil.getDateTimeName(TimeType.DAY, 0);
+		String date = TimeUtil.getDateTimeName(TimeType.MONTH, 0);
 		return ChatColor.BLUE + "月間建築量ﾗﾝｷﾝｸﾞ(" + date + "~)";
 	}
 }

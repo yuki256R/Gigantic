@@ -25,7 +25,7 @@ public final class YearBuildRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		String date = TimeUtil.getDateTimeName(TimeType.DAY, 0);
+		String date = TimeUtil.getDateTimeName(TimeType.YEAR, 0);
 		return ChatColor.BLUE + "年間建築量ﾗﾝｷﾝｸﾞ(" + date + "~)";
 	}
 
