@@ -1,7 +1,10 @@
 package com.github.unchama.command;
 
 import org.bukkit.command.TabExecutor;
-
+/**
+ * @author tar0ss
+ *
+ */
 public enum CommandType {
 	GACHA(new gachaCommand()),
 	DEBUG(new debugCommand()),

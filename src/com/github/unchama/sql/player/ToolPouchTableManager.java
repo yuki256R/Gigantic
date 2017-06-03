@@ -13,6 +13,10 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.util.BukkitSerialization;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ToolPouchTableManager extends PlayerTableManager {
 
 	public ToolPouchTableManager(Sql sql) {

@@ -3,7 +3,8 @@ package com.github.unchama.event;
 import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 
-/*毎年一度だけ実行されます
+/**毎年一度だけ実行されます
+ * @author tar0ss
  *
  */
 public class YearEvent extends CustomEvent {

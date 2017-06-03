@@ -13,6 +13,10 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.util.TimeUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class RankingTableManager extends TableManager {
 	public static enum TimeType {
 		DAY(0),

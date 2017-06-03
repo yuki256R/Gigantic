@@ -18,6 +18,10 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MenuClickListener implements Listener{
 	GuiMenu guimenu = Gigantic.guimenu;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

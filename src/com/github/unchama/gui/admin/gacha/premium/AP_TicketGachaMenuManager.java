@@ -15,6 +15,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class AP_TicketGachaMenuManager  extends AdminMenuManager{
 	private GachaType gt = GachaType.PREMIUM;
 	private GachaManager gm;

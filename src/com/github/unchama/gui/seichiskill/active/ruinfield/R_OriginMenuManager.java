@@ -20,6 +20,10 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class R_OriginMenuManager extends OriginMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = RuinFieldManager.class;
 

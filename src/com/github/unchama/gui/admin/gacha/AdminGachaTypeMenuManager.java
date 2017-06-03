@@ -13,6 +13,10 @@ import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class AdminGachaTypeMenuManager extends AdminMenuManager {
 
 	@Override

@@ -16,7 +16,10 @@ import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.CustomHeadManager;
 
 import de.tr7zw.itemnbtapi.NBTItem;
-
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class GachaManager {
 
 	//**************絶対に変更しないでください************

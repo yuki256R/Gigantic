@@ -40,6 +40,10 @@ import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class FairyAegisManager extends ActiveSkillManager {
 
 	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);

@@ -12,6 +12,10 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.passive.mineboost.BoostType;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerQuitListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 
