@@ -21,12 +21,12 @@ import com.github.unchama.sql.moduler.GachaTableManager;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
+
+public class GachaCommand implements TabExecutor {
 /**
  * @author tar0ss
  *
  */
-public class gachaCommand implements TabExecutor {
-
 	@Override
 	public List<String> onTabComplete(CommandSender paramCommandSender,
 			Command paramCommand, String paramString,

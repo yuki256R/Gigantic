@@ -15,7 +15,7 @@ import com.github.unchama.player.fly.ExperienceManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
-public class flyCommand implements TabExecutor{
+public class FlyCommand implements TabExecutor{
 	/**
      * @author karayuu
 	 */
