@@ -8,6 +8,10 @@ import java.sql.Statement;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class SeichiTableManager {
 	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	protected Gigantic plugin = Gigantic.plugin;

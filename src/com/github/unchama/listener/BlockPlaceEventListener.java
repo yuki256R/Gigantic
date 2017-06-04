@@ -1,11 +1,10 @@
 package com.github.unchama.listener;
 
 
-import com.github.unchama.player.mineblock.MineBlockManager;
+
+import java.math.BigDecimal;
+
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,8 +19,10 @@ import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
-import java.math.BigDecimal;
 
+/**
+ * @author karayuu
+ */
 public class BlockPlaceEventListener implements Listener{
 	Gigantic plugin = Gigantic.plugin;
     DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
@@ -55,7 +56,7 @@ public class BlockPlaceEventListener implements Listener{
 //        debug.sendMessage(player, DebugEnum.BUILD, "建築量更新処理終了。プレイヤー:[" + player.getName() + "]");
 
         if(gp.getManager(BuildLevelManager.class).updateLevel()){
-        	debug.sendMessage(player, DebugEnum.BUILD, ChatColor.RED + "ムムwwwwwwレベルアップ(建築レベル)  Lv." + gp.getManager(BuildLevelManager.class).getBuildLevel());
+//        	debug.sendMessage(player, DebugEnum.BUILD, ChatColor.RED + "ムムwwwwwwレベルアップ(建築レベル)  Lv." + gp.getManager(BuildLevelManager.class).getBuildLevel());
         	debug.sendMessage(player, DebugEnum.BUILD, "建築レベルアップ処理終了。");
         }
 //        debug.sendMessage(player, DebugEnum.BUILD, "次のレベルまで:" + gp.getManager(BuildLevelManager.class).getRemainingBuildBlock().toPlainString());

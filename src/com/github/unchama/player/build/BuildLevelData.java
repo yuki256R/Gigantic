@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author karayuu
+ */
 public class BuildLevelData {
 	//lv
 	public static final List<Integer> Buildlevellist = new ArrayList<>(Arrays.asList(
@@ -26,8 +29,8 @@ public class BuildLevelData {
             608000, 628000, 648000, 668000, 688000,
             708000, 728000, 748000, 768000, 788000, //Lv.90
             808000, 828000, 848000, 868000, 888000,
-            908000, 928000, 948000, 968000, 1000000, //Lv.100
-            5000000));
+            908000, 928000, 948000, 968000, 1000000 //Lv.100
+            ));
 	//そのレベルになるのに必要な建築量
 	private int need_buildnum;
 	

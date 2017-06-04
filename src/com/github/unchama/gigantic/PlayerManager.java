@@ -11,7 +11,10 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.task.GiganticInitializeTaskRunnable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
 	private static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

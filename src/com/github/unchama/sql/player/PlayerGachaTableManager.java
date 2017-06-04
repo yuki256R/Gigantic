@@ -16,6 +16,10 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 
 	public PlayerGachaTableManager(Sql sql) {

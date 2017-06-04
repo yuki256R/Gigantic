@@ -26,7 +26,6 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 

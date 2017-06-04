@@ -7,6 +7,7 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 
+
 public class GuiStatusManager extends DataManager{
 
 	private Map<GuiMenuManager, Integer> currentPage = new HashMap<GuiMenuManager, Integer>();

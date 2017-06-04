@@ -31,6 +31,8 @@ public enum ListenerEnum {
     BLOCKLINEUP(new BlockLineUpListener()),
     RANKINGUPDATE(new RankingUpdateListener()),
 	ENCHANTMENT(new EnchantmentListener()),
+    BUILDLEVEL(new BuildLevelListener()),
+    GACHAAPPLE(new GachaAppleListener()),
 	;
 	private Listener listener;
 

@@ -16,6 +16,10 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineBlockIncrementListener implements Listener {
 	Sql sql = Gigantic.sql;
 	MineBlockRankingTableManager rm;

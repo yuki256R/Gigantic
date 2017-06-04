@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author karayuu
+ */
 public class BuildData {
 
     /**
@@ -253,6 +256,8 @@ public class BuildData {
                 break;
             case DOWN:
                 y -= 1;
+                break;
+            default:
                 break;
         }
         World world = player.getWorld();

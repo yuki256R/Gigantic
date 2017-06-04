@@ -21,6 +21,10 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class C_RangeMenuManager extends RangeMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = CondensationManager.class;
 

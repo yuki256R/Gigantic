@@ -1,7 +1,10 @@
 package com.github.unchama.gacha.moduler;
 
 import org.bukkit.inventory.ItemStack;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class GachaItem {
 	private int id;
 	private ItemStack item;

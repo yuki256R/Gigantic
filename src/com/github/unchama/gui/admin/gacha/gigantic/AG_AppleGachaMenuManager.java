@@ -14,7 +14,10 @@ import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class AG_AppleGachaMenuManager extends AdminMenuManager{
 	private GachaType gt = GachaType.GIGANTIC;
 	private GachaManager gm;
