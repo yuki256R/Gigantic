@@ -264,7 +264,7 @@ public abstract class GachaManager {
 	public static int getGachaID(NBTItem nbti) {
 		int ret = 0;
 		try {
-			ret = Integer.valueOf(nbti.getString(GACHAITEMIDNBT));
+			ret = nbti.getInteger(GACHAITEMIDNBT);
 		} catch(IllegalArgumentException e) {
 		}
 		return ret;

@@ -1,9 +1,10 @@
 package com.github.unchama.gui.gachastack;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -11,54 +12,27 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaItem;
+import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.util.Converter;
 
-public class GachaStackMainMenuManager extends GuiMenuManager {
+public class GachaStackCategoryMenuManager extends GuiMenuManager{
 	private Gacha gacha = Gigantic.gacha;
-	private Map<Integer, GachaType> gachaTypeMap = new HashMap<Integer, GachaType>();
 
-	public GachaStackMainMenuManager() {
-		GachaType[] gt = GachaType.values();
-		for (int i = 0; i < gt.length; i++) {
-			ItemStack itemstack = gacha.getManager(gt[i].getManagerClass())
-					.getGachaTypeInfo();
-			if (itemstack == null)
-				continue;
-
-			gachaTypeMap.put(i, gt[i]);
+	public GachaStackCategoryMenuManager() {
+		// Invoke設定
+		for (int i = 0; i < getInventorySize(); i++) {
+			id_map.put(i, String.valueOf(i));
 		}
-
-//		// Invoke設定
-//		for (int i = 0; i < getInventorySize(); i++) {
-//			id_map.put(i, String.valueOf(i));
-//		}
-
-		setOpenMenuMap(openmap);
-	}
-
-	@Override
-	public Inventory getInventory(Player player, int slot) {
-		Inventory inv = Bukkit.getServer().createInventory(player,
-				this.getInventorySize(),
-				this.getInventoryName(player));
-		for (int i : gachaTypeMap.keySet()) {
-			ItemStack itemstack = gacha.getManager(gachaTypeMap.get(i).getManagerClass())
-					.getGachaTypeInfo();
-			if (itemstack == null)
-				continue;
-
-			inv.setItem(i, itemstack);
-		}
-		return inv;
 	}
 
 	@Override
@@ -68,26 +42,56 @@ public class GachaStackMainMenuManager extends GuiMenuManager {
 	}
 
 	@Override
-	public boolean invoke(Player player, String identifier) {
-		return false;
+	public Inventory getInventory(Player player, int slot) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GachaStackManager manager = gp.getManager(GachaStackManager.class);
+
+		Inventory inv = Bukkit.getServer().createInventory(player,
+				this.getInventorySize(),
+				this.getInventoryName(player));
+
+		GachaType type = getGachaType(player);
+		GachaManager gm = gacha.getManager(type.getManagerClass());
+
+		for (GachaItem gi : gm.getGachaItemMap().values()) {
+			int id = gi.getID();
+			ItemStack itemStack = gi.getItem();
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            int amount = manager.getAmount(type, id);
+            itemMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + amount +"個"
+                    , ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで1スタック取り出し"));
+            itemStack.setItemMeta(itemMeta);
+
+			inv.setItem(id, itemStack);
+		}
+		return inv;
 	}
 
 	@Override
-	public void closeByOpenMenu(Player player, MenuClickEvent event) {
+	public boolean invoke(Player player, String identifier) {
+		int id = Converter.toInt(identifier);
+		GachaType type = getGachaType(player);
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GachaStackManager manager = gp.getManager(GachaStackManager.class);
+		boolean isSuccess = manager.takeOutGachaItem(type, id);
+		if(isSuccess){
+			player.openInventory(getInventory(player, 0));
+		}
+
+		return isSuccess;
+	}
+
+	private GachaType getGachaType(Player player){
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
-		manager.setSelectedCategory("GachaStackMainMenuManager",
-				gachaTypeMap.get(event.getSlot()).toString());
+		GachaType type = GachaType.valueOf(manager.getSelectedCategory("GachaStackMainMenuManager"));
+		return type;
 	}
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		if (gachaTypeMap != null) {
-			for (int slot : gachaTypeMap.keySet()) {
-				openmap.put(slot, GuiMenu.ManagerType
-						.getTypebyClass(GachaStackCategoryMenuManager.class));
-			}
-		}
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 	@Override
@@ -104,12 +108,12 @@ public class GachaStackMainMenuManager extends GuiMenuManager {
 
 	@Override
 	public int getInventorySize() {
-		return 9;
+		return 9 * 6;
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return "ガチャスタックメニュー";
+		return "ガチャスタック";
 	}
 
 	@Override
