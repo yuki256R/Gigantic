@@ -340,3 +340,15 @@ name: '&5&lメインメニュー'
       - '&r※毎分更新されます．'
   mobhead: 'crown'
   openmenu: 'rankingselectmenu'
+35:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lヘルプメニュー'
+      lore:
+      - '&r&7困ったときはとりあえずここを！！'
+      - '&r&4&nクリックで開く'
+  openmenu: 'helpmenu'

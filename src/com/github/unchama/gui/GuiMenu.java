@@ -147,6 +147,7 @@ public final class GuiMenu {
         WEEKLOGINTIMERANKINGMENU(WeekLoginTimeRankingMenuManager.class),
         MONTHLOGINTIMERANKINGMENU(MonthLoginTimeRankingMenuManager.class),
         YEARLOGINTIMERANKINGMENU(YearLoginTimeRankingMenuManager.class),
+        HELPMENU(HelpMenuManager.class),
 
 		;
 

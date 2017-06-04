@@ -19,7 +19,7 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
-public class debugCommand implements TabExecutor {
+public class DebugCommand implements TabExecutor {
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
 
