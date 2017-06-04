@@ -10,11 +10,14 @@ import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.sql.player.GachaStackTableManager;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
 public class GachaStackManager extends DataManager implements UsingSql{
 	private Map<GachaType, Map<Integer, Integer>> itemMap = new HashMap<GachaType, Map<Integer, Integer>>();
+
+	private GachaStackTableManager tm = sql.getManager(GachaStackTableManager.class);
 
 	public GachaStackManager(GiganticPlayer gp) {
 		super(gp);
@@ -23,12 +26,14 @@ public class GachaStackManager extends DataManager implements UsingSql{
 
 	@Override
 	public void save(Boolean loginflag) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		tm.save(gp, loginflag);
 	}
 
 	public Map<GachaType, Map<Integer, Integer>> getMap(){
 		return itemMap;
+	}
+	public void setMap(Map<GachaType, Map<Integer, Integer>> map){
+		itemMap = map;
 	}
 
 	// NBTタグを見てガチャアイテムならスタックする

@@ -2,6 +2,7 @@ package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.github.unchama.gacha.Gacha.GachaType;
@@ -14,9 +15,9 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
-public class GachaStack extends PlayerFromSeichiTableManager{
+public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 
-	public GachaStack(Sql sql) {
+	public GachaStackTableManager(Sql sql) {
 		super(sql);
 	}
 
@@ -53,20 +54,35 @@ public class GachaStack extends PlayerFromSeichiTableManager{
 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		//Bukkit.getServer().getLogger().info("takeover");
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
-		// TODO 自動生成されたメソッド・スタブ
 
 	}
 
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
-		// TODO 自動生成されたメソッド・スタブ
+		GachaStackManager m = gp.getManager(GachaStackManager.class);
+		Map<GachaType, Map<Integer, Integer>> itemMap = new HashMap<GachaType, Map<Integer, Integer>>();
 
+		for(GachaType type : GachaType.values()){
+			Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+			String typeName = type.name();
+			GachaManager gm = Gigantic.gacha.getManager(type.getManagerClass());
+			for(GachaItem gi : gm.getGachaItemMap().values()){
+				int i = gi.getID();
+				int value = 0;
+				try {
+					value = Integer.valueOf(rs.getInt(typeName + "_" + i));
+				} catch(IllegalArgumentException e) {
+				}
+				map.put(i, value);
+			}
+			itemMap.put(type, map);
+		}
+		m.setMap(itemMap);
 	}
 
 }
