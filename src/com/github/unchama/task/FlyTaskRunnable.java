@@ -16,6 +16,9 @@ import com.github.unchama.player.fly.ExperienceManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author karayuu
+ */
 public class FlyTaskRunnable extends BukkitRunnable {
 
 	//configから1分で減る経験値(fly用)を取得->fly許可(4/5実装済み)

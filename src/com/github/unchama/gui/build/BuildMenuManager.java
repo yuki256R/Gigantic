@@ -28,10 +28,11 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author karayuu
+ */
 public class BuildMenuManager extends GuiMenuManager{
-    /**
-     * Created by karayuu on 2017/05/12.
-     */
+
 
 	public BuildMenuManager(){
 		setKeyItem();

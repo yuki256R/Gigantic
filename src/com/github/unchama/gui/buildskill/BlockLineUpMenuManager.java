@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by karayuu on 2017/05/18.
+ * @author karayuu
  */
 public class BlockLineUpMenuManager extends GuiMenuManager{
     @Override
