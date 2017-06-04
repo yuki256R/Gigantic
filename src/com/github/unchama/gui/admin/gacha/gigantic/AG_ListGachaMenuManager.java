@@ -18,7 +18,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class AG_ListGachaMenuManager extends AdminMenuManager {
 	private GachaType gt = GachaType.GIGANTIC;
 	private GachaManager gm;

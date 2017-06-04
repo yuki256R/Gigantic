@@ -16,6 +16,10 @@ import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Util;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class AdminGachaMenuManager extends AdminMenuManager {
 	public static enum MenuType {
 		INFO(0), GIVE(1), LIST(2), EDIT(3), TICKET(4),APPLE(5),MENTE(6), SAVE(7), RELOAD(8),;

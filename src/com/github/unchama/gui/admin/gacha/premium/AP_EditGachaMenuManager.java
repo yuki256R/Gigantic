@@ -20,6 +20,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class AP_EditGachaMenuManager  extends AdminMenuManager{
 	private static final String CHOOSEITEMTITLE = "" + ChatColor.RESET
 			+ ChatColor.RED + " アイテムを選択";

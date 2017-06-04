@@ -2,6 +2,10 @@ package com.github.unchama.util;
 
 import java.lang.reflect.Modifier;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ClassUtil {
 
 

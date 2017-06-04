@@ -8,6 +8,10 @@ import com.github.unchama.sql.moduler.RankingTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public final class RankingLoadTaskRunnable extends BukkitRunnable {
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

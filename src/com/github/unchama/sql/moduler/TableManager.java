@@ -9,6 +9,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class TableManager {
 	protected Gigantic plugin = Gigantic.plugin;
 	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

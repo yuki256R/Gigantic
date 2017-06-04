@@ -1,7 +1,10 @@
 package com.github.unchama.event;
 
 import com.github.unchama.event.moduler.CustomEvent;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class HourEvent extends CustomEvent{
 	private int hour;
 
