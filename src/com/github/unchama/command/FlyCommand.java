@@ -16,9 +16,8 @@ import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
 public class FlyCommand implements TabExecutor{
-	/*flyCommandの実装(4/5実装済み)
-	 * -プレイヤーデータにflytime(int) flyflag(boolean) endlessfly(boolean)を追加(SQL同期は不要)(4/5実装済み)
-	 *
+	/**
+     * @author karayuu
 	 */
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 

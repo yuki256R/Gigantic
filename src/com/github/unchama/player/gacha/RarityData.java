@@ -1,5 +1,9 @@
 package com.github.unchama.player.gacha;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class RarityData {
 	private long num;
 

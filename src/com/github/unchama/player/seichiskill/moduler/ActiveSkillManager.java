@@ -32,6 +32,10 @@ import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class ActiveSkillManager extends DataManager implements
 		UsingSql, Initializable {
 	protected static List<Block> skilledblocklist = Gigantic.skilledblocklist;

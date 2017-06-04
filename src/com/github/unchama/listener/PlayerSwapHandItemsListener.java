@@ -16,6 +16,10 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerSwapHandItemsListener implements Listener{
 	Gigantic plugin = Gigantic.plugin;
 	GuiMenu guimenu = Gigantic.guimenu;

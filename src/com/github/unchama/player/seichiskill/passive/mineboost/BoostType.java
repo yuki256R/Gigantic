@@ -1,5 +1,9 @@
 package com.github.unchama.player.seichiskill.passive.mineboost;
 
+/**
+ * @author tar0ss
+ *
+ */
 public enum BoostType{
 	NUMBER_OF_PEOPLE("接続人数"),
 	MINUTE_MINE("1分間の採掘量"),

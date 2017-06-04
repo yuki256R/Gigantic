@@ -1,5 +1,9 @@
 package com.github.unchama.player.seichiskill.moduler;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class Volume {
 	private int width, depth, height;
 

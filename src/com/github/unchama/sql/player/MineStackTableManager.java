@@ -12,6 +12,10 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	public static enum StackConvert{
 		//<StackTypeの名前>(<SeichiAssist内の名前>)

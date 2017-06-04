@@ -10,6 +10,10 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class GiganticPlaceholders extends EZPlaceholderHook{
 	Gigantic plugin = Gigantic.plugin;
 

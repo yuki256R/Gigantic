@@ -18,6 +18,10 @@ import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerDataTableManager extends SeichiTableManager {
 
 	public PlayerDataTableManager(SeichiAssistSql sql) {

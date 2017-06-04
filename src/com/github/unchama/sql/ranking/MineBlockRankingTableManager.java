@@ -15,6 +15,10 @@ import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.RankingTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineBlockRankingTableManager extends RankingTableManager {
 
 	public MineBlockRankingTableManager(Sql sql) {

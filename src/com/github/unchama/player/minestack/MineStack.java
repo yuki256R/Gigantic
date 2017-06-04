@@ -1,5 +1,9 @@
 package com.github.unchama.player.minestack;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineStack {
 	private long num;
 

@@ -7,7 +7,10 @@ import org.bukkit.ChatColor;
 
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class PremiumGachaManager extends GachaManager {
 
 	public PremiumGachaManager(GachaType gt) {
