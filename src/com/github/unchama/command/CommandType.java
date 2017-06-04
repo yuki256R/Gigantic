@@ -9,6 +9,7 @@ public enum CommandType {
 	STICK(new stickCommand()),
     FLY(new flyCommand()),
     PRESENTBOX(new presentboxCommand()),
+	GENCHANT(new EnchantmentCommand()),
 	;
 
 

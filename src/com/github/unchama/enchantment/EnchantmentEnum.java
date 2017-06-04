@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public enum EnchantmentEnum {
 
-    TEST("Test", new TestEnchantment()),
+    TEST("てすとのえんちゃんと", new TestEnchantment()),
     ;
 
     private static Map<String, GiganticEnchantment> enchantmentMap = new HashMap<>();
@@ -46,7 +46,20 @@ public enum EnchantmentEnum {
         return Optional.ofNullable(enchantmentMap.get(name));
     }
 
-    public static EnchantmentEnum getEnchantmentByName(String name) {
-        return EnchantmentEnum.valueOf(name);
+    public static Optional<EnchantmentEnum> getEnchantmentByName(String name) {
+        for (EnchantmentEnum element : EnchantmentEnum.values()) {
+            if (element.name().equalsIgnoreCase(name))
+                return Optional.of(element);
+        }
+        return Optional.empty();
+    }
+
+    public static String[] getNameList() {
+        EnchantmentEnum[] values = EnchantmentEnum.values();
+        String[] result = new String[values.length];
+        for (int i = 0; i < values.length; i++) {
+            result[i] = values[i].name();
+        }
+        return result;
     }
 }
