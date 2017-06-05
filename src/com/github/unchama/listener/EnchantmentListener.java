@@ -22,12 +22,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class EnchantmentListener implements Listener {
 
+    /**
+     * ItemStackからEnchantmentを取得して実行する処理
+     * @param event イベント
+     * @param item アイテム
+     * @return イベントをキャンセルする場合はtrue, しない場合はfalse
+     */
     public boolean runEnchantments(Event event, ItemStack item) {
+        //手に何も持っていなかったらreturn
         if (item == null || item.getItemMeta().getLore() == null) {
             return false;
         }
 
         AtomicBoolean result = new AtomicBoolean(false);
+        //全Loreを並列処理
         item.getItemMeta().getLore().parallelStream().map(ChatColor::stripColor).filter(s -> s.contains("Enchantment: ")).map(s -> s.replace("Enchantment: ", "")).forEach(s -> {
             String[] split = s.split(" ");
             String name;
@@ -46,6 +54,7 @@ public class EnchantmentListener implements Listener {
         return result.get();
     }
 
+    //Enchantmentをトリガしたいイベントをここで拾ってrunEnchantmentsに投げる
     @EventHandler
     public void onItemHeld(PlayerItemHeldEvent event) {
         boolean result = runEnchantments(event, event.getPlayer().getInventory().getItem(event.getNewSlot()));

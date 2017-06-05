@@ -16,7 +16,9 @@ public enum EnchantmentEnum {
     ;
 
     private static Map<String, GiganticEnchantment> enchantmentMap = new HashMap<>();
+    //アイテムのLoreに表示される名前
     private String name;
+    //GiganticEnchantmentを継承したやつ
     private GiganticEnchantment enchantment;
 
     EnchantmentEnum(String name, GiganticEnchantment enchantment) {
@@ -42,10 +44,21 @@ public enum EnchantmentEnum {
         }
     }
 
+
+    /**
+     * Loreの表示名からGiganticEnchantmentを取得
+     * @param name 表示名
+     * @return GiganticEnchantment(Nullable)
+     */
     public static Optional<GiganticEnchantment> getEnchantmentByDisplayName(String name) {
         return Optional.ofNullable(enchantmentMap.get(name));
     }
 
+    /**
+     * Enumの名前からEnchantmentEnumを取得
+     * @param name Enumの名前
+     * @return EnchantmentEnum(Nullable)
+     */
     public static Optional<EnchantmentEnum> getEnchantmentByName(String name) {
         for (EnchantmentEnum element : EnchantmentEnum.values()) {
             if (element.name().equalsIgnoreCase(name))
@@ -54,6 +67,10 @@ public enum EnchantmentEnum {
         return Optional.empty();
     }
 
+    /**
+     * 存在するEnchantmentを取得
+     * @return Enumで定義されたEnchantmentの名前のリスト
+     */
     public static String[] getNameList() {
         EnchantmentEnum[] values = EnchantmentEnum.values();
         String[] result = new String[values.length];
