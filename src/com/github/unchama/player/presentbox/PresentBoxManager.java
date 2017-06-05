@@ -92,7 +92,6 @@ public class PresentBoxManager extends DataManager implements UsingSql {
 	}
 
 	public void createInventory() {
-		Bukkit.getServer().getLogger().info("inventory init");
 		inventory = Bukkit.getServer().createInventory(
 				PlayerManager.getPlayer(gp), 54, "プレゼントボックス");
 	}
