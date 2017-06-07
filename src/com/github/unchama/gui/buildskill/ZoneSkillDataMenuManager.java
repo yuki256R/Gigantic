@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by karayuu on 2017/05/12.
+ * @author karayuu
  */
 public class ZoneSkillDataMenuManager extends GuiMenuManager{
 

@@ -3,6 +3,7 @@ package com.github.unchama.gigantic;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.unchama.enchantment.EnchantmentEnum;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -82,6 +83,9 @@ public final class Gigantic extends JavaPlugin {
 
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
+
+		//エンチャントを登録
+		EnchantmentEnum.registerAll();
 
 		// Hooking Placeholder
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {

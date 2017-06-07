@@ -6,6 +6,9 @@ import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.MinestackBlockCraftMenuManager;
 
+/**
+ * @author karayuu
+ */
 public class BlockCraftMenuManagerSecondPage extends MinestackBlockCraftMenuManager {
 
 	@Override
