@@ -326,6 +326,17 @@ name: '&5&lメインメニュー'
       - '&r※毎分更新されます．'
   mobhead: 'crown'
   openmenu: 'rankingselectmenu'
+33:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: BOOK
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l寄付履歴'
+      lore:
+      - '&r※更新されない場合は再ログインをしてみてください。'
+  openmenu: 'donatehistorymenu'
 35:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
