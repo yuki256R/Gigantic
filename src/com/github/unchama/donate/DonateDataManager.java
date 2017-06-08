@@ -5,6 +5,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.sql.donate.DonateTableManager;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +19,7 @@ public class DonateDataManager extends DataManager {
     public DonateDataManager(GiganticPlayer gp) {
         super(gp);
         this.tableManager = sql.getManager(DonateTableManager.class);
+        this.donateMap = new HashMap<>();
     }
 
     public void loadDonateData(LocalDateTime time, DonateData data) {

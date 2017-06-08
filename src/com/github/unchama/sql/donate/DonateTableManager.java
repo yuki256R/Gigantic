@@ -87,7 +87,7 @@ public class DonateTableManager extends TableManager{
     }
 
     public boolean saveDonateData(String uuid, DonateData data) {
-        String command = "insert into " + db + "." + table + " (uuid, money, point) VALUES (" + uuid + ", " + data.money + ", " + data.point + ")";
+        String command = "insert into " + db + "." + table + " (uuid, money, point) VALUES ('" + uuid + "', " + data.money + ", " + data.point + ")";
 
         try {
             stmt.executeUpdate(command);
