@@ -7,7 +7,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.event.moduler.CustomEvent;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class MinuteEvent extends CustomEvent{
 	private int minute;
 	private List<Player> playerlist;

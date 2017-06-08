@@ -27,6 +27,10 @@ import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MagicDriveManager extends ActiveSkillManager{
 
 	MagicDriveTableManager tm;

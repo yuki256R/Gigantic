@@ -1,8 +1,10 @@
 package com.github.unchama.event.moduler;
 
-import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.player.GiganticPlayer;
-
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class LevelUpEvent extends CustomEvent{
 	private int level;
 	private GiganticPlayer gp;

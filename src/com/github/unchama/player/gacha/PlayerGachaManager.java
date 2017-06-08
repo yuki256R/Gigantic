@@ -19,6 +19,10 @@ import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Util;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerGachaManager extends DataManager implements Initializable,UsingSql{
 	Gacha gacha = Gigantic.gacha;
 	PlayerGachaTableManager ptm;
@@ -93,11 +97,11 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 	 *
 	 * @param ガチャの種類
 	 */
-	public ItemStack roll(GachaType gt) {
+	public GachaItem roll(GachaType gt) {
 		GachaManager gm = gacha.getManager(gt.getManagerClass());
 		GachaItem gi = gm.roll();
 		dataMap.get(gt).use(gi.getRarity());
-		return gi.getItem();
+		return gi;
 
 	}
 

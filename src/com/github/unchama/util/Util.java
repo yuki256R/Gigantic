@@ -25,6 +25,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class Util {
 	// double -> .1double
 	public static double Decimal(double d) {
@@ -232,4 +236,5 @@ public class Util {
 			player.playSound(player.getLocation(), str, a, b);
 		}
 	}
+
 }

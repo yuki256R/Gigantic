@@ -13,10 +13,14 @@ import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class SeichiLevelManager extends DataManager implements Initializable {
 
 	// 各レベルのデータ値を格納します．
-	public static LinkedHashMap<Integer, SeichiLevel> levelmap = new LinkedHashMap<Integer, SeichiLevel>(){
+	public static LinkedHashMap<Integer, SeichiLevel> levelmap = new LinkedHashMap<Integer, SeichiLevel>() {
 		{
 			long sum_ap = 0;
 			long get_ap = 1;
@@ -26,7 +30,7 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 				if (level % 10 == 0 && level < 80) {
 					get_ap *= 2;
 				}
-				if( level >= config.getConsiderableSeichiLevel()){
+				if (level >= config.getConsiderableSeichiLevel()) {
 					get_ap = 0;
 				}
 			}
@@ -44,19 +48,20 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	public void init() {
 		this.calcLevel();
 	}
+
 	/**プレイヤーの持つ残りのAPを取得
 	 *
 	 * @param ap
 	 * @return
 	 */
-	public long getAP(){
+	public long getAP() {
 		SeichiLevel sl = levelmap.get(this.level);
 		long sumap = sl.getSumAp();
 		long useap = 0;
 		//アンロックで使用するAP
-		for(ActiveSkillType st : ActiveSkillType.values()){
-			ActiveSkillManager s = (ActiveSkillManager)gp.getManager(st.getSkillClass());
-			if(s.isunlocked()){
+		for (ActiveSkillType st : ActiveSkillType.values()) {
+			ActiveSkillManager s = (ActiveSkillManager) gp.getManager(st.getSkillClass());
+			if (s.isunlocked()) {
 				useap += s.getUnlockAP() + s.getUsedAp();
 			}
 		}
@@ -64,15 +69,17 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 		long dif = sumap - useap;
 		return dif;
 	}
+
 	/**与えられたapをプレイヤが所持しているか取得
 	 *
 	 * @param ap
 	 * @return
 	 */
-	public boolean hasAP(long ap){
+	public boolean hasAP(long ap) {
 		long dif = this.getAP();
 		return dif < ap ? false : true;
 	}
+
 	/**
 	 * レベルアップ可能かどうか調べるメソッドです．
 	 *
@@ -84,7 +91,7 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	 */
 	private boolean canLevelup() {
 		double d = gp.getManager(MineBlockManager.class).getAll(TimeType.UNLIMITED);
-		return ((double)levelmap.get(level).getNextMineBlock() <= d && level < config
+		return ((double) levelmap.get(level).getNextMineBlock() <= d && level < config
 				.getMaxSeichiLevel()) ? true : false;
 	}
 
@@ -121,14 +128,15 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	 */
 	public double getRemainingBlock() {
 		double d = gp.getManager(MineBlockManager.class).getAll(TimeType.UNLIMITED);
-		return this.level < config.getMaxSeichiLevel() ? (double)levelmap.get(this.level)
+		return this.level < config.getMaxSeichiLevel() ? (double) levelmap.get(this.level)
 				.getNextMineBlock() - d : 0.0;
 	}
+
 	/**現在のプレイヤーの整地レベルを取得します．
 	 *
 	 * @return
 	 */
-	public int getLevel(){
+	public int getLevel() {
 		return this.level;
 	}
 
@@ -140,14 +148,14 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 	public void setLevel(int level) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		double debugblock = m.getDebugBlockNum();
-		if(debugblock != 0){
-			m.increaseAll(TimeType.UNLIMITED,-debugblock);
+		if (debugblock != 0) {
+			m.increaseAll(TimeType.UNLIMITED, -debugblock);
 		}
 		double after = levelmap.get(level).getNeedMineBlock();
 		double before = m.getAll(TimeType.UNLIMITED);
 		//所望レベルまでの必要整地量を計算
 		double dif = after - before;
-		m.increaseAll(TimeType.UNLIMITED,dif);
+		m.increaseAll(TimeType.UNLIMITED, dif);
 		m.setDebugBlock(dif);
 		this.level = level;
 	}

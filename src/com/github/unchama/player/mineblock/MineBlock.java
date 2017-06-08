@@ -4,6 +4,10 @@ import java.util.HashMap;
 
 import com.github.unchama.gigantic.Gigantic;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineBlock {
 	public enum TimeType {
 		UNLIMITED, A_MINUTE, HALF_HOUR;

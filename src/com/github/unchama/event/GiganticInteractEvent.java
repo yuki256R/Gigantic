@@ -11,7 +11,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.player.GiganticPlayer;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class GiganticInteractEvent extends CustomEvent implements Cancellable{
 	private GiganticPlayer gp;
 	private Player p;

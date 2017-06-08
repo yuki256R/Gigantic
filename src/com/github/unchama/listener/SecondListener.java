@@ -6,6 +6,10 @@ import org.bukkit.event.Listener;
 import com.github.unchama.event.SecondEvent;
 import com.github.unchama.gigantic.PlayerManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class SecondListener implements Listener{
 
 	@EventHandler

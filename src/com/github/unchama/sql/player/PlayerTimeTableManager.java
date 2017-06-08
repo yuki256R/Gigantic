@@ -9,6 +9,10 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 	public PlayerTimeTableManager(Sql sql) {
 		super(sql);

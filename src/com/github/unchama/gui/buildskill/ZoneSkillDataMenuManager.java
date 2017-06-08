@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by karayuu on 2017/05/12.
+ * @author karayuu
  */
 public class ZoneSkillDataMenuManager extends GuiMenuManager{
 
@@ -123,7 +123,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 0:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "メインページへ");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
                 itemmeta.setLore(lore);
                 break;
@@ -131,7 +131,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 4:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "設置時に下の空洞を埋める機能");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "機能の使用設定:"
                         + ZSDirt);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "機能の範囲:地下5マスまで");
@@ -141,7 +141,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 13:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "現在の設定は以下の通りです");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.RESET + "" +  ChatColor.AQUA + "" + ChatColor.UNDERLINE
                         + "スキルの使用設定:" + ZSSkill);
                 lore.add("" + ChatColor.RESET + "" +  ChatColor.AQUA + "" + ChatColor.UNDERLINE
@@ -152,7 +152,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 19:
                 itemmeta.setDisplayName(ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を最大値に変更");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:11×11");
                 itemmeta.setLore(lore);
@@ -163,7 +163,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 20:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を一段階大きくする");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 if (ZSSkillA >= 11) {
                     lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:"
@@ -181,7 +181,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 22:
                 itemmeta.setDisplayName(ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を初期値に変更");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:5×5");
                 itemmeta.setLore(lore);
@@ -192,7 +192,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 24:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を一段階小さくする");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 if (ZSSkillA <= 3) {
                     lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:"
@@ -210,7 +210,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 25:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "範囲設定を最小値に変更");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.AQUA + "現在の範囲設定:" + ZSSkillA + "×" + ZSSkillA);
                 lore.add("" + ChatColor.AQUA + "" + ChatColor.UNDERLINE + "変更後の範囲設定:3×3");
                 itemmeta.setLore(lore);
@@ -221,7 +221,7 @@ public class ZoneSkillDataMenuManager extends GuiMenuManager{
             case 35:
                 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                         + "MineStack優先設定");
-                lore = new ArrayList<String>();
+                lore = new ArrayList<>();
                 lore.add("" + ChatColor.YELLOW + "範囲設置時にMineStackからアイテムを優先して");
                 lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "取り出すかどうかを設定します。");
                 lore.add("" + ChatColor.RESET + ChatColor.AQUA + "現在の設定:" + ZSSkillM);

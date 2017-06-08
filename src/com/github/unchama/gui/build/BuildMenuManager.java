@@ -1,5 +1,6 @@
 package com.github.unchama.gui.build;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +28,11 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author karayuu
+ */
 public class BuildMenuManager extends GuiMenuManager{
-    /**
-     * Created by karayuu on 2017/05/12.
-     */
+
 
 	public BuildMenuManager(){
 		setKeyItem();
@@ -43,6 +45,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
 		idmap.put(18, "ZoneSkill");
+		idmap.put(27, "LineUp");
 	}
 
 	@Override
@@ -54,38 +57,50 @@ public class BuildMenuManager extends GuiMenuManager{
 			//FLY1分
 			case "FLY=1":
 				player.chat("/fly 1");
+				player.closeInventory();
 				break;
 
 			//FLY5分
 			case "FLY=5":
 				player.chat("/fly 5");
+				player.closeInventory();
 				break;
 
 			//FLY無制限
 			case "FLY=endless":
 				player.chat("/fly endless");
+				player.closeInventory();
 				break;
 
 			//FLY終了
 			case "FLY=fin":
 				player.chat("/fly finish");
+				player.closeInventory();
 				break;
 
+			//範囲設置スキルのON/OFF
             case "ZoneSkill":
                 bsm.toggle_ZoneSkill();
+                player.openInventory(this.getInventory(player));
+                break;
+
+            //ブロックを並べるスキルのON/OFF
+            case "LineUp":
+                bsm.toggle_LineUp();
+                player.openInventory(this.getInventory(player));
                 break;
 
 			default:
 				return false;
 		}
         player.playSound(player.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
-		player.openInventory(this.getInventory(player));
 		return true;
 	}
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(35, GuiMenu.ManagerType.BLOCKCRAFTMENUFIRST);
-		openmap.put(19, ManagerType.ZONESKILLDATAMENU);
+		openmap.put(19, GuiMenu.ManagerType.ZONESKILLDATAMENU);
+		openmap.put(28, GuiMenu.ManagerType.BLOCKLINEUPMENU);
 	}
 
 	@Override
@@ -129,11 +144,12 @@ public class BuildMenuManager extends GuiMenuManager{
 		switch(slot){
 		//自身の統計データ
 		case 0:
+		    String totalnum = bm.getTotalbuildnum().setScale(1, BigDecimal.ROUND_FLOOR).toPlainString();
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + 
 					ChatColor.BOLD + gp.name + "の統計データ");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:" + blm.getBuildLevel());
-			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + bm.getTotalbuildnum());
+			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "総建築量:" + totalnum);
 			itemmeta.setLore(lore);
 			SkullMeta skullmeta = (SkullMeta) itemmeta;
 			skullmeta.setOwner(gp.name);
@@ -143,7 +159,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		case 2:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" +
 					ChatColor.BOLD + "FLY機能 情報表示");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "FLY 効果:" + fm.getFlyState());
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "FLY 残り時間:" + fm.getFlyTimeState());
 			itemmeta.setLore(lore);
@@ -153,7 +169,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		case 3:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
 					ChatColor.AQUA + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(1分)");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降1分間に渡り");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
@@ -165,7 +181,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		case 4:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
 					ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(5分)");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降5分間に渡り");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
@@ -177,7 +193,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		case 5:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
 					ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(無制限)");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降OFFにするまで");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "経験値を消費しつつFLYが可能になります。");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_GREEN + "" + ChatColor.UNDERLINE +
@@ -188,7 +204,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		//Fly終了
 		case 6:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 OFF");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.RED + "クリックすると残り時間にかかわらず");
 			lore.add("" + ChatColor.RESET + "" + ChatColor.RED + "FLYを終了します。");
 			itemmeta.setLore(lore);
@@ -199,7 +215,7 @@ public class BuildMenuManager extends GuiMenuManager{
         case 18:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                     + "「範囲設置スキル」現在:" + bsm.getZoneSkillStatus());
-            lore = new ArrayList<String>();
+            lore = new ArrayList<>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "「スニーク+左クリック」をすると、");
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "オフハンドに持っているブロックと同じものを");
             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "インベントリ内から消費し設置します。");
@@ -214,10 +230,10 @@ public class BuildMenuManager extends GuiMenuManager{
             int AREAint = bsm.getAREAint() * 2 + 1;
             itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                     + "「範囲設置スキル」設定画面へ");
-            lore = new ArrayList<String>();
+            lore = new ArrayList<>();
             lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE
                 + "クリックで移動");
-            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "現在の設定");
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "<現在の設定>");
             lore.add("" + ChatColor.RESET + ChatColor.GRAY + "スキル:" + bsm.getZoneSkillStatus());
             lore.add("" + ChatColor.RESET + ChatColor.GRAY + "設置範囲:" + AREAint + "×" + AREAint);
             lore.add("" + ChatColor.RESET + ChatColor.GRAY + "MineStack優先設定:" + bsm.getZoneMinestackStatus());
@@ -230,10 +246,12 @@ public class BuildMenuManager extends GuiMenuManager{
         case 27:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                     + "「ブロックを並べるスキル」現在:" + bsm.getBlockLineUpStatus());
-            lore = new ArrayList<String>();
+            lore = new ArrayList<>();
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "オフハンドに木の棒、メインハンドに設置したいブロックを持って");
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "左クリックすると向いてる方向に並べて設置します。");
-            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + "??" + "以上で利用可能");//TODO:Configより読み込み
+            lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックで切り替え＞");
+            lore.add("" + ChatColor.RESET + ChatColor.GRAY + "建築Lv" + config.getBlockLineUpSkillLevel()
+                    + "以上で利用可能");
             itemmeta.setLore(lore);
             break;
 
@@ -241,13 +259,13 @@ public class BuildMenuManager extends GuiMenuManager{
         case 28:
              itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
                      + "「ブロックを並べるスキル」設定画面へ");
-            lore = new ArrayList<String>();
+            lore = new ArrayList<>();
             lore.add(ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "現在の設定");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "スキル設定:" + "??");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "ハーフブロック設定:" + "??");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "破壊設定:" + "??");
-            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "マインスタック優先設定:" + "??");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "<現在の設定>");
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "スキル設定:" + bsm.getBlockLineUpStatus());
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "ハーフブロック設定:" + bsm.getHalfblock_modeStatus());
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "破壊設定:" + bsm.getBlockBreakStatus());
+            lore.add(ChatColor.RESET + "" + ChatColor.GRAY + "MineStack優先設定:" + bsm.getBlockLineUpMinestackStatus());
             itemmeta.setLore(lore);
             break;
 
@@ -255,7 +273,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		case 35:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" 
 					+ ChatColor.BOLD + "MineStackブロック一括クラフト画面へ");
-			lore = new ArrayList<String>();
+			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
 			itemmeta.setLore(lore);
 			break;

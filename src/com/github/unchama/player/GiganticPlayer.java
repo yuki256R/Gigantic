@@ -15,6 +15,7 @@ import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
@@ -27,6 +28,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
@@ -37,6 +39,7 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
@@ -57,6 +60,7 @@ public class GiganticPlayer {
 		 * Managerを追加するときはここに書く．
 		 */
 		GIGANTIC(GiganticManager.class),
+		SETTINGS(PlayerSettingsManager.class),
 		GUISTATUS(GuiStatusManager.class),
 		MINEBLOCK(MineBlockManager.class),
 		SEICHILEVLE(SeichiLevelManager.class),
@@ -80,9 +84,12 @@ public class GiganticPlayer {
 		PLAYERTIME(PlayerTimeManager.class),
 		HUNTINGPOINT(HuntingPointManager.class),
 		BUILDLEVEL(BuildLevelManager.class),
-		SIDEBAR(SideBarManager.class),
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
+		PRESENTBOX(PresentBoxManager.class),
+		GACHASTACK(GachaStackManager.class),
+		//EFFECT(SkillEffectManager.class),
+		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 
 		private Class<? extends DataManager> managerClass;

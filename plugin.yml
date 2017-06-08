@@ -41,3 +41,15 @@ commands:
       default: true
       permission: gigantic.fly
       permission-message: You don't have <permission>
+  presentbox:
+      description: This is presentbox command.
+      usage: /<command> send <playername/all>
+      default: op
+      permission: gigantic.presentbox
+      permission-message: You don't have <permission>
+  genchant:
+    description: This is GiganticEnchantment command.
+    usage: /<command> <EnchantmentName> <Level>
+    default: up
+    permission: gigantic.genchant
+    permission-message: You don't have <permission>

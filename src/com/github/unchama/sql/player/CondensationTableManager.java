@@ -11,6 +11,10 @@ import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class CondensationTableManager extends PlayerTableManager{
 
 	public CondensationTableManager(Sql sql) {
