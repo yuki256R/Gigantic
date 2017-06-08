@@ -27,7 +27,7 @@ public class DonateHistoryMenuManager extends GuiMenuManager {
 
     @Override
     public String getInventoryName(Player player) {
-        return "寄付履歴";
+        return player.getName() + " の寄付履歴";
     }
 
     @Override
@@ -60,7 +60,7 @@ public class DonateHistoryMenuManager extends GuiMenuManager {
 
         String name = ChatColor.GOLD + data.time.format(DateTimeFormatter.ofPattern("yyyy年MM月dd日 HH:mm:ss"));
         List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.YELLOW + "金額: " + data.money);
+        lore.add(ChatColor.YELLOW + "金額: " + data.money + "円");
         lore.add(ChatColor.YELLOW + "GP: " + data.point);
 
         meta.setDisplayName(name);
