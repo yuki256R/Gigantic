@@ -3,12 +3,14 @@ package com.github.unchama.player.seichiskill;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.seichiskill.effect.EffectType;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 
 public final class SkillEffectManager extends DataManager implements UsingSql{
 	SkillEffectTableManager tm;
-	
-	
+
+	private EffectType et;
+
 
 	public SkillEffectManager(GiganticPlayer gp) {
 		super(gp);
