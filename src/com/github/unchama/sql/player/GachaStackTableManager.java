@@ -54,7 +54,8 @@ public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
-		//Bukkit.getServer().getLogger().info("takeover");
+		GachaStackManager m = gp.getManager(GachaStackManager.class);
+		m.getMap().put(GachaType.OLD, tm.getOldGachaStack(gp));
 	}
 
 	@Override
