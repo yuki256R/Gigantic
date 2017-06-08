@@ -19,6 +19,11 @@ import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.util.Util;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class AdminOldListGachaMenuManager  extends AdminMenuManager {
 	private GachaType gt = GachaType.OLD;
 	private GachaManager gm;

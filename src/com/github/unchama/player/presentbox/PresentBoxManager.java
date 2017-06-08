@@ -14,6 +14,11 @@ import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.util.InventoryUtil;
 import com.github.unchama.util.Util;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PresentBoxManager extends DataManager implements UsingSql {
 
 	// ボックスの中身

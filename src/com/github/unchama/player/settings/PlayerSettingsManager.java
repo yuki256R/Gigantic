@@ -5,7 +5,11 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.PlayerSettingsTableManager;
 
-// 諸々の細かい設定
+/**
+*
+* @author ten_niti
+* 諸々の細かい設定
+*/
 public class PlayerSettingsManager extends DataManager implements UsingSql{
 
 	// GTを当てた時の全体通知送信

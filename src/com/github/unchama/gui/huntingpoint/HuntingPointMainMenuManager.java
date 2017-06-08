@@ -25,6 +25,11 @@ import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointMainMenuManager extends GuiMenuManager {
 
 	// どのMobのショップを開くか

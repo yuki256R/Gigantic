@@ -25,6 +25,11 @@ import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.util.Converter;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class GachaStackCategoryMenuManager extends GuiMenuManager{
 	private Gacha gacha = Gigantic.gacha;
 

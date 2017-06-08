@@ -9,6 +9,11 @@ import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class ParticleUtil {
 	static private FireworkEffect.Type[] types = { FireworkEffect.Type.BALL,
 			FireworkEffect.Type.BALL_LARGE, FireworkEffect.Type.BURST,
