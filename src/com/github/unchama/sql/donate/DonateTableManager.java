@@ -86,7 +86,7 @@ public class DonateTableManager extends TableManager{
         }
     }
 
-    public boolean saveDonateData(String uuid, DonateData data) {
+    public void saveDonateData(String uuid, DonateData data) {
         String command = "insert into " + db + "." + table + " (uuid, money, point) VALUES ('" + uuid + "', " + data.money + ", " + data.point + ")";
 
         try {
@@ -95,8 +95,6 @@ public class DonateTableManager extends TableManager{
             plugin.getLogger().warning(
                     "Failed to update " + table + " Donate Data! User: " + uuid + ", Money: " + data.money + ", Point: " + data.point);
             e.printStackTrace();
-            return false;
         }
-        return true;
     }
 }
