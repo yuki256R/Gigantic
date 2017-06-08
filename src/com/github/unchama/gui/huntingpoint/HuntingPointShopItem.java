@@ -3,6 +3,11 @@ package com.github.unchama.gui.huntingpoint;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointShopItem {
 	public enum CategoryType {
 		ToHead, // Mob毎に定められた頭

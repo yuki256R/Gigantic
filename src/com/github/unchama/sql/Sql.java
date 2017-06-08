@@ -16,6 +16,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
@@ -34,6 +35,7 @@ import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.donate.DonateTableManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
+import com.github.unchama.sql.gacha.OldGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
@@ -44,6 +46,7 @@ import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
+import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
@@ -75,6 +78,7 @@ public class Sql {
 	public static enum ManagerType {
 		GIGANTICGACHA(GiganticGachaTableManager.class), //
 		PREMIUMGACHA(PremiumGachaTableManager.class), //
+		OLDGACHA(OldGachaTableManager.class),//
 		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
@@ -99,6 +103,7 @@ public class Sql {
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
+		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
 		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		;
 

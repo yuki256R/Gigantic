@@ -12,6 +12,11 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.unchama.yml.moduler.YmlManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class DimensionalInventoryYmlManager extends YmlManager {
 
 	private List<Map.Entry<Integer, Integer>> capacityList;

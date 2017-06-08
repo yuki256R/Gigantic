@@ -18,6 +18,11 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.toolrepair.ToolRepair;
 import com.github.unchama.util.Util;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class AdminToolRepairMenuManager extends GuiMenuManager{
 
 	// ツール全修理

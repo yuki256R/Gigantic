@@ -17,6 +17,11 @@ import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.github.unchama.yml.HuntingPointDataManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointEventListener implements Listener {
 
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

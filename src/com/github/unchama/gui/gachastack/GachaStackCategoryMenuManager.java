@@ -1,12 +1,10 @@
-package com.github.unchama.gui.settings;
+package com.github.unchama.gui.gachastack;
 
 import java.util.Arrays;
 import java.util.HashMap;
 
-import net.md_5.bungee.api.ChatColor;
-
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -14,28 +12,28 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gacha.Gacha;
+import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaItem;
+import com.github.unchama.gacha.moduler.GachaManager;
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.settings.PlayerSettingsManager;
-import com.github.unchama.util.Util;
+import com.github.unchama.player.gachastack.GachaStackManager;
+import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.util.Converter;
 
 /**
 *
 * @author ten_niti
 *
 */
-public class PlayerSettingsMenuManager extends GuiMenuManager{
+public class GachaStackCategoryMenuManager extends GuiMenuManager{
+	private Gacha gacha = Gigantic.gacha;
 
-	// GT当たりの通知送信
-	private ItemStack giganticRereNotificationSendButton;
-	private final int giganticRereNotificationSendSlot = 0;
-
-	public PlayerSettingsMenuManager(){
-		giganticRereNotificationSendButton = new ItemStack(Material.GOLDEN_APPLE);
-		Util.setDisplayName(giganticRereNotificationSendButton, "GT当たり通知の送信");
-
+	public GachaStackCategoryMenuManager() {
 		// Invoke設定
 		for (int i = 0; i < getInventorySize(); i++) {
 			id_map.put(i, String.valueOf(i));
@@ -44,67 +42,55 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
+		// TODO 自動生成されたメソッド・スタブ
+
 	}
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		PlayerSettingsManager manager = gp.getManager(PlayerSettingsManager.class);
+		GachaStackManager manager = gp.getManager(GachaStackManager.class);
 
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(),
 				this.getInventoryName(player));
 
-		ItemStack gtRereNotiSendButton = giganticRereNotificationSendButton.clone();
-		Util.setLore(gtRereNotiSendButton, Arrays.asList(
-				getToggleSettingStr(manager.getGiganticRareNotificationSend()),
-				getClickAnnounce()
-				));
-		inv.setItem(giganticRereNotificationSendSlot, gtRereNotiSendButton);
+		GachaType type = getGachaType(player);
+		GachaManager gm = gacha.getManager(type.getManagerClass());
 
-		return inv;
-	}
+		for (GachaItem gi : gm.getGachaItemMap().values()) {
+			int id = gi.getID();
+			ItemStack itemStack = gi.getItem();
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            int amount = manager.getAmount(type, id);
+            itemMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + amount +"個"
+                    , ChatColor.RESET + "" +  ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで1スタック取り出し"));
+            itemStack.setItemMeta(itemMeta);
 
-	// トグル設定の文字列を返す
-	private String getToggleSettingStr(boolean flag){
-		String ret = ChatColor.RESET + "設定：";
-		if(flag){
-			ret += ChatColor.GREEN + "ON";
-		}else{
-			ret += ChatColor.RED + "OFF";
+			inv.setItem(id, itemStack);
 		}
-		return ret;
-	}
-
-	// 「クリックして切り替え」
-	private String getClickAnnounce(){
-		return ChatColor.RED + "クリックして切り替え";
-	}
-
-	// トグル音
-	private void toggleSE(Player player){
-		player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, (float) 0.8,
-				1);
+		return inv;
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
+		int id = Converter.toInt(identifier);
+		GachaType type = getGachaType(player);
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		PlayerSettingsManager manager = gp.getManager(PlayerSettingsManager.class);
-		int slot = Integer.valueOf(identifier);
-
-		switch(slot){
-		// GT当たり通知の送信
-		case giganticRereNotificationSendSlot:
-			manager.toggleGiganticRareNotificationSend();
-			toggleSE(player);
-			break;
-		default:
-			break;
+		GachaStackManager manager = gp.getManager(GachaStackManager.class);
+		boolean isSuccess = manager.takeOutGachaItem(type, id);
+		if(isSuccess){
+			player.openInventory(getInventory(player, 0));
 		}
 
-		player.openInventory(getInventory(player, 0));
-		return true;
+		return isSuccess;
+	}
+
+	private GachaType getGachaType(Player player){
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		GachaType type = GachaType.valueOf(manager.getSelectedCategory("GachaStackMainMenuManager"));
+		return type;
 	}
 
 	@Override
@@ -127,13 +113,12 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 
 	@Override
 	public int getInventorySize() {
-		// TODO 自動生成されたメソッド・スタブ
-		return 3 * 9;
+		return 9 * 6;
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return "各種設定";
+		return "ガチャスタック";
 	}
 
 	@Override
@@ -156,7 +141,7 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 
 	@Override
 	public Sound getSoundName() {
-		return Sound.BLOCK_TRIPWIRE_CLICK_ON;
+		return Sound.BLOCK_CHEST_LOCKED;
 	}
 
 	@Override
