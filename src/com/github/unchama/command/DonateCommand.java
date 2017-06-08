@@ -14,6 +14,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,10 +66,10 @@ public class DonateCommand implements TabExecutor {
 
     private void put(GiganticPlayer gp, int money, int point) {
         DonateDataManager manager = gp.getManager(DonateDataManager.class);
-        manager.putDonateData(new DonateData(money, point));
+        manager.putDonateData(new DonateData(LocalDateTime.now(), money, point));
     }
 
     private void putToSQL(String uuid, int money, int point) {
-        tableManager.saveDonateData(uuid, new DonateData(money, point));
+        tableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
     }
 }

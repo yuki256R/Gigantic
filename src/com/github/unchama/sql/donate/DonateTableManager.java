@@ -74,9 +74,9 @@ public class DonateTableManager extends TableManager{
                 UUID uuid = UUID.fromString(rs.getString("uuid"));
                 DonateDataManager manager = tmpmap.get(uuid).getManager(DonateDataManager.class);
                //データクラス
-                DonateData data = new DonateData(rs.getInt("money"), rs.getInt("point"));
+                DonateData data = new DonateData(rs.getTimestamp("time").toLocalDateTime(), rs.getInt("money"), rs.getInt("point"));
                //データを登録
-               manager.loadDonateData(rs.getTimestamp("time").toLocalDateTime(), data);
+               manager.loadDonateData(data);
             }
             rs.close();
         } catch (SQLException e) {
