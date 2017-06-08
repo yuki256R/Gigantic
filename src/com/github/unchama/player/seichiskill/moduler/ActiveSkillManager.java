@@ -102,6 +102,17 @@ public abstract class ActiveSkillManager extends DataManager implements
 	}
 
 	/**
+	 * 破壊範囲をリセットする.
+	 */
+	public abstract void rangeReset();
+
+	/**
+	 * スキルの基点をリセットする.
+	 */
+	public void zeroPointReset(){
+	}
+
+	/**
 	 * クールダウン中の時Trueを返します
 	 *
 	 * @return

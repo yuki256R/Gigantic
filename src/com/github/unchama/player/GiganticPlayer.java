@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.donate.DonateDataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -87,6 +88,7 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
+		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
 		//EFFECT(SkillEffectManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
