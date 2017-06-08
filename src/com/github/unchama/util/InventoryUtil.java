@@ -3,6 +3,11 @@ package com.github.unchama.util;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class InventoryUtil {
 
 	// インベントリ内に入っているスタック数を取得

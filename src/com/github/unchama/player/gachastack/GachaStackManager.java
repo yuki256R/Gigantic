@@ -20,6 +20,11 @@ import com.github.unchama.util.Util;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class GachaStackManager extends DataManager implements UsingSql{
 	private Gacha gacha = Gigantic.gacha;
 	private Map<GachaType, Map<Integer, Integer>> itemMap = new HashMap<GachaType, Map<Integer, Integer>>();

@@ -29,6 +29,11 @@ import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointShopMenuManager extends GuiMenuManager {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 

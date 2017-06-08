@@ -14,6 +14,11 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PlayerTimeManager extends DataManager implements UsingSql,
 		Initializable, Finalizable {
 

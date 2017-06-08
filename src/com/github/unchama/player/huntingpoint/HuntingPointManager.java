@@ -13,6 +13,11 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointManager extends DataManager implements UsingSql {
 	private Map<String, Integer> currentPoints = new HashMap<String, Integer>();
 	private Map<String, Integer> totalPoints = new HashMap<String, Integer>();

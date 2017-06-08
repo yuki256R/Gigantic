@@ -22,6 +22,11 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gui.GuiStatusManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class GachaStackMainMenuManager extends GuiMenuManager {
 	private Gacha gacha = Gigantic.gacha;
 	private Map<Integer, GachaType> gachaTypeMap = new HashMap<Integer, GachaType>();

@@ -15,6 +15,11 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 
 	public GachaStackTableManager(Sql sql) {
@@ -54,7 +59,8 @@ public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
-		//Bukkit.getServer().getLogger().info("takeover");
+		GachaStackManager m = gp.getManager(GachaStackManager.class);
+		m.getMap().put(GachaType.OLD, tm.getOldGachaStack(gp));
 	}
 
 	@Override

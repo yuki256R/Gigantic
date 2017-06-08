@@ -15,6 +15,11 @@ import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PlayerTimeTaskRunnable extends BukkitRunnable{
 	Gigantic plugin = Gigantic.plugin;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
