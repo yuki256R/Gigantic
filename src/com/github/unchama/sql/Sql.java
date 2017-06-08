@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
@@ -31,6 +32,7 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.donate.DonateTableManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
@@ -96,6 +98,7 @@ public class Sql {
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
 		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		;
 
@@ -488,6 +491,9 @@ public class Sql {
 				PlayerTableManager ptm = (PlayerTableManager) managermap
 						.get(mt);
 				ptm.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
+			}
+			else if (mt == DonateTableManager.class) {
+				((DonateTableManager)managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 		}
 	}
