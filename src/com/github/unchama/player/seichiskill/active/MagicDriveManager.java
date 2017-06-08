@@ -289,6 +289,25 @@ public class MagicDriveManager extends ActiveSkillManager{
 	}
 
 	@Override
+	public void rangeReset(){
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zeroPointReset();
+	}
+
+	@Override
+	public void zeroPointReset(){
+		Coordinate zero = getRange().getZeropoint();
+		zero.setY(0);
+		zero.setX(0);
+		zero.setZ(0);
+		getRange().refresh();
+	}
+
+	@Override
 	protected boolean canBelowBreak(Player player, Block block, Block rb) {
 		int playerlocy = player.getLocation().getBlockY() - 1;
 		//int blocky = block.getY();

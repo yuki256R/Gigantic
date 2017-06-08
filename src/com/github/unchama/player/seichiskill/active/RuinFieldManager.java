@@ -153,6 +153,31 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		return 40;
 	}
 
+
+	@Override
+	public void rangeReset(){
+		Coordinate zero = getRange().getZeropoint();
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zero.setY(dv.getHeight() - 1);
+		zero.setX((dv.getWidth() - 1) / 2);
+		zero.setZ((dv.getDepth() - 1) / 2);
+		getRange().refresh();
+	}
+
+	@Override
+	public void zeroPointReset(){
+		Coordinate zero = getRange().getZeropoint();
+		Volume v = getRange().getVolume();
+		zero.setY(1);
+		zero.setX((v.getWidth() - 1) / 2);
+		zero.setZ(0);
+		getRange().refresh();
+	}
+
 	@Override
 	public long getUsedAp() {
 		Volume v = this.getRange().getVolume();

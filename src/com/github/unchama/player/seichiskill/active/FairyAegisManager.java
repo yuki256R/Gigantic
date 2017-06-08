@@ -136,6 +136,11 @@ public class FairyAegisManager extends ActiveSkillManager {
 		this.breakNum = breakNum;
 	}
 
+	@Override
+	public void rangeReset(){
+		setBreakNum(0);
+	}
+
 	/**
 	 * 解禁直後のデフォルト値を取得します．
 	 *

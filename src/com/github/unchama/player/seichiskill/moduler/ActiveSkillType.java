@@ -21,10 +21,12 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
  */
 public enum ActiveSkillType {
 	EXPLOSION(ExplosionManager.class, ExplosionMenuManager.class,
-			Information.EX_COOLTIME), MAGICDRIVE(MagicDriveManager.class,
-			MagicDriveMenuManager.class, Information.MD_COOLTIME), CONDENSATION(
-			CondensationManager.class, CondensationMenuManager.class), RUINFIELD(
-			RuinFieldManager.class, RuinFieldMenuManager.class),FAIRYAEGIS(FairyAegisManager.class,FairyAegisMenuManager.class),
+			Information.EX_COOLTIME), //
+	MAGICDRIVE(MagicDriveManager.class, MagicDriveMenuManager.class,
+			Information.MD_COOLTIME), //
+	CONDENSATION(CondensationManager.class, CondensationMenuManager.class), //
+	RUINFIELD(RuinFieldManager.class, RuinFieldMenuManager.class), //
+	FAIRYAEGIS(FairyAegisManager.class, FairyAegisMenuManager.class),//
 	/*
 	 * CONDENSATION(Condensation.class,CondensationMenuManager.class),
 	 * RUINFIELD(RuinField.class,RuinFieldMenuManager.class),
@@ -83,6 +85,5 @@ public enum ActiveSkillType {
 	public Information getInformation() {
 		return this.info;
 	}
-
 
 }
