@@ -30,6 +30,7 @@ import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
 import com.github.unchama.gui.build.BuildMenuManager;
 import com.github.unchama.gui.buildskill.BlockLineUpMenuManager;
 import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
+import com.github.unchama.gui.donate.DonateHistoryMenuManager;
 import com.github.unchama.gui.gachastack.GachaStackCategoryMenuManager;
 import com.github.unchama.gui.gachastack.GachaStackMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
@@ -139,6 +140,7 @@ public final class GuiMenu {
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
         BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
         PRESENTBOX(PresentBoxMenuManager.class),
+		DONATEHISTORYMENU(DonateHistoryMenuManager.class),
         GACHASTACKMAINMENU(GachaStackMainMenuManager.class),
         GACHASTACKCATEGORYMENU(GachaStackCategoryMenuManager.class),
         RANKINGSELECTMENU(RankingSelectMenuManager.class),
