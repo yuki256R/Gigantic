@@ -5,6 +5,11 @@ import java.util.HashMap;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.admin.gacha.moduler.AdminGachaMenuManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class AdminOldGachaMenuManager extends AdminGachaMenuManager {
 
 	@Override

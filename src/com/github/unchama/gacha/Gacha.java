@@ -15,7 +15,6 @@ import com.github.unchama.sql.gacha.GiganticGachaTableManager;
 import com.github.unchama.sql.gacha.OldGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.GachaTableManager;
-import com.github.unchama.sql.player.OldGachaManager;
 /**
  * @author tar0ss
  *

@@ -15,6 +15,11 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.AdminMenuManager;
 import com.github.unchama.util.Converter;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class AdminOldAppleGachaMenuManager extends AdminMenuManager{
 	private GachaType gt = GachaType.OLD;
 	private GachaManager gm;

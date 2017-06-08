@@ -15,6 +15,11 @@ import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 
 	public GachaStackTableManager(Sql sql) {

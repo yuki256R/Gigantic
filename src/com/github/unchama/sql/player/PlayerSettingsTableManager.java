@@ -8,6 +8,11 @@ import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PlayerSettingsTableManager extends PlayerTableManager{
 
 	public PlayerSettingsTableManager(Sql sql) {

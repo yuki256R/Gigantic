@@ -1,4 +1,4 @@
-package com.github.unchama.sql.player;
+package com.github.unchama.gacha;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,11 @@ import org.bukkit.ChatColor;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class OldGachaManager extends GachaManager{
 
 	public OldGachaManager(GachaType gt) {
