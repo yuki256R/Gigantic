@@ -265,6 +265,26 @@ public class CondensationManager extends ActiveSkillManager implements Finalizab
 	}
 
 	@Override
+	public void rangeReset(){
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zeroPointReset();
+	}
+
+	@Override
+	public void zeroPointReset(){
+		Coordinate zero = getRange().getZeropoint();
+		Volume dv = getDefaultVolume();
+		zero.setY(dv.getHeight() - 1);
+		zero.setX((dv.getWidth() - 1) / 2);
+		zero.setZ((dv.getDepth() - 1) / 2);
+		getRange().refresh();
+	}
+
+	@Override
 	public long getUsedAp() {
 		Volume v = this.getRange().getVolume();
 		return this.getSpendAP(v.getVolume() - getDefaultVolume().getVolume());

@@ -316,6 +316,25 @@ public class ExplosionManager extends ActiveSkillManager {
 	}
 
 	@Override
+	public void rangeReset(){
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zeroPointReset();
+	}
+
+	@Override
+	public void zeroPointReset(){
+		Coordinate zero = getRange().getZeropoint();
+		zero.setY(0);
+		zero.setX(0);
+		zero.setZ(0);
+		getRange().refresh();
+	}
+
+	@Override
 	public long getUsedAp() {
 		Volume v = this.getRange().getVolume();
 		return this.getSpendAP(v.getVolume() - getDefaultVolume().getVolume());
