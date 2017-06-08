@@ -13,6 +13,11 @@ import com.github.unchama.gui.admin.gacha.gigantic.AG_EditGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_ListGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_TicketGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldAppleGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldEditGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldListGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldTicketGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_AppleGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_EditGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_ListGachaMenuManager;
@@ -88,6 +93,19 @@ public final class GuiMenu {
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
         ADMINBUILDMENU(AdminBuildMenuManager.class),
+        ADMINOLDGACHAMENU(AdminOldGachaMenuManager.class),
+		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
+		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
+		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
+		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
+		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
+		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
+		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
+		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
+		ADMINLISTGACHAMENU(AdminOldListGachaMenuManager.class),
+		ADMINEDITGACHAMENU(AdminOldEditGachaMenuManager.class),
+		ADMINTICKETGACHAMENU(AdminOldTicketGachaMenuManager.class),
+		ADMINAPPLEGACHAMENU(AdminOldAppleGachaMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -113,14 +131,6 @@ public final class GuiMenu {
 		REGIONMENU(RegionMenuManager.class),
 		HUNTMAINMENU(HuntingPointMainMenuManager.class),
 		HUNTSHOPMENU(HuntingPointShopMenuManager.class),
-		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
-		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
-		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
-		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
-		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
-		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
-		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
-		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),

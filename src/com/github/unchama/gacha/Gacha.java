@@ -9,16 +9,20 @@ import org.bukkit.Bukkit;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.moduler.AdminGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AdminPremiumGachaMenuManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
+import com.github.unchama.sql.gacha.OldGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.GachaTableManager;
+import com.github.unchama.sql.player.OldGachaManager;
 /**
  * @author tar0ss
  *
  */
 public class Gacha {
 	public static enum GachaType{
+		OLD(OldGachaManager.class, OldGachaTableManager.class,AdminOldGachaMenuManager.class),
 		GIGANTIC(GiganticGachaManager.class,GiganticGachaTableManager.class,AdminGiganticGachaMenuManager.class),
 		PREMIUM(PremiumGachaManager.class,PremiumGachaTableManager.class,AdminPremiumGachaMenuManager.class),
 		;
