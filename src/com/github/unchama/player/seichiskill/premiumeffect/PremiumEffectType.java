@@ -10,9 +10,13 @@ import org.bukkit.ChatColor;
  *
  */
 public enum PremiumEffectType {
-	MAGIC(ChatColor.RED + "マジック","鶏が出る手品",10,"clown"),
+	MAGIC(1,ChatColor.RED + "マジック","鶏が出る手品",10,"clown"),
 	;
+	//絶対に変更禁止
+	private static final int CATEGORY_ID = 1;
 
+	//識別番号
+	private final int id;
 	//エフェクト名
 	private final String name;
 	//説明文
@@ -27,7 +31,8 @@ public enum PremiumEffectType {
 	 * @param useDonatePoint
 	 * @param headname
 	 */
-	private PremiumEffectType(String name, String lore, int useDonatePoint, String headname) {
+	private PremiumEffectType(int id,String name, String lore, int useDonatePoint, String headname) {
+		this.id = CATEGORY_ID * 1000 + id;
 		this.name = name;
 		this.lore = lore;
 		this.useDonatePoint = useDonatePoint;
@@ -56,6 +61,12 @@ public enum PremiumEffectType {
 	 */
 	public String getHeadname() {
 		return headname;
+	}
+	/**
+	 * @return id
+	 */
+	public int getId() {
+		return id;
 	}
 
 

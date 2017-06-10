@@ -15,6 +15,8 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -343,5 +345,45 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 		return ans;
 	}
+
+	private static final HashMap<String,Integer> oldEffectIDMap = new HashMap<String,Integer>(){{
+		put("ef_explosion",EffectType.DYNAMITE.getId());
+		put("ef_blizzard",EffectType.BLIZZARD.getId());
+		put("ef_meteo",EffectType.METEO.getId());
+		put("ef_magic",PremiumEffectType.MAGIC.getId());
+	}};
+
+	public HashMap<Integer, Boolean> getEffectFlagMap(GiganticPlayer gp) {
+		HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>();
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String command = "select ";
+		for(String oldname : oldEffectIDMap.keySet()){
+			command += oldname + ",";
+		}
+
+		command = command.substring(0, command.length());
+		command += " from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			for(Map.Entry<String , Integer> e: oldEffectIDMap.entrySet()){
+				map.put(e.getValue(), rs.getBoolean(e.getKey()));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load effectflagMap player:" + gp.name);
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+
+
+
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
+
+
 }
