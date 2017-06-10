@@ -21,6 +21,11 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.util.Util;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PlayerSettingsMenuManager extends GuiMenuManager{
 
 	// GT当たりの通知送信
@@ -62,7 +67,7 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 
 	// トグル設定の文字列を返す
 	private String getToggleSettingStr(boolean flag){
-		String ret = ChatColor.RESET + "設定：";
+		String ret = ChatColor.RESET + "設定 ： ";
 		if(flag){
 			ret += ChatColor.GREEN + "ON";
 		}else{

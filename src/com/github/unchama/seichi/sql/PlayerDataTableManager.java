@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -301,6 +302,44 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			plugin.getLogger().warning(
 					"Failed to load shareinv player:" + gp.name);
 			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public Map<Integer, Integer> getOldGachaStack(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		Map<Integer, Integer> ans = new HashMap<Integer, Integer>();
+
+		Map<Integer, String> columns = new HashMap<Integer, String>();
+		// ガチャリンゴ
+		columns.put(1, "stack_gachaimo");
+		// 経験値ボトル
+		columns.put(2, "stack_exp_bottle");
+		// その他のガチャアイテム
+		for (int i = 0; i <= 38; i++) {
+			// IDはガチャ券、ガチャリンゴ、経験値ボトルの3つをゲタに履かせる
+			columns.put(i + 3, "stack_gachadata0_" + i);
+		}
+
+		for (int index : columns.keySet()) {
+			String column = columns.get(index);
+			command = "select " + column + " from " + db + "." + table
+					+ " where uuid = '" + struuid + "'";
+			this.checkStatement();
+			try {
+				rs = stmt.executeQuery(command);
+				while (rs.next()) {
+					ans.put(index, rs.getInt(column));
+					// plugin.getLogger().info(column + " : " +
+					// rs.getInt(column));
+				}
+				rs.close();
+			} catch (SQLException e) {
+				plugin.getLogger().warning(
+						"Failed to load " + column + " player:" + gp.name);
+				e.printStackTrace();
+			}
 		}
 		return ans;
 	}

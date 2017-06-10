@@ -17,6 +17,11 @@ import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.util.InventoryUtil;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PresentBoxTableManager extends PlayerFromSeichiTableManager {
 
 	public PresentBoxTableManager(Sql sql) {

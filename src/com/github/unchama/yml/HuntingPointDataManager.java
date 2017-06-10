@@ -17,6 +17,11 @@ import com.github.unchama.yml.CustomHeadManager.CustomHead;
 import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 import com.github.unchama.yml.moduler.YmlManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointDataManager extends YmlManager {
 	public class HuntMobData {
 		public String name; // 呼び出し名の逆引き

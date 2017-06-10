@@ -13,6 +13,11 @@ import com.github.unchama.gui.admin.gacha.gigantic.AG_EditGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_ListGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AG_TicketGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.gigantic.AdminGiganticGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldAppleGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldEditGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldListGachaMenuManager;
+import com.github.unchama.gui.admin.gacha.old.AdminOldTicketGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_AppleGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_EditGachaMenuManager;
 import com.github.unchama.gui.admin.gacha.premium.AP_ListGachaMenuManager;
@@ -25,6 +30,9 @@ import com.github.unchama.gui.build.BlockCraftMenuManagerThirdPage;
 import com.github.unchama.gui.build.BuildMenuManager;
 import com.github.unchama.gui.buildskill.BlockLineUpMenuManager;
 import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
+import com.github.unchama.gui.donate.DonateHistoryMenuManager;
+import com.github.unchama.gui.gachastack.GachaStackCategoryMenuManager;
+import com.github.unchama.gui.gachastack.GachaStackMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointShopMenuManager;
 import com.github.unchama.gui.minestack.StackCategoryMenuManager;
@@ -86,6 +94,19 @@ public final class GuiMenu {
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
         ADMINBUILDMENU(AdminBuildMenuManager.class),
+        ADMINOLDGACHAMENU(AdminOldGachaMenuManager.class),
+		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
+		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
+		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
+		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
+		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
+		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
+		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
+		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
+		ADMINLISTGACHAMENU(AdminOldListGachaMenuManager.class),
+		ADMINEDITGACHAMENU(AdminOldEditGachaMenuManager.class),
+		ADMINTICKETGACHAMENU(AdminOldTicketGachaMenuManager.class),
+		ADMINAPPLEGACHAMENU(AdminOldAppleGachaMenuManager.class),
 		ACTIVESKILLTYPEMENU(ActiveSkillTypeMenuManager.class),
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
@@ -111,14 +132,6 @@ public final class GuiMenu {
 		REGIONMENU(RegionMenuManager.class),
 		HUNTMAINMENU(HuntingPointMainMenuManager.class),
 		HUNTSHOPMENU(HuntingPointShopMenuManager.class),
-		AG_LISTGACHAMENU(AG_ListGachaMenuManager.class),
-		AG_EDITGACHAMENU(AG_EditGachaMenuManager.class),
-		AG_TICKETGACHAMENU(AG_TicketGachaMenuManager.class),
-		AG_APPLEGACHAMENU(AG_AppleGachaMenuManager.class),
-		AP_LISTGACHAMENU(AP_ListGachaMenuManager.class),
-		AP_EDITGACHAMENU(AP_EditGachaMenuManager.class),
-		AP_TICKETGACHAMENU(AP_TicketGachaMenuManager.class),
-		AP_APPLEGACHAMENU(AP_AppleGachaMenuManager.class),
 		BLOCKCRAFTMENUFIRST(BlockCraftMenuManagerFirstPage.class),
 		BLOCKCRAFTMENUSECOND(BlockCraftMenuManagerSecondPage.class),
 		BLOCKCRAFTMENUTHIRD(BlockCraftMenuManagerThirdPage.class),
@@ -127,6 +140,9 @@ public final class GuiMenu {
 		SERVERSWITCHMENU(ServerSwitchMenuManager.class),
         BLOCKLINEUPMENU(BlockLineUpMenuManager.class),
         PRESENTBOX(PresentBoxMenuManager.class),
+		DONATEHISTORYMENU(DonateHistoryMenuManager.class),
+        GACHASTACKMAINMENU(GachaStackMainMenuManager.class),
+        GACHASTACKCATEGORYMENU(GachaStackCategoryMenuManager.class),
         RANKINGSELECTMENU(RankingSelectMenuManager.class),
         TOTALMINEBLOCKRANKINGMENU(TotalMineBlockRankingMenuManager.class),
         DAYMINEBLOCKRANKINGMENU(DayMineBlockRankingMenuManager.class),
@@ -143,6 +159,7 @@ public final class GuiMenu {
         WEEKLOGINTIMERANKINGMENU(WeekLoginTimeRankingMenuManager.class),
         MONTHLOGINTIMERANKINGMENU(MonthLoginTimeRankingMenuManager.class),
         YEARLOGINTIMERANKINGMENU(YearLoginTimeRankingMenuManager.class),
+        HELPMENU(HelpMenuManager.class),
 
 		;
 

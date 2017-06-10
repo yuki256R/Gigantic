@@ -6,12 +6,14 @@ import org.bukkit.command.TabExecutor;
  *
  */
 public enum CommandType {
-	GACHA(new gachaCommand()),
-	DEBUG(new debugCommand()),
-	MINEBOOST(new mineboostCommand()),
-	STICK(new stickCommand()),
-    FLY(new flyCommand()),
-    PRESENTBOX(new presentboxCommand()),
+	GACHA(new GachaCommand()),
+	DEBUG(new DebugCommand()),
+	MINEBOOST(new MineBoostCommand()),
+	STICK(new StickCommand()),
+    FLY(new FlyCommand()),
+    PRESENTBOX(new PresentBoxCommand()),
+	GENCHANT(new EnchantmentCommand()),
+	DONATE(new DonateCommand()),
 	;
 
 

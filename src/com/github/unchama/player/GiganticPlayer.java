@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.donate.DonateDataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -15,6 +16,7 @@ import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
@@ -30,7 +32,6 @@ import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -87,6 +88,8 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
+		DONATEDATA(DonateDataManager.class),
+		GACHASTACK(GachaStackManager.class),
 		//EFFECT(SkillEffectManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;

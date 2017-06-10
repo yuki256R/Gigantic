@@ -15,7 +15,11 @@ import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.yml.DimensionalInventoryYmlManager;
 
-// 四次元ポケット
+/**
+*
+* @author ten_niti
+* 四次元ポケット
+*/
 public class DimensionalInventoryManager extends DataManager implements
 		UsingSql {
 
