@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.seichiskill.moduler.EffectRunner;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 
 public final class SkillEffectManager extends DataManager implements UsingSql{
@@ -15,6 +16,8 @@ public final class SkillEffectManager extends DataManager implements UsingSql{
 
 	//全てのエフェクトの獲得状況マップ
 	private HashMap<Integer,Boolean> map;
+	//エフェクトの実行部分を扱うクラス
+	private EffectRunner runner;
 
 	public SkillEffectManager(GiganticPlayer gp) {
 		super(gp);
