@@ -8,6 +8,10 @@ import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class FairyAegisTableManager extends PlayerTableManager{
 
 	public FairyAegisTableManager(Sql sql) {

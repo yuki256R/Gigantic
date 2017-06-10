@@ -1,5 +1,9 @@
 package com.github.unchama.player.seichiskill.moduler;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class Volume {
 	private int width, depth, height;
 
@@ -18,6 +22,14 @@ public class Volume {
 		this.width = width;
 		this.depth = depth;
 		this.height = height;
+	}
+
+	/**
+	 * クローン
+	 * @return
+	 */
+	public Volume Clone(){
+		return new Volume(width, depth, height);
 	}
 
 	/**幅を取得します
@@ -88,6 +100,43 @@ public class Volume {
 	}
 	public void decDepth() {
 		this.depth--;
+	}
+
+	public void addVolume(Volume vol){
+		if(vol == null){
+			return;
+		}
+		this.height += vol.getHeight();
+		this.width += vol.getWidth();
+		this.depth += vol.getDepth();
+	}
+
+	/**
+	 * 指定したvolの全ての幅が超えずに下回っているものがあれば-1
+	 * 全て同じなら0
+	 * いずれかが上回っていれば+1
+	 * @param vol
+	 * @return
+	 */
+	public int comparator(Volume vol){
+		boolean isEqual = true;
+		int width_ = vol.getWidth() - this.width;
+		int depth_ = vol.getDepth() - this.depth;
+		int height_ = vol.getHeight() - this.height;
+		int[] temp = {width_, depth_, height_};
+
+		for(int num : temp){
+			if(num > 0){
+				return 1;
+			}
+			isEqual &= num == 0;
+		}
+
+		if(isEqual){
+			return 0;
+		}else{
+			return -1;
+		}
 	}
 
 }

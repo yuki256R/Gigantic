@@ -9,6 +9,10 @@ import org.bukkit.Material;
 import com.github.unchama.gigantic.Gigantic;
 
 
+/**
+ * @author tar0ss
+ *
+ */
 public enum BlockType{
 	//Materialの種類が一つならjpnameのみ記述
 	STONE("石"),

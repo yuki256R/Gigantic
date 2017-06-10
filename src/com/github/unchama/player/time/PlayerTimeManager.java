@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.event.PlayerTimeIncrementEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
@@ -13,6 +14,11 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PlayerTimeManager extends DataManager implements UsingSql,
 		Initializable, Finalizable {
 
@@ -51,8 +57,10 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 		// 放置判定
 		if (player.getLocation().equals(loc)) {
 			if (isIdle()) {
+				int preTick = totalidletick;
 				// 既に放置中なら累計放置時間を追加
 				totalidletick += getincrease;
+				Bukkit.getPluginManager().callEvent(new PlayerTimeIncrementEvent(gp, preTick, getincrease));
 			}
 			idletime++;
 		} else {
@@ -71,7 +79,11 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 
 	// 放置時間を除いた累計プレイ時間を「HH時間MM分」の文字列で返す
 	public String GetTotalLoginTimeToString() {
-		return Util.toTimeString(Util.toSecond(playtick - totalidletick));
+		return Util.toTimeString(Util.toSecond(GetValidLoginTime()));
+	}
+
+	public int GetValidLoginTime(){
+		return playtick - totalidletick;
 	}
 
 	// 累計ログイン時間のgetterとsetter

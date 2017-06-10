@@ -2,10 +2,14 @@ package com.github.unchama.seichi.sql;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -15,6 +19,10 @@ import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerDataTableManager extends SeichiTableManager {
 
 	public PlayerDataTableManager(SeichiAssistSql sql) {
@@ -265,6 +273,73 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			plugin.getLogger().warning(
 					"Failed to load inventory player:" + gp.name);
 			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	// 共有インベントリ
+	public List<ItemStack> getShareInv(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		List<ItemStack> ans = null;
+
+		command = "select shareinv from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				String inventoryStr = rs.getString("shareinv");
+				if (inventoryStr != null && inventoryStr != "") {
+					ans = BukkitSerialization
+							.getItemStackListfromBase64(inventoryStr.toString());
+				} else {
+					ans = new ArrayList<ItemStack>();
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load shareinv player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public Map<Integer, Integer> getOldGachaStack(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		Map<Integer, Integer> ans = new HashMap<Integer, Integer>();
+
+		Map<Integer, String> columns = new HashMap<Integer, String>();
+		// ガチャリンゴ
+		columns.put(1, "stack_gachaimo");
+		// 経験値ボトル
+		columns.put(2, "stack_exp_bottle");
+		// その他のガチャアイテム
+		for (int i = 0; i <= 38; i++) {
+			// IDはガチャ券、ガチャリンゴ、経験値ボトルの3つをゲタに履かせる
+			columns.put(i + 3, "stack_gachadata0_" + i);
+		}
+
+		for (int index : columns.keySet()) {
+			String column = columns.get(index);
+			command = "select " + column + " from " + db + "." + table
+					+ " where uuid = '" + struuid + "'";
+			this.checkStatement();
+			try {
+				rs = stmt.executeQuery(command);
+				while (rs.next()) {
+					ans.put(index, rs.getInt(column));
+					// plugin.getLogger().info(column + " : " +
+					// rs.getInt(column));
+				}
+				rs.close();
+			} catch (SQLException e) {
+				plugin.getLogger().warning(
+						"Failed to load " + column + " player:" + gp.name);
+				e.printStackTrace();
+			}
 		}
 		return ans;
 	}

@@ -9,6 +9,10 @@ import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class YearMineBlockRankingMenuManager extends RankingMenuManager {
 
 	@Override

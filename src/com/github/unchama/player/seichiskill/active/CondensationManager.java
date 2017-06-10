@@ -2,6 +2,7 @@ package com.github.unchama.player.seichiskill.active;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -17,15 +18,23 @@ import org.bukkit.scheduler.BukkitTask;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.task.CondensationTaskRunnable;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.breakblock.BreakUtil;
 
-public class CondensationManager extends ActiveSkillManager implements Finalizable {
+/**
+ * @author tar0ss
+ *
+ */
+public class CondensationManager extends ActiveSkillManager implements
+		Finalizable {
 
 	CondensationTableManager tm;
 	BukkitTask task;
@@ -258,6 +267,59 @@ public class CondensationManager extends ActiveSkillManager implements Finalizab
 	@Override
 	public int getMaxDepth() {
 		return 40;
+	}
+
+	@Override
+	public void rangeReset() {
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zeroPointReset();
+	}
+
+	@Override
+	public void zeroPointReset() {
+		Coordinate zero = getRange().getZeropoint();
+		Volume dv = getDefaultVolume();
+		zero.setY(dv.getHeight() - 1);
+		zero.setX((dv.getWidth() - 1) / 2);
+		zero.setZ((dv.getDepth() - 1) / 2);
+		getRange().refresh();
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		long allocationAP = 0;
+		ActiveSkillManager nextSkill = (ActiveSkillManager) gp
+				.getManager(ActiveSkillType.RUINFIELD.getSkillClass());
+		if (isFirst || !nextSkill.isunlocked()) {
+			int level = seichiLevelManager.getLevel();
+			// 解放条件を満たしているか
+			if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+				return leftPoint;
+			}
+			leftPoint -= getUnlockAP();
+
+			// このスキルで使用可能なスキルポイント
+			allocationAP = SeichiSkillAutoAllocation.getAllocationAP(level,
+					leftPoint, nextSkill);
+		} else {
+			allocationAP = leftPoint;
+		}
+
+		List<Volume> incVolumes = new LinkedList<Volume>();
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+		incVolumes.add(new Volume(1, 0, 0));
+
+		leftPoint -= SeichiSkillAutoAllocation.VolumeAllocation(this,
+				incVolumes, allocationAP);
+
+		return leftPoint;
 	}
 
 	@Override

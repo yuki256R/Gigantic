@@ -4,6 +4,11 @@ import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.yml.HuntingPointDataManager.HuntingMobType;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointIncrementEvent extends CustomEvent{
 	private GiganticPlayer gp;
 	private HuntingMobType mobType;

@@ -7,6 +7,10 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.moduler.RankingTableManager;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class RankingUpdateTaskRunnable extends BukkitRunnable {
 	Gigantic plugin = Gigantic.plugin;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

@@ -19,6 +19,10 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillType;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PassiveSkillTypeMenuManager extends GuiMenuManager{
 	GuiMenu guimenu = Gigantic.guimenu;
 

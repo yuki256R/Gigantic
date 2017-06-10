@@ -2,13 +2,21 @@ package com.github.unchama.player.build;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.yml.ConfigManager;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * @author karayuu
+ */
 public class BuildData {
 
     /**
@@ -197,4 +205,78 @@ public class BuildData {
 
     ));
 
+    /**
+     * 液体を埋めた際に整地量を増加させるブロックかどうか
+     * @param itemstack
+     *
+     * @return 成否
+     */
+    public static boolean isMineIncreaseBlock(ItemStack itemstack) {
+        Material type = itemstack.getType();
+
+        if (type.equals(Material.DIRT) || type.equals(Material.STONE)
+                || type.equals(Material.COBBLESTONE)
+                || type.equals(Material.SAND)
+                || type.equals(Material.GRAVEL)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * クリックしたブロック側のブロックの座標を取得します
+     * @param player
+     * @param clickedblock
+     * @param face
+     *
+     * @return location
+     */
+    public static Location getClickNextBlock(Player player, Block clickedblock, BlockFace face) {
+        //クリックされたブロックの座標と面を取得し、隣のブロックを取得する
+        int x = clickedblock.getX();
+        int y = clickedblock.getY();
+        int z = clickedblock.getZ();
+
+        switch (face) {
+            case NORTH:
+                z -= 1;
+                break;
+            case SOUTH:
+                z += 1;
+                break;
+            case EAST:
+                x += 1;
+                break;
+            case WEST:
+                x -= 1;
+                break;
+            case UP:
+                y += 1;
+                break;
+            case DOWN:
+                y -= 1;
+                break;
+            default:
+                break;
+        }
+        World world = player.getWorld();
+        return new Location(world, x, y, z);
+    }
+
+    /**
+     * プレイヤーが指定ブロックの座標にいるかどうか
+     */
+    public static boolean isPlayerInLocation(Player player, Location location) {
+        int checkx = location.getBlockX();
+        int checky = location.getBlockY();
+        int checkz = location.getBlockZ();
+
+        Location loc = player.getLocation();
+
+        if (checkx == loc.getBlockX() && checky == loc.getBlockY() && checkz == loc.getBlockZ()) {
+            return true;
+        }
+        return false;
+    }
 }

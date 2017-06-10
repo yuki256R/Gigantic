@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gacha.Gacha;
-import com.github.unchama.gacha.GiganticGachaManager;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.GiganticGachaManager;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -25,6 +25,10 @@ import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class SeichiRewardMenuManager extends GuiMenuManager {
 	Gacha gacha = Gigantic.gacha;
 

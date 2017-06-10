@@ -16,6 +16,10 @@ import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class ToolPouchManager extends DataManager implements UsingSql,
 		Initializable {
 	ToolPouchTableManager tm;

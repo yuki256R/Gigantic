@@ -13,10 +13,15 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerPickupItemListener implements Listener {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
@@ -38,11 +43,24 @@ public class PlayerPickupItemListener implements Listener {
 
 		debug.sendMessage(player, DebugEnum.BREAK, "your item is catched");
 
-		MineStackManager m = gp.getManager(MineStackManager.class);
-		if (m.add(dropitem)) {
+		GachaStackManager gachaStackManager = gp
+				.getManager(GachaStackManager.class);
+		MineStackManager mineStackManager = gp
+				.getManager(MineStackManager.class);
+		if (gachaStackManager.add(dropitem)) {
+			debug.sendMessage(player, DebugEnum.MINESTACK,
+					"your item is added in gachastack");
+			// ガチャスタックに保存
+			// 拾った音を再生
+			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP,
+					(float) 1, (float) 1);
+			item.remove();
+			event.setCancelled(true);
+		} else if (mineStackManager.add(dropitem)) {
+			// マインスタックに保存
 			debug.sendMessage(player, DebugEnum.MINESTACK,
 					"your item is added in minestack");
-			//拾った音を再生
+			// 拾った音を再生
 			player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP,
 					(float) 1, (float) 1);
 			item.remove();

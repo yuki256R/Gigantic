@@ -10,17 +10,20 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.UUID;
 
+import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
@@ -30,7 +33,9 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.sql.donate.DonateTableManager;
 import com.github.unchama.sql.gacha.GiganticGachaTableManager;
+import com.github.unchama.sql.gacha.OldGachaTableManager;
 import com.github.unchama.sql.gacha.PremiumGachaTableManager;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
@@ -41,6 +46,7 @@ import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
+import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
@@ -50,9 +56,12 @@ import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.sql.player.PlayerSettingsTableManager;
 import com.github.unchama.sql.player.PlayerTimeTableManager;
+import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
+import com.github.unchama.sql.ranking.BuildRankingTableManager;
+import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
@@ -60,11 +69,16 @@ import com.github.unchama.task.RankingSendTaskRunnable;
 import com.github.unchama.task.RankingUpdateTaskRunnable;
 import com.github.unchama.yml.ConfigManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class Sql {
 	// TableManagerとそれに対応するDataManagerClass
 	public static enum ManagerType {
 		GIGANTICGACHA(GiganticGachaTableManager.class), //
 		PREMIUMGACHA(PremiumGachaTableManager.class), //
+		OLDGACHA(OldGachaTableManager.class),//
 		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
@@ -84,7 +98,13 @@ public class Sql {
 		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
 				DimensionalInventoryManager.class), //
+		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
+		BUILDRANKING(BuildRankingTableManager.class),//
+		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
+		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
+		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -477,6 +497,9 @@ public class Sql {
 						.get(mt);
 				ptm.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
+			else if (mt == DonateTableManager.class) {
+				((DonateTableManager)managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
+			}
 		}
 	}
 
@@ -511,13 +534,14 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				new LimitedRankingLoadTaskRunnable(rtm,tt).runTaskLaterAsynchronously(
+				new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
 
 			}
 		}
 	}
+
 	/**
 	 * gpが初期化を終了した後に処理される
 	 *
@@ -544,6 +568,5 @@ public class Sql {
 			}
 		}
 	}
-
 
 }

@@ -9,6 +9,9 @@ import org.bukkit.Bukkit;
 
 import java.math.BigDecimal;
 
+/**
+ * @author karayuu
+ */
 
 public class BuildManager extends DataManager implements UsingSql{
     //トータル設置ブロック数
