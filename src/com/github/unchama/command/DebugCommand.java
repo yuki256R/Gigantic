@@ -17,6 +17,7 @@ import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.util.Converter;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.yml.ConfigManager;
 
 public class DebugCommand implements TabExecutor {
@@ -81,6 +82,7 @@ public class DebugCommand implements TabExecutor {
 				gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK, rb);
 				gp.getManager(SideBarManager.class).refresh();
 				sender.sendMessage("整地レベルを"+ level + "に設定しました．ログアウト時に自動的に解除されます．");
+				SeichiSkillAutoAllocation.AutoAllocation(gp);
 				return true;
 			}
 		}

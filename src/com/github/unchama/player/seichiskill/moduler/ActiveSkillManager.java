@@ -28,6 +28,7 @@ import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -113,6 +114,14 @@ public abstract class ActiveSkillManager extends DataManager implements
 	}
 
 	/**
+	 * 自動振り分け
+	 * スキルごとに使用したAPを差し引いた残りのAPを返す
+	 * @param sumPoint
+	 * @return
+	 */
+	public abstract long AutoAllocation(long leftPoint, boolean isFirst);
+
+	/**
 	 * クールダウン中の時Trueを返します
 	 *
 	 * @return
@@ -181,6 +190,8 @@ public abstract class ActiveSkillManager extends DataManager implements
 			// アンロックしていないかつアンロック条件を満たす時
 			// アンロック処理
 			this.unlocked(true);
+			// 自動振り分け
+			SeichiSkillAutoAllocation.AutoAllocation(gp);
 			player.sendMessage(ChatColor.RESET + "" + ChatColor.GREEN + "APを"
 					+ this.getUnlockAP() + "消費して" + this.getJPName()
 					+ ChatColor.RESET + "" + ChatColor.GREEN + "を解除しました！");
