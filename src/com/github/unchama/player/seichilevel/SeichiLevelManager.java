@@ -27,10 +27,10 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 			for (int level = 1; level <= config.getMaxSeichiLevel(); level++) {
 				sum_ap += get_ap;
 				put(level, new SeichiLevel(level, get_ap, sum_ap));
-				if (level % 10 == 0 && level < 80) {
+				if (level % 10 == 0 && (level < 80 || level == 250)) {
 					get_ap *= 2;
 				}
-				if (level >= config.getConsiderableSeichiLevel()) {
+				if (level > config.getConsiderableSeichiLevel()) {
 					get_ap = 0;
 				}
 			}

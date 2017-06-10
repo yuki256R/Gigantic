@@ -67,7 +67,7 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 
 	// トグル設定の文字列を返す
 	private String getToggleSettingStr(boolean flag){
-		String ret = ChatColor.RESET + "設定：";
+		String ret = ChatColor.RESET + "設定 ： ";
 		if(flag){
 			ret += ChatColor.GREEN + "ON";
 		}else{

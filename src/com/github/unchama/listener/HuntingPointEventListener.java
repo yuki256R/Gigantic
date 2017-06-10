@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import com.github.unchama.gigantic.Gigantic;
@@ -34,19 +36,41 @@ public class HuntingPointEventListener implements Listener {
 	// RaidHuntingManager.Instance().onAttack(event);
 	// }
 
+	// 棘によるダメージが発生したとき
+	@EventHandler
+	public void onDamage(EntityDamageByEntityEvent event){
+		if(event.getCause() == DamageCause.THORNS){
+			// ボスの場合は棘無効
+			Entity entity = event.getEntity();
+			String name = entity.getName();
+			name = nameConvert(name, entity);
+			double distance = huntingPointData.getMobData(name).raidDistance;
+			if (distance > 0){
+				event.setCancelled(true);
+			}
+		}
+	}
+
 	// モンスターを倒した時
 	@EventHandler
 	public void onKill(EntityDeathEvent event) {
-
 		if (/* !(event.getEntity() instanceof Monster) || */!(event.getEntity()
 				.getKiller() instanceof Player)) {
 			return;
 		}
 		Player player = (Player) event.getEntity().getKiller();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		HuntingPointManager huntingPointManager = gp
+				.getManager(HuntingPointManager.class);
+		Entity entity = event.getEntity();
+		// 棘で倒したらポイントが入らない旨を警告して終了
+		if(entity.getLastDamageCause().getCause() == DamageCause.THORNS){
+			huntingPointManager.ThornWarning();
+			return;
+		}
+		String name = entity.getName();
 
-		String name = event.getEntity().getName();
-
-		name = nameConvert(name, event);
+		name = nameConvert(name, entity);
 
 		String message = name;
 		if (huntingPointData.isHuntMob(name)) {
@@ -61,13 +85,9 @@ public class HuntingPointEventListener implements Listener {
 		message += " raid : " + distance;
 		if (distance > 0) {
 			// ボス
-			GivePointByRaidBoss(event.getEntity(), name, distance, addPoint);
+			GivePointByRaidBoss(entity, name, distance, addPoint);
 		} else {
 			// 通常Mob
-			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-			HuntingPointManager huntingPointManager = gp
-					.getManager(HuntingPointManager.class);
-
 			// フライ中は無効
 			if(player.isFlying()){
 				huntingPointManager.FlyWarning();
@@ -110,17 +130,17 @@ public class HuntingPointEventListener implements Listener {
 
 	// 同種扱い、別種扱いの名前を変換
 	@SuppressWarnings("deprecation")
-	private String nameConvert(String name, EntityDeathEvent event) {
+	private String nameConvert(String name, Entity entity) {
 		String ret = name;
 		// ウィザースケルトン
-		if ((event.getEntity() instanceof Skeleton)) {
+		if ((entity instanceof Skeleton)) {
 			// ウィザスケはスケルトンクラスのタイプの違いを比較しないと名前がわからない
-			if (((Skeleton) event.getEntity()).getSkeletonType() == Skeleton.SkeletonType.WITHER) {
+			if (((Skeleton) entity).getSkeletonType() == Skeleton.SkeletonType.WITHER) {
 				ret = "WitherSkeleton";
 			}
 			// エルダーガーディアン
-		} else if ((event.getEntity() instanceof Guardian)) {
-			if (((Guardian) event.getEntity()).isElder()) {
+		} else if ((entity instanceof Guardian)) {
+			if (((Guardian) entity).isElder()) {
 				ret = "ElderGuardian";
 			}
 			// 同種扱い

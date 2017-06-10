@@ -3,6 +3,8 @@ package com.github.unchama.player.huntingpoint;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -24,6 +26,9 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 
 	// フライ中はポイントが入らない旨を説明したか
 	private boolean isFlyWarned = false;
+
+	// 棘ダメージによる討伐はポイントが入らない旨を説明したか
+	private boolean isThornsWarned = false;
 
 	//どのMobのショップを開くか
 	private String shopMobName;
@@ -113,8 +118,17 @@ public class HuntingPointManager extends DataManager implements UsingSql {
 	public void FlyWarning(){
 		if(!isFlyWarned){
 			Player player = PlayerManager.getPlayer(gp);
-			player.sendMessage("狩猟ポイントはfly中には反映されません.");
+			player.sendMessage(ChatColor.AQUA + "狩猟ポイントはfly中には反映されません.");
 			isFlyWarned = true;
+		}
+	}
+
+	// 棘による討伐でポイントが入らない旨をログイン中1度だけ警告
+	public void ThornWarning(){
+		if(!isThornsWarned){
+			Player player = PlayerManager.getPlayer(gp);
+			player.sendMessage(ChatColor.AQUA + "エンチャント『棘の鎧』のダメージで倒した場合、狩猟ポイントには反映されません.");
+			isThornsWarned = true;
 		}
 	}
 }

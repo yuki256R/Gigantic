@@ -1,6 +1,7 @@
 package com.github.unchama.player.seichiskill.active;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -18,11 +19,14 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -309,6 +313,40 @@ public class MagicDriveManager extends ActiveSkillManager{
 		zero.setX(0);
 		zero.setZ(0);
 		getRange().refresh();
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		long allocationAP = 0;
+		ActiveSkillManager nextSkill = (ActiveSkillManager) gp
+				.getManager(ActiveSkillType.CONDENSATION.getSkillClass());
+		if (isFirst || !nextSkill.isunlocked()) {
+			int level = seichiLevelManager.getLevel();
+			// 解放条件を満たしているか
+			if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+				return leftPoint;
+			}
+			leftPoint -= getUnlockAP();
+
+			// このスキルで使用可能なスキルポイント
+			allocationAP = SeichiSkillAutoAllocation.getAllocationAP(level,
+					leftPoint, nextSkill);
+		}else{
+			allocationAP = leftPoint;
+		}
+
+		List<Volume> incVolumes = new LinkedList<Volume>();
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+		incVolumes.add(new Volume(2, 0, 0));
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+
+		leftPoint -= SeichiSkillAutoAllocation.VolumeAllocation(this, incVolumes, allocationAP);
+
+		return leftPoint;
 	}
 
 	@Override
