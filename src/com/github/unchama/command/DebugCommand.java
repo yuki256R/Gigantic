@@ -14,6 +14,8 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.util.Converter;
@@ -82,6 +84,15 @@ public class DebugCommand implements TabExecutor {
 				gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK, rb);
 				gp.getManager(SideBarManager.class).refresh();
 				sender.sendMessage("整地レベルを"+ level + "に設定しました．ログアウト時に自動的に解除されます．");
+
+				// 習得不可能な整地スキルを未解放にする
+				for (ActiveSkillType st : ActiveSkillType.values()) {
+					ActiveSkillManager s = (ActiveSkillManager) gp.getManager(st
+							.getSkillClass());
+					if(level < s.getUnlockLevel()){
+						s.unlocked(false);
+					}
+				}
 				SeichiSkillAutoAllocation.AutoAllocation(gp);
 				return true;
 			}
