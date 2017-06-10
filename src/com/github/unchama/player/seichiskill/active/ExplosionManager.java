@@ -55,13 +55,10 @@ public class ExplosionManager extends ActiveSkillManager {
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
-<<<<<<< HEAD
+
 		//液体と固体合わせた全てのリストデータ
 		List<Block> alllist = new ArrayList<Block>();
 
-
-=======
->>>>>>> refs/remotes/unchama/master
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
 
@@ -85,12 +82,11 @@ public class ExplosionManager extends ActiveSkillManager {
 				}
 			});
 
-<<<<<<< HEAD
+
 		alllist.addAll(breaklist);
 		alllist.addAll(liquidlist);
 
-=======
->>>>>>> refs/remotes/unchama/master
+
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
 					+ ":発動できるブロックがありません．自分より下のブロックはしゃがみながら破壊できます．");
