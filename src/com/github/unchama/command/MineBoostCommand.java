@@ -18,7 +18,7 @@ import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
-public class mineboostCommand implements TabExecutor{
+public class MineBoostCommand implements TabExecutor{
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	Gigantic plugin = Gigantic.plugin;
 

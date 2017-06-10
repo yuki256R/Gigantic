@@ -21,7 +21,7 @@ import com.github.unchama.task.PresentAllPlayerTaskRunnable;
 import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
 
-public class presentboxCommand implements TabExecutor {
+public class PresentBoxCommand implements TabExecutor {
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	Gigantic plugin = Gigantic.plugin;
 
