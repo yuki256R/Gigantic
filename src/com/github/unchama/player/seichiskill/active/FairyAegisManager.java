@@ -262,6 +262,36 @@ public class FairyAegisManager extends ActiveSkillManager {
 	}
 
 	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		if(!isFirst){
+			return leftPoint;
+		}
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		int level = seichiLevelManager.getLevel();
+		// 解放条件を満たしているか
+		if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+			return leftPoint;
+		}
+		leftPoint -= getUnlockAP();
+
+		// 破壊数
+		int rate = (int) (getSpendAP((int)leftPoint) / leftPoint);
+		int breakNum = (int)leftPoint / rate;
+		if(breakNum > getMaxBreakNum()){
+			breakNum = getMaxBreakNum();
+		}else{
+			// 端数を落とす
+			breakNum -= breakNum % 10;
+		}
+
+		setBreakNum(breakNum);
+		leftPoint -= getSpendAP(breakNum);
+
+		return leftPoint;
+	}
+
+	@Override
 	public long getUsedAp() {
 		return this.getSpendAP(this.getBreakNum() - this.getDefaultBreakNum());
 	}
