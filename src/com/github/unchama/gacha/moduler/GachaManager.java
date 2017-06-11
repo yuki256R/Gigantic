@@ -257,6 +257,7 @@ public abstract class GachaManager {
 		try {
 			ret = GachaType.valueOf(nbti.getString(GACHATYPENBT));
 		} catch(IllegalArgumentException e) {
+			return null;
 		}
 		return ret;
 	}
@@ -266,6 +267,7 @@ public abstract class GachaManager {
 		try {
 			ret = nbti.getInteger(GACHAITEMIDNBT);
 		} catch(IllegalArgumentException e) {
+			return 0;
 		}
 		return ret;
 	}

@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.Bukkit;
+
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
@@ -83,6 +85,7 @@ public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 				try {
 					value = Integer.valueOf(rs.getInt(typeName + "_" + i));
 				} catch(IllegalArgumentException e) {
+					Bukkit.getLogger().warning("GachaStack : " + typeName + "_" + i + "というカラムが見つかりません ");
 				}
 				map.put(i, value);
 			}
