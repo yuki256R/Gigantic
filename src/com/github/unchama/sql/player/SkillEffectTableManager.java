@@ -29,7 +29,11 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 		command += "add column if not exists id int default 0,";
 
 		for (EffectType et : EffectType.values()) {
-			command += "add column if not exists effect_" + et.getId() + " boolean default false,";
+			if(et.getId() == 0){
+				command += "add column if not exists effect_" + et.getId() + " boolean default true,";
+			}else{
+				command += "add column if not exists effect_" + et.getId() + " boolean default false,";
+			}
 		}
 		for (PremiumEffectType et : PremiumEffectType.values()) {
 			command += "add column if not exists effect_" + et.getId() + " boolean default false,";
@@ -52,7 +56,7 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
 		HashMap<Integer,Boolean> map = tm.getEffectFlagMap(gp);
-		m.setId(0);
+		m.setId(EffectType.NORMAL.getId());
 		m.setEffectFlagMap(map);
 	}
 
@@ -61,7 +65,11 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
 		HashMap<Integer,Boolean> map = new HashMap<Integer,Boolean>();
 		for (EffectType et : EffectType.values()) {
-			map.put(et.getId(), false);
+			if(et.getId() == 0){
+				map.put(et.getId(), true);
+			}else{
+				map.put(et.getId(), false);
+			}
 		}
 		for (PremiumEffectType et : PremiumEffectType.values()) {
 			map.put(et.getId(), false);
