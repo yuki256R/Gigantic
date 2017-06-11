@@ -1,7 +1,8 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.enchantment.EnchantmentEnum;
-import com.github.unchama.enchantment.GiganticEnchantment;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -11,11 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.StringUtil;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
+import com.github.unchama.enchantment.EnchantmentEnum;
+import com.github.unchama.enchantment.GiganticEnchantment;
 
 /**
  * Created by Mon_chi on 2017/06/03.
