@@ -146,14 +146,9 @@ public abstract class MineStackMenuManager extends GuiMenuManager{
 
             itemStack.setAmount(giveAmount);
 
-            //インベントリ満杯か確認
-            if (player.getInventory().firstEmpty() == -1){
-            	player.sendMessage(ChatColor.RED + "インベントリを空けてください．");
-                return false;
-            }else{
-				Util.giveItem(player, itemStack, false);
-                player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
-            }
+            //アイテム渡す
+            Util.giveItem(player, itemStack, false);
+            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, (float)1.0, (float)3.0);
 
             mineStack.add(-giveAmount);
 
