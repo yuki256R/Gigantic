@@ -275,6 +275,15 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("securebreakunlocklevel");
 	}
 
+	/**
+	 * 最大建築レベルを取得します．
+	 *
+	 * @return
+	 */
+	public int getMaxBuildLevel() {
+		return this.fc.getInt("maxbuildlevel");
+	}
+
 	 /**MineStack一括クラフトシステムの必要経験値
      *
      * @param
