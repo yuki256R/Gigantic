@@ -44,6 +44,9 @@ public class SeichiSkillAutoAllocation {
 
 			if(s.isunlocked()){
 				leftPoint = s.AutoAllocation(leftPoint, true);
+			}else{
+				leftPoint -= s.getUnlockAP();
+				break;
 			}
 		}
 		// 余ったAPを振る
