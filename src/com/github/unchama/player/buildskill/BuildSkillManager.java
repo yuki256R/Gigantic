@@ -1,13 +1,14 @@
 package com.github.unchama.player.buildskill;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.yml.ConfigManager;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 
 /**
  * @author karayuu
@@ -64,6 +65,21 @@ public class BuildSkillManager extends DataManager{
     private HalfLineUpMode halfblock_mode;
     //ブロックを並べるスキル・破壊設定
     private boolean blockbreak_flag;
+    //設置ブロック変換フラグ
+    private boolean convert_placement_flag = false;
+
+    /**
+     * フラグのの状態を取得します
+     * @param flag
+     * @return ON/OFF
+     */
+    public String getFlagStatus(boolean flag) {
+        if (flag) {
+            return "ON";
+        } else {
+            return "OFF";
+        }
+    }
 
     /**
      * 範囲設置スキルの状態を取得します
@@ -259,13 +275,14 @@ public class BuildSkillManager extends DataManager{
      * ブロックを並べるスキル・MineStack優先設定トグル
      */
     public void toggle_LineUpMinestack() {
-        if (config.getBlockLineUpSkillMSLevel() <=  gp.getManager(BuildLevelManager.class).getBuildLevel()) {
+    	int needLevel = config.getBlockLineUpSkillMSLevel();
+        if (needLevel <=  gp.getManager(BuildLevelManager.class).getBuildLevel()) {
             this.blocklineup_minestack_flag = !(this.blocklineup_minestack_flag);
             player.sendMessage(ChatColor.GREEN + "[ブロックを並べるスキル設定]範囲設置スキル・MineStack優先設定:"
                     + this.getBlockLineUpMinestackStatus());
         } else {
             player.sendMessage(ChatColor.RED + "[ブロックを並べるスキル設定]建築レベルが不足しています。必要建築Lv:"
-                    + config.getBlockLineUpSkillMSLevel());
+                    + needLevel);
         }
     }
 
@@ -349,5 +366,28 @@ public class BuildSkillManager extends DataManager{
      */
     public boolean isBlockbreak_flag() {
         return blockbreak_flag;
+    }
+
+    /**
+     * 設置ブロック変換設定トグル
+     */
+    public void toggleConvertPlacementFlag(){
+    	int needLevel = config.getConvertPlacementLevel();
+        if (needLevel <=  gp.getManager(BuildLevelManager.class).getBuildLevel()) {
+            this.convert_placement_flag = !(this.convert_placement_flag);
+            player.sendMessage(ChatColor.GREEN + "設置ブロック変換設定:"
+                    + getFlagStatus(convert_placement_flag));
+        } else {
+            player.sendMessage(ChatColor.RED + "[設置ブロック変換設定]建築レベルが不足しています。必要建築Lv:"
+                    + needLevel);
+        }
+    }
+
+    /**
+     * 設置ブロック変換フラグの状態を真偽値で返します
+     * @return ture/false
+     */
+    public boolean isConvertPlacementFlag(){
+    	return convert_placement_flag;
     }
 }
