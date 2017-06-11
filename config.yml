@@ -47,7 +47,6 @@ maxseichilevel: 500
 # レベルが考慮される最大値
 considerableseichilevel: 300
 
-
 # 機能：整地レベルメッセージ設定
 # levelupmessage:レベルアップの度に表示
 # levelmessage:特定のレベルに上がると表示(1は指定できません）
@@ -59,6 +58,10 @@ seichi:
 
 #Fly時の1分当たりの経験値消費量
 flyexp: 50
+
+# 建築レベル設定
+# レベルアップできる最大値
+maxbuildlevel: 100
 
 #ブロック設置カウントの1分上限
 BuildNum1minLimit: 100
@@ -78,6 +81,10 @@ ZoneSetSkill:
 BlockLineUpSkill:
   level: 15
   minestack: 30
+
+#設置ブロック変換スキル
+ConvertPlacementSkill:
+  level: 50
 
 #スキルを使ってブロックを並べたときの建築量上昇倍率
 BlockCountMag: 0.2

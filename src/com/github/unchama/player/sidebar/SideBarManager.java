@@ -105,14 +105,15 @@ public class SideBarManager extends DataManager implements Initializable,
 		/**
 		 * マイクラの仕様上、行番号は降順
 		 */
-		SEICHI_LEVEL(ChatColor.GREEN + "整地Lv: ", 14), MINE_BLOCK(
-				ChatColor.DARK_GREEN + "次のLvまで:", 13), MINING_SPEED(
-				ChatColor.GREEN + "採掘速度: ", 12), GACHA_TICKET(ChatColor.GREEN
-				+ "ガチャ券: ", 11), MINE_TICKET(ChatColor.DARK_GREEN + "獲得まで: ", 10), SEPARATOR2(
-				ChatColor.YELLOW + "===============", 9), EX_COOLTIME(
-				ChatColor.GREEN + "Explosion:", 3), MD_COOLTIME(ChatColor.BLUE
-				+ "MagicDrive:", 2), FA_FAIRY(ChatColor.GREEN + "FairyAegis:",
-				1),
+		SEICHI_LEVEL(ChatColor.GREEN + "整地Lv: ", 14), //
+		MINE_BLOCK(ChatColor.DARK_GREEN + "次のLvまで:", 13), //
+		MINING_SPEED(ChatColor.GREEN + "採掘速度: ", 12), //
+		GACHA_TICKET(ChatColor.GREEN + "ガチャ券: ", 11), //
+		MINE_TICKET(ChatColor.DARK_GREEN + "獲得まで: ", 10), //
+		SEPARATOR2(ChatColor.YELLOW + "===============", 9), //
+		EX_COOLTIME(ChatColor.GREEN + "Explosion:", 3), //
+		MD_COOLTIME(ChatColor.BLUE + "MagicDrive:", 2), //
+		FA_FAIRY(ChatColor.GREEN + "FairyAegis:", 1),
 
 		;
 

@@ -36,6 +36,7 @@ public class ActiveSkillTypeMenuManager extends GuiMenuManager {
 	public Inventory getInventory(Player player, int slot) {
 		Inventory inv = this.getEmptyInventory(player);
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
 		ActiveSkillType[] st = ActiveSkillType.values();
 		for (int i = 0; i < st.length; i++) {
 			ItemStack itemstack = gp.getManager(st[i].getSkillClass())

@@ -275,6 +275,15 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("securebreakunlocklevel");
 	}
 
+	/**
+	 * 最大建築レベルを取得します．
+	 *
+	 * @return
+	 */
+	public int getMaxBuildLevel() {
+		return this.fc.getInt("maxbuildlevel");
+	}
+
 	 /**MineStack一括クラフトシステムの必要経験値
      *
      * @param
@@ -329,5 +338,13 @@ public class ConfigManager extends YmlManager {
      */
     public int getBlockLineUpSkillMSLevel() {
         return fc.getInt("BlockLineUpSkill.minestack");
+    }
+
+    /**
+     * 設置ブロック変換設定使用可能レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getConvertPlacementLevel() {
+        return fc.getInt("ConvertPlacementSkill.level");
     }
 }

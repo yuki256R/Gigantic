@@ -32,9 +32,16 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 	private ItemStack giganticRereNotificationSendButton;
 	private final int giganticRereNotificationSendSlot = 0;
 
+	// 自動振り分けボタン
+	private ItemStack seichiSkillAutoAllocationButton;
+	private final int seichiSkillAutoAllocationSlot = 1;
+
 	public PlayerSettingsMenuManager(){
 		giganticRereNotificationSendButton = new ItemStack(Material.GOLDEN_APPLE);
-		Util.setDisplayName(giganticRereNotificationSendButton, "GT当たり通知の送信");
+		Util.setDisplayName(giganticRereNotificationSendButton, ChatColor.RESET + "GT当たり通知の送信");
+
+		seichiSkillAutoAllocationButton = new ItemStack(Material.BOOK);
+		Util.setDisplayName(seichiSkillAutoAllocationButton, ChatColor.RESET + "APの自動振り分け");
 
 		// Invoke設定
 		for (int i = 0; i < getInventorySize(); i++) {
@@ -55,6 +62,7 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 				this.getInventorySize(),
 				this.getInventoryName(player));
 
+		// GT当たりの通知送信
 		ItemStack gtRereNotiSendButton = giganticRereNotificationSendButton.clone();
 		Util.setLore(gtRereNotiSendButton, Arrays.asList(
 				getToggleSettingStr(manager.getGiganticRareNotificationSend()),
@@ -62,12 +70,23 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 				));
 		inv.setItem(giganticRereNotificationSendSlot, gtRereNotiSendButton);
 
+		// 自動振り分けボタン
+		ItemStack ssAutoAllocationButton = seichiSkillAutoAllocationButton.clone();
+		Util.setLore(ssAutoAllocationButton, Arrays.asList(
+				ChatColor.GREEN + "ONにすると自動で振り分けます.",
+				ChatColor.GREEN + "(自分で振り分けたい場合はOFF)",
+				"",
+				getToggleSettingStr(manager.getSeichiSkillAutoAllocation()),
+				getClickAnnounce()
+				));
+		inv.setItem(seichiSkillAutoAllocationSlot, ssAutoAllocationButton);
+
 		return inv;
 	}
 
 	// トグル設定の文字列を返す
 	private String getToggleSettingStr(boolean flag){
-		String ret = ChatColor.RESET + "設定：";
+		String ret = ChatColor.RESET + "設定 ： ";
 		if(flag){
 			ret += ChatColor.GREEN + "ON";
 		}else{
@@ -97,6 +116,11 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 		// GT当たり通知の送信
 		case giganticRereNotificationSendSlot:
 			manager.toggleGiganticRareNotificationSend();
+			toggleSE(player);
+			break;
+		// 自動振り分けボタン
+		case seichiSkillAutoAllocationSlot:
+			manager.toggleSeichiSkillAutoAllocation();
 			toggleSE(player);
 			break;
 		default:

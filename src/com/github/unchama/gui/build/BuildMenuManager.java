@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.github.unchama.player.build.BuildLevelManager;
-import com.github.unchama.player.build.BuildManager;
-import com.github.unchama.player.buildskill.BuildSkillManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -25,6 +22,9 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.moduler.KeyItem;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.build.BuildLevelManager;
+import com.github.unchama.player.build.BuildManager;
+import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.yml.ConfigManager;
 
@@ -33,6 +33,9 @@ import com.github.unchama.yml.ConfigManager;
  */
 public class BuildMenuManager extends GuiMenuManager{
 
+	// 設置ブロック変換トグル
+	private final int convertPlacementSlot = 21;
+	private final String convetPlacementStr = "convertPlacement";
 
 	public BuildMenuManager(){
 		setKeyItem();
@@ -45,6 +48,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(5, "FLY=endless");
 		idmap.put(6, "FLY=fin");
 		idmap.put(18, "ZoneSkill");
+		idmap.put(convertPlacementSlot, convetPlacementStr);
 		idmap.put(27, "LineUp");
 	}
 
@@ -90,6 +94,11 @@ public class BuildMenuManager extends GuiMenuManager{
                 player.openInventory(this.getInventory(player));
                 break;
 
+            //設置ブロック変換トグル
+            case convetPlacementStr:
+                bsm.toggleConvertPlacementFlag();
+                player.openInventory(this.getInventory(player));
+                break;
 			default:
 				return false;
 		}
@@ -145,7 +154,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		//自身の統計データ
 		case 0:
 		    String totalnum = bm.getTotalbuildnum().setScale(1, BigDecimal.ROUND_FLOOR).toPlainString();
-			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + 
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" +
 					ChatColor.BOLD + gp.name + "の統計データ");
 			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "建築レベル:" + blm.getBuildLevel());
@@ -154,7 +163,7 @@ public class BuildMenuManager extends GuiMenuManager{
 			SkullMeta skullmeta = (SkullMeta) itemmeta;
 			skullmeta.setOwner(gp.name);
 			break;
-		
+
 		//Flyの情報
 		case 2:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" +
@@ -164,10 +173,10 @@ public class BuildMenuManager extends GuiMenuManager{
 			lore.add("" + ChatColor.RESET + ChatColor.AQUA + "FLY 残り時間:" + fm.getFlyTimeState());
 			itemmeta.setLore(lore);
 			break;
-			
+
 		//Fly1分
 		case 3:
-			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" +
 					ChatColor.AQUA + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(1分)");
 			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降1分間に渡り");
@@ -176,10 +185,10 @@ public class BuildMenuManager extends GuiMenuManager{
 					"必要経験値量:毎分 " + config.getFlyExp());
 			itemmeta.setLore(lore);
 			break;
-			
+
 		//Fly5分
 		case 4:
-			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" +
 					ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(5分)");
 			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降5分間に渡り");
@@ -188,10 +197,10 @@ public class BuildMenuManager extends GuiMenuManager{
 					"必要経験値量:毎分 " + config.getFlyExp());
 			itemmeta.setLore(lore);
 			break;
-			
+
 		//Fly無制限
 		case 5:
-			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" + 
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 ON" +
 					ChatColor.RED + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "(無制限)");
 			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "クリックすると以降OFFにするまで");
@@ -200,7 +209,7 @@ public class BuildMenuManager extends GuiMenuManager{
 					"必要経験値量:毎分 " + config.getFlyExp());
 			itemmeta.setLore(lore);
 			break;
-			
+
 		//Fly終了
 		case 6:
 			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD + "FLY機能 OFF");
@@ -210,7 +219,7 @@ public class BuildMenuManager extends GuiMenuManager{
 			itemmeta.setLore(lore);
 			itemmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 			break;
-			
+
 		//範囲設置スキル
         case 18:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
@@ -242,6 +251,18 @@ public class BuildMenuManager extends GuiMenuManager{
             skullmeta_skill.setOwner("MHF_Exclamation");
             break;
 
+        case convertPlacementSlot:
+        	 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+                     + "「設置ブロック変換スキル」現在:" + bsm.getFlagStatus(bsm.isConvertPlacementFlag()));
+             lore = new ArrayList<>();
+             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "設置した一部のブロックを");
+             lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "別の見た目に変更します。");
+             lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックでON/OFF切り替え＞");
+             lore.add("" + ChatColor.RESET + "" + ChatColor.GRAY + "建築Lv"
+                     + config.getConvertPlacementLevel() + "以上で利用可能");
+             itemmeta.setLore(lore);
+        	break;
+
         //ブロックを並べるスキル
         case 27:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
@@ -271,7 +292,7 @@ public class BuildMenuManager extends GuiMenuManager{
 
 		//MineStack一括クラフトシステム
 		case 35:
-			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" 
+			itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + ""
 					+ ChatColor.BOLD + "MineStackブロック一括クラフト画面へ");
 			lore = new ArrayList<>();
 			lore.add("" + ChatColor.RESET + "" + ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで移動");
@@ -325,6 +346,11 @@ public class BuildMenuManager extends GuiMenuManager{
             case 19:
                 itemstack = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
                 break;
+
+            //設置ブロック変換スキル
+            case convertPlacementSlot:
+            	itemstack = new ItemStack(Material.LOG);
+            	break;
 
             //ブロックを並べるスキル
             case 27:
