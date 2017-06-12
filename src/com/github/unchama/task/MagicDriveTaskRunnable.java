@@ -163,6 +163,7 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				try {
 					bar.removeAll();
 				} catch (NullPointerException e) {
+					Bukkit.getLogger().warning("barがNullです.");
 				}
 				skill.setPreflag(false);
 				cancel();

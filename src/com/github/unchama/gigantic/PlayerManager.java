@@ -3,6 +3,7 @@ package com.github.unchama.gigantic;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -73,6 +74,10 @@ public class PlayerManager {
 	 * @return GiganticPlayer
 	 */
 	public static GiganticPlayer getGiganticPlayer(Player player) {
+		if(!gmap.containsKey(player.getUniqueId())){
+			Bukkit.getLogger().warning(player.getName() + " -> PlayerData not found.");
+			return null;
+		}
 		GiganticPlayer gp = gmap.get(player.getUniqueId());
 		return gp;
 	}
