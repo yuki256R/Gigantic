@@ -282,10 +282,10 @@ public class CondensationManager extends ActiveSkillManager implements
 	@Override
 	public void zeroPointReset() {
 		Coordinate zero = getRange().getZeropoint();
-		Volume dv = getDefaultVolume();
-		zero.setY(dv.getHeight() - 1);
-		zero.setX((dv.getWidth() - 1) / 2);
-		zero.setZ((dv.getDepth() - 1) / 2);
+		Volume v = getRange().getVolume();
+		zero.setY(v.getHeight() - 1);
+		zero.setX((v.getWidth() - 1) / 2);
+		zero.setZ((v.getDepth() - 1) / 2);
 		getRange().refresh();
 	}
 
