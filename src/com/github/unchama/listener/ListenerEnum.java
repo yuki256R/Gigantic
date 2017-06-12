@@ -34,6 +34,7 @@ public enum ListenerEnum {
     BUILDLEVEL(new BuildLevelListener()),
     GACHAAPPLE(new GachaAppleListener()),
     CONVERTPLACEMENT(new ConvertPlacementListener()),
+    HEADPLACECANCEL(new HeadPlaceCancelListener()),
 	;
 	private Listener listener;
 
