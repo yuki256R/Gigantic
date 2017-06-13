@@ -1,59 +1,92 @@
 package com.github.unchama.growthtool.moduler.tool;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.moduler.status.GrwEnchants;
+import com.github.unchama.growthtool.moduler.status.GrwStateData;
+import com.github.unchama.growthtool.moduler.status.GrwStatus;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
- * GrowthTool用ItemStackラッパークラス。個々のGrowthTool用に利用する。<br />
+ * GrowthTool用ItemStack拡張クラス。個々のGrowthTool用に利用する。<br />
  * Named Binary Tagの入出力や、名前 / Lore、エンチャントの編集が可能。<br />
  */
-public final class GrwTool {
+public final class GrwTool extends ItemStack {
 	// debug Instance
 	private static final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-	// アイテム実体
-	private ItemStack itemstack;
-	// ItemMeta
-	private ItemMeta itemmeta;
-	// Lore
-	private List<String> itemlore;
+	// 表示名
+	private String name;
 	// Lore内の固有識別詞
-	private List<String> identify = new ArrayList<String>();
+	private List<String> identify;
 	// アイテムレベル
-	private int itemlv = 1;
-	// カスタムメッセージ1
-	private List<String> custom1 = new ArrayList<String>();
-	// カスタムメッセージ2
-	private List<String> custom2 = new ArrayList<String>();
+	private int itemlv;
+	// エンチャント情報
+	private Map<Enchantment, Integer> enchantments;
 	// 所有者のMCID
-	private String owner = "";
+	private String owner;
+	// ステータス
+	private GrwStateData state;
+	// プレイヤーに対する呼び名
+	private String playerName;
+	// 所有者のUUID
+	private UUID playerUuid;
+	// 現在経験値
+	private int currentExp;
+	// レベルアップまでの必要経験値
+	private int nextExp;
 
-	public GrwTool(Material material, String name, List<String> identify, int itemlv, List<String> custom1, List<String> custom2, String owner, boolean unbreakable, Map<Enchantment, Integer> enchant) {
-		if (material == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] materialがnullのためGOLD_HELMETとして扱います。");
-			material = Material.GOLD_HELMET;
+	/**
+	 * 新規Growth Tool生成用コンストラクタ。<br />
+	 */
+	public GrwTool(UUID playerUuid, String name, List<String> identify, String owner, GrwStatus status, GrwEnchants enchants) {
+		super();
+		// パラメータの読み込み
+		this.itemlv = 1;
+		if (status == null) {
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] statusがnullのためemptyとして扱います。");
+			status = new GrwStatus(null, null, null, null, 0);
+		} else {
+			state = status.get(itemlv - 1);
 		}
 		if (name == null) {
 			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] nameが未設定のためemptyとして扱います。");
 			name = "";
 		}
 		if (identify == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] identifyが未設定のためemptyとして扱います。");
-			identify = GrwDefine.EMPTYSTRINGLIST;
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] identifyが未設定のため[未設定]として扱います。");
+			identify = Arrays.asList("[未設定]");
 		}
-		// TODO ここから
+		this.identify = identify;
+		if (owner == null) {
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] ownerがnullのためemptyとして扱います。");
+			owner = "";
+		}
+		this.owner = owner;
+		if (enchants == null) {
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] enchantsがnullのため無しとして扱います。");
+			enchantments = new LinkedHashMap<Enchantment, Integer>();
+		} else {
+			enchantments = enchants.addDefaultEnchant();
+		}
+		playerName = "";
+		this.playerUuid = playerUuid;
+		currentExp = 0;
+		nextExp = state.getNextExp();
+		grwBuild();
 	}
 
 	/**
@@ -63,9 +96,11 @@ public final class GrwTool {
 	 * @param Growth ToolのItemStack
 	 */
 	public GrwTool(ItemStack tool) {
-		itemstack = new ItemStack(tool);
-		if (itemstack.hasItemMeta()) {
-			itemmeta = itemstack.getItemMeta();
+		super(tool);
+		ItemMeta itemmeta;
+		List<String> itemlore;
+		if (hasItemMeta()) {
+			itemmeta = getItemMeta();
 		} else {
 			itemmeta = Bukkit.getItemFactory().getItemMeta(tool.getType());
 		}
@@ -74,6 +109,12 @@ public final class GrwTool {
 		} else {
 			itemlore = new ArrayList<String>();
 		}
+		if (itemmeta.hasDisplayName()) {
+			name = itemmeta.getDisplayName();
+		}
+		identify = new ArrayList<String>();
+		List<String> custom1 = new ArrayList<String>();
+		List<String> custom2 = new ArrayList<String>();
 		for (String s : itemlore) {
 			if (s.startsWith(GrwDefine.IDENTHEAD)) {
 				identify.add(s.replace(GrwDefine.IDENTHEAD, ""));
@@ -94,43 +135,67 @@ public final class GrwTool {
 				owner = s.replace(GrwDefine.OWNERHEAD, "");
 			}
 		}
+		if (identify.isEmpty()) {
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] identifyが未設定のため[未設定]として扱います。");
+			identify = Arrays.asList("[未設定]");
+		}
+		enchantments = getEnchantments();
+		state = new GrwStateData(getType(), getNBT(GrwNbti.NextExp, Integer.class), custom1, custom2, itemmeta.spigot().isUnbreakable());
 	}
 
-	/**
-	 * ItemStack取得メソッド。<br />
-	 * getの一元化によりMeta/Loreの書き換えを限定するために、ItemStackの拡張ではなくラッパーにしてある。<br />
-	 *
-	 * @return オブジェクトに対応するアイテム
-	 */
-	public ItemStack get() {
-		List<String> lore = new ArrayList<String>();
-		lore.add("");
-		for (String s : identify) {
-			lore.add(GrwDefine.IDENTHEAD + s);
+	private void grwBuild() {
+		setType(state.getMaterial());
+		ItemMeta itemmeta;
+		if (hasItemMeta()) {
+			itemmeta = getItemMeta();
+		} else {
+			itemmeta = Bukkit.getItemFactory().getItemMeta(state.getMaterial());
 		}
-		lore.add("");
+		if (!name.isEmpty()) {
+			itemmeta.setDisplayName(name);
+		}
+
+		List<String> itemlore = new ArrayList<String>();
+		itemlore.add("");
+		for (String s : identify) {
+			itemlore.add(GrwDefine.IDENTHEAD + s);
+		}
+		itemlore.add("");
 		if (itemlv != 0) {
-			lore.add(GrwDefine.ILHEAD + String.valueOf(itemlv));
+			itemlore.add(GrwDefine.ILHEAD + String.valueOf(itemlv));
 			int nextExp = getNBT(GrwNbti.NextExp, Integer.class);
 			int currentExp = getNBT(GrwNbti.CurrentExp, Integer.class);
 			if (nextExp != 0) {
-				lore.add(GrwDefine.EXPHEAD + String.valueOf(currentExp) + " / " + String.valueOf(nextExp));
+				itemlore.add(GrwDefine.EXPHEAD + String.valueOf(currentExp) + " / " + String.valueOf(nextExp));
 			}
 		}
+		List<String> custom1 = state.getCustom1();
+		if (custom1 == null) {
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] custom1がnullのためemptyとして扱います。");
+			custom1 = GrwDefine.EMPTYSTRINGLIST;
+		}
 		for (String s : custom1) {
-			lore.add(GrwDefine.CUSTOM1HEAD + s);
+			itemlore.add(GrwDefine.CUSTOM1HEAD + s);
+		}
+		List<String> custom2 = state.getCustom2();
+		if (custom2 == null) {
+			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] custom2がnullのためemptyとして扱います。");
+			custom2 = GrwDefine.EMPTYSTRINGLIST;
 		}
 		for (String s : custom2) {
-			lore.add(GrwDefine.CUSTOM2HEAD + s);
+			itemlore.add(GrwDefine.CUSTOM2HEAD + s);
 		}
 		if (owner != "") {
-			lore.add("");
-			lore.add(GrwDefine.OWNERHEAD + owner);
+			itemlore.add("");
+			itemlore.add(GrwDefine.OWNERHEAD + owner);
 		}
-		itemlore = lore;
 		itemmeta.setLore(itemlore);
-		itemstack.setItemMeta(itemmeta);
-		return itemstack;
+		setItemMeta(itemmeta);
+		addUnsafeEnchantments(enchantments);
+		setNBT(GrwNbti.PlayerName, playerName);
+		setNBT(GrwNbti.PlayerUuid, playerUuid.toString());
+		setNBT(GrwNbti.CurrentExp, currentExp);
+		setNBT(GrwNbti.NextExp, nextExp);
 	}
 
 	/**
@@ -140,9 +205,9 @@ public final class GrwTool {
 	 * @param obj 設定値
 	 */
 	public void setNBT(GrwNbti tag, Object obj) {
-		NBTItem nbti = new NBTItem(itemstack);
+		NBTItem nbti = new NBTItem(this);
 		nbti.setObject(tag.name(), obj);
-		itemmeta = nbti.getItem().getItemMeta();
+		this.setItemMeta(nbti.getItem().getItemMeta());
 	}
 
 	/**
@@ -153,7 +218,7 @@ public final class GrwTool {
 	 * @return 取得値
 	 */
 	public <T> T getNBT(GrwNbti tag, Class<T> type) {
-		NBTItem nbti = new NBTItem(itemstack);
+		NBTItem nbti = new NBTItem(this);
 		return nbti.getObject(tag.name(), type);
 	}
 
@@ -161,7 +226,6 @@ public final class GrwTool {
 	 * 名称設定メソッド。<br />
 	 *
 	 * @param name 新しい名称
-	 */
 	public void setName(String name) {
 		itemmeta.setDisplayName(GrwDefine.NAMEHEAD + name);
 	}
@@ -170,7 +234,6 @@ public final class GrwTool {
 	 * 名称取得メソッド。名前が設定されていない場合はemptyを返却する。<br />
 	 *
 	 * @return 設定されている名称
-	 */
 	public String getName() {
 		if (!itemmeta.hasDisplayName()) {
 			return "";
@@ -182,7 +245,6 @@ public final class GrwTool {
 	 * 耐久無限フラグ取得メソッド。<br />
 	 *
 	 * @return 耐久無限フラグ <true: 耐久無限 / false: 未設定>
-	 */
 	public boolean getUnbreakable() {
 		return itemmeta.spigot().isUnbreakable();
 	}
@@ -191,7 +253,6 @@ public final class GrwTool {
 	 * 耐久無限フラグ設定メソッド<br />
 	 *
 	 * @param unbreakable 耐久無限フラグ <true: 耐久無限 / false: 未設定>
-	 */
 	public void setUnbreakable(boolean unbreakable) {
 		itemmeta.spigot().setUnbreakable(unbreakable);
 	}
@@ -200,7 +261,6 @@ public final class GrwTool {
 	 * 固有識別詞設定メソッド。<br />
 	 *
 	 * @param identify このツールに対応する固有識別詞
-	 */
 	public void setIdentify(List<String> identify) {
 		this.identify = identify;
 	}
@@ -244,11 +304,12 @@ public final class GrwTool {
 	public void addUnsafeEnchantment(Enchantment ench) {
 		itemstack.addUnsafeEnchantment(ench, itemstack.getEnchantmentLevel(ench) + 1);
 	}
-
+*/
 	public boolean addExp() {
-		return addExp(1);
+		if()
+		return false;
 	}
-
+/*
 	public boolean addExp(int exp) {
 		int newexp = getNBT(GrwNbti.CurrentExp, Integer.class) + exp;
 		setNBT(GrwNbti.CurrentExp, newexp);
@@ -269,4 +330,5 @@ public final class GrwTool {
 	public boolean isWarn() {
 		return itemstack.getType().getMaxDurability() - itemstack.getDurability() < 10;
 	}
+*/
 }

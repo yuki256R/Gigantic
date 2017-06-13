@@ -7,7 +7,6 @@ import org.bukkit.Material;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
-import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -62,16 +61,23 @@ public final class GrwStateData {
 		this.unbreakable = unbreakable;
 	}
 
-	/**
-	 * このGrwStateDataオブジェクトのステータスを持つGrwToolオブジェクトに更新する。<br />
-	 *
-	 * @param grwtool ステータス更新対象のGrowth Toolオブジェクト
-	 */
-	public final void set(GrwTool grwtool) {
-		if (grwtool == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStateData] ステータス更新対象がnullのため何も行いません。");
-			return;
-		}
-		grwtool.update(baseitem, nextExp, custom1, custom2, unbreakable);
+	public Material getMaterial() {
+		return baseitem;
+	}
+
+	public int getNextExp() {
+		return nextExp;
+	}
+
+	public List<String> getCustom1() {
+		return custom1;
+	}
+
+	public List<String> getCustom2() {
+		return custom2;
+	}
+
+	public boolean getUnbreakable() {
+		return unbreakable;
 	}
 }
