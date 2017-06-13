@@ -361,7 +361,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			command += oldname + ",";
 		}
 
-		command = command.substring(0, command.length());
+		command = command.substring(0, command.length()-1);
 		command += " from " + db + "." + table
 				+ " where uuid = '" + struuid + "'";
 		this.checkStatement();
@@ -373,6 +373,8 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			}
 			rs.close();
 		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"sql commands:" + command);
 			plugin.getLogger().warning(
 					"Failed to load effectflagMap player:" + gp.name);
 			e.printStackTrace();

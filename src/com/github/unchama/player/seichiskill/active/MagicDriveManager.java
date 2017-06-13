@@ -20,6 +20,7 @@ import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
@@ -196,29 +197,10 @@ public class MagicDriveManager extends ActiveSkillManager{
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logRemoval(player, block);
 
-		// breakの処理
-		liquidlist.forEach(b -> {
-			b.setType(Material.AIR);
-		});
-		breaklist.forEach(b -> {
-			if (ActiveSkillManager.canBreak(b.getType())) {
-				// 通常エフェクトの表示
-				/*
-				 * if (!b.equals(block)) w.playEffect(b.getLocation(),
-				 * Effect.STEP_SOUND, b.getType());
-				 */
-				// ブロックを削除
-				b.setType(Material.AIR);
-			}
-		});
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		// break後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
-		breaklist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+		effm.run(breaklist, liquidlist);
 
 		int cooltime = this.getCoolTime(breaklist.size());
 

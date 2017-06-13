@@ -25,6 +25,7 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -59,6 +60,7 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
+import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
@@ -78,7 +80,7 @@ public class Sql {
 	public static enum ManagerType {
 		GIGANTICGACHA(GiganticGachaTableManager.class), //
 		PREMIUMGACHA(PremiumGachaTableManager.class), //
-		OLDGACHA(OldGachaTableManager.class),//
+		OLDGACHA(OldGachaTableManager.class), //
 		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
@@ -100,11 +102,11 @@ public class Sql {
 				DimensionalInventoryManager.class), //
 		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
-		BUILDRANKING(BuildRankingTableManager.class),//
-		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		BUILDRANKING(BuildRankingTableManager.class), //
+		LOGINTIMERANKING(LoginTimeRankingTableManager.class), //
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
-		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
-		//PLAYEREFFECT(SkillEffectTableManager.class),//
+		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class), //
+		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -498,7 +500,7 @@ public class Sql {
 				ptm.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 			else if (mt == DonateTableManager.class) {
-				((DonateTableManager)managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
+				((DonateTableManager) managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 		}
 	}

@@ -1,5 +1,9 @@
 package com.github.unchama.player.seichiskill;
 
+import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
+
 public enum EffectCategory {
 	NORMAL(0),PREMIUM(1);
 
@@ -39,5 +43,23 @@ public enum EffectCategory {
 
 	public int getEffectID(int effect_id) {
 		return id * getInterval() + effect_id;
+	}
+
+	public static Class<? extends EffectRunner> getRunnerClass(int effect_id) {
+		EffectCategory ec = getCategory(effect_id);
+		Class<? extends EffectRunner> eClass;
+		switch(ec){
+		case NORMAL:
+			eClass = EffectType.getRunnerClass(effect_id);
+			break;
+		case PREMIUM:
+			eClass = PremiumEffectType.getRunnerClass(effect_id);
+			break;
+		default:
+			eClass = null;
+			break;
+
+		}
+		return eClass;
 	}
 }

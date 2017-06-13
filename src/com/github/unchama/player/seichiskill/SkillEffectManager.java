@@ -7,13 +7,11 @@ import org.bukkit.block.Block;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
-import com.github.unchama.player.seichiskill.effect.EffectType;
 import com.github.unchama.player.seichiskill.moduler.EffectRunner;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 
-public final class SkillEffectManager extends DataManager implements UsingSql, Initializable {
+public final class SkillEffectManager extends DataManager implements UsingSql{
 	SkillEffectTableManager tm;
 
 	//現在選択されているエフェクトの識別番号
@@ -34,37 +32,27 @@ public final class SkillEffectManager extends DataManager implements UsingSql, I
 		tm.save(gp, loginflag);
 	}
 
-	@Override
-	public void init() {
-		runner = this.getRunner(id);
-
-	}
-
-	/**ランナーを取得します．
+	/**エフェクトを実行します．
 	 *
-	 * @param id
-	 * @return
+	 * @param breaklist
+	 * @param liquidlist
 	 */
-	private EffectRunner getRunner(int id){
-
-		EffectCategory ec = this.getEffectCategory(id);
-		if( ec == EffectCategory.NORMAL){
-			runner = EffectType.getRunner(id);
-		}else if( ec == EffectCategory.PREMIUM){
-			runner = EffectType.getRunner(id);
-		}
-	}
-
-	/**エフェクトIDからカテゴリIDを取得します．
-	 *
-	 * @param id
-	 * @return
-	 */
-	private EffectCategory getEffectCategory(int id){
-		return EffectCategory.getCategory(id);
-	}
-
 	public void run(List<Block> breaklist, List<Block> liquidlist){
+		Class<? extends EffectRunner> ec = this.getRunnerClass();
+		runner = null;
+		try {
+			runner = ec.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			plugin.getLogger().warning("Failed to create  new Effect Instance of player:" + gp.name);
+			e.printStackTrace();
+			return;
+		}
+		runner.call(breaklist, liquidlist);
+	}
+
+
+	private Class<? extends EffectRunner> getRunnerClass() {
+		return EffectCategory.getRunnerClass(id);
 	}
 
 	/**
