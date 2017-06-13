@@ -397,10 +397,11 @@ public class GiganticInteractListener implements Listener {
         //Check用
         boolean check = false;
 
-        //プレイヤーデータが無い場合は処理終了
-        if (gp == null) {
-            return;
-        }
+     // デッドコードのためコメントアウト
+//        //プレイヤーデータが無い場合は処理終了
+//        if (gp == null) {
+//            return;
+//        }
 
         if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.LEFT_CLICK_BLOCK)) {
         	return;

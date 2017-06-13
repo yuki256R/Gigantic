@@ -338,9 +338,10 @@ public class ExplosionManager extends ActiveSkillManager {
 	@Override
 	public void zeroPointReset() {
 		Coordinate zero = getRange().getZeropoint();
-		zero.setY(0);
-		zero.setX(0);
-		zero.setZ(0);
+		Volume v = getRange().getVolume();
+		zero.setY(v.getHeight() - 1);
+		zero.setX((v.getWidth() - 1) / 2);
+		zero.setZ((v.getDepth() - 1) / 2);
 		getRange().refresh();
 	}
 

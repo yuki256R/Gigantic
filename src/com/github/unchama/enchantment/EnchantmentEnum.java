@@ -1,11 +1,10 @@
 package com.github.unchama.enchantment;
 
-import com.github.unchama.enchantment.enchantments.TestEnchantment;
-import io.netty.util.internal.StringUtil;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import com.github.unchama.enchantment.enchantments.TestEnchantment;
 
 /**
  * Created by Mon_chi on 2017/06/04.
