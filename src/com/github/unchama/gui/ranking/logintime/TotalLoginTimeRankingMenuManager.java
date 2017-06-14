@@ -7,14 +7,14 @@ import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.entity.Player;
 
-import com.github.unchama.gui.ranking.RankingMenuManager;
+import com.github.unchama.gui.ranking.TotalRankingMenuManager;
 import com.github.unchama.util.Util;
 
 /**
  * @author ten_niti
  *
  */
-public final class TotalLoginTimeRankingMenuManager extends RankingMenuManager {
+public final class TotalLoginTimeRankingMenuManager extends TotalRankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
