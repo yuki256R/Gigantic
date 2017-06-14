@@ -43,6 +43,7 @@ import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.presentbox.PresentBoxMenuManager;
+import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.gui.ranking.RankingSelectMenuManager;
 import com.github.unchama.gui.ranking.build.DayBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
@@ -254,5 +255,17 @@ public final class GuiMenu {
 	@SuppressWarnings("unchecked")
 	public <T extends GuiMenuManager> T getManager(Class<T> type) {
 		return (T) managermap.get(type);
+	}
+
+	/**ランキングメニューを自動作成
+	 *
+	 */
+	public void refresh() {
+		for (ManagerType ye : ManagerType.values()) {
+			if(RankingMenuManager.class.isAssignableFrom(ye.getManagerClass())){
+				RankingMenuManager m = (RankingMenuManager) managermap.get(ye.getManagerClass());
+				m.reflesh();
+			}
+		}
 	}
 }

@@ -23,6 +23,6 @@ public final class TotalLoginTimeRankingMenuManager extends TotalRankingMenuMana
 
 	@Override
 	public String getInventoryName(Player player) {
-		return ChatColor.BLUE + "接続時間ランキング（総合）";
+		return ChatColor.BLUE + "総合接続時間ランキング";
 	}
 }

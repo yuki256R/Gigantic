@@ -23,7 +23,7 @@ public final class TotalBuildRankingMenuManager extends TotalRankingMenuManager 
 
 	@Override
 	public String getInventoryName(Player player) {
-		return ChatColor.BLUE + "建築量ランキング（総合）";
+		return ChatColor.BLUE + "総合建築量ランキング";
 	}
 
 }
