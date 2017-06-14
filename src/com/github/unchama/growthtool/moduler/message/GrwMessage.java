@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
-import com.github.unchama.growthtool.moduler.tool.GrwNbti;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.growthtool.moduler.util.GrwRandomList;
 import com.github.unchama.yml.DebugManager;
@@ -68,7 +67,7 @@ public class GrwMessage {
 		String message = messages.getRandom();
 		// PlayerNameタグの置換
 		if (player != null) {
-			GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getNBT(GrwNbti.PlayerName, String.class), player.getCustomName()));
+			GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getCustomName()));
 		}
 		// MonsterNameタグの置換
 		if (entity != null && entity instanceof Monster) {

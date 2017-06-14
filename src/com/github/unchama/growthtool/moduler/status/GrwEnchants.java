@@ -7,7 +7,7 @@ import java.util.Map;
 import org.bukkit.enchantments.Enchantment;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.growthtool.moduler.tool.GrwTool;
+import com.github.unchama.growthtool.moduler.util.GrwRandomList;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
@@ -63,45 +63,27 @@ public final class GrwEnchants extends LinkedHashMap<Enchantment, GrwEnchantData
 	 */
 	public final Map<Enchantment, Integer> addDefaultEnchant() {
 		return defaultEnchant;
-/* TODO 仕様変更
- * 		if (grwtool == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwEnchants] デフォルトエンチャント付与対象がnullのため何も行いません。");
-			return;
-		}
-		for (Enchantment enchant : grwtool.getEnchantments().keySet()) {
-			grwtool.removeEnchantment(enchant);
-		}
-		grwtool.addUnsafeEnchantments(defaultEnchant);
-*/
 	}
+
 	/**
 	 * レベルアップ時にランダムなエンチャントを1Lv付与する。<br />
 	 * 無効なGrowth Toolを引数とした場合、何も行わずに返却する。<br />
 	 *
 	 * @param grwtool エンチャント付与対象のGrowth Toolオブジェクト
 	 */
-	public final void addEnchant(GrwTool grwtool) {
-/* TODO 仕様変更
-		if (grwtool == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwEnchants] エンチャント付与対象がnullのため何も行いません。");
-			return;
-		}
-		final Map<Enchantment, Integer> enchant = new HashMap<Enchantment, Integer>();
-		final int currentItemLv = grwtool.getItemLv();
+	public final void addEnchant(Map<Enchantment, Integer> currentEnchants, int currentItemLv) {
 		// 設定されているエンチャント一覧から、付与可能条件を満たしているものをリストアップする
+		GrwRandomList<Enchantment> candidate = new GrwRandomList<Enchantment>();
 		for (Map.Entry<Enchantment, GrwEnchantData> entry : entrySet()) {
-			final int currentEnchantLv = grwtool.getEnchantmentLevel(entry.getKey());
-			if (entry.getValue().canAddEnchantment(currentItemLv, currentEnchantLv)) {
-				enchant.put(entry.getKey(), currentEnchantLv);
+			if (entry.getValue().canAddEnchantment(currentItemLv, currentEnchants.get(entry.getKey()))) {
+				candidate.add(entry.getKey());
 			}
 		}
 		// 付与
-		if (enchant.size() <= 0) {
-			// TODO システムメッセージとして対象エンチャント無しを通知する
-		} else {
-			Map.Entry<Enchantment, Integer> entry = enchant.entrySet().iterator().next();
-			grwtool.addUnsafeEnchantment(entry.getKey(), entry.getValue());
+		if (candidate.size() > 0) {
+			Enchantment target = candidate.getRandom();
+			currentEnchants.put(target, currentEnchants.get(target) + 1);
+			// TODO: 付与完了メッセージ
 		}
-		*/
 	}
 }

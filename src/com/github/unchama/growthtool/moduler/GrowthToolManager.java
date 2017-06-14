@@ -20,6 +20,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
@@ -27,7 +28,7 @@ import com.github.unchama.growthtool.moduler.message.GrwMessage;
 import com.github.unchama.growthtool.moduler.message.GrwTips;
 import com.github.unchama.growthtool.moduler.status.GrwEnchants;
 import com.github.unchama.growthtool.moduler.status.GrwStatus;
-import com.github.unchama.growthtool.moduler.tool.GrwNbti;
+import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.task.GrowthToolTaskRunnable;
 import com.github.unchama.util.Util;
@@ -72,6 +73,26 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	protected abstract GrwTool getTool(Player player);
+
+	// getToolでitemを取得したらこれを呼び出す
+	// 所有者一致確認は行わない
+	protected GrwTool getTool(ItemStack item) {
+		if (!item.hasItemMeta()) {
+			return null;
+		}
+		ItemMeta itemmeta = item.getItemMeta();
+		if (!itemmeta.hasLore()) {
+			return null;
+		}
+		List<String> itemlore = itemmeta.getLore();
+		// identを含むか判定
+		for (String identLine : identLore) {
+			if (!itemlore.contains(GrwDefine.IDENTHEAD + identLine)) {
+				return null;
+			}
+		}
+		return new GrwTool(item, identLore, status, enchant);
+	}
 
 	/**
 	 * 装備中の一致する成長ツールを置換する。
@@ -118,7 +139,7 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public boolean giveDefault(Player player) {
-		Util.giveItem(player, create(player).get(), false);
+		Util.giveItem(player, (ItemStack) create(player), false);
 		return true;
 	}
 
@@ -130,12 +151,11 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public boolean rename(Player player, String name) {
-		if (isEquip(player)) {
-			GrwTool tool = getTool(player);
+		GrwTool tool = getTool(player);
+		if (tool != null) {
 			String trim = trimInputText(name);
 			if (trim.isEmpty()) {
 				tool.setName(this.name);
-				tool.setNBT(GrwNbti.PlayerName, player.getDisplayName());
 				player.sendMessage(this.name + "の名前を初期化しました。");
 			} else {
 				tool.setName(trim);
@@ -167,8 +187,9 @@ public abstract class GrowthToolManager {
 	 */
 	public String getTipsMsg(Player player) {
 		// 装備中の場合
-		if (isEquip(player)) {
-			return tipsMsg.getTips(getTool(player));
+		GrwTool tool = getTool(player);
+		if (tool != null) {
+			return tipsMsg.getTips(tool);
 		}
 		return null;
 	}
@@ -180,9 +201,11 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public String getBlockBreakMsg(Player player) {
-		addExp(player);
-		if (isEquip(player)) {
-			GrwTool tool = getTool(player);
+		GrwTool tool = getTool(player);
+		if (tool != null) {
+			if (tool.addExp()) {
+				setTool(player, tool);
+			}
 			return onBlockBreakMsg.talk(tool, player, null);
 		}
 		return null;
@@ -196,8 +219,8 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public String getMonsterKillMsg(Player player, Monster monster) {
-		if (isEquip(player)) {
-			GrwTool tool = getTool(player);
+		GrwTool tool = getTool(player);
+		if (tool != null) {
 			return onMonsterKillMsg.talk(tool, player, monster);
 		}
 		return null;
@@ -211,8 +234,8 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public String getDamage(Player player, Monster monster) {
-		if (isEquip(player)) {
-			GrwTool tool = getTool(player);
+		GrwTool tool = getTool(player);
+		if (tool != null) {
 			if (tool.isWarn()) {
 				return onWarnItemMsg.talk(tool, player, monster);
 			} else {
@@ -230,9 +253,9 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public String getBreakMsg(Player player, ItemStack broke) {
-		GrwTool tool = new GrwTool(broke);
-		if (isEqual(tool)) {
-			return onBreakItemMsg.talk(tool, player,null);
+		GrwTool tool = getTool(broke);
+		if (tool != null) {
+			return onBreakItemMsg.talk(tool, player, null);
 		}
 		return null;
 	}
@@ -244,8 +267,9 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public String getPlayerQuitMsg(Player player) {
-		if (isEquip(player)) {
-			return onPlayerQuitMsg.talk(getTool(player), player,null);
+		GrwTool tool = getTool(player);
+		if (tool != null) {
+			return onPlayerQuitMsg.talk(getTool(player), player, null);
 		}
 		return null;
 	}
@@ -287,73 +311,8 @@ public abstract class GrowthToolManager {
 		return tips;
 	}
 
-	/**
-	 * 現在成長ツールを装備しているかを取得する。
-	 *
-	 * @param player
-	 * @return
-	 */
-	private boolean isEquip(Player player) {
-		return getTool(player) != null;
-	}
-
-	/**
-	 * 引数のアイテムが成長ツールに一致するかを判定する。
-	 *
-	 * @param tool
-	 * @return
-	 */
-	protected boolean isEqual(GrwTool tool) {
-		return false;
-//		return tool.getIdentify().equals(identLore);
-	}
-
-	protected boolean isEqual(ItemStack item) {
-		GrwTool tool = new GrwTool(item);
-		return isEqual(tool);
-	}
-
-	/**
-	 * 成長ツールに経験値を加算する。
-	 *
-	 * @param player
-	 * @return
-	 */
-	private void addExp(Player player) {
-		GrwTool tool = getTool(player);
-		if (tool.getItemLv() < status.size()) {
-			if (tool.addExp()) {
-				// レベルアップ
-				tool = levelUp(tool);
-			}
-			setTool(player, tool);
-		}
-	}
-
-	private GrwTool levelUp(GrwTool tool) {
-		int itemLv = tool.getItemLv();
-/*		Material oldType = tool.getType();
-		tool.setItemLv(itemLv + 1);
-		tool.setCurrentExp(0);
-		status.get(itemLv).set(tool);
-		if (oldType.equals(tool.getType())) {
-			enchant.addEnchant(tool);
-		}*/
-		return tool;
-	}
-
 	private GrwTool create(Player player) {
-		GrwTool tool = getTool(player);
-		/*		tool.setGrowthToolName(name);
-		tool.setIdentify(identLore);
-		tool.setItemLv(1);
-		tool.setOwner(player.getDisplayName());
-		tool.setNBT(GrwNbti.PlayerName, player.getDisplayName());
-		tool.setPlayerUuid(player.getUniqueId());
-		tool.setCurrentExp(0);
-		enchant.addDefaultEnchant(tool);
-		status.get(0).set(tool);*/
-		return tool;
+		return new GrwTool(player, name, identLore, status, enchant);
 	}
 
 	/**
@@ -364,14 +323,14 @@ public abstract class GrowthToolManager {
 	 * @return
 	 */
 	public boolean setPlayerCalled(Player player, String called) {
-		if (isEquip(player)) {
-			GrwTool tool = getTool(player);
+		GrwTool tool = getTool(player);
+		if (tool != null) {
 			String trim = trimInputText(called);
 			if (trim.isEmpty()) {
-				tool.setNBT(GrwNbti.PlayerName, player.getDisplayName());
+				tool.setCall("");
 				player.sendMessage(name + "からの呼び名を初期化しました。");
 			} else {
-				tool.setNBT(GrwNbti.PlayerName, trim);
+				tool.setCall(trim);
 				player.sendMessage(name + "からの呼び名を" + trim + "に変更しました。");
 			}
 			setTool(player, tool);

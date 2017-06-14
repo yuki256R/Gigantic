@@ -49,8 +49,8 @@ public class Helmet extends GrowthToolManager {
 			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] 装備していない状態による呼び出しのためgetToolを中断します。");
 			return null;
 		}
-		GrwTool grwtool = new GrwTool(helmet);
-		if (!isEqual(grwtool)) {
+		GrwTool grwtool = getTool(helmet);
+		if (grwtool == null) {
 			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] 装備中のアイテムが一致しないためgetToolを中断します。");
 			return null;
 		}
@@ -74,7 +74,7 @@ public class Helmet extends GrowthToolManager {
 		} else if (getTool(player) == null) {
 			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] 装備中のアイテムが一致しないためsetToolを中断します。");
 		} else {
-			player.getInventory().setHelmet(grwtool.get());
+			player.getInventory().setHelmet(grwtool);
 		}
 	}
 }

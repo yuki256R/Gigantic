@@ -10,9 +10,11 @@ public enum GrwNbti {
 	PlayerName,
 	/** [UUID -> String] 所有者のUUID */
 	PlayerUuid,
+	/** [String] 所有者のMCID */
+	PlayerMcid,
 	/** [Integer] 現在経験値 */
 	CurrentExp,
-	/** [Integer] レベルアップまでの必要経験値 */
-	NextExp,
+	/** [Integer] 現在のアイテムレベル */
+	ItemLv,
 	;
 }
