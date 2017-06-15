@@ -86,6 +86,14 @@ BlockLineUpSkill:
 ConvertPlacementSkill:
   level: 50
 
+#ブロック着色スキル
+BlockColoringSkill:
+  level: 25
+
+#ブロック洗浄スキル
+BlockWashingSkill:
+  level: 30
+
 #スキルを使ってブロックを並べたときの建築量上昇倍率
 BlockCountMag: 0.2
 
