@@ -9,10 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 
 import com.github.unchama.event.MenuClickEvent;
+import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
@@ -22,6 +25,8 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+
+import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
  * @author tar0ss
@@ -94,4 +99,26 @@ public class InventoryClickListener implements Listener {
 		Bukkit.getServer().getPluginManager().callEvent(mevent);
 	}
 
+
+	// ガチャアイテムを金床で使えなくする
+	@EventHandler
+    public void canselGachaItemAnvil(InventoryClickEvent event) {
+		// 金床の取り出し口以外なら終了
+		if(event.getInventory().getType() != InventoryType.ANVIL){
+			return;
+		}
+		if(event.getSlot() != 2){
+			return;
+		}
+
+		// ガチャアイテムでなければ終了
+		NBTItem nbt = new NBTItem(event.getCurrentItem());
+		GachaType type = GachaManager.getGachaType(nbt);
+		if(type == null){
+			return;
+		}
+
+		event.getWhoClicked().sendMessage(ChatColor.AQUA + "ガチャアイテムを金床で使用することはできません.");
+		event.setCancelled(true);
+	}
 }
