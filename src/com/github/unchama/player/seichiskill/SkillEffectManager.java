@@ -8,23 +8,26 @@ import org.bukkit.block.Block;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.EffectRunner;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 
-public final class SkillEffectManager extends DataManager implements UsingSql{
+public final class SkillEffectManager extends DataManager implements UsingSql {
 	SkillEffectTableManager tm;
 
 	//現在選択されているエフェクトの識別番号
-	private int id;
+	private HashMap<ActiveSkillType, Integer> eMap;
 
 	//全てのエフェクトの獲得状況マップ
-	private HashMap<Integer, Boolean> map;
+	private HashMap<Integer, Boolean> fmap;
 	//エフェクトの実行部分を扱うクラス
 	private EffectRunner runner;
 
 	public SkillEffectManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(SkillEffectTableManager.class);
+		eMap = new HashMap<ActiveSkillType, Integer>();
 	}
 
 	@Override
@@ -32,13 +35,15 @@ public final class SkillEffectManager extends DataManager implements UsingSql{
 		tm.save(gp, loginflag);
 	}
 
-	/**エフェクトを実行します．
+	/**
 	 *
 	 * @param breaklist
 	 * @param liquidlist
+	 * @param t
 	 */
-	public void run(List<Block> breaklist, List<Block> liquidlist){
-		Class<? extends EffectRunner> ec = this.getRunnerClass();
+	public void run(ActiveSkillType st, List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
+			BreakRange range) {
+		Class<? extends EffectRunner> ec = this.getRunnerClass(st);
 		runner = null;
 		try {
 			runner = ec.newInstance();
@@ -47,40 +52,44 @@ public final class SkillEffectManager extends DataManager implements UsingSql{
 			e.printStackTrace();
 			return;
 		}
-		runner.call(breaklist, liquidlist);
+		runner.call(st, breaklist, liquidlist, alllist, range);
 	}
 
-
-	private Class<? extends EffectRunner> getRunnerClass() {
-		return EffectCategory.getRunnerClass(id);
+	private Class<? extends EffectRunner> getRunnerClass(ActiveSkillType st) {
+		return EffectCategory.getRunnerClass(eMap.get(st));
 	}
 
 	/**
-	 * @return id
+	 *
+	 * @param t
+	 * @return
 	 */
-	public int getId() {
-		return id;
+	public int getId(ActiveSkillType t) {
+		return eMap.get(t);
 	}
 
 	/**
-	 * @param id セットする id
+	 *
+	 * @param id
+	 * @param t
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public void setId(ActiveSkillType t, int id) {
+		eMap.put(t, id);
 	}
 
 	/**
-	 * @return map
+	 *
+	 * @return
 	 */
 	public HashMap<Integer, Boolean> getEffectFlagMap() {
-		return map;
+		return fmap;
 	}
 
 	/**
 	 * @param map セットする map
 	 */
 	public void setEffectFlagMap(HashMap<Integer, Boolean> map) {
-		this.map = map;
+		this.fmap = map;
 	}
 
 }

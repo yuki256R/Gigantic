@@ -201,7 +201,7 @@ public class ExplosionManager extends ActiveSkillManager {
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.run(breaklist, liquidlist);
+		effm.run(st,breaklist, liquidlist,alllist,this.getRange());
 
 		int cooltime = this.getCoolTime(breaklist.size());
 

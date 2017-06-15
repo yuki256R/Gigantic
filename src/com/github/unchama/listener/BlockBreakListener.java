@@ -87,21 +87,18 @@ public class BlockBreakListener implements Listener {
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
 					"サバイバルではないのでスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// フライ中に使用していた時終了
 		if (player.isFlying()) {
 			player.sendMessage("フライ中はスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// 使用可能ワールドではないとき終了
 		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
 			player.sendMessage("このワールドではスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
@@ -112,14 +109,12 @@ public class BlockBreakListener implements Listener {
 		// スキルを発動できるツールでないとき終了
 		if (!ActiveSkillManager.canBreak(tool)) {
 			player.sendMessage("スキルの発動ができるツールではありません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// 木こりエンチャントがある時終了
 		if (Ze.isCompatible("木こり", tool)) {
 			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
-			skill.setToggle(false);
 			return;
 		}
 

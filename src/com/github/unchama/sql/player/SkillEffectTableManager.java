@@ -8,6 +8,7 @@ import java.util.Map;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
@@ -26,12 +27,15 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 	@Override
 	protected String addColumnCommand() {
 		String command = "";
-		command += "add column if not exists id int default 0,";
+
+		for (ActiveSkillType st : ActiveSkillType.values()) {
+			command += "add column if not exists id_" + st.name() + " int default 0,";
+		}
 
 		for (EffectType et : EffectType.values()) {
-			if(et.getId() == 0){
+			if (et.getId() == 0) {
 				command += "add column if not exists effect_" + et.getId() + " boolean default true,";
-			}else{
+			} else {
 				command += "add column if not exists effect_" + et.getId() + " boolean default false,";
 			}
 		}
@@ -45,8 +49,10 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 	protected String saveCommand(GiganticPlayer gp) {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
 		String command = "";
-		command += "id = " + m.getId() + ",";
-		for( Map.Entry<Integer, Boolean> e : m.getEffectFlagMap().entrySet()){
+		for (ActiveSkillType st : ActiveSkillType.values()) {
+			command += "id_" + st.name() + " = " + m.getId(st) + ",";
+		}
+		for (Map.Entry<Integer, Boolean> e : m.getEffectFlagMap().entrySet()) {
 			command += "effect_" + e.getKey() + " = " + Boolean.toString(e.getValue()) + ",";
 		}
 		return command;
@@ -55,40 +61,48 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
-		HashMap<Integer,Boolean> map = tm.getEffectFlagMap(gp);
-		m.setId(EffectType.NORMAL.getId());
+		HashMap<Integer, Boolean> map = tm.getEffectFlagMap(gp);
+		for (ActiveSkillType st : ActiveSkillType.values()) {
+			m.setId(st, EffectType.NORMAL.getId());
+		}
 		m.setEffectFlagMap(map);
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
-		HashMap<Integer,Boolean> map = new HashMap<Integer,Boolean>();
+		HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>();
 		for (EffectType et : EffectType.values()) {
-			if(et.getId() == 0){
+			if (et.getId() == 0) {
 				map.put(et.getId(), true);
-			}else{
+			} else {
 				map.put(et.getId(), false);
 			}
 		}
 		for (PremiumEffectType et : PremiumEffectType.values()) {
 			map.put(et.getId(), false);
 		}
-		m.setId(0);
+		for (ActiveSkillType st : ActiveSkillType.values()) {
+			m.setId(st, EffectType.NORMAL.getId());
+		}
 		m.setEffectFlagMap(map);
 	}
 
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
-		HashMap<Integer,Boolean> map = new HashMap<Integer,Boolean>();
+		HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>();
 		for (EffectType et : EffectType.values()) {
 			map.put(et.getId(), rs.getBoolean("effect_" + et.getId()));
 		}
 		for (PremiumEffectType et : PremiumEffectType.values()) {
 			map.put(et.getId(), rs.getBoolean("effect_" + et.getId()));
 		}
-		m.setId(rs.getInt("id"));
+
+		for (ActiveSkillType st : ActiveSkillType.values()) {
+			m.setId(st, rs.getInt("id_" + st.name()));
+		}
+
 		m.setEffectFlagMap(map);
 	}
 

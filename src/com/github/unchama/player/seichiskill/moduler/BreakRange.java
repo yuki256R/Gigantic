@@ -163,7 +163,7 @@ public class BreakRange {
 	}
 
 	/**
-	 * プレイヤーが破壊する範囲の周囲の相対座標リストを取得します．
+	 * プレイヤーが破壊する範囲の周囲のTOP部分の相対座標リストを取得します．
 	 *
 	 * @param player
 	 * @return

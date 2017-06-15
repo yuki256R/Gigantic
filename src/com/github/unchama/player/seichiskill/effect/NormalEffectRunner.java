@@ -9,7 +9,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.GeneralEffectRunner;
 
 /**
@@ -22,23 +23,14 @@ public final class NormalEffectRunner extends GeneralEffectRunner {
 	 * @see com.github.unchama.player.seichiskill.moduler.GeneralEffectRunner#call(java.util.List, java.util.List)
 	 */
 	@Override
-	public void call(List<Block> breaklist, List<Block> liquidlist) {
+	public void call(ActiveSkillType st, List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
+			BreakRange range){
 		// breakの処理
-		liquidlist.forEach(b -> {
+		alllist.forEach(b -> {
 			b.setType(Material.AIR);
 		});
-		breaklist.forEach(b -> {
-			if (ActiveSkillManager.canBreak(b.getType())) {
-				// ブロックを削除
-				b.setType(Material.AIR);
-			}
-		});
-
 		// break後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
-		breaklist.forEach(b -> {
+		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}

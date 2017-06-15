@@ -15,13 +15,17 @@ import com.github.unchama.gigantic.Gigantic;
  * @author tar0ss
  *
  */
-public abstract class EffectRunner extends BukkitRunnable{
+public abstract class EffectRunner extends BukkitRunnable {
 	Gigantic plugin = Gigantic.plugin;
 
 	/**エフェクトを実行するときに呼び出す
+	 * @param range
+	 * @param alllist
+	 * @param st
 	 *
 	 */
-	public abstract void call(List<Block> breaklist,List<Block> liquidlist);
+	public abstract void call(ActiveSkillType st, List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
+			BreakRange range);
 
 	/**通常通りBukkitRunnableがスケジュールする実行メソッド
 	 *
