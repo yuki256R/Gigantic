@@ -66,6 +66,7 @@ import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.CondensationMenuManager;
+import com.github.unchama.gui.seichiskill.active.explosion.E_EffectSellectMenu;
 import com.github.unchama.gui.seichiskill.active.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.explosion.ExplosionMenuManager;
 import com.github.unchama.gui.seichiskill.active.fairyaegis.F_RangeMenuManager;
@@ -112,6 +113,7 @@ public final class GuiMenu {
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
+		E_EFFECTSELECTMENU(E_EffectSellectMenu.class),
 		MD_RANGEMENU(MD_RangeMenuManager.class),
 		MAGICDRIVEMENU(MagicDriveMenuManager.class),
 		CONDENSATIONMENU(CondensationMenuManager.class),

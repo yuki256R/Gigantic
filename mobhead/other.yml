@@ -120,4 +120,12 @@ mobhead:
   clown:
     dispname: 'ピエロ'
     url: 'http://textures.minecraft.net/texture/f1d1b71a338df0633392f82b2668d1c9db4e1643c1cb1f8097a3c54a6755010'
+  f_cube:
+    dispname: 'ファンシーキューブ'
+    url: 'http://textures.minecraft.net/texture/29d3d3c3293443db52f9e2a2aa21dfd13711dc2b9f393fea4272bc619fc2'
+  f_cube2:
+    dispname: 'ファンシーキューブ2'
+    url: 'http://textures.minecraft.net/texture/b3a1f0dfbf466412bc1eff65f8e8faa39712d47bf9fcc07a6a64ff80febcc9c6'
+    
+    
     

@@ -74,7 +74,7 @@ public class DebugCommand implements TabExecutor {
 				gp.getManager(ManaManager.class).setDebugMana();
 				gp.getManager(SideBarManager.class).updateInfo(Information.SEICHI_LEVEL,level);
 				double rb = gp.getManager(SeichiLevelManager.class).getRemainingBlock();
-				gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK, rb);
+				gp.getManager(SideBarManager.class).updateInfo(Information.MINE_BLOCK, (long)rb);
 				gp.getManager(SideBarManager.class).refresh();
 				sender.sendMessage("整地レベルを"+ level + "に設定しました．ログアウト時に自動的に解除されます．");
 

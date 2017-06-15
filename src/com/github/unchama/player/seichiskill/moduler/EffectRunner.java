@@ -27,6 +27,14 @@ public abstract class EffectRunner extends BukkitRunnable {
 	public abstract void call(ActiveSkillType st, List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
 			BreakRange range);
 
+
+	/**エフェクトが使用可能か
+	 *
+	 * @param st
+	 * @return
+	 */
+	public abstract boolean canEffect(ActiveSkillType st);
+
 	/**通常通りBukkitRunnableがスケジュールする実行メソッド
 	 *
 	 */

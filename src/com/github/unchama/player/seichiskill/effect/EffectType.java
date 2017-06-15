@@ -4,9 +4,11 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.seichiskill.EffectCategory;
 import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.util.Util;
 
 /**
  * @author tar0ss
@@ -98,6 +100,18 @@ public enum EffectType {
 
 	public static Class<? extends EffectRunner> getRunnerClass(int effect_id) {
 		return idMap.get(effect_id).getRunnerClass();
+	}
+
+	public static String getNamebyID(int effect_id) {
+		return idMap.get(effect_id).getName();
+	}
+
+	public static ItemStack getSellectButton(int effect_id) {
+		EffectType et = idMap.get(effect_id);
+		ItemStack is = new ItemStack(et.getMenuMaterial());
+		Util.setDisplayName(is, et.getName());
+		Util.setLore(is, et.getLore());
+		return is;
 	}
 
 }

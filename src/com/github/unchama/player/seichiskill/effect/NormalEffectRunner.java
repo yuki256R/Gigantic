@@ -34,5 +34,10 @@ public final class NormalEffectRunner extends GeneralEffectRunner {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
+	@Override
+	public boolean canEffect(ActiveSkillType st) {
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
+	}
 
 }

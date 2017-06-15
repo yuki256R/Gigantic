@@ -14,7 +14,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -162,6 +164,17 @@ public class Util {
 	public static void setLore(ItemStack item, List<String> lore) {
 		ItemMeta meta = item.getItemMeta();
 		meta.setLore(lore);
+		item.setItemMeta(meta);
+	}
+
+	/**エンチャント状態にします．
+	 *
+	 * @param item
+	 */
+	public static void addEnchant(ItemStack item){
+		ItemMeta meta = item.getItemMeta();
+		meta.addEnchant(Enchantment.DIG_SPEED, 10, false);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_ATTRIBUTES);
 		item.setItemMeta(meta);
 	}
 

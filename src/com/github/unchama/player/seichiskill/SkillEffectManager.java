@@ -92,4 +92,13 @@ public final class SkillEffectManager extends DataManager implements UsingSql {
 		this.fmap = map;
 	}
 
+	/**エフェクトの名前
+	 *
+	 * @param st
+	 * @return
+	 */
+	public String getName(ActiveSkillType st) {
+		return EffectCategory.getName(eMap.get(st));
+	}
+
 }

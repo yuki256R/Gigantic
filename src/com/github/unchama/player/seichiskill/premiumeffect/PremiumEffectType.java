@@ -6,10 +6,14 @@ package com.github.unchama.player.seichiskill.premiumeffect;
 import java.util.HashMap;
 
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.seichiskill.EffectCategory;
 import com.github.unchama.player.seichiskill.effect.NormalEffectRunner;
 import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.util.Util;
+import com.github.unchama.yml.CustomHeadManager;
 
 /**
  * @author tar0ss
@@ -99,4 +103,15 @@ public enum PremiumEffectType {
 		return idMap.get(effect_id).getRunnerClass();
 	}
 
+	public static String getNamebyID(int effect_id) {
+		return idMap.get(effect_id).getName();
+	}
+
+	public static ItemStack getSellectButton(int effect_id) {
+		PremiumEffectType et = idMap.get(effect_id);
+		ItemStack is = Gigantic.yml.getManager(CustomHeadManager.class).getMobHead(et.getHeadname());
+		Util.setDisplayName(is, et.getName());
+		Util.setLore(is, et.getLore());
+		return is;
+	}
 }
