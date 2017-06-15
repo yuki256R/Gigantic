@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkData;
+import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -79,6 +81,8 @@ public class GiganticPlayer {
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
+        SKYWALK(SkyWalkManager.class),
+        SKYWALKDATA(SkyWalkData.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),

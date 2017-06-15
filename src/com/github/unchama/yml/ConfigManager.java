@@ -275,6 +275,32 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("securebreakunlocklevel");
 	}
 
+    /**
+     * スカイウォーク(仮名)が解放できるレベルを取得
+     *
+     * @return
+     */
+    public int getSkywalkUnlockLevel() {
+        return this.fc.getInt("skywalk.Unlocklevel");
+    }
+
+    /**
+     * スカイウォーク(仮名)の消費マナ
+     *
+     * @return
+     */
+    public double getSkywalkMana() {
+        return this.fc.getDouble("skywalk.Mana");
+    }
+
+    /**
+     * スカイウォーク(仮名)の足場ブロック消失時間
+     *
+     * @return
+     */
+    public int getSkywalkBreakSec() {
+        return this.fc.getInt("skywalk.BreakSec");
+    }
 	 /**MineStack一括クラフトシステムの必要経験値
      *
      * @param
