@@ -3,6 +3,9 @@ package com.github.unchama.player.fly;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 
+/**
+ * @author karayuu
+ */
 public class FlyManager extends DataManager{
 	private int flytime;
 	private boolean flyflag;

@@ -3,6 +3,7 @@ package com.github.unchama.gigantic;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -11,7 +12,10 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.task.GiganticInitializeTaskRunnable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-
+/**
+ * @author tar0ss
+ *
+ */
 public class PlayerManager {
 	private static Gigantic plugin = Gigantic.plugin;
 	private static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
@@ -36,6 +40,8 @@ public class PlayerManager {
 					+ "既にログインしています．一度ログアウトを行い，時間が経ってからログインし直してください．");
 			return;
 		}
+		player.sendMessage(ChatColor.GREEN
+				+ "データをロードしています．しばらくお待ちください．．．");
 		gp = new GiganticPlayer(player);
 		waitingloadmap.put(uuid, gp);
 		gmap.put(uuid, gp);
@@ -68,6 +74,10 @@ public class PlayerManager {
 	 * @return GiganticPlayer
 	 */
 	public static GiganticPlayer getGiganticPlayer(Player player) {
+		if(!gmap.containsKey(player.getUniqueId())){
+			Bukkit.getLogger().warning(player.getName() + " -> PlayerData not found.");
+			return null;
+		}
 		GiganticPlayer gp = gmap.get(player.getUniqueId());
 		return gp;
 	}

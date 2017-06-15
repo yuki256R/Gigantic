@@ -27,6 +27,10 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 import net.md_5.bungee.api.ChatColor;
 import zedly.zenchantments.Zenchantments;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class BlockBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);

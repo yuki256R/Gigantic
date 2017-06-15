@@ -33,13 +33,17 @@ import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
-import com.github.unchama.sql.FairyAegisTableManager;
+import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.task.FairyAegisTaskRunnable;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class FairyAegisManager extends ActiveSkillManager {
 
 	protected CustomHeadManager head = Gigantic.yml.getManager(CustomHeadManager.class);
@@ -130,6 +134,11 @@ public class FairyAegisManager extends ActiveSkillManager {
 	 */
 	public void setBreakNum(int breakNum) {
 		this.breakNum = breakNum;
+	}
+
+	@Override
+	public void rangeReset(){
+		setBreakNum(0);
 	}
 
 	/**
@@ -250,6 +259,36 @@ public class FairyAegisManager extends ActiveSkillManager {
 	@Override
 	public int getMaxDepth() {
 		return 0;
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		if(!isFirst){
+			return leftPoint;
+		}
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		int level = seichiLevelManager.getLevel();
+		// 解放条件を満たしているか
+		if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+			return leftPoint;
+		}
+		leftPoint -= getUnlockAP();
+
+		// 破壊数
+		int rate = (int) (getSpendAP((int)leftPoint) / leftPoint);
+		int breakNum = (int)leftPoint / rate;
+		if(breakNum > getMaxBreakNum()){
+			breakNum = getMaxBreakNum();
+		}else{
+			// 端数を落とす
+			breakNum -= breakNum % 10;
+		}
+
+		setBreakNum(breakNum);
+		leftPoint -= getSpendAP(breakNum);
+
+		return leftPoint;
 	}
 
 	@Override

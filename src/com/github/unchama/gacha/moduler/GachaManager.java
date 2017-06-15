@@ -16,7 +16,10 @@ import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.CustomHeadManager;
 
 import de.tr7zw.itemnbtapi.NBTItem;
-
+/**
+ * @author tar0ss
+ *
+ */
 public abstract class GachaManager {
 
 	//**************絶対に変更しないでください************
@@ -250,7 +253,23 @@ public abstract class GachaManager {
 	}
 
 	public static GachaType getGachaType(NBTItem nbti) {
-		return GachaType.valueOf(nbti.getString(GACHATYPENBT));
+		GachaType ret = null;
+		try {
+			ret = GachaType.valueOf(nbti.getString(GACHATYPENBT));
+		} catch(IllegalArgumentException e) {
+			return null;
+		}
+		return ret;
+	}
+
+	public static int getGachaID(NBTItem nbti) {
+		int ret = 0;
+		try {
+			ret = nbti.getInteger(GACHAITEMIDNBT);
+		} catch(IllegalArgumentException e) {
+			return 0;
+		}
+		return ret;
 	}
 
 	/**このガチャの説明文を取得します

@@ -1,14 +1,20 @@
 package com.github.unchama.command;
 
 import org.bukkit.command.TabExecutor;
-
+/**
+ * @author tar0ss
+ *
+ */
 public enum CommandType {
-	GACHA(new gachaCommand()),
-	DEBUG(new debugCommand()),
-	MINEBOOST(new mineboostCommand()),
-	STICK(new stickCommand()),
-    FLY(new flyCommand()),
-    GROWTH(new growthCommand()),
+	GACHA(new GachaCommand()),
+	DEBUG(new DebugCommand()),
+	MINEBOOST(new MineBoostCommand()),
+	STICK(new StickCommand()),
+    FLY(new FlyCommand()),
+    GROWTH(new GrowthCommand()),
+    PRESENTBOX(new PresentBoxCommand()),
+	GENCHANT(new EnchantmentCommand()),
+	DONATE(new DonateCommand()),
 	;
 
 

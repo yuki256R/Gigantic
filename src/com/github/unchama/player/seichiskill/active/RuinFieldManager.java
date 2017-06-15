@@ -1,6 +1,7 @@
 package com.github.unchama.player.seichiskill.active;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -20,15 +21,22 @@ import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
-import com.github.unchama.sql.RuinFieldTableManager;
+import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.task.RuinFieldTaskRunnable;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class RuinFieldManager extends ActiveSkillManager implements Finalizable {
 	RuinFieldTableManager tm;
 	BukkitTask task;
@@ -147,6 +155,63 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 	@Override
 	public int getMaxDepth() {
 		return 40;
+	}
+
+
+	@Override
+	public void rangeReset(){
+		Coordinate zero = getRange().getZeropoint();
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zero.setY(dv.getHeight() - 1);
+		zero.setX((dv.getWidth() - 1) / 2);
+		zero.setZ((dv.getDepth() - 1) / 2);
+		getRange().refresh();
+	}
+
+	@Override
+	public void zeroPointReset(){
+		Coordinate zero = getRange().getZeropoint();
+		Volume v = getRange().getVolume();
+		zero.setY(1);
+		zero.setX((v.getWidth() - 1) / 2);
+		zero.setZ(0);
+		getRange().refresh();
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		long allocationAP = 0;
+		ActiveSkillManager nextSkill = (ActiveSkillManager) gp
+				.getManager(ActiveSkillType.FAIRYAEGIS.getSkillClass());
+		if (isFirst || !nextSkill.isunlocked()) {
+			int level = seichiLevelManager.getLevel();
+			// 解放条件を満たしているか
+			if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+				return leftPoint;
+			}
+			leftPoint -= getUnlockAP();
+
+			// このスキルで使用可能なスキルポイント
+			allocationAP = SeichiSkillAutoAllocation.getAllocationAP(level,
+					leftPoint, nextSkill);
+		}else{
+			allocationAP = leftPoint;
+		}
+
+		List<Volume> incVolumes = new LinkedList<Volume>();
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+		incVolumes.add(new Volume(1, 0, 0));
+
+		leftPoint -= SeichiSkillAutoAllocation.VolumeAllocation(this, incVolumes, allocationAP);
+
+		return leftPoint;
 	}
 
 	@Override

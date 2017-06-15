@@ -19,15 +19,16 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
+import com.github.unchama.toolrepair.ToolRepair;
 import com.github.unchama.yml.DebugManager.DebugEnum;
-import com.lobbyswitch.LobbySwitch;
 
 /**
  * Ymlから編集できるようにしたMenuClass
@@ -42,7 +43,6 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 
 	public GuiYmlMenuManager() {
 		super();
-		this.plugin = Gigantic.plugin;
 		this.filename = GuiMenu.ManagerType.getMenuNamebyClass(this.getClass());
 		this.file = new File(plugin.getDataFolder(), filename);
 		saveDefaultFile();
@@ -159,8 +159,8 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			case "garbagecan":
 				methodmap.put(i, "openGarbageCan");
 				break;
-			case "lobbyswitch":
-				methodmap.put(i, "openServerMenu");
+			case "dimensionalinventory":
+				methodmap.put(i, "openDimensionalInventory");
 				break;
 			default:
 				break;
@@ -182,6 +182,13 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 				break;
 			}
 		}
+		for (int i = 0; i < this.getInventorySize(); i++) {
+			String name = this.fc.getString(Integer.toString(i) + ".invoke");
+			if (name == null) {
+				continue;
+			}
+			methodmap.put(i, name);
+		}
 	}
 
 	@Override
@@ -197,6 +204,9 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			player.playSound(player.getLocation(), Sound.BLOCK_CHEST_OPEN, 1,
 					(float) 1.5);
 			return true;
+		case "openDimensionalInventory":
+			gp.getManager(DimensionalInventoryManager.class).open(player);
+			return true;
 		case "commandFastCraft":
 			player.closeInventory();
 			player.playSound(player.getLocation(),
@@ -209,10 +219,12 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 					Sound.BLOCK_STONE_BUTTON_CLICK_ON, 1, 1);
 			player.chat("/spawn");
 			return true;
-		case "openServerMenu":
-			if(Bukkit.getPluginManager().isPluginEnabled("LobbySwitch")){
-				LobbySwitch.p.getConfigManager().getInventory();
-			}
+		case "ToolRepair":
+			ToolRepair.RepairTool(player, ToolRepair.RepairType.Mending);
+			return true;
+		// β専用の機能
+		case "betamanacure":
+			gp.getManager(ManaManager.class).increase(99999999);
 			return true;
 		default:
 			return false;

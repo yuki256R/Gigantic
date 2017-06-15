@@ -6,14 +6,39 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.event.MineBlockIncrementEvent;
 import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
+import com.github.unchama.sql.Sql;
+import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MineBlockIncrementListener implements Listener {
+	Sql sql = Gigantic.sql;
+	MineBlockRankingTableManager rm;
+
+
+	public MineBlockIncrementListener() {
+		rm = sql.getManager(MineBlockRankingTableManager.class);
+	}
+
+
+	@EventHandler
+	public void addRanking(MineBlockIncrementEvent event){
+		double n = event.getNextAll();
+		GiganticPlayer gp = event.getGiganticPlayer();
+
+		rm.update(gp,n);
+	}
+
+
 	/**ギガンティックガチャ券を付与する
 	 *
 	 * @param event

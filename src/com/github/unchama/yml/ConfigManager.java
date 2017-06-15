@@ -1,5 +1,6 @@
 package com.github.unchama.yml;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -225,7 +226,7 @@ public class ConfigManager extends YmlManager {
 	 *
 	 * @return
 	 */
-	public int getBuildNum1minLimit() { return this.fc.getInt("BuildNum1minLimit"); }
+	public BigDecimal getBuildNum1minLimit() { return new BigDecimal(this.fc.getInt("BuildNum1minLimit")); }
 
     /**整地ワールド名を取得します
      *
@@ -241,6 +242,14 @@ public class ConfigManager extends YmlManager {
     public List<String> getSkillWorldList() {
     	return this.fc.getStringList("skillworld");
     }
+
+    /**整地量が2倍になるワールドを取得します
+    *
+    * @return
+    */
+   public List<String> getBonusWorldList() {
+   	return this.fc.getStringList("bonusworld");
+   }
 
     /**通常破壊時の許容する高さを取得します
      *
@@ -266,9 +275,18 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("securebreakunlocklevel");
 	}
 
+	/**
+	 * 最大建築レベルを取得します．
+	 *
+	 * @return
+	 */
+	public int getMaxBuildLevel() {
+		return this.fc.getInt("maxbuildlevel");
+	}
+
 	 /**MineStack一括クラフトシステムの必要経験値
-     * 
-     * @param 
+     *
+     * @param
      * @return
      */
     public int getBlockCraftLevel(int x){
@@ -276,8 +294,57 @@ public class ConfigManager extends YmlManager {
     		case 1: return this.fc.getInt("minestack_BlockCraft.level1");
     		case 2: return this.fc.getInt("minestack_BlockCraft.level2");
     		case 3: return this.fc.getInt("minestack_BlockCraft.level3");
-    		
+
     		default: return 0;
     	}
+    }
+
+    /**
+     * 範囲設置スキルの使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getZoneSetSkillLevel() {
+        return fc.getInt("ZoneSetSkill.level");
+    }
+
+    /**
+     * 範囲設置スキルのMineStack優先設定使用可能レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getZoneSetSkillMinestack() {
+        return fc.getInt("ZoneSetSkill.minestack");
+    }
+
+
+    /**
+     * 建築スキルを使用してブロックを並べたときの建築量上昇倍率を取得します
+     * @return 倍率
+     */
+    public BigDecimal getBlockCountMag() {
+        return new BigDecimal(fc.getDouble("BlockCountMag"));
+    }
+
+    /**
+     * ブロックを並べるスキルの使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockLineUpSkillLevel() {
+        return fc.getInt("BlockLineUpSkill.level");
+    }
+
+    /**
+     * ブロックを並べるスキルMineStack優先設定使用可能建築レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockLineUpSkillMSLevel() {
+        return fc.getInt("BlockLineUpSkill.minestack");
+    }
+
+    /**
+     * 設置ブロック変換設定使用可能レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getConvertPlacementLevel() {
+        return fc.getInt("ConvertPlacementSkill.level");
     }
 }

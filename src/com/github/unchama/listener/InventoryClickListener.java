@@ -23,6 +23,10 @@ import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class InventoryClickListener implements Listener {
 	GuiMenu guimenu = Gigantic.guimenu;
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

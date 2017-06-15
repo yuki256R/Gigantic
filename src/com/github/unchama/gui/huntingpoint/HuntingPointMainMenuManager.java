@@ -19,30 +19,36 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
-import com.github.unchama.gui.MainMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
-import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointMainMenuManager extends GuiMenuManager {
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-
-	// 戻るボタン
-	private ItemStack backButton;
-	private final int backButtonSlot = 45;
 
 	// どのMobのショップを開くか
 	private Map<Integer, String> shopMobNames = new HashMap<Integer, String>();
 
+	// for文で配置するMob頭の先頭のスロット
+	private final int countInit = 0;
+
 	public HuntingPointMainMenuManager() {
-		backButton = head.getMobHead("left");
-		ItemMeta itemMeta = backButton.getItemMeta();
-		// モンスターの表示名
-		itemMeta.setDisplayName("戻る");
-		backButton.setItemMeta(itemMeta);
+		// 各Mobボタン
+		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(
+				HuntingPointDataManager.class).getMobNames();
+		int count = countInit;
+		// 各MOB
+		for (String name : mobNames.keySet()) {
+			shopMobNames.put(count, name);
+			count++;
+		}
+		setOpenMenuMap(openmap);
 	}
 
 	@Override
@@ -56,15 +62,13 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 		// インベントリ基本情報
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(), this.getInventoryName(player));
-		// 初期化
-		shopMobNames.clear();
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		HuntingPointManager manager = gp.getManager(HuntingPointManager.class);
 		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(
 				HuntingPointDataManager.class).getMobNames();
 
-		int count = 0;
+		int count = countInit;
 		// 各MOB
 		for (String name : mobNames.keySet()) {
 			// Mobに応じた頭
@@ -84,14 +88,9 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 							+ ChatColor.UNDERLINE + "クリックでショップへ"));
 			button.setItemMeta(itemMeta);
 			inv.setItem(count, button);
-			shopMobNames.put(count, name);
 			count++;
 		}
-		setOpenMenuMap(openmap);
 
-		// ページ遷移ボタン
-
-		inv.setItem(backButtonSlot, backButton);
 		return inv;
 	}
 
@@ -117,10 +116,6 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 						.getTypebyClass(HuntingPointShopMenuManager.class));
 			}
 		}
-
-		// 戻るボタンでメインメニューを開く
-		openmap.put(backButtonSlot,
-				GuiMenu.ManagerType.getTypebyClass(MainMenuManager.class));
 	}
 
 	@Override

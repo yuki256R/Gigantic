@@ -20,6 +20,10 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class R_OriginMenuManager extends OriginMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = RuinFieldManager.class;
 
@@ -108,10 +112,7 @@ public class R_OriginMenuManager extends OriginMenuManager {
 			}
 			return true;
 		} else if (identifier.equals("reset")) {
-			zero.setY(1);
-			zero.setX((v.getWidth() - 1) / 2);
-			zero.setZ(0);
-			m.getRange().refresh();
+			m.zeroPointReset();
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
 					(float) 0.7, (float) 4);
 			player.openInventory(this.getInventory(player, 0));

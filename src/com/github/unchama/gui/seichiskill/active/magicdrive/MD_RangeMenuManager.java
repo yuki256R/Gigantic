@@ -22,6 +22,10 @@ import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class MD_RangeMenuManager extends RangeMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = MagicDriveManager.class;
 
@@ -129,13 +133,7 @@ public class MD_RangeMenuManager extends RangeMenuManager {
 			}
 			return true;
 		} else if (identifier.equals("reset")) {
-			v.setDepth(dv.getDepth());
-			v.setWidth(dv.getWidth());
-			v.setHeight(dv.getHeight());
-			zero.setY(0);
-			zero.setX(0);
-			zero.setZ(0);
-			m.getRange().refresh();
+			m.rangeReset();
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
 					(float) 0.7, (float) 4);
 			player.openInventory(this.getInventory(player, 0));

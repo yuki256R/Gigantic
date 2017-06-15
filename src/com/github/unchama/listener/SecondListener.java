@@ -8,8 +8,11 @@ import com.github.unchama.event.SecondEvent;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.growthtool.GrowthTool;
 
+/**
+ * @author tar0ss
+ *
+ */
 public class SecondListener implements Listener {
-
 	@EventHandler
 	public void GiganticLoadListener(SecondEvent event) {
 		// 5秒に１回実行する．
