@@ -2,6 +2,7 @@ package com.github.unchama.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -12,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gacha.Gacha.GachaType;
@@ -103,11 +105,19 @@ public class InventoryClickListener implements Listener {
 	// ガチャアイテムを金床で使えなくする
 	@EventHandler
     public void canselGachaItemAnvil(InventoryClickEvent event) {
-		// 金床の取り出し口以外なら終了
-		if(event.getInventory().getType() != InventoryType.ANVIL){
+		// 金床を開いているか
+		InventoryType invType = event.getWhoClicked().getOpenInventory().getType();
+		if(invType != InventoryType.ANVIL){
 			return;
 		}
-		if(event.getSlot() != 2){
+
+		// エンチャ本なら終了
+		ItemStack item = event.getCurrentItem();
+		if(item == null){
+			return;
+		}
+		Material itemType = item.getType();
+		if(itemType == Material.AIR || itemType == Material.ENCHANTED_BOOK){
 			return;
 		}
 
