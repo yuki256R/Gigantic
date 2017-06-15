@@ -9,7 +9,7 @@ import java.util.Random;
  *
  * @param <T> 対象Listの型
  */
-public class GrwRandomList<T> extends ArrayList<T> {
+public class GrwRandomList<T> extends ArrayList<T> implements Cloneable {
 	private static final Random random = new Random();
 
 	public GrwRandomList() {
@@ -26,5 +26,31 @@ public class GrwRandomList<T> extends ArrayList<T> {
 		} else {
 			return null;
 		}
+	}
+
+	public T getRandom(List<Integer> weight) {
+		if (size() > 0) {
+			int sum = 0;
+			for (int w : weight) {
+				sum += w;
+			}
+			int key = random.nextInt(sum);
+			sum = 0;
+			for (int index = 0; index <= weight.size(); index++) {
+				if ((sum += weight.get(index)) > key) {
+					return get(index);
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public GrwRandomList<T> clone() {
+		GrwRandomList<T> clone = new GrwRandomList<T>();
+		for (T member : this) {
+			clone.add(member);
+		}
+		return clone;
 	}
 }

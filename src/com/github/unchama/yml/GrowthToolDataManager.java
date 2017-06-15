@@ -8,15 +8,12 @@ import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 
-import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
 import com.github.unchama.growthtool.moduler.status.GrwEnchants;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.github.unchama.yml.moduler.YmlManager;
 
 public class GrowthToolDataManager extends YmlManager {
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-
 	public GrowthToolDataManager() {
 		super();
 	}
@@ -71,7 +68,7 @@ public class GrowthToolDataManager extends YmlManager {
 	public List<String> getIdent(GrowthToolType tool) {
 		List<String> ret = (List<String>) fc.getList(tool.name().toLowerCase() + ".ident");
 		if (ret == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "致命的なエラー: identが設定されていません: " + tool.name());
+			GrowthTool.GrwDebugWarning("致命的なエラー: identが設定されていません: " + tool.name());
 			ret = Arrays.<String> asList("不正な設定値");
 		}
 		return ret;

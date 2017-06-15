@@ -5,18 +5,14 @@ import java.util.List;
 
 import org.bukkit.Material;
 
-import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * Growth Toolの1レベル分の情報を保持するためのオブジェクト。<br />
  * ランダム付与となるエンチャントを除き、レベル毎の設定値はこのオブジェクトに全て集約させる。<br />
  */
 public final class GrwStateData {
-	// debug Instance
-	private static final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	// ベースアイテムMaterial
 	private final Material baseitem;
 	// レベルアップまでの必要経験値
@@ -39,19 +35,19 @@ public final class GrwStateData {
 	 */
 	public GrwStateData(Material baseitem, int nextExp, List<String> custom1, List<String> custom2, boolean unbreakable) {
 		if (baseitem == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStateData] baseがnullのためGOLD_HELMETとして扱います。");
+			GrowthTool.GrwDebugWarning("baseがnullのためGOLD_HELMETとして扱います。");
 			baseitem = Material.GOLD_HELMET;
 		}
 		if (nextExp <= 0) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStateData] nextExpが" + String.valueOf(nextExp) + "のため500として扱います。");
+			GrowthTool.GrwDebugWarning("nextExpが" + String.valueOf(nextExp) + "のため500として扱います。");
 			nextExp = 500;
 		}
 		if (custom1 == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStateData] custom1がnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("custom1がnullのためemptyとして扱います。");
 			custom1 = GrwDefine.EMPTYSTRINGLIST;
 		}
 		if (custom2 == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStateData] custom2がnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("custom2がnullのためemptyとして扱います。");
 			custom2 = GrwDefine.EMPTYSTRINGLIST;
 		}
 		this.baseitem = baseitem;

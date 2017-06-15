@@ -8,19 +8,14 @@ import java.util.Map;
 
 import org.bukkit.Material;
 
-import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * Growth Toolの全アイテムレベル分の情報を保持するためのオブジェクト。<br />
  * ランダム付与となるエンチャントを除き、アイテムレベル毎の設定値はこのオブジェクトに全て集約させる。<br />
  */
 public final class GrwStatus extends ArrayList<GrwStateData> {
-	// debug Instance
-	private static final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-
 	/**
 	 * コンストラクタ。設定値別のレベル毎値リストから、レベル毎のGrwStateData型リストに分類する。<br />
 	 *
@@ -36,26 +31,26 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 
 		// 初期化及び引数チェック
 		if (baseitem == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] baseitemがnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("baseitemがnullのためemptyとして扱います。");
 			baseitem = new LinkedHashMap<Integer, Material>();
 		}
 		if (!baseitem.containsKey(1)) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] baseitemにLv1のMaterialが未登録のためGOLD_HELMETとして扱います。");
+			GrowthTool.GrwDebugWarning("baseitemにLv1のMaterialが未登録のためGOLD_HELMETとして扱います。");
 		}
 		if (nextExp == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] nextExpがnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("nextExpがnullのためemptyとして扱います。");
 			nextExp = new ArrayList<Integer>();
 		}
 		if (nextExp.isEmpty()) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] nextExpがemptyのため500として扱います。");
+			GrowthTool.GrwDebugWarning("nextExpがemptyのため500として扱います。");
 			nextExp.add(500);
 		}
 		if (custom1 == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] custom1がnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("custom1がnullのためemptyとして扱います。");
 			custom1 = new ArrayList<List<String>>();
 		}
 		if (custom2 == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] custom2がnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("custom2がnullのためemptyとして扱います。");
 			custom2 = new ArrayList<List<String>>();
 		}
 
@@ -64,7 +59,7 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 			// 引数チェック
 			int exp = nextExp.get(lvkey);
 			if (exp <= 0) {
-				debug.warning(DebugEnum.GROWTHTOOL, "[GrwStatus] nextExpが" + String.valueOf(exp) + "のため500として扱います。");
+				GrowthTool.GrwDebugWarning("nextExpが" + String.valueOf(exp) + "のため500として扱います。");
 				exp = 500;
 			}
 

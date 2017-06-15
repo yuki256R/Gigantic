@@ -3,12 +3,10 @@ package com.github.unchama.growthtool.moduler.equiptype;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
 import com.github.unchama.growthtool.moduler.GrowthToolManager;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * ヘルメット用Growth Toolクラス。<br />
@@ -18,9 +16,6 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
  * 固有処理を追加する場合、このクラスを継承したクラスをパッケージgrowthtool.detailに作成すること。<br />
  */
 public class Helmet extends GrowthToolManager {
-	// debug Instance
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-
 	/**
 	 * コンストラクタ。この装備の属性を持つGrowthToolTypeを引数に呼び出される。<br />
 	 *
@@ -41,17 +36,17 @@ public class Helmet extends GrowthToolManager {
 	@Override
 	protected GrwTool getTool(Player player) {
 		if (player == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] playerがnullのためgetToolを中断します。");
+			GrowthTool.GrwDebugWarning("playerがnullのためgetToolを中断します。");
 			return null;
 		}
 		ItemStack helmet = player.getInventory().getHelmet();
 		if (helmet == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] 装備していない状態による呼び出しのためgetToolを中断します。");
+			GrowthTool.GrwDebugWarning("装備していない状態による呼び出しのためgetToolを中断します。");
 			return null;
 		}
 		GrwTool grwtool = getTool(helmet);
 		if (grwtool == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] 装備中のアイテムが一致しないためgetToolを中断します。");
+			GrowthTool.GrwDebugWarning("装備中のアイテムが一致しないためgetToolを中断します。");
 			return null;
 		}
 		return grwtool;
@@ -68,11 +63,11 @@ public class Helmet extends GrowthToolManager {
 	@Override
 	protected void setTool(Player player, GrwTool grwtool) {
 		if (player == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] playerがnullのためsetToolを中断します。");
+			GrowthTool.GrwDebugWarning("playerがnullのためsetToolを中断します。");
 		} else if (grwtool == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] grwtoolがnullのためsetToolを中断します。");
+			GrowthTool.GrwDebugWarning("grwtoolがnullのためsetToolを中断します。");
 		} else if (getTool(player) == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[Helmet] 装備中のアイテムが一致しないためsetToolを中断します。");
+			GrowthTool.GrwDebugWarning("装備中のアイテムが一致しないためsetToolを中断します。");
 		} else {
 			player.getInventory().setHelmet(grwtool);
 		}

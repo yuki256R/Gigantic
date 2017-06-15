@@ -14,12 +14,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.moduler.status.GrwEnchants;
 import com.github.unchama.growthtool.moduler.status.GrwStateData;
 import com.github.unchama.growthtool.moduler.status.GrwStatus;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
@@ -28,8 +26,6 @@ import de.tr7zw.itemnbtapi.NBTItem;
  * Named Binary Tagの入出力や、名前 / Lore、エンチャントの編集が可能。<br />
  */
 public final class GrwTool extends ItemStack {
-	// debug Instance
-	private static final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	// 表示名
 	private String name;
 	// Lore内の固有識別詞
@@ -58,22 +54,22 @@ public final class GrwTool extends ItemStack {
 		super();
 		// パラメータの読み込み
 		if (player == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] playerがnullです。");
+			GrowthTool.GrwDebugWarning("playerがnullです。");
 		}
 		if (itemname.isEmpty()) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] itemnameがnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("itemnameがnullのためemptyとして扱います。");
 			itemname = "";
 		}
 		if (status == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] statusがnullのためemptyとして扱います。");
+			GrowthTool.GrwDebugWarning("statusがnullのためemptyとして扱います。");
 			status = new GrwStatus(null, null, null, null, 0);
 		}
 		if (identLore == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] identLoreがnullのため[未設定]として扱います。");
+			GrowthTool.GrwDebugWarning("identLoreがnullのため[未設定]として扱います。");
 			identLore = Arrays.asList("[未設定]");
 		}
 		if (enchants == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] enchantsがnullのため無しとして扱います。");
+			GrowthTool.GrwDebugWarning("enchantsがnullのため無しとして扱います。");
 			enchants = new GrwEnchants(new LinkedHashMap<Enchantment, Integer>());
 		}
 
@@ -123,7 +119,7 @@ public final class GrwTool extends ItemStack {
 								throw new NumberFormatException("アイテムレベルが正の実数ではありません。");
 							}
 						} catch (NumberFormatException e) {
-							debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] itemlvが不正な値のため1として扱います。");
+							GrowthTool.GrwDebugWarning("itemlvが不正な値のため1として扱います。");
 							itemlv = 1;
 						}
 						break;
@@ -139,12 +135,12 @@ public final class GrwTool extends ItemStack {
 					}
 				}
 				if (owner.isEmpty()) {
-					debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] ownerがemptyのためunchamaとして扱います。");
+					GrowthTool.GrwDebugWarning("ownerがemptyのためunchamaとして扱います。");
 					owner = "unchama";
 				}
 			}
 		} catch (NullPointerException e) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwTool] ItemStackコンストラクタにGrowth Tool以外が渡されました。");
+			GrowthTool.GrwDebugWarning("ItemStackコンストラクタにGrowth Tool以外が渡されました。");
 		}
 	}
 
@@ -212,14 +208,20 @@ public final class GrwTool extends ItemStack {
 	}
 
 	// アイテムが変更されたらtrue
-	public boolean addExp() {
+	public boolean addExp(Player player) {
 		if (itemlv < status.size()) {
 			currentExp++;
 			if (currentExp >= status.get(itemlv - 1).getNextExp()) {
 				// levelup
 				itemlv++;
-				enchantTable.addEnchant(enchantments, itemlv);
+				Enchantment uped = enchantTable.addEnchant(enchantments, itemlv);
 				currentExp = 0;
+				player.sendMessage(name + "のアイテムレベルが" + Integer.toString(itemlv) + "に上がりました。");
+				if (uped != null) {
+					player.sendMessage(uped.toString() + "のエンチャントレベルが" + Integer.toString(enchantments.get(uped)) + "に上がりました。");
+				} else {
+					player.sendMessage("エンチャントレベルは既に最大値です。");
+				}
 			}
 			grwBuild();
 			return true;

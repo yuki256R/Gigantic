@@ -34,13 +34,8 @@ public class PlayerQuitListener implements Listener {
 		}
 	}
 
-	/**
-	 * GrowthToolのログアウトメッセージ出力処理。
-	 *
-	 * @param event
-	 */
-	@EventHandler(priority = EventPriority.NORMAL)
-	public void speakGrowthTool(PlayerQuitEvent event) {
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void growthToolEvent(PlayerQuitEvent event) {
 		GrowthTool.onEvent(event);
 	}
 }

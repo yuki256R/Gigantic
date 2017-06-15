@@ -7,12 +7,10 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
-import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.growthtool.moduler.util.GrwRandomList;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -21,11 +19,7 @@ import net.md_5.bungee.api.ChatColor;
  * 格納メッセージリストからタグの置換を行いランダムな1つを選択して出力する。<br />
  * Tips管理用クラスである、GrwTipsクラスで継承して利用する。<br />
  */
-public class GrwMessage {
-	// debug Instance
-	private static final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-	/** 保管中のメッセージ一覧 */
-	protected final GrwRandomList<String> messages;
+public class GrwMessage extends GrwRandomList<String> {
 	// メッセージを持つGrowth Toolのデフォルト名
 	private final String defaultToolName;
 
@@ -36,13 +30,8 @@ public class GrwMessage {
 	 * @param messages メッセージ一覧
 	 */
 	public GrwMessage(String defaultToolName, List<String> messages) {
+		super(messages);
 		this.defaultToolName = defaultToolName;
-		if (messages == null) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwMessage] messagesがnullのためemptyとして扱います。");
-			messages = GrwDefine.EMPTYSTRINGLIST;
-		}
-		// 引数はGrwRandomListに制限しないため新規インスタンスを用意
-		this.messages = new GrwRandomList<String>(messages);
 	}
 
 	/**
@@ -55,16 +44,15 @@ public class GrwMessage {
 	 * @param entity 関連する第二者エンティティ <null: entity未置換>
 	 * @return String型メッセージ / 適切な返却値が存在しない場合はnull
 	 */
-	public final String talk(GrwTool grwtool, Player player, Entity entity) {
-		if (messages.size() <= 0) {
+	public String talk(GrwTool grwtool, Player player, Entity entity) {
+		if (size() <= 0) {
 			return null;
 		}
 		if (grwtool == null) {
-			// TODO 仕様にするかも
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwMessage] grwtoolがnullのためtalk処理を中断します。");
+			GrowthTool.GrwDebugWarning("grwtoolがnullのためtalk処理を中断します。");
 			return null;
 		}
-		String message = messages.getRandom();
+		String message = getRandom();
 		// PlayerNameタグの置換
 		if (player != null) {
 			GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getCustomName()));
@@ -92,5 +80,10 @@ public class GrwMessage {
 	// preStringがnullまたはemptyの時defを返却するプライベートユーティリティ
 	private static final String getNotEmpty(String preString, String def) {
 		return StringUtils.isEmpty(preString) ? def : preString;
+	}
+
+	@Override
+	public GrwMessage clone() {
+		return new GrwMessage(defaultToolName, super.clone());
 	}
 }

@@ -1,7 +1,5 @@
 package com.github.unchama.listener;
 
-import net.md_5.bungee.api.ChatColor;
-
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,10 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import zedly.zenchantments.Zenchantments;
-
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
@@ -26,6 +23,9 @@ import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+
+import net.md_5.bungee.api.ChatColor;
+import zedly.zenchantments.Zenchantments;
 
 public class BlockBreakListener implements Listener {
 	Gigantic plugin = Gigantic.plugin;
@@ -143,5 +143,10 @@ public class BlockBreakListener implements Listener {
 			gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
 		}
 
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void growthToolEvent(BlockBreakEvent event) {
+		GrowthTool.onEvent(event);
 	}
 }

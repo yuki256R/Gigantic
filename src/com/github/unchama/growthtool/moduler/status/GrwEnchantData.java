@@ -1,8 +1,6 @@
 package com.github.unchama.growthtool.moduler.status;
 
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
+import com.github.unchama.growthtool.GrowthTool;
 
 /**
  * Growth Toolにおけるエンチャント1種類分の情報を保持するためのオブジェクト。<br />
@@ -10,9 +8,6 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
  * オブジェクト生成により設定対象として扱うため、設定対象ではないエンチャントのオブジェクトを生成してはいけない。<br />
  */
 public final class GrwEnchantData {
-	// debug Instance
-	private static final DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-
 	// 対象エンチャントの最大エンチャントレベル
 	private final int maxEnchantLv;
 	// 対象エンチャントが付与可能となる解放アイテムレベル
@@ -26,11 +21,11 @@ public final class GrwEnchantData {
 	 */
 	public GrwEnchantData(int maxEnchantLv, int premiseItemLv) {
 		if (maxEnchantLv <= 0) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwEnchantData] maxEnchantLvが" + String.valueOf(maxEnchantLv) + "のため1として扱います。");
+			GrowthTool.GrwDebugWarning("maxEnchantLvが" + String.valueOf(maxEnchantLv) + "のため1として扱います。");
 			maxEnchantLv = 1;
 		}
 		if (premiseItemLv <= 0) {
-			debug.warning(DebugEnum.GROWTHTOOL, "[GrwEnchantData] premiseItemLvが" + String.valueOf(premiseItemLv) + "のため1として扱います。");
+			GrowthTool.GrwDebugWarning("premiseItemLvが" + String.valueOf(premiseItemLv) + "のため1として扱います。");
 			premiseItemLv = 1;
 		}
 		this.maxEnchantLv = maxEnchantLv;
