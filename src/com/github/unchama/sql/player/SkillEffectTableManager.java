@@ -62,6 +62,7 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
 		HashMap<Integer, Boolean> map = tm.getEffectFlagMap(gp);
+		map.put(0, true);
 		for (ActiveSkillType st : ActiveSkillType.values()) {
 			m.setId(st, EffectType.NORMAL.getId());
 		}

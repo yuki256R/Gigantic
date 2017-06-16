@@ -1,4 +1,4 @@
-package com.github.unchama.donate;
+package com.github.unchama.player.donate;
 
 import java.util.ArrayList;
 import java.util.List;

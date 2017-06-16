@@ -128,6 +128,15 @@ public enum EffectCategory {
 		return name;
 	}
 
+	public static EffectCategory getCategorybyID(int i) {
+		for(EffectCategory ec : eclist){
+			if(ec.getId() == i){
+				return ec;
+			}
+		}
+		return EffectCategory.NORMAL;
+	}
+
 
 
 }

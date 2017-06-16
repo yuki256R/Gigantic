@@ -10,11 +10,11 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.UUID;
 
-import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;

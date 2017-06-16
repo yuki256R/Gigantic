@@ -50,6 +50,7 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 		nextButton = head.getMobHead("right");
 		Util.setDisplayName(nextButton, "次のページ");
 		menuButtons.put(nextButtonSlot, nextButton);
+
 	}
 
 	@Override
@@ -67,7 +68,9 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 
 	public Inventory getInventory(Player player, int slot, int page, EffectCategory ec) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		gp.getManager(GuiStatusManager.class).setCurrentPage(this, page);
+		GuiStatusManager Sm = gp.getManager(GuiStatusManager.class);
+		Sm.setCurrentPage(this, page);
+		Sm.setCurrentObject(this, ec);
 
 		SkillEffectManager Em = gp.getManager(SkillEffectManager.class);
 
@@ -113,6 +116,51 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		SkillEffectManager Em = gp.getManager(SkillEffectManager.class);
+		GuiStatusManager Sm = gp.getManager(GuiStatusManager.class);
+		int page = Sm.getCurrentPage(this);
+		int slot = Integer.parseInt(identifier);
+
+		if(player.getOpenInventory().getTopInventory().getItem(slot) == null){
+			return false;
+		}
+
+
+		EffectCategory ec = (EffectCategory) Sm.getCurrentObject(this);
+		if(slot >= 45){
+			switch(slot){
+			case prevButtonSlot:
+				if(page > 1){
+					player.openInventory(this.getInventory(player, slot, page - 1, ec));
+					player.playSound(player.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1.0F, 1.5F);
+				}
+				break;
+			case 47:
+			case 48:
+			case 49:
+			case 50:
+			case 51:
+				EffectCategory next_ec = EffectCategory.getCategorybyID(slot - 47);
+				player.openInventory(this.getInventory(player, slot,1, next_ec));
+				player.playSound(player.getLocation(), this.getSoundName(), this.getVolume(), this.getPitch());
+				break;
+			case nextButtonSlot:
+				if(page < 1){
+					player.openInventory(this.getInventory(player, slot, page + 1, ec));
+					player.playSound(player.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1.0F, 1.5F);
+				}
+				break;
+			}
+		}else{
+			int effect_id = ec.getEffectID(slot + ((page-1) * 45));
+			if(Em.getEffectFlagMap().get(effect_id) && Em.getId(this.getActiveSkillType()) != effect_id){
+				Em.setId(this.getActiveSkillType(),effect_id);
+				this.update(player);
+			}else{
+				player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
+			}
+		}
 		return true;
 	}
 
