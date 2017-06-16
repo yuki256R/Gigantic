@@ -3,9 +3,7 @@ package com.github.unchama.listener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -69,10 +67,6 @@ public class GiganticInteractListener implements Listener {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Gacha gacha = Gigantic.gacha;
 	Zenchantments Ze;
-
-	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
-			Material.AIR, Material.WATER, Material.LAVA,
-			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
 
 	GiganticInteractListener() {
 		Ze = Util.getZenchantments();
@@ -348,7 +342,7 @@ public class GiganticInteractListener implements Listener {
 			return;
 		}
 
-		Block block = player.getTargetBlock(tpm, 50);
+		Block block = player.getTargetBlock(Util.getFluidMaterials(), 50);
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
@@ -397,10 +391,11 @@ public class GiganticInteractListener implements Listener {
         //Check用
         boolean check = false;
 
-        //プレイヤーデータが無い場合は処理終了
-        if (gp == null) {
-            return;
-        }
+     // デッドコードのためコメントアウト
+//        //プレイヤーデータが無い場合は処理終了
+//        if (gp == null) {
+//            return;
+//        }
 
         if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.LEFT_CLICK_BLOCK)) {
         	return;

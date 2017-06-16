@@ -50,37 +50,46 @@ public class GachaStackManager extends DataManager implements UsingSql{
 
 	// NBTタグを見てガチャアイテムならスタックする
 	public boolean add(ItemStack itemstack){
+		// SeichiAssist時代のガチャ券ならギガンティックガチャチケットにスタック
+		if(Util.isOldGachaTicket(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, 0);
+		}
+
 		NBTItem nbti = new NBTItem(itemstack);
 		GachaType type = GachaManager.getGachaType(nbti);
 		if(type != null){
-			if(!itemMap.containsKey(type)){
-				itemMap.put(type, new HashMap<Integer, Integer>());
-			}
-			Map<Integer, Integer> map = itemMap.get(type);
 			int id = GachaManager.getGachaID(nbti);
-
-			// 参考のガチャアイテムを取得
-			GachaManager gm = gacha.getManager(type.getManagerClass());
-			if(!gm.getGachaItemMap().containsKey(id)){
-				return false;
-			}
-			GachaItem gi = gm.getGachaItem(id);
-			// 耐久度が減ったりしてたらアウト
-			if(gi.getItem().getDurability() != itemstack.getDurability()){
-				return false;
-			}
-
-			int amount = 0;
-			if(map.containsKey(id)){
-				amount = map.get(id);
-			}
-			amount += itemstack.getAmount();
-			map.put(id, amount);
-
-			return true;
+			return addItem(itemstack, type, id);
 		}else{
 			return false;
 		}
+	}
+
+	private boolean addItem(ItemStack itemstack, GachaType type, int id){
+		if(!itemMap.containsKey(type)){
+			itemMap.put(type, new HashMap<Integer, Integer>());
+		}
+		Map<Integer, Integer> map = itemMap.get(type);
+
+		// 参考のガチャアイテムを取得
+		GachaManager gm = gacha.getManager(type.getManagerClass());
+		if(!gm.getGachaItemMap().containsKey(id)){
+			return false;
+		}
+		GachaItem gi = gm.getGachaItem(id);
+		// 耐久度が減ったりしてたらアウト
+		if(gi.getItem().getDurability() != itemstack.getDurability()){
+			return false;
+		}
+
+		int amount = 0;
+		if(map.containsKey(id)){
+			amount = map.get(id);
+		}
+		amount += itemstack.getAmount();
+		map.put(id, amount);
+
+		return true;
 	}
 
 	// 指定のガチャアイテムの現在値を返す

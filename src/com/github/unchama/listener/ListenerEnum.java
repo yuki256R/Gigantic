@@ -33,6 +33,9 @@ public enum ListenerEnum {
 	ENCHANTMENT(new EnchantmentListener()),
     BUILDLEVEL(new BuildLevelListener()),
     GACHAAPPLE(new GachaAppleListener()),
+    CONVERTPLACEMENT(new ConvertPlacementListener()),
+    HEADPLACECANCEL(new HeadPlaceCancelListener()),
+    BLOCKCOLORING(new BlockColoringSkillListener()),
 	;
 	private Listener listener;
 
