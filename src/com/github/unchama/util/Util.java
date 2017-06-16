@@ -5,7 +5,10 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
@@ -284,5 +287,13 @@ public class Util {
 		}
 
 		return true;
+	}
+
+	// 固体ではないブロック類を返す
+	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
+			Material.AIR, Material.WATER, Material.LAVA,
+			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
+	public static Set<Material> getFluidMaterials(){
+		return tpm;
 	}
 }

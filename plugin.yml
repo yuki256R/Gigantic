@@ -55,7 +55,13 @@ commands:
     permission-message: You don't have <permission>
   donate:
     description: This is Donate command.
-    usage: /<command> <EnchantmentName> <Level>
+    usage: /<command> <uuid> <money> <point>
     default: op
     permission: gigantic.donate
+    permission-message: You don't have <permission>
+  takeover:
+    description: This is Takeover command.
+    usage: /<command> donate
+    default: op
+    permission: gigantic.takeover
     permission-message: You don't have <permission>

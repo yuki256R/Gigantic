@@ -347,4 +347,20 @@ public class ConfigManager extends YmlManager {
     public int getConvertPlacementLevel() {
         return fc.getInt("ConvertPlacementSkill.level");
     }
+
+    /**
+     * ブロック着色設定使用可能レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockColoringLevel() {
+        return fc.getInt("BlockColoringSkill.level");
+    }
+
+    /**
+     * ブロック洗浄設定使用可能レベルを取得します
+     * @return 使用可能建築レベル
+     */
+    public int getBlockWashingLevel() {
+        return fc.getInt("BlockWashingSkill.level");
+    }
 }

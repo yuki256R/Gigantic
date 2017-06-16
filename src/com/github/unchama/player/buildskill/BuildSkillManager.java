@@ -67,6 +67,8 @@ public class BuildSkillManager extends DataManager{
     private boolean blockbreak_flag;
     //設置ブロック変換フラグ
     private boolean convert_placement_flag = false;
+    //ブロック着色スキルフラグ
+    private boolean block_coloring_flag = false;
 
     /**
      * フラグのの状態を取得します
@@ -389,5 +391,43 @@ public class BuildSkillManager extends DataManager{
      */
     public boolean isConvertPlacementFlag(){
     	return convert_placement_flag;
+    }
+
+    /**
+     * ブロック着色/洗浄設定トグル
+     */
+    public void toggleBlockColoringFlag(){
+    	int needLevel = config.getBlockColoringLevel();
+        if (needLevel <= gp.getManager(BuildLevelManager.class).getBuildLevel()) {
+            this.block_coloring_flag = !(this.block_coloring_flag);
+            player.sendMessage(ChatColor.GREEN + "ブロック着色/洗浄設定:"
+                    + getFlagStatus(block_coloring_flag));
+        } else {
+            player.sendMessage(ChatColor.RED + "[ブロック着色/洗浄変換設定]建築レベルが不足しています。必要建築Lv:"
+                    + needLevel);
+        }
+    }
+
+    /**
+     * ブロック着色フラグの状態を真偽値で返します
+     * @return ture/false
+     */
+    public boolean isBlockColoringFlag(){
+    	return block_coloring_flag;
+    }
+
+    /**
+     * ブロック洗浄フラグの状態を真偽値で返します
+     * @return ture/false
+     */
+    public boolean isBlockWashingFlag(){
+    	if(!block_coloring_flag){
+    		return false;
+    	}
+    	int needLevel = config.getBlockWashingLevel();
+        if (needLevel > gp.getManager(BuildLevelManager.class).getBuildLevel()) {
+        	return false;
+        }
+    	return true;
     }
 }

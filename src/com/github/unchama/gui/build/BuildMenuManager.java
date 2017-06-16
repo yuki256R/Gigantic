@@ -37,6 +37,10 @@ public class BuildMenuManager extends GuiMenuManager{
 	private final int convertPlacementSlot = 21;
 	private final String convetPlacementStr = "convertPlacement";
 
+	// ブロック着色/洗浄トグル
+	private final int blockColoringSlot = 23;
+	private final String blockColoringStr = "blockColoring";
+
 	public BuildMenuManager(){
 		setKeyItem();
 	}
@@ -49,6 +53,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		idmap.put(6, "FLY=fin");
 		idmap.put(18, "ZoneSkill");
 		idmap.put(convertPlacementSlot, convetPlacementStr);
+		idmap.put(blockColoringSlot, blockColoringStr);
 		idmap.put(27, "LineUp");
 	}
 
@@ -99,6 +104,12 @@ public class BuildMenuManager extends GuiMenuManager{
                 bsm.toggleConvertPlacementFlag();
                 player.openInventory(this.getInventory(player));
                 break;
+
+            //ブロック着色/洗浄トグル
+            case blockColoringStr:
+            	bsm.toggleBlockColoringFlag();
+                player.openInventory(this.getInventory(player));
+            	break;
 			default:
 				return false;
 		}
@@ -263,6 +274,26 @@ public class BuildMenuManager extends GuiMenuManager{
              itemmeta.setLore(lore);
         	break;
 
+        //ブロック着色/洗浄トグル
+        case blockColoringSlot:
+	       	 itemmeta.setDisplayName(ChatColor.YELLOW + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
+	                 + "「ブロック着色/洗浄スキル」現在:" + bsm.getFlagStatus(bsm.isBlockColoringFlag()));
+	         lore = new ArrayList<>();
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "[着色スキル]" + ChatColor.GRAY + "建築Lv" + config.getBlockColoringLevel() + "以上で利用可能");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "メインハンドに染料を持って");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "ブロックに右クリックすることで、");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "羊毛系、ガラス系、堅焼き粘土を");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "着色します。（1/8で染料を消費）");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "[洗浄スキル]" + ChatColor.GRAY + "建築Lv" + config.getBlockWashingLevel() + "以上で利用可能");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "メインハンドに羽をを持って");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "ブロックに右クリックすることで、");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "ガラス系堅焼き粘土を脱色します。");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.YELLOW + "（1/16で羽を消費）");
+	         lore.add("" + ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE + "＜クリックでON/OFF切り替え＞");
+	         itemmeta.setLore(lore);
+        	break;
+
         //ブロックを並べるスキル
         case 27:
             itemmeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.UNDERLINE + "" + ChatColor.BOLD
@@ -302,6 +333,7 @@ public class BuildMenuManager extends GuiMenuManager{
 		return itemmeta;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected ItemStack getItemStack(Player player, int slot) {
         ItemStack itemstack = null;
@@ -350,6 +382,12 @@ public class BuildMenuManager extends GuiMenuManager{
             //設置ブロック変換スキル
             case convertPlacementSlot:
             	itemstack = new ItemStack(Material.LOG);
+            	break;
+
+            //ブロック着色/洗浄トグル
+            case blockColoringSlot:
+            	itemstack = new ItemStack(Material.INK_SACK);
+            	itemstack.getData().setData((byte)10);
             	break;
 
             //ブロックを並べるスキル
