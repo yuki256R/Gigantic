@@ -50,6 +50,11 @@ import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.TotalBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.WeekBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.YearBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.huntingexp.DayHuntingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.huntingexp.MonthHuntingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.huntingexp.TotalHuntingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.huntingexp.WeekHuntingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.huntingexp.YearHuntingExpRankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.DayLoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.MonthLoginTimeRankingMenuManager;
 import com.github.unchama.gui.ranking.logintime.TotalLoginTimeRankingMenuManager;
@@ -161,8 +166,12 @@ public final class GuiMenu {
         WEEKLOGINTIMERANKINGMENU(WeekLoginTimeRankingMenuManager.class),
         MONTHLOGINTIMERANKINGMENU(MonthLoginTimeRankingMenuManager.class),
         YEARLOGINTIMERANKINGMENU(YearLoginTimeRankingMenuManager.class),
+        TOTALHUNTINGEXPRANKINGMENU(TotalHuntingExpRankingMenuManager.class),
+        DAYHUNTINGEXPRANKINGMENU(DayHuntingExpRankingMenuManager.class),
+        WEEKHUNTINGEXPRANKINGMENU(WeekHuntingExpRankingMenuManager.class),
+        MONTHHUNTINGEXPRANKINGMENU(MonthHuntingExpRankingMenuManager.class),
+        YEARHUNTINGEXPRANKINGMENU(YearHuntingExpRankingMenuManager.class),
         HELPMENU(HelpMenuManager.class),
-
 		;
 
 		// 使用するManagerClass

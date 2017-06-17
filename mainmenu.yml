@@ -74,6 +74,7 @@ name: '&5&lメインメニュー'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
   isSkullofOwner: true
+  invoke: 'statistics'
 1:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

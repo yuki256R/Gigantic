@@ -3,6 +3,7 @@ package com.github.unchama.listener;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gui.ranking.logintime.HuntingExpIncrementListener;
 
 /**リスナーを追加するときはここに必ず追記すること．
  *
@@ -27,6 +28,8 @@ public enum ListenerEnum {
     BUILD(new BlockPlaceEventListener()),
     MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
     HUNTINGPOINT(new HuntingPointEventListener()),
+    HUNTINGLEVEL(new HuntingLevelListener()),
+    HUNTINGEXP(new HuntingExpIncrementListener()),
     PLAYERPICKUPITEM(new PlayerPickupItemListener()),
     BLOCKLINEUP(new BlockLineUpListener()),
     RANKINGUPDATE(new RankingUpdateListener()),
@@ -36,6 +39,7 @@ public enum ListenerEnum {
     CONVERTPLACEMENT(new ConvertPlacementListener()),
     HEADPLACECANCEL(new HeadPlaceCancelListener()),
 	EXCHANGEINVENTORY(new ExchangeInventoryListener()),
+    BLOCKCOLORING(new BlockColoringSkillListener()),
 	;
 	private Listener listener;
 

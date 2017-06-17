@@ -43,11 +43,16 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 		openmap.put(19, ManagerType.WEEKBUILDRANKINGMENU);
 		openmap.put(28, ManagerType.MONTHBUILDRANKINGMENU);
 		openmap.put(37, ManagerType.YEARBUILDRANKINGMENU);
-		openmap.put(2, ManagerType.TOTALLOGINTIMERANKINGMENU);
-		openmap.put(11, ManagerType.DAYLOGINTIMERANKINGMENU);
-		openmap.put(20, ManagerType.WEEKLOGINTIMERANKINGMENU);
-		openmap.put(29, ManagerType.MONTHLOGINTIMERANKINGMENU);
-		openmap.put(38, ManagerType.YEARLOGINTIMERANKINGMENU);
+		openmap.put(2, ManagerType.TOTALHUNTINGEXPRANKINGMENU);
+		openmap.put(11, ManagerType.DAYHUNTINGEXPRANKINGMENU);
+		openmap.put(20, ManagerType.WEEKHUNTINGEXPRANKINGMENU);
+		openmap.put(29, ManagerType.MONTHHUNTINGEXPRANKINGMENU);
+		openmap.put(38, ManagerType.YEARHUNTINGEXPRANKINGMENU);
+		openmap.put(3, ManagerType.TOTALLOGINTIMERANKINGMENU);
+		openmap.put(12, ManagerType.DAYLOGINTIMERANKINGMENU);
+		openmap.put(21, ManagerType.WEEKLOGINTIMERANKINGMENU);
+		openmap.put(30, ManagerType.MONTHLOGINTIMERANKINGMENU);
+		openmap.put(39, ManagerType.YEARLOGINTIMERANKINGMENU);
 	}
 
 	@Override
@@ -127,22 +132,42 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（年間）");
 			break;
 		case 2:
+			itemstack = head.getMobHead("Creeper");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "狩猟経験値ランキング（総合）");
+			break;
+		case 11:
+			itemstack = head.getMobHead("Creeper");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "狩猟経験値ランキング（日間）");
+			break;
+		case 20:
+			itemstack = head.getMobHead("Creeper");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "狩猟経験値ランキング（週間）");
+			break;
+		case 29:
+			itemstack = head.getMobHead("Creeper");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "狩猟経験値ランキング（月間）");
+			break;
+		case 38:
+			itemstack = head.getMobHead("Creeper");
+			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "狩猟経験値ランキング（年間）");
+			break;
+		case 3:
 			itemstack = head.getMobHead("light_bulb");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（総合）");
 			break;
-		case 11:
+		case 12:
 			itemstack = head.getMobHead("light_bulb");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（日間）");
 			break;
-		case 20:
+		case 21:
 			itemstack = head.getMobHead("light_bulb");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（週間）");
 			break;
-		case 29:
+		case 30:
 			itemstack = head.getMobHead("light_bulb");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（月間）");
 			break;
-		case 38:
+		case 39:
 			itemstack = head.getMobHead("light_bulb");
 			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（年間）");
 			break;
