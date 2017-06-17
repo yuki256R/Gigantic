@@ -14,6 +14,7 @@ public enum CommandType {
     PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
 	DONATE(new DonateCommand()),
+	TAKEOVER(new TakeoverCommand()),
 	;
 
 
