@@ -9,6 +9,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager;
@@ -128,9 +129,10 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
         //ブロックは対象ブロックかどうか判断
         for (Material material : material_destruction) {
             if (block.getType().equals(material)) {
-                block.setType(Material.GLASS);
-                gp.getManager(SkyWalkData.class).add(block);
-                mm.decrease(config.getSkywalkMana());
+                FootBlock footblock = new FootBlock(player, new Coordinate(player_x, player_y - 1, player_z),
+                        5, 20, Material.GRASS);
+                SkyWalkData sd = gp.getManager(SkyWalkData.class);
+                sd.add(footblock);
                 return;
             } else {
                 continue;

@@ -19,13 +19,13 @@ public class SkyWalkData extends DataManager implements Finalizable{
         super(gp);
         this.footplacelist = new ArrayList<>();
     }
-    private List<Block> footplacelist;
+    private List<FootBlock> footplacelist;
 
-    public void add(Block block) {
-        footplacelist.add(block);
+    public void add(FootBlock footblock) {
+        footplacelist.add(footblock);
     }
 
-    public List<Block> getFootplacelist() {
+    public List<FootBlock> getFootplacelist() {
         return footplacelist;
     }
 

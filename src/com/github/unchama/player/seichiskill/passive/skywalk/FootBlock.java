@@ -1,6 +1,7 @@
 package com.github.unchama.player.seichiskill.passive.skywalk;
 
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -58,7 +59,7 @@ public class FootBlock {
         return material;
     }
 
-    public void generateBlock() {
+    public void generateBlock(Material material) {
         //ワールド取得
         World world = player.getWorld();
         //開始ブロックを取得(プレイヤーの1マス下)
@@ -66,13 +67,47 @@ public class FootBlock {
         int y = this.coordinate.getY();
         int z = this.coordinate.getZ();
 
-        if ()
+        //プレイヤーの向いてる方角検知用
+        Location loc = player.getLocation();
+        float yaw = loc.getYaw();
+
+        //180度で北。360度で南。90度で西。270度で東。
+        Direction direction = null;
+
+        if (135 <= yaw && yaw < 225) {
+            direction = Direction.NORTH;
+        } else if (225 <= yaw && yaw < 360) {
+            direction = Direction.EAST;
+        } else if (360 <= yaw && yaw < 45) {
+            direction = Direction.SOUTH;
+        } else if (45 <= yaw && yaw < 135) {
+            direction = Direction.WEST;
+        }
+        this.generate(world, direction, x, y, z, material);
     }
 
-    private void generate(Direction direction) {
+    private void generate(World world, Direction direction, int x, int y, int z, Material material) {
+
+        //落下防止のため、始めにプレイヤーの下にブロックを置く
+        world.getBlockAt(x, y, z).setType(material);
+
         switch (direction) {
-            
+            case NORTH:
+                //北向き
+                for (int i = 0; i <= this.half_width; i++) {
+                    for (int j = 0; j <= this.length + 1; j++) {
+                        if (world.getBlockAt(x - i, y, z + j).getType().equals(Material.AIR)) {
+                            world.getBlockAt(x - i, y, z + j).setType(material);
+                        }
+                    }
+                }
+            default:
+                return;
         }
+    }
+
+    public void remove() {
+        this.generateBlock(Material.AIR);
     }
 
     public enum Direction {

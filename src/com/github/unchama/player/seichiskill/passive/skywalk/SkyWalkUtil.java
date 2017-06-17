@@ -22,9 +22,9 @@ public class SkyWalkUtil {
      * @param material 置き換えるブロック
      * @param player プレイヤー
      */
-    public static void changeBlock(List<Block> breaklist, Material material, Player player) {
-        for (Block breakblock : breaklist) {
-            breakblock.setType(material);
+    public static void changeBlock(List<FootBlock> breaklist, Material material, Player player) {
+        for (FootBlock breakblock : breaklist) {
+            breakblock.remove();
             GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
             gp.getManager(SkyWalkData.class).clearFootplacelist();
         }

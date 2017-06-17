@@ -4,6 +4,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.player.seichiskill.passive.skywalk.FootBlock;
 import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkData;
 import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkUtil;
@@ -51,8 +52,10 @@ public class FootBlockBreakTaskRunnable extends BukkitRunnable {
                         GiganticStatus gs = PlayerManager.getStatus(gp);
                         if (gs.equals(GiganticStatus.AVAILABLE)) {
                             SkyWalkData data = gp.getManager(SkyWalkData.class);
-                            List<Block> breaklist = data.getFootplacelist();
-                            SkyWalkUtil.changeBlock(breaklist, Material.AIR, player);
+                            List<FootBlock> breaklist = data.getFootplacelist();
+                            for (FootBlock breakblock : breaklist) {
+                                breakblock.remove();
+                            }
                         }
                     }
                 }
