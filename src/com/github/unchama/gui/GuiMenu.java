@@ -44,6 +44,7 @@ import com.github.unchama.gui.minestack.otherwise.CategoryOtherwiseMenuManager;
 import com.github.unchama.gui.minestack.redstone.CategoryRedstoneMenuManager;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.gui.presentbox.PresentBoxMenuManager;
+import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.gui.ranking.RankingSelectMenuManager;
 import com.github.unchama.gui.ranking.build.DayBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
@@ -71,6 +72,7 @@ import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.CondensationMenuManager;
+import com.github.unchama.gui.seichiskill.active.explosion.E_EffectSellectMenu;
 import com.github.unchama.gui.seichiskill.active.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.explosion.ExplosionMenuManager;
 import com.github.unchama.gui.seichiskill.active.fairyaegis.F_RangeMenuManager;
@@ -117,6 +119,7 @@ public final class GuiMenu {
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
+		E_EFFECTSELECTMENU(E_EffectSellectMenu.class),
 		MD_RANGEMENU(MD_RangeMenuManager.class),
 		MAGICDRIVEMENU(MagicDriveMenuManager.class),
 		CONDENSATIONMENU(CondensationMenuManager.class),
@@ -265,5 +268,17 @@ public final class GuiMenu {
 	@SuppressWarnings("unchecked")
 	public <T extends GuiMenuManager> T getManager(Class<T> type) {
 		return (T) managermap.get(type);
+	}
+
+	/**ランキングメニューを自動作成
+	 *
+	 */
+	public void refresh() {
+		for (ManagerType ye : ManagerType.values()) {
+			if(RankingMenuManager.class.isAssignableFrom(ye.getManagerClass())){
+				RankingMenuManager m = (RankingMenuManager) managermap.get(ye.getManagerClass());
+				m.reflesh();
+			}
+		}
 	}
 }
