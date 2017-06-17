@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.huntinglevel.HuntingLevelManager;
+import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
@@ -13,9 +13,9 @@ import com.github.unchama.sql.moduler.PlayerTableManager;
 * @author ten_niti
 *
 */
-public class HuntingLevelTableManager extends PlayerTableManager {
+public class FishingLevelTableManager extends PlayerTableManager {
 
-	public HuntingLevelTableManager(Sql sql) {
+	public FishingLevelTableManager(Sql sql) {
 		super(sql);
 	}
 
@@ -29,20 +29,20 @@ public class HuntingLevelTableManager extends PlayerTableManager {
 
 	@Override
 	protected boolean newPlayer(GiganticPlayer gp) {
-		HuntingLevelManager m = gp.getManager(HuntingLevelManager.class);
+		FishingLevelManager m = gp.getManager(FishingLevelManager.class);
 		m.setExp(0);
 		return false;
 	}
 
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
-		HuntingLevelManager m = gp.getManager(HuntingLevelManager.class);
+		FishingLevelManager m = gp.getManager(FishingLevelManager.class);
 		m.setExp(rs.getDouble("exp"));
 	}
 
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
-		HuntingLevelManager m = gp.getManager(HuntingLevelManager.class);
+		FishingLevelManager m = gp.getManager(FishingLevelManager.class);
 		String command = "";
 		command += "exp = '" + m.getExp() + "',";
 		return command;

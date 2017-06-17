@@ -15,6 +15,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
@@ -47,6 +48,7 @@ import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
+import com.github.unchama.sql.player.FishingLevelTableManager;
 import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
 import com.github.unchama.sql.player.HuntingLevelTableManager;
@@ -109,6 +111,7 @@ public class Sql {
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
 		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
+		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),
 		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		;
 

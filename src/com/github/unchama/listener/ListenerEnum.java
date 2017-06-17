@@ -39,6 +39,8 @@ public enum ListenerEnum {
     CONVERTPLACEMENT(new ConvertPlacementListener()),
     HEADPLACECANCEL(new HeadPlaceCancelListener()),
     BLOCKCOLORING(new BlockColoringSkillListener()),
+    FISHING(new FishingListener()),
+    FISHINGLEVEL(new FishingLevelListener()),
 	;
 	private Listener listener;
 
