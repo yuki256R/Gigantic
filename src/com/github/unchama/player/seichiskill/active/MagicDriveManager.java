@@ -200,7 +200,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.run(st,breaklist, liquidlist,alllist,this.getRange());
+		effm.createRunner(st).magicdriveEffect(breaklist, liquidlist, alllist, this.getRange());
 
 		int cooltime = this.getCoolTime(breaklist.size());
 

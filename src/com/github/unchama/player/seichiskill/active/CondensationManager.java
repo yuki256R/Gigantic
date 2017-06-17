@@ -17,6 +17,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
@@ -142,29 +143,14 @@ public class CondensationManager extends ActiveSkillManager {
 				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
 			});
 
-		// condensの処理
-		liquidlist.forEach(b -> {
-			switch (b.getType()) {
-			case STATIONARY_WATER:
-			case WATER:
-				b.setType(Material.PACKED_ICE);
-				break;
-			case LAVA:
-			case STATIONARY_LAVA:
-				b.setType(Material.MAGMA);
-				break;
-			default:
-				break;
-			}
-		});
-
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logPlacement(player, liquidlist.get(0));
 
-		// condens後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
+
+		effm.createRunner(st).condensationEffect(liquidlist, range);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

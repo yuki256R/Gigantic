@@ -106,14 +106,9 @@ public class Sql {
 				DimensionalInventoryManager.class), //
 		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
-<<<<<<< HEAD
-		BUILDRANKING(BuildRankingTableManager.class), //
-		LOGINTIMERANKING(LoginTimeRankingTableManager.class), //
-=======
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
->>>>>>> refs/remotes/unchama/master
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
 		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class), //
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //

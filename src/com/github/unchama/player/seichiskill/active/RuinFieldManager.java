@@ -384,7 +384,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.run(st, breaklist, liquidlist, alllist, this.getRange());
+		effm.createRunner(st).ruinfieldEffect(breaklist, liquidlist, alllist, this.getRange());
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

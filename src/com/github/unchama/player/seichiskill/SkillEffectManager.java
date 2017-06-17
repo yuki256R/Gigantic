@@ -1,15 +1,11 @@
 package com.github.unchama.player.seichiskill;
 
 import java.util.HashMap;
-import java.util.List;
-
-import org.bukkit.block.Block;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
-import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.EffectRunner;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 
@@ -35,14 +31,11 @@ public final class SkillEffectManager extends DataManager implements UsingSql {
 		tm.save(gp, loginflag);
 	}
 
-	/**
+	/**エフェクトを回すランナーを取得します．
 	 *
-	 * @param breaklist
-	 * @param liquidlist
-	 * @param t
+	 * @return EffectRunner
 	 */
-	public void run(ActiveSkillType st, List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
-			BreakRange range) {
+	public EffectRunner createRunner(ActiveSkillType st) {
 		Class<? extends EffectRunner> ec = this.getRunnerClass(st);
 		runner = null;
 		try {
@@ -50,9 +43,8 @@ public final class SkillEffectManager extends DataManager implements UsingSql {
 		} catch (InstantiationException | IllegalAccessException e) {
 			plugin.getLogger().warning("Failed to create  new Effect Instance of player:" + gp.name);
 			e.printStackTrace();
-			return;
 		}
-		runner.call(st, breaklist, liquidlist, alllist, range);
+		return runner;
 	}
 
 	private Class<? extends EffectRunner> getRunnerClass(ActiveSkillType st) {
