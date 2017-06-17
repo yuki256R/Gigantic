@@ -26,7 +26,7 @@ public class HuntingLevelTableManager extends PlayerTableManager {
 	protected boolean newPlayer(GiganticPlayer gp) {
 		HuntingLevelManager m = gp.getManager(HuntingLevelManager.class);
 		m.setExp(0);
-		return false;
+		return true;
 	}
 
 	@Override

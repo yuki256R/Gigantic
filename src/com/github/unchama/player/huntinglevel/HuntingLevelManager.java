@@ -50,12 +50,11 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 	 * @return
 	 */
 	private boolean canLevelup() {
-		double temp = exp.doubleValue();
-
-		if (levelmap.get(level).getNextExp() > temp) {
+		if (level >= huntingpoint.getMaxHuntingLevel()) {
 			return false;
 		}
-		if (level >= huntingpoint.getMaxHuntingLevel()) {
+		double temp = exp.doubleValue();
+		if (levelmap.get(level).getNextExp() > temp) {
 			return false;
 		}
 
