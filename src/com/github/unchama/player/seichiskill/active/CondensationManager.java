@@ -13,19 +13,17 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.player.CondensationTableManager;
-import com.github.unchama.task.CondensationTaskRunnable;
 import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.breakblock.BreakUtil;
 
@@ -33,11 +31,9 @@ import com.github.unchama.util.breakblock.BreakUtil;
  * @author tar0ss
  *
  */
-public class CondensationManager extends ActiveSkillManager implements
-		Finalizable {
+public class CondensationManager extends ActiveSkillManager {
 
 	CondensationTableManager tm;
-	BukkitTask task;
 
 	public CondensationManager(GiganticPlayer gp) {
 		super(gp);
@@ -59,21 +55,9 @@ public class CondensationManager extends ActiveSkillManager implements
 	@Override
 	public void toggle() {
 		this.setToggle(!toggle);
-		if (task != null) {
-			task.cancel();
-		}
-		if (toggle) {
-			task = new CondensationTaskRunnable(gp).runTaskTimerAsynchronously(
-					plugin, 1, 10);
-		}
+		gp.getManager(RuinFieldManager.class).runTask();
 	}
 
-	@Override
-	public void fin() {
-		if (task != null) {
-			task.cancel();
-		}
-	}
 
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
@@ -159,29 +143,14 @@ public class CondensationManager extends ActiveSkillManager implements
 				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
 			});
 
-		// condensの処理
-		liquidlist.forEach(b -> {
-			switch (b.getType()) {
-			case STATIONARY_WATER:
-			case WATER:
-				b.setType(Material.PACKED_ICE);
-				break;
-			case LAVA:
-			case STATIONARY_LAVA:
-				b.setType(Material.MAGMA);
-				break;
-			default:
-				break;
-			}
-		});
-
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logPlacement(player, liquidlist.get(0));
 
-		// condens後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
+
+		effm.createRunner(st).condensationEffect(liquidlist, range);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

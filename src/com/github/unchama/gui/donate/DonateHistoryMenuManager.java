@@ -1,11 +1,12 @@
 package com.github.unchama.gui.donate;
 
-import com.github.unchama.donate.DonateData;
-import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.donate.DonateData;
+import com.github.unchama.player.donate.DonateDataManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;

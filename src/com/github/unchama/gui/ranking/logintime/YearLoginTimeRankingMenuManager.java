@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
-import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
 
 /**
@@ -26,7 +25,11 @@ public final class YearLoginTimeRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		String date = TimeUtil.getDateTimeName(TimeType.YEAR, 0);
-		return ChatColor.BLUE + "年間接続時間ﾗﾝｷﾝｸﾞ(" + date + "~)";
+		return ChatColor.BLUE + "年間接続時間ﾗﾝｷﾝｸﾞ";
+	}
+
+	@Override
+	protected TimeType getTimeType() {
+		return TimeType.YEAR;
 	}
 }

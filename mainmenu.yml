@@ -74,6 +74,7 @@ name: '&5&lメインメニュー'
       - '&r&a各サバイバルサーバー間で'
       - '&r&a共有されます'
   isSkullofOwner: true
+  invoke: 'statistics'
 1:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -217,6 +218,19 @@ name: '&5&lメインメニュー'
       - '&r専用ショップで購入ができます'
   mobhead: 'pc'
   openmenu: 'huntmainmenu'
+21:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: HOPPER
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lアイテム交換システム'
+      lore:
+      - '&r&4&nクリックで開く'
+      - '&r&c不要な鉱石やガチャ景品を'
+      - '&r&e交換できます!!'
+  openmenu: 'exchangemenu'
 22:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
