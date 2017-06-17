@@ -102,11 +102,23 @@ public class HuntingPointDataManager extends YmlManager {
 		}
 	}
 
-	static Map<String, List<HuntingPointShopItem>> shopItems;
+	// MOBごとのショップアイテム
+	private static Map<String, List<HuntingPointShopItem>> shopItems;
 
-	static Map<String, HuntMobData> MobNames;
+	// MOBごとの基本情報
+	private static Map<String, HuntMobData> MobNames;
 
-	static Map<String, String> ConvertNames;
+	// 名前を変換する必要がある対応
+	private static Map<String, String> ConvertNames;
+
+	// 狩猟ポイントの判定を除外するワールド
+	private static List<String> WorldIgnore;
+
+	// 整地鯖で経験値判定を除外するMOB
+	private static List<String> SeichiExpIgnore;
+
+	// 最大狩猟レベル
+	private int MaxHuntingLevel;
 
 	CustomHeadManager headManager = Gigantic.yml
 			.getManager(CustomHeadManager.class);
@@ -172,6 +184,14 @@ public class HuntingPointDataManager extends YmlManager {
 			}
 			shopItems.put(name, list);
 		}
+
+		// 最大狩猟レベル
+		MaxHuntingLevel = this.fc.getInt("maxhuntinglevel");
+
+		// 除外設定
+		WorldIgnore = this.fc.getStringList("world_ignore");
+		SeichiExpIgnore = this.fc.getStringList("seichi_exp_ignore");
+
 	}
 
 	private void addShopList(List<HuntingPointShopItem> list,
@@ -285,5 +305,17 @@ public class HuntingPointDataManager extends YmlManager {
 
 	public HuntMobData getMobData(String name) {
 		return MobNames.get(name);
+	}
+
+	public boolean isIgnoreWorld(String worldName){
+		return WorldIgnore.contains(worldName);
+	}
+
+	public boolean isExpIgnoreMob(String MobName){
+		return SeichiExpIgnore.contains(MobName);
+	}
+
+	public int getMaxHuntingLevel(){
+		return MaxHuntingLevel;
 	}
 }
