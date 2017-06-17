@@ -38,6 +38,7 @@ public enum ListenerEnum {
     GACHAAPPLE(new GachaAppleListener()),
     CONVERTPLACEMENT(new ConvertPlacementListener()),
     HEADPLACECANCEL(new HeadPlaceCancelListener()),
+	EXCHANGEINVENTORY(new ExchangeInventoryListener()),
     BLOCKCOLORING(new BlockColoringSkillListener()),
 	;
 	private Listener listener;
