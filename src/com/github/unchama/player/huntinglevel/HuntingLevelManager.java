@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 
+import com.github.unchama.event.HuntingLevelUpEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -48,11 +49,14 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 	 * @return
 	 */
 	private boolean canLevelup() {
-		int temp = exp.intValue();
+		double temp = exp.doubleValue();
+
+		Bukkit.getServer().getLogger().info("level : " + level);
+		Bukkit.getServer().getLogger().info("" + levelmap.get(level).getNextExp());
 		if (levelmap.get(level).getNextExp() > temp) {
 			return false;
 		}
-		if (level < huntingpoint.getMaxHuntingLevel()) {
+		if (level >= huntingpoint.getMaxHuntingLevel()) {
 			return false;
 		}
 
@@ -102,8 +106,10 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 	public boolean updateLevel() {
 		boolean changeflag = false;
 		while (this.canLevelup()) {
-			// Bukkit.getServer().getPluginManager()
-			// .callEvent(new SeichiLevelUpEvent(gp, level + 1));
+			Bukkit.getServer().getLogger().info("levelup : " + level);
+
+			Bukkit.getServer().getPluginManager()
+			.callEvent(new HuntingLevelUpEvent(gp, level + 1));
 			level++;
 			changeflag = true;
 		}
@@ -115,10 +121,10 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 	 *
 	 * @return
 	 */
-	public long getRemainingExp() {
+	public double getRemainingExp() {
 		return this.level < huntingpoint.getMaxHuntingLevel() ? levelmap.get(
 				this.level).getNextExp()
-				- exp.intValue() : 0;
+				- exp.doubleValue() : 0;
 	}
 
 	/**

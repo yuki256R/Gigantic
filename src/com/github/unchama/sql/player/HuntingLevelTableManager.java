@@ -8,7 +8,7 @@ import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
-public class HuntingLevelTableManager extends PlayerTableManager{
+public class HuntingLevelTableManager extends PlayerTableManager {
 
 	public HuntingLevelTableManager(Sql sql) {
 		super(sql);
@@ -38,8 +38,8 @@ public class HuntingLevelTableManager extends PlayerTableManager{
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
 		HuntingLevelManager m = gp.getManager(HuntingLevelManager.class);
-        String command = "";
-        command += "exp = '" + m.getExp() + "',";
-        return command;
+		String command = "";
+		command += "exp = '" + m.getExp() + "',";
+		return command;
 	}
 }
