@@ -17,8 +17,10 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.ActiveSkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.util.Converter;
@@ -29,6 +31,7 @@ import com.github.unchama.util.Converter;
  */
 public class ExplosionMenuManager extends ActiveSkillMenuManager {
 	private static Class<? extends ActiveSkillManager> clazz = ExplosionManager.class;
+	private static ActiveSkillType st = ActiveSkillType.EXPLOSION;
 
 	@Override
 	public String getInventoryName(Player player) {
@@ -39,6 +42,7 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		SkillEffectManager Em = gp.getManager(SkillEffectManager.class);
 		ActiveSkillManager m = gp.getManager(clazz);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
 		if (mt == null)
@@ -150,6 +154,12 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "未実装");
 			itemmeta.setLore(lore);
 			break;
+		case EFFECT:
+			itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "エフェクト選択");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "現在のエフェクト :" + Em.getName(st));
+			itemmeta.setLore(lore);
+			break;
 		default:
 			break;
 		}
@@ -177,6 +187,9 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
 			break;
+		case EFFECT:
+			itemstack = head.getMobHead("f_cube");
+			break;
 		default:
 			break;
 		}
@@ -186,6 +199,7 @@ public class ExplosionMenuManager extends ActiveSkillMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(MenuType.RANGE.getSlot(), ManagerType.E_RANGEMENU);
+		openmap.put(MenuType.EFFECT.getSlot(), ManagerType.E_EFFECTSELECTMENU);
 
 	}
 

@@ -1,13 +1,14 @@
 package com.github.unchama.command;
 
-import com.github.unchama.donate.DonateData;
-import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.donate.DonateData;
+import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.seichi.sql.SeichiDonateTableManager;
 import com.github.unchama.sql.donate.DonateTableManager;
 import com.google.common.collect.Multimap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

@@ -1,6 +1,6 @@
 package com.github.unchama.seichi.sql;
 
-import com.github.unchama.donate.DonateData;
+import com.github.unchama.player.donate.DonateData;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 

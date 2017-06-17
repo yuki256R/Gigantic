@@ -4,14 +4,14 @@ import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.entity.Player;
 
-import com.github.unchama.gui.ranking.RankingMenuManager;
+import com.github.unchama.gui.ranking.TotalRankingMenuManager;
 import com.github.unchama.util.Util;
 
 /**
  * @author ten_niti
  *
  */
-public class TotalHuntingExpRankingMenuManager extends RankingMenuManager {
+public class TotalHuntingExpRankingMenuManager extends TotalRankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
@@ -20,7 +20,7 @@ public class TotalHuntingExpRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		return ChatColor.BLUE + "狩猟経験値ランキング（総合）";
+		return ChatColor.BLUE + "総合狩猟経験値ランキング";
 	}
 
 }

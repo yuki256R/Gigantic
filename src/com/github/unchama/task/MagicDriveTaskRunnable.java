@@ -84,14 +84,12 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 					debug.sendMessage(player, DebugEnum.SKILL,
 							"サバイバルではないのでスキルの発動ができません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
 				// フライ中に使用していた時終了
 				if (player.isFlying()) {
 					player.sendMessage("フライ中はスキルの発動ができません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
@@ -99,7 +97,6 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				// 使用可能ワールドではないとき終了
 				if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
 					player.sendMessage("このワールドではスキルの発動ができません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
@@ -108,7 +105,6 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 
 				if (tool == null) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
@@ -116,7 +112,6 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				// スキルを発動できるツールでないとき終了
 				if (!ActiveSkillManager.canBreak(tool)) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}

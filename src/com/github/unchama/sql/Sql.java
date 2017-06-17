@@ -10,11 +10,11 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.UUID;
 
-import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
@@ -27,6 +27,7 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -63,6 +64,7 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
+import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
@@ -83,7 +85,7 @@ public class Sql {
 	public static enum ManagerType {
 		GIGANTICGACHA(GiganticGachaTableManager.class), //
 		PREMIUMGACHA(PremiumGachaTableManager.class), //
-		OLDGACHA(OldGachaTableManager.class),//
+		OLDGACHA(OldGachaTableManager.class), //
 		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
@@ -112,7 +114,7 @@ public class Sql {
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
 		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
 		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),
-		//PLAYEREFFECT(SkillEffectTableManager.class),//
+		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -506,7 +508,7 @@ public class Sql {
 				ptm.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 			else if (mt == DonateTableManager.class) {
-				((DonateTableManager)managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
+				((DonateTableManager) managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 		}
 	}
