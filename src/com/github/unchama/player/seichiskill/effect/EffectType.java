@@ -16,7 +16,7 @@ import com.github.unchama.util.Util;
  */
 public enum EffectType {
 	NORMAL(0,NormalEffectRunner.class,ChatColor.GREEN + "通常","エフェクトなし",0,Material.GRASS),
-	DYNAMITE(1,NormalEffectRunner.class, ChatColor.RED + "ダイナマイト", "単純な爆発", 50, Material.TNT),
+	DYNAMITE(1,DynamiteEffectRunner.class, ChatColor.RED + "ダイナマイト", "単純な爆発", 50, Material.TNT),
 	BLIZZARD(2,NormalEffectRunner.class, ChatColor.AQUA + "ブリザード", "凍らせる", 70, Material.PACKED_ICE),
 	METEO(3,NormalEffectRunner.class, ChatColor.DARK_RED + "メテオ", "隕石を落とす", 100, Material.FIREBALL), ;
 

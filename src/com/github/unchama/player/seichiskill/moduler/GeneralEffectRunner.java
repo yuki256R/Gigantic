@@ -22,9 +22,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		// breakの処理
 		alllist.forEach(b -> {
 			b.setType(Material.AIR);
-		});
-		// break後の処理
-		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -35,9 +32,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		// breakの処理
 		alllist.forEach(b -> {
 			b.setType(Material.AIR);
-		});
-		// break後の処理
-		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -58,9 +52,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 			default:
 				break;
 			}
-		});
-		// condens後の処理
-		liquidlist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -71,9 +62,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		// breakの処理
 		alllist.forEach(b -> {
 			b.setType(Material.AIR);
-		});
-		// break後の処理
-		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
