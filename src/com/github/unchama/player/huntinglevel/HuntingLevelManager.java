@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 
+import com.github.unchama.event.HuntingExpIncrementEvent;
 import com.github.unchama.event.HuntingLevelUpEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
@@ -51,8 +52,6 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 	private boolean canLevelup() {
 		double temp = exp.doubleValue();
 
-		Bukkit.getServer().getLogger().info("level : " + level);
-		Bukkit.getServer().getLogger().info("" + levelmap.get(level).getNextExp());
 		if (levelmap.get(level).getNextExp() > temp) {
 			return false;
 		}
@@ -75,25 +74,28 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 		}
 	}
 
-	public double getExp(){
+	public double getExp() {
 		return exp.doubleValue();
 	}
 
 	/**
 	 * エンティティから経験値を算出して加算します
+	 *
 	 * @param entity
 	 * @param name
 	 * @return
 	 */
-	public boolean addExp(LivingEntity entity, String name){
-		if(huntingpoint.isExpIgnoreMob(name)){
+	public boolean addExp(LivingEntity entity, String name) {
+		if (huntingpoint.isExpIgnoreMob(name)) {
 			return false;
 		}
 
 		double tempExp = entity.getMaxHealth() * 5;
+		Bukkit.getPluginManager().callEvent(
+				new HuntingExpIncrementEvent(gp, tempExp, exp.doubleValue()));
+
 		exp = exp.add(new BigDecimal(tempExp));
 		updateLevel();
-		Bukkit.getServer().getLogger().info("exp : " + tempExp + " " + exp);
 
 		return true;
 	}
@@ -106,10 +108,8 @@ public class HuntingLevelManager extends DataManager implements UsingSql {
 	public boolean updateLevel() {
 		boolean changeflag = false;
 		while (this.canLevelup()) {
-			Bukkit.getServer().getLogger().info("levelup : " + level);
-
 			Bukkit.getServer().getPluginManager()
-			.callEvent(new HuntingLevelUpEvent(gp, level + 1));
+					.callEvent(new HuntingLevelUpEvent(gp, level + 1));
 			level++;
 			changeflag = true;
 		}
