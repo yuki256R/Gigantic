@@ -18,6 +18,7 @@ import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManage
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -48,6 +49,7 @@ import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
+import com.github.unchama.sql.player.HuntingLevelTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.sql.player.ManaTableManager;
@@ -96,6 +98,7 @@ public class Sql {
 		REGION(RegionTableManager.class, RegionManager.class), //
 		PLAYERTIME(PlayerTimeTableManager.class, PlayerTimeManager.class), //
 		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
+		HUNTINGLEVEL(HuntingLevelTableManager.class, HuntingLevelManager.class), //
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
 				DimensionalInventoryManager.class), //
 		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
