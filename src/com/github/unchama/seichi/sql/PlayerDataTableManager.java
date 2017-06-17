@@ -178,6 +178,75 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
+	public int getTotalJoin(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select TotalJoin from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("TotalJoin");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load TotalJoin player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public int getChainJoin(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select ChainJoin from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("ChainJoin");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load ChainJoin player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public String getLastCheckDate(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String ans = "";
+
+		command = "select lastcheckdate from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getString("lastcheckdate");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load lastcheckdate player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
 	public int getRgnum(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
