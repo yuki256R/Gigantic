@@ -1,4 +1,4 @@
-package com.github.unchama.player.fishing;
+package com.github.unchama.player.fishinglevel;
 
 /**
  *

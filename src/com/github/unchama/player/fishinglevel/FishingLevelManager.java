@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import com.github.unchama.event.FishingExpIncrementEvent;
 import com.github.unchama.event.FishingLevelUpEvent;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.fishing.FishingLevel;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.FishingLevelTableManager;
