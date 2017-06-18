@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
@@ -27,8 +26,6 @@ import com.github.unchama.player.sidebar.SideBarManager.Information;
 public class FairyAegisTaskRunnable extends BukkitRunnable {
 
 	private static final ActiveSkillType st = ActiveSkillType.FAIRYAEGIS;
-
-	private static List<Block> skilledblocklist = Gigantic.skilledblocklist;
 
 	private Player player;
 	private GiganticPlayer gp;
@@ -69,10 +66,6 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 	@Override
 	public void run() {
 		if (height < minheight) {
-			breakMap.forEach((i, blist) -> {
-				if (!blist.isEmpty())
-					skilledblocklist.removeAll(blist);
-			});
 			cancel();
 			Fm.takeBreak();
 			if (Fm.isunlocked()) {
