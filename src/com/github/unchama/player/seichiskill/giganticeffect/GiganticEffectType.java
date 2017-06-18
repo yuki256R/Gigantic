@@ -1,9 +1,11 @@
 /**
  *
  */
-package com.github.unchama.player.seichiskill.premiumeffect;
+package com.github.unchama.player.seichiskill.giganticeffect;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
@@ -11,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.seichiskill.EffectCategory;
 import com.github.unchama.player.seichiskill.effect.NormalEffectRunner;
-import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.CustomHeadManager;
 
@@ -19,13 +21,13 @@ import com.github.unchama.yml.CustomHeadManager;
  * @author tar0ss
  *
  */
-public enum PremiumEffectType {
+public enum GiganticEffectType {
 	MAGIC(1, NormalEffectRunner.class, ChatColor.RED + "マジック", "鶏が出る手品", 10, "clown"), ;
 
-	private static final PremiumEffectType[] etList = PremiumEffectType.values();
-	private static final HashMap<Integer,PremiumEffectType> idMap = new HashMap<Integer,PremiumEffectType>(){
+	private static final GiganticEffectType[] etList = GiganticEffectType.values();
+	private static final HashMap<Integer,GiganticEffectType> idMap = new HashMap<Integer,GiganticEffectType>(){
 		{
-			for(PremiumEffectType et : etList){
+			for(GiganticEffectType et : etList){
 				put(et.getId(),et);
 			}
 		}
@@ -49,9 +51,9 @@ public enum PremiumEffectType {
 	 * @param useDonatePoint
 	 * @param headname
 	 */
-	private PremiumEffectType(int id, Class<? extends EffectRunner> e_Class, String name, String lore,
+	private GiganticEffectType(int id, Class<? extends EffectRunner> e_Class, String name, String lore,
 			int useDonatePoint, String headname) {
-		this.id = EffectCategory.NORMAL.getEffectID(id);
+		this.id = EffectCategory.GIGANTIC.getEffectID(id);
 		this.e_Class = e_Class;
 		this.name = name;
 		this.lore = lore;
@@ -108,10 +110,16 @@ public enum PremiumEffectType {
 	}
 
 	public static ItemStack getSellectButton(int effect_id) {
-		PremiumEffectType et = idMap.get(effect_id);
+		GiganticEffectType et = idMap.get(effect_id);
 		ItemStack is = Gigantic.yml.getManager(CustomHeadManager.class).getMobHead(et.getHeadname());
 		Util.setDisplayName(is, et.getName());
-		Util.setLore(is, et.getLore());
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + et.getLore());
+		lore.add(ChatColor.DARK_GREEN + "このエフェクトは寄付によって");
+		lore.add(ChatColor.DARK_GREEN + "得られたポイント(GiganticPoint)で");
+		lore.add(ChatColor.DARK_GREEN + "購入することができます．");
+		lore.add(ChatColor.GREEN + "必要GP:" + et.getUseDonatePoint());
+		Util.setLore(is, lore);
 		return is;
 	}
 }

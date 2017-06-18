@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.github.unchama.player.seichiskill.moduler;
+package com.github.unchama.player.seichiskill.moduler.effect;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,8 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
 
 /**通常のエフェクトはこちらを継承してください．
  * @author tar0ss

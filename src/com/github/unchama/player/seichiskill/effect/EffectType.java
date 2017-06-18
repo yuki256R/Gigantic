@@ -1,13 +1,15 @@
 package com.github.unchama.player.seichiskill.effect;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.seichiskill.EffectCategory;
-import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.util.Util;
 
 /**
@@ -110,7 +112,14 @@ public enum EffectType {
 		EffectType et = idMap.get(effect_id);
 		ItemStack is = new ItemStack(et.getMenuMaterial());
 		Util.setDisplayName(is, et.getName());
-		Util.setLore(is, et.getLore());
+
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + et.getLore());
+		lore.add(ChatColor.DARK_GREEN + "このエフェクトは投票によって");
+		lore.add(ChatColor.DARK_GREEN + "得られたポイント(UnchamaPoint)で");
+		lore.add(ChatColor.DARK_GREEN + "購入することができます．");
+		lore.add(ChatColor.GREEN + "必要UP:" + et.getUseVotePoint());
+		Util.setLore(is, lore);
 		return is;
 	}
 

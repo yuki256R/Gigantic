@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.github.unchama.player.seichiskill.moduler;
+package com.github.unchama.player.seichiskill.moduler.effect;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +12,8 @@ import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
 
 /**エフェクトを作成する時は，この抽象クラスを直接継承しないでください．
  * @author tar0ss

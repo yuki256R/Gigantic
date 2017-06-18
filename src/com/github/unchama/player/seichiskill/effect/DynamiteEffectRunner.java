@@ -7,11 +7,11 @@ import org.bukkit.block.Block;
 
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
-import com.github.unchama.player.seichiskill.moduler.GeneralEffectRunner;
+import com.github.unchama.player.seichiskill.moduler.effect.GeneralEffectRunner;
 
 public final class DynamiteEffectRunner extends GeneralEffectRunner {
 
-	private static double p = 0.2;
+	private static double p = 0.1;
 
 	@Override
 	public boolean isImproved(ActiveSkillType st) {

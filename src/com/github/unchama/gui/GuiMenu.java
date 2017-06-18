@@ -69,16 +69,20 @@ import com.github.unchama.gui.ranking.mineblock.YearMineBlockRankingMenuManager;
 import com.github.unchama.gui.seichireward.SeichiRewardMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillToggleMenuManager;
 import com.github.unchama.gui.seichiskill.active.ActiveSkillTypeMenuManager;
+import com.github.unchama.gui.seichiskill.active.condensation.C_EffectSellectMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.C_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.CondensationMenuManager;
-import com.github.unchama.gui.seichiskill.active.explosion.E_EffectSellectMenu;
+import com.github.unchama.gui.seichiskill.active.explosion.E_EffectSellectMenuManager;
 import com.github.unchama.gui.seichiskill.active.explosion.E_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.explosion.ExplosionMenuManager;
+import com.github.unchama.gui.seichiskill.active.fairyaegis.F_EffectSellectMenuManager;
 import com.github.unchama.gui.seichiskill.active.fairyaegis.F_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.fairyaegis.FairyAegisMenuManager;
+import com.github.unchama.gui.seichiskill.active.magicdrive.MD_EffectSellectMenuManager;
 import com.github.unchama.gui.seichiskill.active.magicdrive.MD_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.magicdrive.MagicDriveMenuManager;
+import com.github.unchama.gui.seichiskill.active.ruinfield.R_EffectSellectMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_OriginMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
@@ -119,17 +123,21 @@ public final class GuiMenu {
 		ACTIVESKILLTOGGLEMENU(ActiveSkillToggleMenuManager.class),
 		EXPLOSIONMENU(ExplosionMenuManager.class),
 		E_RANGEMENU(E_RangeMenuManager.class),
-		E_EFFECTSELECTMENU(E_EffectSellectMenu.class),
+		E_EFFECTSELECTMENU(E_EffectSellectMenuManager.class),
 		MD_RANGEMENU(MD_RangeMenuManager.class),
+		MD_EFFECTSELECTMENU(MD_EffectSellectMenuManager.class),
 		MAGICDRIVEMENU(MagicDriveMenuManager.class),
 		CONDENSATIONMENU(CondensationMenuManager.class),
 		C_RANGEMENU(C_RangeMenuManager.class),
 		C_ORIGINMENU(C_OriginMenuManager.class),
+		C_EFFECTSELECTMENU(C_EffectSellectMenuManager.class),
 		RUINFIELDMENU(RuinFieldMenuManager.class),
 		R_RANGEMENU(R_RangeMenuManager.class),
 		R_ORIGINMENU(R_OriginMenuManager.class),
+		R_EFFECTSELECTMENU(R_EffectSellectMenuManager.class),
 		FAIRYAEGISMENU(FairyAegisMenuManager.class),
 		F_RANGEMENU(F_RangeMenuManager.class),
+		F_EFFECTSELECTMENU(F_EffectSellectMenuManager.class),
 		PASSIVESKILLTYPEMENU(PassiveSkillTypeMenuManager.class),
 		MINESTACKCATEGORYMENU(StackCategoryMenuManager.class),
 		BUILDCATEGORYMENU(CategoryBuildMenuManager.class),
