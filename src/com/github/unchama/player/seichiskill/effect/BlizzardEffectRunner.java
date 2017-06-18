@@ -13,7 +13,34 @@ public final class BlizzardEffectRunner extends DelayEffectRunner {
 
 	@Override
 	protected int getDelayTick() {
-		return 10;
+		return 25;
+	}
+
+	@Override
+	protected void explosionEffectInit(List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
+			BreakRange range) {
+		alllist.forEach(b -> {
+			b.setType(Material.PACKED_ICE);
+		});
+		skilledblocklist.addAll(alllist);
+	}
+
+	@Override
+	protected void magicdriveEffectInit(List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
+			BreakRange range) {
+		alllist.forEach(b -> {
+			b.setType(Material.PACKED_ICE);
+		});
+		skilledblocklist.addAll(alllist);
+	}
+
+	@Override
+	protected void ruinfieldEffectInit(List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
+			BreakRange range) {
+		alllist.forEach(b -> {
+			b.setType(Material.PACKED_ICE);
+		});
+		skilledblocklist.addAll(alllist);
 	}
 
 	@Override
