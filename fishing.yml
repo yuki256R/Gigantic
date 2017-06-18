@@ -1,11 +1,20 @@
 ﻿# 釣りレベルの最大
 maxFishingLevel: 50
 
-# クーラーボックスの釣りレベルとキャパシティの対応
+# 放置釣りが機能するワールド
+idleFishingEnableWorld:
+  - world
 
+# 放置釣り成功時の釣り経験値
+idleFishingExp: 5
+
+# 自力で釣った時の釣り経験値（直前に放置釣り経験値も入ることに留意）
+activeFishingExp: 25
+
+# クーラーボックスの釣りレベルとキャパシティの対応
 coolerBoxCapacity: 
   1: 18
   20: 27
   50: 36
 
-# 260分で850個
+# 260分で850個　1分約3,3回

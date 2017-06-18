@@ -8,28 +8,30 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.sql.player.FishingTableManager;
 import com.github.unchama.util.InventoryUtil;
-import com.github.unchama.yml.DimensionalInventoryYmlManager;
 
 /**
-*
-* @author ten_niti
-*
-*/
+ *
+ * @author ten_niti
+ *
+ */
 public class FishingManager extends DataManager implements UsingSql {
 
 	// 放置で釣った回数
 	private int idleFishingCount;
 	// タイミングを合わせて釣った回数
-	private int actionFishingCount;
+	private int activeFishingCount;
 
 	// 釣ったアイテム入れ
 	private Inventory coolerBox;
+
+	FishingTableManager fm = sql
+			.getManager(FishingTableManager.class);
 
 	public FishingManager(GiganticPlayer gp) {
 		super(gp);
@@ -38,43 +40,48 @@ public class FishingManager extends DataManager implements UsingSql {
 
 	@Override
 	public void save(Boolean loginflag) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		fm.save(gp, loginflag);
 	}
 
 	// 放置で釣った回数
-	public void setIdleFishingCount(int count){
+	public void setIdleFishingCount(int count) {
 		idleFishingCount = count;
 	}
-	public void addIdleFishingCount(){
+
+	public void addIdleFishingCount() {
 		idleFishingCount++;
 	}
-	public int getIdleFishingCount(){
+
+	public int getIdleFishingCount() {
 		return idleFishingCount;
 	}
 
 	// タイミングを合わせて釣った回数
-	public void setActionFishingCount(int count){
-		actionFishingCount = count;
+	public void setActiveFishingCount(int count) {
+		activeFishingCount = count;
 	}
-	public void addActionFishingCount(){
-		actionFishingCount++;
+
+	public void addActiveFishingCount() {
+		activeFishingCount++;
 	}
-	public int getActionFishingCount(){
-		return actionFishingCount;
+
+	public int getActiveFishingCount() {
+		return activeFishingCount;
 	}
 
 	// クーラーボックス
 	public void SetInventory(Inventory inv) {
 		coolerBox = inv;
 	}
+
 	// インベントリにアイテムを追加
 	public boolean addItem(ItemStack item) {
-		if(coolerBox == null){
+		if (coolerBox == null) {
 			Bukkit.getServer().getLogger().info("coolerBox == null");
 		}
-		return InventoryUtil.addNewItemStack(coolerBox, item);
+		return InventoryUtil.addItemStack(coolerBox, item, false);
 	}
+
 	public Inventory getCoolerBox() {
 		return coolerBox;
 	}
@@ -82,8 +89,7 @@ public class FishingManager extends DataManager implements UsingSql {
 	// インベントリのサイズ
 	public int getSize() {
 		int level = gp.getManager(FishingLevelManager.class).getLevel();
-		return Gigantic.yml.getManager(DimensionalInventoryYmlManager.class)
-				.getCapacity(level);
+		return fishing.getCapacity(level);
 	}
 
 	public void open(Player player) {

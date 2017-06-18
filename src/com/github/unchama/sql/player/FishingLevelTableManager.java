@@ -31,7 +31,7 @@ public class FishingLevelTableManager extends PlayerTableManager {
 	protected boolean newPlayer(GiganticPlayer gp) {
 		FishingLevelManager m = gp.getManager(FishingLevelManager.class);
 		m.setExp(0);
-		return false;
+		return true;
 	}
 
 	@Override

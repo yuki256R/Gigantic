@@ -45,11 +45,11 @@ public class FishingLevelManager extends DataManager implements UsingSql {
 	 */
 	private boolean canLevelup() {
 		double temp = exp.doubleValue();
-		Bukkit.getServer().getLogger().info("level:"+level+" next:"+levelmap.get(level).getNextExp()+">"+temp);
-		if (levelmap.get(level).getNextExp() > temp) {
+		//Bukkit.getServer().getLogger().info("level:"+level+" next:"+levelmap.get(level).getNextExp()+">"+temp);
+		if (level >= huntingpoint.getMaxHuntingLevel()) {
 			return false;
 		}
-		if (level >= huntingpoint.getMaxHuntingLevel()) {
+		if (levelmap.get(level).getNextExp() > temp) {
 			return false;
 		}
 
