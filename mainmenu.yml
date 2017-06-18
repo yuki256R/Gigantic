@@ -147,6 +147,20 @@ name: '&5&lメインメニュー'
       - '&r&4&nクリックするとワープします'
       - '&r&8command->[/spawn]'
   command: 'spawn'
+9:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: FISHING_ROD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l釣りメニュー'
+      lore:
+      - '&r&7釣り関連メニュー'
+      - '&r&7統計の確認、専用インベントリの'
+      - '&r&7クーラーボックスを確認できます'
+      - '&r&4&nクリックで開く'
+  openmenu: 'fishingmainmenu'
 12:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

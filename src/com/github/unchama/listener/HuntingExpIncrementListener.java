@@ -1,4 +1,4 @@
-package com.github.unchama.gui.ranking.logintime;
+package com.github.unchama.listener;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,6 +9,11 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 
+/**
+ * 
+ * @author ten_niti
+ *
+ */
 public class HuntingExpIncrementListener implements Listener {
     Sql sql = Gigantic.sql;
     HuntingExpRankingTableManager rm;

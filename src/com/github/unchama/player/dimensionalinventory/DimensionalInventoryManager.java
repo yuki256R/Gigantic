@@ -7,19 +7,16 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
-import com.github.unchama.yml.DimensionalInventoryYmlManager;
 
 /**
-*
-* @author ten_niti
-* 四次元ポケット
-*/
+ *
+ * @author ten_niti 四次元ポケット
+ */
 public class DimensionalInventoryManager extends DataManager implements
 		UsingSql {
 
@@ -42,7 +39,7 @@ public class DimensionalInventoryManager extends DataManager implements
 	}
 
 	// 使用可能か
-	public boolean isUse(){
+	public boolean isUse() {
 		// 0は使用不可
 		return getSize() > 0;
 	}
@@ -50,8 +47,7 @@ public class DimensionalInventoryManager extends DataManager implements
 	// インベントリのサイズ
 	public int getSize() {
 		int level = gp.getManager(SeichiLevelManager.class).getLevel();
-		return Gigantic.yml.getManager(DimensionalInventoryYmlManager.class)
-				.getCapacity(level);
+		return dimensionalInventory.getCapacity(level);
 	}
 
 	public void open(Player player) {

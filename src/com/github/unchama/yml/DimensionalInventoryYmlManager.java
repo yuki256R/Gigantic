@@ -59,6 +59,7 @@ public class DimensionalInventoryYmlManager extends YmlManager {
 				});
 	}
 
+	// レベルに応じたインベントリの容量を返す
 	public int getCapacity(int level){
 		int ret = 0;
 		for(int i = 0; i < capacityList.size(); i++){
