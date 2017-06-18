@@ -1,5 +1,10 @@
 package com.github.unchama.player.time;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -14,6 +19,11 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PlayerTimeManager extends DataManager implements UsingSql,
 		Initializable, Finalizable {
 
@@ -28,6 +38,13 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	private int totalidletick;
 	// 放置時間
 	private int idletime;
+
+	// 累計ログイン日数
+	private int totalJoin;
+	// 連続ログイン日数
+	private int chainJoin;
+	// 最後にチェックした日付
+	private String lastcheckdate;
 
 	PlayerTimeTableManager tm = sql.getManager(PlayerTimeTableManager.class);
 
@@ -123,5 +140,64 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	@Override
 	public void fin() {
 		runUpdate();
+	}
+
+	// 累計ログイン日数
+	public void setTotalJoin(int num){
+		totalJoin = num;
+	}
+	public int getTotalJoin(){
+		return totalJoin;
+	}
+
+	// 連続ログイン日数
+	public void setChainJoin(int num){
+		chainJoin = num;
+	}
+	public int getChainJoin(){
+		return chainJoin;
+	}
+
+	// 最後にチェックした日付
+	public String getLastCheckDate(){
+		return lastcheckdate;
+	}
+
+	public void checkJoinNum(String lastcheck){
+	//連続・通算ログインの情報、およびその更新
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		if(lastcheck == "" || lastcheck == null){
+			lastcheckdate = sdf.format(cal.getTime());
+		}else {
+			lastcheckdate = lastcheck;
+		}
+
+		if(chainJoin == 0){
+			chainJoin = 1 ;
+		}
+		if(totalJoin == 0){
+			totalJoin = 1 ;
+		}
+
+	     try {
+			Date TodayDate = sdf.parse(sdf.format(cal.getTime()));
+			Date LastDate = sdf.parse(lastcheckdate);
+			long TodayLong = TodayDate.getTime();
+			long LastLong = LastDate.getTime();
+
+			long datediff = (TodayLong - LastLong)/(1000 * 60 * 60 * 24 );
+			if(datediff > 0){
+				totalJoin ++ ;
+				if(datediff == 1 ){
+					chainJoin ++ ;
+				}else {
+					chainJoin = 1 ;
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	    lastcheckdate = sdf.format(cal.getTime());
 	}
 }

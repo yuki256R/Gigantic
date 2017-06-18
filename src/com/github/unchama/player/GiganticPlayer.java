@@ -15,11 +15,16 @@ import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.fishing.FishingManager;
+import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
+import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
@@ -87,11 +92,16 @@ public class GiganticPlayer {
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
 		HUNTINGPOINT(HuntingPointManager.class),
+		HUNTINGLEVEL(HuntingLevelManager.class),
 		BUILDLEVEL(BuildLevelManager.class),
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
-		//EFFECT(SkillEffectManager.class),
+		DONATEDATA(DonateDataManager.class),
+		GACHASTACK(GachaStackManager.class),
+		FISHINGLEVEL(FishingLevelManager.class),
+		FISHING(FishingManager.class),
+		EFFECT(SkillEffectManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 

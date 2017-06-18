@@ -15,7 +15,7 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 
-public class stickCommand implements TabExecutor {
+public class StickCommand implements TabExecutor {
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
 	@Override

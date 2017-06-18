@@ -3,9 +3,7 @@ package com.github.unchama.listener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import org.bukkit.ChatColor;
@@ -71,10 +69,6 @@ public class GiganticInteractListener implements Listener {
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Gacha gacha = Gigantic.gacha;
 	Zenchantments Ze;
-
-	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
-			Material.AIR, Material.WATER, Material.LAVA,
-			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
 
 	GiganticInteractListener() {
 		Ze = Util.getZenchantments();
@@ -314,21 +308,18 @@ public class GiganticInteractListener implements Listener {
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
 					"サバイバルではないのでスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// フライ中に使用していた時終了
 		if (player.isFlying()) {
 			player.sendMessage("フライ中はスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// 使用可能ワールドではないとき終了
 		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
 			player.sendMessage("このワールドではスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
@@ -339,18 +330,16 @@ public class GiganticInteractListener implements Listener {
 		// スキルを発動できるツールでないとき終了
 		if (!ActiveSkillManager.canBreak(tool)) {
 			player.sendMessage("スキルの発動ができるツールではありません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// 木こりエンチャントがある時終了
 		if (Ze.isCompatible("木こり", tool)) {
 			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
-			skill.setToggle(false);
 			return;
 		}
 
-		Block block = player.getTargetBlock(tpm, 50);
+		Block block = player.getTargetBlock(Util.getFluidMaterials(), 50);
 
 		Material material = block.getType();
 		// スキルを発動できるブロックでないとき終了
@@ -399,10 +388,11 @@ public class GiganticInteractListener implements Listener {
         //Check用
         boolean check = false;
 
-        //プレイヤーデータが無い場合は処理終了
-        if (gp == null) {
-            return;
-        }
+     // デッドコードのためコメントアウト
+//        //プレイヤーデータが無い場合は処理終了
+//        if (gp == null) {
+//            return;
+//        }
 
         if (!action.equals(Action.LEFT_CLICK_AIR) && !action.equals(Action.LEFT_CLICK_BLOCK)) {
         	return;

@@ -12,6 +12,11 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import com.github.unchama.yml.moduler.YmlManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class DimensionalInventoryYmlManager extends YmlManager {
 
 	private List<Map.Entry<Integer, Integer>> capacityList;
@@ -54,6 +59,7 @@ public class DimensionalInventoryYmlManager extends YmlManager {
 				});
 	}
 
+	// レベルに応じたインベントリの容量を返す
 	public int getCapacity(int level){
 		int ret = 0;
 		for(int i = 0; i < capacityList.size(); i++){

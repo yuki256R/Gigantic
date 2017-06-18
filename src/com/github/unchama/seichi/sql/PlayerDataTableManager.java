@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -14,6 +15,8 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -177,6 +180,75 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
+	public int getTotalJoin(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select TotalJoin from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("TotalJoin");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load TotalJoin player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public int getChainJoin(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select ChainJoin from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("ChainJoin");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load ChainJoin player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public String getLastCheckDate(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String ans = "";
+
+		command = "select lastcheckdate from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getString("lastcheckdate");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load lastcheckdate player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
 	public int getRgnum(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -304,5 +376,85 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 		return ans;
 	}
+
+	public Map<Integer, Integer> getOldGachaStack(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		Map<Integer, Integer> ans = new HashMap<Integer, Integer>();
+
+		Map<Integer, String> columns = new HashMap<Integer, String>();
+		// ガチャリンゴ
+		columns.put(1, "stack_gachaimo");
+		// 経験値ボトル
+		columns.put(2, "stack_exp_bottle");
+		// その他のガチャアイテム
+		for (int i = 0; i <= 38; i++) {
+			// IDはガチャ券、ガチャリンゴ、経験値ボトルの3つをゲタに履かせる
+			columns.put(i + 3, "stack_gachadata0_" + i);
+		}
+
+		for (int index : columns.keySet()) {
+			String column = columns.get(index);
+			command = "select " + column + " from " + db + "." + table
+					+ " where uuid = '" + struuid + "'";
+			this.checkStatement();
+			try {
+				rs = stmt.executeQuery(command);
+				while (rs.next()) {
+					ans.put(index, rs.getInt(column));
+					// plugin.getLogger().info(column + " : " +
+					// rs.getInt(column));
+				}
+				rs.close();
+			} catch (SQLException e) {
+				plugin.getLogger().warning(
+						"Failed to load " + column + " player:" + gp.name);
+				e.printStackTrace();
+			}
+		}
+		return ans;
+	}
+
+	private static final HashMap<String,Integer> oldEffectIDMap = new HashMap<String,Integer>(){{
+		put("ef_explosion",EffectType.DYNAMITE.getId());
+		put("ef_blizzard",EffectType.BLIZZARD.getId());
+		put("ef_meteo",EffectType.METEO.getId());
+		put("ef_magic",PremiumEffectType.MAGIC.getId());
+	}};
+
+	public HashMap<Integer, Boolean> getEffectFlagMap(GiganticPlayer gp) {
+		HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>();
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String command = "select ";
+		for(String oldname : oldEffectIDMap.keySet()){
+			command += oldname + ",";
+		}
+
+		command = command.substring(0, command.length()-1);
+		command += " from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			for(Map.Entry<String , Integer> e: oldEffectIDMap.entrySet()){
+				map.put(e.getValue(), rs.getBoolean(e.getKey()));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"sql commands:" + command);
+			plugin.getLogger().warning(
+					"Failed to load effectflagMap player:" + gp.name);
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+
+
+
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
+
+
 }

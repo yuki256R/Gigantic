@@ -7,6 +7,7 @@ import com.github.unchama.util.ClassUtil;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DimensionalInventoryYmlManager;
+import com.github.unchama.yml.FishingYmlManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 
 /**
@@ -26,6 +27,8 @@ public abstract class DataManager {
 			.getManager(HuntingPointDataManager.class);
 	protected static DimensionalInventoryYmlManager dimensionalInventory = Gigantic.yml
 			.getManager(DimensionalInventoryYmlManager.class);
+	protected static FishingYmlManager fishing = Gigantic.yml
+			.getManager(FishingYmlManager.class);
 	protected GiganticPlayer gp;
 	protected boolean loaded;
 

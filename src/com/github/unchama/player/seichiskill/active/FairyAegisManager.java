@@ -26,6 +26,7 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
@@ -134,6 +135,11 @@ public class FairyAegisManager extends ActiveSkillManager {
 	 */
 	public void setBreakNum(int breakNum) {
 		this.breakNum = breakNum;
+	}
+
+	@Override
+	public void rangeReset(){
+		setBreakNum(0);
 	}
 
 	/**
@@ -254,6 +260,36 @@ public class FairyAegisManager extends ActiveSkillManager {
 	@Override
 	public int getMaxDepth() {
 		return 0;
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		if(!isFirst){
+			return leftPoint;
+		}
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		int level = seichiLevelManager.getLevel();
+		// 解放条件を満たしているか
+		if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+			return leftPoint;
+		}
+		leftPoint -= getUnlockAP();
+
+		// 破壊数
+		int rate = (int) (getSpendAP((int)leftPoint) / leftPoint);
+		int breakNum = (int)leftPoint / rate;
+		if(breakNum > getMaxBreakNum()){
+			breakNum = getMaxBreakNum();
+		}else{
+			// 端数を落とす
+			breakNum -= breakNum % 10;
+		}
+
+		setBreakNum(breakNum);
+		leftPoint -= getSpendAP(breakNum);
+
+		return leftPoint;
 	}
 
 	@Override
@@ -465,29 +501,16 @@ public class FairyAegisManager extends ActiveSkillManager {
 						"your item is added in inventory");
 			}
 		});
+		skilledblocklist.addAll(liquidlist);
+		skilledblocklist.addAll(breaklist);
 
 		// 最初のブロックのみコアプロテクトに保存する．
 		// ActiveSkillManager.logRemoval(player, block);
 
-		liquidlist.forEach(b -> {
-			double r = rnd.nextDouble();
-			if (r < 0.5) {
-				b.setType(Material.EMERALD_ORE);
-			} else {
-				b.setType(Material.MOSSY_COBBLESTONE);
-			}
-		});
-		breaklist.forEach(b -> {
-			double r = rnd.nextDouble();
-			if (r < 0.5) {
-				b.setType(Material.EMERALD_ORE);
-			} else {
-				b.setType(Material.MOSSY_COBBLESTONE);
-			}
-		});
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		skilledblocklist.addAll(liquidlist);
-		skilledblocklist.addAll(breaklist);
+		effm.createRunner(st).fairyaegisEffectonSet(breaklist, liquidlist, breakMap);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

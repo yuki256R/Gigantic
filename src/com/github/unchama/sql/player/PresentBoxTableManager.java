@@ -17,6 +17,11 @@ import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.util.InventoryUtil;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PresentBoxTableManager extends PlayerFromSeichiTableManager {
 
 	public PresentBoxTableManager(Sql sql) {
@@ -109,8 +114,8 @@ public class PresentBoxTableManager extends PlayerFromSeichiTableManager {
 			}
 
 			// インベントリにアイテムを追加
-			boolean isAddSuccess = InventoryUtil.addNewItemStack(inventory,
-					item);
+			boolean isAddSuccess = InventoryUtil.addItemStack(inventory,
+					item, true);
 			if (!isAddSuccess) {
 				return false;
 			}
