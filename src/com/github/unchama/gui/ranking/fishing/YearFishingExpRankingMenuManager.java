@@ -1,4 +1,4 @@
-package com.github.unchama.gui.ranking.huntingexp;
+package com.github.unchama.gui.ranking.fishing;
 
 import net.md_5.bungee.api.ChatColor;
 
@@ -12,19 +12,20 @@ import com.github.unchama.util.Util;
  * @author ten_niti
  *
  */
-public class WeekHuntingExpRankingMenuManager extends RankingMenuManager {
+public class YearFishingExpRankingMenuManager extends RankingMenuManager {
+
 	@Override
 	protected String getLore(double value) {
-		return "総狩猟経験値:" + Util.Decimal(value);
+		return "総釣り経験値:" + Util.Decimal(value);
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return ChatColor.BLUE + "週間狩猟経験値ﾗﾝｷﾝｸﾞ";
+		return ChatColor.BLUE + "年間釣り経験値ﾗﾝｷﾝｸﾞ";
 	}
 
 	@Override
 	protected TimeType getTimeType() {
-		return TimeType.WEEK;
+		return TimeType.YEAR;
 	}
 }

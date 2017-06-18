@@ -69,6 +69,7 @@ import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
+import com.github.unchama.sql.ranking.FishingExpRankingTableManager;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
@@ -113,6 +114,7 @@ public class Sql {
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
+		FISHINGEXPRANKING(FishingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
 		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
 		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),//
