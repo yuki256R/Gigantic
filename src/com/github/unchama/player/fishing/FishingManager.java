@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.moduler.DataManager;
@@ -30,8 +31,10 @@ public class FishingManager extends DataManager implements UsingSql {
 	// 釣ったアイテム入れ
 	private Inventory coolerBox;
 
-	FishingTableManager fm = sql
-			.getManager(FishingTableManager.class);
+	// なぜか釣竿を空中に右クリックすると同時に左クリック判定が誤爆するのでチェック
+	private int lastCheckTick = 0;
+
+	FishingTableManager fm = sql.getManager(FishingTableManager.class);
 
 	public FishingManager(GiganticPlayer gp) {
 		super(gp);
@@ -121,5 +124,17 @@ public class FishingManager extends DataManager implements UsingSql {
 			}
 			coolerBox = inv;
 		}
+	}
+
+	// なぜか釣竿を空中に右クリックすると同時に左クリック判定が誤爆するのでチェック
+	public boolean checkTick() {
+		Player player = PlayerManager.getPlayer(gp);
+		int currentTick = player
+				.getStatistic(org.bukkit.Statistic.PLAY_ONE_TICK);
+		boolean ret = lastCheckTick == currentTick;
+		// Bukkit.getServer().getLogger().info(lastCheckTick + "==" +
+		// currentTick + " = " + ret);
+		lastCheckTick = currentTick;
+		return ret;
 	}
 }
