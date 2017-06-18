@@ -292,9 +292,9 @@ public class MagicDriveManager extends ActiveSkillManager{
 	public void zeroPointReset(){
 		Coordinate zero = getRange().getZeropoint();
 		Volume v = getRange().getVolume();
-		zero.setY(v.getHeight() - 1);
+		zero.setY(1);
 		zero.setX((v.getWidth() - 1) / 2);
-		zero.setZ((v.getDepth() - 1) / 2);
+		zero.setZ(0);
 		getRange().refresh();
 	}
 
