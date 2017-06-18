@@ -2,6 +2,7 @@ package com.github.unchama.player.seichiskill.effect;
 
 import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
@@ -30,28 +31,45 @@ public final class BlizzardEffectRunner extends DelayEffectRunner {
 	@Override
 	protected void ruinfieldEffectDelayed(List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
 			BreakRange range) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		alllist.forEach(b -> {
+			b.setType(Material.AIR);
+			b.removeMetadata("Skilled", plugin);
+		});
+		skilledblocklist.removeAll(alllist);
 	}
 
 	@Override
 	protected void magicdriveEffectDelayed(List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
 			BreakRange range) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		alllist.forEach(b -> {
+			b.setType(Material.AIR);
+			b.removeMetadata("Skilled", plugin);
+		});
+		skilledblocklist.removeAll(alllist);
 	}
 
 	@Override
 	protected void explosionEffectDelayed(List<Block> breaklist, List<Block> liquidlist, List<Block> alllist,
 			BreakRange range) {
-		// TODO 自動生成されたメソッド・スタブ
-
+		alllist.forEach(b -> {
+			b.setType(Material.AIR);
+			b.removeMetadata("Skilled", plugin);
+		});
+		skilledblocklist.removeAll(alllist);
 	}
 
 	@Override
 	public boolean isImproved(ActiveSkillType st) {
-		// TODO 自動生成されたメソッド・スタブ
-		return false;
+		switch (st) {
+		case EXPLOSION:
+		case MAGICDRIVE:
+		case RUINFIELD:
+			return true;
+		default:
+			return false;
+		}
 	}
+
+
 
 }

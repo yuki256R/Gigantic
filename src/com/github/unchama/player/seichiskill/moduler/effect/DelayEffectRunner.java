@@ -12,7 +12,6 @@ import com.github.unchama.player.seichiskill.moduler.BreakRange;
 
 @SuppressWarnings("unused")
 public abstract class DelayEffectRunner extends EffectRunner {
-
 	private List<Block> breaklist;
 	private List<Block> liquidlist;
 	private List<Block> alllist;
@@ -36,6 +35,7 @@ public abstract class DelayEffectRunner extends EffectRunner {
 		this.liquidlist = liquidlist;
 		this.alllist = alllist;
 		this.range = range;
+		skilledblocklist.addAll(alllist);
 
 		explosionEffectInit(breaklist, liquidlist, alllist, range);
 		this.runTaskLaterAsynchronously(plugin, this.getDelayTick());
@@ -65,6 +65,7 @@ public abstract class DelayEffectRunner extends EffectRunner {
 		this.liquidlist = liquidlist;
 		this.alllist = alllist;
 		this.range = range;
+		skilledblocklist.addAll(alllist);
 
 		magicdriveEffectInit(breaklist, liquidlist, alllist, range);
 		this.runTaskLaterAsynchronously(plugin, this.getDelayTick());
@@ -101,6 +102,7 @@ public abstract class DelayEffectRunner extends EffectRunner {
 	 * @param range
 	 */
 	protected void condensationEffectInit(List<Block> liquidlist, BreakRange range) {
+		skilledblocklist.addAll(liquidlist);
 		// condensの処理
 		liquidlist.forEach(b -> {
 			switch (b.getType()) {
@@ -127,6 +129,7 @@ public abstract class DelayEffectRunner extends EffectRunner {
 		this.liquidlist = liquidlist;
 		this.alllist = alllist;
 		this.range = range;
+		skilledblocklist.addAll(liquidlist);
 
 		ruinfieldEffectInit(breaklist, liquidlist, alllist, range);
 		this.runTaskLaterAsynchronously(plugin, this.getDelayTick());
@@ -150,6 +153,8 @@ public abstract class DelayEffectRunner extends EffectRunner {
 	@Override
 	public void fairyaegisEffectonSet(List<Block> breaklist, List<Block> liquidlist,
 			HashMap<Integer, List<Block>> breakMap) {
+		skilledblocklist.addAll(liquidlist);
+		skilledblocklist.addAll(breaklist);
 		liquidlist.forEach(b -> {
 			double r = rnd.nextDouble();
 			if (r < 0.5) {

@@ -21,6 +21,7 @@ import com.github.unchama.player.seichiskill.moduler.BreakRange;
  */
 public abstract class EffectRunner extends BukkitRunnable {
 	protected Gigantic plugin = Gigantic.plugin;
+	protected static List<Block> skilledblocklist = Gigantic.skilledblocklist;
 	protected static Random rnd = new Random();
 
 	/**そのアクティブスキルの処理が改良されているときにTRUEを返します．
