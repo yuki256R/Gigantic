@@ -59,10 +59,6 @@ public class FishingMainMenuManager extends GuiMenuManager {
 		coolerBoxButton = headManager.getMobHead("blue_core");
 		Util.setDisplayName(coolerBoxButton, ChatColor.RESET + ""
 				+ ChatColor.AQUA + "クーラーボックス");
-		Util.setLore(coolerBoxButton,
-				Arrays.asList(ChatColor.GREEN + "釣り上げたアイテムを",//
-						ChatColor.GREEN + "取り出せます",//
-						ChatColor.YELLOW + "クリックで開く"));
 
 		passiveSkillButton = new ItemStack(Material.ENCHANTED_BOOK);
 		Util.setDisplayName(passiveSkillButton, ChatColor.RESET + ""
@@ -94,8 +90,8 @@ public class FishingMainMenuManager extends GuiMenuManager {
 		// インベントリ基本情報
 
 		Inventory inv = this.getEmptyInventory(player);
-//		Inventory inv = Bukkit.getServer().createInventory(player,
-//				this.getInventorySize(), this.getInventoryName(player));
+		// Inventory inv = Bukkit.getServer().createInventory(player,
+		// this.getInventorySize(), this.getInventoryName(player));
 
 		ItemStack statistics = statisticsButton.clone();
 		Util.setLore(
@@ -113,13 +109,22 @@ public class FishingMainMenuManager extends GuiMenuManager {
 								+ fishingManager.getActiveFishingCount()//
 				));
 		inv.setItem(statisticsSlot, statistics);
-		inv.setItem(coolerBoxSlot, coolerBoxButton);
+
+		ItemStack coolerBox = coolerBoxButton.clone();
+		Util.setLore(
+				coolerBox,
+				Arrays.asList(
+						ChatColor.GREEN + "釣り上げたアイテムを",//
+						ChatColor.GREEN + "取り出せます",//
+						ChatColor.DARK_PURPLE + "現在の容量:"
+								+ fishingManager.getSize() + "スタック",//
+						ChatColor.YELLOW + "クリックで開く"));
+		inv.setItem(coolerBoxSlot, coolerBox);
 		inv.setItem(passiveSkillSlot, passiveSkillButton);
 
 		ItemStack shortcut = shortcutToggleButton.clone();
-		Util.setLore(shortcut, Arrays.asList(
-				TextUtil.getToggleSettingStr(settingManager
-						.getFishingMenuShortcut()),//
+		Util.setLore(shortcut, Arrays.asList(TextUtil
+				.getToggleSettingStr(settingManager.getFishingMenuShortcut()),//
 				TextUtil.getClickAnnounce()));
 		inv.setItem(shortcutToggleSlot, shortcut);
 
@@ -136,7 +141,7 @@ public class FishingMainMenuManager extends GuiMenuManager {
 		}
 
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		switch(slot){
+		switch (slot) {
 		// クーラーボックス
 		case coolerBoxSlot:
 			FishingManager fishingManager = gp.getManager(FishingManager.class);
@@ -146,10 +151,10 @@ public class FishingMainMenuManager extends GuiMenuManager {
 		// ショートカットトグル
 		case shortcutToggleSlot:
 			PlayerSettingsManager settingManager = gp
-			.getManager(PlayerSettingsManager.class);
+					.getManager(PlayerSettingsManager.class);
 			settingManager.toggleFishingMenuShortcut();
-			player.playSound(player.getLocation(), Sound.BLOCK_TRIPWIRE_CLICK_ON, (float) 0.8,
-					1);
+			player.playSound(player.getLocation(),
+					Sound.BLOCK_TRIPWIRE_CLICK_ON, (float) 0.8, 1);
 			player.openInventory(getInventory(player, 0));
 			break;
 		}

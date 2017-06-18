@@ -19,7 +19,7 @@ public class FishingLevel {
 	}
 
 	private double calcNeedExp(int level) {
-		return (level - 1) * 10;
+		return ((level - 1) ^ 3) * 10;
 	}
 
 	public int getLevel() {
