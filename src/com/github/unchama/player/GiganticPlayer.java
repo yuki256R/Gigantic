@@ -14,6 +14,8 @@ import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.fishing.FishingManager;
+import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.fly.FlyManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
@@ -93,6 +95,8 @@ public class GiganticPlayer {
 		PRESENTBOX(PresentBoxManager.class),
 		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
+		FISHINGLEVEL(FishingLevelManager.class),
+		FISHING(FishingManager.class),
 		EFFECT(SkillEffectManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;

@@ -32,6 +32,7 @@ import com.github.unchama.gui.buildskill.BlockLineUpMenuManager;
 import com.github.unchama.gui.buildskill.ZoneSkillDataMenuManager;
 import com.github.unchama.gui.donate.DonateHistoryMenuManager;
 import com.github.unchama.gui.exchanger.ExchangerMenuManager;
+import com.github.unchama.gui.fishing.FishingMainMenuManager;
 import com.github.unchama.gui.gachastack.GachaStackCategoryMenuManager;
 import com.github.unchama.gui.gachastack.GachaStackMainMenuManager;
 import com.github.unchama.gui.huntingpoint.HuntingPointMainMenuManager;
@@ -51,6 +52,11 @@ import com.github.unchama.gui.ranking.build.MonthBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.TotalBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.WeekBuildRankingMenuManager;
 import com.github.unchama.gui.ranking.build.YearBuildRankingMenuManager;
+import com.github.unchama.gui.ranking.fishing.DayFishingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.fishing.MonthFishingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.fishing.TotalFishingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.fishing.WeekFishingExpRankingMenuManager;
+import com.github.unchama.gui.ranking.fishing.YearFishingExpRankingMenuManager;
 import com.github.unchama.gui.ranking.huntingexp.DayHuntingExpRankingMenuManager;
 import com.github.unchama.gui.ranking.huntingexp.MonthHuntingExpRankingMenuManager;
 import com.github.unchama.gui.ranking.huntingexp.TotalHuntingExpRankingMenuManager;
@@ -174,6 +180,12 @@ public final class GuiMenu {
         WEEKHUNTINGEXPRANKINGMENU(WeekHuntingExpRankingMenuManager.class),
         MONTHHUNTINGEXPRANKINGMENU(MonthHuntingExpRankingMenuManager.class),
         YEARHUNTINGEXPRANKINGMENU(YearHuntingExpRankingMenuManager.class),
+        TOTALFISHINGEXPRANKINGMENU(TotalFishingExpRankingMenuManager.class),
+        DAYFISHINGEXPRANKINGMENU(DayFishingExpRankingMenuManager.class),
+        WEEKFISHINGEXPRANKINGMENU(WeekFishingExpRankingMenuManager.class),
+        MONTHFISHINGEXPRANKINGMENU(MonthFishingExpRankingMenuManager.class),
+        YEARFISHINGEXPRANKINGMENU(YearFishingExpRankingMenuManager.class),
+        FISHINGMAINMENU(FishingMainMenuManager.class),
         HELPMENU(HelpMenuManager.class),
 		;
 
