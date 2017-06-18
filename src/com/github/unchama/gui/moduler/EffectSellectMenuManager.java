@@ -1,6 +1,7 @@
 package com.github.unchama.gui.moduler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.util.Util;
 
-public abstract class EffectSellectManager extends GuiMenuManager {
+public abstract class EffectSellectMenuManager extends GuiMenuManager {
 	// 前のページへボタン
 	private static ItemStack prevButton;
 	private static final int prevButtonSlot = 45;
@@ -30,16 +31,21 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 	private static ItemStack nextButton;
 	private static final int nextButtonSlot = 53;
 
+	private HashMap<EffectCategory, Integer> maxPageMap;
+
 	// 下部メニューボタン
 	private Map<Integer, ItemStack> menuButtons;
 
-	public EffectSellectManager() {
+	public EffectSellectMenuManager() {
 		// メニューボタンの表示設定
 		menuButtons = new HashMap<Integer, ItemStack>();
+		maxPageMap = new HashMap<EffectCategory, Integer>();
 
 		int slot = 47;
 		for (EffectCategory ec : EffectCategory.values()) {
 			menuButtons.put(slot, ec.getMenuItem());
+			int maxpage = (ec.getEffectNum() - 1) / 45 + 1;
+			maxPageMap.put(ec, maxpage);
 			slot++;
 		}
 
@@ -95,19 +101,20 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 			EffectCategory idc = EffectCategory.getCategory(id);
 			int slot = idc.getSlot(id);
 			int spage = (int) (slot / 45) + 1;
-			if (idc.equals(ec) && spage == page) {
+			if (idc == ec && spage == page) {
 				ItemStack is = idc.getSellectButton(id);
-				String fs;
+				List<String> lore = is.getItemMeta().getLore();
+				lore.add(ChatColor.GRAY + "----------------");
 				if (current_id == id) {
-					fs = ChatColor.YELLOW + "選択中";
+					lore.add(ChatColor.YELLOW + "選択中");
 					Util.addEnchant(is);
 				} else if (flag) {
-					fs = ChatColor.GREEN + "選択可能";
+					lore.add(ChatColor.AQUA + "選択可能");
 					Util.addEnchant(is);
 				} else {
-					fs = ChatColor.RED + "解除されていません";
+					lore.add(ChatColor.GREEN + "クリックで解除します");
 				}
-				Util.setLore(is, fs);
+				Util.setLore(is, lore);
 
 				inv.setItem(slot, is);
 			}
@@ -122,18 +129,19 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 		int page = Sm.getCurrentPage(this);
 		int slot = Integer.parseInt(identifier);
 
-		if(player.getOpenInventory().getTopInventory().getItem(slot) == null){
+		if (player.getOpenInventory().getTopInventory().getItem(slot) == null) {
 			return false;
 		}
 
-
 		EffectCategory ec = (EffectCategory) Sm.getCurrentObject(this);
-		if(slot >= 45){
-			switch(slot){
+		if (slot >= 45) {
+			switch (slot) {
 			case prevButtonSlot:
-				if(page > 1){
+				if (page > 1) {
 					player.openInventory(this.getInventory(player, slot, page - 1, ec));
 					player.playSound(player.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1.0F, 1.5F);
+				}else{
+					player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
 				}
 				break;
 			case 47:
@@ -142,22 +150,25 @@ public abstract class EffectSellectManager extends GuiMenuManager {
 			case 50:
 			case 51:
 				EffectCategory next_ec = EffectCategory.getCategorybyID(slot - 47);
-				player.openInventory(this.getInventory(player, slot,1, next_ec));
+				player.openInventory(this.getInventory(player, slot, 1, next_ec));
 				player.playSound(player.getLocation(), this.getSoundName(), this.getVolume(), this.getPitch());
 				break;
 			case nextButtonSlot:
-				if(page < 1){
+				if (page < maxPageMap.get(ec)) {
 					player.openInventory(this.getInventory(player, slot, page + 1, ec));
 					player.playSound(player.getLocation(), Sound.BLOCK_PISTON_EXTEND, 1.0F, 1.5F);
+				}else{
+					player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
 				}
 				break;
 			}
-		}else{
-			int effect_id = ec.getEffectID(slot + ((page-1) * 45));
-			if(Em.getEffectFlagMap().get(effect_id) && Em.getId(this.getActiveSkillType()) != effect_id){
-				Em.setId(this.getActiveSkillType(),effect_id);
-				this.update(player);
-			}else{
+		} else {
+			int effect_id = ec.getEffectID(slot + ((page - 1) * 45));
+			if (Em.getEffectFlagMap().get(effect_id) && Em.getId(this.getActiveSkillType()) != effect_id) {
+				Em.setId(this.getActiveSkillType(), effect_id);
+				player.openInventory(this.getInventory(player, slot, page, ec));
+				player.playSound(player.getLocation(), Sound.ITEM_ARMOR_EQUIP_CHAIN, 1.0F, 1.5F);
+			} else {
 				player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
 			}
 		}

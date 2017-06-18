@@ -501,8 +501,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 						"your item is added in inventory");
 			}
 		});
-		skilledblocklist.addAll(liquidlist);
-		skilledblocklist.addAll(breaklist);
 
 		// 最初のブロックのみコアプロテクトに保存する．
 		// ActiveSkillManager.logRemoval(player, block);

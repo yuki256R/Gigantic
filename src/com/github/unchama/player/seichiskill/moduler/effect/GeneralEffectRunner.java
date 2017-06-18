@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.github.unchama.player.seichiskill.moduler;
+package com.github.unchama.player.seichiskill.moduler.effect;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +9,8 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+
+import com.github.unchama.player.seichiskill.moduler.BreakRange;
 
 /**通常のエフェクトはこちらを継承してください．
  * @author tar0ss
@@ -22,9 +24,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		// breakの処理
 		alllist.forEach(b -> {
 			b.setType(Material.AIR);
-		});
-		// break後の処理
-		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -35,9 +34,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		// breakの処理
 		alllist.forEach(b -> {
 			b.setType(Material.AIR);
-		});
-		// break後の処理
-		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -58,9 +54,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 			default:
 				break;
 			}
-		});
-		// condens後の処理
-		liquidlist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -71,9 +64,6 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		// breakの処理
 		alllist.forEach(b -> {
 			b.setType(Material.AIR);
-		});
-		// break後の処理
-		alllist.forEach(b -> {
 			b.removeMetadata("Skilled", plugin);
 		});
 	}
@@ -81,6 +71,8 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 	@Override
 	public void fairyaegisEffectonSet(List<Block> breaklist, List<Block> liquidlist,
 			HashMap<Integer, List<Block>> breakMap) {
+		skilledblocklist.addAll(liquidlist);
+		skilledblocklist.addAll(breaklist);
 		liquidlist.forEach(b -> {
 			double r = rnd.nextDouble();
 			if (r < 0.5) {
@@ -111,6 +103,8 @@ public abstract class GeneralEffectRunner extends EffectRunner {
 		if (soundflag)
 			soundblock.getWorld().playSound(soundblock.getLocation(),
 					Sound.ENTITY_VILLAGER_YES, 0.7F, 2.0F);
+
+		skilledblocklist.removeAll(breaklist);
 	}
 
 	@Deprecated
