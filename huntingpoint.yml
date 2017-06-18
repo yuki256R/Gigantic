@@ -1,5 +1,8 @@
 ﻿# 狩りポイント
 
+# 狩猟レベルの最大値
+maxhuntinglevel: 30
+
 # モブごとの設定
 #  Zombie:			内部で使用されているMob名
 #    jpname: 'ゾンビ'		日本語名
@@ -35,11 +38,11 @@ mobdata:
   Wolf:
     jpname: 'オオカミ'
     headname: 'Dog1'
-    target: true
+    target: false
   Ocelot:
     jpname: 'ヤマネコ'
     headname: 'Ocelot'
-    target: true
+    target: false
   Horse:
     jpname: '馬'
     headname: 'Horse2'
@@ -59,7 +62,7 @@ mobdata:
   Villager:
     jpname: '村人'
     headname: 'Villager'
-    target: true
+    target: false
   Zombie:
     jpname: 'ゾンビ'
     headname: 'Zombie'
@@ -153,6 +156,28 @@ mobdata:
 huntmob_convert:
 #      - 'Husk : Zombie'
 #      - 'CaveSpider : Spider'
+
+# 判定を除外するワールド
+world_ignore:
+  - world_TT
+  - world_nether_TT
+  - world_the_end_TT
+
+# 整地鯖で経験値判定を除外するMOB
+seichi_exp_ignore:
+  - Pig
+  - Sheep
+  - Cow
+  - Mooshroom
+  - Chicken
+  - Squid
+  - Wolf
+  - Ocelot
+  - Horse
+  - SkeletonHorse
+  - Rabbit
+  - PolarBear
+  - Villager
 
 
 # ショップの陳列

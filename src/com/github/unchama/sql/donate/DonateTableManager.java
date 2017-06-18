@@ -1,8 +1,8 @@
 package com.github.unchama.sql.donate;
 
-import com.github.unchama.donate.DonateData;
-import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.donate.DonateData;
+import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.TableManager;
 

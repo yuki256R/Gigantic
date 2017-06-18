@@ -1,10 +1,7 @@
 package com.github.unchama.task;
 
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.boss.BarColor;
@@ -16,11 +13,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.listener.GiganticInteractListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.active.MagicDriveManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -33,7 +30,6 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 	private Gigantic plugin = Gigantic.plugin;
 	private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-	public Set<Material> tpm = GiganticInteractListener.tpm;
 
 	private Player player;
 	private GiganticPlayer gp;
@@ -88,14 +84,12 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 					debug.sendMessage(player, DebugEnum.SKILL,
 							"サバイバルではないのでスキルの発動ができません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
 				// フライ中に使用していた時終了
 				if (player.isFlying()) {
 					player.sendMessage("フライ中はスキルの発動ができません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
@@ -103,7 +97,6 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				// 使用可能ワールドではないとき終了
 				if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
 					player.sendMessage("このワールドではスキルの発動ができません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
@@ -112,7 +105,6 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 
 				if (tool == null) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
@@ -120,12 +112,11 @@ public class MagicDriveTaskRunnable extends BukkitRunnable {
 				// スキルを発動できるツールでないとき終了
 				if (!ActiveSkillManager.canBreak(tool)) {
 					player.sendMessage("スキルの発動ができるツールではありません．");
-					skill.setToggle(false);
 					finish();
 					return;
 				}
 
-				next_block = player.getTargetBlock(tpm, 50);
+				next_block = player.getTargetBlock(Util.getFluidMaterials(), 50);
 
 				if (!next_block.equals(block)) {
 					finish();

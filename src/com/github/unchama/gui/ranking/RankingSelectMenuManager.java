@@ -19,6 +19,24 @@ import com.github.unchama.util.Util;
  */
 public class RankingSelectMenuManager extends GuiMenuManager {
 
+	private final String Total = "（総合）";
+	private final String Day = "（日間）";
+	private final String Week = "（週間）";
+	private final String Month = "（月間）";
+	private final String Year = "（年間）";
+
+	private final String MineBlockTitleName = ChatColor.YELLOW + "整地量ランキング";
+	private final String BuildTitleName = ChatColor.YELLOW + "建築量ランキング";
+	private final String HuntingExpTitleName = ChatColor.YELLOW + "狩猟経験値ランキング";
+	private final String FishingExpTitleName = ChatColor.YELLOW + "釣り経験値ランキング";
+	private final String LoginTimeTitleName = ChatColor.YELLOW + "接続時間ランキング";
+
+	private final String MineBlockHeadName = "blue_chalice";
+	private final String BuildHeadName = "spruce_log";
+	private final String HuntingExpHeadName = "Creeper";
+	private final String FishingExpHeadName = "sushi_roll";
+	private final String LoginTimeHeadName = "light_bulb";
+
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
 		// TODO 自動生成されたメソッド・スタブ
@@ -43,11 +61,21 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 		openmap.put(19, ManagerType.WEEKBUILDRANKINGMENU);
 		openmap.put(28, ManagerType.MONTHBUILDRANKINGMENU);
 		openmap.put(37, ManagerType.YEARBUILDRANKINGMENU);
-		openmap.put(2, ManagerType.TOTALLOGINTIMERANKINGMENU);
-		openmap.put(11, ManagerType.DAYLOGINTIMERANKINGMENU);
-		openmap.put(20, ManagerType.WEEKLOGINTIMERANKINGMENU);
-		openmap.put(29, ManagerType.MONTHLOGINTIMERANKINGMENU);
-		openmap.put(38, ManagerType.YEARLOGINTIMERANKINGMENU);
+		openmap.put(2, ManagerType.TOTALHUNTINGEXPRANKINGMENU);
+		openmap.put(11, ManagerType.DAYHUNTINGEXPRANKINGMENU);
+		openmap.put(20, ManagerType.WEEKHUNTINGEXPRANKINGMENU);
+		openmap.put(29, ManagerType.MONTHHUNTINGEXPRANKINGMENU);
+		openmap.put(38, ManagerType.YEARHUNTINGEXPRANKINGMENU);
+		openmap.put(3, ManagerType.TOTALFISHINGEXPRANKINGMENU);
+		openmap.put(12, ManagerType.DAYFISHINGEXPRANKINGMENU);
+		openmap.put(21, ManagerType.WEEKFISHINGEXPRANKINGMENU);
+		openmap.put(30, ManagerType.MONTHFISHINGEXPRANKINGMENU);
+		openmap.put(39, ManagerType.YEARFISHINGEXPRANKINGMENU);
+		openmap.put(4, ManagerType.TOTALLOGINTIMERANKINGMENU);
+		openmap.put(13, ManagerType.DAYLOGINTIMERANKINGMENU);
+		openmap.put(22, ManagerType.WEEKLOGINTIMERANKINGMENU);
+		openmap.put(31, ManagerType.MONTHLOGINTIMERANKINGMENU);
+		openmap.put(40, ManagerType.YEARLOGINTIMERANKINGMENU);
 	}
 
 	@Override
@@ -86,65 +114,110 @@ public class RankingSelectMenuManager extends GuiMenuManager {
 	protected ItemStack getItemStack(Player player, int slot) {
 		ItemStack itemstack = null;
 		switch (slot) {
+		// 整地量ランキング
 		case 0:
-			itemstack = head.getMobHead("blue_chalice");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（総合）");
+			itemstack = head.getMobHead(MineBlockHeadName);
+			Util.setDisplayName(itemstack, MineBlockTitleName + Total);
 			break;
 		case 9:
-			itemstack = head.getMobHead("blue_chalice");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（日間）");
+			itemstack = head.getMobHead(MineBlockHeadName);
+			Util.setDisplayName(itemstack, MineBlockTitleName + Day);
 			break;
 		case 18:
-			itemstack = head.getMobHead("blue_chalice");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（週間）");
+			itemstack = head.getMobHead(MineBlockHeadName);
+			Util.setDisplayName(itemstack, MineBlockTitleName + Week);
 			break;
 		case 27:
-			itemstack = head.getMobHead("blue_chalice");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（月間）");
+			itemstack = head.getMobHead(MineBlockHeadName);
+			Util.setDisplayName(itemstack, MineBlockTitleName + Month);
 			break;
 		case 36:
-			itemstack = head.getMobHead("blue_chalice");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "整地量ランキング（年間）");
+			itemstack = head.getMobHead(MineBlockHeadName);
+			Util.setDisplayName(itemstack, MineBlockTitleName + Year);
 			break;
+		// 建築量ランキング
 		case 1:
-			itemstack = head.getMobHead("spruce_log");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（総合）");
+			itemstack = head.getMobHead(BuildHeadName);
+			Util.setDisplayName(itemstack, BuildTitleName + Total);
 			break;
 		case 10:
-			itemstack = head.getMobHead("spruce_log");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（日間）");
+			itemstack = head.getMobHead(BuildHeadName);
+			Util.setDisplayName(itemstack, BuildTitleName + Day);
 			break;
 		case 19:
-			itemstack = head.getMobHead("spruce_log");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（週間）");
+			itemstack = head.getMobHead(BuildHeadName);
+			Util.setDisplayName(itemstack, BuildTitleName + Week);
 			break;
 		case 28:
-			itemstack = head.getMobHead("spruce_log");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（月間）");
+			itemstack = head.getMobHead(BuildHeadName);
+			Util.setDisplayName(itemstack, BuildTitleName + Month);
 			break;
 		case 37:
-			itemstack = head.getMobHead("spruce_log");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "建築量ランキング（年間）");
+			itemstack = head.getMobHead(BuildHeadName);
+			Util.setDisplayName(itemstack, BuildTitleName + Year);
 			break;
+		// 狩猟経験値ランキング
 		case 2:
-			itemstack = head.getMobHead("light_bulb");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（総合）");
+			itemstack = head.getMobHead(HuntingExpHeadName);
+			Util.setDisplayName(itemstack, HuntingExpTitleName + Total);
 			break;
 		case 11:
-			itemstack = head.getMobHead("light_bulb");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（日間）");
+			itemstack = head.getMobHead(HuntingExpHeadName);
+			Util.setDisplayName(itemstack, HuntingExpTitleName + Day);
 			break;
 		case 20:
-			itemstack = head.getMobHead("light_bulb");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（週間）");
+			itemstack = head.getMobHead(HuntingExpHeadName);
+			Util.setDisplayName(itemstack, HuntingExpTitleName + Week);
 			break;
 		case 29:
-			itemstack = head.getMobHead("light_bulb");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（月間）");
+			itemstack = head.getMobHead(HuntingExpHeadName);
+			Util.setDisplayName(itemstack, HuntingExpTitleName + Month);
 			break;
 		case 38:
-			itemstack = head.getMobHead("light_bulb");
-			Util.setDisplayName(itemstack, "" + ChatColor.YELLOW + "接続時間ランキング（年間）");
+			itemstack = head.getMobHead(HuntingExpHeadName);
+			Util.setDisplayName(itemstack, HuntingExpTitleName + Year);
+			break;
+		// 釣り経験値ランキング
+		case 3:
+			itemstack = head.getMobHead(FishingExpHeadName);
+			Util.setDisplayName(itemstack, FishingExpTitleName + Total);
+			break;
+		case 12:
+			itemstack = head.getMobHead(FishingExpHeadName);
+			Util.setDisplayName(itemstack, FishingExpTitleName + Day);
+			break;
+		case 21:
+			itemstack = head.getMobHead(FishingExpHeadName);
+			Util.setDisplayName(itemstack, FishingExpTitleName + Week);
+			break;
+		case 30:
+			itemstack = head.getMobHead(FishingExpHeadName);
+			Util.setDisplayName(itemstack, FishingExpTitleName + Month);
+			break;
+		case 39:
+			itemstack = head.getMobHead(FishingExpHeadName);
+			Util.setDisplayName(itemstack, FishingExpTitleName + Year);
+			break;
+		// 接続時間ランキング
+		case 4:
+			itemstack = head.getMobHead(LoginTimeHeadName);
+			Util.setDisplayName(itemstack, LoginTimeTitleName + Total);
+			break;
+		case 13:
+			itemstack = head.getMobHead(LoginTimeHeadName);
+			Util.setDisplayName(itemstack, LoginTimeTitleName + Day);
+			break;
+		case 22:
+			itemstack = head.getMobHead(LoginTimeHeadName);
+			Util.setDisplayName(itemstack, LoginTimeTitleName + Week);
+			break;
+		case 31:
+			itemstack = head.getMobHead(LoginTimeHeadName);
+			Util.setDisplayName(itemstack, LoginTimeTitleName + Month);
+			break;
+		case 40:
+			itemstack = head.getMobHead(LoginTimeHeadName);
+			Util.setDisplayName(itemstack, LoginTimeTitleName + Year);
 			break;
 		default:
 			break;
