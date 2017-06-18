@@ -71,7 +71,7 @@ public class FishingTableManager extends PlayerTableManager {
 		String command = "";
 
 		command += "IdleFishingCount = '" + m.getIdleFishingCount() + "',"
-				+ "ActiveFishingCount = '" + m.getIdleFishingCount() + "',"
+				+ "ActiveFishingCount = '" + m.getActiveFishingCount() + "',"
 				+ "CoolerBox = '" + BukkitSerialization.toBase64(m.getCoolerBox()) + "',";
 
 		return command;

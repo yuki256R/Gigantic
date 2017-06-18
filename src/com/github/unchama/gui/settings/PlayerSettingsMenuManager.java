@@ -19,6 +19,7 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.settings.PlayerSettingsManager;
+import com.github.unchama.util.TextUtil;
 import com.github.unchama.util.Util;
 
 /**
@@ -65,8 +66,8 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 		// GT当たりの通知送信
 		ItemStack gtRereNotiSendButton = giganticRereNotificationSendButton.clone();
 		Util.setLore(gtRereNotiSendButton, Arrays.asList(
-				getToggleSettingStr(manager.getGiganticRareNotificationSend()),
-				getClickAnnounce()
+				TextUtil.getToggleSettingStr(manager.getGiganticRareNotificationSend()),
+				TextUtil.getClickAnnounce()
 				));
 		inv.setItem(giganticRereNotificationSendSlot, gtRereNotiSendButton);
 
@@ -76,28 +77,12 @@ public class PlayerSettingsMenuManager extends GuiMenuManager{
 				ChatColor.GREEN + "ONにすると自動で振り分けます.",
 				ChatColor.GREEN + "(自分で振り分けたい場合はOFF)",
 				"",
-				getToggleSettingStr(manager.getSeichiSkillAutoAllocation()),
-				getClickAnnounce()
+				TextUtil.getToggleSettingStr(manager.getSeichiSkillAutoAllocation()),
+				TextUtil.getClickAnnounce()
 				));
 		inv.setItem(seichiSkillAutoAllocationSlot, ssAutoAllocationButton);
 
 		return inv;
-	}
-
-	// トグル設定の文字列を返す
-	private String getToggleSettingStr(boolean flag){
-		String ret = ChatColor.RESET + "設定 ： ";
-		if(flag){
-			ret += ChatColor.GREEN + "ON";
-		}else{
-			ret += ChatColor.RED + "OFF";
-		}
-		return ret;
-	}
-
-	// 「クリックして切り替え」
-	private String getClickAnnounce(){
-		return ChatColor.RED + "クリックして切り替え";
 	}
 
 	// トグル音

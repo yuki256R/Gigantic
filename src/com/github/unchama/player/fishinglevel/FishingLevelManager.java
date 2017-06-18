@@ -17,7 +17,7 @@ public class FishingLevelManager extends DataManager implements UsingSql {
 	// 各レベルのデータ値を格納します．
 	public static LinkedHashMap<Integer, FishingLevel> levelmap = new LinkedHashMap<Integer, FishingLevel>() {
 		{
-			for (int level = 1; level <= huntingpoint.getMaxHuntingLevel(); level++) {
+			for (int level = 1; level <= fishing.getMaxFishingLevel(); level++) {
 				put(level, new FishingLevel(level));
 			}
 		}
@@ -46,7 +46,7 @@ public class FishingLevelManager extends DataManager implements UsingSql {
 	private boolean canLevelup() {
 		double temp = exp.doubleValue();
 		//Bukkit.getServer().getLogger().info("level:"+level+" next:"+levelmap.get(level).getNextExp()+">"+temp);
-		if (level >= huntingpoint.getMaxHuntingLevel()) {
+		if (level >= fishing.getMaxFishingLevel()) {
 			return false;
 		}
 		if (levelmap.get(level).getNextExp() > temp) {
@@ -106,7 +106,7 @@ public class FishingLevelManager extends DataManager implements UsingSql {
 	 * @return
 	 */
 	public double getRemainingExp() {
-		return this.level < huntingpoint.getMaxHuntingLevel() ? levelmap.get(
+		return this.level < fishing.getMaxFishingLevel() ? levelmap.get(
 				this.level).getNextExp()
 				- exp.doubleValue() : 0;
 	}
