@@ -7,6 +7,7 @@ import com.github.unchama.player.donate.DonateData;
 import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.sql.donate.DonateTableManager;
 
+import com.github.unchama.sql.vote.UnchamaPointTableManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,10 +25,12 @@ import java.util.UUID;
  */
 public class ListenCommand implements TabExecutor {
 
-    DonateTableManager tableManager;
+    DonateTableManager donteTableManager;
+    UnchamaPointTableManager unchamaPointTableManager;
 
     public ListenCommand() {
-        this.tableManager = Gigantic.sql.getManager(DonateTableManager.class);
+        this.donteTableManager = Gigantic.sql.getManager(DonateTableManager.class);
+        this.unchamaPointTableManager = Gigantic.sql.getManager(UnchamaPointTableManager.class);
     }
 
     @Override
@@ -38,28 +41,35 @@ public class ListenCommand implements TabExecutor {
         else if (args.length < 1) {
             sender.sendMessage(ChatColor.RED + "/listen <donate/vote>");
         }
-        if (args[0].equalsIgnoreCase("donate")) {
-            if (args.length < 4) {
-                sender.sendMessage(ChatColor.RED + "/listen donate <uuid> <金額> <ポイント>");
-            }
-            else if (!StringUtils.isNumeric(args[2]) || !StringUtils.isNumeric(args[3])) {
-                sender.sendMessage(ChatColor.RED + "金額とポイントは数字で指定してください");
-            }
-            else {
-                Player player = Bukkit.getPlayer(UUID.fromString(args[1]));
-                int money = Integer.parseInt(args[2]);
-                int point = Integer.parseInt(args[3]);
-                if (player != null) {
-                    GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-                    if (gp != null)
-                        put(gp, money, point);
-                    else
+        else {
+            if (args[0].equalsIgnoreCase("donate")) {
+                if (args.length < 4) {
+                    sender.sendMessage(ChatColor.RED + "/listen donate <uuid> <金額> <ポイント>");
+                } else if (!StringUtils.isNumeric(args[2]) || !StringUtils.isNumeric(args[3])) {
+                    sender.sendMessage(ChatColor.RED + "金額とポイントは数字で指定してください");
+                } else {
+                    Player player = Bukkit.getPlayer(UUID.fromString(args[1]));
+                    int money = Integer.parseInt(args[2]);
+                    int point = Integer.parseInt(args[3]);
+                    if (player != null) {
+                        GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+                        if (gp != null)
+                            put(gp, money, point);
+                        else
+                            putToSQL(args[1], money, point);
+                    } else {
                         putToSQL(args[1], money, point);
+                    }
+                    sender.sendMessage("寄付データを登録しました! UUID: " + args[1] + ", 金額: " + money + ", ポイント: " + point);
                 }
-                else {
-                    putToSQL(args[1], money, point);
+            } else if (args[0].equalsIgnoreCase("vote")) {
+                if (args.length < 2) {
+                    sender.sendMessage(ChatColor.RED + "/listen vote <name>");
+                } else {
+                    String uuid = Bukkit.getServer().getOfflinePlayer(args[1]).getUniqueId().toString();
+                    unchamaPointTableManager.addPoint(uuid, 1);
+                    sender.sendMessage("投票を受け付けました! UUID: " + args[1]);
                 }
-                sender.sendMessage("寄付データを登録しました! UUID: " + args[1] + ", 金額: " + money + ", ポイント: " + point);
             }
         }
         return true;
@@ -76,6 +86,6 @@ public class ListenCommand implements TabExecutor {
     }
 
     private void putToSQL(String uuid, int money, int point) {
-        tableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
+        donteTableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
     }
 }
