@@ -13,7 +13,7 @@ public enum CommandType {
     FLY(new FlyCommand()),
     PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
-	DONATE(new DonateCommand()),
+	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
 	;
 
