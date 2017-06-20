@@ -330,4 +330,28 @@ public class ConfigManager extends YmlManager {
     public int getBlockLineUpSkillMSLevel() {
         return fc.getInt("BlockLineUpSkill.minestack");
     }
+
+    /**
+     * ホーム数の最大値を取得します
+     * @return
+     */
+    public int getSubHomeMax() {
+    	return fc.getInt("subhomemax");
+    }
+
+	 /**
+     * サーバを値で識別します
+     * @return
+     */
+	public int getServerNum() {
+		return fc.getInt("servernum");
+	}
+
+	 /**
+     * ホームポイントを使用するサーバの数を取得します
+     * @return
+     */
+	public int getHomeNum() {
+		return fc.getInt("homenum");
+	}
 }

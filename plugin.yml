@@ -53,3 +53,9 @@ commands:
     default: up
     permission: gigantic.genchant
     permission-message: You don't have <permission>
+  home:
+    description: This is home command.
+    usage: /<command> <set/tp> <amount>
+    default: true
+    permission: gigantic.home
+    permission-message: You don't have <permission>
