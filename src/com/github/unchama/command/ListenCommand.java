@@ -22,11 +22,11 @@ import java.util.UUID;
 /**
  * Created by Mon_chi on 2017/06/08.
  */
-public class DonateCommand implements TabExecutor {
+public class ListenCommand implements TabExecutor {
 
     DonateTableManager tableManager;
 
-    public DonateCommand() {
+    public ListenCommand() {
         this.tableManager = Gigantic.sql.getManager(DonateTableManager.class);
     }
 
@@ -35,27 +35,32 @@ public class DonateCommand implements TabExecutor {
         if (!sender.isOp()) {
             sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");
         }
-        else if (args.length < 3) {
-            sender.sendMessage(ChatColor.RED + "/donate <uuid> <金額> <ポイント>");
+        else if (args.length < 1) {
+            sender.sendMessage(ChatColor.RED + "/listen <donate/vote>");
         }
-        else if (!StringUtils.isNumeric(args[1]) || !StringUtils.isNumeric(args[2])) {
-            sender.sendMessage(ChatColor.RED + "金額とポイントは数字で指定してください");
-        }
-        else {
-            Player player = Bukkit.getPlayer(UUID.fromString(args[0]));
-            int money = Integer.parseInt(args[1]);
-            int point = Integer.parseInt(args[2]);
-            if (player != null) {
-                GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-                if (gp != null)
-                    put(gp, money, point);
-                else
-                    putToSQL(args[0], money, point);
+        if (args[0].equalsIgnoreCase("donate")) {
+            if (args.length < 4) {
+                sender.sendMessage(ChatColor.RED + "/listen donate <uuid> <金額> <ポイント>");
+            }
+            else if (!StringUtils.isNumeric(args[2]) || !StringUtils.isNumeric(args[3])) {
+                sender.sendMessage(ChatColor.RED + "金額とポイントは数字で指定してください");
             }
             else {
-                putToSQL(args[0], money, point);
+                Player player = Bukkit.getPlayer(UUID.fromString(args[1]));
+                int money = Integer.parseInt(args[2]);
+                int point = Integer.parseInt(args[3]);
+                if (player != null) {
+                    GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+                    if (gp != null)
+                        put(gp, money, point);
+                    else
+                        putToSQL(args[1], money, point);
+                }
+                else {
+                    putToSQL(args[1], money, point);
+                }
+                sender.sendMessage("寄付データを登録しました! UUID: " + args[1] + ", 金額: " + money + ", ポイント: " + point);
             }
-            sender.sendMessage("寄付データを登録しました! UUID: " + args[0] + ", 金額: " + money + ", ポイント: " + point);
         }
         return true;
     }
