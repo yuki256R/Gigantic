@@ -451,6 +451,25 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return map;
 	}
 
+	public int getVoteEffect(GiganticPlayer gp) {
+		String command = "select p_vote from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("p_vote");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load p_vote player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
+	}
+
 
 
 
