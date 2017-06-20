@@ -73,6 +73,7 @@ import com.github.unchama.sql.ranking.FishingExpRankingTableManager;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
+import com.github.unchama.sql.vote.UnchamaPointTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
@@ -120,6 +121,7 @@ public class Sql {
 		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),//
 		FISHING(FishingTableManager.class, FishingManager.class),//
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
+		UNCHAMAPOINT(UnchamaPointTableManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;

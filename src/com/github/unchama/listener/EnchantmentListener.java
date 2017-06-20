@@ -29,7 +29,7 @@ public class EnchantmentListener implements Listener {
      */
     public boolean runEnchantments(Event event, ItemStack item) {
         //手に何も持っていなかったらreturn
-        if (item == null || item.getItemMeta().getLore() == null) {
+        if (item == null || item.getItemMeta() == null || item.getItemMeta().getLore() == null) {
             return false;
         }
 

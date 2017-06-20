@@ -16,7 +16,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.player.seichiskill.effect.EffectType;
-import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
+import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -419,7 +419,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		put("ef_explosion",EffectType.DYNAMITE.getId());
 		put("ef_blizzard",EffectType.BLIZZARD.getId());
 		put("ef_meteo",EffectType.METEO.getId());
-		put("ef_magic",PremiumEffectType.MAGIC.getId());
+		put("ef_magic",GiganticEffectType.MAGIC.getId());
 	}};
 
 	public HashMap<Integer, Boolean> getEffectFlagMap(GiganticPlayer gp) {
@@ -449,6 +449,25 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			e.printStackTrace();
 		}
 		return map;
+	}
+
+	public int getVoteEffect(GiganticPlayer gp) {
+		String command = "select p_vote from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("p_vote");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load p_vote player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
 	}
 
 

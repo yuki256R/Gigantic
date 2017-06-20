@@ -8,8 +8,8 @@ import java.util.Map;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
-import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
@@ -39,7 +39,7 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 				command += "add column if not exists effect_" + et.getId() + " boolean default false,";
 			}
 		}
-		for (PremiumEffectType et : PremiumEffectType.values()) {
+		for (GiganticEffectType et : GiganticEffectType.values()) {
 			command += "add column if not exists effect_" + et.getId() + " boolean default false,";
 		}
 		return command;
@@ -80,7 +80,7 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 				map.put(et.getId(), false);
 			}
 		}
-		for (PremiumEffectType et : PremiumEffectType.values()) {
+		for (GiganticEffectType et : GiganticEffectType.values()) {
 			map.put(et.getId(), false);
 		}
 		for (ActiveSkillType st : ActiveSkillType.values()) {
@@ -96,7 +96,7 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 		for (EffectType et : EffectType.values()) {
 			map.put(et.getId(), rs.getBoolean("effect_" + et.getId()));
 		}
-		for (PremiumEffectType et : PremiumEffectType.values()) {
+		for (GiganticEffectType et : GiganticEffectType.values()) {
 			map.put(et.getId(), rs.getBoolean("effect_" + et.getId()));
 		}
 
