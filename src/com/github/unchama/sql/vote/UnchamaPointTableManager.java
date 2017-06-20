@@ -39,8 +39,7 @@ public class UnchamaPointTableManager extends PlayerFromSeichiTableManager {
     protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
         this.checkStatement();
         int point = tm.getVoteEffect(gp);
-        String command = "update " + db + "." + table + " set point = '" + point
-                + "'";
+        String command = "update " + db + "." + table + " set point = " + point;
         command += " where uuid = '" + gp.uuid.toString() + "'";
 
         try {
@@ -50,11 +49,44 @@ public class UnchamaPointTableManager extends PlayerFromSeichiTableManager {
                     "Failed to takeover " + table + " UnchamaPoint of :" + gp.name);
             e.printStackTrace();
         }
-
     }
 
     @Override
     protected void firstjoinPlayer(GiganticPlayer gp) {
+    }
 
+    public void addPoint(String uuid, int addPoint) {
+        this.checkStatement();
+        String command = "select * from " + db + "." + table + " where uuid = '" + uuid + "'";
+        int currentPoint;
+        try {
+            ResultSet rs = stmt.executeQuery(command);
+            if (rs.isLast()) {
+                return;
+            }
+            rs.next();
+            currentPoint = rs.getInt("point");
+            rs.updateInt("point", currentPoint + addPoint);
+            rs.updateRow();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getPoint(String uuid) {
+        this.checkStatement();
+        String command = "select point from " + db + "." + table + " where uuid = '" + uuid + "'";
+        int point = 0;
+        try {
+            ResultSet rs = stmt.executeQuery(command);
+            if (rs.isLast()) {
+                return 0;
+            }
+            rs.next();
+            point = rs.getInt("point");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return point;
     }
 }
