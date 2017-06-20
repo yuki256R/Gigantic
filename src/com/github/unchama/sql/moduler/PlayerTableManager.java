@@ -94,7 +94,7 @@ public abstract class PlayerTableManager extends TableManager implements
 		// create Table
 		command = "CREATE TABLE IF NOT EXISTS " + db + "." + table;
 		// Unique Column add
-		command += "(uuid varchar(128) unique)";
+		command += "(uuid varchar(128) primary key not null)";
 		// send
 		if (!sendCommand(command)) {
 			plugin.getLogger().warning("Failed to Create " + table + " Table");
