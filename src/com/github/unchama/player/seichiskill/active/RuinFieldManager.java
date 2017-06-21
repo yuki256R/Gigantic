@@ -12,7 +12,6 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.listener.GeneralBreakListener;
@@ -345,9 +344,6 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 						+ 1
 						+ ")for player:"
 						+ player.getName());
-				// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin,
-						true));
 				// アイテムが出現するのを検知させる
 				Location droploc = GeneralBreakListener.getDropLocation(b);
 				GeneralBreakListener.breakmap.put(droploc,
@@ -360,10 +356,6 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 				}, 1);
 			});
 
-		liquidlist.forEach(b -> {
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
-			});
 
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
@@ -384,7 +376,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.createRunner(st).ruinfieldEffect(breaklist, liquidlist, alllist, this.getRange());
+		effm.createRunner(st).ruinfieldEffect(gp,block,breaklist, liquidlist, alllist, this.getRange());
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

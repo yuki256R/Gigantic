@@ -24,6 +24,8 @@ public class BreakRange {
 	private LinkedHashMap<CardinalDirection, List<Coordinate>> topmap;
 	// surrondmapのtop部分
 	private LinkedHashMap<CardinalDirection, List<Coordinate>> topsurroundmap;
+	//破壊するブロックの中央座標リスト
+	private LinkedHashMap<CardinalDirection, Coordinate> centermap;
 
 	public BreakRange() {
 		this(new Volume(), new Coordinate());
@@ -67,6 +69,7 @@ public class BreakRange {
 		topsurroundmap
 				.put(CardinalDirection.NORTH, new ArrayList<Coordinate>());
 		topsurroundmap.put(CardinalDirection.EAST, new ArrayList<Coordinate>());
+		centermap = new LinkedHashMap<CardinalDirection, Coordinate>();
 		for (int y = volume.getHeight() - zeropoint.getY(); y >= -zeropoint
 				.getY() - 1; y--) {
 			for (int x = -zeropoint.getX() - 1; x <= volume.getWidth()
@@ -118,6 +121,20 @@ public class BreakRange {
 							topmap.get(CardinalDirection.NORTH).add(coord);
 							coord = coord.rotateXZ(zeropoint);
 							topmap.get(CardinalDirection.EAST).add(coord);
+						}
+						coord = new Coordinate(x,y,z);
+						if(y == volume.getHeight() - zeropoint.getY() + (int)(volume.getHeight() + 1)/2 &&
+								x == -zeropoint.getX() - 1 + (int)(volume.getWidth() + 1)/2 &&
+								z == -zeropoint.getZ() - 1 + (int)(volume.getDepth() + 1)/2
+								){
+							//中心座標
+							centermap.put(CardinalDirection.SOUTH, coord);
+							coord = coord.rotateXZ(zeropoint);
+							centermap.put(CardinalDirection.WEST, coord);
+							coord = coord.rotateXZ(zeropoint);
+							centermap.put(CardinalDirection.NORTH, coord);
+							coord = coord.rotateXZ(zeropoint);
+							centermap.put(CardinalDirection.EAST, coord);
 						}
 					}
 
@@ -203,4 +220,12 @@ public class BreakRange {
 		this.zeropoint = zeropoint;
 	}
 
+	/**中心座標を取得（相対）
+	 *
+	 * @param d
+	 * @return
+	 */
+	public Coordinate getCenter(CardinalDirection d){
+		return centermap.get(d);
+	}
 }

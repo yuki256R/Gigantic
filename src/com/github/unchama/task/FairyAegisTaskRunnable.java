@@ -28,6 +28,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 	private static final ActiveSkillType st = ActiveSkillType.FAIRYAEGIS;
 
 	private Player player;
+	private Block block;
 	private GiganticPlayer gp;
 	private HashMap<Integer, List<Block>> breakMap;
 	private SideBarManager Sm;
@@ -44,7 +45,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 			ItemStack tool, FairyAegisManager skill,
 			ActiveSkillManager activeskill,
 			HashMap<Integer, List<Block>> breakMap, boolean soundflag) {
-
+		this.block = block;
 		this.gp = gp;
 		this.player = PlayerManager.getPlayer(gp);
 		this.Sm = gp.getManager(SideBarManager.class);
@@ -92,7 +93,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 			if (breaklist != null && !breaklist.isEmpty()) {
 				//エフェクトマネージャでブロックを処理
 				SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
-				effm.createRunner(st).fairyaegisEffectonBreak(breaklist, soundflag);
+				effm.createRunner(st).fairyaegisEffectonBreak(gp,block,breaklist, soundflag);
 			}
 			height--;
 			waitcount = -1;
