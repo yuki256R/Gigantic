@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -19,11 +20,20 @@ import com.github.unchama.event.SecondEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.detail.Mebius;
 import com.github.unchama.growthtool.moduler.GrowthToolManager;
-import com.github.unchama.growthtool.moduler.util.GrwRandomList;
+import com.github.unchama.growthtool.moduler.message.GrwRandomList;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 import com.github.unchama.yml.GrowthToolDataManager;
 
+/**
+ * Growth Toolメインクラス。整地に応じて成長する、Growth Toolを統括する。<br />
+ * Growth Tool内外からのAPIは全てこのクラスに集約する。<br />
+ * onEnable時にコンストラクタを呼び出すことで有効化される。<br />
+ * コマンド及びリスナーに無効化手段を用意していない為、コンストラクタ非呼び出しによる無効化は保証しない。<br />
+ * 各仕様の説明はREADME.mdを参照すること。<br />
+ *
+ * @author CrossHearts
+ */
 public final class GrowthTool {
 	// classとinstanceを紐づけるHashMap
 	private static LinkedHashMap<Class<? extends GrowthToolManager>, GrowthToolManager> managermap = new LinkedHashMap<Class<? extends GrowthToolManager>, GrowthToolManager>();
@@ -40,26 +50,9 @@ public final class GrowthTool {
 	// 汎用乱数（お喋り確率 / 成長ツールドロップ判定用）
 	private static final Random random = new Random();
 
-	public static final void GrwDebugInfo(String msg) {
-		StackTraceElement prevTrace = Thread.currentThread().getStackTrace()[2];
-		StringBuilder traceLog = new StringBuilder();
-		traceLog.append("(" + prevTrace.getFileName() + "#" + Integer.toString(prevTrace.getLineNumber()) + ") ")
-				.append("[" + prevTrace.getClassName() + "#" + prevTrace.getMethodName() + "] " + msg);
-		Gigantic.yml.getManager(DebugManager.class).info(DebugEnum.GROWTHTOOL, traceLog.toString());
-		Gigantic.yml.getManager(DebugManager.class).sendMessage(DebugEnum.GROWTHTOOL, traceLog.toString());
-	}
-
-	public static final void GrwDebugWarning(String msg) {
-		StackTraceElement prevTrace = Thread.currentThread().getStackTrace()[2];
-		StringBuilder traceLog = new StringBuilder();
-		traceLog.append("(" + prevTrace.getFileName() + "#" + Integer.toString(prevTrace.getLineNumber()) + ") ")
-				.append("[" + prevTrace.getClassName() + "#" + prevTrace.getMethodName() + "] " + msg);
-		Gigantic.yml.getManager(DebugManager.class).warning(DebugEnum.GROWTHTOOL, traceLog.toString());
-		Gigantic.yml.getManager(DebugManager.class).sendMessage(DebugEnum.GROWTHTOOL, traceLog.toString());
-	}
-
 	/**
-	 * コンストラクタ。ymlの読み込み以降にonEnableで初期化されることを想定している。
+	 * コンストラクタ。ymlの読み込み以降に一度、onEnableで初期化されることを想定している。<br />
+	 * newのみで良いので初期化時に実行すること。new GrowthTool();<br />
 	 */
 	public GrowthTool() {
 		// ymlからの読み込み
@@ -83,29 +76,37 @@ public final class GrowthTool {
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 			}
-			GrowthTool.GrwDebugInfo(gt.name() + " Loaded.");
+			GrowthTool.GrwDebugInfo(gt.toString() + " Loaded.");
 		}
-
-		// お喋りタスクの開始
-		// new GrowthToolTaskRunnable(talkPer).runTaskTimerAsynchronously(Gigantic.plugin, 40, interval * 20);
 		GrowthTool.GrwDebugInfo("DebugModeで起動しました。");
 	}
 
+	/**
+	 * Growth Toolの種別定義enum。<br />
+	 * 追加 / 無効化時はこのenumを増減し、引数として実体クラスを指定すること。<br />
+	 * 詳細手順はREADME.mdを参照。<br />
+	 */
 	public static enum GrowthToolType {
-		MEBIUS(Mebius.class),;
+		MEBIUS(Mebius.class),
+		;
 
-		// 使用するManagerClass
+		// Growth Toolの実体クラス
 		private Class<? extends GrowthToolManager> managerClass;
 
-		// Enum用コンストラクタ
+		/**
+		 * enum用コンストラクタ。各Growth Toolの実体クラスをManagerとして登録する。<br />
+		 *
+		 * @param managerClass Growth Toolの実体クラス
+		 */
 		private GrowthToolType(Class<? extends GrowthToolManager> managerClass) {
 			this.managerClass = managerClass;
 		}
 
 		/**
-		 * 使用するManagerClassを返り値とします．
+		 * 実体クラスアクセス用メソッド。使用するManagerClassを返却する。<br />
+		 * 実体クラスのメソッドにアクセスする際はこのメソッドを通してアクセスすることで共通化が可能。<br />
 		 *
-		 * @return Class<? extends GrowthToolManager>
+		 * @return Class<? extends GrowthToolManager> このenumが持つ実体クラス
 		 */
 		private Class<? extends GrowthToolManager> getManagerClass() {
 			return managerClass;
@@ -113,51 +114,55 @@ public final class GrowthTool {
 	}
 
 	/**
-	 * 指定アイテム配布処理。デバッグ専用コマンドにより呼び出される。
+	 * 名前変更処理。対象ツールを装備した状態でコマンド実行により呼び出される。<br />
+	 * 装備中のGrowth Toolの名前を変更する。<br />
 	 *
-	 * @param gt
-	 * @param player
-	 * @return
-	 */
-	public static boolean giveDefault(GrowthToolType gt, Player player) {
-		return managermap.get(gt.getManagerClass()).giveDefault(player);
-	}
-
-	/**
-	 * 名前変更処理。対象ツールを装備した状態でコマンド実行により呼び出される。
-	 *
-	 * @param gt
-	 * @param player
-	 * @param name
-	 * @return
+	 * @param gt 名前を変更するGrowth Tool
+	 * @param player Growth Toolの所有プレイヤー
+	 * @param name 新しい名前
+	 * @return <true: 命名成功 / false: 命名失敗>
 	 */
 	public static boolean rename(GrowthToolType gt, Player player, String name) {
 		return managermap.get(gt.getManagerClass()).rename(player, name);
 	}
 
 	/**
-	 * 呼び名変更処理。対象ツールを装備した状態でコマンド実行により呼び出される。
+	 * 愛称変更処理。対象ツールを装備した状態でコマンド実行により呼び出される。<br />
+	 * 装備中のGrowth Toolからの、playerに対しての呼び名を変更する。<br />
 	 *
-	 * @param gt
-	 * @param player
-	 * @param called
-	 * @return
+	 * @param gt プレイヤーへの愛称を設定するGrowth Tool
+	 * @param player Growth Toolの所有プレイヤー
+	 * @param called 新しい愛称
+	 * @return <true: 設定成功 / false: 設定失敗>
 	 */
 	public static boolean setPlayerCalled(GrowthToolType gt, Player player, String called) {
 		return managermap.get(gt.getManagerClass()).setPlayerCalled(player, called);
 	}
 
-	public static void dropChance(Player player) {
+	/**
+	 * Growth Toolドロップ判定処理。<br />
+	 * 整地時にGrowth Toolをドロップするかどうかを判定する。<br />
+	 * ドロップ抽選に当選した場合、ドロップバランスによりどのGrowth Toolを配布するかを判定する。<br />
+	 *
+	 * @param player 抽選対象のプレイヤー
+	 */
+	private static void dropChance(Player player) {
 		if (random.nextInt(droprate) == 0) {
 			List<Integer> balance = new ArrayList<Integer>();
 			for (GrowthToolManager manager : managermap.values()) {
 				balance.add(manager.getDropBalance());
 			}
-			GrwRandomList<GrowthToolManager> managerlist = new GrwRandomList<GrowthToolManager>((ArrayList<GrowthToolManager>) managermap.values());
+			GrwRandomList<GrowthToolManager> managerlist = new GrwRandomList<GrowthToolManager>(new ArrayList<GrowthToolManager>(managermap.values()));
 			managerlist.getRandom(balance).giveDefault(player);
 		}
 	}
 
+	/**
+	 * イベント処理。各イベントの際に呼び出され、対応する処理を行う。Growth Tool用のイベントリスナーは必ずこのメソッドを呼び出し、この中で処理を行うこと。<br />
+	 * イベント毎の処理を行い、必要に応じてメッセージの出力を行う。<br />
+	 *
+	 * @param event 呼び出し要因となるBukkitイベント（Eventクラス）の継承クラス
+	 */
 	public static void onEvent(Event event) {
 		// イベント発生時にGrowth Toolのイベントを発行するプレイヤーが存在するかを判定
 		List<Player> player = new ArrayList<Player>();
@@ -219,9 +224,62 @@ public final class GrowthTool {
 			// null/emptyのmessageを除外する
 			return;
 		}
-		if (!isForce && (takeList.contains(player) || random.nextInt(100) >= talkPer)) {
+		if (!isForce && (takeList.contains(player) || random.nextInt(100) < talkPer)) {
 			return;
 		}
 		player.sendMessage(message);
+		player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_TOUCH, 1f, 0.1f);
+	}
+
+	/**
+	 * Growth Tool配布処理。デバッグ専用コマンドにより呼び出される。<br />
+	 * 引数のGrowthToolTypeに応じたGrowth Toolをplayerに配布する。<br />
+	 *
+	 * @param gt 配布対象のGrowth Tool
+	 * @param player Growth Toolを配布するプレイヤー
+	 * @return <true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ>
+	 */
+	public static final boolean giveDefault(GrowthToolType gt, Player player) {
+		return managermap.get(gt.getManagerClass()).giveDefault(player);
+	}
+
+	/**
+	 * Growth Tool Debug用Information出力staticメソッド。<br />
+	 * 危険性の無い情報を出力するためにGrowth Tool内部から使用される。<br />
+	 * 出力にはdebug.ymlでGrowth Toolのdebug出力を有効にする必要がある。<br />
+	 *
+	 * @param msg 出力メッセージ
+	 */
+	public static final void GrwDebugInfo(String msg) {
+		StackTraceElement prevTrace = Thread.currentThread().getStackTrace()[2];
+		StringBuilder traceLog = new StringBuilder();
+		traceLog.append("(" + prevTrace.getFileName() + "#" + Integer.toString(prevTrace.getLineNumber()) + ") ")
+				.append("[" + prevTrace.getClassName() + "#" + prevTrace.getMethodName() + "] " + msg);
+		Gigantic.yml.getManager(DebugManager.class).info(DebugEnum.GROWTHTOOL, traceLog.toString());
+	}
+
+	/**
+	 * Growth Tool Debug用Warning出力staticメソッド。<br />
+	 * 危険性を含む情報を出力するためにGrowth Tool内部から使用される。<br />
+	 * 出力にはdebug.ymlでGrowth Toolのdebug出力を有効にする必要がある。<br />
+	 *
+	 * @param msg 出力メッセージ
+	 */
+	public static final void GrwDebugWarning(String msg) {
+		StackTraceElement prevTrace = Thread.currentThread().getStackTrace()[2];
+		StringBuilder traceLog = new StringBuilder();
+		traceLog.append("(" + prevTrace.getFileName() + "#" + Integer.toString(prevTrace.getLineNumber()) + ") ")
+				.append("[" + prevTrace.getClassName() + "#" + prevTrace.getMethodName() + "] " + msg);
+		Gigantic.yml.getManager(DebugManager.class).warning(DebugEnum.GROWTHTOOL, traceLog.toString());
+	}
+
+	/**
+	 * Growth Tool Debug用フラグ取得staticメソッド。デバッグモード専用処理の判定に利用される。<br />
+	 * debug.ymlでGrowth Toolのdebug出力が有効にされている場合trueを返却する。<br />
+	 *
+	 * @return <true: debugモード / false: 通常モード>
+	 */
+	public static final boolean GrwGetDebugFlag() {
+		return Gigantic.yml.getManager(DebugManager.class).getFlag(DebugEnum.GROWTHTOOL);
 	}
 }

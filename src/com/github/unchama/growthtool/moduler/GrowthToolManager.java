@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.event.SecondEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
@@ -28,72 +29,69 @@ import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.GrowthToolDataManager;
 
+/**
+ * Growth Tool内の基本挙動を示す抽象クラス。<br />
+ * このクラスのインスタンスは生成されず、継承された各Growth Toolごとのインスタンスを利用する。<br />
+ * 共通処理部分を定義する。継承クラスは必要に応じ、それぞれの処理をOverrideして独自実装して良い。<br />
+ * 装備部位ごとに継承クラスを生成することを想定しており、abstractで定義されているメソッドを実装する必要がある。<br />
+ *
+ * @author CrossHearts
+ */
 public abstract class GrowthToolManager {
-	// 成長ツール名称
+	/** Growth Toolの名称 */
 	protected String name;
-	// ドロップバランス
+	/** ドロップバランス */
 	protected int dropBalanceRate;
-	// 識別用固有メッセージ
+	/** 識別用固有メッセージ */
 	protected List<String> identLore;
-	// ステータス一覧
+	/** ステータス一覧 */
 	protected GrwStatus status;
-	// エンチャント一覧
+	/** エンチャント一覧 */
 	protected GrwEnchants enchant;
-	// カスタムメッセージ1
+	/** カスタムメッセージ1 */
 	protected GrwCustomMessage customMsg;
-	// 整地時のメッセージリスト
+	/** 整地時のメッセージリスト */
 	protected GrwMessage onBlockBreakMsg;
-	// 命名時のメッセージリスト
+	/** 命名時のメッセージリスト */
 	protected GrwMessage onRenameItemMsg;
-	// 討伐時のメッセージリスト
+	/** 討伐時のメッセージリスト */
 	protected GrwMessage onMonsterKillMsg;
-	// 被ダメージ時のメッセージリスト
+	/** 被ダメージ時のメッセージリスト */
 	protected GrwMessage onGetDamageMsg;
-	// 破損警告時のメッセージリスト
+	/** 破損警告時のメッセージリスト */
 	protected GrwMessage onWarnItemMsg;
-	// 破損時のメッセージリスト
+	/** 破損時のメッセージリスト */
 	protected GrwMessage onBreakItemMsg;
-	// プレイヤーログアウト時のメッセージリスト
+	/** プレイヤーログアウト時のメッセージリスト */
 	protected GrwMessage onPlayerQuitMsg;
 
 	/**
-	 * 装備中の一致する成長ツールを取得する。装備中ではない場合はnullが返却される。
+	 * 装備中の該当Growth Tool取得処理。<br />
+	 * 指定プレイヤーに対し、該当Growth Toolが装備されていると想定される箇所から装備を取得し、対応するGrowth Toolの場合は返却する。<br />
+	 * 対応するGrowth Toolを装備していない場合はnullを返却する。<br />
 	 *
-	 * @param player
-	 * @return
+	 * @param player 装備を取得するプレイヤー
+	 * @return 装備中のGrowth Tool <null: 対応tool未装備>
 	 */
 	protected abstract GrwTool getTool(Player player);
 
-	// getToolでitemを取得したらこれを呼び出す
-	// 所有者一致確認は行わない
-	protected GrwTool getTool(ItemStack item) {
-		if (!item.hasItemMeta()) {
-			return null;
-		}
-		ItemMeta itemmeta = item.getItemMeta();
-		if (!itemmeta.hasLore()) {
-			return null;
-		}
-		List<String> itemlore = itemmeta.getLore();
-		// identを含むか判定
-		for (String identLine : identLore) {
-			if (!itemlore.contains(GrwDefine.IDENTHEAD + identLine)) {
-				return null;
-			}
-		}
-		return new GrwTool(item, identLore, status, enchant);
-	}
+	/**
+	 * ヘルメット装備処理。<br />
+	 * 指定プレイヤーに対し、該当Growth Toolが装備されると想定される箇所に指定のGrowth Toolを装備する。<br />
+	 *
+	 * @param player ヘルメットを装備するプレイヤー
+	 * @param grwtool 装備するヘルメット
+	 */
+	protected abstract void setTool(Player player, GrwTool grwtool);
 
 	/**
-	 * 装備中の一致する成長ツールを置換する。
+	 * コンストラクタ。全装備共通となる処理を行う。<br />
+	 * 主にgrowthtool.ymlからの読み込みと各プロパティの初期化を行う。<br />
 	 *
-	 * @param player
-	 * @return
+	 * @param type 対応するGrowthToolTypeのenum Key
 	 */
-	protected abstract void setTool(Player player, GrwTool newtool);
-
 	public GrowthToolManager(GrowthToolType type) {
-		name = type.name();
+		name = type.toString();
 		// ymlからの読み込み
 		GrowthToolDataManager configmanager = Gigantic.yml.getManager(GrowthToolDataManager.class);
 		dropBalanceRate = configmanager.getDropBalance(type);
@@ -119,81 +117,108 @@ public abstract class GrowthToolManager {
 	}
 
 	/**
-	 * アイテムLv1で生成し配布する。
+	 * 渡されたItemStackがこのクラスで定義されているGrowth Toolかどうかを判定する。<br />
+	 * 継承クラスにより取得した、装備中のItemStackを引数として呼び出されることを想定している。<br />
+	 * 判定にはgrowthtool.yml / identの一致、及びToolの所有者名またはUUIDと一致する必要がある。<br />
+	 * 一致した場合は該当するItemStackをGrwToolインスタンスに変換して返却、一致しない場合はnullを返却する。<br />
 	 *
-	 * @param player
-	 * @return
+	 * @param player itemを所有しているプレイヤー
+	 * @param item Growth Toolかどうかを判定するItemStack
+	 * @return GrwToolインスタンス <null: 対応toolまたは所有者の不一致>
+	 */
+	protected GrwTool getTool(Player player, ItemStack item) {
+		if (!item.hasItemMeta()) {
+			return null;
+		}
+		ItemMeta itemmeta = item.getItemMeta();
+		if (!itemmeta.hasLore()) {
+			return null;
+		}
+		List<String> itemlore = itemmeta.getLore();
+		// identを含むか判定
+		for (String identLine : identLore) {
+			if (!itemlore.contains(GrwDefine.IDENTHEAD + identLine)) {
+				return null;
+			}
+		}
+		// 所有者の判定
+		if (!GrwTool.isOwner(item, player)) {
+			return null;
+		}
+		return new GrwTool(item, identLore, status, enchant);
+	}
+
+	/**
+	 * このクラスのGrowth Toolをアイテムレベル1の状態で生成し、対象プレイヤーに配布する。<br />
+	 * 整地により入手条件を満たす、またはdebug用getコマンドにより呼び出される。<br />
+	 *
+	 * @param player Growth Toolを配布するプレイヤー
+	 * @return <true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ>
 	 */
 	public boolean giveDefault(Player player) {
-		Util.giveItem(player, (ItemStack) new GrwTool(player, name, identLore, status, enchant), false);
+		return !Util.giveItem(player, (ItemStack) new GrwTool(player, name, identLore, status, enchant), false);
+	}
+
+	/**
+	 * Growth Toolの表示名を変更する。コマンドによる命名で呼び出される。<br />
+	 * 名前は正規化の上で命名される。emptyを命名した場合は初期名称となる。<br />
+	 *
+	 * @param player Growth Toolの所有者
+	 * @param name 新しい名前
+	 * @return <true: 命名成功 / false: 命名失敗>
+	 */
+	public boolean rename(Player player, String name) {
+		GrwTool tool = getTool(player);
+		if (tool == null) {
+			player.sendMessage(this.name + "を装備していません。");
+			return false;
+		}
+		String trim = trimInputText(name);
+		if (trim.isEmpty()) {
+			tool.setName(this.name);
+			player.sendMessage(this.name + "の名前を初期化しました。");
+		} else {
+			tool.setName(trim);
+			player.sendMessage(this.name + "の名前を" + trim + "に変更しました。");
+		}
+		setTool(player, tool);
+		GrowthTool.talk(player, onRenameItemMsg.talk(tool, player, null), true);
 		return true;
 	}
 
 	/**
-	 * アイテムの表示名を変更する。
+	 * 愛称設定処理。Growth Toolからプレイヤーに対しての呼び名を設定する。<br />
+	 * 設定された愛称は、yml内の<name>部分に置き換えられる。<br />
+	 * 愛称は正規化の上で設定される。emptyを設定した場合はMCIDとなる。<br />
 	 *
-	 * @param player
-	 * @param name
-	 * @return
-	 */
-	public boolean rename(Player player, String name) {
-		GrwTool tool = getTool(player);
-		if (tool != null) {
-			String trim = trimInputText(name);
-			if (trim.isEmpty()) {
-				tool.setName(this.name);
-				player.sendMessage(this.name + "の名前を初期化しました。");
-			} else {
-				tool.setName(trim);
-				player.sendMessage(this.name + "の名前を" + trim + "に変更しました。");
-			}
-			setTool(player, tool);
-			GrowthTool.talk(player, onRenameItemMsg.talk(tool, player, null), true);
-			return true;
-		}
-		player.sendMessage(this.name + "を装備していません。");
-		return false;
-	}
-
-	/**
-	 * ドロップバランスを取得する。
-	 *
-	 * @return
-	 */
-	public int getDropBalance() {
-		return dropBalanceRate;
-	}
-
-	/**
-	 * msg内の<name>に対応する呼び名を設定する。
-	 *
-	 * @param player
-	 * @param called
-	 * @return
+	 * @param player Growth Toolの所有者
+	 * @param called プレイヤーに対する愛称
+	 * @return <true: 設定成功 / false: 設定失敗>
 	 */
 	public boolean setPlayerCalled(Player player, String called) {
 		GrwTool tool = getTool(player);
-		if (tool != null) {
-			String trim = trimInputText(called);
-			if (trim.isEmpty()) {
-				tool.setCall("");
-				player.sendMessage(name + "からの呼び名を初期化しました。");
-			} else {
-				tool.setCall(trim);
-				player.sendMessage(name + "からの呼び名を" + trim + "に変更しました。");
-			}
-			setTool(player, tool);
-			return true;
+		if (tool == null) {
+			player.sendMessage(this.name + "を装備していません。");
+			return false;
 		}
-		player.sendMessage(name + "からの呼び名を変更出来ませんでした。");
-		return false;
+		String trim = trimInputText(called);
+		if (trim.isEmpty()) {
+			tool.setCall("");
+			player.sendMessage(name + "からの呼び名を初期化しました。");
+		} else {
+			tool.setCall(trim);
+			player.sendMessage(name + "からの呼び名を" + trim + "に変更しました。");
+		}
+		setTool(player, tool);
+		return true;
 	}
 
 	/**
-	 * 入力文字列から除外文字を除去する。Color Codeを除去し、10文字を上限として返却する。
+	 * 文字列正規化処理。命名及び愛称設定で使用される。<br />
+	 * 入力文字列から、Color Code及びタグシーケンスの除去、文字数制限の上で返却する。<br />
 	 *
-	 * @param text
-	 * @return
+	 * @param text 正規化対象文字列
+	 * @return 正規化済み文字列
 	 */
 	private String trimInputText(String text) {
 		ChatColor.stripColor(text);
@@ -204,15 +229,34 @@ public abstract class GrowthToolManager {
 		return text;
 	}
 
-	// forceTalkはこの中で行った上でnullを返却する
+	/**
+	 * ドロップバランス取得処理。100を基準として、このクラスのGrowth Toolのドロップレートを調整する為の値。<br />
+	 * ドロップ判定時に各Growth Toolからドロップバランスを取得し、ドロップ対象を決定するために利用される。<br />
+	 *
+	 * @return このクラスのGrowth Toolに設定されているドロップバランス
+	 */
+	public int getDropBalance() {
+		return dropBalanceRate;
+	}
+
+	/**
+	 * イベントメッセージ取得処理。メッセージを出力すべき各イベントの際に呼び出され、対応するメッセージを返却する。<br />
+	 * イベントによるが、多くの場合は統括のGrowthToolクラスで全てのGrowth Toolから1文ずつ取得の上で選択される。<br />
+	 * 但し一部のイベントには本メソッド内から強制出力するメッセージが存在する。<br />
+	 *
+	 * @param event メッセージ出力の要因となるBukkitイベント（Eventクラス）の継承クラス
+	 * @param player イベントの出力対象となるプレイヤー
+	 * @return 出力候補メッセージ <null: 候補なし>
+	 */
 	public String getMessage(Event event, Player player) {
+		// forceTalkはこのメソッド内で呼び出しの上で、nullを返却すること
 		String ret = null;
 		GrwTool tool;
 
 		// PlayerItemBreakEventはアイテムを装備していない為先に処理する
 		if (event instanceof PlayerItemBreakEvent) {
 			// 破損ツールをGrwToolに変換出来たら、自身が壊れたと判定できる
-			tool = getTool(((PlayerItemBreakEvent) event).getBrokenItem());
+			tool = getTool(((PlayerItemBreakEvent) event).getPlayer(), ((PlayerItemBreakEvent) event).getBrokenItem());
 			if (tool != null) {
 				// 破損時メッセージ（強制）
 				GrowthTool.talk(player, onBreakItemMsg.talk(tool, player, null), true);
@@ -220,7 +264,8 @@ public abstract class GrowthToolManager {
 				player.playSound(player.getLocation(), Sound.ENTITY_ENDERDRAGON_DEATH, 1f, 0.1f);
 			}
 		} else if ((tool = getTool(player)) == null) {
-		} else if (event == null) {
+			// 装備不一致
+		} else if (event instanceof SecondEvent) {
 			ret = customMsg.talk(tool, player, null);
 		} else if (event instanceof EntityDeathEvent) {
 			ret = onMonsterKillMsg.talk(tool, player, ((EntityDeathEvent) event).getEntity().getKiller());

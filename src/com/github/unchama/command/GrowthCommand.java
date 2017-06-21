@@ -8,17 +8,28 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
-import com.github.unchama.yml.DebugManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 import net.md_5.bungee.api.ChatColor;
 
+/**
+ * Growth Tool用ユーザーコマンドクラス。コマンド実行時に呼び出される。<br />
+ * コマンドの詳細は/src/com/github/unchama/growthtool/README.mdのリファレンスを参照すること。<br />
+ *
+ * @author CrossHearts
+ */
 public class GrowthCommand implements TabExecutor {
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
-
+	/**
+	 * Growth Toolコマンド用TabComplete。<br />
+	 * コマンド入力時のTab押下の際に呼び出される。保管候補を選定し、TabCompleteを行う。<br />
+	 *
+	 * @param sender コマンド入力者
+	 * @param command 入力コマンド
+	 * @param label コマンドラベル
+	 * @param args 引数リスト
+	 * @return 候補リスト
+	 */
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
 		// プレイヤーからの送信ではない時終了
@@ -37,7 +48,7 @@ public class GrowthCommand implements TabExecutor {
 		// GrowthTool名リスト
 		List<String> gtNames = new ArrayList<String>();
 		for (GrowthToolType gt : GrowthToolType.values()) {
-			gtNames.add(gt.name().toLowerCase());
+			gtNames.add(gt.toString().toLowerCase());
 		}
 		// 第1引数 - 各GrowthTool名
 		if (args.length == 1) {
@@ -55,7 +66,7 @@ public class GrowthCommand implements TabExecutor {
 					commands.add(c);
 				}
 			}
-			if (debug.getFlag(DebugEnum.GROWTHTOOL)) {
+			if (GrowthTool.GrwGetDebugFlag()) {
 				for (String c : new String[] { "get" }) {
 					if (c.startsWith(prefix)) {
 						commands.add(c);
@@ -66,6 +77,16 @@ public class GrowthCommand implements TabExecutor {
 		return commands;
 	}
 
+	/**
+	 * Growth Toolコマンド実行メソッド。<br />
+	 * コマンド実行時に呼び出される。コマンドに応じた処理を行う。<br />
+	 *
+	 * @param sender コマンド入力者
+	 * @param command 入力コマンド
+	 * @param label コマンドラベル
+	 * @param args 引数リスト
+	 * @return <true: コマンド正常終了 / false: コマンド実行失敗>
+	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		GrowthToolType gt;
@@ -92,9 +113,9 @@ public class GrowthCommand implements TabExecutor {
 		}
 		// [Debug限定] get処理 /growth <ToolDefaultName> get>
 		// 第1引数がget、第2引数がtool名の場合はアイテムを配布する
-		else if ((args.length >= 2) && debug.getFlag(DebugEnum.GROWTHTOOL) && ((gt = GrowthToolType.valueOf(args[0].toUpperCase())) != null) && args[1].equalsIgnoreCase("get")) {
+		else if ((args.length >= 2) && GrowthTool.GrwGetDebugFlag() && ((gt = GrowthToolType.valueOf(args[0].toUpperCase())) != null) && args[1].equalsIgnoreCase("get")) {
 			GrowthTool.giveDefault(gt, (Player) sender);
-			sender.sendMessage(gt.name() + "を入手しました。");
+			sender.sendMessage(gt.toString() + "を入手しました。");
 		}
 		// Usage
 		else {
@@ -106,7 +127,7 @@ public class GrowthCommand implements TabExecutor {
 			sender.sendMessage(ChatColor.RED + "  装備中の成長ツールからの呼び名を変更します。");
 			sender.sendMessage(ChatColor.RED + "/" + label + " <ToolDefaultName> call");
 			sender.sendMessage(ChatColor.RED + "  装備中の成長ツールからの呼び名を初期化します。");
-			if (debug.getFlag(DebugEnum.GROWTHTOOL)) {
+			if (GrowthTool.GrwGetDebugFlag()) {
 				sender.sendMessage(ChatColor.RED + "/" + label + " <ToolDefaultName> get");
 				sender.sendMessage(ChatColor.RED + "  [デバッグ専用] 指定の成長ツールを取得します。");
 			}

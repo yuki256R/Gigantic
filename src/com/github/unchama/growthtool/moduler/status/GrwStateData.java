@@ -11,6 +11,8 @@ import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 /**
  * Growth Toolの1レベル分の情報を保持するためのオブジェクト。<br />
  * ランダム付与となるエンチャントを除き、レベル毎の設定値はこのオブジェクトに全て集約させる。<br />
+ *
+ * @author CrossHearts
  */
 public final class GrwStateData {
 	// ベースアイテムMaterial
@@ -38,9 +40,9 @@ public final class GrwStateData {
 			GrowthTool.GrwDebugWarning("baseがnullのためGOLD_HELMETとして扱います。");
 			baseitem = Material.GOLD_HELMET;
 		}
-		if (nextExp <= 0) {
-			GrowthTool.GrwDebugWarning("nextExpが" + String.valueOf(nextExp) + "のため500として扱います。");
-			nextExp = 500;
+		if (nextExp < 0) {
+			GrowthTool.GrwDebugWarning("nextExpが" + String.valueOf(nextExp) + "のため0として扱います。");
+			nextExp = 0;
 		}
 		if (custom1 == null) {
 			GrowthTool.GrwDebugWarning("custom1がnullのためemptyとして扱います。");
@@ -57,22 +59,47 @@ public final class GrwStateData {
 		this.unbreakable = unbreakable;
 	}
 
+	/**
+	 * Material要ゲッター。このレベルのベースとなっているアイテムを返却する。<br />
+	 *
+	 * @return ベースアイテムのMaterial
+	 */
 	public Material getMaterial() {
 		return baseitem;
 	}
 
+	/**
+	 * レベルアップまでに必要な経験値のゲッター。次のレベルアップまでに必要な経験値を返却する。<br />
+	 *
+	 * @return 次のレベルアップまでに必要な経験値
+	 */
 	public int getNextExp() {
 		return nextExp;
 	}
 
+	/**
+	 * カスタムメッセージ1用のゲッター。レベル毎に解放されていくメッセージ。<br />
+	 *
+	 * @return カスタムメッセージ1
+	 */
 	public List<String> getCustom1() {
 		return custom1;
 	}
 
+	/**
+	 * カスタムメッセージ2用のゲッター。レベル毎に解放されていくメッセージ。<br />
+	 *
+	 * @return カスタムメッセージ2
+	 */
 	public List<String> getCustom2() {
 		return custom2;
 	}
 
+	/**
+	 * 耐久無限フラグ用のゲッター。このレベルにおいて耐久無限かどうかを返却する。<br />
+	 *
+	 * @return 耐久無限フラグ
+	 */
 	public boolean getUnbreakable() {
 		return unbreakable;
 	}

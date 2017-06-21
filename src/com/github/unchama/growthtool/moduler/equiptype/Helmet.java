@@ -10,10 +10,12 @@ import com.github.unchama.growthtool.moduler.tool.GrwTool;
 
 /**
  * ヘルメット用Growth Toolクラス。<br />
- * GrowthToolManagerに加え、固有処理となる装備/取得の処理を持つ。<br />
- * 追加処理の無いヘルメット型Growth Toolはこのクラスをマネージャとして登録する。<br />
- * 従って固有処理の無いヘルメット型Growth Toolの数だけインスタンスが生成される。<br />
- * 固有処理を追加する場合、このクラスを継承したクラスをパッケージgrowthtool.detailに作成すること。<br />
+ * GrowthToolManagerを継承し、固有処理となる装備/取得の処理を持つ。<br />
+ * 追加の固有処理が無いヘルメット型Growth Toolはこのクラスをマネージャとして登録する。<br />
+ * 従って追加の固有処理の無いヘルメット型Growth Toolの数だけインスタンスが生成される。<br />
+ * 固有処理を追加する場合、パッケージgrowthtool.detailにこのクラスを継承した固有クラスを作成すること。<br />
+ *
+ * @author CrossHearts
  */
 public class Helmet extends GrowthToolManager {
 	/**
@@ -28,9 +30,9 @@ public class Helmet extends GrowthToolManager {
 	/**
 	 * ヘルメット取得処理。<br />
 	 * 指定プレイヤーのヘルメットを取得し、対応するGrowth Toolの場合返却する。<br />
-	 * 対応していないヘルメットを取得した場合はnullを返却する。
+	 * 対応するGrowth Toolを装備していない場合はnullを返却する。<br />
 	 *
-	 * @param player ヘルメットを取得したいプレイヤー
+	 * @param player ヘルメットを取得するプレイヤー
 	 * @return 装備中のGrowth Tool <null: 対応tool未装備>
 	 */
 	@Override
@@ -41,12 +43,13 @@ public class Helmet extends GrowthToolManager {
 		}
 		ItemStack helmet = player.getInventory().getHelmet();
 		if (helmet == null) {
-			GrowthTool.GrwDebugWarning("装備していない状態による呼び出しのためgetToolを中断します。");
+			// 未装備中の呼び出し
 			return null;
 		}
-		GrwTool grwtool = getTool(helmet);
+		// スーパークラスによるGrowth Tool判定処理
+		GrwTool grwtool = getTool(player, helmet);
 		if (grwtool == null) {
-			GrowthTool.GrwDebugWarning("装備中のアイテムが一致しないためgetToolを中断します。");
+			// 装備アイテム不一致
 			return null;
 		}
 		return grwtool;
@@ -54,11 +57,10 @@ public class Helmet extends GrowthToolManager {
 
 	/**
 	 * ヘルメット装備処理。<br />
-	 * 指定プレイヤーのヘルメットに、指定のGrowthToolを装備する。<br />
-	 * 取得アイテムが対象のGrowth Toolに一致する場合に限り更新する。<br />
+	 * 指定プレイヤーのヘルメットに、指定のGrowth Toolを装備する。<br />
 	 *
-	 * @param player ヘルメットを装備したいプレイヤー
-	 * @param tool 装備したいヘルメット型Growth Tool
+	 * @param player ヘルメットを装備するプレイヤー
+	 * @param grwtool 装備するヘルメット
 	 */
 	@Override
 	protected void setTool(Player player, GrwTool grwtool) {
@@ -66,8 +68,6 @@ public class Helmet extends GrowthToolManager {
 			GrowthTool.GrwDebugWarning("playerがnullのためsetToolを中断します。");
 		} else if (grwtool == null) {
 			GrowthTool.GrwDebugWarning("grwtoolがnullのためsetToolを中断します。");
-		} else if (getTool(player) == null) {
-			GrowthTool.GrwDebugWarning("装備中のアイテムが一致しないためsetToolを中断します。");
 		} else {
 			player.getInventory().setHelmet(grwtool);
 		}

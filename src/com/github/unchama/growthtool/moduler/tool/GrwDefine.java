@@ -8,7 +8,9 @@ import org.bukkit.ChatColor;
 
 /**
  * Growth Tool内の定数一覧。 メンバは必要に応じ追加することが可能。<br />
- * 既存アイテムに影響が出るため削除は禁止。任意の値に変更しても良い。<br />
+ * 既存アイテムに影響が出るため削除及び変更は禁止。<br />
+ *
+ * @author CrossHearts
  */
 public final class GrwDefine {
 	/** Growth Toolの識別用LOREのカラーコード */

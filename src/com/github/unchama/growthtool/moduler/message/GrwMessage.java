@@ -7,21 +7,21 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 
-import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
-import com.github.unchama.growthtool.moduler.util.GrwRandomList;
 
 import net.md_5.bungee.api.ChatColor;
 
 /**
  * Growth Tool用メッセージ格納クラス。同種類のメッセージを一元管理するオブジェクト。<br />
  * 格納メッセージリストからタグの置換を行いランダムな1つを選択して出力する。<br />
- * Tips管理用クラスである、GrwTipsクラスで継承して利用する。<br />
+ * 各種メッセージ用に利用する。また通常メッセージとは異なる処理を行うメッセージでは継承利用が可能。<br />
+ *
+ * @author CrossHearts
  */
 public class GrwMessage extends GrwRandomList<String> {
-	// メッセージを持つGrowth Toolのデフォルト名
-	private final String defaultToolName;
+	/** メッセージを持つGrowth Toolのデフォルト名 */
+	protected final String defaultToolName;
 
 	/**
 	 * コンストラクタ。引数のリストをGrowth Toolメッセージとして登録する。<br />
@@ -49,20 +49,19 @@ public class GrwMessage extends GrwRandomList<String> {
 			return null;
 		}
 		if (grwtool == null) {
-			GrowthTool.GrwDebugWarning("grwtoolがnullのためtalk処理を中断します。");
 			return null;
 		}
 		String message = getRandom();
 		// PlayerNameタグの置換
 		if (player != null) {
-			GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getCustomName()));
+			message = GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getDisplayName()));
 		}
 		// MonsterNameタグの置換
 		if (entity != null && entity instanceof Monster) {
-			GrwTag.MonsterName.replace(message, entity.getCustomName());
+			message = GrwTag.MonsterName.replace(message, entity.getCustomName());
 		}
 		// MyNameタグの置換
-		GrwTag.MyName.replace(message, getNotEmpty(grwtool.getName(), defaultToolName));
+		message = GrwTag.MyName.replace(message, getNotEmpty(grwtool.getName(), defaultToolName));
 		return getTalk(grwtool, message);
 	}
 
@@ -77,11 +76,23 @@ public class GrwMessage extends GrwRandomList<String> {
 		return GrwDefine.NAMEHEAD + getNotEmpty(grwtool.getName(), defaultToolName) + ChatColor.RESET + ": " + message;
 	}
 
-	// preStringがnullまたはemptyの時defを返却するプライベートユーティリティ
+	/**
+	 * 引数のpreStringがnullまたはemptyの時、defを返却するプライベートユーティリティ。<br />
+	 *
+	 * @param preString 第一候補String
+	 * @param def 第二候補String
+	 * @return 第一候補のString / 存在しない場合は第二候補
+	 */
 	private static final String getNotEmpty(String preString, String def) {
 		return StringUtils.isEmpty(preString) ? def : preString;
 	}
 
+	/**
+	 * このインスタンスに対してディープコピーを生成するためのcloneメソッド。<br />
+	 * コンストラクタを呼び出す必要がある為Overrideしている。<br />
+	 *
+	 * @return このインスタンスのディープコピーインスタンス
+	 */
 	@Override
 	public GrwMessage clone() {
 		return new GrwMessage(defaultToolName, super.clone());

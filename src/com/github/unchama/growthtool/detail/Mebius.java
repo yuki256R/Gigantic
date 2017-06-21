@@ -13,8 +13,10 @@ import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
 import com.github.unchama.growthtool.moduler.equiptype.Helmet;
 
 /**
- * MEBIUS専用クラス。MEBIUS固有の処理が実装されている。<br />
- * TODO 将来的にはグレードアップを実装したい。<br />
+ * MEBIUS専用クラス。MEBIUS固有の処理を持つ。<br />
+ * MEBIUSは通常のヘルメット型Growth Toolに加え、Wiki内のTips読み込み/出力処理を持つ。<br />
+ *
+ * @author CrossHearts
  */
 public class Mebius extends Helmet {
 	/**
@@ -24,16 +26,21 @@ public class Mebius extends Helmet {
 	 */
 	public Mebius(GrowthToolType type) {
 		super(type);
+		// カスタムメッセージ一覧にTipsを追加する
 		customMsg.addAll(loadTips());
 	}
 
 	/**
-	 * webからのTipsリスト読み込み処理
+	 * Seesaa wikiからのTipsリスト読み込み処理。<br />
+	 *
+	 * @return 各要素にTipsを持つString型リスト
 	 */
 	private List<String> loadTips() {
 		List<String> tips = new ArrayList<String>();
 		try {
 			// HTTP通信でJSONデータを取得
+			// アドレス変更の場合はwikiページのソースコード構成変更が想定されるため、メンテナンス性は無視している
+			// [変更点] Tipsアドレス
 			URL url = new URL("http://seichi.click/d/Tips");
 			URLConnection urlCon = url.openConnection();
 			// 403回避のためユーザーエージェントを登録
@@ -43,15 +50,18 @@ public class Mebius extends Helmet {
 			String line;
 			// Tips先頭まで読み込み
 			while ((line = reader.readLine()) != null) {
-				if (line.contains("<ul id=\"content_block_2\" class=\"list-1\">")) {
+				// [変更点] Tips先頭のキーワード
+				if (line.contains("<ul id=\"content_block_3\" class=\"list-1\">")) {
 					break;
 				}
 			}
 			// Tipsを読み込み
 			while ((line = reader.readLine()) != null) {
+				// [変更点] Tips終了のキーワード
 				if (line.contains("</ul>")) {
 					break;
 				} else {
+					// [変更点] Tips文除外キーワード
 					tips.add(line.replace("<li> ", "").replace("</li>", ""));
 				}
 			}

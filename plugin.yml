@@ -2,9 +2,7 @@ name: Gigantic
 main: com.github.unchama.gigantic.Gigantic
 version: 0.1.0
 description: Gigantic Seichi Server Plugin
-softdepend: [PlaceholderAPI]
-
-
+softdepend: [PlaceholderAPI, LobbySwitch]
 
 commands:
   gacha:

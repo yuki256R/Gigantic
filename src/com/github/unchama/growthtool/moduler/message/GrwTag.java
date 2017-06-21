@@ -5,6 +5,8 @@ package com.github.unchama.growthtool.moduler.message;
  * メンバは必要に応じ追加/変更することが可能。キーは不定、引数にタグを設定する。<br />
  * 追加後は適切な箇所で文字列置換処理を加える必要がある。<br />
  * タグは&lt;&gt;で囲うことを前提としているため、タグ内部に&lt;&gt;を含めないこと。<br />
+ *
+ * @author CrossHearts
  */
 // &lt;="<", &gt;=">"
 public enum GrwTag {
@@ -16,6 +18,7 @@ public enum GrwTag {
 	MyName("<me>"),
 	;
 
+	// タグ(キーワード)
 	private final String tag;
 
 	/**
@@ -28,7 +31,8 @@ public enum GrwTag {
 	}
 
 	/**
-	 * 引数のメッセージに対し、タグを引数文字列に置換したメッセージを返却する。<br />
+	 * enumメンバーのタグ毎に持っている処理。<br />
+	 * 引数のメッセージに対し、自身のタグを引数文字列に置換したメッセージを返却する。<br />
 	 *
 	 * @param message 変換元メッセージ
 	 * @param newChar 該当タグを置換する文字列

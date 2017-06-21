@@ -14,6 +14,8 @@ import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 /**
  * Growth Toolの全アイテムレベル分の情報を保持するためのオブジェクト。<br />
  * ランダム付与となるエンチャントを除き、アイテムレベル毎の設定値はこのオブジェクトに全て集約させる。<br />
+ *
+ * @author CrossHearts
  */
 public final class GrwStatus extends ArrayList<GrwStateData> {
 	/**
@@ -23,7 +25,7 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 	 * @param nextExp アイテムレベル毎レベルアップまでの必要経験値リスト
 	 * @param custom1 アイテムレベル毎に変動するLOREのカスタムメッセージ1
 	 * @param custom2 アイテムレベル毎に変動するLOREのカスタムメッセージ2
-	 * @param unbreakableLv 耐久無限を付与するアイテムレベル <0: 未設定>
+	 * @param unbreakableLv 耐久無限を付与するアイテムレベル <0: 非無限とするツール>
 	 */
 	public GrwStatus(Map<Integer, Material> baseitem, List<Integer> nextExp, List<List<String>> custom1, List<List<String>> custom2, int unbreakableItemLv) {
 		super();
@@ -37,13 +39,9 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 		if (!baseitem.containsKey(1)) {
 			GrowthTool.GrwDebugWarning("baseitemにLv1のMaterialが未登録のためGOLD_HELMETとして扱います。");
 		}
-		if (nextExp == null) {
-			GrowthTool.GrwDebugWarning("nextExpがnullのためemptyとして扱います。");
-			nextExp = new ArrayList<Integer>();
-		}
-		if (nextExp.isEmpty()) {
-			GrowthTool.GrwDebugWarning("nextExpがemptyのため500として扱います。");
-			nextExp.add(500);
+		if (nextExp == null || nextExp.isEmpty()) {
+			GrowthTool.GrwDebugWarning("nextExpがnull/emptyのため0として扱います。");
+			nextExp = new ArrayList<Integer>(0);
 		}
 		if (custom1 == null) {
 			GrowthTool.GrwDebugWarning("custom1がnullのためemptyとして扱います。");
@@ -58,9 +56,9 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 		for (int lvkey = 0; lvkey < nextExp.size(); lvkey++) {
 			// 引数チェック
 			int exp = nextExp.get(lvkey);
-			if (exp <= 0) {
-				GrowthTool.GrwDebugWarning("nextExpが" + String.valueOf(exp) + "のため500として扱います。");
-				exp = 500;
+			if (exp < 0) {
+				GrowthTool.GrwDebugWarning("nextExpが" + String.valueOf(exp) + "のため0として扱います。");
+				exp = 0;
 			}
 
 			// ベースアイテムが変化するアイテムレベルなら、保持Materialを更新する
@@ -68,8 +66,8 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 				material = baseitem.get(lvkey + 1);
 			}
 			// カスタムメッセージが未設定の場合はemptyを、設定されている場合メッセージを取得する
-			List<String> ptrCustom1 = custom1.size() > lvkey ? GrwDefine.EMPTYSTRINGLIST : Collections.unmodifiableList(custom1.get(lvkey));
-			List<String> ptrCustom2 = custom2.size() > lvkey ? GrwDefine.EMPTYSTRINGLIST : Collections.unmodifiableList(custom2.get(lvkey));
+			List<String> ptrCustom1 = custom1.size() > lvkey ? Collections.unmodifiableList(custom1.get(lvkey)) : GrwDefine.EMPTYSTRINGLIST;
+			List<String> ptrCustom2 = custom2.size() > lvkey ? Collections.unmodifiableList(custom2.get(lvkey)) : GrwDefine.EMPTYSTRINGLIST;
 			// 耐久無限を判定する
 			boolean unbreakable = (unbreakableItemLv != 0) && (unbreakableItemLv <= lvkey + 1);
 			// GrwStateDataオブジェクト生成

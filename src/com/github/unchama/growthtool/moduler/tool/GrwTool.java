@@ -5,10 +5,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,18 +22,20 @@ import com.github.unchama.growthtool.moduler.status.GrwStatus;
 import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
- * GrowthTool用ItemStack拡張クラス。個々のGrowthTool用に利用する。<br />
- * Named Binary Tagの入出力や、名前 / Lore、エンチャントの編集が可能。<br />
+ * Growth Tool格納用ItemStack拡張クラス。個々のGrowth Toolインスタンスで利用する。<br />
+ * Named Binary Tagの入出力や、名前 / Lore、エンチャント等のGrowth Tool固有設定を個別に所有する。<br />
+ * このクラスのメソッドを介して設定した情報は、即座にItemStackに反映される。<br />
+ * Read目的でItemStackの継承メソッドを公開しているが、Write目的による直接ItemStackの操作は保証しない。<br />
+ *
+ * @author CrossHearts
  */
 public final class GrwTool extends ItemStack {
 	// 表示名
 	private String name;
 	// Lore内の固有識別詞
 	private List<String> identify;
-	// アイテムレベル
+	// アイテムレベル（1スタート）
 	private int itemlv = 1;
-	// 現在のエンチャント情報
-	private Map<Enchantment, Integer> enchantments;
 	// レベルアップ時のエンチャントテーブル
 	private GrwEnchants enchantTable;
 	// 所有者のMCID
@@ -49,9 +51,18 @@ public final class GrwTool extends ItemStack {
 
 	/**
 	 * 新規Growth Tool生成用コンストラクタ。<br />
+	 * ItemStackを生成し、Growth Toolそれぞれの初期値を設定し保存する。<br />
+	 * 引数の情報を持つGrowthToolManager継承クラスから、デフォルトの初期アイテム生成用としての呼び出しを想定している。<br />
+	 *
+	 * @param player 所有者プレイヤー
+	 * @param itemname Growth Toolの初期名称
+	 * @param identLore Growth Toolのident
+	 * @param status Growth Toolのステータス情報
+	 * @param enchants Growth Toolのエンチャント情報
 	 */
 	public GrwTool(Player player, String itemname, List<String> identLore, GrwStatus status, GrwEnchants enchants) {
 		super();
+		setAmount(1);
 		// パラメータの読み込み
 		if (player == null) {
 			GrowthTool.GrwDebugWarning("playerがnullです。");
@@ -77,7 +88,6 @@ public final class GrwTool extends ItemStack {
 		name = itemname;
 		identify = identLore;
 		itemlv = 1;
-		enchantments = enchants.addDefaultEnchant();
 		enchantTable = enchants;
 		owner = player.getDisplayName();
 		this.status = status;
@@ -88,27 +98,37 @@ public final class GrwTool extends ItemStack {
 	}
 
 	/**
-	 * 読み込み用コンストラクタ。ItemStackを引数とする。ItemStackの内容を解析し、各データを保持する。<br />
-	 * Growth ToolではないItemStackを渡された場合は保証しない。<br />
+	 * 既存Growth Tool読み込み用コンストラクタ。<br />
+	 * 引数のItemStackから内容を解析し、各データを保持する。<br />
+	 * ItemStackはGrowth Toolであることを前提とし、その他のItemStackを渡した場合の動作は保証しない。<br />
+	 * 引数の情報を持つGrowthToolManager継承クラスから、既存のアイテム読み込み用としての呼び出しを想定している。<br />
 	 *
-	 * @param Growth ToolのItemStack
+	 * @param tool 読み込み対象のItemStack型Growth Tool
+	 * @param identLore Growth Toolのident
+	 * @param status Growth Toolのステータス情報
+	 * @param enchants Growth Toolのエンチャント情報
 	 */
 	public GrwTool(ItemStack tool, List<String> identLore, GrwStatus status, GrwEnchants enchants) {
 		super(tool);
 		try {
 			ItemMeta itemmeta = getItemMeta();
 			List<String> itemlore = itemmeta.getLore();
+			if (itemmeta.hasDisplayName()) {
+				name = itemmeta.getDisplayName();
+			} else {
+				GrowthTool.GrwDebugWarning("Growth ToolにDisplayNameが存在しないためMaterial名を設定します。");
+				name = tool.getType().toString();
+			}
 			name = itemmeta.hasDisplayName() ? itemmeta.getDisplayName() : "";
 			identify = Collections.unmodifiableList(identLore);
 			itemlv = getNBT(GrwNbti.ItemLv, Integer.class);
-			enchantments = getEnchantments();
 			enchantTable = enchants;
 			owner = getNBT(GrwNbti.PlayerMcid, String.class);
 			this.status = status;
 			playerName = getNBT(GrwNbti.PlayerName, String.class);
 			playerUuid = getNBT(GrwNbti.PlayerUuid, UUID.class);
 			currentExp = getNBT(GrwNbti.CurrentExp, Integer.class);
-			// アイテムレベルがNBTに登録されていない場合は取得する
+			// [移行用] アイテムレベルがNBTに登録されていない場合は取得する
 			if (itemlv < 1) {
 				itemlv = 1;
 				for (String s : itemlore) {
@@ -126,7 +146,7 @@ public final class GrwTool extends ItemStack {
 					}
 				}
 			}
-			// 所有者がNBTに登録されていない場合は取得する
+			// [移行用] 所有者がNBTに登録されていない場合は取得する
 			if (owner.isEmpty()) {
 				for (String s : itemlore) {
 					if (s.startsWith(GrwDefine.OWNERHEAD)) {
@@ -144,6 +164,11 @@ public final class GrwTool extends ItemStack {
 		}
 	}
 
+	/**
+	 * GrwTool用ItemStack生成処理。<br />
+	 * このクラスで管理している情報を、継承したItemStackに対し上書きする。<br />
+	 * プロパティに対しWriteを行うメソッドでは最後に必ず呼び出すこと。<br />
+	 */
 	private void grwBuild() {
 		GrwStateData state = status.get(itemlv - 1);
 		setType(state.getMaterial());
@@ -151,6 +176,7 @@ public final class GrwTool extends ItemStack {
 		if (!name.isEmpty()) {
 			itemmeta.setDisplayName(name);
 		}
+		itemmeta.spigot().setUnbreakable(state.getUnbreakable());
 
 		List<String> itemlore = new ArrayList<String>();
 		itemlore.add("");
@@ -175,7 +201,9 @@ public final class GrwTool extends ItemStack {
 		}
 		itemmeta.setLore(itemlore);
 		setItemMeta(itemmeta);
-		addUnsafeEnchantments(enchantments);
+		if (itemlv == 1) {
+			addUnsafeEnchantments(enchantTable.getDefaultEnchant());
+		}
 		setNBT(GrwNbti.PlayerName, playerName);
 		setNBT(GrwNbti.PlayerUuid, playerUuid);
 		setNBT(GrwNbti.PlayerMcid, owner);
@@ -185,18 +213,20 @@ public final class GrwTool extends ItemStack {
 
 	/**
 	 * NBT設定メソッド。tagに対応するNBTのデータを書き込む。<br />
+	 * grwBuild内での呼び出しのみを想定しているため、他メソッドから書き換えを行う場合一度プロパティ変更の経由を推奨する。<br />
 	 *
 	 * @param tag NBTに対応するenum
-	 * @param obj 設定値
+	 * @param obj 設定する値
 	 */
 	private void setNBT(GrwNbti tag, Object obj) {
 		NBTItem nbti = new NBTItem(this);
-		nbti.setObject(tag.name(), obj);
-		this.setItemMeta(nbti.getItem().getItemMeta());
+		nbti.setObject(tag.toString(), obj);
+		setItemMeta(nbti.getItem().getItemMeta());
 	}
 
 	/**
 	 * NBT取得メソッド。tagに対応するNBTのデータを読み込む。<br />
+	 * コンストラクタでの呼び出しを想定しており、その他の読み込みはプロパティのreadによる実現を推奨する。<br />
 	 *
 	 * @param tag NBTに対応するenum
 	 * @param type 戻り値の型のクラス
@@ -204,52 +234,124 @@ public final class GrwTool extends ItemStack {
 	 */
 	private <T> T getNBT(GrwNbti tag, Class<T> type) {
 		NBTItem nbti = new NBTItem(this);
-		return nbti.getObject(tag.name(), type);
+		return nbti.getObject(tag.toString(), type);
 	}
 
-	// アイテムが変更されたらtrue
+	/**
+	 * 経験値加算処理。経験値の加算、及びレベルアップの判定を行う。<br />
+	 * 経験値情報はNBTとLoreに書き込まれるため、アイテムレベル最大時を除きアイテムは更新される。<br />
+	 * 戻り値がtrueの場合は装備の上書きとしてsetToolを実施すること。<br />
+	 *
+	 * @param player 経験値を取得したプレイヤー
+	 * @return <true: Growth Toolに変更があり、setToolが必要な場合 / false: 変更無し>
+	 */
 	public boolean addExp(Player player) {
-		if (itemlv < status.size()) {
-			currentExp++;
-			if (currentExp >= status.get(itemlv - 1).getNextExp()) {
-				// levelup
-				itemlv++;
-				Enchantment uped = enchantTable.addEnchant(enchantments, itemlv);
-				currentExp = 0;
-				player.sendMessage(name + "のアイテムレベルが" + Integer.toString(itemlv) + "に上がりました。");
-				if (uped != null) {
-					player.sendMessage(uped.toString() + "のエンチャントレベルが" + Integer.toString(enchantments.get(uped)) + "に上がりました。");
-				} else {
-					player.sendMessage("エンチャントレベルは既に最大値です。");
-				}
-			}
-			grwBuild();
-			return true;
+		if (itemlv >= status.size()) {
+			return false;
 		}
-		return false;
+		currentExp++;
+		if (currentExp >= status.get(itemlv - 1).getNextExp()) {
+			// levelup
+			itemlv++;
+			Enchantment uped = enchantTable.addEnchant(this);
+			currentExp = 0;
+			player.sendMessage(name + "のアイテムレベルが" + Integer.toString(itemlv) + "に上がりました。");
+			player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, 1f, 0.1f);
+			if (uped != null) {
+				player.sendMessage(uped.toString() + "のエンチャントレベルが" + Integer.toString(getEnchantmentLevel(uped)) + "に上がりました。");
+			} else {
+				player.sendMessage("エンチャントレベルは既に最大値です。");
+			}
+		}
+		grwBuild();
+		return true;
 	}
 
+	/**
+	 * 名前用セッター。Growth Toolの命名処理で呼び出される。<br />
+	 *
+	 * @param name 設定する名前
+	 */
 	public void setName(String name) {
 		this.name = name;
+		grwBuild();
 	}
 
+	/**
+	 * 名前用ゲッター。Growth Toolの名前を返却する。<br />
+	 * Growth Toolはデフォルト名または命名によりDisplayNameを持っている前提とする。<br />
+	 *
+	 * @return 命名されている名前 <empty: 想定外>
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * 愛称用セッター。愛称設定処理で呼び出される。Growth Toolからプレイヤーへの呼び名を設定する。<br />
+	 *
+	 * @param name 設定する愛称。
+	 */
 	public void setCall(String name) {
 		this.playerName = name;
+		grwBuild();
 	}
 
+	/**
+	 * 愛称用ゲッター。設定されている愛称を返却する。<br />
+	 * 愛称が設定されていない場合はemptyを返却する。<br />
+	 *
+	 * @return 設定されている愛称 <empty: 未設定>
+	 */
 	public String getCall() {
 		return playerName;
 	}
 
+	/**
+	 * アイテムレベル用ゲッター。このツールのアイテムレベルを返却する。<br />
+	 * アイテムレベルは1スタートで、1以上最大レベル以下であることが保証される。<br />
+	 *
+	 * @return アイテムレベル <1～最大レベル>
+	 */
 	public int getItemLv() {
 		return itemlv;
 	}
 
+	/**
+	 * 耐久値警告判定。現在の耐久値が閾値を切っているかどうかを判定する。<br />
+	 * 返却値がtrueの場合は警告メッセージの出力を想定している。<br />
+	 *
+	 * @return 警告判定 <true: 警告状態 / false: 非警告状態>
+	 */
 	public boolean isWarn() {
 		return getType().getMaxDurability() - getDurability() < 10;
+	}
+
+	/**
+	 * 所有者判定用staticメソッド。引数のGrowth Toolが引数のplayerの持ち物かどうかを判定する。<br />
+	 * 外部からNBTを利用した判定を行うための処理として、本クラスにstaticで実装している。<br />
+	 *
+	 * @param item 判定対象のGrowth Tool
+	 * @param player 持ち主のプレイヤー
+	 * @return 所有者判定 <true: 所有者 / false: 非所有者>
+	 */
+	public static boolean isOwner(ItemStack item, Player player) {
+		List<String> itemlore;
+		try {
+			itemlore = item.getItemMeta().getLore();
+		} catch (NullPointerException e) {
+			return false;
+		}
+		UUID uuid = new NBTItem(item).getObject(GrwNbti.PlayerUuid.toString(), UUID.class);
+
+		// UUIDの一致
+		if (uuid != null && uuid.equals(player.getUniqueId())) {
+			return true;
+		}
+		// [移行用] ItemStackの所有者欄にtoLowerCaseが登録されている場合
+		if (itemlore.contains(GrwDefine.OWNERHEAD + player.getDisplayName().toLowerCase())) {
+			return true;
+		}
+		return false;
 	}
 }
