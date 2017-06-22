@@ -93,4 +93,12 @@ public final class SkillEffectManager extends DataManager implements UsingSql {
 		return EffectCategory.getName(eMap.get(st));
 	}
 
+	/**指定されたエフェクトを解除する
+	 *
+	 * @param effect_id
+	 */
+	public void unlock(int effect_id) {
+		fmap.put(effect_id, true);
+	}
+
 }

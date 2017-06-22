@@ -61,14 +61,14 @@ public enum EffectCategory {
 		return effect_id % getInterval();
 	}
 
-	public ItemStack getSellectButton(int effect_id) {
+	public ItemStack getSellectButton(int effect_id,boolean unlock_flag) {
 		switch (this) {
 		case NORMAL:
-			return EffectType.getSellectButton(effect_id);
+			return EffectType.getSellectButton(effect_id,unlock_flag);
 		case GIGANTIC:
-			return GiganticEffectType.getSellectButton(effect_id);
+			return GiganticEffectType.getSellectButton(effect_id,unlock_flag);
 		default:
-			return EffectType.getSellectButton(effect_id);
+			return EffectType.getSellectButton(effect_id,unlock_flag);
 		}
 	}
 
@@ -148,6 +148,15 @@ public enum EffectCategory {
 			}
 		}
 		return EffectCategory.NORMAL;
+	}
+
+	/**そのエフェクトIDが格納されているページ数を取得します．
+	 *
+	 * @param effect_id
+	 * @return
+	 */
+	public int getPage(int effect_id) {
+		return (int)((effect_id % getInterval()) /45) + 1 ;
 	}
 
 }

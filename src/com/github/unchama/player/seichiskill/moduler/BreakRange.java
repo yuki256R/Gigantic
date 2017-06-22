@@ -123,7 +123,7 @@ public class BreakRange {
 							topmap.get(CardinalDirection.EAST).add(coord);
 						}
 						coord = new Coordinate(x,y,z);
-						if(y == volume.getHeight() - zeropoint.getY() + (int)(volume.getHeight() + 1)/2 &&
+						if(y == volume.getHeight() - zeropoint.getY() - (int)(volume.getHeight() + 1)/2 &&
 								x == -zeropoint.getX() - 1 + (int)(volume.getWidth() + 1)/2 &&
 								z == -zeropoint.getZ() - 1 + (int)(volume.getDepth() + 1)/2
 								){
@@ -225,7 +225,8 @@ public class BreakRange {
 	 * @param d
 	 * @return
 	 */
-	public Coordinate getCenter(CardinalDirection d){
-		return centermap.get(d);
+	public Coordinate getCenter(Player player){
+		CardinalDirection cd = CardinalDirection.getCardinalDirection(player);
+		return centermap.get(cd);
 	}
 }
