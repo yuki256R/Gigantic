@@ -36,7 +36,7 @@ Copyright &copy; 2016 [unchama](https://github.com/unchama/) by [ギガンティ
 [No License](https://choosealicense.com/no-license/) : **We are not offering any license.**
 
 当プラグインはライセンスを提供せず、使用を禁じます。<br />
-当プラグインの著作権を含む全ての権利は、[unchama]及び[ギガンティック☆整地鯖]が所有しています。<br />
+当プラグインの著作権を含む全ての権利は、[unchama](https://github.com/unchama/)及び[ギガンティック☆整地鯖][seichi.click]が所有しています。<br />
 以下の場合に限り、当サーバのDeveloperコミュニティで当コードに関する詳細なサポートを受けることが出来ます。<br />
 
 * 独自機能の追加やバグの修正等、当サーバの発展への寄与を目的としたコードの修正・改変を行う場合
