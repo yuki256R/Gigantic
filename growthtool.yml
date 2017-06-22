@@ -1,4 +1,7 @@
-# このファイルのルールは/src/com/github/unchama/growthtool/doc/README.mdを参照
+# このファイルのルールは下記Growth Tool YML Referenceを参照
+# https://github.com/unchama/Gigantic/blob/master/src/com/github/unchama/growthtool/doc/YMLREFERENCE.md
+# 本ファイルはプラグインディレクトリからはreadonlyです。編集はソースコードから実施してください。
+
 # お喋り間隔（秒）
 talk-interval: 120
 # お喋り確率（％）

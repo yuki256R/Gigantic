@@ -106,7 +106,7 @@ public final class GrowthTool {
 		 * 実体クラスアクセス用メソッド。使用するManagerClassを返却する。<br />
 		 * 実体クラスのメソッドにアクセスする際はこのメソッドを通してアクセスすることで共通化が可能。<br />
 		 *
-		 * @return Class<? extends GrowthToolManager> このenumが持つ実体クラス
+		 * @return Class&lt;? extends GrowthToolManager&gt; このenumが持つ実体クラス
 		 */
 		private Class<? extends GrowthToolManager> getManagerClass() {
 			return managerClass;
@@ -120,7 +120,7 @@ public final class GrowthTool {
 	 * @param gt 名前を変更するGrowth Tool
 	 * @param player Growth Toolの所有プレイヤー
 	 * @param name 新しい名前
-	 * @return <true: 命名成功 / false: 命名失敗>
+	 * @return (true: 命名成功 / false: 命名失敗)
 	 */
 	public static boolean rename(GrowthToolType gt, Player player, String name) {
 		return managermap.get(gt.getManagerClass()).rename(player, name);
@@ -133,7 +133,7 @@ public final class GrowthTool {
 	 * @param gt プレイヤーへの愛称を設定するGrowth Tool
 	 * @param player Growth Toolの所有プレイヤー
 	 * @param called 新しい愛称
-	 * @return <true: 設定成功 / false: 設定失敗>
+	 * @return (true: 設定成功 / false: 設定失敗)
 	 */
 	public static boolean setPlayerCalled(GrowthToolType gt, Player player, String called) {
 		return managermap.get(gt.getManagerClass()).setPlayerCalled(player, called);
@@ -213,7 +213,7 @@ public final class GrowthTool {
 	 *
 	 * @param player Talk先プレイヤー
 	 * @param message 送信メッセージ
-	 * @param isForce 強制Talkフラグ <false:通常判定 / true:強制Talk>
+	 * @param isForce 強制Talkフラグ (false:通常判定 / true:強制Talk)
 	 */
 	public static final void talk(Player player, String message, boolean isForce) {
 		if (player == null) {
@@ -237,7 +237,7 @@ public final class GrowthTool {
 	 *
 	 * @param gt 配布対象のGrowth Tool
 	 * @param player Growth Toolを配布するプレイヤー
-	 * @return <true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ>
+	 * @return (true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ)
 	 */
 	public static final boolean giveDefault(GrowthToolType gt, Player player) {
 		return managermap.get(gt.getManagerClass()).giveDefault(player);
@@ -277,7 +277,7 @@ public final class GrowthTool {
 	 * Growth Tool Debug用フラグ取得staticメソッド。デバッグモード専用処理の判定に利用される。<br />
 	 * debug.ymlでGrowth Toolのdebug出力が有効にされている場合trueを返却する。<br />
 	 *
-	 * @return <true: debugモード / false: 通常モード>
+	 * @return (true: debugモード / false: 通常モード)
 	 */
 	public static final boolean GrwGetDebugFlag() {
 		return Gigantic.yml.getManager(DebugManager.class).getFlag(DebugEnum.GROWTHTOOL);

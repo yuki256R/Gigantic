@@ -71,7 +71,7 @@ public abstract class GrowthToolManager {
 	 * 対応するGrowth Toolを装備していない場合はnullを返却する。<br />
 	 *
 	 * @param player 装備を取得するプレイヤー
-	 * @return 装備中のGrowth Tool <null: 対応tool未装備>
+	 * @return 装備中のGrowth Tool (null: 対応tool未装備)
 	 */
 	protected abstract GrwTool getTool(Player player);
 
@@ -124,7 +124,7 @@ public abstract class GrowthToolManager {
 	 *
 	 * @param player itemを所有しているプレイヤー
 	 * @param item Growth Toolかどうかを判定するItemStack
-	 * @return GrwToolインスタンス <null: 対応toolまたは所有者の不一致>
+	 * @return GrwToolインスタンス (null: 対応toolまたは所有者の不一致)
 	 */
 	protected GrwTool getTool(Player player, ItemStack item) {
 		if (!item.hasItemMeta()) {
@@ -153,7 +153,7 @@ public abstract class GrowthToolManager {
 	 * 整地により入手条件を満たす、またはdebug用getコマンドにより呼び出される。<br />
 	 *
 	 * @param player Growth Toolを配布するプレイヤー
-	 * @return <true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ>
+	 * @return (true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ)
 	 */
 	public boolean giveDefault(Player player) {
 		return !Util.giveItem(player, (ItemStack) new GrwTool(player, name, identLore, status, enchant), false);
@@ -165,7 +165,7 @@ public abstract class GrowthToolManager {
 	 *
 	 * @param player Growth Toolの所有者
 	 * @param name 新しい名前
-	 * @return <true: 命名成功 / false: 命名失敗>
+	 * @return (true: 命名成功 / false: 命名失敗)
 	 */
 	public boolean rename(Player player, String name) {
 		GrwTool tool = getTool(player);
@@ -193,7 +193,7 @@ public abstract class GrowthToolManager {
 	 *
 	 * @param player Growth Toolの所有者
 	 * @param called プレイヤーに対する愛称
-	 * @return <true: 設定成功 / false: 設定失敗>
+	 * @return (true: 設定成功 / false: 設定失敗)
 	 */
 	public boolean setPlayerCalled(Player player, String called) {
 		GrwTool tool = getTool(player);
@@ -246,7 +246,7 @@ public abstract class GrowthToolManager {
 	 *
 	 * @param event メッセージ出力の要因となるBukkitイベント（Eventクラス）の継承クラス
 	 * @param player イベントの出力対象となるプレイヤー
-	 * @return 出力候補メッセージ <null: 候補なし>
+	 * @return 出力候補メッセージ (null: 候補なし)
 	 */
 	public String getMessage(Event event, Player player) {
 		// forceTalkはこのメソッド内で呼び出しの上で、nullを返却すること

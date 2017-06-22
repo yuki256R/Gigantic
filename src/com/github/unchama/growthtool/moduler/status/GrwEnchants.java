@@ -27,7 +27,7 @@ public final class GrwEnchants {
 	private Map<Enchantment, Integer> premiseItemLv = new LinkedHashMap<Enchantment, Integer>();
 
 	/**
-	 * コンストラクタ。LinkedHashMap<Enchantment, GrwEnchantData>を初期化する。<br />
+	 * コンストラクタ。LinkedHashMap&lt;Enchantment, GrwEnchantData&gt;を初期化する。<br />
 	 *
 	 * @param defaultEnchant 初期エンチャントとして設定するエンチャントとレベルの一覧
 	 */
@@ -76,7 +76,7 @@ public final class GrwEnchants {
 	 * レベルアップ時に現在付与可能なエンチャントから1つを選択し、ランダムなエンチャントに1Lv加算する。<br />
 	 * 無効なGrowth Toolを引数とした場合、何も行わずに返却する。<br />
 	 *
-	 * @param grwtool 加算したエンチャント <null: 付与可能エンチャント無し>
+	 * @param grwtool 加算したエンチャント (null: 付与可能エンチャント無し)
 	 */
 	public final Enchantment addEnchant(GrwTool grwtool) {
 		Collections.shuffle(enchantment);

@@ -25,7 +25,7 @@ public final class GrwStatus extends ArrayList<GrwStateData> {
 	 * @param nextExp アイテムレベル毎レベルアップまでの必要経験値リスト
 	 * @param custom1 アイテムレベル毎に変動するLOREのカスタムメッセージ1
 	 * @param custom2 アイテムレベル毎に変動するLOREのカスタムメッセージ2
-	 * @param unbreakableLv 耐久無限を付与するアイテムレベル <0: 非無限とするツール>
+	 * @param unbreakableLv 耐久無限を付与するアイテムレベル (0: 非無限とするツール)
 	 */
 	public GrwStatus(Map<Integer, Material> baseitem, List<Integer> nextExp, List<List<String>> custom1, List<List<String>> custom2, int unbreakableItemLv) {
 		super();

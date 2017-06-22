@@ -38,6 +38,11 @@ public class PlayerQuitListener implements Listener {
 		}
 	}
 
+	/**
+	 * Growth Toolイベント処理<br />
+	 *
+	 * @param event プレイヤー退出時Bukkitイベント
+	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void growthToolEvent(PlayerQuitEvent event) {
 		GrowthTool.onEvent(event);

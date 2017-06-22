@@ -15,7 +15,8 @@ import net.md_5.bungee.api.ChatColor;
 
 /**
  * Growth Tool用ユーザーコマンドクラス。コマンド実行時に呼び出される。<br />
- * コマンドの詳細は/src/com/github/unchama/growthtool/doc/README.mdのリファレンスを参照すること。<br />
+ * コマンドの詳細は下記コマンドリファレンスを参照すること。<br />
+ * https://github.com/unchama/Gigantic/blob/master/src/com/github/unchama/growthtool/doc/COMMANDREFERENCE.md <br />
  *
  * @author CrossHearts
  */
@@ -85,7 +86,7 @@ public class GrowthCommand implements TabExecutor {
 	 * @param command 入力コマンド
 	 * @param label コマンドラベル
 	 * @param args 引数リスト
-	 * @return <true: コマンド正常終了 / false: コマンド実行失敗>
+	 * @return (true: コマンド正常終了 / false: コマンド実行失敗)
 	 */
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

@@ -8,7 +8,6 @@ package com.github.unchama.growthtool.moduler.message;
  *
  * @author CrossHearts
  */
-// &lt;="<", &gt;=">"
 public enum GrwTag {
 	/** Growth Toolの所有者に置換されるタグ */
 	PlayerName("<name>"),

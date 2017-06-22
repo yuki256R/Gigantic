@@ -14,7 +14,6 @@ import org.bukkit.ChatColor;
  */
 public final class GrwDefine {
 	/** Growth Toolの識別用LOREのカラーコード */
-	// 既存アイテムが識別されなくなるため、識別用LOREのカラーコード及び値の変更は厳禁。
 	public static final String IDENTHEAD = ChatColor.RESET + "" + ChatColor.AQUA + "";
 
 	/** Growth Toolの名前のカラーコード */

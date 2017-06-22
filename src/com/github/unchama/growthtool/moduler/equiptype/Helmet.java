@@ -33,7 +33,7 @@ public class Helmet extends GrowthToolManager {
 	 * 対応するGrowth Toolを装備していない場合はnullを返却する。<br />
 	 *
 	 * @param player ヘルメットを取得するプレイヤー
-	 * @return 装備中のGrowth Tool <null: 対応tool未装備>
+	 * @return 装備中のGrowth Tool (null: 対応tool未装備)
 	 */
 	@Override
 	protected GrwTool getTool(Player player) {

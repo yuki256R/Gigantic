@@ -40,8 +40,8 @@ public class GrwMessage extends GrwRandomList<String> {
 	 * 返却値は「名前: message」に整形されている。<br />
 	 *
 	 * @param grwtool 喋る対象のGrowth Tool
-	 * @param player 所有者のPlayer型オブジェクト <null: PlayerName未置換>
-	 * @param entity 関連する第二者エンティティ <null: entity未置換>
+	 * @param player 所有者のPlayer型オブジェクト (null: PlayerName未置換)
+	 * @param entity 関連する第二者エンティティ (null: entity未置換)
 	 * @return String型メッセージ / 適切な返却値が存在しない場合はnull
 	 */
 	public String talk(GrwTool grwtool, Player player, Entity entity) {

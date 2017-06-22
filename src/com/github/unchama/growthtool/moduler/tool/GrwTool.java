@@ -243,7 +243,7 @@ public final class GrwTool extends ItemStack {
 	 * 戻り値がtrueの場合は装備の上書きとしてsetToolを実施すること。<br />
 	 *
 	 * @param player 経験値を取得したプレイヤー
-	 * @return <true: Growth Toolに変更があり、setToolが必要な場合 / false: 変更無し>
+	 * @return (true: Growth Toolに変更があり、setToolが必要な場合 / false: 変更無し)
 	 */
 	public boolean addExp(Player player) {
 		if (itemlv >= status.size()) {
@@ -281,7 +281,7 @@ public final class GrwTool extends ItemStack {
 	 * 名前用ゲッター。Growth Toolの名前を返却する。<br />
 	 * Growth Toolはデフォルト名または命名によりDisplayNameを持っている前提とする。<br />
 	 *
-	 * @return 命名されている名前 <empty: 想定外>
+	 * @return 命名されている名前 (empty: 想定外)
 	 */
 	public String getName() {
 		return name;
@@ -301,7 +301,7 @@ public final class GrwTool extends ItemStack {
 	 * 愛称用ゲッター。設定されている愛称を返却する。<br />
 	 * 愛称が設定されていない場合はemptyを返却する。<br />
 	 *
-	 * @return 設定されている愛称 <empty: 未設定>
+	 * @return 設定されている愛称 (empty: 未設定)
 	 */
 	public String getCall() {
 		return playerName;
@@ -311,7 +311,7 @@ public final class GrwTool extends ItemStack {
 	 * アイテムレベル用ゲッター。このツールのアイテムレベルを返却する。<br />
 	 * アイテムレベルは1スタートで、1以上最大レベル以下であることが保証される。<br />
 	 *
-	 * @return アイテムレベル <1～最大レベル>
+	 * @return アイテムレベル (1～最大レベル)
 	 */
 	public int getItemLv() {
 		return itemlv;
@@ -321,7 +321,7 @@ public final class GrwTool extends ItemStack {
 	 * 耐久値警告判定。現在の耐久値が閾値を切っているかどうかを判定する。<br />
 	 * 返却値がtrueの場合は警告メッセージの出力を想定している。<br />
 	 *
-	 * @return 警告判定 <true: 警告状態 / false: 非警告状態>
+	 * @return 警告判定 (true: 警告状態 / false: 非警告状態)
 	 */
 	public boolean isWarn() {
 		return getType().getMaxDurability() - getDurability() < 10;
@@ -333,7 +333,7 @@ public final class GrwTool extends ItemStack {
 	 *
 	 * @param item 判定対象のGrowth Tool
 	 * @param player 持ち主のプレイヤー
-	 * @return 所有者判定 <true: 所有者 / false: 非所有者>
+	 * @return 所有者判定 (true: 所有者 / false: 非所有者)
 	 */
 	public static boolean isOwner(ItemStack item, Player player) {
 		List<String> itemlore;

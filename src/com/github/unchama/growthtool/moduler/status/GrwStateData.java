@@ -33,7 +33,7 @@ public final class GrwStateData {
 	 * @param nextExp レベルアップまでの必要経験値
 	 * @param custom1 アイテムレベル毎に変動するLOREのカスタムメッセージ1
 	 * @param custom2 アイテムレベル毎に変動するLOREのカスタムメッセージ2
-	 * @param unbreakable 耐久無限の設定有無 <false: 耐久有限 / true: 耐久無限>
+	 * @param unbreakable 耐久無限の設定有無 (false: 耐久有限 / true: 耐久無限)
 	 */
 	public GrwStateData(Material baseitem, int nextExp, List<String> custom1, List<String> custom2, boolean unbreakable) {
 		if (baseitem == null) {

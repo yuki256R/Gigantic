@@ -22,6 +22,11 @@ public class SecondListener implements Listener {
 		PlayerManager.multiload();
 	}
 
+	/**
+	 * Growth Toolイベント処理<br />
+	 *
+	 * @param event 1秒毎Bukkitイベント
+	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void growthToolEvent(SecondEvent event) {
 		GrowthTool.onEvent(event);

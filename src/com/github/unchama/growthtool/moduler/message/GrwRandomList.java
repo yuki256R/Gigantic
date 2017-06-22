@@ -31,7 +31,7 @@ public class GrwRandomList<T> extends ArrayList<T> implements Cloneable {
 	/**
 	 * リスト型初期値付きインスタンスを生成するコンストラクタ。既存のリストをGrwRandomList化する際に呼び出される。<br />
 	 *
-	 * @param list
+	 * @param list ベースに格納する既存のlist継承オブジェクト
 	 */
 	public GrwRandomList(List<T> list) {
 		super(list);
@@ -40,7 +40,7 @@ public class GrwRandomList<T> extends ArrayList<T> implements Cloneable {
 	/**
 	 * ランダム取得メソッド。このリストのメンバーからランダムに1つ取得し、返却する。<br />
 	 *
-	 * @return ランダムに選択されたメンバー <null: 未登録状態での呼び出し(仕様)>
+	 * @return ランダムに選択されたメンバー (null: 未登録状態での呼び出し)
 	 */
 	public T getRandom() {
 		if (size() > 0) {
@@ -56,7 +56,7 @@ public class GrwRandomList<T> extends ArrayList<T> implements Cloneable {
 	 * weightはこのリストのメンバー数と同じメンバー数を持つ必要がある。<br />
 	 *
 	 * @param weight 選択率の重みづけ
-	 * @return 重み付きランダムで選択されたメンバー <null: 未登録状態での呼び出し(仕様)>
+	 * @return 重み付きランダムで選択されたメンバー (null: 未登録状態での呼び出し)
 	 */
 	public T getRandom(List<Integer> weight) {
 		if (size() <= 0) {

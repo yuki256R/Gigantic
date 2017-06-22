@@ -149,6 +149,11 @@ public class BlockBreakListener implements Listener {
 
 	}
 
+	/**
+	 * Growth Toolイベント処理<br />
+	 *
+	 * @param event ブロック破壊Bukkitイベント
+	 */
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void growthToolEvent(BlockBreakEvent event) {
 		GrowthTool.onEvent(event);
