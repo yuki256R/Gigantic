@@ -5,7 +5,10 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
@@ -14,7 +17,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -165,6 +170,17 @@ public class Util {
 		item.setItemMeta(meta);
 	}
 
+	/**エンチャント状態にします．
+	 *
+	 * @param item
+	 */
+	public static void addEnchant(ItemStack item){
+		ItemMeta meta = item.getItemMeta();
+		meta.addEnchant(Enchantment.DIG_SPEED, 10, false);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_ATTRIBUTES);
+		item.setItemMeta(meta);
+	}
+
 	// 文字列からアイテムのマテリアルを作成
 	public static Material StringToMaterialData(String name) {
 		Material ret = null;
@@ -271,5 +287,13 @@ public class Util {
 		}
 
 		return true;
+	}
+
+	// 固体ではないブロック類を返す
+	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
+			Material.AIR, Material.WATER, Material.LAVA,
+			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
+	public static Set<Material> getFluidMaterials(){
+		return tpm;
 	}
 }

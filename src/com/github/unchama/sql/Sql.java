@@ -10,14 +10,17 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.UUID;
 
-import com.github.unchama.donate.DonateDataManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.fishing.FishingManager;
+import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -25,6 +28,7 @@ import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.CondensationManager;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
@@ -46,8 +50,11 @@ import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
+import com.github.unchama.sql.player.FishingLevelTableManager;
+import com.github.unchama.sql.player.FishingTableManager;
 import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
+import com.github.unchama.sql.player.HuntingLevelTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.sql.player.ManaTableManager;
@@ -59,10 +66,14 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
+import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
+import com.github.unchama.sql.ranking.FishingExpRankingTableManager;
+import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
+import com.github.unchama.sql.vote.UnchamaPointTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
@@ -78,7 +89,7 @@ public class Sql {
 	public static enum ManagerType {
 		GIGANTICGACHA(GiganticGachaTableManager.class), //
 		PREMIUMGACHA(PremiumGachaTableManager.class), //
-		OLDGACHA(OldGachaTableManager.class),//
+		OLDGACHA(OldGachaTableManager.class), //
 		GIGANTIC(GiganticTableManager.class, GiganticManager.class), //
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
@@ -96,15 +107,21 @@ public class Sql {
 		REGION(RegionTableManager.class, RegionManager.class), //
 		PLAYERTIME(PlayerTimeTableManager.class, PlayerTimeManager.class), //
 		HUNTINGPOINT(HuntingPointTableManager.class, HuntingPointManager.class), //
+		HUNTINGLEVEL(HuntingLevelTableManager.class, HuntingLevelManager.class), //
 		DIMENSIONALINVENTORY(DimensionalInventoryTableManager.class,
 				DimensionalInventoryManager.class), //
 		PRESENTBOX(PresentBoxTableManager.class, PresentBoxManager.class), //
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
+		FISHINGEXPRANKING(FishingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
 		GACHASTACK(GachaStackTableManager.class, GachaStackManager.class),//
-		//PLAYEREFFECT(SkillEffectTableManager.class),//
+		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),//
+		FISHING(FishingTableManager.class, FishingManager.class),//
+		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
+		UNCHAMAPOINT(UnchamaPointTableManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -498,7 +515,7 @@ public class Sql {
 				ptm.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 			else if (mt == DonateTableManager.class) {
-				((DonateTableManager)managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
+				((DonateTableManager) managermap.get(mt)).multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 			}
 		}
 	}

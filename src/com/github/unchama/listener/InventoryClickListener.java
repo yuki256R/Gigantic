@@ -2,6 +2,7 @@ package com.github.unchama.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -9,10 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.event.MenuClickEvent;
+import com.github.unchama.gacha.Gacha.GachaType;
+import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu;
@@ -22,6 +27,8 @@ import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+
+import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
  * @author tar0ss
@@ -94,4 +101,34 @@ public class InventoryClickListener implements Listener {
 		Bukkit.getServer().getPluginManager().callEvent(mevent);
 	}
 
+
+	// ガチャアイテムを金床で使えなくする
+	@EventHandler
+    public void canselGachaItemAnvil(InventoryClickEvent event) {
+		// 金床を開いているか
+		InventoryType invType = event.getWhoClicked().getOpenInventory().getType();
+		if(invType != InventoryType.ANVIL){
+			return;
+		}
+
+		// エンチャ本なら終了
+		ItemStack item = event.getCurrentItem();
+		if(item == null){
+			return;
+		}
+		Material itemType = item.getType();
+		if(itemType == Material.AIR || itemType == Material.ENCHANTED_BOOK){
+			return;
+		}
+
+		// ガチャアイテムでなければ終了
+		NBTItem nbt = new NBTItem(event.getCurrentItem());
+		GachaType type = GachaManager.getGachaType(nbt);
+		if(type == null){
+			return;
+		}
+
+		event.getWhoClicked().sendMessage(ChatColor.AQUA + "ガチャアイテムを金床で使用することはできません.");
+		event.setCancelled(true);
+	}
 }

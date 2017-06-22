@@ -57,9 +57,15 @@ commands:
     default: op
     permission: gigantic.genchant
     permission-message: You don't have <permission>
-  donate:
-    description: This is Donate command.
-    usage: /<command> <EnchantmentName> <Level>
+  listen:
+    description: This is Listen command.
+    usage: /<command> <donate/vote>
     default: op
-    permission: gigantic.donate
+    permission: gigantic.listen
+    permission-message: You don't have <permission>
+  takeover:
+    description: This is Takeover command.
+    usage: /<command> donate
+    default: op
+    permission: gigantic.takeover
     permission-message: You don't have <permission>

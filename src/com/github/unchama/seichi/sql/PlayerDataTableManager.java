@@ -15,6 +15,8 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
+import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -173,6 +175,75 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		} catch (SQLException e) {
 			plugin.getLogger().warning(
 					"Failed to load playtick player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public int getTotalJoin(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select TotalJoin from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("TotalJoin");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load TotalJoin player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public int getChainJoin(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		int ans = 0;
+
+		command = "select ChainJoin from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getInt("ChainJoin");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load ChainJoin player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
+	public String getLastCheckDate(GiganticPlayer gp) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String ans = "";
+
+		command = "select lastcheckdate from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getString("lastcheckdate");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load lastcheckdate player:" + gp.name);
 			e.printStackTrace();
 		}
 		return ans;
@@ -343,5 +414,66 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 		return ans;
 	}
+
+	private static final HashMap<String,Integer> oldEffectIDMap = new HashMap<String,Integer>(){{
+		put("ef_explosion",EffectType.DYNAMITE.getId());
+		put("ef_blizzard",EffectType.BLIZZARD.getId());
+		put("ef_meteo",EffectType.METEO.getId());
+		put("ef_magic",GiganticEffectType.MAGIC.getId());
+	}};
+
+	public HashMap<Integer, Boolean> getEffectFlagMap(GiganticPlayer gp) {
+		HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>();
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String command = "select ";
+		for(String oldname : oldEffectIDMap.keySet()){
+			command += oldname + ",";
+		}
+
+		command = command.substring(0, command.length()-1);
+		command += " from " + db + "." + table
+				+ " where uuid = '" + struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			for(Map.Entry<String , Integer> e: oldEffectIDMap.entrySet()){
+				map.put(e.getValue(), rs.getBoolean(e.getKey()));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"sql commands:" + command);
+			plugin.getLogger().warning(
+					"Failed to load effectflagMap player:" + gp.name);
+			e.printStackTrace();
+		}
+		return map;
+	}
+
+	public int getVoteEffect(GiganticPlayer gp) {
+		String command = "select p_vote from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("p_vote");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load p_vote player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
+	}
+
+
+
+
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
+
+
 }

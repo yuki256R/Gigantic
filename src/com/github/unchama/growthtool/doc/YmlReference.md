@@ -6,6 +6,8 @@ YML内の各項目について解説します。<br />
 Optionalと記載のある項目は省略が可能です。<br />
 特に記載のない項目はMandatoryで、設定が必須です。<br />
 
+---
+
 以下は全Growth Toolに共通して設定が必要な項目です。<br />
 
 talk-interval （Optional）

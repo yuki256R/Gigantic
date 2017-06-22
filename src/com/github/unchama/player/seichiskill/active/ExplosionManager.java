@@ -20,6 +20,7 @@ import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
@@ -55,6 +56,10 @@ public class ExplosionManager extends ActiveSkillManager {
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
+
+		//液体と固体合わせた全てのリストデータ
+		List<Block> alllist = new ArrayList<Block>();
+
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
 
@@ -77,6 +82,11 @@ public class ExplosionManager extends ActiveSkillManager {
 					}
 				}
 			});
+
+
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
+
 
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
@@ -127,7 +137,7 @@ public class ExplosionManager extends ActiveSkillManager {
 		if (!fm.run(player, tool, this, block, useDurability, usemana, true)) {
 			// 重力値を計算
 			GravityManager gm = gp.getManager(GravityManager.class);
-			short gravity = gm.calc(1, breaklist);
+			short gravity = gm.calc(1, alllist);
 
 			// 重力値が０より大きければ終了
 			if (gravity > 0) {
@@ -188,29 +198,10 @@ public class ExplosionManager extends ActiveSkillManager {
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logRemoval(player, block);
 
-		// breakの処理
-		liquidlist.forEach(b -> {
-			b.setType(Material.AIR);
-		});
-		breaklist.forEach(b -> {
-			if (ActiveSkillManager.canBreak(b.getType())) {
-				// 通常エフェクトの表示
-				/*
-				 * if (!b.equals(block)) w.playEffect(b.getLocation(),
-				 * Effect.STEP_SOUND, b.getType());
-				 */
-				// ブロックを削除
-				b.setType(Material.AIR);
-			}
-		});
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		// break後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
-		breaklist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+		effm.createRunner(st).explosionEffect(breaklist, liquidlist, alllist, this.getRange());
 
 		int cooltime = this.getCoolTime(breaklist.size());
 
@@ -330,9 +321,9 @@ public class ExplosionManager extends ActiveSkillManager {
 	public void zeroPointReset() {
 		Coordinate zero = getRange().getZeropoint();
 		Volume v = getRange().getVolume();
-		zero.setY(v.getHeight() - 1);
+		zero.setY(1);
 		zero.setX((v.getWidth() - 1) / 2);
-		zero.setZ((v.getDepth() - 1) / 2);
+		zero.setZ(0);
 		getRange().refresh();
 	}
 

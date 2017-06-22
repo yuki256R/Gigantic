@@ -72,7 +72,7 @@ public class PresentBoxManager extends DataManager implements UsingSql {
 		if(inventory == null){
 			Bukkit.getServer().getLogger().info("inventory == null");
 		}
-		return InventoryUtil.addNewItemStack(inventory, item);
+		return InventoryUtil.addItemStack(inventory, item, true);
 	}
 
 	// インベントリからアイテムを取り出す

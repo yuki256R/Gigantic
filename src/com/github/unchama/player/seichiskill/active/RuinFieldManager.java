@@ -22,12 +22,13 @@ import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.player.RuinFieldTableManager;
-import com.github.unchama.task.RuinFieldTaskRunnable;
+import com.github.unchama.task.AllFieldTaskRunnable;
 import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
@@ -61,12 +62,23 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 	@Override
 	public void toggle() {
 		this.setToggle(!toggle);
-		if (task != null) {
-			task.cancel();
-		}
-		if (toggle) {
-			task = new RuinFieldTaskRunnable(gp).runTaskTimerAsynchronously(
-					plugin, 1, 10);
+		this.runTask();
+
+	}
+
+	public void runTask() {
+		boolean ctg = gp.getManager(CondensationManager.class).getToggle();
+		if (task != null && (ctg && toggle)) {
+			return;
+		} else {
+			if(task != null){
+				task.cancel();
+			}
+			if(ctg || toggle){
+				task = new AllFieldTaskRunnable(gp).runTaskTimerAsynchronously(
+						plugin, 1, 10);
+			}
+
 		}
 	}
 
@@ -157,9 +169,8 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		return 40;
 	}
 
-
 	@Override
-	public void rangeReset(){
+	public void rangeReset() {
 		Coordinate zero = getRange().getZeropoint();
 		Volume v = getRange().getVolume();
 		Volume dv = getDefaultVolume();
@@ -173,7 +184,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 	}
 
 	@Override
-	public void zeroPointReset(){
+	public void zeroPointReset() {
 		Coordinate zero = getRange().getZeropoint();
 		Volume v = getRange().getVolume();
 		zero.setY(1);
@@ -200,7 +211,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 			// このスキルで使用可能なスキルポイント
 			allocationAP = SeichiSkillAutoAllocation.getAllocationAP(level,
 					leftPoint, nextSkill);
-		}else{
+		} else {
 			allocationAP = leftPoint;
 		}
 
@@ -234,6 +245,9 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
+		//液体と固体合わせた全てのリストデータ
+		List<Block> alllist = new ArrayList<Block>();
+
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
 
@@ -260,6 +274,9 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		if (breaklist.isEmpty()) {
 			return true;
 		}
+
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
 
 		// ツールの耐久を確認
 		short durability = tool.getDurability();
@@ -304,7 +321,7 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		if (!fm.run(player, tool, this, block, useDurability, usemana, true)) {
 			// 重力値を計算
 			GravityManager gm = gp.getManager(GravityManager.class);
-			gm.calc(1, breaklist);
+			gm.calc(1, alllist);
 
 			/*
 			 * // 重力値が０より大きければ終了 if (gravity > 0) {
@@ -319,29 +336,29 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		breaklist
 				.forEach((b) -> {
 					// ドロップアイテムをリストに追加
-					droplist.addAll(BreakUtil.getDrops(b, tool));
-					// MineBlockに追加
-					mb.increase(b.getType(), 1);
-					debug.sendMessage(player, DebugEnum.SKILL, b.getType()
-							.name()
-							+ " is increment("
-							+ 1
-							+ ")for player:"
-							+ player.getName());
-					// スキルで使用するブロックに設定
-					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
-							true));
-					// アイテムが出現するのを検知させる
-					Location droploc = GeneralBreakListener.getDropLocation(b);
-					GeneralBreakListener.breakmap.put(droploc,
-							player.getUniqueId());
-					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
-						@Override
-						public void run() {
-							GeneralBreakListener.breakmap.remove(droploc);
-						}
-					}, 1);
-				});
+				droplist.addAll(BreakUtil.getDrops(b, tool));
+				// MineBlockに追加
+				mb.increase(b.getType(), 1);
+				debug.sendMessage(player, DebugEnum.SKILL, b.getType()
+						.name()
+						+ " is increment("
+						+ 1
+						+ ")for player:"
+						+ player.getName());
+				// スキルで使用するブロックに設定
+				b.setMetadata("Skilled", new FixedMetadataValue(plugin,
+						true));
+				// アイテムが出現するのを検知させる
+				Location droploc = GeneralBreakListener.getDropLocation(b);
+				GeneralBreakListener.breakmap.put(droploc,
+						player.getUniqueId());
+				Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+					@Override
+					public void run() {
+						GeneralBreakListener.breakmap.remove(droploc);
+					}
+				}, 1);
+			});
 
 		liquidlist.forEach(b -> {
 			// スキルで使用するブロックに設定
@@ -364,29 +381,10 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logRemoval(player, breaklist.get(0));
 
-		// breakの処理
-		liquidlist.forEach(b -> {
-			b.setType(Material.AIR);
-		});
-		breaklist.forEach(b -> {
-			if (ActiveSkillManager.canBreak(b.getType())) {
-				// 通常エフェクトの表示
-				/*
-				 * if (!b.equals(block)) w.playEffect(b.getLocation(),
-				 * Effect.STEP_SOUND, b.getType());
-				 */
-				// ブロックを削除
-				b.setType(Material.AIR);
-			}
-		});
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		// break後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
-		breaklist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+		effm.createRunner(st).ruinfieldEffect(breaklist, liquidlist, alllist, this.getRange());
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

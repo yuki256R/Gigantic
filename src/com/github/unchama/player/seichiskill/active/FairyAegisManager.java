@@ -26,6 +26,7 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
@@ -504,25 +505,10 @@ public class FairyAegisManager extends ActiveSkillManager {
 		// 最初のブロックのみコアプロテクトに保存する．
 		// ActiveSkillManager.logRemoval(player, block);
 
-		liquidlist.forEach(b -> {
-			double r = rnd.nextDouble();
-			if (r < 0.5) {
-				b.setType(Material.EMERALD_ORE);
-			} else {
-				b.setType(Material.MOSSY_COBBLESTONE);
-			}
-		});
-		breaklist.forEach(b -> {
-			double r = rnd.nextDouble();
-			if (r < 0.5) {
-				b.setType(Material.EMERALD_ORE);
-			} else {
-				b.setType(Material.MOSSY_COBBLESTONE);
-			}
-		});
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		skilledblocklist.addAll(liquidlist);
-		skilledblocklist.addAll(breaklist);
+		effm.createRunner(st).fairyaegisEffectonSet(breaklist, liquidlist, breakMap);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

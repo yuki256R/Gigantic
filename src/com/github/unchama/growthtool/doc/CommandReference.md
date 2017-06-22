@@ -4,7 +4,8 @@ Growth Toolのコマンドについては本ドキュメントをご参照くだ
 
 Permission
 ---
-gigantic.growth
+* ```gigantic.growth```
+
 デフォルトでは全ユーザが使用可能です。
 
 Commands
@@ -17,6 +18,8 @@ Growth Toolに対してのコマンドは、下記3種類のいずれかで実�
 
 Growth Toolでは下記コマンドを用意しています。
 
+---
+
 * 命名コマンド<br />
 `/grw <GrowthToolName> name <NewName>`<br />
 `/grw <GrowthToolName> name`<br />
@@ -28,6 +31,8 @@ Growth Toolでは下記コマンドを用意しています。
     NewNameに何も設定しない場合、命名無しに戻ります。<br />
     NewNameは最大10文字で、`<`, `>`は使用出来ません。条件に反した場合は削られます。<br />
 
+---
+
 * 愛称設定コマンド<br />
 `/grw <GrowthToolName> call`<br />
 `/grw <GrowthToolName> call <NickName>`<br />
@@ -38,6 +43,8 @@ Growth Toolでは下記コマンドを用意しています。
     装備中のGrowth Toolがプレイヤーを呼ぶ際の愛称を設定します。<br />
     NickNameに何も設定しない場合、愛称無しに戻ります。<br />
     NickNameは最大10文字で、`<`, `>`は使用出来ません。条件に反した場合は削られます。<br />
+
+---
 
 * （デバッグ限定）Growth Tool入手コマンド<br />
 `/grw <GrowthToolName> get`<br />

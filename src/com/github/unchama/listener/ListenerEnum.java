@@ -27,6 +27,8 @@ public enum ListenerEnum {
     BUILD(new BlockPlaceEventListener()),
     MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
     HUNTINGPOINT(new HuntingPointEventListener()),
+    HUNTINGLEVEL(new HuntingLevelListener()),
+    HUNTINGEXP(new HuntingExpIncrementListener()),
     PLAYERPICKUPITEM(new PlayerPickupItemListener()),
     BLOCKLINEUP(new BlockLineUpListener()),
     RANKINGUPDATE(new RankingUpdateListener()),
@@ -35,6 +37,10 @@ public enum ListenerEnum {
     GACHAAPPLE(new GachaAppleListener()),
     CONVERTPLACEMENT(new ConvertPlacementListener()),
     HEADPLACECANCEL(new HeadPlaceCancelListener()),
+	EXCHANGEINVENTORY(new ExchangeInventoryListener()),
+    BLOCKCOLORING(new BlockColoringSkillListener()),
+    FISHING(new FishingListener()),
+    FISHINGLEVEL(new FishingLevelListener()),
 	;
 	private Listener listener;
 

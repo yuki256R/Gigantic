@@ -21,6 +21,7 @@ public final class Yml {
 		HUNTINGPOINT(HuntingPointDataManager.class), //
 		GROWTHTOOL(GrowthToolDataManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryYmlManager.class),//
+		FISHING(FishingYmlManager.class),//
 		;
 		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;

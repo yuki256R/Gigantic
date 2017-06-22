@@ -14,7 +14,8 @@ public enum CommandType {
     GROWTH(new GrowthCommand()),
     PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
-	DONATE(new DonateCommand()),
+	LISTEN(new ListenCommand()),
+	TAKEOVER(new TakeoverCommand()),
 	;
 
 
