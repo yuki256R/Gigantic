@@ -25,11 +25,11 @@ import java.util.UUID;
  */
 public class ListenCommand implements TabExecutor {
 
-    DonateTableManager donteTableManager;
-    UnchamaPointTableManager unchamaPointTableManager;
+    private DonateTableManager donateTableManager;
+    private UnchamaPointTableManager unchamaPointTableManager;
 
     public ListenCommand() {
-        this.donteTableManager = Gigantic.sql.getManager(DonateTableManager.class);
+        this.donateTableManager = Gigantic.sql.getManager(DonateTableManager.class);
         this.unchamaPointTableManager = Gigantic.sql.getManager(UnchamaPointTableManager.class);
     }
 
@@ -86,6 +86,6 @@ public class ListenCommand implements TabExecutor {
     }
 
     private void putToSQL(String uuid, int money, int point) {
-        donteTableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
+        donateTableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
     }
 }
