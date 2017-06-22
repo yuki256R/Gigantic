@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.seichiskill.EffectCategory;
-import com.github.unchama.player.seichiskill.effect.NormalEffectRunner;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.util.Util;
@@ -24,7 +23,7 @@ import com.github.unchama.yml.CustomHeadManager;
  *
  */
 public enum GiganticEffectType {
-	MAGIC(1, NormalEffectRunner.class, ChatColor.RED + "マジック", "鶏が出る手品", 10,"clown"), ;
+	MAGIC(1, MagicEffectRunner.class, ChatColor.RED + "マジック", "鶏が出る手品", 10,"clown"), ;
 
 	private static final GiganticEffectType[] etList = GiganticEffectType.values();
 	private static final HashMap<Integer,GiganticEffectType> idMap = new HashMap<Integer,GiganticEffectType>(){
