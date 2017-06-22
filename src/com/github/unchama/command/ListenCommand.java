@@ -6,8 +6,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.donate.DonateData;
 import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.sql.donate.DonateTableManager;
-
-import com.github.unchama.sql.vote.UnchamaPointTableManager;
+import com.github.unchama.sql.point.UnchamaPointTableManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,6 +23,8 @@ import java.util.UUID;
  * Created by Mon_chi on 2017/06/08.
  */
 public class ListenCommand implements TabExecutor {
+
+    public static final int VOTE_POINT_AMOUNT = 1;
 
     private DonateTableManager donateTableManager;
     private UnchamaPointTableManager unchamaPointTableManager;
@@ -67,7 +68,7 @@ public class ListenCommand implements TabExecutor {
                     sender.sendMessage(ChatColor.RED + "/listen vote <name>");
                 } else {
                     String uuid = Bukkit.getServer().getOfflinePlayer(args[1]).getUniqueId().toString();
-                    unchamaPointTableManager.addPoint(uuid, 1);
+                    unchamaPointTableManager.addPointToSQL(uuid, VOTE_POINT_AMOUNT);
                     sender.sendMessage("投票を受け付けました! UUID: " + args[1]);
                 }
             }
