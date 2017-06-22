@@ -19,6 +19,7 @@ public final class Yml {
 		DEBUG(DebugManager.class), //
 		MOBHEAD(CustomHeadManager.class), //
 		HUNTINGPOINT(HuntingPointDataManager.class), //
+		GROWTHTOOL(GrowthToolDataManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryYmlManager.class),//
 		FISHING(FishingYmlManager.class),//
 		;
