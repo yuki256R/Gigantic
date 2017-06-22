@@ -1,201 +1,225 @@
 package com.github.unchama.player.seichiskill.passive.skywalk;
 
-import com.github.unchama.event.FootBlockPlaceEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.moduler.Coordinate;
+import com.github.unchama.player.seichiskill.moduler.CardinalDirection;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import net.coreprotect.CoreProtectAPI;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import static com.github.unchama.gigantic.Gigantic.guimenu;
 
 /**
- * 足場設置スキルのManagerです
  * @author karayuu
  */
 public class SkyWalkManager extends PassiveSkillManager implements Initializable{
 
-    private GuiMenu guimenu = Gigantic.guimenu;
-    protected static WorldGuardPlugin Wg;
-    protected static CoreProtectAPI Cp;
-    //以下必要Manager
-    protected ManaManager Mm;
-    protected SeichiLevelManager Lm;
-
-    //スキルのON/OFFトグル
+    /** スキルのON/OFFトグル */
     private boolean toggle;
+    /** 設置した足場 */
+    private List<Block> build = new ArrayList<>();
 
-    //判断ブロック一覧
-    /**
-     * スキル・破壊可能ブロック一覧
-     */
-    public static final List<Material> material_destruction = new ArrayList<>(Arrays.asList(
-            Material.LONG_GRASS            //草
-            , Material.DEAD_BUSH            //枯れ木
-            , Material.YELLOW_FLOWER        //タンポポ
-            , Material.RED_ROSE            //花9種
-            , Material.BROWN_MUSHROOM    //きのこ
-            , Material.RED_MUSHROOM        //赤きのこ
-            , Material.TORCH                //松明
-            , Material.SNOW                //雪
-            , Material.DOUBLE_PLANT        //高い花、草
-            , Material.WATER                //水
-            , Material.STATIONARY_WATER    //水
-            , Material.AIR                  //空気
-
-    ));
+    private static WorldGuardPlugin Wg;
+    private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
+    private ManaManager Mm;
 
     public SkyWalkManager(GiganticPlayer gp) {
         super(gp);
         Wg = Util.getWorldGuard();
-        Cp = Util.getCoreProtect();
         this.toggle = false;
     }
 
     @Override
     public void init() {
-        this.Mm = gp.getManager(ManaManager.class);
-        this.Lm = gp.getManager(SeichiLevelManager.class);
+        Mm = gp.getManager(ManaManager.class);
     }
-
-    private boolean isSkillBlockType(Material check) {
-        for (Material material : material_destruction) {
-            if (material.equals(check)) return true;
-            return false;
-        }
-        return false;
-    }
-
     /**
-     * 足場設置処理
-     * @param player
+     * 日本語名を返す
+     * @return
      */
+    private String getJPName() {
+        return "" + ChatColor.RESET + ChatColor.AQUA + ChatColor.BOLD
+                + "スカイウォーク" + ChatColor.RESET;
+    }
+
     public void run(Player player) {
-        //プレイヤーデーターを取得
-        GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-        //ワールド取得
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                //スキルトグルがOFFの時終了
+                if (!getToggle()) {
+                    cancel();
+                    return;
+                }
+
+                //サバイバルではないとき終了
+                if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
+                    debug.sendMessage(player, DebugManager.DebugEnum.SKILL,
+                            "サバイバルではないのでスキルの発動ができません．");
+                    cancel();
+                    return;
+                }
+
+                //フライ中に使用していた時終了
+                if (player.isFlying()) {
+                    player.sendMessage("フライ中はスキルの発動ができません．");
+                    cancel();
+                    return;
+                }
+
+                //使用可能ワールドではないとき終了
+                if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
+                    player.sendMessage("このワールドではスキルの発動ができません．");
+                    cancel();
+                    return;
+                }
+
+                //マナが不足している時終了
+                if (Mm.getMana() < config.getSkywalkMana()) {
+                    debug.sendMessage(player, DebugManager.DebugEnum.SKILL,
+                            "マナが不足しているためスキルの発動不可．");
+                    cancel();
+                    return;
+                }
+
+                Bukkit.getServer().getLogger().info("run");
+                //方角を取得
+                CardinalDirection direction = CardinalDirection.getCardinalDirection(player);
+
+                //ブロックをリストに追加しておく
+                List<Block> footlist = getFootBlock(player, direction);
+
+                /*
+                 * ここより、ブロックを消す作業。
+                 * ブロックそれぞれに対して、ブロック消去作業する。
+                */
+                for (Block delete : build) {
+                    delete.setType(Material.AIR);
+                    build.remove(delete);
+                }
+
+                //ここから処理部分。
+                /*
+                * ブロックをループで1つずつ取り出す
+                * 1.ブロックにメタデータ(フラグ)があるかどうか・Wgで設置可能か・空気ブロックか
+                 *   判断。それぞれ判断し、2へ。
+                 * 2.メタデータをつけて足場設置する。
+                 * 3.足場設置したことをリストに追加する。
+                 * 以上繰り返し。
+                 */
+                for (Block check : footlist) {
+                    if (!check.hasMetadata("FootBlock")
+                            && Wg.canBuild(player, check)
+                            && check.getType().equals(Material.AIR)) {
+                        check.setType(Material.BARRIER);
+                        check.setMetadata("FootBlock", new FixedMetadataValue(plugin, true));
+                        build.add(check);
+                    }
+                }
+
+
+
+                Mm.decrease(config.getSkywalkMana());
+            }
+        }.runTaskTimer(plugin, 10, config.getSkywalkBreakSec() * 20);
+    }
+
+    private List<Block> getFootBlock(Player player, CardinalDirection direction) {
+        List<Block> list = new ArrayList<>();
+        //worldを取得
         World world = player.getWorld();
-        //プレイヤーの座標を取得
-        int player_x = player.getLocation().getBlockX();
-        int player_y = player.getLocation().getBlockY();
-        int player_z = player.getLocation().getBlockZ();
-        //プレイヤーの1マス下のブロックを取得
-        Block block = world.getBlockAt(player_x, player_y - 1, player_z);
-        //必要Managerを取得
-        SkyWalkManager sw = gp.getManager(SkyWalkManager.class);
-        ManaManager mm = gp.getManager(ManaManager.class);
 
-        //トグル判断
-        if (!sw.getToggle()) {
-            return;
-        }
+        final int WIDTH = 5;
+        final int HALF_WIDTH = (WIDTH - 1) / 2;
+        final int LENGTH = 20;
 
-        //WorldGuardでブロック設置可能か判断
-        if (!Wg.canBuild(player, block)) {
-            player.sendMessage(ChatColor.RED + "他人の保護がかかっているため、スキルを発動できません。");
-            player.sendMessage(ChatColor.RESET + "スカイウォーク:" + ChatColor.RED + "OFF");
-            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_LAUNCH, 1, (float)0.5);
-            sw.toggle();
-            return;
-        }
+        //プレイヤーの1マスしたの各座標を取得しておく
+        int x = player.getLocation().getBlockX();
+        int y = player.getLocation().getBlockY() - 1;
+        int z = player.getLocation().getBlockZ();
 
-        //マナが足りるか判断
-        if (!(mm.getMana() >= config.getSkywalkMana())) {
-            player.sendMessage(ChatColor.RED + "マナが不足しているため、スキルを発動できません。");
-            player.sendMessage(ChatColor.RESET + "スカイウォーク:" + ChatColor.RED + "OFF");
-            player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_LAUNCH, 1, (float)0.5);
-            sw.toggle();
-            return;
-        }
-
-        //ブロックは対象ブロックかどうか判断
-        for (Material material : material_destruction) {
-            if (block.getType().equals(material)) {
-                FootBlock footblock = new FootBlock(player, new Coordinate(player_x, player_y - 1, player_z),
-                        5, 20, Material.GRASS);
-                SkyWalkData sd = gp.getManager(SkyWalkData.class);
-                sd.add(footblock);
-                return;
-            } else {
-                continue;
+        for (int i = 0; i <= x - WIDTH; i++) {
+            for (int j = 0; j <= LENGTH - 1; j++) {
+                switch (direction) {
+                    case NORTH: list.add(world.getBlockAt(x - HALF_WIDTH + i, y, z + j)); break;
+                    case SOUTH: list.add(world.getBlockAt(x - HALF_WIDTH + i, y, z - j)); break;
+                    case EAST: list.add(world.getBlockAt(x + j, y, z - HALF_WIDTH + 1)); break;
+                    case WEST: list.add(world.getBlockAt(x - j, y, z - HALF_WIDTH + 1)); break;
+                }
             }
         }
-    }
-
-    private String getJPname() {
-        return "" + ChatColor.RESET + ChatColor.AQUA + ChatColor.BOLD
-                + "スカイウォーク(仮名)" + ChatColor.RESET;
+        return list;
     }
     @Override
     public ItemStack getSkillTypeInfo() {
         SeichiLevelManager m = gp.getManager(SeichiLevelManager.class);
         int level = m.getLevel();
-
         ItemStack is;
         ItemMeta meta;
-
         if (level < config.getSkywalkUnlockLevel()) {
             is = new ItemStack(Material.DIAMOND_ORE);
             meta = is.getItemMeta();
-            meta.setDisplayName(this.getJPname());
-            List<String> lore = new ArrayList<>();
+            meta.setDisplayName(this.getJPName());
+            List<String> lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
                     + "プレイヤーの移動を補助する足場を");
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-                    + "自動的に生成します");
+                    + "自動的に生成します。");
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-                    + "足場は一定時間で自動消滅します");
+                    + "足場は一定時間後に自動で消滅します。");
             lore.add("" + ChatColor.RESET + ChatColor.RED + ChatColor.UNDERLINE
                     + "レベル" + config.getSkywalkUnlockLevel() + "で自動解放されます．");
             meta.setLore(lore);
             is.setItemMeta(meta);
-        } else if (this.toggle) {
+        } else if (this.getToggle()) {
             is = new ItemStack(Material.DIAMOND);
             meta = is.getItemMeta();
             meta.addEnchant(Enchantment.DIG_SPEED, 100, false);
-            meta.setDisplayName(this.getJPname());
-            List<String> lore = new ArrayList<>();
+            meta.setDisplayName(this.getJPName());
+            List<String> lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
                     + "プレイヤーの移動を補助する足場を");
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-                    + "自動的に生成します");
+                    + "自動的に生成します。");
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-                    + "足場は一定時間で自動消滅します");
+                    + "足場は一定時間後に自動で消滅します。");
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "トグル："
                     + ChatColor.RESET + ChatColor.GREEN + "  ON");
             lore.add("" + ChatColor.RESET + ChatColor.GREEN
                     + ChatColor.UNDERLINE + "クリックでトグルを切り替えます");
             meta.setLore(lore);
             is.setItemMeta(meta);
+            run(PlayerManager.getPlayer(gp));
         } else {
             is = new ItemStack(Material.DIAMOND_ORE);
             meta = is.getItemMeta();
-            meta.setDisplayName(this.getJPname());
-            List<String> lore = new ArrayList<>();
+            meta.setDisplayName(this.getJPName());
+            List<String> lore = new ArrayList<String>();
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
                     + "プレイヤーの移動を補助する足場を");
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-                    + "自動的に生成します");
+                    + "自動的に生成します。");
             lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
-                    + "足場は一定時間で自動消滅します");
+                    + "足場は一定時間後に自動で消滅します。");
             lore.add("" + ChatColor.RESET + ChatColor.YELLOW + "トグル："
                     + ChatColor.RESET + ChatColor.RED + "  OFF");
             lore.add("" + ChatColor.RESET + ChatColor.GREEN

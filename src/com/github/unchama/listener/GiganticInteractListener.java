@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -19,7 +18,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -688,6 +686,11 @@ public class GiganticInteractListener implements Listener {
             Player player = event.getPlayer();
             //プレイヤーデータを取得
             GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
+            if (gp == null) {
+                throw new NullPointerException("GiganticInteractListener#onPlayerFillLiquidでプレイヤーデーターがnull");
+            }
+
             //プレイヤーインベントリを取得
             PlayerInventory playerinv = player.getInventory();
             //オフハンド・メインハンドのアイテム取得
@@ -721,14 +724,5 @@ public class GiganticInteractListener implements Listener {
         }
     }
 
-    /**
-     * SkyWalkスキルのListener
-     */
-    @EventHandler
-    public void onPlayerMoveEvent(PlayerMoveEvent e) {
-        Player player = e.getPlayer();
-        GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 
-        gp.getManager(SkyWalkManager.class).run(player);
-    }
 }
