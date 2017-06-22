@@ -15,7 +15,7 @@ import net.md_5.bungee.api.ChatColor;
 
 /**
  * Growth Tool用ユーザーコマンドクラス。コマンド実行時に呼び出される。<br />
- * コマンドの詳細は/src/com/github/unchama/growthtool/README.mdのリファレンスを参照すること。<br />
+ * コマンドの詳細は/src/com/github/unchama/growthtool/doc/README.mdのリファレンスを参照すること。<br />
  *
  * @author CrossHearts
  */

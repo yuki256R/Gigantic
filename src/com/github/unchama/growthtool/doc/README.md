@@ -1,11 +1,22 @@
-Growth Tool説明書
-author: CrossHearts
+Growth Tool Release Note
+=====
+Growth Toolはプレイヤーの整地と共に成長していくツールです。<br />
+Growth Toolはアイテムレベルを持ち、アイテムレベルの上昇と共に外見やエンチャントが変化します。<br />
+また被ダメージや時間経過等のイベントにより、プレイヤーに対して話しかけてきます。<br />
 
+[Growth Tool Command Reference](./COMMANDREFERENCE.md)
+---
+Growth Toolのコマンドについては本ドキュメントをご参照ください。
 
+License
+---
+Copyright &copy; 2017 ***[unchama]*** by [ギガンティック☆整地鯖]
 
+Licensed under [Gigantic plugin](https://github.com/unchama/Gigantic/)
 
-コマンドリファレンス
-
+ChangeLog
+---
+2017.6.22 新規作成 by [CrossHearts](https://github.com/CrossHearts/)
 
 
 
@@ -31,6 +42,7 @@ DebugModeをtrueにした場合のみ上書きしないため、現状はデバ�
 
 
 TODO:
+新規プレイヤーへの配布処理
 金床で命名を出来ないように
 スライムを倒した時の判定
 アイテム取得時の固有メッセージが無い

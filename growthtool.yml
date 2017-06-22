@@ -1,4 +1,4 @@
-# このファイルのルールは/src/com/github/unchama/growthtool/README.mdを参照
+# このファイルのルールは/src/com/github/unchama/growthtool/doc/README.mdを参照
 # お喋り間隔（秒）
 talk-interval: 120
 # お喋り確率（％）
