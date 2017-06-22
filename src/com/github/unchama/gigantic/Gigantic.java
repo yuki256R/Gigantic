@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.unchama.command.CommandType;
@@ -48,7 +49,10 @@ public final class Gigantic extends JavaPlugin {
 	// SeichiAssistSql用クラス
 	public static SeichiAssistSql seichisql;
 
+	// スキルで使用するブロックの保存用
 	public static List<Block> skilledblocklist = new ArrayList<Block>();
+	// スキルで使用するエンティティの保存用
+	public static List<Entity> skilledEntityList = new ArrayList<Entity>();
 
 	private String pluginChannel = "BungeeCord";
 

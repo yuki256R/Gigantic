@@ -15,7 +15,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -364,6 +363,9 @@ public class FairyAegisManager extends ActiveSkillManager {
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
+		//全ての破壊されるデータ
+		List<Block> alllist = new ArrayList<Block>();
+
 		// 壊されるブロックデータをÝ軸でまとめたもの
 		HashMap<Integer, List<Block>> breakMap = new HashMap<Integer, List<Block>>();
 
@@ -396,11 +398,14 @@ public class FairyAegisManager extends ActiveSkillManager {
 			}
 		});
 
-		if (breaklist.isEmpty()) {
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
+
+		if (alllist.isEmpty()) {
 			return false;
 		}
 
-		int breakNum = breaklist.size() + liquidlist.size();
+		int breakNum = alllist.size();
 		if (breakNum > this.getBreakNum()) {
 			debug.sendMessage(player, DebugEnum.SKILL, "追加破壊ブロック数が規定値を超えました："
 					+ breakNum);
@@ -428,7 +433,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
 					tool.getEnchantmentLevel(Enchantment.DURABILITY),
-					breaklist.size() + liquidlist.size()));
+					alllist.size()));
 			// ツールの耐久が足りない時
 			if (tool.getType().getMaxDurability() <= (durability
 					+ useDurability + pre_useDurability)) {
@@ -469,9 +474,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					// スキルで使用するブロックに設定
-					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
-							true));
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -483,12 +485,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 						}
 					}, 1);
 				});
-
-		liquidlist.forEach(b -> {
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
-			});
-
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		droplist.forEach((dropitem) -> {
@@ -502,13 +498,10 @@ public class FairyAegisManager extends ActiveSkillManager {
 			}
 		});
 
-		// 最初のブロックのみコアプロテクトに保存する．
-		// ActiveSkillManager.logRemoval(player, block);
-
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.createRunner(st).fairyaegisEffectonSet(breaklist, liquidlist, breakMap);
+		effm.createRunner(st).fairyaegisEffectonSet(gp,block,breaklist, liquidlist,alllist, breakMap);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
