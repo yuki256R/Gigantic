@@ -13,7 +13,6 @@ public enum CommandType {
     FLY(new FlyCommand()),
     PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
-	HOME(new HomeCommand()),
 	;
 
 
