@@ -15,17 +15,18 @@ import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
  *
  */
 public final class PlayerTimeIncrementListener implements Listener {
-    Sql sql = Gigantic.sql;
-    LoginTimeRankingTableManager rm;
+	Sql sql = Gigantic.sql;
+	LoginTimeRankingTableManager rm;
 
-    public PlayerTimeIncrementListener() {
-        rm = sql.getManager(LoginTimeRankingTableManager.class);
-    }
-    @EventHandler
-    public void addRanking(PlayerTimeIncrementEvent event){
-        double n = event.getNextTick();
-        GiganticPlayer gp = event.getGiganticPlayer();
+	public PlayerTimeIncrementListener() {
+		rm = sql.getManager(LoginTimeRankingTableManager.class);
+	}
 
-        rm.update(gp,n);
-    }
+	@EventHandler
+	public void addRanking(PlayerTimeIncrementEvent event) {
+		double n = (double) event.getNextTick();
+		GiganticPlayer gp = event.getGiganticPlayer();
+
+		rm.update(gp, n);
+	}
 }

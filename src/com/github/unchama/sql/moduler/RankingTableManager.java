@@ -84,17 +84,17 @@ public abstract class RankingTableManager extends TableManager {
 		LinkedHashMap<String, Double> map = timeMap.get(tt);
 		map.clear();
 		/**SELECT * FROM `mineblockranking` WHERE datetime BETWEEN '2017-05-18 00:00:00' and '2017-05-20 00:00:00'
-		 *
+		 *SELECT uuid,SUM(allmineblock) as allnum FROM `mineblockranking` WHERE datetime BETWEEN '2016-05-18 00:00:00' and '2017-07-20 00:00:00'
+		 *GROUP BY uuid ORDER BY allnum DESC LIMIT 150
 		 */
 		String startDatetime = TimeUtil.getDateTimeOnString(tt, 0);
 		String endDatetime = TimeUtil.getDateTimeOnString(tt, 1);
 
-		command = "SELECT uuid," + columnName + " FROM " + db + "." + table + " "
+		command = "SELECT uuid,SUM(" + columnName + ") AS sum_num FROM " + db + "." + table + " "
 				+ "WHERE datetime BETWEEN '" + startDatetime + "' and '" + endDatetime + "' "
-				+ "ORDER BY " + columnName + " DESC LIMIT 150";
+				+ "GROUP BY uuid ORDER BY sum_num DESC LIMIT 150";
 		UUID uuid;
 		String name;
-		double value;
 		// ロード
 		try {
 			rs = stmt.executeQuery(command);
@@ -102,13 +102,7 @@ public abstract class RankingTableManager extends TableManager {
 				// nameを取得
 				uuid = UUID.fromString(rs.getString("uuid"));
 				name = nameMap.get(uuid);
-				if(map.containsKey(name)){
-					value = rs.getDouble(columnName) + map.get(name);
-				}else{
-					value = rs.getDouble(columnName);
-				}
-
-				map.put(name, value);
+				map.put(name, rs.getDouble("sum_num"));
 			}
 			rs.close();
 		} catch (SQLException e) {

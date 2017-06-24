@@ -72,7 +72,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 			}
 			breakMap.get(bt).increase(breaknum);
 		}
-		Bukkit.getPluginManager().callEvent(new MineBlockIncrementEvent(gp,breaknum,all.getNum(TimeType.UNLIMITED)));
+		Bukkit.getPluginManager().callEvent(new MineBlockIncrementEvent(gp, breaknum, all.getNum(TimeType.UNLIMITED)));
 		all.increase(breaknum);
 	}
 
@@ -100,6 +100,10 @@ public class MineBlockManager extends DataManager implements UsingSql,
 
 	public double getAll(TimeType tt) {
 		return all.getNum(tt);
+	}
+
+	public double getAllignoreDebug() {
+		return all.getNum(TimeType.UNLIMITED) - this.debugblock;
 	}
 
 	public void increaseAll(TimeType tt, double d) {

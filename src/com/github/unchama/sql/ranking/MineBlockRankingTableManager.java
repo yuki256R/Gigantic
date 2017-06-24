@@ -37,7 +37,7 @@ public class MineBlockRankingTableManager extends RankingTableManager {
 	@Override
 	protected double getValue(GiganticPlayer gp) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
-		double a = m.getAll(com.github.unchama.player.mineblock.MineBlock.TimeType.UNLIMITED);
+		double a = m.getAllignoreDebug();
 		return a;
 	}
 
