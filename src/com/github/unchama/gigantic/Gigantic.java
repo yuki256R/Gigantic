@@ -3,6 +3,7 @@ package com.github.unchama.gigantic;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.unchama.enchantment.EnchantmentEnum;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.unchama.command.CommandType;
-import com.github.unchama.enchantment.EnchantmentEnum;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
@@ -112,7 +112,7 @@ public final class Gigantic extends JavaPlugin {
 			b.removeMetadata("Skilled", plugin);
 		});
 
-		getLogger().info("Gigantic is Disabled!");
+		getLogger().info("SeichiAssist is Disabled!");
 	}
 
 	@Override
