@@ -401,7 +401,6 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
-<<<<<<< HEAD
 	//ホームポイント	Seichiの方ではカラムが鯖ごとに分かれていたのでそれぞれ読み込む
 	public String getHomePoint(GiganticPlayer gp, int servernum) {
 		String command = "";
@@ -409,7 +408,20 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		String ans = null;
 			command = "select homepoint_" + servernum + " from " + db + "." + table + " where uuid = '"
 					+ struuid + "'";
-=======
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getString("homepoint_" + servernum);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning("Failed to load homepoint_" + servernum + " player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
 	public Map<Integer, Integer> getOldGachaStack(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -430,22 +442,10 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			String column = columns.get(index);
 			command = "select " + column + " from " + db + "." + table
 					+ " where uuid = '" + struuid + "'";
->>>>>>> origin/master
 			this.checkStatement();
 			try {
 				rs = stmt.executeQuery(command);
 				while (rs.next()) {
-<<<<<<< HEAD
-					ans = rs.getString("homepoint_" + servernum);
-				}
-				rs.close();
-			} catch (SQLException e) {
-				plugin.getLogger().warning("Failed to load homepoint_" + servernum + " player:" + gp.name);
-				e.printStackTrace();
-			}
-			return ans;
-	}
-=======
 					ans.put(index, rs.getInt(column));
 					// plugin.getLogger().info(column + " : " +
 					// rs.getInt(column));
@@ -514,11 +514,6 @@ public class PlayerDataTableManager extends SeichiTableManager {
 
 		return point;
 	}
-
-
-
-
->>>>>>> origin/master
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 
 

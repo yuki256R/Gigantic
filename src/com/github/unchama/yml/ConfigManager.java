@@ -341,7 +341,6 @@ public class ConfigManager extends YmlManager {
     }
 
     /**
-<<<<<<< HEAD
      * ホーム数の最大値を取得します
      * @return
      */
@@ -356,7 +355,8 @@ public class ConfigManager extends YmlManager {
 	public int getServerNum() {
 		return fc.getInt("servernum");
 	}
-=======
+
+	/**
      * 設置ブロック変換設定使用可能レベルを取得します
      * @return 使用可能建築レベル
      */
@@ -379,5 +379,4 @@ public class ConfigManager extends YmlManager {
     public int getBlockWashingLevel() {
         return fc.getInt("BlockWashingSkill.level");
     }
->>>>>>> origin/master
 }

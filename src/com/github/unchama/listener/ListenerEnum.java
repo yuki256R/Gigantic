@@ -35,9 +35,7 @@ public enum ListenerEnum {
 	ENCHANTMENT(new EnchantmentListener()),
     BUILDLEVEL(new BuildLevelListener()),
     GACHAAPPLE(new GachaAppleListener()),
-<<<<<<< HEAD
-    PLAYERCHAT(new PlayerChatListener())
-=======
+    PLAYERCHAT(new PlayerChatListener()),
     CONVERTPLACEMENT(new ConvertPlacementListener()),
     HEADPLACECANCEL(new HeadPlaceCancelListener()),
 	EXCHANGEINVENTORY(new ExchangeInventoryListener()),
@@ -45,7 +43,6 @@ public enum ListenerEnum {
     FISHING(new FishingListener()),
     FISHINGLEVEL(new FishingLevelListener()),
     ENTITYLISTENER(new EntityListener()),
->>>>>>> origin/master
 	;
 	private Listener listener;
 

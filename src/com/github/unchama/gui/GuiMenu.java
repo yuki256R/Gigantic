@@ -197,12 +197,8 @@ public final class GuiMenu {
         YEARFISHINGEXPRANKINGMENU(YearFishingExpRankingMenuManager.class),
         FISHINGMAINMENU(FishingMainMenuManager.class),
         HELPMENU(HelpMenuManager.class),
-<<<<<<< HEAD
         HOMEMENU(HomeMenuManager.class),
         HOMEPROTECTMENU(HomeProtectMenuManager.class),
-
-=======
->>>>>>> origin/master
 		;
 
 		// 使用するManagerClass

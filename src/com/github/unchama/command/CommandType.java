@@ -14,13 +14,10 @@ public enum CommandType {
 	GROWTH(new GrowthCommand()),
 	PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
-<<<<<<< HEAD
 	HOME(new HomeCommand()),
-=======
 	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
 	LASTQUIT(new LastquitCommand()),
->>>>>>> origin/master
 	;
 
 
