@@ -16,6 +16,7 @@ public enum CommandType {
 	GENCHANT(new EnchantmentCommand()),
 	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
+	LASTQUIT(new LastquitCommand()),
 	;
 
 

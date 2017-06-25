@@ -69,3 +69,9 @@ commands:
     default: op
     permission: gigantic.takeover
     permission-message: You don't have <permission>
+  lastquit:
+    description: This is Lastquit command.
+    usage: /<command> <player>
+    default: op
+    permission: gigantic.lastquit
+    permission-message: You don't have <permission>
