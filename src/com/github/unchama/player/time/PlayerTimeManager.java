@@ -72,7 +72,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 				int preTick = totalidletick;
 				// 既に放置中なら累計放置時間を追加
 				totalidletick += getincrease;
-				Bukkit.getPluginManager().callEvent(new PlayerTimeIncrementEvent(gp, preTick, getincrease));
+				Bukkit.getPluginManager().callEvent(new PlayerTimeIncrementEvent(gp, getincrease, preTick));
 			}
 			idletime++;
 		} else {
@@ -94,7 +94,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 		return Util.toTimeString(Util.toSecond(GetValidLoginTime()));
 	}
 
-	public int GetValidLoginTime(){
+	public int GetValidLoginTime() {
 		return playtick - totalidletick;
 	}
 
@@ -143,61 +143,63 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	}
 
 	// 累計ログイン日数
-	public void setTotalJoin(int num){
+	public void setTotalJoin(int num) {
 		totalJoin = num;
 	}
-	public int getTotalJoin(){
+
+	public int getTotalJoin() {
 		return totalJoin;
 	}
 
 	// 連続ログイン日数
-	public void setChainJoin(int num){
+	public void setChainJoin(int num) {
 		chainJoin = num;
 	}
-	public int getChainJoin(){
+
+	public int getChainJoin() {
 		return chainJoin;
 	}
 
 	// 最後にチェックした日付
-	public String getLastCheckDate(){
+	public String getLastCheckDate() {
 		return lastcheckdate;
 	}
 
-	public void checkJoinNum(String lastcheck){
-	//連続・通算ログインの情報、およびその更新
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		if(lastcheck == "" || lastcheck == null){
+	public void checkJoinNum(String lastcheck) {
+		//連続・通算ログインの情報、およびその更新
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		if (lastcheck == "" || lastcheck == null) {
 			lastcheckdate = sdf.format(cal.getTime());
-		}else {
+		} else {
 			lastcheckdate = lastcheck;
 		}
 
-		if(chainJoin == 0){
-			chainJoin = 1 ;
+		if (chainJoin == 0) {
+			chainJoin = 1;
 		}
-		if(totalJoin == 0){
-			totalJoin = 1 ;
+		if (totalJoin == 0) {
+			totalJoin = 1;
 		}
 
-	     try {
+		try {
 			Date TodayDate = sdf.parse(sdf.format(cal.getTime()));
 			Date LastDate = sdf.parse(lastcheckdate);
 			long TodayLong = TodayDate.getTime();
 			long LastLong = LastDate.getTime();
 
-			long datediff = (TodayLong - LastLong)/(1000 * 60 * 60 * 24 );
-			if(datediff > 0){
-				totalJoin ++ ;
-				if(datediff == 1 ){
-					chainJoin ++ ;
-				}else {
-					chainJoin = 1 ;
+			long datediff = (TodayLong - LastLong) / (1000 * 60 * 60 * 24);
+			if (datediff > 0) {
+				totalJoin++;
+				if (datediff == 1) {
+					chainJoin++;
+				} else {
+					chainJoin = 1;
 				}
 			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-	    lastcheckdate = sdf.format(cal.getTime());
+		lastcheckdate = sdf.format(cal.getTime());
 	}
 }

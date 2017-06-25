@@ -259,6 +259,7 @@ public abstract class RankingTableManager extends TableManager {
 		command = command.replace(",last", "");
 
 		if (command.contains("last")) {
+			debug.info(DebugEnum.SQL, "Table:" + table + " no Player");
 			return;
 		}
 
