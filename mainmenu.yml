@@ -217,18 +217,6 @@ name: '&5&lメインメニュー'
       - '&r専用ショップで購入ができます'
   mobhead: 'pc'
   openmenu: 'huntmainmenu'
-18:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: BED
-    meta:
-      ==: ItemMeta
-      meta-type: UNSPECIFIC
-      display-name: '&e&n&lホームメニュー'
-      lore:
-      - '&rホームに関することはこちら'
-      - '&r&2&n&lクリックで開く'
-  openmenu: 'homemenu'
 23:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
