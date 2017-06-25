@@ -15,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
+import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
 
 /**
@@ -42,12 +44,12 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 	private LinkedHashMap<Integer, Inventory> invMap;
 
 	// 前のページへボタン
-	private ItemStack prevButton;
-	private final int prevButtonSlot = 45;
+	protected ItemStack prevButton;
+	protected static final int prevButtonSlot = 45;
 
 	// 次のページへボタン
-	private ItemStack nextButton;
-	private final int nextButtonSlot = 53;
+	protected ItemStack nextButton;
+	protected static final int nextButtonSlot = 53;
 
 	private boolean loadflag = false;
 
@@ -57,12 +59,18 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 		Util.setDisplayName(prevButton, "前のページ");
 		nextButton = head.getMobHead("right");
 		Util.setDisplayName(nextButton, "次のページ");
-
 		invMap = new LinkedHashMap<Integer, Inventory>();
+		this.reflesh();
+	}
+
+	public void reflesh() {
+		invMap.clear();
 		invMap.put(1, this.getEmptyPageInventory(1));
 		invMap.put(2, this.getEmptyPageInventory(2));
 		invMap.put(3, this.getEmptyPageInventory(3));
 	}
+
+	protected abstract TimeType getTimeType();
 
 	public void updateRanking(LinkedHashMap<String, Double> rankMap) {
 		int rank = 1;
@@ -82,15 +90,16 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 
 	protected abstract String getLore(double value);
 
-	private Inventory getEmptyPageInventory(int page) {
+	protected Inventory getEmptyPageInventory(int page) {
 		Inventory inv;
 		InventoryType it = this.getInventoryType();
+		String date = TimeUtil.getDateTimeName(this.getTimeType(), 0);
 		if (it == null) {
 			inv = Bukkit.getServer().createInventory(null,
-					this.getInventorySize(), this.getInventoryName(null) + "-" + page + "ページ");
+					this.getInventorySize(), this.getInventoryName(null) + "(" + date + "~)" + "-" + page + "ページ");
 		} else {
 			inv = Bukkit.getServer().createInventory(null,
-					this.getInventoryType(), this.getInventoryName(null) + "-" + page + "ページ");
+					this.getInventoryType(), this.getInventoryName(null) + "(" + date + "~)" + "-" + page + "ページ");
 		}
 		if (page != 1) {
 			inv.setItem(prevButtonSlot, prevButton);

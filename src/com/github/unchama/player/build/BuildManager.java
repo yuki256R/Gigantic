@@ -1,24 +1,29 @@
 package com.github.unchama.player.build;
 
+import java.math.BigDecimal;
+
+import org.bukkit.Bukkit;
+
 import com.github.unchama.event.BuildBlockIncrementEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.BuildTableManager;
-import org.bukkit.Bukkit;
-
-import java.math.BigDecimal;
 
 /**
  * @author karayuu
  */
 
-public class BuildManager extends DataManager implements UsingSql{
+public class BuildManager extends DataManager implements UsingSql, Finalizable{
     //トータル設置ブロック数
     //private int totalbuildnum;
     private BigDecimal totalbuildnum;
     //private int build_num_1min;
     private BigDecimal build_num_1min = BigDecimal.ZERO;
+
+    //デバッグ時の調整値
+    private BigDecimal debugBuildNum = BigDecimal.ZERO;
 
     BuildTableManager tm = sql.getManager(BuildTableManager.class);
 
@@ -124,4 +129,17 @@ public class BuildManager extends DataManager implements UsingSql{
             }
         }
     }
+
+
+	public BigDecimal getDebugBuildNum() {
+		return this.debugBuildNum;
+	}
+
+	public void setDebugBuildNum(BigDecimal dif) {
+		this.debugBuildNum = dif;
+	}
+	@Override
+	public void fin() {
+		totalbuildnum = totalbuildnum.subtract(debugBuildNum);
+	}
 }

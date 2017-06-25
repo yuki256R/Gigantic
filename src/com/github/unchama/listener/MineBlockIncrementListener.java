@@ -24,20 +24,17 @@ public class MineBlockIncrementListener implements Listener {
 	Sql sql = Gigantic.sql;
 	MineBlockRankingTableManager rm;
 
-
 	public MineBlockIncrementListener() {
 		rm = sql.getManager(MineBlockRankingTableManager.class);
 	}
 
-
 	@EventHandler
-	public void addRanking(MineBlockIncrementEvent event){
+	public void addRanking(MineBlockIncrementEvent event) {
 		double n = event.getNextAll();
 		GiganticPlayer gp = event.getGiganticPlayer();
 
-		rm.update(gp,n);
+		rm.update(gp, n);
 	}
-
 
 	/**ギガンティックガチャ券を付与する
 	 *
@@ -47,13 +44,14 @@ public class MineBlockIncrementListener implements Listener {
 	public void addGiganticGachaTicket(MineBlockIncrementEvent event) {
 		int pre = (int) (event.getPreAll() / 1000);
 		int next = (int) (event.getNextAll() / 1000);
-		if(pre == next){
+		if (pre == next) {
 			return;
 		}
 		GiganticPlayer gp = event.getGiganticPlayer();
 
-		gp.getManager(PlayerGachaManager.class).add(GachaType.GIGANTIC,1);
+		gp.getManager(PlayerGachaManager.class).add(GachaType.GIGANTIC, 1);
 	}
+
 	/**フェアリーの数を更新する
 	 *
 	 * @param event
@@ -62,7 +60,7 @@ public class MineBlockIncrementListener implements Listener {
 	public void refreshFairyAegis(MineBlockIncrementEvent event) {
 		int pre = (int) (event.getPreAll() / 100000000);
 		int next = (int) (event.getNextAll() / 100000000);
-		if(pre == next){
+		if (pre == next) {
 			return;
 		}
 		GiganticPlayer gp = event.getGiganticPlayer();
@@ -88,9 +86,14 @@ public class MineBlockIncrementListener implements Listener {
 		PlayerGachaManager Pm = gp.getManager(PlayerGachaManager.class);
 		SeichiLevelManager Lm = gp.getManager(SeichiLevelManager.class);
 		SideBarManager Sm = gp.getManager(SideBarManager.class);
+
 		Sm.updateInfo(Information.GACHA_TICKET, Pm.getTicket(GachaType.GIGANTIC) + "枚");
-		Sm.updateInfo(Information.MINE_TICKET, Pm.getRemainingBlock(GachaType.GIGANTIC));
-		Sm.updateInfo(Information.MINE_BLOCK, Lm.getRemainingBlock());
+		if (Lm.getLevel() > 100) {
+			Sm.updateInfo(Information.MINE_TICKET, "%DELETE%");
+		} else {
+			Sm.updateInfo(Information.MINE_TICKET, (long) Pm.getRemainingBlock(GachaType.GIGANTIC));
+		}
+		Sm.updateInfo(Information.MINE_BLOCK, (long) Lm.getRemainingBlock());
 		Sm.refresh();
 	}
 }

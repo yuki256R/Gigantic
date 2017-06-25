@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
-import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
 
 /**
@@ -23,9 +22,14 @@ public final class MonthLoginTimeRankingMenuManager extends RankingMenuManager {
 		return "総接続時間:" + Util.Decimal(value);
 	}
 
+
 	@Override
 	public String getInventoryName(Player player) {
-		String date = TimeUtil.getDateTimeName(TimeType.MONTH, 0);
-		return ChatColor.BLUE + "月間接続時間ﾗﾝｷﾝｸﾞ(" + date + "~)";
+		return ChatColor.BLUE + "月間接続時間ﾗﾝｷﾝｸﾞ";
+	}
+
+	@Override
+	protected TimeType getTimeType() {
+		return TimeType.MONTH;
 	}
 }

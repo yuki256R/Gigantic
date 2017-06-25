@@ -17,7 +17,11 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.util.ExperienceManager;
 
-//ToolRepair.RepairTool(player, ToolRepair.RepairType.Mending);
+/**
+*
+* @author ten_niti
+*
+*/
 public class ToolRepair {
 	public enum RepairType {
 		Free, // 制限なし、消費なし
@@ -140,6 +144,7 @@ public class ToolRepair {
 		item.setDurability((short) (item.getDurability() - curePoint));
 	}
 
+	// 直接付与の経験値をバニラの修繕エンチャントを模倣した動作で消費する
 	static public int VanillaMending(Player player, int addExp) {
 		PlayerInventory playerInventory = player.getInventory();
 		List<ItemStack> mendingSlots = new ArrayList<ItemStack>();

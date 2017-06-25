@@ -253,7 +253,23 @@ public abstract class GachaManager {
 	}
 
 	public static GachaType getGachaType(NBTItem nbti) {
-		return GachaType.valueOf(nbti.getString(GACHATYPENBT));
+		GachaType ret = null;
+		try {
+			ret = GachaType.valueOf(nbti.getString(GACHATYPENBT));
+		} catch(IllegalArgumentException e) {
+			return null;
+		}
+		return ret;
+	}
+
+	public static int getGachaID(NBTItem nbti) {
+		int ret = 0;
+		try {
+			ret = nbti.getInteger(GACHAITEMIDNBT);
+		} catch(IllegalArgumentException e) {
+			return 0;
+		}
+		return ret;
 	}
 
 	/**このガチャの説明文を取得します

@@ -16,6 +16,7 @@ import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryMa
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
 import com.github.unchama.util.ParticleUtil;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.yml.ConfigManager;
 
 /**
@@ -60,6 +61,13 @@ public class SeichiLevelListener implements Listener {
 		if (m != null && m != "") {
 			p.sendMessage(m);
 		}
+	}
+
+	// 整地スキルの自動振り分けを行う
+	@EventHandler
+	public void AutoAllocation(SeichiLevelUpEvent event) {
+		GiganticPlayer gp = event.getGiganticPlayer();
+		SeichiSkillAutoAllocation.AutoAllocation(gp);
 	}
 
 	/**

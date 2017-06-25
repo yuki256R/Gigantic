@@ -23,6 +23,11 @@ import com.github.unchama.yml.moduler.YmlManager;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class CustomHeadManager extends YmlManager {
 
 	private static String FOLDERNAME = "mobhead";
