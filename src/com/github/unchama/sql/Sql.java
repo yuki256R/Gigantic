@@ -16,6 +16,7 @@ import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -43,6 +44,7 @@ import com.github.unchama.sql.player.DimensionalInventoryTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
+import com.github.unchama.sql.player.HomeTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.sql.player.ManaTableManager;
@@ -96,7 +98,9 @@ public class Sql {
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		HOME(HomeTableManager.class, HomeManager.class),//
 		//PLAYEREFFECT(SkillEffectTableManager.class),//
+
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
