@@ -1,8 +1,9 @@
 package com.github.unchama.command;
 
-import com.github.unchama.enchantment.EnchantmentEnum;
-import io.netty.util.internal.StringUtil;
-import org.apache.commons.lang3.ArrayUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -13,10 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.StringJoiner;
+import com.github.unchama.enchantment.EnchantmentEnum;
 
 /**
  * Created by Mon_chi on 2017/06/04.

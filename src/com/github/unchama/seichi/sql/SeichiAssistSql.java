@@ -17,6 +17,7 @@ import com.github.unchama.yml.ConfigManager;
 public class SeichiAssistSql{
 	static enum SeichiTableManagerType{
 		PLAYERDATA(PlayerDataTableManager.class),
+		DONATEDATA(SeichiDonateTableManager.class),
 		//DONATEDATA,
 		//MSGACHADATA,
 		//GACHADATA,

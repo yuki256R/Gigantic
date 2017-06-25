@@ -34,8 +34,8 @@ public final class TimeUtil {
 			break;
 		case WEEK:
 			cal.add(Calendar.DATE, i*7);
-			int weeknum = cal.get(Calendar.WEEK_OF_MONTH);
-			cal.set(Calendar.DATE, (weeknum-1) * 7);
+			int weeknum = cal.get(Calendar.DAY_OF_WEEK);
+			cal.add(Calendar.DATE, weeknum - Calendar.SUNDAY);
 			break;
 		case MONTH:
 			cal.add(Calendar.MONTH, i);
@@ -58,8 +58,8 @@ public final class TimeUtil {
 			break;
 		case WEEK:
 			cal.add(Calendar.DATE, i*7);
-			int weeknum = cal.get(Calendar.WEEK_OF_MONTH);
-			cal.set(Calendar.DATE, (weeknum-1) * 7);
+			int weeknum = cal.get(Calendar.DAY_OF_WEEK);
+			cal.add(Calendar.DATE, weeknum - Calendar.SUNDAY);
 			break;
 		case MONTH:
 			cal.add(Calendar.MONTH, i);

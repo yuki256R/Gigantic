@@ -22,7 +22,12 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 	protected String addColumnCommand() {
 		String command = "";
 		command += "add column if not exists playtick int default 0,"
-				+ "add column if not exists totalidletick int default 0,";
+				+ "add column if not exists totalidletick int default 0,"
+				+ "add column if not exists totaljoin int default 0,"
+				+ "add column if not exists chainjoin int default 0,"
+				+ "add column if not exists lastquit datetime default null,"
+				+ "add column if not exists lastcheckdate varchar(12) default null,"
+				;
 		return command;
 	}
 
@@ -32,6 +37,10 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		m.setPlaytick(rs.getInt("playtick"));
 		m.setTotalIdletick(rs.getInt("totalidletick"));
 		m.reloadSevertick();
+		m.setTotalJoin(rs.getInt("totaljoin"));
+		m.setChainJoin(rs.getInt("chainjoin"));
+		m.lastQuitNum(rs.getString("lastquit"));
+		m.checkJoinNum(rs.getString("lastcheckdate"));
 	}
 
 	@Override
@@ -39,7 +48,12 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		PlayerTimeManager m = gp.getManager(PlayerTimeManager.class);
 		String command = "";
 		command += "playtick = '" + m.getPlaytick() + "',"
-				+ "totalidletick = '" + m.getTotalIdletick() + "',";
+				+ "totalidletick = '" + m.getTotalIdletick() + "',"
+				+ "totaljoin = '" + m.getTotalJoin() + "',"
+				+ "chainjoin = '" + m.getChainJoin() + "',"
+				+ "lastquit =  cast( now() as datetime )" + ","
+				+ "lastcheckdate = '" + m.getLastCheckDate() + "',"
+				;
 		return command;
 	}
 
@@ -47,6 +61,10 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		PlayerTimeManager m = gp.getManager(PlayerTimeManager.class);
 		m.setPlaytick(tm.getPlayTick(gp));
+		m.setTotalJoin(tm.getTotalJoin(gp));
+		m.setChainJoin(tm.getChainJoin(gp));
+		m.lastQuitNum(tm.getLastQuit(gp));
+		m.checkJoinNum(tm.getLastCheckDate(gp));
 	}
 
 	@Override
@@ -56,5 +74,33 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		m.setLocation(null);
 		m.setIdletime(0);
 		m.setTotalIdletick(0);
+		m.setTotalJoin(0);
+		m.setChainJoin(0);
+		m.lastQuitNum(null);
+		m.checkJoinNum(null);
+	}
+
+	// 指定nameのプレイヤーのlastquitをセレクト
+	public String Lastquit(String name) {
+		this.checkStatement();
+		String lastquit = "";
+		String command = "select lastquit from " + db + "." + table
+				+ " where name = '" + name + "'";
+		// 保存されているデータをロード
+		try {
+			rs = stmt.executeQuery(command);
+			while(rs.next()) {
+				   lastquit = rs.getString("lastquit");
+				}
+			rs.close();
+			return lastquit;
+		}
+		catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to multiload in " + table + " Table");
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }

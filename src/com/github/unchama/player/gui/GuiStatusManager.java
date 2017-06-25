@@ -3,6 +3,8 @@ package com.github.unchama.player.gui;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
@@ -11,7 +13,8 @@ import com.github.unchama.player.moduler.DataManager;
 public class GuiStatusManager extends DataManager{
 
 	private Map<GuiMenuManager, Integer> currentPage = new HashMap<GuiMenuManager, Integer>();
-	private Map<String, String> SelectedCategory = new HashMap<String, String>();;
+	private Map<String, String> SelectedCategory = new HashMap<String, String>();
+	private Map<GuiMenuManager, Object> currentObject = new HashMap<GuiMenuManager, Object>();
 
 	public GuiStatusManager(GiganticPlayer gp) {
 		super(gp);
@@ -39,5 +42,17 @@ public class GuiStatusManager extends DataManager{
 		}
 
 		return SelectedCategory.get(menu);
+	}
+
+	@Nullable
+	public Object getCurrentObject(GuiMenuManager menu) {
+		if(!currentObject.containsKey(menu)){
+			return null;
+		}
+		return currentObject.get(menu);
+	}
+
+	public void setCurrentObject(GuiMenuManager menu,Object obj){
+		currentObject.put(menu, obj);
 	}
 }

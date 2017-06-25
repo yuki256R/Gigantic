@@ -1,19 +1,17 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mana.ManaManager;
-import com.github.unchama.util.ManaPotion;
-import com.github.unchama.util.ManaPotion.ManaEffect;
-import de.tr7zw.itemnbtapi.NBTItem;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.util.ManaPotion;
+import com.github.unchama.util.ManaPotion.ManaEffect;
 
 /**
  * @author karayuu
@@ -27,12 +25,13 @@ public class GachaAppleListener implements Listener{
 
         ManaManager manaManager = gp.getManager(ManaManager.class);
 
-        if (gp == null) {
-            p.sendMessage(ChatColor.RED + "PlayerItemConsumeEvent内でPlayerDataがnull。管理者に報告してください。");
-            Bukkit.getLogger().warning(p.getName() + " -> PlayerData not found.");
-            Bukkit.getLogger().warning("GachaItemListener.onPlayerItemConsumeEvent");
-            return;
-        }
+     // デッドコードのためコメントアウト
+//        if (gp == null) {
+//            p.sendMessage(ChatColor.RED + "PlayerItemConsumeEvent内でPlayerDataがnull。管理者に報告してください。");
+//            Bukkit.getLogger().warning(p.getName() + " -> PlayerData not found.");
+//            Bukkit.getLogger().warning("GachaItemListener.onPlayerItemConsumeEvent");
+//            return;
+//        }
 
         ItemStack itemStack = e.getItem();
 

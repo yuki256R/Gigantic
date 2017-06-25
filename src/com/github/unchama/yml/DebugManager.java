@@ -29,6 +29,7 @@ public final class DebugManager extends YmlManager {
 		BUILD(true,ChatColor.GREEN),
 		MANA(true,ChatColor.DARK_BLUE),
 		HUNT(true,ChatColor.DARK_PURPLE),
+		GROWTHTOOL(true, ChatColor.LIGHT_PURPLE),
 		;
 		// ファイル生成時の初期値
 		private Boolean flag;

@@ -132,13 +132,7 @@ public class R_RangeMenuManager extends RangeMenuManager {
 			}
 			return true;
 		} else if (identifier.equals("reset")) {
-			v.setDepth(dv.getDepth());
-			v.setWidth(dv.getWidth());
-			v.setHeight(dv.getHeight());
-			zero.setY(dv.getHeight() - 1);
-			zero.setX((dv.getWidth() - 1) / 2);
-			zero.setZ((dv.getDepth() - 1) / 2);
-			m.getRange().refresh();
+			m.rangeReset();
 			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL,
 					(float) 0.7, (float) 4);
 			player.openInventory(this.getInventory(player, 0));

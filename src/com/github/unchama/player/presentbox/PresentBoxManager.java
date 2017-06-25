@@ -14,6 +14,11 @@ import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.util.InventoryUtil;
 import com.github.unchama.util.Util;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PresentBoxManager extends DataManager implements UsingSql {
 
 	// ボックスの中身
@@ -67,7 +72,7 @@ public class PresentBoxManager extends DataManager implements UsingSql {
 		if(inventory == null){
 			Bukkit.getServer().getLogger().info("inventory == null");
 		}
-		return InventoryUtil.addNewItemStack(inventory, item);
+		return InventoryUtil.addItemStack(inventory, item, true);
 	}
 
 	// インベントリからアイテムを取り出す
@@ -92,7 +97,6 @@ public class PresentBoxManager extends DataManager implements UsingSql {
 	}
 
 	public void createInventory() {
-		Bukkit.getServer().getLogger().info("inventory init");
 		inventory = Bukkit.getServer().createInventory(
 				PlayerManager.getPlayer(gp), 54, "プレゼントボックス");
 	}

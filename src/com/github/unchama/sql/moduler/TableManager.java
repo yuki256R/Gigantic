@@ -50,7 +50,7 @@ public abstract class TableManager {
 	 * @throws SQLException
 	 */
 	public Statement createStatement() throws SQLException {
-		return con.createStatement();
+		return con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public abstract class TableManager {
 								"("
 										+ table
 										+ ")Statement is Closed. Creating Statement...");
-				_stmt = con.createStatement();
+				_stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 			}
 		} catch (SQLException e) {
 			plugin.getLogger()
@@ -83,7 +83,6 @@ public abstract class TableManager {
 	 * このテーブルに接続するステートメントをチェックし，切断されていれば新しく生成します．
 	 * Manager内でこのメソッドを実行する場合引数，返り値共に不要です．
 	 *
-	 * @param _stmt
 	 * @return Statement
 	 */
 	protected void checkStatement() {

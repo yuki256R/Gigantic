@@ -2,6 +2,7 @@ package com.github.unchama.player.seichiskill.active;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
@@ -11,28 +12,27 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.scheduler.BukkitTask;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.player.CondensationTableManager;
-import com.github.unchama.task.CondensationTaskRunnable;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.breakblock.BreakUtil;
 
 /**
  * @author tar0ss
  *
  */
-public class CondensationManager extends ActiveSkillManager implements Finalizable {
+public class CondensationManager extends ActiveSkillManager {
 
 	CondensationTableManager tm;
-	BukkitTask task;
 
 	public CondensationManager(GiganticPlayer gp) {
 		super(gp);
@@ -54,21 +54,9 @@ public class CondensationManager extends ActiveSkillManager implements Finalizab
 	@Override
 	public void toggle() {
 		this.setToggle(!toggle);
-		if (task != null) {
-			task.cancel();
-		}
-		if (toggle) {
-			task = new CondensationTaskRunnable(gp).runTaskTimerAsynchronously(
-					plugin, 1, 10);
-		}
+		gp.getManager(RuinFieldManager.class).runTask();
 	}
 
-	@Override
-	public void fin() {
-		if (task != null) {
-			task.cancel();
-		}
-	}
 
 	@Override
 	public boolean run(Player player, ItemStack tool, Block block) {
@@ -150,33 +138,16 @@ public class CondensationManager extends ActiveSkillManager implements Finalizab
 			if (isLiquid(m)) {
 				mb.increase(m);
 			}
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
 			});
-
-		// condensの処理
-		liquidlist.forEach(b -> {
-			switch (b.getType()) {
-			case STATIONARY_WATER:
-			case WATER:
-				b.setType(Material.PACKED_ICE);
-				break;
-			case LAVA:
-			case STATIONARY_LAVA:
-				b.setType(Material.MAGMA);
-				break;
-			default:
-				break;
-			}
-		});
 
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logPlacement(player, liquidlist.get(0));
 
-		// condens後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
+
+		effm.createRunner(st).condensationEffect(gp,block,liquidlist, range);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
@@ -262,6 +233,59 @@ public class CondensationManager extends ActiveSkillManager implements Finalizab
 	@Override
 	public int getMaxDepth() {
 		return 40;
+	}
+
+	@Override
+	public void rangeReset() {
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zeroPointReset();
+	}
+
+	@Override
+	public void zeroPointReset() {
+		Coordinate zero = getRange().getZeropoint();
+		Volume v = getRange().getVolume();
+		zero.setY(v.getHeight() - 1);
+		zero.setX((v.getWidth() - 1) / 2);
+		zero.setZ((v.getDepth() - 1) / 2);
+		getRange().refresh();
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		long allocationAP = 0;
+		ActiveSkillManager nextSkill = (ActiveSkillManager) gp
+				.getManager(ActiveSkillType.RUINFIELD.getSkillClass());
+		if (isFirst || !nextSkill.isunlocked()) {
+			int level = seichiLevelManager.getLevel();
+			// 解放条件を満たしているか
+			if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+				return leftPoint;
+			}
+			leftPoint -= getUnlockAP();
+
+			// このスキルで使用可能なスキルポイント
+			allocationAP = SeichiSkillAutoAllocation.getAllocationAP(level,
+					leftPoint, nextSkill);
+		} else {
+			allocationAP = leftPoint;
+		}
+
+		List<Volume> incVolumes = new LinkedList<Volume>();
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+		incVolumes.add(new Volume(1, 0, 0));
+
+		leftPoint -= SeichiSkillAutoAllocation.VolumeAllocation(this,
+				incVolumes, allocationAP);
+
+		return leftPoint;
 	}
 
 	@Override

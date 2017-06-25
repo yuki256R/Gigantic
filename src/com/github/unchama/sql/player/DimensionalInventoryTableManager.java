@@ -14,6 +14,11 @@ import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.util.BukkitSerialization;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class DimensionalInventoryTableManager extends PlayerFromSeichiTableManager{
 
 	public DimensionalInventoryTableManager(Sql sql) {
