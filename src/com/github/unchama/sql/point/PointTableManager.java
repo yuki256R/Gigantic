@@ -1,6 +1,7 @@
-package com.github.unchama.sql.vote;
+package com.github.unchama.sql.point;
 
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.point.PointManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
@@ -9,12 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Created by Mon_chi on 2017/06/18.
+ * Created by Mon_chi on 2017/06/22.
  */
-public class UnchamaPointTableManager extends PlayerFromSeichiTableManager {
+public class PointTableManager extends PlayerFromSeichiTableManager {
 
-    public UnchamaPointTableManager(Sql sql) {
+    private Class<? extends PointManager> clazz;
+
+    public PointTableManager(Sql sql, Class<? extends PointManager> clazz) {
         super(sql);
+        this.clazz = clazz;
     }
 
     @Override
@@ -27,7 +31,8 @@ public class UnchamaPointTableManager extends PlayerFromSeichiTableManager {
 
     @Override
     public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
-
+        PointManager manager =  gp.getManager(clazz);
+        manager.init(rs.getInt("point"));
     }
 
     @Override
@@ -46,16 +51,37 @@ public class UnchamaPointTableManager extends PlayerFromSeichiTableManager {
             stmt.executeUpdate(command);
         } catch (SQLException e) {
             plugin.getLogger().warning(
-                    "Failed to takeover " + table + " UnchamaPoint of :" + gp.name);
+                    "Failed to takeover " + table + " Point of :" + gp.name);
             e.printStackTrace();
         }
     }
 
     @Override
     protected void firstjoinPlayer(GiganticPlayer gp) {
+        PointManager manager =  gp.getManager(clazz);
+        manager.init(0);
     }
 
-    public void addPoint(String uuid, int addPoint) {
+    @Override
+    public Boolean save(GiganticPlayer gp, boolean loginflag) {
+        PointManager manager = gp.getManager(clazz);
+        String command = "select * from " + db + "." + table + " where uuid = '" + gp.uuid + "'";
+        try {
+            ResultSet rs = stmt.executeQuery(command);
+            rs.next();
+            int difference = rs.getInt("point") - manager.getDefaultPoint();
+            int currentPoint = manager.getPoint() + difference;
+            rs.updateInt("point", manager.getPoint() + difference);
+            rs.updateRow();
+            if (loginflag)
+                manager.init(currentPoint);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public void addPointToSQL(String uuid, int addPoint) {
         this.checkStatement();
         String command = "select * from " + db + "." + table + " where uuid = '" + uuid + "'";
         int currentPoint;
@@ -71,22 +97,5 @@ public class UnchamaPointTableManager extends PlayerFromSeichiTableManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getPoint(String uuid) {
-        this.checkStatement();
-        String command = "select point from " + db + "." + table + " where uuid = '" + uuid + "'";
-        int point = 0;
-        try {
-            ResultSet rs = stmt.executeQuery(command);
-            if (rs.isLast()) {
-                return 0;
-            }
-            rs.next();
-            point = rs.getInt("point");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return point;
     }
 }
