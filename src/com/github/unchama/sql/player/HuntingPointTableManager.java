@@ -13,6 +13,11 @@ import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 import com.github.unchama.yml.HuntingPointDataManager;
 import com.github.unchama.yml.HuntingPointDataManager.HuntMobData;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	HuntingPointDataManager huntingPointData = Gigantic.yml
 			.getManager(HuntingPointDataManager.class);

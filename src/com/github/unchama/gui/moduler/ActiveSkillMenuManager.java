@@ -16,7 +16,7 @@ public abstract class ActiveSkillMenuManager extends GuiMenuManager{
 		RANGE(1),
 		ORIGIN(2),
 		EXTENSION(3),
-		HELP(4),
+		EFFECT(4),
 		;
 		private int slot;
 

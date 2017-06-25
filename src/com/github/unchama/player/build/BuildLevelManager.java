@@ -96,4 +96,22 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	public int getBuildLevel(){
 		return this.buildlevel;
 	}
+
+	/**プレイヤーのレベルを一時的に設定します．
+	 * このレベルはプレイヤーがログアウトすると戻ります．
+	 *
+	 * @param level
+	 */
+	public void setLevel(int level) {
+		BuildManager m = gp.getManager(BuildManager.class);
+		BigDecimal debugNum = m.getDebugBuildNum();
+
+		double after = buildlevelmap.get(level).getNeed_buildnum();
+		double before = m.getTotalbuildnum().subtract(debugNum).doubleValue();
+		//所望レベルまでの必要整地量を計算
+		double dif = after - before;
+		m.setTotalbuildnum(new BigDecimal(after));
+		m.setDebugBuildNum(new BigDecimal(dif));
+		this.buildlevel = level;
+	}
 }

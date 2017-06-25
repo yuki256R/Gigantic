@@ -17,13 +17,17 @@ import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.ActiveSkillMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.active.FairyAegisManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 
 /**
  * @author tar0ss
  *
  */
 public class FairyAegisMenuManager extends ActiveSkillMenuManager {
+
+	private static ActiveSkillType st = ActiveSkillType.FAIRYAEGIS;
 
 	@Override
 	public String getInventoryName(Player player) {
@@ -34,6 +38,7 @@ public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 	@Override
 	protected ItemMeta getItemMeta(Player player, int slot, ItemStack itemstack) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+		SkillEffectManager Em = gp.getManager(SkillEffectManager.class);
 		FairyAegisManager m = gp.getManager(FairyAegisManager.class);
 		MenuType mt = MenuType.getMenuTypebySlot(slot);
 		if (mt == null)
@@ -92,6 +97,12 @@ public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "未実装");
 			itemmeta.setLore(lore);
 			break;
+		case EFFECT:
+			itemmeta.setDisplayName(ChatColor.DARK_PURPLE + "エフェクト選択");
+			lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY + "現在のエフェクト :" + Em.getName(st));
+			itemmeta.setLore(lore);
+			break;
 		default:
 			break;
 		}
@@ -117,6 +128,9 @@ public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 		case EXTENSION:
 			itemstack = new ItemStack(Material.ENCHANTMENT_TABLE);
 			break;
+		case EFFECT:
+			itemstack = head.getMobHead("f_cube");
+			break;
 		default:
 			break;
 		}
@@ -126,6 +140,7 @@ public class FairyAegisMenuManager extends ActiveSkillMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		openmap.put(MenuType.RANGE.getSlot(), ManagerType.F_RANGEMENU);
+		openmap.put(MenuType.EFFECT.getSlot(), ManagerType.F_EFFECTSELECTMENU);
 
 	}
 

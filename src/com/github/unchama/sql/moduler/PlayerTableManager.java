@@ -82,7 +82,9 @@ public abstract class PlayerTableManager extends TableManager implements
 	 * @param loaded ロードされた時true
 	 */
 	public void setLoaded(GiganticPlayer gp,boolean loaded) {
-		gp.getManager(this.getDataManagerClass()).setLoaded(loaded);
+		if (this.getDataManagerClass() != null) {
+			gp.getManager(this.getDataManagerClass()).setLoaded(loaded);
+		}
 	}
 
 
@@ -92,7 +94,7 @@ public abstract class PlayerTableManager extends TableManager implements
 		// create Table
 		command = "CREATE TABLE IF NOT EXISTS " + db + "." + table;
 		// Unique Column add
-		command += "(uuid varchar(128) unique)";
+		command += "(uuid varchar(128) primary key not null)";
 		// send
 		if (!sendCommand(command)) {
 			plugin.getLogger().warning("Failed to Create " + table + " Table");
@@ -165,10 +167,6 @@ public abstract class PlayerTableManager extends TableManager implements
 		for (GiganticPlayer gp : tmpmap.values()) {
 			command += "('" + gp.name + "','"
 					+ gp.uuid.toString().toLowerCase() + "'),";
-			// 新しいデータを生成
-			debug.info(DebugEnum.SQL, "Table:" + table + " " + gp.name + "のデータを新規作成");
-			this.newPlayer(gp);
-			this.setLoaded(gp,true);
 		}
 		command = command.substring(0, command.length() - 1);
 
@@ -179,6 +177,13 @@ public abstract class PlayerTableManager extends TableManager implements
 		if (!sendCommand(command)) {
 			plugin.getLogger().warning(
 					"Failed to multi create new row in " + table + " Table");
+		}
+
+		for (GiganticPlayer gp : tmpmap.values()) {
+			// 新しいデータを生成
+			debug.info(DebugEnum.SQL, "Table:" + table + " " + gp.name + "のデータを新規作成");
+			this.newPlayer(gp);
+			this.setLoaded(gp,true);
 		}
 		return true;
 	}

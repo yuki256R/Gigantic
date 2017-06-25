@@ -102,6 +102,7 @@ public class SecureBreakManager extends PassiveSkillManager implements
 			if (ActiveSkillManager.isLiquid(m)) {
 				// worldguardを確認Skilledflagを確認
 				if (Wg.canBuild(player, rb.getLocation())
+						&& canBelowBreak(player, block, rb)
 						&& !rb.hasMetadata("Skilled")
 						&& !exLocation.contains(rb.getLocation())) {
 					liquidlist.add(rb);
@@ -189,6 +190,18 @@ public class SecureBreakManager extends PassiveSkillManager implements
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
+	}
+
+	protected boolean canBelowBreak(Player player, Block block, Block rb) {
+		int playerlocy = player.getLocation().getBlockY() - 1;
+		int rblocy = rb.getY();
+
+		// 自分の高さ以上のブロックのみ破壊する
+		if (playerlocy < rblocy || player.isSneaking()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public double getMana(int breaknum) {
