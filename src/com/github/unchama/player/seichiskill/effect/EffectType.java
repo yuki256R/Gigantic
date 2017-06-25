@@ -1,30 +1,36 @@
 package com.github.unchama.player.seichiskill.effect;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.seichiskill.EffectCategory;
-import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
+import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.CustomHeadManager;
 
 /**
  * @author tar0ss
  *
  */
 public enum EffectType {
-	NORMAL(0,NormalEffectRunner.class,ChatColor.GREEN + "通常","エフェクトなし",0,Material.GRASS),
-	DYNAMITE(1,NormalEffectRunner.class, ChatColor.RED + "ダイナマイト", "単純な爆発", 50, Material.TNT),
-	BLIZZARD(2,NormalEffectRunner.class, ChatColor.AQUA + "ブリザード", "凍らせる", 70, Material.PACKED_ICE),
-	METEO(3,NormalEffectRunner.class, ChatColor.DARK_RED + "メテオ", "隕石を落とす", 100, Material.FIREBALL), ;
+	NORMAL(0, NormalEffectRunner.class, ChatColor.GREEN + "通常", "エフェクトなし", 0, Material.GRASS),
+	DYNAMITE(1, DynamiteEffectRunner.class, ChatColor.RED + "ダイナマイト", "単純な爆発", 50, Material.TNT),
+	BLIZZARD(2, BlizzardEffectRunner.class, ChatColor.AQUA + "ブリザード", "凍らせる", 70, Material.PACKED_ICE),
+	METEO(3, MeteoEffectRunner.class, ChatColor.DARK_RED + "メテオ", "隕石を落とす", 100, Material.FIREBALL), ;
 
 	private static final EffectType[] etList = EffectType.values();
-	private static final HashMap<Integer,EffectType> idMap = new HashMap<Integer,EffectType>(){
+	private static final HashMap<Integer, EffectType> idMap = new HashMap<Integer, EffectType>() {
 		{
-			for(EffectType et : etList){
-				put(et.getId(),et);
+			for (EffectType et : etList) {
+				put(et.getId(), et);
 			}
 		}
 	};
@@ -42,15 +48,14 @@ public enum EffectType {
 	//メニューで使用するマテリアル
 	private final Material menuMaterial;
 
-
-
 	/**
 	 * @param name
 	 * @param lore
 	 * @param useVotePoint
 	 * @param menuMaterial
 	 */
-	private EffectType(int id,Class<? extends EffectRunner> e_Class, String name, String lore, int useVotePoint, Material menuMaterial) {
+	private EffectType(int id, Class<? extends EffectRunner> e_Class, String name, String lore, int useVotePoint,
+			Material menuMaterial) {
 		this.id = EffectCategory.NORMAL.getEffectID(id);
 		this.e_Class = e_Class;
 		this.name = name;
@@ -59,7 +64,7 @@ public enum EffectType {
 		this.menuMaterial = menuMaterial;
 	}
 
-	public Class<? extends EffectRunner> getRunnerClass(){
+	public Class<? extends EffectRunner> getRunnerClass() {
 		return e_Class;
 	}
 
@@ -106,11 +111,37 @@ public enum EffectType {
 		return idMap.get(effect_id).getName();
 	}
 
-	public static ItemStack getSellectButton(int effect_id) {
+	public static ItemStack getSellectButton(int effect_id,boolean unlock_flag) {
 		EffectType et = idMap.get(effect_id);
-		ItemStack is = new ItemStack(et.getMenuMaterial());
+		ItemStack is;
+		if(unlock_flag){
+			is = new ItemStack(et.getMenuMaterial());
+		}else{
+			is = Gigantic.yml.getManager(CustomHeadManager.class).getMobHead("n_question");
+		}
+
 		Util.setDisplayName(is, et.getName());
-		Util.setLore(is, et.getLore());
+
+		List<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.GRAY + et.getLore());
+		lore.add(ChatColor.DARK_GREEN + "このエフェクトは投票によって");
+		lore.add(ChatColor.DARK_GREEN + "得られたポイント(UnchamaPoint)で");
+		lore.add(ChatColor.DARK_GREEN + "購入することができます．");
+		lore.add(ChatColor.GREEN + "必要UP:" + et.getUseVotePoint());
+		try {
+			lore.add(ChatColor.GRAY + "----------------");
+			lore.add(ChatColor.GRAY + "発動可能スキル");
+			EffectRunner runner = et.getRunnerClass().newInstance();
+			for (ActiveSkillType st : ActiveSkillType.values()) {
+				boolean flag = runner.isImproved(st);
+				lore.add(st.getSkillName(flag));
+			}
+		} catch (InstantiationException | IllegalAccessException e) {
+			Bukkit.getServer().getLogger().warning("予期せぬ例外が発生:EffectType.getSellectButton()");
+			e.printStackTrace();
+		}
+
+		Util.setLore(is, lore);
 		return is;
 	}
 

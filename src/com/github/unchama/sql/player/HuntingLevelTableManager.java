@@ -8,6 +8,11 @@ import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingLevelTableManager extends PlayerTableManager {
 
 	public HuntingLevelTableManager(Sql sql) {

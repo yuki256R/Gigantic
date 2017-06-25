@@ -5,14 +5,14 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.seichiskill.effect.EffectType;
-import com.github.unchama.player.seichiskill.moduler.EffectRunner;
-import com.github.unchama.player.seichiskill.premiumeffect.PremiumEffectType;
+import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
+import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.CustomHeadManager;
 
 public enum EffectCategory {
 	NORMAL(0, ChatColor.BLUE + "ノーマル", "f_cube"),
-	PREMIUM(1, ChatColor.AQUA + "プレミアム", "f_cube2");
+	GIGANTIC(1, ChatColor.AQUA + "ギガンティック", "f_cube2");
 
 	private static final int interval = 1000;
 
@@ -42,14 +42,13 @@ public enum EffectCategory {
 		return name;
 	}
 
-
 	/**セレクトメニューで使用するItemStackを取得します
 	 *
 	 * @return
 	 */
 	public ItemStack getMenuItem() {
 		ItemStack ans = Gigantic.yml.getManager(CustomHeadManager.class).getMobHead(menuHead);
-		Util.setDisplayName(ans,getName() + "エフェクト");
+		Util.setDisplayName(ans, getName() + "エフェクト");
 		return ans;
 	}
 
@@ -62,17 +61,31 @@ public enum EffectCategory {
 		return effect_id % getInterval();
 	}
 
-	public ItemStack getSellectButton(int effect_id) {
-		switch(this){
+	public ItemStack getSellectButton(int effect_id,boolean unlock_flag) {
+		switch (this) {
 		case NORMAL:
-			return EffectType.getSellectButton(effect_id);
-		case PREMIUM:
-			return PremiumEffectType.getSellectButton(effect_id);
+			return EffectType.getSellectButton(effect_id,unlock_flag);
+		case GIGANTIC:
+			return GiganticEffectType.getSellectButton(effect_id,unlock_flag);
 		default:
-			return EffectType.getSellectButton(effect_id);
+			return EffectType.getSellectButton(effect_id,unlock_flag);
 		}
 	}
 
+	/**エフェクトの数を取得
+	 *
+	 * @return
+	 */
+	public int getEffectNum() {
+		switch (this) {
+		case NORMAL:
+			return EffectType.values().length;
+		case GIGANTIC:
+			return GiganticEffectType.values().length;
+		default:
+			return EffectType.values().length;
+		}
+	}
 
 	public static EffectCategory getCategory(int effect_id) {
 		int tmp_id = (int) effect_id / getInterval();
@@ -101,8 +114,8 @@ public enum EffectCategory {
 		case NORMAL:
 			eClass = EffectType.getRunnerClass(effect_id);
 			break;
-		case PREMIUM:
-			eClass = PremiumEffectType.getRunnerClass(effect_id);
+		case GIGANTIC:
+			eClass = GiganticEffectType.getRunnerClass(effect_id);
 			break;
 		default:
 			eClass = null;
@@ -118,8 +131,8 @@ public enum EffectCategory {
 		case NORMAL:
 			name = EffectType.getNamebyID(effect_id);
 			break;
-		case PREMIUM:
-			name = PremiumEffectType.getNamebyID(effect_id);
+		case GIGANTIC:
+			name = GiganticEffectType.getNamebyID(effect_id);
 			break;
 		default:
 			name = EffectType.getNamebyID(effect_id);
@@ -129,14 +142,21 @@ public enum EffectCategory {
 	}
 
 	public static EffectCategory getCategorybyID(int i) {
-		for(EffectCategory ec : eclist){
-			if(ec.getId() == i){
+		for (EffectCategory ec : eclist) {
+			if (ec.getId() == i) {
 				return ec;
 			}
 		}
 		return EffectCategory.NORMAL;
 	}
 
-
+	/**そのエフェクトIDが格納されているページ数を取得します．
+	 *
+	 * @param effect_id
+	 * @return
+	 */
+	public int getPage(int effect_id) {
+		return (int)((effect_id % getInterval()) /45) + 1 ;
+	}
 
 }

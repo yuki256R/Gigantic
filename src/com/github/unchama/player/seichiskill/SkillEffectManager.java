@@ -6,7 +6,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
-import com.github.unchama.player.seichiskill.moduler.EffectRunner;
+import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 
 public final class SkillEffectManager extends DataManager implements UsingSql {
@@ -91,6 +91,14 @@ public final class SkillEffectManager extends DataManager implements UsingSql {
 	 */
 	public String getName(ActiveSkillType st) {
 		return EffectCategory.getName(eMap.get(st));
+	}
+
+	/**指定されたエフェクトを解除する
+	 *
+	 * @param effect_id
+	 */
+	public void unlock(int effect_id) {
+		fmap.put(effect_id, true);
 	}
 
 }

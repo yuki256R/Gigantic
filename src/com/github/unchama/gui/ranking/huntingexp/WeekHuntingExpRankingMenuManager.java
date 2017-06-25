@@ -20,7 +20,7 @@ public class WeekHuntingExpRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	public String getInventoryName(Player player) {
-		return ChatColor.BLUE + "日間狩猟経験値ﾗﾝｷﾝｸﾞ";
+		return ChatColor.BLUE + "週間狩猟経験値ﾗﾝｷﾝｸﾞ";
 	}
 
 	@Override

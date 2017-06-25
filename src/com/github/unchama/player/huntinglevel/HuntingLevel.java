@@ -1,5 +1,10 @@
 package com.github.unchama.player.huntinglevel;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class HuntingLevel {
 
 	private int level;

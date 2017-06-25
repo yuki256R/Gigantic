@@ -114,8 +114,8 @@ public class PresentBoxTableManager extends PlayerFromSeichiTableManager {
 			}
 
 			// インベントリにアイテムを追加
-			boolean isAddSuccess = InventoryUtil.addNewItemStack(inventory,
-					item);
+			boolean isAddSuccess = InventoryUtil.addItemStack(inventory,
+					item, true);
 			if (!isAddSuccess) {
 				return false;
 			}

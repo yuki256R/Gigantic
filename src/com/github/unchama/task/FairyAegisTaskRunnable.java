@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
@@ -28,9 +27,8 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 
 	private static final ActiveSkillType st = ActiveSkillType.FAIRYAEGIS;
 
-	private static List<Block> skilledblocklist = Gigantic.skilledblocklist;
-
 	private Player player;
+	private Block block;
 	private GiganticPlayer gp;
 	private HashMap<Integer, List<Block>> breakMap;
 	private SideBarManager Sm;
@@ -47,7 +45,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 			ItemStack tool, FairyAegisManager skill,
 			ActiveSkillManager activeskill,
 			HashMap<Integer, List<Block>> breakMap, boolean soundflag) {
-
+		this.block = block;
 		this.gp = gp;
 		this.player = PlayerManager.getPlayer(gp);
 		this.Sm = gp.getManager(SideBarManager.class);
@@ -69,10 +67,6 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 	@Override
 	public void run() {
 		if (height < minheight) {
-			breakMap.forEach((i, blist) -> {
-				if (!blist.isEmpty())
-					skilledblocklist.removeAll(blist);
-			});
 			cancel();
 			Fm.takeBreak();
 			if (Fm.isunlocked()) {
@@ -99,7 +93,7 @@ public class FairyAegisTaskRunnable extends BukkitRunnable {
 			if (breaklist != null && !breaklist.isEmpty()) {
 				//エフェクトマネージャでブロックを処理
 				SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
-				effm.createRunner(st).fairyaegisEffectonBreak(breaklist, soundflag);
+				effm.createRunner(st).fairyaegisEffectonBreak(gp,block,breaklist, soundflag);
 			}
 			height--;
 			waitcount = -1;

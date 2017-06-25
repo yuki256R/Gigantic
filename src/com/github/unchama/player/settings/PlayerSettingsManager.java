@@ -16,6 +16,9 @@ public class PlayerSettingsManager extends DataManager implements UsingSql{
 	// GTを当てた時の全体通知送信
 	private boolean giganticRareNotificationSend;
 
+	// 釣りメニューのショートカット設定
+	private boolean fishingMenuShortcut;
+
 	// 整地スキルの自動振り分け
 	private boolean seichiSkillAutoAllocation;
 
@@ -41,6 +44,19 @@ public class PlayerSettingsManager extends DataManager implements UsingSql{
 	public boolean toggleGiganticRareNotificationSend(){
 		giganticRareNotificationSend = !giganticRareNotificationSend;
 		return giganticRareNotificationSend;
+	}
+
+	// 釣りメニューのショートカット設定
+	public boolean getFishingMenuShortcut(){
+		return fishingMenuShortcut;
+	}
+	public void setFishingMenuShortcut(boolean value){
+		fishingMenuShortcut = value;
+	}
+	// トグル切り替え
+	public boolean toggleFishingMenuShortcut(){
+		fishingMenuShortcut = !fishingMenuShortcut;
+		return fishingMenuShortcut;
 	}
 
 	// 整地スキルの自動振り分け

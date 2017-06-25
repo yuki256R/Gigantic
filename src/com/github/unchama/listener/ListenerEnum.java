@@ -3,7 +3,6 @@ package com.github.unchama.listener;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gui.ranking.logintime.HuntingExpIncrementListener;
 
 /**リスナーを追加するときはここに必ず追記すること．
  *
@@ -40,6 +39,9 @@ public enum ListenerEnum {
     HEADPLACECANCEL(new HeadPlaceCancelListener()),
 	EXCHANGEINVENTORY(new ExchangeInventoryListener()),
     BLOCKCOLORING(new BlockColoringSkillListener()),
+    FISHING(new FishingListener()),
+    FISHINGLEVEL(new FishingLevelListener()),
+    ENTITYLISTENER(new EntityListener()),
 	;
 	private Listener listener;
 

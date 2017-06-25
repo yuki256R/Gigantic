@@ -126,6 +126,13 @@ mobhead:
   f_cube2:
     dispname: 'ファンシーキューブ2'
     url: 'http://textures.minecraft.net/texture/b3a1f0dfbf466412bc1eff65f8e8faa39712d47bf9fcc07a6a64ff80febcc9c6'
+  n_question:
+    dispname: 'ノーマル？'
+    url: 'http://textures.minecraft.net/texture/5359d91277242fc01c309accb87b533f1929be176ecba2cde63bf635e05e699b'
+  g_question:
+    dispname: 'ギガ？'
+    url: 'http://textures.minecraft.net/texture/9d9cc58ad25a1ab16d36bb5d6d493c8f5898c2bf302b64e325921c41c35867'
+    
     
     
     

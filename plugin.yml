@@ -2,9 +2,7 @@ name: Gigantic
 main: com.github.unchama.gigantic.Gigantic
 version: 0.1.0
 description: Gigantic Seichi Server Plugin
-softdepend: [PlaceholderAPI]
-
-
+softdepend: [PlaceholderAPI, LobbySwitch]
 
 commands:
   gacha:
@@ -16,7 +14,7 @@ commands:
       permission-message: You don't have <permission>
   debug:
       description: This is debug command.
-      usage: /<command> set 
+      usage: /<command> set
       aliases: [gigadebug,giganticdebug]
       default: op
       permission: gigantic.debug
@@ -41,6 +39,12 @@ commands:
       default: true
       permission: gigantic.fly
       permission-message: You don't have <permission>
+  growth:
+      description: This is growth command
+      aliases: [giganticgrowth,grw]
+      default: true
+      permission: gigantic.growth
+      permission-message: You don't have <permission>
   presentbox:
       description: This is presentbox command.
       usage: /<command> send <playername/all>
@@ -53,11 +57,11 @@ commands:
     default: op
     permission: gigantic.genchant
     permission-message: You don't have <permission>
-  donate:
-    description: This is Donate command.
-    usage: /<command> <uuid> <money> <point>
+  listen:
+    description: This is Listen command.
+    usage: /<command> <donate/vote>
     default: op
-    permission: gigantic.donate
+    permission: gigantic.listen
     permission-message: You don't have <permission>
   takeover:
     description: This is Takeover command.
