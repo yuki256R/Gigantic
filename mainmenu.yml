@@ -232,7 +232,6 @@ name: '&5&lメインメニュー'
       - '&r専用ショップで購入ができます'
   mobhead: 'pc'
   openmenu: 'huntmainmenu'
-<<<<<<< HEAD
 18:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -245,7 +244,6 @@ name: '&5&lメインメニュー'
       - '&rホームに関することはこちら'
       - '&r&2&n&lクリックで開く'
   openmenu: 'homemenu'
-=======
 21:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -273,7 +271,6 @@ name: '&5&lメインメニュー'
       - '&r&2&l&nクリックで開く'
   mobhead: 'pouch'
   openmenu: 'gachastackmainmenu'
->>>>>>> origin/master
 23:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
