@@ -2,9 +2,6 @@ package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.time.PlayerTimeManager;
@@ -83,35 +80,12 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		m.checkJoinNum(null);
 	}
 
-
-	// 全てのUUIDを取得する
-	public List<String> getUUIDs() {
-		List<String> ret = null;
-		this.checkStatement();
-		String command = "select uuid from " + db + "." + table + " where 1";
-		// 保存されているデータをロード
-		try {
-			ret = new ArrayList<String>();
-			rs = stmt.executeQuery(command);
-			while (rs.next()) {
-				// uuidを取得
-				ret.add(rs.getString("uuid"));
-			}
-			rs.close();
-		} catch (SQLException e) {
-			plugin.getLogger().warning(
-					"Failed to multiload in " + table + " Table");
-			e.printStackTrace();
-		}
-		return ret;
-	}
-
-	// 指定のUUIDのプレイヤーのlastquitをセレクト
-	public String Lastquit(UUID uuid) {
+	// 指定nameのプレイヤーのlastquitをセレクト
+	public String Lastquit(String name) {
 		this.checkStatement();
 		String lastquit = "";
 		String command = "select lastquit from " + db + "." + table
-				+ " where uuid = '" + uuid + "'";
+				+ " where name = '" + name + "'";
 		// 保存されているデータをロード
 		try {
 			rs = stmt.executeQuery(command);

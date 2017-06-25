@@ -1,7 +1,6 @@
 package com.github.unchama.command;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,9 +10,6 @@ import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.util.Converter;
 import com.github.unchama.yml.ConfigManager;
@@ -46,24 +42,16 @@ public class LastquitCommand implements TabExecutor{
 			String lastquit = "";
 			//プレイヤー名を取得
 			String name = Converter.getName(args[0]);
-			Player player = Bukkit.getServer().getPlayer(name);
+			Player player = Bukkit.getServer().getPlayerExact(name);
 
 			//playerがオンライン
 			if(player != null){
-				GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-				PlayerTimeManager playerTimeManager = gp
-					.getManager(PlayerTimeManager.class);
-				sender.sendMessage(ChatColor.YELLOW + args[0] + "の最終ログアウト日時を照会します…");
-
-				//lastquitをとってくる
-				lastquit = playerTimeManager.getLastQuit() ;
+				sender.sendMessage(ChatColor.YELLOW + args[0] + "は現在オンラインです");
 			}
 
 			//playerがオフライン
 			else{
-				//gp使わずplayerのuuidとってくる
-				UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
-				lastquit = Gigantic.sql.getManager(PlayerTimeTableManager.class).Lastquit(uuid);
+				lastquit = Gigantic.sql.getManager(PlayerTimeTableManager.class).Lastquit(name);
 
 			}
 
