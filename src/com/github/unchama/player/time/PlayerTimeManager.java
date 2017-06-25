@@ -43,6 +43,8 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	private int totalJoin;
 	// 連続ログイン日数
 	private int chainJoin;
+	//最後にログアウトした日付
+	private String lastquit;
 	// 最後にチェックした日付
 	private String lastcheckdate;
 
@@ -158,9 +160,20 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 		return chainJoin;
 	}
 
+	// 最後にログアウトした日付
+	public String getLastQuit(){
+		return lastquit;
+	}
+
 	// 最後にチェックした日付
 	public String getLastCheckDate(){
 		return lastcheckdate;
+	}
+
+	//lastquit更新処理
+	public void lastQuitNum(String lastquit_){
+		lastquit = lastquit_;
+
 	}
 
 	public void checkJoinNum(String lastcheck){
