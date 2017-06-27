@@ -10,11 +10,13 @@ public enum CommandType {
 	DEBUG(new DebugCommand()),
 	MINEBOOST(new MineBoostCommand()),
 	STICK(new StickCommand()),
-    FLY(new FlyCommand()),
-    PRESENTBOX(new PresentBoxCommand()),
+	FLY(new FlyCommand()),
+	GROWTH(new GrowthCommand()),
+	PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
 	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
+	LASTQUIT(new LastquitCommand()),
 	;
 
 

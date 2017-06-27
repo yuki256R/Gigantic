@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -33,6 +32,8 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.point.GiganticPointManager;
+import com.github.unchama.player.point.UnchamaPointManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
@@ -45,6 +46,7 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
@@ -100,6 +102,8 @@ public class GiganticPlayer {
 		FISHINGLEVEL(FishingLevelManager.class),
 		FISHING(FishingManager.class),
 		EFFECT(SkillEffectManager.class),
+		UNCHAMAPOINT(UnchamaPointManager.class),
+		GIGANTICPOINT(GiganticPointManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 

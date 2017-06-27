@@ -26,6 +26,8 @@ import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
+import com.github.unchama.player.point.GiganticPointManager;
+import com.github.unchama.player.point.UnchamaPointManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
@@ -68,12 +70,13 @@ import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
+import com.github.unchama.sql.point.GiganticPointTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
 import com.github.unchama.sql.ranking.FishingExpRankingTableManager;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
-import com.github.unchama.sql.vote.UnchamaPointTableManager;
+import com.github.unchama.sql.point.UnchamaPointTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
@@ -121,7 +124,8 @@ public class Sql {
 		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),//
 		FISHING(FishingTableManager.class, FishingManager.class),//
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
-		UNCHAMAPOINT(UnchamaPointTableManager.class),
+		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
+		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;

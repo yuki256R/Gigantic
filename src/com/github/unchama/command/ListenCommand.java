@@ -6,8 +6,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.donate.DonateData;
 import com.github.unchama.player.donate.DonateDataManager;
 import com.github.unchama.sql.donate.DonateTableManager;
-
-import com.github.unchama.sql.vote.UnchamaPointTableManager;
+import com.github.unchama.sql.point.UnchamaPointTableManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,11 +24,13 @@ import java.util.UUID;
  */
 public class ListenCommand implements TabExecutor {
 
-    DonateTableManager donteTableManager;
-    UnchamaPointTableManager unchamaPointTableManager;
+    public static final int VOTE_POINT_AMOUNT = 1;
+
+    private DonateTableManager donateTableManager;
+    private UnchamaPointTableManager unchamaPointTableManager;
 
     public ListenCommand() {
-        this.donteTableManager = Gigantic.sql.getManager(DonateTableManager.class);
+        this.donateTableManager = Gigantic.sql.getManager(DonateTableManager.class);
         this.unchamaPointTableManager = Gigantic.sql.getManager(UnchamaPointTableManager.class);
     }
 
@@ -67,7 +68,7 @@ public class ListenCommand implements TabExecutor {
                     sender.sendMessage(ChatColor.RED + "/listen vote <name>");
                 } else {
                     String uuid = Bukkit.getServer().getOfflinePlayer(args[1]).getUniqueId().toString();
-                    unchamaPointTableManager.addPoint(uuid, 1);
+                    unchamaPointTableManager.addPointToSQL(uuid, VOTE_POINT_AMOUNT);
                     sender.sendMessage("投票を受け付けました! UUID: " + args[1]);
                 }
             }
@@ -86,6 +87,6 @@ public class ListenCommand implements TabExecutor {
     }
 
     private void putToSQL(String uuid, int money, int point) {
-        donteTableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
+        donateTableManager.saveDonateData(uuid, new DonateData(LocalDateTime.now(), money, point));
     }
 }
