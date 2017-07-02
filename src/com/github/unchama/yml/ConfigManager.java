@@ -275,6 +275,33 @@ public class ConfigManager extends YmlManager {
 		return this.fc.getInt("securebreakunlocklevel");
 	}
 
+    /**
+     * スカイウォーク(仮名)が解放できるレベルを取得
+     *
+     * @return
+     */
+    public int getSkywalkUnlockLevel() {
+        return this.fc.getInt("skywalk.Unlocklevel");
+    }
+
+    /**
+     * スカイウォーク(仮名)の消費マナ
+     *
+     * @return
+     */
+    public double getSkywalkMana() {
+        return this.fc.getDouble("skywalk.Mana");
+    }
+
+    /**
+     * スカイウォーク(仮名)の足場ブロック消失時間
+     *
+     * @return
+     */
+    public int getSkywalkBreakSec() {
+        return this.fc.getInt("skywalk.BreakSec");
+    }
+
 	/**
 	 * 最大建築レベルを取得します．
 	 *
@@ -341,6 +368,22 @@ public class ConfigManager extends YmlManager {
     }
 
     /**
+     * ホーム数の最大値を取得します
+     * @return
+     */
+    public int getSubHomeMax() {
+    	return fc.getInt("subhomemax");
+    }
+
+	 /**
+     * サーバを値で識別します
+     * @return
+     */
+	public int getServerNum() {
+		return fc.getInt("servernum");
+	}
+
+	/**
      * 設置ブロック変換設定使用可能レベルを取得します
      * @return 使用可能建築レベル
      */

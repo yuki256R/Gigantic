@@ -20,6 +20,7 @@ import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
@@ -56,6 +57,7 @@ import com.github.unchama.sql.player.FishingLevelTableManager;
 import com.github.unchama.sql.player.FishingTableManager;
 import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
+import com.github.unchama.sql.player.HomeTableManager;
 import com.github.unchama.sql.player.HuntingLevelTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
@@ -71,12 +73,12 @@ import com.github.unchama.sql.player.RuinFieldTableManager;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.point.GiganticPointTableManager;
+import com.github.unchama.sql.point.UnchamaPointTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
 import com.github.unchama.sql.ranking.FishingExpRankingTableManager;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
-import com.github.unchama.sql.point.UnchamaPointTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
@@ -117,6 +119,8 @@ public class Sql {
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		HOME(HomeTableManager.class, HomeManager.class),//
+		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
 		FISHINGEXPRANKING(FishingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),

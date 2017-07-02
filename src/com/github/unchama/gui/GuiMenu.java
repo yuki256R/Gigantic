@@ -94,6 +94,8 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.gui.settings.PlayerSettingsMenuManager;
+import com.github.unchama.gui.subhome.HomeMenuManager;
+import com.github.unchama.gui.subhome.HomeProtectMenuManager;
 
 
 /**
@@ -195,6 +197,8 @@ public final class GuiMenu {
         YEARFISHINGEXPRANKINGMENU(YearFishingExpRankingMenuManager.class),
         FISHINGMAINMENU(FishingMainMenuManager.class),
         HELPMENU(HelpMenuManager.class),
+        HOMEMENU(HomeMenuManager.class),
+        HOMEPROTECTMENU(HomeProtectMenuManager.class),
 		;
 
 		// 使用するManagerClass

@@ -72,6 +72,7 @@ public class PointTableManager extends PlayerFromSeichiTableManager {
             int difference = rs.getInt("point") - manager.getDefaultPoint();
             int currentPoint = manager.getPoint() + difference;
             rs.updateInt("point", manager.getPoint() + difference);
+            rs.updateBoolean("loginflag", loginflag);
             rs.updateRow();
             if (loginflag)
                 manager.init(currentPoint);

@@ -4,8 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.github.unchama.player.point.GiganticPointManager;
-import com.github.unchama.player.point.UnchamaPointManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -24,6 +22,8 @@ import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.player.home.HomeManager;
+import com.github.unchama.player.home.HomeProtectManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
@@ -34,6 +34,8 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.point.GiganticPointManager;
+import com.github.unchama.player.point.UnchamaPointManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
@@ -46,6 +48,7 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
@@ -86,6 +89,7 @@ public class GiganticPlayer {
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
+        SKYWALK(SkyWalkManager.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
@@ -95,6 +99,9 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
+		HOMEPROTECT(HomeProtectManager.class),
+		HOME(HomeManager.class),
+		//EFFECT(SkillEffectManager.class),
 		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
 		FISHINGLEVEL(FishingLevelManager.class),
