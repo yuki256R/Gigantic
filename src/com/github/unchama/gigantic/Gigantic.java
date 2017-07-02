@@ -120,7 +120,7 @@ public final class Gigantic extends JavaPlugin {
 			b.removeMetadata("Skilled", plugin);
 		});
 
-		getLogger().info("SeichiAssist is Disabled!");
+		getLogger().info("Gigantic is Disabled!");
 	}
 
 	@Override

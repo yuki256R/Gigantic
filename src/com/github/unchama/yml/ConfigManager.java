@@ -368,6 +368,22 @@ public class ConfigManager extends YmlManager {
     }
 
     /**
+     * ホーム数の最大値を取得します
+     * @return
+     */
+    public int getSubHomeMax() {
+    	return fc.getInt("subhomemax");
+    }
+
+	 /**
+     * サーバを値で識別します
+     * @return
+     */
+	public int getServerNum() {
+		return fc.getInt("servernum");
+	}
+
+	/**
      * 設置ブロック変換設定使用可能レベルを取得します
      * @return 使用可能建築レベル
      */

@@ -51,27 +51,32 @@ commands:
       default: op
       permission: gigantic.presentbox
       permission-message: You don't have <permission>
+  home:
+      description: This is home command.
+      usage: /<command> <set/tp> <amount>
+      default: true
+      permission: gigantic.home
+      permission-message: You don't have <permission>
   genchant:
-    description: This is GiganticEnchantment command.
-    usage: /<command> <EnchantmentName> <Level>
-    default: op
-    permission: gigantic.genchant
-    permission-message: You don't have <permission>
+      description: This is GiganticEnchantment command.
+      usage: /<command> <EnchantmentName> <Level>
+      default: op
+      permission: gigantic.genchant
+      permission-message: You don't have <permission>
   listen:
-    description: This is Listen command.
-    usage: /<command> <donate/vote>
-    default: op
-    permission: gigantic.listen
-    permission-message: You don't have <permission>
+      description: This is Listen command.
+      usage: /<command> <donate/vote>
+      default: op
+      permission: gigantic.listen
+      permission-message: You don't have <permission>
   takeover:
-    description: This is Takeover command.
-    usage: /<command> donate
-    default: op
-    permission: gigantic.takeover
-    permission-message: You don't have <permission>
+      description: This is Takeover command.
+      usage: /<command> donate
+      default: op
+      permission: gigantic.takeover
+      permission-message: You don't have <permission>
   lastquit:
-    description: This is Lastquit command.
-    usage: /<command> <player>
-    default: op
-    permission: gigantic.lastquit
-    permission-message: You don't have <permission>
+      description: This is Lastquit command.
+      usage: /<command> <player>
+      default: op
+      permission: gigantic.lastquit
