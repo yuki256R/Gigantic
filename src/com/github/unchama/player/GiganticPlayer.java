@@ -48,6 +48,7 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
@@ -88,6 +89,7 @@ public class GiganticPlayer {
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
+        SKYWALK(SkyWalkManager.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),

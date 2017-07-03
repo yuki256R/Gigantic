@@ -686,6 +686,11 @@ public class GiganticInteractListener implements Listener {
             Player player = event.getPlayer();
             //プレイヤーデータを取得
             GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
+
+            if (gp == null) {
+                throw new NullPointerException("GiganticInteractListener#onPlayerFillLiquidでプレイヤーデーターがnull");
+            }
+
             //プレイヤーインベントリを取得
             PlayerInventory playerinv = player.getInventory();
             //オフハンド・メインハンドのアイテム取得
@@ -718,4 +723,6 @@ public class GiganticInteractListener implements Listener {
             }
         }
     }
+
+
 }

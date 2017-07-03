@@ -117,6 +117,13 @@ generalgravityheight: 10
 #セキュアブレイクが解放されるレベル
 securebreakunlocklevel: 60
 
+#スカイウォーク(仮名)スキル関連
+skywalk:
+  Unlocklevel: 170
+  Mana: 100
+  #足場ブロック消失時間(単位:秒)あまり短くしすぎると、鯖負荷が増大するかも
+  BreakSec: 5
+
 # 色々な設定、説明は割愛
 defaultmineamount: '3'
 minutespeedamount: '0.01'
