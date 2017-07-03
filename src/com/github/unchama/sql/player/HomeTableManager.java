@@ -27,8 +27,8 @@ public class HomeTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	protected String addColumnCommand() {
 		String command = "";
-		//s1～s7までのカラムを作成
-		for(int i = 1 ; i <= 7 ; i++) {
+		//s1～s7 + deb(8,9) までのカラムを作成
+		for(int i = 1 ; i <= 9 ; i++) {
 			command += "add column if not exists homepoint_" + i + " blob default null,";
 			command += "add column if not exists homename_" + i + " blob default null,";
 		}
