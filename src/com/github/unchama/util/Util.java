@@ -112,6 +112,9 @@ public class Util {
 	 */
 	public static boolean giveItem(Player player, ItemStack itemstack,
 			boolean messageflag) {
+		//0個以下ならreturn
+		if (itemstack.getAmount() <= 0)
+			return false;
 		// インベントリがフルなら足元に落とす
 		if (!isPlayerInventryFill(player)) {
 			addItem(player, itemstack);
