@@ -56,15 +56,17 @@ public class PlayerManager {
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp = gmap.get(uuid);
 		if(gp == null)return ;
-		if(gp.isloaded()){
+		if(gp.getStatus().equals(GiganticStatus.AVAILABLE) && gp.isloaded()){
 			// 終了前最終処理を行う
 			gp.fin();
-			// 最終データをsqlにセーブ
-			gp.save(false);
-			gmap.remove(uuid);
-		}else{
-			gmap.remove(uuid);
+
+			if(gp.getStatus().equals(GiganticStatus.FINALIZE)){
+				// 最終データをsqlにセーブ
+				gp.save(false);
+
+			}
 		}
+		gmap.remove(uuid);
 	}
 
 	/**

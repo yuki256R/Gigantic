@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.yml.ConfigManager;
 
 /**
@@ -38,6 +39,7 @@ public class GiganticInitializeTaskRunnable extends BukkitRunnable {
 			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
+				attempt ++;
 				if (tmpmap.isEmpty()) {
 					cancel();
 					return;
@@ -45,13 +47,13 @@ public class GiganticInitializeTaskRunnable extends BukkitRunnable {
 				// 一人ずつinitを実行
 				((HashMap<UUID, GiganticPlayer>) tmpmap.clone()).forEach((uuid,
 						gp) -> {
-					if (gp.isloaded()) {
+					if (gp.getStatus().equals(GiganticStatus.LODING) && gp.isloaded()) {
 						gp.init();
 						tmpmap.remove(uuid);
 					}
 				});
 				// 試行回数
-				if (attempt++ >= max_attempt) {
+				if (attempt >= max_attempt) {
 					cancel();
 					return;
 				}

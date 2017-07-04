@@ -1,6 +1,5 @@
 package com.github.unchama.player;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
@@ -89,7 +88,7 @@ public class GiganticPlayer {
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
-        SKYWALK(SkyWalkManager.class),
+		SKYWALK(SkyWalkManager.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
@@ -109,7 +108,7 @@ public class GiganticPlayer {
 		EFFECT(SkillEffectManager.class),
 		UNCHAMAPOINT(UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointManager.class),
-		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
+		SIDEBAR(SideBarManager.class), //サイドバー表示は必ず最後に，
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -140,30 +139,22 @@ public class GiganticPlayer {
 		this.uuid = player.getUniqueId();
 		this.expManager = new ExperienceManager(player);
 		this.setStatus(GiganticStatus.LODING);
-		for (ManagerType mt : ManagerType.values()) {
-			try {
+		try {
+			for (ManagerType mt : ManagerType.values()) {
 				this.managermap.put(mt.getManagerClass(), mt.getManagerClass().getConstructor(GiganticPlayer.class)
 						.newInstance(this));
-			} catch (InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException
-					| NoSuchMethodException | SecurityException e) {
-				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
-				plugin.getLogger().warning("managertype:" + mt.name());
-				e.printStackTrace();
 			}
-		}
-		//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
-				try {
+
+			//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
 					mc.getMethod("setLoaded", Boolean.class).invoke(this.managermap.get(mc), true);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to setloaded of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+		} catch (Exception e) {
+			plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
 	}
 
@@ -173,22 +164,22 @@ public class GiganticPlayer {
 	}
 
 	public boolean isloaded() {
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 					boolean loaded = (Boolean) mc.getMethod("isLoaded").invoke(this.managermap.get(mc));
 					if (loaded == false) {
 						return false;
 					}
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to save data of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+			return true;
+		} catch (Exception e) {
+			plugin.getLogger().warning("Failed to check \"isloaded\" of player:" + this.name);
+			e.printStackTrace();
+			return false;
 		}
-		return true;
+
 	}
 
 	public boolean isOffline() {
@@ -197,38 +188,37 @@ public class GiganticPlayer {
 
 	public void init() {
 		this.setStatus(GiganticStatus.INITIALIZE);
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, Initializable.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, Initializable.class)) {
 					mc.getMethod("init").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+			this.setStatus(GiganticStatus.AVAILABLE);
+			Player player = PlayerManager.getPlayer(this);
+			player.sendMessage(ChatColor.GREEN
+					+ "ロードが完了しました．");
+			sql.onAvailavle(this);
+		} catch (Exception e) {
+			plugin.getLogger().warning("Failed to run init() of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
-		this.setStatus(GiganticStatus.AVAILABLE);
-		Player player = PlayerManager.getPlayer(this);
-		player.sendMessage(ChatColor.GREEN
-				+ "ロードが完了しました．");
-		sql.onAvailavle(this);
+
 	}
 
 	public void fin() {
 		this.setStatus(GiganticStatus.FINALIZE);
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, Finalizable.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, Finalizable.class)) {
 					mc.getMethod("fin").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+		} catch (Exception e) {
+			plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
 	}
 
@@ -246,9 +236,7 @@ public class GiganticPlayer {
 			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 				try {
 					mc.getMethod("save", Boolean.class).invoke(this.managermap.get(mc), loginflag);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
+				} catch (Exception e) {
 					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
 				}
@@ -276,11 +264,9 @@ public class GiganticPlayer {
 	 *
 	 * @return ステータス
 	 */
-	public ExperienceManager getExpManager(){
+	public ExperienceManager getExpManager() {
 		return this.expManager;
 	}
-
-
 
 	/*
 	//３０分間のデータを保存する．
