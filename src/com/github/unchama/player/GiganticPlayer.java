@@ -1,5 +1,6 @@
 package com.github.unchama.player;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
@@ -174,7 +175,9 @@ public class GiganticPlayer {
 				}
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
 			plugin.getLogger().warning("Failed to check \"isloaded\" of player:" + this.name);
 			e.printStackTrace();
 			return false;
@@ -187,7 +190,12 @@ public class GiganticPlayer {
 	}
 
 	public void init() {
+		Player player = PlayerManager.getPlayer(this);
 		this.setStatus(GiganticStatus.INITIALIZE);
+
+		player.sendMessage(ChatColor.GREEN
+				+ "データ更新中");
+
 		try {
 			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
 				if (ClassUtil.isImplemented(mc, Initializable.class)) {
@@ -195,11 +203,12 @@ public class GiganticPlayer {
 				}
 			}
 			this.setStatus(GiganticStatus.AVAILABLE);
-			Player player = PlayerManager.getPlayer(this);
 			player.sendMessage(ChatColor.GREEN
-					+ "ロードが完了しました．");
+					+ "ロードが完了しました");
 			sql.onAvailavle(this);
-		} catch (Exception e) {
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
 			plugin.getLogger().warning("Failed to run init() of player:" + this.name);
 			e.printStackTrace();
 			this.setStatus(GiganticStatus.ERROR);
@@ -215,7 +224,9 @@ public class GiganticPlayer {
 					mc.getMethod("fin").invoke(this.managermap.get(mc));
 				}
 			}
-		} catch (Exception e) {
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
 			plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
 			e.printStackTrace();
 			this.setStatus(GiganticStatus.ERROR);
@@ -236,9 +247,12 @@ public class GiganticPlayer {
 			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 				try {
 					mc.getMethod("save", Boolean.class).invoke(this.managermap.get(mc), loginflag);
-				} catch (Exception e) {
+				} catch (IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException
+						| SecurityException | NullPointerException e) {
 					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
+					this.setStatus(GiganticStatus.ERROR);
 				}
 			}
 		}

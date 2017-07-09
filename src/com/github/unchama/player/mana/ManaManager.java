@@ -151,7 +151,6 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
 		try {
 			manabar.removeAll();
 		} catch (NullPointerException e) {
-			Bukkit.getLogger().warning("manabarがNullです.");
 		}
 	}
 

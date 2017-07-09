@@ -138,7 +138,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 
 	@Override
 	public void rangeReset(){
-		setBreakNum(0);
+		setBreakNum(this.getDefaultBreakNum());
 	}
 
 	/**
