@@ -27,8 +27,8 @@ public class HomeTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	protected String addColumnCommand() {
 		String command = "";
-		//s1～s7までのカラムを作成
-		for(int i = 1 ; i <= 7 ; i++) {
+		//s1～s7 + deb(8,9) までのカラムを作成
+		for(int i = 1 ; i <= 9 ; i++) {
 			command += "add column if not exists homepoint_" + i + " blob default null,";
 			command += "add column if not exists homename_" + i + " blob default null,";
 		}
@@ -67,8 +67,16 @@ public class HomeTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		HomeManager m = gp.getManager(HomeManager.class);
-		m.SetHome(rs.getString("homepoint_" + config.getServerNum()));
-		m.setName(rs.getString("homename_" + config.getServerNum()));
+		if(rs.getString("homepoint_" + config.getServerNum()) != null)
+			m.SetHome(rs.getString("homepoint_" + config.getServerNum()));
+		else
+			for( int x = 0 ; x < config.getSubHomeMax() ; x++)
+				m.setHomePoint(null, x);
+		if(rs.getString("homename_" + config.getServerNum()) != null)
+			m.setName(rs.getString("homename_" + config.getServerNum()));
+		else
+			for( int x = 0 ; x < config.getSubHomeMax() ; x++)
+				m.setHomeName("ホームポイント" + (x+1), x);
 		m.setChangeName(false);
 	}
 
