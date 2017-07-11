@@ -14,6 +14,7 @@ public enum CommandType {
 	GROWTH(new GrowthCommand()),
 	PRESENTBOX(new PresentBoxCommand()),
 	GENCHANT(new EnchantmentCommand()),
+	HOME(new HomeCommand()),
 	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
 	LASTQUIT(new LastquitCommand()),

@@ -401,6 +401,27 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
+	//ホームポイント	Seichiの方ではカラムが鯖ごとに分かれていたのでそれぞれ読み込む
+	public String getHomePoint(GiganticPlayer gp, int servernum) {
+		String command = "";
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String ans = null;
+			command = "select homepoint_" + servernum + " from " + db + "." + table + " where uuid = '"
+					+ struuid + "'";
+		this.checkStatement();
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getString("homepoint_" + servernum);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning("Failed to load homepoint_" + servernum + " player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
 	public Map<Integer, Integer> getOldGachaStack(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -493,10 +514,6 @@ public class PlayerDataTableManager extends SeichiTableManager {
 
 		return point;
 	}
-
-
-
-
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
 
 

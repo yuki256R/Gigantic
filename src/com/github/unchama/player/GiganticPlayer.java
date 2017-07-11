@@ -22,6 +22,8 @@ import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.player.home.HomeManager;
+import com.github.unchama.player.home.HomeProtectManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
@@ -97,6 +99,9 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
+		HOMEPROTECT(HomeProtectManager.class),
+		HOME(HomeManager.class),
+		//EFFECT(SkillEffectManager.class),
 		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
 		FISHINGLEVEL(FishingLevelManager.class),
