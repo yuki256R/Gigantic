@@ -1,12 +1,9 @@
 package com.github.unchama.command;
 
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.donate.DonateData;
-import com.github.unchama.player.donate.DonateDataManager;
-import com.github.unchama.sql.donate.DonateTableManager;
-import com.github.unchama.sql.point.UnchamaPointTableManager;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,9 +12,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.donate.DonateData;
+import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.sql.donate.DonateTableManager;
+import com.github.unchama.sql.point.UnchamaPointTableManager;
 
 /**
  * Created by Mon_chi on 2017/06/08.
@@ -34,7 +35,8 @@ public class ListenCommand implements TabExecutor {
         this.unchamaPointTableManager = Gigantic.sql.getManager(UnchamaPointTableManager.class);
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!sender.isOp()) {
             sender.sendMessage(ChatColor.RED + "You do not have permission to use this command.");

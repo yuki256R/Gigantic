@@ -145,7 +145,6 @@ public class HuntingPointEventListener implements Listener {
 	}
 
 	// 同種扱い、別種扱いの名前を変換
-	@SuppressWarnings("deprecation")
 	private String nameConvert(String name, Entity entity) {
 		String ret = name;
 		// ウィザースケルトン

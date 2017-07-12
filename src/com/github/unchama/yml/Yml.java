@@ -22,6 +22,7 @@ public final class Yml {
 		GROWTHTOOL(GrowthToolDataManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryYmlManager.class),//
 		FISHING(FishingYmlManager.class),//
+		ANOTHERNAME(AnotherNameManager.class),//
 		;
 		// 使用するManagerClass
 		private Class<? extends YmlManager> managerClass;

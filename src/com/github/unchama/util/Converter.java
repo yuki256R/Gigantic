@@ -1,5 +1,8 @@
 package com.github.unchama.util;
 
+import java.util.Arrays;
+import java.util.BitSet;
+
 import org.bukkit.entity.Player;
 
 /**
@@ -25,19 +28,19 @@ public class Converter {
 		return flag;
 	}
 
-	public static float toFloat(String s)throws NumberFormatException{
+	public static float toFloat(String s) throws NumberFormatException {
 		return Float.valueOf(s);
 	}
 
-	public static int toInt(String s)throws NumberFormatException {
+	public static int toInt(String s) throws NumberFormatException {
 		return Integer.valueOf(s);
 	}
 
-	public static short toShort(String s)throws NumberFormatException {
+	public static short toShort(String s) throws NumberFormatException {
 		return Short.valueOf(s);
 	}
 
-	public static long toLong(String s)throws NumberFormatException {
+	public static long toLong(String s) throws NumberFormatException {
 		return Long.valueOf(s);
 	}
 
@@ -85,17 +88,29 @@ public class Converter {
 			time += "" + tick;
 		}
 
-		if(time.equals("")){
+		if (time.equals("")) {
 			time = "なし";
 		}
 
 		return time;
 	}
 
-
-	public static double toDouble(String s)throws NumberFormatException{
+	public static double toDouble(String s) throws NumberFormatException {
 		return Double.valueOf(s);
 	}
 
+	public static String toString(BitSet set) {
+		long[] lArray = set.toLongArray();
+		String[] sArray = Arrays.stream(lArray).mapToObj(Long::toHexString).toArray(String[]::new);
+		String str = String.join(",", sArray);
+		return str;
+	}
+
+	public static BitSet toBitSet(String str) {
+		String[] sAr = str.split(",");
+		long[] lAr = Arrays.stream(sAr).mapToLong(x -> Long.parseUnsignedLong(x, 16)).toArray();
+		BitSet set = BitSet.valueOf(lAr);
+		return set;
+	}
 
 }

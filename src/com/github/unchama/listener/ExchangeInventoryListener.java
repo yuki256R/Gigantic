@@ -1,13 +1,12 @@
 package com.github.unchama.listener;
 
-import com.github.unchama.exchange.ExchangeType;
-import com.github.unchama.exchange.Exchanger;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.ItemStack;
+
+import com.github.unchama.exchange.ExchangeType;
+import com.github.unchama.exchange.Exchanger;
 
 /**
  * Created by Mon_chi on 2017/06/17.

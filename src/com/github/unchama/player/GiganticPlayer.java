@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
@@ -101,7 +102,6 @@ public class GiganticPlayer {
 		PRESENTBOX(PresentBoxManager.class),
 		HOMEPROTECT(HomeProtectManager.class),
 		HOME(HomeManager.class),
-		//EFFECT(SkillEffectManager.class),
 		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
 		FISHINGLEVEL(FishingLevelManager.class),
@@ -109,6 +109,7 @@ public class GiganticPlayer {
 		EFFECT(SkillEffectManager.class),
 		UNCHAMAPOINT(UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointManager.class),
+		ACHIEVEMENT(AchievementManager.class),
 		SIDEBAR(SideBarManager.class), //サイドバー表示は必ず最後に，
 		;
 

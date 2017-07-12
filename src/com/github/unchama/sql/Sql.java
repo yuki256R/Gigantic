@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
@@ -48,6 +49,7 @@ import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.sql.moduler.TableManager;
+import com.github.unchama.sql.player.AchievementTableManager;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
@@ -130,6 +132,7 @@ public class Sql {
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
 		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
+		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
