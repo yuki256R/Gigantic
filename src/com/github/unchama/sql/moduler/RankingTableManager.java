@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.util.TimeUtil;
@@ -49,7 +50,7 @@ public abstract class RankingTableManager extends TableManager {
 
 	//列名
 	private String columnName;
-	//テーブル名
+	//トータル側のテーブル名
 	private String tableName;
 	//常に更新されるべきマップ
 	private HashMap<UUID, Double> map;
@@ -60,7 +61,6 @@ public abstract class RankingTableManager extends TableManager {
 
 	private HashMap<TimeType,LinkedHashMap<String, Double>> timeMap;
 
-	private HashMap<UUID,String> nameMap;
 
 	public RankingTableManager(Sql sql) {
 		super(sql);
@@ -71,7 +71,6 @@ public abstract class RankingTableManager extends TableManager {
 		for(TimeType tt : TimeType.values()){
 			timeMap.put(tt, new LinkedHashMap<String, Double>());
 		}
-		nameMap = new HashMap<UUID,String>();
 	}
 
 	/**TimeTypeごとのランキングを更新します．
@@ -79,7 +78,6 @@ public abstract class RankingTableManager extends TableManager {
 	 * @param tt
 	 */
 	public void updateLimitMap(TimeType tt) {
-		updateNameMap();
 		String command = "";
 		LinkedHashMap<String, Double> map = timeMap.get(tt);
 		map.clear();
@@ -101,7 +99,7 @@ public abstract class RankingTableManager extends TableManager {
 			while (rs.next()) {
 				// nameを取得
 				uuid = UUID.fromString(rs.getString("uuid"));
-				name = nameMap.get(uuid);
+				name = PlayerManager.getName(uuid);
 				map.put(name, rs.getDouble("sum_num"));
 			}
 			rs.close();
@@ -111,28 +109,6 @@ public abstract class RankingTableManager extends TableManager {
 			e.printStackTrace();
 		}
 		updateMenu(tt,map);
-	}
-	private void updateNameMap() {
-		nameMap.clear();
-		String command = "";
-		command = "SELECT uuid,name FROM " + db + ".gigantic" + " WHERE 1";
-		UUID uuid;
-		String name;
-		// ロード
-		try {
-			rs = stmt.executeQuery(command);
-			while (rs.next()) {
-				// nameを取得
-				uuid = UUID.fromString(rs.getString("uuid"));
-				name = rs.getString("name");
-				nameMap.put(uuid, name);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			plugin.getLogger().warning(
-					"Failed to loadTotalMap in " + table + " Table");
-			e.printStackTrace();
-		}
 	}
 
 	/**

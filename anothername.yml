@@ -1,5 +1,106 @@
-﻿3001:
-  top: 'トップ'
-  middle: 'ミドル'
-  bottom: 'ボトム'
+﻿1001:
+  name: '門戸を叩く'
+  top: '門戸'
+  middle: ''
+  bottom: '叩く'
+1002:
+  name: '大地は友達'
+  top: '大地'
+  middle: ''
+  bottom: '友達'
+1003:
+  name: '整地に恋する'
+  top: '整地'
+  middle: ''
+  bottom: '恋する'
+1004:
+  name: '欲まみれ'
+  top: '欲まみれ'
+  middle: ''
+  bottom: '欲まみれ'
+1005:
+  name: 'LOVE!整地!'
+  top: 'ラヴ！'
+  middle: ''
+  bottom: '整地'
+1006:
+  name: '大御所'
+  top: '大御所'
+  middle: ''
+  bottom: '大御所'
+1007:
+  name: '重鎮'
+  top: '重鎮'
+  middle: ''
+  bottom: '重鎮'
+1008:
+  name: '四天王'
+  top: '四天王'
+  middle: ''
+  bottom: '四天王'
+1009:
+  name: '整地神'
+  top: '整地神'
+  middle: ''
+  bottom: '整地神'
+3001:
+  name: '参戦者'
+  top: '参戦者'
+  middle: ''
+  bottom: '参戦者'
+3002:
+  name: '高みを目指す'
+  top: '高み'
+  middle: ''
+  bottom: '目指す'
+3003:
+  name: '夢追い人'
+  top: '夢追い'
+  middle: ''
+  bottom: '人'
+3004:
+  name: 'ミリオネア'
+  top: 'ミリオネア'
+  middle: ''
+  bottom: 'ミリオネア'
+3005:
+  name: '不屈の'
+  top: '不屈'
+  middle: ''
+  bottom: ''
+3006:
+  name: '登頂者'
+  top: '登頂者'
+  middle: ''
+  bottom: '登頂者'
+3007:
+  name: '枯れぬ野望'
+  top: '枯れぬ'
+  middle: ''
+  bottom: '野望'
+3008:
+  name: '理不尽な'
+  top: '理不尽'
+  middle: ''
+  bottom: '理不尽'
+3009:
+  name: '破壊神'
+  top: '破壊神'
+  middle: ''
+  bottom: '破壊神'
+3010:
+  name: '永遠の旅人'
+  top: '永遠'
+  middle: ''
+  bottom: '旅人'
+3011:
+  name: '超克者'
+  top: '超克者'
+  middle: ''
+  bottom: '超克者'
+4001:
+  name: '期待の新人'
+  top: '期待'
+  middle: ''
+  bottom: '新人'
   

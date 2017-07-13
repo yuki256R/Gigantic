@@ -26,6 +26,7 @@ public enum ListenerEnum {
 	PLAYERSWAPHANDITEMS(new PlayerSwapHandItemsListener()),
     BUILD(new BlockPlaceEventListener()),
     MINEBLOCKINCREMENT(new MineBlockIncrementListener()),
+    BUILDBLOCKINCREMENT(new BuildBlockIncrementListener()),
     HUNTINGPOINT(new HuntingPointEventListener()),
     HUNTINGLEVEL(new HuntingLevelListener()),
     HUNTINGEXP(new HuntingExpIncrementListener()),
@@ -43,6 +44,7 @@ public enum ListenerEnum {
     FISHING(new FishingListener()),
     FISHINGLEVEL(new FishingLevelListener()),
     ENTITYLISTENER(new EntityListener()),
+    PLAYERTIMEINCREMENT(new PlayerTimeIncrementListener()),
 	;
 	private Listener listener;
 

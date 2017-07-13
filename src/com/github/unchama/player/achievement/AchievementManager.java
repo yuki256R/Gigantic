@@ -2,6 +2,8 @@ package com.github.unchama.player.achievement;
 
 import java.util.BitSet;
 
+import org.bukkit.entity.Player;
+
 import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.achievement.AnotherName;
 import com.github.unchama.gigantic.PlayerManager;
@@ -31,11 +33,12 @@ public final class AchievementManager extends DataManager implements UsingSql{
 		boolean flag = this.getFlag(id);
 		if(!flag){
 			this.setFlag(id);
-			debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.ACHIEVEMENT, "実績No." + id + "を解除しました．");
+			Player player = PlayerManager.getPlayer(gp);
+			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "実績No." + id + "を解除しました．");
 			AnotherName aN = AchievementEnum.getAchievement(id).get().getAnotherName();
-			debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.ACHIEVEMENT, "二つ名前：" + aN.getTopName());
-			debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.ACHIEVEMENT, "二つ名中：" + aN.getMiddleName());
-			debug.sendMessage(PlayerManager.getPlayer(gp),DebugEnum.ACHIEVEMENT, "二つ名後：" + aN.getBottomName());
+			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "二つ名前：" + aN.getTopName());
+			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "二つ名中：" + aN.getMiddleName());
+			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "二つ名後：" + aN.getBottomName());
 		}
 	}
 

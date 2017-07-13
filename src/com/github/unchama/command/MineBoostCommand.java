@@ -122,7 +122,7 @@ public class MineBoostCommand implements TabExecutor{
 				}else{
 					//allの時
 					//全プレイヤーに処理
-					for(GiganticPlayer gp : PlayerManager.gmap.values()){
+					for(GiganticPlayer gp : PlayerManager.getGiganticPlayerList()){
 						gp.getManager(MineBoostManager.class).updata(type, amplifier, duration);
 						gp.getManager(MineBoostManager.class).refresh();
 					}

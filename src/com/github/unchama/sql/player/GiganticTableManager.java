@@ -2,6 +2,8 @@ package com.github.unchama.sql.player;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 
@@ -16,9 +18,13 @@ import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
  *
  */
 public class GiganticTableManager extends PlayerFromSeichiTableManager {
+	// 全データの名前とUUIDマップ
+	private static HashMap<String,UUID> uuidMap = new HashMap<String,UUID>();
+	private static HashMap<UUID,String> nameMap = new HashMap<UUID,String>();
 
 	public GiganticTableManager(Sql sql) {
 		super(sql);
+
 	}
 
 	@Override
@@ -41,32 +47,44 @@ public class GiganticTableManager extends PlayerFromSeichiTableManager {
 
 	@Override
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
-		// TODO 自動生成されたメソッド・スタブ
-
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		Bukkit.getServer().getPluginManager()
 		.callEvent(new PlayerFirstJoinEvent(Bukkit.getServer().getPlayer(gp.uuid)));
-
-
-		/*
-		 * //初見さんにLv1メッセージを送信
-		 * p.sendMessage(SeichiAssist.config.getLvMessage(1)); //初見さんであることを全体告知
-		 * plugin.getServer().getConsoleSender().sendMessage(ChatColor.YELLOW +
-		 * "【初見キタ】" + p.getName() + "のプレイヤーデータ作成完了");
-		 * Util.sendEveryMessage(ChatColor
-		 * .LIGHT_PURPLE+""+ChatColor.BOLD+name+"さんは初参加です。整地鯖へヨウコソ！" +
-		 * ChatColor.RESET +" - " + ChatColor.YELLOW + ChatColor.UNDERLINE +
-		 * "http://seichi.click");
-		 * Util.sendEverySound(Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
-		 * //初見プレイヤーに木の棒、エリトラ、ピッケルを配布 p.getInventory().addItem(new
-		 * ItemStack(Material.STICK)); p.getInventory().addItem(new
-		 * ItemStack(Material.ELYTRA)); p.getInventory().addItem(new
-		 * ItemStack(Material.DIAMOND_PICKAXE)); p.getInventory().addItem(new
-		 * ItemStack(Material.DIAMOND_SPADE)); MebiusListener.give(p);
-		 */
 	}
 
+
+	public void updateNameMap() {
+		nameMap.clear();
+		uuidMap.clear();
+		String command = "";
+		command = "SELECT uuid,name FROM " + db + "." + table + " WHERE 1";
+		UUID uuid;
+		String name;
+		// ロード
+		try {
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				// nameを取得
+				uuid = UUID.fromString(rs.getString("uuid"));
+				name = rs.getString("name");
+				uuidMap.put(name, uuid);
+				nameMap.put(uuid, name);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to loadNameMap in " + table + " Table");
+			e.printStackTrace();
+		}
+	}
+
+	public String getName(UUID uuid) {
+		return nameMap.get(uuid);
+	}
+	public UUID getUUID(String name) {
+		return uuidMap.get(name);
+	}
 }

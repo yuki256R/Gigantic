@@ -17,7 +17,6 @@ import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.util.Util;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
 *
@@ -66,24 +65,27 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 				.getStatistic(org.bukkit.Statistic.PLAY_ONE_TICK);
 		int getincrease = getservertick - servertick;
 		servertick = getservertick;
+
+		Bukkit.getPluginManager().callEvent(new PlayerTimeIncrementEvent(gp, getincrease, playtick));
+
 		playtick += getincrease;
 
 		// 放置判定
 		if (player.getLocation().equals(loc)) {
 			if (isIdle()) {
-				int preTick = totalidletick;
 				// 既に放置中なら累計放置時間を追加
 				totalidletick += getincrease;
-				Bukkit.getPluginManager().callEvent(new PlayerTimeIncrementEvent(gp, getincrease, preTick));
 			}
 			idletime++;
 		} else {
 			loc = player.getLocation();
 			idletime = 0;
 		}
+		/*特に問題ないのでコメントアウト
 		debug.sendMessage(player, DebugEnum.GUI, "プレイ時間更新" + ":servertick "
 				+ servertick + ":playtick " + playtick + ":totalidletick "
 				+ totalidletick + ":idletime " + idletime);
+				*/
 	}
 
 	// 10分間動きがなければ放置
@@ -163,7 +165,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	}
 
 	// 最後にログアウトした日付
-	public String getLastQuit(){
+	public String getLastQuit() {
 		return lastquit;
 	}
 
@@ -173,16 +175,16 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	}
 
 	//lastquit更新処理
-	public void lastQuitNum(String lastquit_){
+	public void lastQuitNum(String lastquit_) {
 		lastquit = lastquit_;
 
 	}
 
-	public void checkJoinNum(String lastcheck){
-	//連続・通算ログインの情報、およびその更新
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		if(lastcheck == "" || lastcheck == null){
+	public void checkJoinNum(String lastcheck) {
+		//連続・通算ログインの情報、およびその更新
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		if (lastcheck == "" || lastcheck == null) {
 			lastcheckdate = sdf.format(cal.getTime());
 		} else {
 			lastcheckdate = lastcheck;

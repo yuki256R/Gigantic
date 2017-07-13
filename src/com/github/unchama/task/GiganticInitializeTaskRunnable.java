@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.yml.ConfigManager;
@@ -19,7 +18,6 @@ import com.github.unchama.yml.ConfigManager;
 public class GiganticInitializeTaskRunnable extends BukkitRunnable {
 	Gigantic plugin = Gigantic.plugin;
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
-	HashMap<UUID, GiganticPlayer> gmap = PlayerManager.gmap;
 	HashMap<UUID, GiganticPlayer> tmpmap;
 
 	// 試行回数

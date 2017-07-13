@@ -5,9 +5,6 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.event.DailyEvent;
 import com.github.unchama.event.MinuteEvent;
-import com.github.unchama.event.MonthlyEvent;
-import com.github.unchama.event.WeeklyEvent;
-import com.github.unchama.event.YearEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.sql.Sql;
@@ -28,23 +25,5 @@ public final class RankingUpdateListener implements Listener {
 	@EventHandler
 	public void DailyUpdate(DailyEvent event) {
 		gui.refresh();
-		sql.update(event.getTimeType());
-	}
-
-	@EventHandler
-	public void WeeklyUpdate(WeeklyEvent event) {
-		sql.update(event.getTimeType());
-	}
-
-	@EventHandler
-	public void MonthlyUpdate(MonthlyEvent event) {
-		sql.update(event.getTimeType());
-
-	}
-
-	@EventHandler
-	public void YearUpdate(YearEvent event) {
-		sql.update(event.getTimeType());
-
 	}
 }

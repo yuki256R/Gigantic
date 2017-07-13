@@ -537,6 +537,13 @@ public class Sql {
 	public void update() {
 		int delay = 1;
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if(GiganticTableManager.class.isAssignableFrom(mt)){
+				GiganticTableManager tm = (GiganticTableManager) managermap.get(mt);
+				tm.updateNameMap();
+			}
+		}
+		delay++;
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
@@ -546,29 +553,15 @@ public class Sql {
 				new RankingUpdateTaskRunnable(rtm).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
-
-			}
-		}
-
-	}
-
-	/**期間式ランキングのアップデート
-	 *
-	 * @param timeType
-	 */
-	public void update(TimeType tt) {
-		int delay = 1;
-		for (Class<? extends TableManager> mt : managermap.keySet()) {
-			if (RankingTableManager.class.isAssignableFrom(mt)) {
-				RankingTableManager rtm = (RankingTableManager) managermap
-						.get(mt);
-				new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
-						plugin, delay);
-				delay++;
-
+				for(TimeType tt : TimeType.values()){
+					new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
+							plugin, delay);
+					delay++;
+				}
 			}
 		}
 	}
+
 
 	/**
 	 * gpが初期化を終了した後に処理される

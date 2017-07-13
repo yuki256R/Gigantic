@@ -7,8 +7,8 @@ import com.github.unchama.yml.AnotherNameManager;
 import com.github.unchama.yml.DebugManager;
 
 public abstract class GiganticAchievement {
-	AnotherNameManager ANMng = Gigantic.yml.getManager(AnotherNameManager.class);
-	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
+	protected AnotherNameManager ANMng = Gigantic.yml.getManager(AnotherNameManager.class);
+	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	public GiganticAchievement(){
 	}
@@ -24,7 +24,6 @@ public abstract class GiganticAchievement {
 	 */
 	public void unlockAchievement(GiganticPlayer gp){
 		gp.getManager(AchievementManager.class).unlockAchievement(this.getID());
-
 	}
 
 	/**識別IDを取得します

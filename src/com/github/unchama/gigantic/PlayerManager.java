@@ -1,5 +1,6 @@
 package com.github.unchama.gigantic;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -9,9 +10,11 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
+import com.github.unchama.sql.player.GiganticTableManager;
 import com.github.unchama.task.GiganticInitializeTaskRunnable;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+
 /**
  * @author tar0ss
  *
@@ -21,9 +24,9 @@ public class PlayerManager {
 	private static DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 
 	// ロード済みのGiganticPlayerMap
-	public static HashMap<UUID, GiganticPlayer> gmap = new HashMap<UUID, GiganticPlayer>();
+	private static HashMap<UUID, GiganticPlayer> gmap = new HashMap<UUID, GiganticPlayer>();
 	// ロード待機中のGiganticPlayerMap
-	public static HashMap<UUID, GiganticPlayer> waitingloadmap = new HashMap<UUID, GiganticPlayer>();
+	private static HashMap<UUID, GiganticPlayer> waitingloadmap = new HashMap<UUID, GiganticPlayer>();
 
 	/**
 	 * hashmap_add
@@ -55,12 +58,13 @@ public class PlayerManager {
 	public static void quit(Player player) {
 		UUID uuid = player.getUniqueId();
 		GiganticPlayer gp = gmap.get(uuid);
-		if(gp == null)return ;
-		if(gp.getStatus().equals(GiganticStatus.AVAILABLE) && gp.isloaded()){
+		if (gp == null)
+			return;
+		if (gp.getStatus().equals(GiganticStatus.AVAILABLE) && gp.isloaded()) {
 			// 終了前最終処理を行う
 			gp.fin();
 
-			if(gp.getStatus().equals(GiganticStatus.FINALIZE)){
+			if (gp.getStatus().equals(GiganticStatus.FINALIZE)) {
 				// 最終データをsqlにセーブ
 				gp.save(false);
 
@@ -76,12 +80,27 @@ public class PlayerManager {
 	 * @return GiganticPlayer
 	 */
 	public static GiganticPlayer getGiganticPlayer(Player player) {
-		if(!gmap.containsKey(player.getUniqueId())){
+		if (!gmap.containsKey(player.getUniqueId())) {
 			Bukkit.getLogger().warning(player.getName() + " -> PlayerData not found.");
 			return null;
 		}
-		GiganticPlayer gp = gmap.get(player.getUniqueId());
-		return gp;
+		return getGiganticPlayer(player.getUniqueId());
+	}
+
+	/**
+	 * UUID -> GiganticPlayer
+	 *
+	 * @param uuid
+	 * @return
+	 */
+	public static GiganticPlayer getGiganticPlayer(UUID uuid){
+		GiganticPlayer gp = gmap.get(uuid);
+		if( gp == null){
+			Bukkit.getLogger().warning(uuid.toString() + " -> PlayerData not found.");
+			return null;
+		}else{
+			return gp;
+		}
 	}
 
 	/**
@@ -92,6 +111,14 @@ public class PlayerManager {
 	 */
 	public static Player getPlayer(GiganticPlayer gp) {
 		return plugin.getServer().getPlayer(gp.uuid);
+	}
+
+	/**現在保存しているGpを全て取得します．
+	 *
+	 * @return
+	 */
+	public static Collection<GiganticPlayer> getGiganticPlayerList() {
+		return gmap.values();
 	}
 
 	public static void onDisable() {
@@ -107,10 +134,10 @@ public class PlayerManager {
 		}
 	}
 
-	public static void multiload(){
+	public static void multiload() {
 		debug.info(DebugEnum.SQL, "並列読み込みを開始します．");
 		//空ならreturn
-		if(waitingloadmap.isEmpty()){
+		if (waitingloadmap.isEmpty()) {
 			debug.info(DebugEnum.SQL, "読み込み不要");
 			return;
 		}
@@ -120,7 +147,7 @@ public class PlayerManager {
 		waitingloadmap.clear();
 
 		String message = "対象プレイヤー(";
-		for(GiganticPlayer gp : tmpmap.values()){
+		for (GiganticPlayer gp : tmpmap.values()) {
 			message += gp.name + " ";
 		}
 		debug.info(DebugEnum.SQL, message + ")...");
@@ -128,7 +155,8 @@ public class PlayerManager {
 		// 全てのsqlデータをロード
 		Gigantic.sql.multiload(new HashMap<UUID, GiganticPlayer>(tmpmap));
 
-		new GiganticInitializeTaskRunnable(new HashMap<UUID, GiganticPlayer>(tmpmap)).runTaskTimerAsynchronously(plugin, 11, 20);
+		new GiganticInitializeTaskRunnable(new HashMap<UUID, GiganticPlayer>(tmpmap)).runTaskTimerAsynchronously(
+				plugin, 11, 20);
 
 	}
 
@@ -151,6 +179,31 @@ public class PlayerManager {
 		return gp == null ? GiganticStatus.NOT_LOADED : gp.getStatus();
 	}
 
+	/**UUID からプレイヤーネームを取得します
+	 *
+	 * @param uuid
+	 * @return
+	 */
+	public static String getName(UUID uuid) {
+		return Gigantic.sql.getManager(GiganticTableManager.class).getName(uuid);
+	}
 
+	/**Name からUUIDを取得します
+	 *
+	 * @param name
+	 * @return uuid
+	 */
+	public static UUID getUUID(String name) {
+		return Gigantic.sql.getManager(GiganticTableManager.class).getUUID(name);
+	}
+
+	/**Name -> GiganticPlayer
+	 *
+	 * @param name
+	 * @return gp
+	 */
+	public static GiganticPlayer getGiganticPlayer(String name){
+		return gmap.get(getUUID(name));
+	}
 
 }

@@ -6,46 +6,65 @@ import java.util.Optional;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.achievements.MineBlockAchievement;
+import com.github.unchama.achievement.achievements.MineBlockRankAchievement;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.ClassUtil;
 
 public enum AchievementEnum {
-	MINEBLOCK(3001,new MineBlockAchievement(10000)),
+	MINEBLOCKRANK_1(1001,new MineBlockRankAchievement(1001,3000)),
+	MINEBLOCKRANK_2(1002,new MineBlockRankAchievement(1002,1000)),
+	MINEBLOCKRANK_3(1003,new MineBlockRankAchievement(1003,500)),
+	MINEBLOCKRANK_4(1004,new MineBlockRankAchievement(1004,250)),
+	MINEBLOCKRANK_5(1005,new MineBlockRankAchievement(1005,100)),
+	MINEBLOCKRANK_6(1006,new MineBlockRankAchievement(1006,50)),
+	MINEBLOCKRANK_7(1007,new MineBlockRankAchievement(1007,27)),
+	MINEBLOCKRANK_8(1008,new MineBlockRankAchievement(1008,5)),
+	MINEBLOCKRANK_9(1009,new MineBlockRankAchievement(1009,1)),
+	MINEBLOCK_1(3001, new MineBlockAchievement(3001, 10000)),
+	MINEBLOCK_2(3002, new MineBlockAchievement(3002, 100000)),
+	MINEBLOCK_3(3003, new MineBlockAchievement(3003, 500000)),
+	MINEBLOCK_4(3004, new MineBlockAchievement(3004, 1000000)),
+	MINEBLOCK_5(3005, new MineBlockAchievement(3005, 5000000)),
+	MINEBLOCK_6(3006, new MineBlockAchievement(3006, 10000000)),
+	MINEBLOCK_7(3007, new MineBlockAchievement(3007, 50000000)),
+	MINEBLOCK_8(3008, new MineBlockAchievement(3008, 100000000)),
+	MINEBLOCK_9(3009, new MineBlockAchievement(3009, 500000000)),
+	MINEBLOCK_10(3010, new MineBlockAchievement(3010, 1000000000)),
+	MINEBLOCK_11(3011, new MineBlockAchievement(3011, 2147483646)),
+	PLAYTICK_1(4001,new PlayTickAchievement(4001,72000)),
 	;
 
-	private static LinkedHashMap<Integer,GiganticAchievement> idMap = new LinkedHashMap<>();
+	private static LinkedHashMap<Integer, GiganticAchievement> idMap = new LinkedHashMap<>();
 
 	//識別No.
 	private int id;
 	//使用するクラス
 	private GiganticAchievement achiv;
 
-	AchievementEnum(int id,GiganticAchievement achiv){
+	AchievementEnum(int id, GiganticAchievement achiv) {
 		this.id = id;
 		this.achiv = achiv;
 	}
 
-
-	public int getID(){
+	public int getID() {
 		return this.id;
 	}
 
-	public GiganticAchievement getAchievement(){
+	public GiganticAchievement getAchievement() {
 		return this.achiv;
 	}
 
-
-	public static Optional<GiganticAchievement> getAchievement(int id){
+	public static Optional<GiganticAchievement> getAchievement(int id) {
 		return Optional.ofNullable(idMap.get(id));
 	}
 
-    public static void registerAll(Gigantic plugin) {
-        for (AchievementEnum element : AchievementEnum.values()) {
-        	GiganticAchievement achiv = element.getAchievement();
-        	idMap.put(element.getID(), achiv);
-        	if(ClassUtil.isImplemented(achiv.getClass(), Listener.class)){
-        		plugin.getServer().getPluginManager().registerEvents((Listener)achiv,plugin);
-        	}
-        }
-    }
+	public static void registerAll(Gigantic plugin) {
+		for (AchievementEnum element : AchievementEnum.values()) {
+			GiganticAchievement achiv = element.getAchievement();
+			idMap.put(element.getID(), achiv);
+			if (ClassUtil.isImplemented(achiv.getClass(), Listener.class)) {
+				plugin.getServer().getPluginManager().registerEvents((Listener) achiv, plugin);
+			}
+		}
+	}
 }
