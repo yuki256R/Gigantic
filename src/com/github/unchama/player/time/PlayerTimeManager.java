@@ -9,7 +9,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.event.ChainJoinIncrementEvent;
 import com.github.unchama.event.PlayerTimeIncrementEvent;
+import com.github.unchama.event.TotalJoinIncrementEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
@@ -203,8 +205,10 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 
 			long datediff = (TodayLong - LastLong) / (1000 * 60 * 60 * 24);
 			if (datediff > 0) {
+				Bukkit.getServer().getPluginManager().callEvent(new TotalJoinIncrementEvent(gp, 1, totalJoin));
 				totalJoin++;
 				if (datediff == 1) {
+					Bukkit.getServer().getPluginManager().callEvent(new ChainJoinIncrementEvent(gp, 1, chainJoin));
 					chainJoin++;
 				} else {
 					chainJoin = 1;

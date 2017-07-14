@@ -5,9 +5,14 @@ import java.util.Optional;
 
 import org.bukkit.event.Listener;
 
+import com.github.unchama.achievement.achievements.ChainJoinAchievement;
 import com.github.unchama.achievement.achievements.MineBlockAchievement;
+import com.github.unchama.achievement.achievements.MineBlockLuckyNumberAchievement;
 import com.github.unchama.achievement.achievements.MineBlockRankAchievement;
 import com.github.unchama.achievement.achievements.PlayTickAchievement;
+import com.github.unchama.achievement.achievements.SpecialAchievement;
+import com.github.unchama.achievement.achievements.TotalJoinAchievement;
+import com.github.unchama.achievement.achievements.UnchamaPointAchievement;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
@@ -43,7 +48,12 @@ public enum AchievementEnum {
 	PLAYTICK_8(4008,new PlayTickAchievement(4008,Converter.DaytoTick(20))),
 	PLAYTICK_9(4009,new PlayTickAchievement(4009,Converter.DaytoTick(40))),
 	PLAYTICK_10(4010,new PlayTickAchievement(4010,Converter.DaytoTick(100))),
-	//CHAINJOIN_1(5001,new ChainJoinAchievement(5001,2))
+	CHAINJOIN_1(5001,new ChainJoinAchievement(5001,2)),
+	TOTALJOIN_1(5101,new TotalJoinAchievement(5101,2)),
+	UNCHAMAPOINT_1(6001,new UnchamaPointAchievement(6001,1)),
+	MINEBLOCK_SEVEN(8002, new MineBlockLuckyNumberAchievement(8002,777777)),
+	DATE_1(9001,new DateAchievement(9001,1,1)),
+	SPECIAL_1(7001,new SpecialAchievement(7001))
 	;
 
 	private static LinkedHashMap<Integer, GiganticAchievement> idMap = new LinkedHashMap<>();

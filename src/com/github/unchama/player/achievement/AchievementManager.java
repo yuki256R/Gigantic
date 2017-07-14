@@ -2,6 +2,7 @@ package com.github.unchama.player.achievement;
 
 import java.util.BitSet;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.achievement.AchievementEnum;
@@ -18,10 +19,13 @@ public final class AchievementManager extends DataManager implements UsingSql{
 
 	private BitSet achivFlagSet;
 
+	private BitSet achivGivenFlagSet;
+
 	public AchievementManager(GiganticPlayer gp) {
 		super(gp);
 		tm = sql.getManager(AchievementTableManager.class);
 		this.achivFlagSet = new BitSet(10000);
+		this.achivGivenFlagSet = new BitSet(1000);
 	}
 
 	@Override
@@ -34,8 +38,11 @@ public final class AchievementManager extends DataManager implements UsingSql{
 		if(!flag){
 			this.setFlag(id);
 			Player player = PlayerManager.getPlayer(gp);
-			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "実績No." + id + "を解除しました．");
 			AnotherName aN = AchievementEnum.getAchievement(id).get().getAnotherName();
+
+			player.sendMessage(ChatColor.AQUA + "実績No." + id + "【" + aN.getName() + "】を解除しました!");
+
+			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "実績No." + id + "【" + aN.getName() + "】を解除しました．");
 			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "二つ名前：" + aN.getTopName());
 			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "二つ名中：" + aN.getMiddleName());
 			debug.sendMessage(player,DebugEnum.ACHIEVEMENT, "二つ名後：" + aN.getBottomName());
@@ -65,6 +72,14 @@ public final class AchievementManager extends DataManager implements UsingSql{
 
 	public void setAchivFlagSet(BitSet flagSet) {
 		this.achivFlagSet = flagSet;
+	}
+
+	public BitSet getAchivGivenFlagSet(){
+		return this.achivGivenFlagSet;
+	}
+
+	public void setAchivGivenFlagSet(BitSet givenflagSet) {
+		this.achivGivenFlagSet = givenflagSet;
 	}
 
 }

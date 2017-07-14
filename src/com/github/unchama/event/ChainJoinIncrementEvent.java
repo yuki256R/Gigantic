@@ -2,17 +2,16 @@ package com.github.unchama.event;
 
 import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.player.GiganticPlayer;
-
 /**
  * @author tar0ss
  *
  */
-public class MineBlockIncrementEvent extends CustomEvent {
+public class ChainJoinIncrementEvent extends CustomEvent {
 
 	private final GiganticPlayer gp;
 	private final double increase, pre_all, next_all;
 
-	public MineBlockIncrementEvent(GiganticPlayer gp, double increase, double pre_all) {
+	public ChainJoinIncrementEvent(GiganticPlayer gp, double increase, double pre_all) {
 		this.gp = gp;
 		this.pre_all = pre_all;
 		this.next_all = pre_all + increase;
