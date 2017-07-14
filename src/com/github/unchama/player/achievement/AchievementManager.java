@@ -49,6 +49,7 @@ public final class AchievementManager extends DataManager implements UsingSql{
 		}
 	}
 
+
 	/**フラグをtrueに設定
 	 *
 	 * @param id
