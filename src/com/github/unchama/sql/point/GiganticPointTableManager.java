@@ -1,7 +1,6 @@
 package com.github.unchama.sql.point;
 
 import com.github.unchama.player.point.GiganticPointManager;
-import com.github.unchama.player.point.PointManager;
 import com.github.unchama.sql.Sql;
 
 /**

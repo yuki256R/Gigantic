@@ -3,6 +3,7 @@ package com.github.unchama.seichi.sql;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import com.github.unchama.player.seichiskill.effect.EffectType;
 import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
+import com.github.unchama.util.Converter;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
@@ -515,6 +517,51 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return point;
 	}
 	// 何かデータがほしいときはメソッドを作成しコマンドを送信する．
+
+	public BitSet getAchivFlagSet(GiganticPlayer gp) {
+		String command = "select TitleFlags from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+		this.checkStatement();
+		BitSet flagSet = null;
+		BitSet ansSet = new BitSet(10000);
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+
+			String str = rs.getString("AchievmentFlagSet");
+			if(str != null){
+				flagSet = Converter.toBitSet(str);
+
+				for(int i = 1; i <= 9; i++){
+					if(flagSet.get(i + 1000)){
+						ansSet.set(10 - i + 1000);
+					}
+				}
+				for(int i = 1; i <= 8; i++){
+					if(flagSet.get(i + 5000)){
+						ansSet.set(9 - i + 5000);
+					}
+				}
+				for(int i = 1; i <= 11; i++){
+					if(flagSet.get(i + 5100)){
+						ansSet.set(10 - i + 5100);
+					}
+				}
+
+				for(int i = 1; i <= 3000; i++){
+					if(flagSet.get(i + 7000)){
+						ansSet.set(i + 7000);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load TitleFlags player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return ansSet;
+	}
 
 
 }

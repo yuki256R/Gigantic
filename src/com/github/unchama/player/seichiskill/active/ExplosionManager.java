@@ -13,7 +13,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.unchama.listener.GeneralBreakListener;
+import com.github.unchama.listener.listeners.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;

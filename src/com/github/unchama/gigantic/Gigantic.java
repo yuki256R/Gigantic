@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.command.CommandType;
 import com.github.unchama.enchantment.EnchantmentEnum;
 import com.github.unchama.gacha.Gacha;
@@ -88,6 +89,9 @@ public final class Gigantic extends JavaPlugin {
 
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
+
+		// 実績を登録
+		AchievementEnum.registerAll(plugin);
 
 		//エンチャントを登録
 		EnchantmentEnum.registerAll();

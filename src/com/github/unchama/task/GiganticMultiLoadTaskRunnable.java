@@ -43,7 +43,7 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 		this.loadmap = loadmap;
 		this.loginmap = new HashMap<UUID, GiganticPlayer>();
 		this.tm = tm;
-		this.attempt = -1;
+		this.attempt = 0;
 		this.max_attempt = config.getMaxAttempt();
 		try {
 			this.stmt = tm.createStatement();
@@ -143,12 +143,12 @@ public class GiganticMultiLoadTaskRunnable extends BukkitRunnable {
 								+ gp.name + "のデータをロードしました．");
 						// load
 						tm.loadPlayer(gp, rs);
-						// DataManagerにloadedフラグを送る
-						tm.setLoaded(gp, true);
 						// loginmapに追加
 						loginmap.put(uuid, loadmap.get(uuid));
 						// loadmapから削除
 						loadmap.remove(uuid);
+						// DataManagerにloadedフラグを送る
+						tm.setLoaded(gp, true);
 					}
 					rs.close();
 				} catch (SQLException e) {
