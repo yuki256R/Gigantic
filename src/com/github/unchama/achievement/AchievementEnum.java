@@ -7,8 +7,10 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.achievements.MineBlockAchievement;
 import com.github.unchama.achievement.achievements.MineBlockRankAchievement;
+import com.github.unchama.achievement.achievements.PlayTickAchievement;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.ClassUtil;
+import com.github.unchama.util.Converter;
 
 public enum AchievementEnum {
 	MINEBLOCKRANK_1(1001,new MineBlockRankAchievement(1001,3000)),
@@ -31,7 +33,17 @@ public enum AchievementEnum {
 	MINEBLOCK_9(3009, new MineBlockAchievement(3009, 500000000)),
 	MINEBLOCK_10(3010, new MineBlockAchievement(3010, 1000000000)),
 	MINEBLOCK_11(3011, new MineBlockAchievement(3011, 2147483646)),
-	PLAYTICK_1(4001,new PlayTickAchievement(4001,72000)),
+	PLAYTICK_1(4001,new PlayTickAchievement(4001,Converter.HourtoTick(1))),
+	PLAYTICK_2(4002,new PlayTickAchievement(4002,Converter.HourtoTick(5))),
+	PLAYTICK_3(4003,new PlayTickAchievement(4003,Converter.HourtoTick(10))),
+	PLAYTICK_4(4004,new PlayTickAchievement(4004,Converter.DaytoTick(1))),
+	PLAYTICK_5(4005,new PlayTickAchievement(4005,Converter.DaytoTick(2))),
+	PLAYTICK_6(4006,new PlayTickAchievement(4006,Converter.DaytoTick(4))),
+	PLAYTICK_7(4007,new PlayTickAchievement(4007,Converter.DaytoTick(10))),
+	PLAYTICK_8(4008,new PlayTickAchievement(4008,Converter.DaytoTick(20))),
+	PLAYTICK_9(4009,new PlayTickAchievement(4009,Converter.DaytoTick(40))),
+	PLAYTICK_10(4010,new PlayTickAchievement(4010,Converter.DaytoTick(100))),
+	//CHAINJOIN_1(5001,new ChainJoinAchievement(5001,2))
 	;
 
 	private static LinkedHashMap<Integer, GiganticAchievement> idMap = new LinkedHashMap<>();

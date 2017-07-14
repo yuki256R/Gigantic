@@ -568,7 +568,7 @@ public class Sql {
 	 *
 	 * @param gp
 	 */
-	public void onAvailavle(GiganticPlayer gp) {
+	public void onAvailable(GiganticPlayer gp) {
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap

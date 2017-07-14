@@ -180,14 +180,12 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 
 	}
 
-	public void checkJoinNum(String lastcheck) {
+	public void checkJoinNum() {
 		//連続・通算ログインの情報、およびその更新
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		if (lastcheck == "" || lastcheck == null) {
+		if (lastcheckdate == "" || lastcheckdate == null) {
 			lastcheckdate = sdf.format(cal.getTime());
-		} else {
-			lastcheckdate = lastcheck;
 		}
 
 		if (chainJoin == 0) {
@@ -216,5 +214,9 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 			e.printStackTrace();
 		}
 		lastcheckdate = sdf.format(cal.getTime());
+	}
+
+	public void setLastCheckDate(String lastcheckdate) {
+		this.lastcheckdate = lastcheckdate;
 	}
 }

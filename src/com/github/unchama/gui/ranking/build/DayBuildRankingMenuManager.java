@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
-import com.github.unchama.util.Util;
 
 /**
  * @author tar0ss
@@ -19,7 +18,7 @@ public final class DayBuildRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
-		return "総建築量:" + Util.Decimal(value);
+		return "総建築量:" + (int)value;
 	}
 
 	@Override

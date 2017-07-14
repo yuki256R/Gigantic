@@ -4,9 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.achievement.AchievementManager;
@@ -70,6 +72,7 @@ public class GiganticPlayer {
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
+		SIDEBAR(SideBarManager.class),
 		GIGANTIC(GiganticManager.class),
 		SETTINGS(PlayerSettingsManager.class),
 		GUISTATUS(GuiStatusManager.class),
@@ -110,7 +113,7 @@ public class GiganticPlayer {
 		UNCHAMAPOINT(UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointManager.class),
 		ACHIEVEMENT(AchievementManager.class),
-		SIDEBAR(SideBarManager.class), //サイドバー表示は必ず最後に，
+
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -203,10 +206,10 @@ public class GiganticPlayer {
 					mc.getMethod("init").invoke(this.managermap.get(mc));
 				}
 			}
+			Bukkit.getServer().getPluginManager().callEvent(new GiganticPlayerAvailableEvent(this));
 			this.setStatus(GiganticStatus.AVAILABLE);
 			player.sendMessage(ChatColor.GREEN
 					+ "ロードが完了しました");
-			sql.onAvailavle(this);
 		} catch (IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException
 				| SecurityException | NullPointerException e) {

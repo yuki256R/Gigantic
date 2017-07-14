@@ -22,7 +22,6 @@ import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.moduler.Finalizable;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.CardinalDirection;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
@@ -34,7 +33,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 /**
  * @author karayuu
  */
-public class SkyWalkManager extends PassiveSkillManager implements Initializable, Finalizable{
+public class SkyWalkManager extends PassiveSkillManager implements Finalizable{
 
     /** スキルのON/OFFトグル */
     private boolean toggle;
@@ -52,8 +51,8 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
         this.toggle = false;
     }
 
-    @Override
-    public void init() {
+
+    public void onAvailable() {
         Mm = gp.getManager(ManaManager.class);
     }
     /**

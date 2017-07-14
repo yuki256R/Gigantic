@@ -103,4 +103,49 @@
   top: '期待'
   middle: ''
   bottom: '新人'
+4002:
+  name: '減らぬ課題'
+  top: '減らぬ'
+  middle: ''
+  bottom: '課題'
+4003:
+  name: 'さらば終電'
+  top: 'さらば'
+  middle: ''
+  bottom: '終電'
+4004:
+  name: '完徹マン'
+  top: '完徹'
+  middle: ''
+  bottom: 'マン'
+4005:
+  name: '三日目の朝'
+  top: '三日目'
+  middle: ''
+  bottom: '朝'
+4006:
+  name: '元気100倍'
+  top: '元気'
+  middle: ''
+  bottom: '百倍'
+4007:
+  name: '目覚めの夜'
+  top: '目覚め'
+  middle: ''
+  bottom: '夜'
+4008:
+  name: '企業戦士'
+  top: '企業'
+  middle: ''
+  bottom: '戦士'
+4009:
+  name: '休日爆撃機'
+  top: '休日'
+  middle: ''
+  bottom: '爆撃機'
+4010:
+  name: 'ｼｬﾁｸﾉｷﾜﾐ'
+  top: '社畜'
+  middle: ''
+  bottom: '極み'
   

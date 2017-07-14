@@ -12,7 +12,6 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.sql.player.ManaTableManager;
@@ -22,7 +21,7 @@ import com.github.unchama.util.Util;
  * @author tar0ss
  *
  */
-public class ManaManager extends DataManager implements Initializable, UsingSql, Finalizable{
+public class ManaManager extends DataManager implements UsingSql, Finalizable{
 
 	private double m;
 	private double max;
@@ -38,8 +37,8 @@ public class ManaManager extends DataManager implements Initializable, UsingSql,
         tm = sql.getManager(ManaTableManager.class);
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		Sm = gp.getManager(SeichiLevelManager.class);
 		this.updateMaxMana(Sm.getLevel());
 		Player player = PlayerManager.getPlayer(gp);

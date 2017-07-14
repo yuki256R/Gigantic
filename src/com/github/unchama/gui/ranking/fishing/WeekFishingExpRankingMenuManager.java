@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
-import com.github.unchama.util.Util;
 
 /**
  * @author ten_niti
@@ -15,7 +14,7 @@ import com.github.unchama.util.Util;
 public class WeekFishingExpRankingMenuManager extends RankingMenuManager {
 	@Override
 	protected String getLore(double value) {
-		return "総釣り経験値:" + Util.Decimal(value);
+		return "総釣り経験値:" + (int)value;
 	}
 
 	@Override

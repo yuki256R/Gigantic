@@ -52,6 +52,26 @@ public class Converter {
 		return name.toLowerCase();// 小文字に
 	}
 
+	public static long SecondtoTick(int sec){
+		return sec * 20;
+	}
+	public static long MinutetoTick(int min){
+		return SecondtoTick(min * 60);
+	}
+	public static long HourtoTick(int h){
+		return MinutetoTick(h * 60);
+	}
+	public static long DaytoTick(int d){
+		return HourtoTick(d * 24);
+	}
+	public static long WeektoTick(int w){
+		return DaytoTick(w * 7);
+	}
+	public static long YeartoTick(int y){
+		return DaytoTick(y * 365);
+	}
+
+
 	/**与えられたtick数から時間表示を返します
 	 *
 	 * @param _tick
