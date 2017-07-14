@@ -51,6 +51,7 @@ public enum AchievementEnum {
 	CHAINJOIN_1(5001,new ChainJoinAchievement(5001,2)),
 	TOTALJOIN_1(5101,new TotalJoinAchievement(5101,2)),
 	UNCHAMAPOINT_1(6001,new UnchamaPointAchievement(6001,1)),
+	FULLTICKET(8001, new FullTicketAchievement(8001)),
 	MINEBLOCK_SEVEN(8002, new MineBlockLuckyNumberAchievement(8002,777777)),
 	DATE_1(9001,new DateAchievement(9001,1,1)),
 	SPECIAL_1(7001,new SpecialAchievement(7001))
