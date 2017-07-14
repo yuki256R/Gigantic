@@ -1,4 +1,4 @@
-package com.github.unchama.command;
+package com.github.unchama.command.commands;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;

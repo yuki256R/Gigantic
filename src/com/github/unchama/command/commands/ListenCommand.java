@@ -1,4 +1,4 @@
-package com.github.unchama.command;
+package com.github.unchama.command.commands;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -49,37 +49,37 @@ public final class GiganticPlayerAvailableListener implements Listener {
 		mm.onAvailable();
 	}
 	@EventHandler
-	public void updataMineBoostonAvailable(GiganticPlayerAvailableEvent event){
+	public void refreshMineBoostonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		MineBoostManager mm = gp.getManager(MineBoostManager.class);
 		mm.onAvailable();
 	}
 	@EventHandler
-	public void updataToolPouchonAvailable(GiganticPlayerAvailableEvent event){
+	public void refreshToolPouchonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		ToolPouchManager mm = gp.getManager(ToolPouchManager.class);
 		mm.onAvailable();
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void updataSecureBreakonAvailable(GiganticPlayerAvailableEvent event){
+	public void refreshSecureBreakonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		SecureBreakManager mm = gp.getManager(SecureBreakManager.class);
 		mm.onAvailable();
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void updataSkyWalkonAvailable(GiganticPlayerAvailableEvent event){
+	public void refreshSkyWalkonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		SkyWalkManager mm = gp.getManager(SkyWalkManager.class);
 		mm.onAvailable();
 	}
 	@EventHandler
-	public void updataBuildLevelonAvailable(GiganticPlayerAvailableEvent event){
+	public void refreshBuildLevelonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		BuildLevelManager mm = gp.getManager(BuildLevelManager.class);
 		mm.onAvailable();
 	}
 	@EventHandler
-	public void updataSeichiLevelonAvailable(GiganticPlayerAvailableEvent event){
+	public void refreshSeichiLevelonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		SeichiLevelManager mm = gp.getManager(SeichiLevelManager.class);
 		mm.onAvailable();
