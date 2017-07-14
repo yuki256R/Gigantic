@@ -47,4 +47,17 @@ public final class AnotherName {
 		return bottomName;
 	}
 
+	public String getName(AnotherNameParts parts){
+		switch(parts){
+		case BOTTOM:
+			return this.getBottomName();
+		case MIDDLE:
+			return this.getMiddleName();
+		case TOP:
+			return this.getTopName();
+		default:
+			return this.getTopName();
+		}
+	}
+
 }

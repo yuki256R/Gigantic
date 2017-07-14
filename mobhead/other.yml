@@ -132,7 +132,6 @@ mobhead:
   g_question:
     dispname: 'ギガ？'
     url: 'http://textures.minecraft.net/texture/9d9cc58ad25a1ab16d36bb5d6d493c8f5898c2bf302b64e325921c41c35867'
-    
-    
-    
-    
+  pickel_chalice:
+    dispname: '聖杯（ピッケル）'
+    url: 'http://textures.minecraft.net/texture/bf6464a5ba11e1e59f0948a3d95846654253bf2822c6b1c1b3a4a3fd31ba4f'

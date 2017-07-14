@@ -101,6 +101,20 @@ name: '&5&lメインメニュー'
       - '&r&7細かな設定が行えます'
       - '&r&4&nクリックで開く'
   openmenu: 'playersettingsmenu'
+3:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: NAME_TAG
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l実績・二つ名'
+      lore:
+      - '&r&7実績関連メニュー'
+      - '&r&7取得可能な実績や二つ名を'
+      - '&r&7閲覧，設定できます．'
+      - '&r&4&nクリックで開く'
+  openmenu: 'achievementmenu'
 4:
   itemstack:
     ==: org.bukkit.inventory.ItemStack

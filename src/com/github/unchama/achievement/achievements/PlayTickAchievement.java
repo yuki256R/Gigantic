@@ -5,6 +5,7 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.PlayerTimeIncrementEvent;
+import com.github.unchama.util.Converter;
 
 public final class PlayTickAchievement extends GiganticAchievement implements Listener{
 
@@ -38,6 +39,16 @@ public final class PlayTickAchievement extends GiganticAchievement implements Li
 		if(event.getNextTick() >= this.getUnlockTick()){
 			this.unlockAchievement(event.getGiganticPlayer());
 		}
+	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "累計接続時間が" + Converter.toTimeString(this.getUnlockTick()) + "を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "累計接続時間が" + Converter.toTimeString(this.getUnlockTick()) + "を超える";
 	}
 
 }

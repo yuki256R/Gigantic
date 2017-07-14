@@ -72,13 +72,13 @@ public final class GiganticPlayerAvailableListener implements Listener {
 		SkyWalkManager mm = gp.getManager(SkyWalkManager.class);
 		mm.onAvailable();
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void refreshBuildLevelonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		BuildLevelManager mm = gp.getManager(BuildLevelManager.class);
 		mm.onAvailable();
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOWEST)
 	public void refreshSeichiLevelonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		SeichiLevelManager mm = gp.getManager(SeichiLevelManager.class);

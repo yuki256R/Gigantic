@@ -37,4 +37,14 @@ public final class ChainJoinAchievement extends GiganticAchievement implements L
 		if (event.getNextAll() >= this.getUnlockChain())
 			this.unlockAchievement(event.getGiganticPlayer());
 	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "連続ログイン日数が" + this.getUnlockChain() + "を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "連続ログイン日数が" + this.getUnlockChain() + "を超える";
+	}
 }

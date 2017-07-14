@@ -37,4 +37,14 @@ public final class TotalJoinAchievement extends GiganticAchievement implements L
 		if (event.getNextAll() >= this.getUnlockJoin())
 			this.unlockAchievement(event.getGiganticPlayer());
 	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "累計ログイン日数が" + this.getUnlockJoin() + "日を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "累計ログイン日数が" + this.getUnlockJoin() + "日を超える";
+	}
 }

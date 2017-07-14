@@ -3,6 +3,7 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.achievement.AchievementMenuManager;
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
 import com.github.unchama.gui.admin.build.AdminBuildMenuManager;
 import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
@@ -199,6 +200,7 @@ public final class GuiMenu {
         HELPMENU(HelpMenuManager.class),
         HOMEMENU(HomeMenuManager.class),
         HOMEPROTECTMENU(HomeProtectMenuManager.class),
+        ACHIEVEMENTMENU(AchievementMenuManager.class),
 		;
 
 		// 使用するManagerClass

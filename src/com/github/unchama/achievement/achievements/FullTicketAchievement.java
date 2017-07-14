@@ -1,4 +1,6 @@
-package com.github.unchama.achievement;
+package com.github.unchama.achievement.achievements;
+
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -9,6 +11,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -50,5 +53,15 @@ public final class FullTicketAchievement extends GiganticAchievement implements 
 			}
 			this.unlockAchievement(gp);
 		}
+	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "インベントリを全てガチャ券で埋める";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return ChatColor.MAGIC + "????????????";
 	}
 }

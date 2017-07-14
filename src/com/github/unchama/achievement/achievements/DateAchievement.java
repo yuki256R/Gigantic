@@ -1,4 +1,4 @@
-package com.github.unchama.achievement;
+package com.github.unchama.achievement.achievements;
 
 import java.util.Calendar;
 
@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.util.TimeUtil;
 
@@ -44,6 +45,7 @@ public final class DateAchievement extends GiganticAchievement implements Listen
 				this.unlockAchievement(event.getGiganticPlayer());
 		}
 
+
 	}
 
 	/**
@@ -58,6 +60,15 @@ public final class DateAchievement extends GiganticAchievement implements Listen
 	 */
 	public int getUnlockDate() {
 		return unlockDate;
+	}
+
+	@Override
+	public String getUnlockInfo() {
+		return this.getUnlockMonth() + "月" + this.getUnlockDate() + "日にログイン";
+	}
+	@Override
+	public String getLockInfo() {
+		return this.getUnlockMonth() + "月" + this.getUnlockDate() + "日にログイン";
 	}
 
 }

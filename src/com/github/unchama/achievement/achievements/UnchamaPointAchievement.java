@@ -43,4 +43,14 @@ public class UnchamaPointAchievement extends GiganticAchievement implements List
 			this.unlockAchievement(event.getGiganticPlayer());
 	}
 
+	@Override
+	public String getUnlockInfo() {
+		return "投票数が" + this.getUnlockNum() + "を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "投票数が" + this.getUnlockNum() + "を超える";
+	}
+
 }

@@ -1,5 +1,7 @@
 package com.github.unchama.achievement.achievements;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -47,6 +49,16 @@ public final class MineBlockLuckyNumberAchievement extends GiganticAchievement i
 	public void MineBlockIncrementListener(MineBlockIncrementEvent event) {
 		if (event.getNextAll() % this.getBalancer()  == this.getUnlockNum())
 			this.unlockAchievement(event.getGiganticPlayer());
+	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "整地量の下" + Long.toString(unlock_num).length() + "桁が丁度" + this.getUnlockNum() + "になる";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return ChatColor.MAGIC + "????????????";
 	}
 
 }

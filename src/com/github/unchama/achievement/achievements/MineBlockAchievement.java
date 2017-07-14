@@ -44,4 +44,14 @@ public class MineBlockAchievement extends GiganticAchievement implements Listene
 			this.unlockAchievement(event.getGiganticPlayer());
 	}
 
+	@Override
+	public String getUnlockInfo() {
+		return "総整地量が" + getUnlockNum() + "を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "総整地量が" + getUnlockNum() + "を超える";
+	}
+
 }

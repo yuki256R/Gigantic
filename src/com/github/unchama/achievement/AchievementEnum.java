@@ -1,11 +1,15 @@
 package com.github.unchama.achievement;
 
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.achievements.ChainJoinAchievement;
+import com.github.unchama.achievement.achievements.DateAchievement;
+import com.github.unchama.achievement.achievements.FullTicketAchievement;
 import com.github.unchama.achievement.achievements.MineBlockAchievement;
 import com.github.unchama.achievement.achievements.MineBlockLuckyNumberAchievement;
 import com.github.unchama.achievement.achievements.MineBlockRankAchievement;
@@ -54,7 +58,7 @@ public enum AchievementEnum {
 	FULLTICKET(8001, new FullTicketAchievement(8001)),
 	MINEBLOCK_SEVEN(8002, new MineBlockLuckyNumberAchievement(8002,777777)),
 	DATE_1(9001,new DateAchievement(9001,1,1)),
-	SPECIAL_1(7001,new SpecialAchievement(7001))
+	SPECIAL_1(7001,new SpecialAchievement(7001,"<獲得条件>"))
 	;
 
 	private static LinkedHashMap<Integer, GiganticAchievement> idMap = new LinkedHashMap<>();
@@ -63,6 +67,29 @@ public enum AchievementEnum {
 	private int id;
 	//使用するクラス
 	private GiganticAchievement achiv;
+
+	private static final AchievementEnum[] ACHIVLIST = AchievementEnum.values();
+
+	private static final HashMap<AnotherNameParts,Integer> PARTSNUM = new HashMap<AnotherNameParts,Integer>();
+
+
+	static{
+		for(AnotherNameParts parts: AnotherNameParts.values()){
+			PARTSNUM.put(parts, 0);
+		}
+
+		for(AchievementEnum achiv : ACHIVLIST){
+			AnotherName aN = achiv.getAchievement().getAnotherName();
+			for(AnotherNameParts parts: AnotherNameParts.values()){
+				String name = aN.getName(parts);
+				if(name != null && name != ""){
+					int i = PARTSNUM.get(parts);
+					i++;
+					PARTSNUM.put(parts, i);
+				}
+			}
+		}
+	}
 
 	AchievementEnum(int id, GiganticAchievement achiv) {
 		this.id = id;
@@ -82,12 +109,24 @@ public enum AchievementEnum {
 	}
 
 	public static void registerAll(Gigantic plugin) {
-		for (AchievementEnum element : AchievementEnum.values()) {
+		for (AchievementEnum element : ACHIVLIST) {
 			GiganticAchievement achiv = element.getAchievement();
 			idMap.put(element.getID(), achiv);
 			if (ClassUtil.isImplemented(achiv.getClass(), Listener.class)) {
 				plugin.getServer().getPluginManager().registerEvents((Listener) achiv, plugin);
 			}
 		}
+	}
+
+	public static Collection<GiganticAchievement> getAchievements(){
+		return idMap.values();
+	}
+
+	public static int getAchivementNum() {
+		return ACHIVLIST.length;
+	}
+
+	public static int getAnotherNameNum(AnotherNameParts parts) {
+		return PARTSNUM.get(parts);
 	}
 }

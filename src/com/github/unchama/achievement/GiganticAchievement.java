@@ -31,4 +31,14 @@ public abstract class GiganticAchievement {
 	 * @return
 	 */
 	public abstract int getID();
+
+	/**獲得後の条件の文字情報を取得します
+	 *
+	 */
+	public abstract String getUnlockInfo();
+
+	/**獲得前の条件の文字情報を取得します
+	 *
+	 */
+	public abstract String getLockInfo();
 }

@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.achievement.AnotherName;
+import com.github.unchama.achievement.AnotherNameParts;
+import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
@@ -63,7 +65,7 @@ public final class AchievementManager extends DataManager implements UsingSql{
 	 * @param id
 	 * @return
 	 */
-	private boolean getFlag(int id) {
+	public boolean getFlag(int id) {
 		return this.achivFlagSet.get(id);
 	}
 
@@ -81,6 +83,29 @@ public final class AchievementManager extends DataManager implements UsingSql{
 
 	public void setAchivGivenFlagSet(BitSet givenflagSet) {
 		this.achivGivenFlagSet = givenflagSet;
+	}
+
+	public int getUnlockedAchivementNum() {
+		int unlockedNum = 0;
+		for(GiganticAchievement achiv : AchievementEnum.getAchievements()){
+			if(this.getFlag(achiv.getID())){
+				unlockedNum++;
+			}
+		}
+		return unlockedNum;
+	}
+
+	public int getUnlockedAnotherNameNum(AnotherNameParts parts) {
+		int unlockedNum = 0;
+		for(GiganticAchievement achiv : AchievementEnum.getAchievements()){
+			if(this.getFlag(achiv.getID())){
+				String aN = achiv.getAnotherName().getName(parts);
+				if(aN != null && aN != ""){
+					unlockedNum++;
+				}
+			}
+		}
+		return unlockedNum;
 	}
 
 }
