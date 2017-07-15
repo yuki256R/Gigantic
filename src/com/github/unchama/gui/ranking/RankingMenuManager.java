@@ -13,11 +13,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.event.updateRankEvent;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.util.TimeUtil;
 import com.github.unchama.util.Util;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
  * @author tar0ss
@@ -83,9 +85,15 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 			Util.setLore(is, "" + ChatColor.GREEN + this.getLore(value));
 			int slot = rankslotMap.get(rank);
 			invMap.get(page).setItem(slot, is);
+
+			Bukkit.getServer().getPluginManager()
+			.callEvent(new updateRankEvent(this.getClass(),name,rank));
+
 			rank++;
 		}
 		loadflag = true;
+
+		debug.info(DebugEnum.GUI, this.getInventoryName(null) + " Ranking is Updated");
 	}
 
 	protected abstract String getLore(double value);
@@ -127,27 +135,29 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		String title = player.getOpenInventory().getTitle();
-		int namelength = this.getInventoryName(player).length();
-		int page = Integer.valueOf(title.substring(namelength + 1, namelength + 2));
+		int titlelength = title.length();
+		String pS = "ページ";
+		int page = Integer.valueOf(title.substring(titlelength - pS.length() - 1, titlelength - pS.length()));
+		//debug.sendMessage(player, DebugEnum.GUI, "current page:" + page);
 		switch (identifier) {
 		case "go":
 			if(page != 3){
 				player.openInventory(invMap.get(page + 1));
+				//debug.sendMessage(player, DebugEnum.GUI, "next page:" + page);
 				player.playSound(player.getLocation(), getSoundName(), getVolume(),
 						getPitch());
 			}
-			break;
+			return true;
 		case "back":
 			if(page != 1){
 				player.openInventory(invMap.get(page - 1));
 				player.playSound(player.getLocation(), getSoundName(), getVolume(),
 						getPitch());
 			}
-			break;
+			return true;
 		default:
-			break;
+			return false;
 		}
-		return false;
 	}
 
 	@Override

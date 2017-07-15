@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
@@ -48,6 +49,7 @@ import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.sql.moduler.TableManager;
+import com.github.unchama.sql.player.AchievementTableManager;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
@@ -130,6 +132,7 @@ public class Sql {
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
 		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
+		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -534,6 +537,13 @@ public class Sql {
 	public void update() {
 		int delay = 1;
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if(GiganticTableManager.class.isAssignableFrom(mt)){
+				GiganticTableManager tm = (GiganticTableManager) managermap.get(mt);
+				tm.updateNameMap();
+			}
+		}
+		delay++;
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
@@ -543,36 +553,22 @@ public class Sql {
 				new RankingUpdateTaskRunnable(rtm).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
-
-			}
-		}
-
-	}
-
-	/**期間式ランキングのアップデート
-	 *
-	 * @param timeType
-	 */
-	public void update(TimeType tt) {
-		int delay = 1;
-		for (Class<? extends TableManager> mt : managermap.keySet()) {
-			if (RankingTableManager.class.isAssignableFrom(mt)) {
-				RankingTableManager rtm = (RankingTableManager) managermap
-						.get(mt);
-				new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
-						plugin, delay);
-				delay++;
-
+				for(TimeType tt : TimeType.values()){
+					new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
+							plugin, delay);
+					delay++;
+				}
 			}
 		}
 	}
+
 
 	/**
 	 * gpが初期化を終了した後に処理される
 	 *
 	 * @param gp
 	 */
-	public void onAvailavle(GiganticPlayer gp) {
+	public void onAvailable(GiganticPlayer gp) {
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap

@@ -3,7 +3,6 @@ package com.github.unchama.exchange;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 
 /**
  * Created by Mon_chi on 2017/06/17.

@@ -20,7 +20,6 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 
@@ -30,8 +29,7 @@ import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
  * @author tar0ss
  *
  */
-public class ManaRecoveryManager extends PassiveSkillManager implements
-		Initializable {
+public class ManaRecoveryManager extends PassiveSkillManager{
 	private static Random rnd = new Random();
 
 	// マナ回復レベルとマナ回復量のマップ
@@ -66,8 +64,8 @@ public class ManaRecoveryManager extends PassiveSkillManager implements
 		this.recoverylevel = 0;
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		this.refresh(false);
 	}
 

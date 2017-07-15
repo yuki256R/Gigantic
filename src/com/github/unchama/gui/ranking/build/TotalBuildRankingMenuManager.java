@@ -8,7 +8,6 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.TotalRankingMenuManager;
-import com.github.unchama.util.Util;
 
 /**
  * @author tar0ss
@@ -18,7 +17,7 @@ public final class TotalBuildRankingMenuManager extends TotalRankingMenuManager 
 
 	@Override
 	protected String getLore(double value) {
-		return "総建築量:" + Util.Decimal(value);
+		return "総建築量:" + (int)value;
 	}
 
 	@Override
