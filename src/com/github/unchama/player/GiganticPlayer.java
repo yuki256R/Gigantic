@@ -29,6 +29,7 @@ import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
@@ -109,6 +110,7 @@ public class GiganticPlayer {
 		EFFECT(SkillEffectManager.class),
 		UNCHAMAPOINT(UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointManager.class),
+		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 
