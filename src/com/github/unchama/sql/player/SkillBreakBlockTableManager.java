@@ -4,12 +4,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+//import org.bukkit.Bukkit;
+
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
 
+/**
+ * スキル別破壊量プレイヤーデータセーブ用
+ * SQL関係
+ * @author karayuu
+ *
+ */
 public class SkillBreakBlockTableManager extends PlayerTableManager{
 
 	public SkillBreakBlockTableManager(Sql sql) {
@@ -41,7 +49,11 @@ public class SkillBreakBlockTableManager extends PlayerTableManager{
 
 		for (ActiveSkillType type : ActiveSkillType.values()) {
 			setmap.put(type, rs.getDouble(type.toString()));
+			//Bukkit.getServer().getLogger().info("[road()] " + type.toString() + "。value=" + rs.getDouble(type.toString()));
 		}
+
+		SkillBreakBlockManager bbmanager = gp.getManager(SkillBreakBlockManager.class);
+		bbmanager.setup(setmap);
 	}
 
 	@Override
@@ -54,10 +66,13 @@ public class SkillBreakBlockTableManager extends PlayerTableManager{
 		for (ActiveSkillType type : ActiveSkillType.values()) {
 			if (savemap.containsKey(type)) {
 				String typename = type.toString();
+				Double amount = savemap.get(type);
 
-				command += typename + " = '" + savemap.get(typename) + "',";
+				command += typename + " = '" + amount + "',";
+				//Bukkit.getServer().getLogger().info("[save()] " + type.toString() + "。value=" + amount);
 			}
 		}
+		//Bukkit.getServer().getLogger().info("SQLCommand:" + command);
 		return command;
 	}
 

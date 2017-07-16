@@ -6,16 +6,25 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
+import com.github.unchama.sql.player.SkillBreakBlockTableManager;
 
+/**
+ * スキル別破壊量プレイヤーデータ。
+ * 新規スキルを作成の際には,こちらにも破壊量を追加すること。
+ *
+ * @author karayuu
+ *
+ */
 public class SkillBreakBlockManager extends DataManager implements UsingSql{
 
 	public SkillBreakBlockManager(GiganticPlayer gp) {
 		super(gp);
-		startup();
 	}
 
 	//プレイヤーごとの使用スキルと破壊量のマップ
 	private HashMap<ActiveSkillType, Double> skillbreakmap;
+
+	SkillBreakBlockTableManager tm = sql.getManager(SkillBreakBlockTableManager.class);
 
 	public void startup() {
 		skillbreakmap = new HashMap<ActiveSkillType, Double>();
@@ -26,6 +35,8 @@ public class SkillBreakBlockManager extends DataManager implements UsingSql{
 	}
 
 	public void setup(HashMap<ActiveSkillType, Double> set) {
+		skillbreakmap = new HashMap<>();
+
 		for (ActiveSkillType type : ActiveSkillType.values()) {
 			if (set.containsKey(type)) {
 				Double amount = set.get(type);
@@ -50,7 +61,7 @@ public class SkillBreakBlockManager extends DataManager implements UsingSql{
 
 	@Override
 	public void save(Boolean loginflag) {
-
+		tm.save(gp, loginflag);
 	}
 
 }
