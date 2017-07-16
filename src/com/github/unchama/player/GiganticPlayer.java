@@ -32,6 +32,7 @@ import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
@@ -113,7 +114,7 @@ public class GiganticPlayer {
 		UNCHAMAPOINT(UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointManager.class),
 		ACHIEVEMENT(AchievementManager.class),
-
+		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

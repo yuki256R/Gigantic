@@ -26,6 +26,7 @@ import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.point.GiganticPointManager;
@@ -72,6 +73,7 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
+import com.github.unchama.sql.player.SkillBreakBlockTableManager;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.point.GiganticPointTableManager;
@@ -101,6 +103,7 @@ public class Sql {
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
 		MINEBLOCK(MineBlockTableManager.class, MineBlockManager.class), //
+		SKILLBREAKBLOCK(SkillBreakBlockTableManager.class, SkillBreakBlockManager.class),
 		MANA(ManaTableManager.class, ManaManager.class), //
 		MINESTACK(MineStackTableManager.class, MineStackManager.class), //
 		TOOLPOUCH(ToolPouchTableManager.class, ToolPouchManager.class), //
