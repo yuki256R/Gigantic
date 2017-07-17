@@ -141,6 +141,7 @@ public class SkyWalkManager extends PassiveSkillManager implements Finalizable{
                 build.forEach((b) -> {
                 	b.setType(Material.AIR);
                 	b.removeMetadata("FootBlock", plugin);
+                	b.removeMetadata("Skilled", plugin);
                 });
                 build.clear();
 
@@ -170,6 +171,7 @@ public class SkyWalkManager extends PassiveSkillManager implements Finalizable{
                 	if (!b.hasMetadata("FootBlock") && Wg.canBuild(player, b) && b.getType().equals(Material.AIR)) {
                 		b.setType(footBlock);
                 		b.setMetadata("FootBlock", new FixedMetadataValue(plugin, true));
+                		b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
                 		build.add(b);
                 	}
                 });
