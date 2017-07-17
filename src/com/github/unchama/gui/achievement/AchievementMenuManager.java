@@ -25,26 +25,56 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.player.point.UnchamaPointManager;
+import com.github.unchama.util.TextUtil;
 import com.github.unchama.util.Util;
 
 public final class AchievementMenuManager extends GuiMenuManager {
+	// 前のページへボタン
+	protected ItemStack prevButton;
+	protected static final int prevButtonSlot = 45;
+
+	// 次のページへボタン
+	protected ItemStack nextButton;
+	protected static final int nextButtonSlot = 53;
+
+	public AchievementMenuManager() {
+		super();
+		prevButton = head.getMobHead("left");
+		Util.setDisplayName(prevButton, "前のページ");
+		nextButton = head.getMobHead("right");
+		Util.setDisplayName(nextButton, "次のページ");
+	}
 
 	@Override
 	public Inventory getInventory(Player player, int slot) {
 		Inventory inv = this.getEmptyInventory(player);
+
+		inv.setItem(prevButtonSlot,prevButton);
+		inv.setItem(nextButtonSlot,nextButton);
+
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		AchievementManager aM = gp.getManager(AchievementManager.class);
 		GuiStatusManager sM = gp.getManager(GuiStatusManager.class);
+		UnchamaPointManager pM = gp.getManager(UnchamaPointManager.class);
 		String identifier = (String) sM.getCurrentObject(this);
-		Integer c = sM.getCurrentPage(this);
-		for (int i = 0; i < inv.getSize(); i++) {
+		int cat = 0;
+		String catS = sM.getSelectedCategory(this);
+		if (catS != null && catS != "") {
+			cat = Integer.valueOf(catS);
+		} else {
+			sM.setSelectedCategory(this, Integer.toString(0));
+		}
+		int page = sM.getCurrentPage(this);
+		for (int i = 0; i < inv.getSize() - 9; i++) {
 			ItemStack is = null;
-			List<String> lore = new ArrayList<String>();;
+			List<String> lore = new ArrayList<String>();
 			if (i < 9) {
 				switch (i) {
 				case 0:
 					is = head.getPlayerHead(player.getName());
-					Util.setDisplayName(is, "" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + player.getName() + "の実績情報");
+					Util.setDisplayName(is,
+							"" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + player.getName() + "の実績情報");
 					lore.add(ChatColor.GREEN + "実績解除状況:" + aM.getUnlockedAchivementNum() + "/"
 							+ AchievementEnum.getAchivementNum());
 					lore.add(ChatColor.GREEN + "二つ名パーツ獲得状況");
@@ -70,27 +100,29 @@ public final class AchievementMenuManager extends GuiMenuManager {
 					Util.setLore(is, lore);
 					break;
 				}
-			}else if(identifier == "achievement"){
+			} else if (identifier == "achievement") {
 				AchievementCategory[] catList = AchievementCategory.getCategorys();
-				if(i >= 9 && i < 18){
-					is = new ItemStack(Material.STAINED_GLASS,1,(short) (i - 9));
+				if (i >= 9 && i < 18) {
+					is = new ItemStack(Material.STAINED_GLASS, 1, (short) (i - 9));
 					Util.setDisplayName(is, "" + ChatColor.DARK_AQUA + "【実績】 " + catList[i - 9].getName());
-				}else if(c.intValue() < 9){
-					AchievementCategory aC = catList[c.intValue()];
-					List<GiganticAchievement> aList =  AchievementCategory.getAchivList(aC);
-					if(i-18 < aList.size()){
-						GiganticAchievement ga = aList.get(i-18);
+				} else {
+					AchievementCategory aC = catList[cat];
+					List<GiganticAchievement> aList = AchievementCategory.getAchivList(aC);
+					int d = i - 18 + (27 * page);
+					if (d < aList.size()) {
+						GiganticAchievement ga = aList.get(d);
 						AnotherName aN = ga.getAnotherName();
-						if(aM.getFlag(ga.getID())){
+						if (aM.getFlag(ga.getID())) {
 							is = head.getMobHead("pickel_chalice");
 							Util.setDisplayName(is, "" + ChatColor.BLUE + aN.getName());
-							lore.add(ChatColor.WHITE + "獲得条件");
+							lore.add("" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "獲得条件");
 							lore.add(ChatColor.WHITE + ga.getUnlockInfo());
+							lore.add(ChatColor.GRAY + "-----------------");
 							lore.add(ChatColor.GRAY + "前パーツ：" + aN.getTopName());
 							lore.add(ChatColor.GRAY + "中パーツ：" + aN.getMiddleName());
 							lore.add(ChatColor.GRAY + "後パーツ：" + aN.getBottomName());
 							Util.setLore(is, lore);
-						}else{
+						} else {
 							is = head.getMobHead("n_question");
 							Util.setDisplayName(is, "" + ChatColor.BLUE + aN.getName());
 							lore.add(ChatColor.WHITE + "獲得条件");
@@ -99,8 +131,119 @@ public final class AchievementMenuManager extends GuiMenuManager {
 						}
 					}
 				}
-			}else if(identifier == "anothername"){
+			} else if (identifier == "anothername") {
+				if (i >= 9 && i < 18) {
+					switch (i) {
+					case 9:
+						if (aM.isLevelDisplay()) {
+							is = new ItemStack(Material.BUCKET);
+						} else {
+							is = new ItemStack(Material.MILK_BUCKET);
+						}
+						Util.setDisplayName(is, "" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + "現在の二つ名"
+								+ ChatColor.RESET + ChatColor.WHITE + "[" + aM.getAnotherName() + "]");
+						lore.add(ChatColor.GREEN + "クリックして前パーツを作成");
+						Util.setLore(is, lore);
+						break;
+					case 10:
+						is = new ItemStack(Material.EMERALD);
+						Util.setDisplayName(is, "" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + "ポイント変換");
+						lore.add(ChatColor.GRAY + "JMS投票で手に入るポイントを");
+						lore.add(ChatColor.GRAY + "実績ポイントと交換できます．");
+						lore.add(ChatColor.GREEN + "クリックすると1回交換されます");
+						lore.add(ChatColor.GREEN + "投票ポイント:" + pM.getPoint());
+						lore.add(ChatColor.GREEN + "実績ポイント:" + aM.getAchievementPoint());
+						lore.add(ChatColor.DARK_GREEN + "----交換レート----");
+						lore.add("" + ChatColor.DARK_GREEN + ChatColor.BOLD + "投票pt 10pt -> 実績pt 3pt");
+						Util.setLore(is, lore);
+						break;
+					case 11:
+						break;
+					case 12:
+						is = head.getMobHead("purple_cmd");
+						Util.setDisplayName(is, "" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + "前パーツ選択");
+						break;
+					case 13:
+						is = head.getMobHead("green_cmd");
+						Util.setDisplayName(is, "" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + "中パーツ選択");
+						break;
+					case 14:
+						is = head.getMobHead("cmd");
+						Util.setDisplayName(is, "" + ChatColor.YELLOW + ChatColor.BOLD + ChatColor.UNDERLINE + "後パーツ選択");
+						break;
+					case 15:
+						break;
+					}
+				} else if (cat == 0 || cat == 3 || cat == 4 || cat == 5) {
+					AnotherNameParts parts = AnotherNameParts.TOP;
+					switch (cat) {
+					case 0:
+					case 3:
+						parts = AnotherNameParts.TOP;
+						break;
+					case 4:
+						parts = AnotherNameParts.MIDDLE;
+						break;
+					case 5:
+						parts = AnotherNameParts.BOTTOM;
+						break;
+					}
+					List<GiganticAchievement> aList = AchievementEnum.getAchievementList(parts);
+					int d = i - 18 + (27 * page);
+					if (d < aList.size()) {
+						GiganticAchievement ga = aList.get(d);
+						AnotherName aN = ga.getAnotherName();
+						if (aM.getFlag(ga.getID())) {
+							if (aM.getAnotherNamePartsID(parts) == ga.getID()) {
+								is = new ItemStack(Material.EYE_OF_ENDER);
+							} else {
+								is = new ItemStack(Material.ENDER_PEARL);
+							}
+							Util.setDisplayName(is, "" + ChatColor.AQUA + ChatColor.BOLD + "実績No." + ga.getID() + "");
+							switch (parts) {
+							case BOTTOM:
+								lore.add(ChatColor.WHITE + "後パーツ：" + ChatColor.BOLD + aN.getBottomName());
+								break;
+							case MIDDLE:
+								lore.add(ChatColor.WHITE + "中パーツ：" + ChatColor.BOLD + aN.getMiddleName());
+								break;
+							case TOP:
+								lore.add(ChatColor.WHITE + "前パーツ：" + ChatColor.BOLD + aN.getTopName());
+								break;
+							}
+							lore.add(ChatColor.GRAY + "------------------");
+							String cname = aM.getChengedAnotherName(ga, parts);
+							if(TextUtil.getLength(cname) < 20){
+								lore.add(ChatColor.GRAY + "変換前:" + ChatColor.BOLD + aM.getAnotherName());
+								lore.add(ChatColor.GRAY + "             ↓      ");
+								lore.add(ChatColor.GRAY + "変換後:" + ChatColor.BOLD + cname);
+							}else{
+								lore.add(ChatColor.RED + "文字数が多すぎます．");
+							}
+							Util.setLore(is, lore);
+						} else {
+							is = head.getMobHead("n_question");
+							Util.setDisplayName(is, "" + ChatColor.BLUE + aN.getName());
+							if (ga.isPurchasable()) {
+								switch (parts) {
+								case BOTTOM:
+									lore.add(ChatColor.GRAY + "後パーツ：" + aN.getBottomName());
+									break;
+								case MIDDLE:
+									lore.add(ChatColor.GRAY + "中パーツ：" + aN.getMiddleName());
+									break;
+								case TOP:
+									lore.add(ChatColor.GRAY + "前パーツ：" + aN.getTopName());
+									break;
+								}
+							} else {
+								lore.add(ChatColor.DARK_RED + "購入できない実績です．");
+							}
+							Util.setLore(is, lore);
+						}
+					}
 
+				}
 			}
 			inv.setItem(i, is);
 		}
@@ -110,50 +253,148 @@ public final class AchievementMenuManager extends GuiMenuManager {
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
-		idmap.put(2,"achievement");
-		idmap.put(4,"anothername");
-		for(int i = 9 ; i < 18 ; i++){
+		idmap.put(2, "achievement");
+		idmap.put(4, "anothername");
+		for (int i = 9; i < this.getInventorySize() - 9; i++) {
 			idmap.put(i, Integer.toString(i));
 		}
+		idmap.put(prevButtonSlot, "back");
+		idmap.put(nextButtonSlot, "go");
 	}
 
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		GuiStatusManager sm = gp.getManager(GuiStatusManager.class);
+		AchievementManager aM = gp.getManager(AchievementManager.class);
+		GuiStatusManager sM = gp.getManager(GuiStatusManager.class);
+		int page = sM.getCurrentPage(this);
+		String c = (String) sM.getCurrentObject(this);
+		int cat = Integer.valueOf(sM.getSelectedCategory(this));
+		int d;
 		switch (identifier) {
 		case "achievement":
-			sm.setCurrentObject(this, identifier);
+			sM.setCurrentObject(this, identifier);
+			sM.setSelectedCategory(this, Integer.toString(0));
+			sM.setCurrentPage(this, 0);
 			this.update(player);
 			return true;
 		case "anothername":
-			sm.setCurrentObject(this, identifier);
+			sM.setCurrentObject(this, identifier);
+			sM.setSelectedCategory(this, Integer.toString(0));
+			sM.setCurrentPage(this, 0);
 			this.update(player);
 			return true;
-		case "9":
-		case "10":
-		case "11":
-		case "12":
-		case "13":
-		case "14":
-		case "15":
-		case "16":
-		case "17":
-			int s = Integer.valueOf(identifier);
-			String c = (String) sm.getCurrentObject(this);
-			switch(c){
+		case "go":
+			page++;
+			d = 27 * page;
+			switch (c) {
 			case "achievement":
-				sm.setCurrentPage(this, s - 9);
-				this.update(player);
-				return true;
+				AchievementCategory[] catList = AchievementCategory.getCategorys();
+				AchievementCategory aC = catList[cat];
+				List<GiganticAchievement> aList = AchievementCategory.getAchivList(aC);
+				if (d < aList.size()) {
+
+					sM.setCurrentPage(this, page);
+					this.update(player);
+					return true;
+				}
+				return false;
 			case "anothername":
-				sm.setCurrentPage(this, s - 9);
+				AnotherNameParts parts = AnotherNameParts.TOP;
+				switch (cat) {
+				case 3:
+					parts = AnotherNameParts.TOP;
+					break;
+				case 4:
+					parts = AnotherNameParts.MIDDLE;
+					break;
+				case 5:
+					parts = AnotherNameParts.BOTTOM;
+					break;
+				}
+				List<GiganticAchievement> apList = AchievementEnum.getAchievementList(parts);
+				if (d < apList.size()) {
+					page++;
+					sM.setCurrentPage(this, page);
+					this.update(player);
+					return true;
+				}
+				return false;
+			}
+			return false;
+		case "back":
+			if (page == 0) {
+				return false;
+			}else{
+				page--;
+				sM.setCurrentPage(this, page);
 				this.update(player);
 				return true;
 			}
-			return true;
 		default:
-			return false;
+			int s = Integer.valueOf(identifier);
+			page = sM.getCurrentPage(this);
+			Inventory inv = player.getOpenInventory().getTopInventory();
+			if (inv.getItem(s) == null)
+				return false;
+			if (s >= 9 && s < 18) {
+				switch (c) {
+				case "achievement":
+					sM.setSelectedCategory(this, Integer.toString(s - 9));
+					sM.setCurrentPage(this, 0);
+					this.update(player);
+					return true;
+				case "anothername":
+					sM.setSelectedCategory(this, Integer.toString(s - 9));
+					sM.setCurrentPage(this, 0);
+					this.update(player);
+					return true;
+				}
+			} else {
+				switch (c) {
+				case "achievement":
+					/*設定ミスによりスルー
+					page = sm.getCurrentPage(this);
+					AchievementCategory[] catList = AchievementCategory.getCategorys();
+					AchievementCategory aC = catList[page];
+					List<GiganticAchievement> aList = AchievementCategory.getAchivList(aC);
+					GiganticAchievement ga = aList.get(s - 18);
+					if (aM.getFlag(ga.getID())) {
+						aM.setAnotherName(ga.getID());
+					}
+					this.update(player);
+					return true;
+					*/
+				case "anothername":
+					AnotherNameParts parts = AnotherNameParts.TOP;
+					switch (cat) {
+					case 3:
+						parts = AnotherNameParts.TOP;
+						break;
+					case 4:
+						parts = AnotherNameParts.MIDDLE;
+						break;
+					case 5:
+						parts = AnotherNameParts.BOTTOM;
+						break;
+					}
+					List<GiganticAchievement> aList = AchievementEnum.getAchievementList(parts);
+					d = s - 18 + (27 * page);
+					GiganticAchievement ga = aList.get(d);
+					if (aM.getFlag(ga.getID())) {
+						String cname = aM.getChengedAnotherName(ga, parts);
+						if(TextUtil.getLength(cname) < 20){
+							aM.setAnotherNamePartsID(parts, ga.getID());
+						}else{
+							return false;
+						}
+					}
+					this.update(player);
+					return true;
+				}
+			}
+
+			return true;
 		}
 	}
 
@@ -177,12 +418,12 @@ public final class AchievementMenuManager extends GuiMenuManager {
 
 	@Override
 	public int getInventorySize() {
-		return 9 * 5;
+		return 9 * 6;
 	}
 
 	@Override
 	public String getInventoryName(Player player) {
-		return  "" + ChatColor.BOLD + ChatColor.UNDERLINE + ChatColor.DARK_AQUA + "実績・二つ名";
+		return "" + ChatColor.BOLD + ChatColor.UNDERLINE + ChatColor.DARK_AQUA + "実績・二つ名";
 	}
 
 	@Override
