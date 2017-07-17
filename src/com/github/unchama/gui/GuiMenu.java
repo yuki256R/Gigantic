@@ -111,7 +111,7 @@ public final class GuiMenu {
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		ADMINCUSTOMHEADMAINMENU(AdminCustomHeadMainMenuManager.class),
-		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
+		ADMINCUSTOMHEADGIVEMENU(AdminCustomHeadGiveMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
         ADMINBUILDMENU(AdminBuildMenuManager.class),

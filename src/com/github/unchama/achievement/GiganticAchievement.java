@@ -41,4 +41,22 @@ public abstract class GiganticAchievement {
 	 *
 	 */
 	public abstract String getLockInfo();
+
+	/**獲得できるポイントを取得します．
+	 *
+	 * @return
+	 */
+	public abstract int getPoint();
+
+	/**解除時に使用するポイントを取得します．
+	 *
+	 * @return
+	 */
+	public abstract int getUsePoint();
+
+	/**購入可能か
+	 *
+	 */
+	public abstract boolean isPurchasable();
+
 }

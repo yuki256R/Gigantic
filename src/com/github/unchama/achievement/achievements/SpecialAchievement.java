@@ -55,4 +55,19 @@ public final class SpecialAchievement extends GiganticAchievement implements Lis
 	public String getLockInfo() {
 		return info;
 	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
 }

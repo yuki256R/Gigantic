@@ -2,6 +2,8 @@ package com.github.unchama.achievement.achievements;
 
 import java.util.Calendar;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -40,10 +42,17 @@ public final class DateAchievement extends GiganticAchievement implements Listen
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void GiganticPlayerAvailableListener(GiganticPlayerAvailableEvent event) {
 		Calendar cal = TimeUtil.getCalendar();
-		if(cal.get(Calendar.MONTH) + 1 == this.getUnlockMonth() &&
-				cal.get(Calendar.DATE) == this.getUnlockDate()){
-				this.unlockAchievement(event.getGiganticPlayer());
+		if(this.getUnlockDate() == 0){
+			if(cal.get(Calendar.MONTH) + 1 == this.getUnlockMonth()){
+					this.unlockAchievement(event.getGiganticPlayer());
+			}
+		}else{
+			if(cal.get(Calendar.MONTH) + 1 == this.getUnlockMonth() &&
+					cal.get(Calendar.DATE) == this.getUnlockDate()){
+					this.unlockAchievement(event.getGiganticPlayer());
+			}
 		}
+
 
 
 	}
@@ -64,11 +73,26 @@ public final class DateAchievement extends GiganticAchievement implements Listen
 
 	@Override
 	public String getUnlockInfo() {
-		return this.getUnlockMonth() + "月" + this.getUnlockDate() + "日にログイン";
+		return this.getUnlockDate() == 0 ? this.getUnlockMonth() + "月にログイン" :this.getUnlockMonth() + "月" + this.getUnlockDate() + "日にログイン";
 	}
 	@Override
 	public String getLockInfo() {
-		return this.getUnlockMonth() + "月" + this.getUnlockDate() + "日にログイン";
+		return ChatColor.MAGIC + "????????";
+	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
 	}
 
 }

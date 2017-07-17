@@ -12,9 +12,10 @@ public enum AchievementCategory {
 	CHAINJOIN("連続ログイン日数", 5001, 5099),
 	TOTALJOIN("累計ログイン日数", 5100, 5199),
 	UNCHAMAPOINT("投票ポイント", 6001, 6999),
-	DATE("日付", 9001, 9999),
+	DATE("日付", 9001, 9899),
 	SPECIAL("特殊", 7001, 7999),
-	SECRET("極秘", 8001, 8999), ;
+	SECRET("極秘", 8001, 8999),
+	;
 
 	private final String name;
 
@@ -29,7 +30,7 @@ public enum AchievementCategory {
 		}
 		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
 			AchievementCategory c = getCategory(ga.getID());
-			cMap.get(c).add(ga);
+			if(c != null)cMap.get(c).add(ga);
 		}
 	}
 

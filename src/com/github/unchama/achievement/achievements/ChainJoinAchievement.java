@@ -40,11 +40,26 @@ public final class ChainJoinAchievement extends GiganticAchievement implements L
 
 	@Override
 	public String getUnlockInfo() {
-		return "連続ログイン日数が" + this.getUnlockChain() + "を超える";
+		return "連続ログイン日数が" + this.getUnlockChain() + "日を超える";
 	}
 
 	@Override
 	public String getLockInfo() {
-		return "連続ログイン日数が" + this.getUnlockChain() + "を超える";
+		return "連続ログイン日数が" + this.getUnlockChain() + "日を超える";
+	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
 	}
 }

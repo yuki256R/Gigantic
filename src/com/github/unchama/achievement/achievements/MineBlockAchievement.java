@@ -54,4 +54,19 @@ public class MineBlockAchievement extends GiganticAchievement implements Listene
 		return "総整地量が" + getUnlockNum() + "を超える";
 	}
 
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
+
 }

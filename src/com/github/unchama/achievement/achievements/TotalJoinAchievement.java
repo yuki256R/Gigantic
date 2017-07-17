@@ -47,4 +47,19 @@ public final class TotalJoinAchievement extends GiganticAchievement implements L
 	public String getLockInfo() {
 		return "累計ログイン日数が" + this.getUnlockJoin() + "日を超える";
 	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
 }

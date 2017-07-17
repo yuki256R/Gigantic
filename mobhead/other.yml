@@ -135,3 +135,14 @@ mobhead:
   pickel_chalice:
     dispname: '聖杯（ピッケル）'
     url: 'http://textures.minecraft.net/texture/bf6464a5ba11e1e59f0948a3d95846654253bf2822c6b1c1b3a4a3fd31ba4f'
+  purple_cmd:
+    dispname: 'コマンドブロック（紫）'
+    url: 'http://textures.minecraft.net/texture/9e31f33796a485cb4a1d78bf569aff815bf93f97b9c4a4c5d9def7d9060'
+  green_cmd:
+    dispname: 'コマンドブロック（緑）'
+    url: 'http://textures.minecraft.net/texture/9dcf2962878cbf7e145c92efcc1c63bfd24dc126fc519d08b18318e4b1a4e'
+  cmd:
+    dispname: 'コマンドブロック'
+    url: 'http://textures.minecraft.net/texture/5f4c21d17ad636387ea3c736bff6ade897317e1374cd5d9b1c15e6e8953432'
+    
+    

@@ -66,5 +66,20 @@ public final class MineBlockRankAchievement extends GiganticAchievement implemen
 		return "累計整地量ランキングで" + this.getUnlockRank() + "位になる";
 	}
 
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
+
 
 }

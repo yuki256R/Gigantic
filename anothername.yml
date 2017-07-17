@@ -148,4 +148,405 @@
   top: '社畜'
   middle: ''
   bottom: '極み'
+5001:
+  name: 'お楽しみの'
+  top: 'お楽しみ'
+  middle: ''
+  bottom: 'お楽しみ'
+5002:
+  name: '止まらない'
+  top: '止まらない'
+  middle: ''
+  bottom: '止まらない'
+5003:
+  name: 'マイブーム'
+  top: 'マイ'
+  middle: ''
+  bottom: 'ブーム'
+5004:
+  name: 'もはや日課'
+  top: 'もはや'
+  middle: ''
+  bottom: '日課'
+5005:
+  name: '大好きなのです'
+  top: '大好き'
+  middle: ''
+  bottom: 'なのです'
+5006:
+  name: '義務感'
+  top: '義務感'
+  middle: ''
+  bottom: '義務感'
+5007:
+  name: '永久ループ'
+  top: '永久'
+  middle: ''
+  bottom: 'ループ'
+5008:
+  name: '絶え間なき'
+  top: '絶え間'
+  middle: ''
+  bottom: 'なき'
+5101:
+  name: '再び'
+  top: '再び'
+  middle: ''
+  bottom: '再び'
+5102:
+  name: '顔見知り'
+  top: '顔見知り'
+  middle: ''
+  bottom: '顔見知り'
+5103:
+  name: '常連'
+  top: '常連'
+  middle: ''
+  bottom: '常連'
+5104:
+  name: 'とにかく入る'
+  top: 'とにかく'
+  middle: ''
+  bottom: '入る'
+5105:
+  name: '月に捧げる'
+  top: '月に'
+  middle: ''
+  bottom: '捧げる'
+5106:
+  name: '忠誠心'
+  top: '忠誠心'
+  middle: ''
+  bottom: '忠誠心'
+5107:
+  name: 'ここがおうち'
+  top: 'ここ'
+  middle: ''
+  bottom: 'おうち'
+5108:
+  name: '百の軌跡'
+  top: '百'
+  middle: ''
+  bottom: '奇跡'
+5109:
+  name: '無欠勤'
+  top: '無欠勤'
+  middle: ''
+  bottom: '無欠勤'
+5110:
+  name: '終わりが見えた'
+  top: '終わり'
+  middle: ''
+  bottom: '見えた'
+5111:
+  name: 'いざ二週目'
+  top: 'いざ'
+  middle: ''
+  bottom: '２週目'
+6001:
+  name: 'お気に入りの'
+  top: 'お気に入り'
+  middle: ''
+  bottom: 'お気に入り'
+6002:
+  name: '熱烈なファン'
+  top: '熱烈'
+  middle: ''
+  bottom: 'ファン'
+6003:
+  name: '投票の鬼'
+  top: '鬼'
+  middle: ''
+  bottom: '鬼'
+6004:
+  name: '魅惑の'
+  top: '魅惑'
+  middle: ''
+  bottom: '魅惑'
+6005:
+  name: '虜になった'
+  top: '虜'
+  middle: ''
+  bottom: 'なった'
+6006:
+  name: '洗脳済'
+  top: '洗脳済'
+  middle: ''
+  bottom: '洗脳済'
+6007:
+  name: '全身全霊'
+  top: '全身'
+  middle: ''
+  bottom: '全霊'
+6008:
+  name: '狂信者'
+  top: '狂信者'
+  middle: ''
+  bottom: '狂信者'
+7001:
+  name: '栄光を目指す'
+  top: '栄光'
+  middle: ''
+  bottom: '目指す'
+7002:
+  name: '貫禄の王者'
+  top: '貫禄'
+  middle: ''
+  bottom: '王者'
+7003:
+  name: '顕現の立役者'
+  top: '顕現'
+  middle: ''
+  bottom: '立役者'
+7004:
+  name: '無から有へと'
+  top: '無'
+  middle: ''
+  bottom: '有'
+7005:
+  name: '確かな一歩'
+  top: '確か'
+  middle: ''
+  bottom: '一歩'
+7006:
+  name: '春の妖精'
+  top: '春'
+  middle: ''
+  bottom: '妖精'
+7007:
+  name: '匠からの挑戦状'
+  top: '匠'
+  middle: ''
+  bottom: '挑戦状'
+7008:
+  name: '神器の創造主'
+  top: '神器'
+  middle: ''
+  bottom: '創造主'
+7009:
+  name: '採掘王生誕祭'
+  top: '生誕祭'
+  middle: ''
+  bottom: '採掘王'
+7010:
+  name: '凍てつく情熱'
+  top: '凍てつく'
+  middle: ''
+  bottom: '情熱'
+7011:
+  name: '灼熱の海岸線'
+  top: '灼熱'
+  middle: ''
+  bottom: '海岸線'
+7012:
+  name: '不沈の邸宅'
+  top: '不沈'
+  middle: ''
+  bottom: '邸宅'
+8001:
+  name: '時空の旅人'
+  top: '時空'
+  middle: ''
+  bottom: '旅人'
+8002:
+  name: '幸運の申し子'
+  top: '幸運'
+  middle: ''
+  bottom: '申し子'
+8003:
+  name: 'タスク撃墜王'
+  top: 'タスク'
+  middle: ''
+  bottom: '撃墜王'
+9901:
+  name: '中パーツ1'
+  top: ''
+  middle: 'は'
+  bottom: ''
+9902:
+  name: '中パーツ2'
+  top: ''
+  middle: 'な'
+  bottom: ''
+9903:
+  name: '中パーツ3'
+  top: ''
+  middle: 'と'
+  bottom: ''
+9904:
+  name: '中パーツ4'
+  top: ''
+  middle: 'み'
+  bottom: ''
+9905:
+  name: '中パーツ5'
+  top: ''
+  middle: 'の'
+  bottom: ''
+9906:
+  name: '中パーツ6'
+  top: ''
+  middle: 'も'
+  bottom: ''
+9907:
+  name: '中パーツ7'
+  top: ''
+  middle: 'が'
+  bottom: ''
+99081:
+  name: '中パーツ8'
+  top: ''
+  middle: 'で'
+  bottom: ''
+9909:
+  name: '中パーツ9'
+  top: ''
+  middle: 'を'
+  bottom: ''
+9910:
+  name: '中パーツ10'
+  top: ''
+  middle: 'から'
+  bottom: ''
+  
+9001:
+  name: 'とある始まりの日'
+  top: 'お年玉'
+  middle: ''
+  bottom: 'お年玉'
+9002:
+  name: 'とある聖夜の日'
+  top: 'サンタ'
+  middle: ''
+  bottom: 'さん'
+9003:
+  name: 'とある終わりの日'
+  top: '年越し'
+  middle: ''
+  bottom: 'そば'
+9004:
+  name: '睦月'
+  top: 'ヤギ'
+  middle: '族'
+  bottom: '頭領'
+9005:
+  name: '如月'
+  top: '亀'
+  middle: ''
+  bottom: 'ではない'
+9006:
+  name: 'とあるお豆の絨毯爆撃の日'
+  top: '鬼'
+  middle: ''
+  bottom: '鬼'
+9007:
+  name: '建国記念日'
+  top: '創立者'
+  middle: ''
+  bottom: '創立者'
+9008:
+  name: 'とあるカカオまみれの日'
+  top: '友チョコ'
+  middle: ''
+  bottom: '0枚'
+9009:
+  name: '弥生'
+  top: '魚類'
+  middle: ''
+  bottom: '魚類'
+9010:
+  name: 'とあるカカオまみれの日'
+  top: 'どかん'
+  middle: ''
+  bottom: '一発'
+9011:
+  name: '燃え尽きたカカオの日'
+  top: '必要資金'
+  middle: ''
+  bottom: '0円'
+9012:
+  name: '春分の日'
+  top: '平等'
+  middle: ''
+  bottom: '主義'
+9013:
+  name: '卯月'
+  top: '刈らないで'
+  middle: ''
+  bottom: '刈らないで'
+9014:
+  name: 'とある嘘の日'
+  top: 'Iu999'
+  middle: ''
+  bottom: ''
+9015:
+  name: 'とある良い子の日'
+  top: '全科目'
+  middle: ''
+  bottom: 'C評価'
+9016:
+  name: 'とある掃除デー'
+  top: '塵'
+  middle: 'しか'
+  bottom: '残さない'
+9017:
+  name: '皐月'
+  top: '余す所'
+  middle: ''
+  bottom: 'なき'
+9018:
+  name: 'とある子供の日'
+  top: '紙耐久'
+  middle: ''
+  bottom: '紙耐久'
+9019:
+  name: '端午の節句'
+  top: '空気'
+  middle: ''
+  bottom: '美味也'
+9020:
+  name: '母の日'
+  top: '溢れ出る'
+  middle: ''
+  bottom: '母性'
+9021:
+  name: '水無月'
+  top: '始点'
+  middle: ''
+  bottom: '分岐点'
+9022:
+  name: 'とある日記の日'
+  top: '褪せない'
+  middle: ''
+  bottom: '記録'
+9023:
+  name: '父の日'
+  top: '滲み出る'
+  middle: ''
+  bottom: '父性'
+9024:
+  name: 'とある生誕の日'
+  top: 'ぐるっと'
+  middle: ''
+  bottom: '回って'
+9025:
+  name: '文月'
+  top: 'ｖ'
+  middle: '(・v・)'
+  bottom: 'ｖ'
+9026:
+  name: '七夕'
+  top: '繋がる'
+  middle: ''
+  bottom: '願い'
+9027:
+  name: 'とある東京の日'
+  top: '過密'
+  middle: ''
+  bottom: '地帯'
+9028:
+  name: 'とある肉の日'
+  top: '食卓'
+  middle: 'からの'
+  bottom: '食卓'
   

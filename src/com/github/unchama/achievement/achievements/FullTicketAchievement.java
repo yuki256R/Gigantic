@@ -64,4 +64,19 @@ public final class FullTicketAchievement extends GiganticAchievement implements 
 	public String getLockInfo() {
 		return ChatColor.MAGIC + "????????????";
 	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
 }

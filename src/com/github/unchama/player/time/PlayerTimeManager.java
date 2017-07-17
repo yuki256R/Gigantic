@@ -223,4 +223,8 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 	public void setLastCheckDate(String lastcheckdate) {
 		this.lastcheckdate = lastcheckdate;
 	}
+
+	public int getIdleMinutes() {
+		return this.idletime;
+	}
 }

@@ -51,4 +51,19 @@ public final class PlayTickAchievement extends GiganticAchievement implements Li
 		return "累計接続時間が" + Converter.toTimeString(this.getUnlockTick()) + "を超える";
 	}
 
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
+
 }

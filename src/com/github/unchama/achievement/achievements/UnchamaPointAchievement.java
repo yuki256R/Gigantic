@@ -53,4 +53,19 @@ public class UnchamaPointAchievement extends GiganticAchievement implements List
 		return "投票数が" + this.getUnlockNum() + "を超える";
 	}
 
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
+
 }
