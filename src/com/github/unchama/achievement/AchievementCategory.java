@@ -6,15 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 public enum AchievementCategory {
-	MINEBLOCKRANK("整地量ランキング", 1001, 1999),
-	MINEBLOCK("整地量", 3001, 3999),
-	PLAYTICK("接続時間", 4001, 4999),
-	CHAINJOIN("連続ログイン日数", 5001, 5099),
-	TOTALJOIN("累計ログイン日数", 5100, 5199),
+	MINEBLOCKRANK("整地量関連", 1001, 3999),
+	PLAYTICK("接続時間・日数", 4001,5199),
 	UNCHAMAPOINT("投票ポイント", 6001, 6999),
-	DATE("日付", 9001, 9899),
-	SPECIAL("特殊", 7001, 7999),
-	SECRET("極秘", 8001, 8999),
+	DATE("日付", 9001, 9799),
+	SPECIAL("特殊・極秘", 7001,8999),
 	;
 
 	private final String name;

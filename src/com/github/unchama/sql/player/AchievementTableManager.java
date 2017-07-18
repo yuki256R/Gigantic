@@ -5,7 +5,10 @@ import java.sql.SQLException;
 import java.util.BitSet;
 import java.util.UUID;
 
+import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.achievement.AnotherNameParts;
+import com.github.unchama.achievement.GiganticAchievement;
+import com.github.unchama.achievement.achievements.FirstAchievement;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
@@ -26,7 +29,8 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 				+ "add column if not exists AchievmentGivenFlagSet text default null,"
 				+ "add column if not exists AnotherNameTopID int default 0,"
 				+ "add column if not exists AnotherNameMiddleID int default 0,"
-				+ "add column if not exists AnotherNameBottomID int default 0,";
+				+ "add column if not exists AnotherNameBottomID int default 0,"
+				+ "add column if not exists exchangeNum int default 0,";
 		return command;
 	}
 
@@ -38,7 +42,8 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		command += "AchievmentFlagSet = '" + Converter.toString(flagSet) + "',"
 				+ "AnotherNameTopID = '" + m.getAnotherNamePartsID(AnotherNameParts.TOP) + "',"
 				+ "AnotherNameMiddleID = '" + m.getAnotherNamePartsID(AnotherNameParts.MIDDLE) + "',"
-				+ "AnotherNameBottomID = '" + m.getAnotherNamePartsID(AnotherNameParts.BOTTOM) + "',";
+				+ "AnotherNameBottomID = '" + m.getAnotherNamePartsID(AnotherNameParts.BOTTOM) + "',"
+				+ "exchangeNum = '" + m.getExchangeNum() + "',";
 		return command;
 	}
 
@@ -49,13 +54,21 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 	protected void takeoverPlayer(GiganticPlayer gp, PlayerDataTableManager tm) {
 		AchievementManager m = gp.getManager(AchievementManager.class);
 		m.setAchivFlagSet(tm.getAchivFlagSet(gp));
+		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
+			if(FirstAchievement.class.isAssignableFrom(ga.getClass())){
+				m.setFlag(ga.getID());
+			}
+		}
+		m.setExchangeNum(tm.getAchvChangenum(gp));
 	}
 
 	@Override
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		AchievementManager m = gp.getManager(AchievementManager.class);
-		for(int i = 9901 ; i < 9911 ; i++){
-			m.setFlag(i);
+		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
+			if(FirstAchievement.class.isAssignableFrom(ga.getClass())){
+				m.setFlag(ga.getID());
+			}
 		}
 	}
 
@@ -75,6 +88,12 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		m.setAnotherNamePartsID(AnotherNameParts.TOP, rs.getInt("AnotherNameTopID"));
 		m.setAnotherNamePartsID(AnotherNameParts.MIDDLE, rs.getInt("AnotherNameMiddleID"));
 		m.setAnotherNamePartsID(AnotherNameParts.BOTTOM, rs.getInt("AnotherNameBottomID"));
+		m.setExchangeNum(rs.getInt("exchangeNum"));
+		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
+			if(FirstAchievement.class.isAssignableFrom(ga.getClass())){
+				m.setFlag(ga.getID());
+			}
+		}
 	}
 
 	public void giveFlag(UUID uuid, int id) {
@@ -91,9 +110,9 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 			rs.next();
 			String str = rs.getString("AchievmentGivenFlagSet");
 			BitSet flagSet;
-			if(str == null){
+			if (str == null) {
 				flagSet = new BitSet(1000);
-			}else{
+			} else {
 				flagSet = Converter.toBitSet(str);
 			}
 			flagSet.set(id - 7000);

@@ -549,4 +549,244 @@
   top: '食卓'
   middle: 'からの'
   bottom: '食卓'
+9801:
+  name: 'お兄さん'
+  top: 'お兄さん'
+  middle: ''
+  bottom: 'お兄さん'
+9802:
+  name: '戦隊'
+  top: ''
+  middle: ''
+  bottom: '戦隊'
+9803:
+  name: '軍'
+  top: ''
+  middle: ''
+  bottom: '軍'
+9804:
+  name: 'うどん'
+  top: 'うどん'
+  middle: ''
+  bottom: 'うどん'
+9805:
+  name: '厨二病'
+  top: '厨二病'
+  middle: ''
+  bottom: '厨二病'
+9806:
+  name: '現世'
+  top: '現世'
+  middle: ''
+  bottom: '現世'
+9807:
+  name: '天界'
+  top: '天界'
+  middle: ''
+  bottom: '天界'
+9808:
+  name: '冥界'
+  top: '冥界'
+  middle: ''
+  bottom: '冥界'
+9809:
+  name: '地球'
+  top: '地球'
+  middle: ''
+  bottom: '地球'
+9810:
+  name: '最終兵器'
+  top: '最終兵器'
+  middle: ''
+  bottom: '最終兵器'
+9811:
+  name: 'ごりら'
+  top: 'ごりら'
+  middle: ''
+  bottom: 'ごりら'
+9812:
+  name: 'うほうほ'
+  top: 'うほうほ'
+  middle: ''
+  bottom: 'うほうほ'
+9813:
+  name: '暑い'
+  top: '暑い'
+  middle: ''
+  bottom: '暑い'
+9814:
+  name: '寒い'
+  top: '寒い'
+  middle: ''
+  bottom: '寒い'
+9815:
+  name: '笑う'
+  top: '笑う'
+  middle: ''
+  bottom: '笑う'
+9816:
+  name: '泣く'
+  top: '泣く'
+  middle: ''
+  bottom: '泣く'
+9817:
+  name: '怒る'
+  top: '怒る'
+  middle: ''
+  bottom: '怒る'
+9818:
+  name: '最初'
+  top: '最初'
+  middle: ''
+  bottom: '最初'
+9819:
+  name: '最後'
+  top: '最後'
+  middle: ''
+  bottom: '最後'
+9820:
+  name: 'ァ！'
+  top: 'ァ！'
+  middle: ''
+  bottom: 'ァ！'
+9821:
+  name: 'ィ！'
+  top: 'ィ！'
+  middle: ''
+  bottom: 'ィ！'
+9822:
+  name: 'ゥ！'
+  top: 'ゥ！'
+  middle: ''
+  bottom: 'ゥ！'
+9823:
+  name: 'ェ！'
+  top: 'ェ！'
+  middle: ''
+  bottom: 'ェ！'
+9824:
+  name: 'ォ！'
+  top: 'ォ！'
+  middle: ''
+  bottom: 'ォ！'
+9825:
+  name: '茸'
+  top: '茸'
+  middle: ''
+  bottom: '茸'
+9826:
+  name: '筍'
+  top: '筍'
+  middle: ''
+  bottom: '筍'
+9911:
+  name: '的'
+  top: ''
+  middle: '的'
+  bottom: ''
+9912:
+  name: '・'
+  top: ''
+  middle: '・'
+  bottom: ''
+9913:
+  name: '＆'
+  top: ''
+  middle: '＆'
+  bottom: ''
+9914:
+  name: '対'
+  top: ''
+  middle: '対'
+  bottom: ''
+9915:
+  name: '＝'
+  top: ''
+  middle: '＝'
+  bottom: ''
+9916:
+  name: '☆'
+  top: ''
+  middle: '☆'
+  bottom: ''
+9917:
+  name: '～'
+  top: ''
+  middle: '～'
+  bottom: ''
+9918:
+  name: 'ぬ'
+  top: ''
+  middle: 'ぬ'
+  bottom: ''
+9919:
+  name: 'より'
+  top: ''
+  middle: 'より'
+  bottom: ''
+9920:
+  name: '風'
+  top: ''
+  middle: '風'
+  bottom: ''
+9921:
+  name: '式'
+  top: ''
+  middle: '式'
+  bottom: ''
+9922:
+  name: '－'
+  top: ''
+  middle: '－'
+  bottom: ''
+9923:
+  name: '＋'
+  top: ''
+  middle: '＋'
+  bottom: ''
+9924:
+  name: '×'
+  top: ''
+  middle: '×'
+  bottom: ''
+9925:
+  name: '÷'
+  top: ''
+  middle: '÷'
+  bottom: ''
+9926:
+  name: '＠'
+  top: ''
+  middle: '＠'
+  bottom: ''
+9927:
+  name: '†'
+  top: ''
+  middle: '†'
+  bottom: ''
+9928:
+  name: '♡'
+  top: ''
+  middle: '♡'
+  bottom: ''
+9929:
+  name: '．'
+  top: ''
+  middle: '．'
+  bottom: ''
+9930:
+  name: '！'
+  top: ''
+  middle: '！'
+  bottom: ''
+9931:
+  name: '？'
+  top: ''
+  middle: '？'
+  bottom: ''
+9932:
+  name: '＃'
+  top: ''
+  middle: '＃'
+  bottom: ''
   

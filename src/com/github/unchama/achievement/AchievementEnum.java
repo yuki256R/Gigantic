@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.achievements.ChainJoinAchievement;
 import com.github.unchama.achievement.achievements.DateAchievement;
+import com.github.unchama.achievement.achievements.FirstAchievement;
 import com.github.unchama.achievement.achievements.FullTicketAchievement;
 import com.github.unchama.achievement.achievements.MineBlockAchievement;
 import com.github.unchama.achievement.achievements.MineBlockLuckyNumberAchievement;
@@ -124,16 +125,64 @@ public enum AchievementEnum {
 	SPECIAL_10(7010, new SpecialAchievement(7010, "「第三回建築コンペ」にてテーマ「氷像」賞")),
 	SPECIAL_11(7011, new SpecialAchievement(7011, "「第三回建築コンペ」にてテーマ「海岸建築」賞")),
 	SPECIAL_12(7012, new SpecialAchievement(7012, "「第三回建築コンペ」にてテーマ「海上建築」賞")),
-	MIDDLE_1(9901, new SpecialAchievement(9901, "初期実績")),
-	MIDDLE_2(9902, new SpecialAchievement(9902, "初期実績")),
-	MIDDLE_3(9903, new SpecialAchievement(9903, "初期実績")),
-	MIDDLE_4(9904, new SpecialAchievement(9904, "初期実績")),
-	MIDDLE_5(9905, new SpecialAchievement(9905, "初期実績")),
-	MIDDLE_6(9906, new SpecialAchievement(9906, "初期実績")),
-	MIDDLE_7(9907, new SpecialAchievement(9907, "初期実績")),
-	MIDDLE_8(9908, new SpecialAchievement(9908, "初期実績")),
-	MIDDLE_9(9909, new SpecialAchievement(9909, "初期実績")),
-	MIDDLE_10(9910, new SpecialAchievement(9910, "初期実績")),
+	MIDDLE_1(9901, new FirstAchievement(9901)),
+	MIDDLE_2(9902, new FirstAchievement(9902)),
+	MIDDLE_3(9903, new FirstAchievement(9903)),
+	MIDDLE_4(9904, new FirstAchievement(9904)),
+	MIDDLE_5(9905, new FirstAchievement(9905)),
+	MIDDLE_6(9906, new FirstAchievement(9906)),
+	MIDDLE_7(9907, new FirstAchievement(9907)),
+	MIDDLE_8(9908, new FirstAchievement(9908)),
+	MIDDLE_9(9909, new FirstAchievement(9909)),
+	MIDDLE_10(9910, new FirstAchievement(9910)),
+	ITEMFORSALE_M_11(9911, new OnlyforSaleAchievement(9911,35)),
+	ITEMFORSALE_M_12(9912, new OnlyforSaleAchievement(9912,35)),
+	ITEMFORSALE_M_13(9913, new OnlyforSaleAchievement(9913,35)),
+	ITEMFORSALE_M_14(9914, new OnlyforSaleAchievement(9914,35)),
+	ITEMFORSALE_M_15(9915, new OnlyforSaleAchievement(9915,35)),
+	ITEMFORSALE_M_16(9916, new OnlyforSaleAchievement(9916,35)),
+	ITEMFORSALE_M_17(9917, new OnlyforSaleAchievement(9917,35)),
+	ITEMFORSALE_M_18(9918, new OnlyforSaleAchievement(9918,35)),
+	ITEMFORSALE_M_19(9919, new OnlyforSaleAchievement(9919,35)),
+	ITEMFORSALE_M_20(9920, new OnlyforSaleAchievement(9920,35)),
+	ITEMFORSALE_M_21(9921, new OnlyforSaleAchievement(9921,35)),
+	ITEMFORSALE_M_22(9922, new OnlyforSaleAchievement(9922,35)),
+	ITEMFORSALE_M_23(9923, new OnlyforSaleAchievement(9923,35)),
+	ITEMFORSALE_M_24(9924, new OnlyforSaleAchievement(9924,35)),
+	ITEMFORSALE_M_25(9925, new OnlyforSaleAchievement(9925,35)),
+	ITEMFORSALE_M_26(9926, new OnlyforSaleAchievement(9926,35)),
+	ITEMFORSALE_M_27(9927, new OnlyforSaleAchievement(9927,35)),
+	ITEMFORSALE_M_28(9928, new OnlyforSaleAchievement(9928,35)),
+	ITEMFORSALE_M_29(9929, new OnlyforSaleAchievement(9929,35)),
+	ITEMFORSALE_M_30(9930, new OnlyforSaleAchievement(9930,35)),
+	ITEMFORSALE_M_31(9931, new OnlyforSaleAchievement(9931,35)),
+	ITEMFORSALE_1 (9801, new OnlyforSaleAchievement(9801,20)),
+	ITEMFORSALE_2 (9802, new OnlyforSaleAchievement(9802,20)),
+	ITEMFORSALE_3 (9803, new OnlyforSaleAchievement(9803,20)),
+	ITEMFORSALE_4 (9804, new OnlyforSaleAchievement(9804,20)),
+	ITEMFORSALE_5 (9805, new OnlyforSaleAchievement(9805,20)),
+	ITEMFORSALE_6 (9806, new OnlyforSaleAchievement(9806,20)),
+	ITEMFORSALE_7 (9807, new OnlyforSaleAchievement(9807,20)),
+	ITEMFORSALE_8 (9808, new OnlyforSaleAchievement(9808,20)),
+	ITEMFORSALE_9 (9809, new OnlyforSaleAchievement(9809,20)),
+	ITEMFORSALE_10(9810, new OnlyforSaleAchievement(9810,20)),
+	ITEMFORSALE_11(9811, new OnlyforSaleAchievement(9811,20)),
+	ITEMFORSALE_12(9812, new OnlyforSaleAchievement(9812,20)),
+	ITEMFORSALE_13(9813, new OnlyforSaleAchievement(9813,20)),
+	ITEMFORSALE_14(9814, new OnlyforSaleAchievement(9814,20)),
+	ITEMFORSALE_15(9815, new OnlyforSaleAchievement(9815,20)),
+	ITEMFORSALE_16(9816, new OnlyforSaleAchievement(9816,20)),
+	ITEMFORSALE_17(9817, new OnlyforSaleAchievement(9817,20)),
+	ITEMFORSALE_18(9818, new OnlyforSaleAchievement(9818,20)),
+	ITEMFORSALE_19(9819, new OnlyforSaleAchievement(9819,20)),
+	ITEMFORSALE_20(9820, new OnlyforSaleAchievement(9820,20)),
+	ITEMFORSALE_21(9821, new OnlyforSaleAchievement(9821,20)),
+	ITEMFORSALE_22(9822, new OnlyforSaleAchievement(9822,20)),
+	ITEMFORSALE_23(9823, new OnlyforSaleAchievement(9823,20)),
+	ITEMFORSALE_24(9824, new OnlyforSaleAchievement(9824,20)),
+	ITEMFORSALE_25(9825, new OnlyforSaleAchievement(9825,20)),
+	ITEMFORSALE_26(9826, new OnlyforSaleAchievement(9826,20)),
+	ITEMFORSALE_27(9827, new OnlyforSaleAchievement(9827,20)),
 	;
 
 	private static LinkedHashMap<Integer, GiganticAchievement> idMap = new LinkedHashMap<>();
@@ -158,7 +207,7 @@ public enum AchievementEnum {
 			AnotherName aN = achiv.getAchievement().getAnotherName();
 			for (AnotherNameParts parts : AnotherNameParts.values()) {
 				String name = aN.getName(parts);
-				if (name != null && name != "") {
+				if (name != null && !name.equalsIgnoreCase("")) {
 					int i = PARTSNUM.get(parts);
 					i++;
 					PARTSNUM.put(parts, i);

@@ -8,22 +8,14 @@ import com.github.unchama.event.PlayerTimeIncrementEvent;
 import com.github.unchama.util.Converter;
 
 public final class PlayTickAchievement extends GiganticAchievement implements Listener{
-
-	private final int id;
 	/**playtickがこの値を超えた時に実績を解除します
 	 *
 	 */
 	private final long unlock_tick;
 
 	public PlayTickAchievement(int id,long unlock_tick) {
-		super();
-		this.id = id;
+		super(id);
 		this.unlock_tick = unlock_tick;
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	/**

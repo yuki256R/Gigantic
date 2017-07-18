@@ -82,7 +82,7 @@ public class GachaStackMainMenuManager extends GuiMenuManager {
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
 		for (int slot : gachaTypeMap.keySet()) {
-			Bukkit.getServer().getLogger().warning("slot:" + slot);
+			//Bukkit.getServer().getLogger().warning("slot:" + slot);
 			openmap.put(slot, ManagerType.GACHASTACKCATEGORYMENU);
 		}
 	}

@@ -10,11 +10,13 @@ import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.GiganticPlayerAvailableEvent;
+import com.github.unchama.event.MinuteEvent;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.util.TimeUtil;
 
 public final class DateAchievement extends GiganticAchievement implements Listener {
 
-	private final int id;
 	/**整地量がこの値を超えた時に実績を解除します
 	 *
 	 */
@@ -27,34 +29,38 @@ public final class DateAchievement extends GiganticAchievement implements Listen
 	 * @param unlockDate
 	 */
 	public DateAchievement(int id,int unlockMonth,int unlockDate) {
-		super();
-		this.id = id;
+		super(id);
 		this.unlockMonth = unlockMonth;
 		this.unlockDate = unlockDate;
 	}
 
-	@Override
-	public int getID() {
-		return this.id;
-	}
 
 
-	@EventHandler(priority = EventPriority.MONITOR)
-	public void GiganticPlayerAvailableListener(GiganticPlayerAvailableEvent event) {
+
+	private void unlockCheck(GiganticPlayer gp){
 		Calendar cal = TimeUtil.getCalendar();
 		if(this.getUnlockDate() == 0){
 			if(cal.get(Calendar.MONTH) + 1 == this.getUnlockMonth()){
-					this.unlockAchievement(event.getGiganticPlayer());
+					this.unlockAchievement(gp);
 			}
 		}else{
 			if(cal.get(Calendar.MONTH) + 1 == this.getUnlockMonth() &&
 					cal.get(Calendar.DATE) == this.getUnlockDate()){
-					this.unlockAchievement(event.getGiganticPlayer());
+					this.unlockAchievement(gp);
 			}
 		}
+	}
 
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void MinuteListener(MinuteEvent event){
+		for(GiganticPlayer gp : PlayerManager.getGiganticPlayerList()){
+			this.unlockCheck(gp);
+		}
+	}
 
-
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void GiganticPlayerAvailableListener(GiganticPlayerAvailableEvent event) {
+		this.unlockCheck(event.getGiganticPlayer());
 	}
 
 	/**

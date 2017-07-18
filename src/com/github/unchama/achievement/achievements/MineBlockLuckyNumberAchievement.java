@@ -10,8 +10,6 @@ import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.MineBlockIncrementEvent;
 
 public final class MineBlockLuckyNumberAchievement extends GiganticAchievement implements Listener {
-
-	private final int id;
 	/**整地量がこの時に実績を解除します
 	 *
 	 */
@@ -20,16 +18,11 @@ public final class MineBlockLuckyNumberAchievement extends GiganticAchievement i
 	private final long balance;
 
 	public MineBlockLuckyNumberAchievement(int id,long unlock_num) {
-		super();
-		this.id = id;
+		super(id);
 		this.unlock_num = unlock_num;
 		this.balance = (long)Math.pow(10, Long.toString(unlock_num).length()) ;
 	}
 
-	@Override
-	public int getID() {
-		return this.id;
-	}
 
 	/**
 	 * @return unlock_num

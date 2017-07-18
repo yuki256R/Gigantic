@@ -20,19 +20,9 @@ import de.tr7zw.itemnbtapi.NBTItem;
 
 public final class FullTicketAchievement extends GiganticAchievement implements Listener {
 
-	private final int id;
-
-
 	public FullTicketAchievement(int id) {
-		super();
-		this.id = id;
+		super(id);
 	}
-
-	@Override
-	public int getID() {
-		return this.id;
-	}
-
 
 
 	@EventHandler(priority = EventPriority.MONITOR)

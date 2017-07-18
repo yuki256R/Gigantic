@@ -14,21 +14,14 @@ import com.github.unchama.event.MineBlockIncrementEvent;
  */
 public class MineBlockAchievement extends GiganticAchievement implements Listener {
 
-	private final int id;
 	/**整地量がこの値を超えた時に実績を解除します
 	 *
 	 */
 	private final long unlock_num;
 
 	public MineBlockAchievement(int id,long unlock_num) {
-		super();
-		this.id = id;
+		super(id);
 		this.unlock_num = unlock_num;
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	/**

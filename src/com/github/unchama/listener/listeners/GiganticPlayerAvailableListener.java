@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
@@ -58,6 +59,12 @@ public final class GiganticPlayerAvailableListener implements Listener {
 	public void refreshToolPouchonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		ToolPouchManager mm = gp.getManager(ToolPouchManager.class);
+		mm.onAvailable();
+	}
+	@EventHandler
+	public void refreshAchievementonAvailable(GiganticPlayerAvailableEvent event){
+		GiganticPlayer gp = event.getGiganticPlayer();
+		AchievementManager mm = gp.getManager(AchievementManager.class);
 		mm.onAvailable();
 	}
 	@EventHandler(priority = EventPriority.MONITOR)

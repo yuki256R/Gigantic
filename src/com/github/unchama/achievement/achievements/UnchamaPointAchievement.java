@@ -10,22 +10,14 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.point.UnchamaPointManager;
 
 public class UnchamaPointAchievement extends GiganticAchievement implements Listener {
-
-	private final int id;
 	/**整地量がこの値を超えた時に実績を解除します
 	 *
 	 */
 	private final long unlock_num;
 
-	public UnchamaPointAchievement(int id,long unlock_num) {
-		super();
-		this.id = id;
+	public UnchamaPointAchievement(int id, long unlock_num) {
+		super(id);
 		this.unlock_num = unlock_num;
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	/**

@@ -15,6 +15,7 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.point.UnchamaPointManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.sql.player.AchievementTableManager;
@@ -29,6 +30,8 @@ public final class AchievementManager extends DataManager implements UsingSql {
 	private BitSet achivFlagSet;
 	//読み込み専用の解除データ
 	private BitSet achivGivenFlagSet;
+	//投票ｐ→実績ｐの交換回数
+	private int exchangeNum;
 
 	public AchievementManager(GiganticPlayer gp) {
 		super(gp);
@@ -36,14 +39,19 @@ public final class AchievementManager extends DataManager implements UsingSql {
 		this.achivFlagSet = new BitSet(10000);
 		this.achivGivenFlagSet = new BitSet(1000);
 		this.idMap = new HashMap<AnotherNameParts, Integer>();
-		for(AnotherNameParts parts: AnotherNameParts.values()){
+		for (AnotherNameParts parts : AnotherNameParts.values()) {
 			this.idMap.put(parts, 0);
 		}
+		this.exchangeNum = 0;
 	}
 
 	@Override
 	public void save(Boolean loginflag) {
 		tm.save(gp, loginflag);
+	}
+
+	public void onAvailable() {
+		this.updateDisplayName();
 	}
 
 	public void unlockAchievement(int id) {
@@ -110,7 +118,7 @@ public final class AchievementManager extends DataManager implements UsingSql {
 		for (GiganticAchievement achiv : AchievementEnum.getAchievements()) {
 			if (this.getFlag(achiv.getID())) {
 				String aN = achiv.getAnotherName().getName(parts);
-				if (aN != null && aN != "") {
+				if (aN != null && !aN.equalsIgnoreCase("")) {
 					unlockedNum++;
 				}
 			}
@@ -137,19 +145,19 @@ public final class AchievementManager extends DataManager implements UsingSql {
 				}
 			}
 		}
-		return p;
+		return p + (this.exchangeNum * 3);
 	}
 
 	/**レベル表示かどうか取得します
 	 *
 	 * @return
 	 */
-	public boolean isLevelDisplay(){
+	public boolean isLevelDisplay() {
 		if (this.getAnotherNamePartsID(AnotherNameParts.TOP) == 0
 				&& this.getAnotherNamePartsID(AnotherNameParts.MIDDLE) == 0
 				&& this.getAnotherNamePartsID(AnotherNameParts.BOTTOM) == 0) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -195,7 +203,12 @@ public final class AchievementManager extends DataManager implements UsingSql {
 		p.setPlayerListName(displayname);
 	}
 
-
+	/**与えられたパーツに変えた時の二つ名を取得
+	 *
+	 * @param ga
+	 * @param parts
+	 * @return
+	 */
 	public String getChengedAnotherName(GiganticAchievement ga, AnotherNameParts parts) {
 		SeichiLevelManager lM = gp.getManager(SeichiLevelManager.class);
 		String displayname = "";
@@ -206,9 +219,9 @@ public final class AchievementManager extends DataManager implements UsingSql {
 			for (AnotherNameParts p : AnotherNameParts.values()) {
 				int id = this.getAnotherNamePartsID(p);
 				String s;
-				if(p == parts){
-					s = id == 0 ? "" : ga.getAnotherName().getName(p);
-				}else{
+				if (p == parts) {
+					s = ga.getAnotherName().getName(p);
+				} else {
 					s = id == 0 ? "" : AchievementEnum.getAchievement(id).get().getAnotherName().getName(p);
 				}
 				displayname += s;
@@ -216,6 +229,47 @@ public final class AchievementManager extends DataManager implements UsingSql {
 		}
 
 		return displayname;
+	}
+
+	/**全てのパーツをリセット
+	 *
+	 */
+	public void reset() {
+		for (AnotherNameParts p : AnotherNameParts.values()) {
+			this.setAnotherNamePartsID(p, 0);
+		}
+	}
+
+	/**Lv表示にしたときのAnotherNameを取得
+	 *
+	 * @return
+	 */
+	public String getLevelName() {
+		SeichiLevelManager lM = gp.getManager(SeichiLevelManager.class);
+		return " Lv" + lM.getLevel() + " ";
+	}
+
+	public void exchange() {
+		UnchamaPointManager pM = gp.getManager(UnchamaPointManager.class);
+		int point = pM.getPoint();
+		if (point > 10) {
+			pM.addPoint(-10);
+			this.exchangeNum++;
+		}
+	}
+
+	/**
+	 * @return exchangeNum
+	 */
+	public int getExchangeNum() {
+		return exchangeNum;
+	}
+
+	/**
+	 * @param exchangeNum セットする exchangeNum
+	 */
+	public void setExchangeNum(int exchangeNum) {
+		this.exchangeNum = exchangeNum;
 	}
 
 }

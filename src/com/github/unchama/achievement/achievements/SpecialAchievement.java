@@ -13,20 +13,13 @@ import com.github.unchama.player.achievement.AchievementManager;
 
 public final class SpecialAchievement extends GiganticAchievement implements Listener {
 
-	private final int id;
 	private final String info;
 
 	private static int FIRSTID = 7000;
 
-	public SpecialAchievement(int id,String info) {
-		super();
-		this.id = id;
+	public SpecialAchievement(int id, String info) {
+		super(id);
 		this.info = info;
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	/**
@@ -41,7 +34,7 @@ public final class SpecialAchievement extends GiganticAchievement implements Lis
 		GiganticPlayer gp = event.getGiganticPlayer();
 		AchievementManager m = gp.getManager(AchievementManager.class);
 		BitSet flagSet = m.getAchivGivenFlagSet();
-		if(flagSet.get(this.getID() - FIRSTID)){
+		if (flagSet.get(this.getID() - FIRSTID)) {
 			this.unlockAchievement(event.getGiganticPlayer());
 		}
 	}

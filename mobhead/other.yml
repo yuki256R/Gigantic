@@ -60,6 +60,9 @@ mobhead:
   green_present:
     dispname: 'プレゼント箱(緑)'
     url: 'http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d'
+  blue_present:
+    dispname: 'プレゼント箱(青)'
+    url: 'http://textures.minecraft.net/texture/b5651a18f54714b0b8f7f011c018373b33fd1541ca6f1cfe7a6c97b65241f5'
   blue_bottle:
     dispname: 'ボトル(青)'
     url: 'http://textures.minecraft.net/texture/d5f3602ec661c7f4beec88c12a5297d877822b8861920bacf49ae2077bb2b3'
@@ -144,5 +147,3 @@ mobhead:
   cmd:
     dispname: 'コマンドブロック'
     url: 'http://textures.minecraft.net/texture/5f4c21d17ad636387ea3c736bff6ade897317e1374cd5d9b1c15e6e8953432'
-    
-    
