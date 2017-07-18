@@ -417,6 +417,7 @@ public final class AchievementMenuManager extends GuiMenuManager {
 						String cname = aM.getChengedAnotherName(ga, parts);
 						if (TextUtil.getLength(cname) < 20) {
 							aM.setAnotherNamePartsID(parts, ga.getID());
+							aM.updateDisplayName();
 							player.playSound(player.getLocation(),Sound.ITEM_ARMOR_EQUIP_IRON, 1.0F, 1.4F);
 							player.openInventory(this.getInventory(player, 0));
 							return true;

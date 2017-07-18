@@ -238,6 +238,7 @@ public final class AchievementManager extends DataManager implements UsingSql {
 		for (AnotherNameParts p : AnotherNameParts.values()) {
 			this.setAnotherNamePartsID(p, 0);
 		}
+		updateDisplayName();
 	}
 
 	/**Lv表示にしたときのAnotherNameを取得
