@@ -8,22 +8,16 @@ import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.ChainJoinIncrementEvent;
 
 public final class ChainJoinAchievement extends GiganticAchievement implements Listener{
-	private final int id;
 	/**連続ログイン日数がこの値以上の時に実績を解除します
 	 *
 	 */
 	private final long unlock_chain;
 
 	public ChainJoinAchievement(int id,long unlock_chain) {
-		super();
-		this.id = id;
+		super(id);
 		this.unlock_chain = unlock_chain;
 	}
 
-	@Override
-	public int getID() {
-		return this.id;
-	}
 
 	/**
 	 * @return unlock_chain
@@ -36,5 +30,30 @@ public final class ChainJoinAchievement extends GiganticAchievement implements L
 	public void ChainJoinIncrementListener(ChainJoinIncrementEvent event) {
 		if (event.getNextAll() >= this.getUnlockChain())
 			this.unlockAchievement(event.getGiganticPlayer());
+	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "連続ログイン日数が" + this.getUnlockChain() + "日を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "連続ログイン日数が" + this.getUnlockChain() + "日を超える";
+	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
 	}
 }

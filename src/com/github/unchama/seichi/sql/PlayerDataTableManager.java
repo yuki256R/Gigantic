@@ -563,5 +563,24 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ansSet;
 	}
 
+	public int getAchvChangenum(GiganticPlayer gp) {
+		String command = "select AchvChangenum from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("AchvChangenum");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load AchvChangenum player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
+	}
+
 
 }

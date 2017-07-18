@@ -10,10 +10,10 @@ import com.github.unchama.player.GiganticPlayer;
 */
 public class PlayerTimeIncrementEvent extends CustomEvent{
 	private GiganticPlayer gp;
-	private int increase;
-	private int pre_tick,next_tick;
+	private long increase;
+	private long pre_tick,next_tick;
 
-	public PlayerTimeIncrementEvent(GiganticPlayer gp_, int increase_, int tick){
+	public PlayerTimeIncrementEvent(GiganticPlayer gp_, long increase_, long tick){
 		gp = gp_;
 		increase = increase_;
 		pre_tick = tick;
@@ -23,7 +23,7 @@ public class PlayerTimeIncrementEvent extends CustomEvent{
 	/**増加量を取得
 	 * @return increase
 	 */
-	public int getIncrease() {
+	public long getIncrease() {
 		return increase;
 	}
 
@@ -31,7 +31,7 @@ public class PlayerTimeIncrementEvent extends CustomEvent{
 	 * 増加前のtick数
 	 * @return
 	 */
-	public int getPreTick(){
+	public long getPreTick(){
 		return pre_tick;
 	}
 
@@ -39,7 +39,7 @@ public class PlayerTimeIncrementEvent extends CustomEvent{
 	 * 増加後のtick数
 	 * @return
 	 */
-	public int getNextTick(){
+	public long getNextTick(){
 		return next_tick;
 	}
 

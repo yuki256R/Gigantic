@@ -10,22 +10,14 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.point.UnchamaPointManager;
 
 public class UnchamaPointAchievement extends GiganticAchievement implements Listener {
-
-	private final int id;
 	/**整地量がこの値を超えた時に実績を解除します
 	 *
 	 */
 	private final long unlock_num;
 
-	public UnchamaPointAchievement(int id,long unlock_num) {
-		super();
-		this.id = id;
+	public UnchamaPointAchievement(int id, long unlock_num) {
+		super(id);
 		this.unlock_num = unlock_num;
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	/**
@@ -41,6 +33,31 @@ public class UnchamaPointAchievement extends GiganticAchievement implements List
 		UnchamaPointManager m = gp.getManager(UnchamaPointManager.class);
 		if (m.getDefaultPoint() >= this.getUnlockNum())
 			this.unlockAchievement(event.getGiganticPlayer());
+	}
+
+	@Override
+	public String getUnlockInfo() {
+		return "投票数が" + this.getUnlockNum() + "を超える";
+	}
+
+	@Override
+	public String getLockInfo() {
+		return "投票数が" + this.getUnlockNum() + "を超える";
+	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
 	}
 
 }

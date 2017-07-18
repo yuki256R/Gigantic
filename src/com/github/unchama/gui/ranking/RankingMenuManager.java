@@ -55,7 +55,7 @@ public abstract class RankingMenuManager extends GuiMenuManager {
 
 	private boolean loadflag = false;
 
-	public RankingMenuManager() {
+	public RankingMenuManager(){
 		super();
 		prevButton = head.getMobHead("left");
 		Util.setDisplayName(prevButton, "前のページ");

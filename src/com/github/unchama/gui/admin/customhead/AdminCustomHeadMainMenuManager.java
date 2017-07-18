@@ -14,40 +14,33 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.yml.CustomHeadManager;
 import com.github.unchama.yml.CustomHeadManager.HeadCategory;
 
 public class AdminCustomHeadMainMenuManager extends GuiMenuManager {
 
 	// どのカテゴリを開くか
-	private Map<Integer, String> giveCategoryNames = new HashMap<Integer, String>();
-
+	public static final Map<Integer, String> giveCategoryNames = new HashMap<Integer, String>();
 	// for文で配置するカテゴリの先頭のスロット
-	private final int countInit = 0;
+	private static final int countInit = 0;
 
-	private CustomHeadManager headManager = Gigantic.yml
-			.getManager(CustomHeadManager.class);
-
-	public AdminCustomHeadMainMenuManager() {
-
+	static{
 		// 各カテゴリボタン
-		Map<String, HeadCategory> map = headManager.getMapCategory();
+		Map<String, HeadCategory> map = Gigantic.yml.getManager(CustomHeadManager.class).getMapCategory();
 		int count = countInit;
 		// 各MOB
 		for (String name : map.keySet()) {
 			giveCategoryNames.put(count, name);
 			count++;
 		}
-		setOpenMenuMap(openmap);
 	}
+
+
+	private CustomHeadManager headManager = Gigantic.yml
+			.getManager(CustomHeadManager.class);
 
 	@Override
 	protected void setIDMap(HashMap<Integer, String> idmap) {
@@ -77,18 +70,7 @@ public class AdminCustomHeadMainMenuManager extends GuiMenuManager {
 		}
 
 		return inv;
-	}
-
-	@Override
-	public void closeByOpenMenu(Player player, MenuClickEvent event) {
-		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
-		// Bukkit.getServer().getLogger().info("closeByOpenMenu : " +
-		// event.getSlot() + " " + giveCategoryNames.get(event.getSlot()));
-		manager.setSelectedCategory("AdminCustomHeadMainMenuManager",
-				giveCategoryNames.get(event.getSlot()));
-	}
-
+	}
 	@Override
 	public boolean invoke(Player player, String identifier) {
 		return false;
@@ -100,8 +82,7 @@ public class AdminCustomHeadMainMenuManager extends GuiMenuManager {
 		// 起動時になぜかここを通るためnullチェック
 		if (giveCategoryNames != null) {
 			for (int slot : giveCategoryNames.keySet()) {
-				openmap.put(slot, GuiMenu.ManagerType
-						.getTypebyClass(AdminCustomHeadGiveMenuManager.class));
+				openmap.put(slot, ManagerType.ADMINCUSTOMHEADGIVEMENU);
 			}
 		}
 	}

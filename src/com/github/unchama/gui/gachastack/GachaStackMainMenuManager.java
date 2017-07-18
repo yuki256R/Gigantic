@@ -11,16 +11,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.unchama.event.MenuClickEvent;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.gui.GuiStatusManager;
 
 /**
 *
@@ -28,10 +23,10 @@ import com.github.unchama.player.gui.GuiStatusManager;
 *
 */
 public class GachaStackMainMenuManager extends GuiMenuManager {
-	private Gacha gacha = Gigantic.gacha;
-	private Map<Integer, GachaType> gachaTypeMap = new HashMap<Integer, GachaType>();
 
-	public GachaStackMainMenuManager() {
+	private Gacha gacha = Gigantic.gacha;
+	public static final Map<Integer, GachaType> gachaTypeMap = new HashMap<Integer, GachaType>();
+	{
 		GachaType[] gt = GachaType.values();
 		for (int i = 0; i < gt.length; i++) {
 			ItemStack itemstack = gacha.getManager(gt[i].getManagerClass())
@@ -41,13 +36,10 @@ public class GachaStackMainMenuManager extends GuiMenuManager {
 
 			gachaTypeMap.put(i, gt[i]);
 		}
-
-//		// Invoke設定
-//		for (int i = 0; i < getInventorySize(); i++) {
-//			id_map.put(i, String.valueOf(i));
-//		}
-
-		setOpenMenuMap(openmap);
+	}
+	public GachaStackMainMenuManager() {
+		super();
+		this.setOpenMenuMap(openmap);
 	}
 
 	@Override
@@ -77,6 +69,7 @@ public class GachaStackMainMenuManager extends GuiMenuManager {
 		return false;
 	}
 
+	/*
 	@Override
 	public void closeByOpenMenu(Player player, MenuClickEvent event) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
@@ -84,14 +77,13 @@ public class GachaStackMainMenuManager extends GuiMenuManager {
 		manager.setSelectedCategory("GachaStackMainMenuManager",
 				gachaTypeMap.get(event.getSlot()).toString());
 	}
+	*/
 
 	@Override
 	protected void setOpenMenuMap(HashMap<Integer, ManagerType> openmap) {
-		if (gachaTypeMap != null) {
-			for (int slot : gachaTypeMap.keySet()) {
-				openmap.put(slot, GuiMenu.ManagerType
-						.getTypebyClass(GachaStackCategoryMenuManager.class));
-			}
+		for (int slot : gachaTypeMap.keySet()) {
+			//Bukkit.getServer().getLogger().warning("slot:" + slot);
+			openmap.put(slot, ManagerType.GACHASTACKCATEGORYMENU);
 		}
 	}
 
