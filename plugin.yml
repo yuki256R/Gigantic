@@ -5,6 +5,13 @@ description: Gigantic Seichi Server Plugin
 softdepend: [PlaceholderAPI, LobbySwitch]
 
 commands:
+  achieve:
+      description: This is achieve command.
+      usage: /achieve give <playername> <id>
+      aliases: [achiv,achievement,gachiv]
+      default: op
+      permission: gigantic.achieve
+      permission-message: You don't have <permission>
   gacha:
       description: This is gacha command.
       usage: /<command> <help>
