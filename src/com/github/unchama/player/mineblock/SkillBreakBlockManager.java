@@ -27,7 +27,7 @@ public class SkillBreakBlockManager extends DataManager implements UsingSql{
 	SkillBreakBlockTableManager tm = sql.getManager(SkillBreakBlockTableManager.class);
 
 	public void startup() {
-		skillbreakmap = new HashMap<ActiveSkillType, Double>();
+		skillbreakmap = new HashMap<>();
 
 		for (ActiveSkillType type : ActiveSkillType.values()) {
 			skillbreakmap.put(type, 0.0);

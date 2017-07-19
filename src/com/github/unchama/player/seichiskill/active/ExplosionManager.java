@@ -163,8 +163,6 @@ public class ExplosionManager extends ActiveSkillManager {
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					// スキル別破壊量にも加算
-					bbm.increase(ActiveSkillType.EXPLOSION, 1.0);
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -176,6 +174,9 @@ public class ExplosionManager extends ActiveSkillManager {
 						}
 					}, 1);
 				});
+		//スキル別破壊量に追加
+		bbm.increase(ActiveSkillType.EXPLOSION, (double) breaklist.size());
+
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		droplist.forEach((dropitem) -> {

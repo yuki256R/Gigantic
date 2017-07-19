@@ -346,7 +346,6 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 						+ 1
 						+ ")for player:"
 						+ player.getName());
-				bbm.increase(ActiveSkillType.RUINFIELD, 1.0);
 				// アイテムが出現するのを検知させる
 				Location droploc = GeneralBreakListener.getDropLocation(b);
 				GeneralBreakListener.breakmap.put(droploc,
@@ -358,7 +357,8 @@ public class RuinFieldManager extends ActiveSkillManager implements Finalizable 
 					}
 				}, 1);
 			});
-
+		//スキル別破壊量に追加
+		bbm.increase(ActiveSkillType.RUINFIELD, (double) breaklist.size());
 
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
