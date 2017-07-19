@@ -16,23 +16,16 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
 * @author tar0ss
 *
 */
-public final class MineBlockRankAchievement extends GiganticAchievement implements Listener{
+public final class MineBlockRankAchievement extends GiganticAchievement implements Listener {
 
-	private final int id;
 	/**ランキングがこの値以上の時に実績を解除します
 	 *
 	 */
 	private final long unlock_rank;
 
-	public MineBlockRankAchievement(int id,long unlock_rank) {
-		super();
-		this.id = id;
+	public MineBlockRankAchievement(int id, long unlock_rank) {
+		super(id);
 		this.unlock_rank = unlock_rank;
-	}
-
-	@Override
-	public int getID() {
-		return this.id;
 	}
 
 	/**
@@ -42,21 +35,43 @@ public final class MineBlockRankAchievement extends GiganticAchievement implemen
 		return unlock_rank;
 	}
 
-
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void updateRankListener(updateRankEvent event){
-		if(TotalMineBlockRankingMenuManager.class.isAssignableFrom(event.getRankClass())){
+	public void updateRankListener(updateRankEvent event) {
+		if (TotalMineBlockRankingMenuManager.class.isAssignableFrom(event.getRankClass())) {
 			String name = event.getName();
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(name);
 			int rank = event.getRank();
-			if(gp != null && rank <= this.getUnlockRank()){
+			if (gp != null && rank <= this.getUnlockRank()) {
 				this.unlockAchievement(gp);
-			}else{
+			} else {
 				debug.info(DebugEnum.ACHIEVEMENT, "locked");
 			}
 		}
 	}
 
+	@Override
+	public String getUnlockInfo() {
+		return "累計整地量ランキングで" + this.getUnlockRank() + "位になる";
+	}
 
+	@Override
+	public String getLockInfo() {
+		return "累計整地量ランキングで" + this.getUnlockRank() + "位になる";
+	}
+
+	@Override
+	public int getPoint() {
+		return 10;
+	}
+
+	@Override
+	public int getUsePoint() {
+		return 0;
+	}
+
+	@Override
+	public boolean isPurchasable() {
+		return false;
+	}
 
 }

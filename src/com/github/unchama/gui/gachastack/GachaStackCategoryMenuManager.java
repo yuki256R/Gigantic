@@ -33,23 +33,20 @@ import com.github.unchama.util.Converter;
 public class GachaStackCategoryMenuManager extends GuiMenuManager{
 	private Gacha gacha = Gigantic.gacha;
 
-	public GachaStackCategoryMenuManager() {
-		// Invoke設定
+
+	@Override
+	protected void setIDMap(HashMap<Integer, String> idmap) {
 		for (int i = 0; i < getInventorySize(); i++) {
 			id_map.put(i, String.valueOf(i));
 		}
 	}
 
 	@Override
-	protected void setIDMap(HashMap<Integer, String> idmap) {
-		// TODO 自動生成されたメソッド・スタブ
-
-	}
-
-	@Override
 	public Inventory getInventory(Player player, int slot) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GachaStackManager manager = gp.getManager(GachaStackManager.class);
+		GuiStatusManager status = gp.getManager(GuiStatusManager.class);
+		status.setSelectedCategory(this, GachaStackMainMenuManager.gachaTypeMap.get(slot).toString());
 
 		Inventory inv = Bukkit.getServer().createInventory(player,
 				this.getInventorySize(),
@@ -89,7 +86,7 @@ public class GachaStackCategoryMenuManager extends GuiMenuManager{
 	private GachaType getGachaType(Player player){
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
-		GachaType type = GachaType.valueOf(manager.getSelectedCategory("GachaStackMainMenuManager"));
+		GachaType type = GachaType.valueOf(manager.getSelectedCategory(this));
 		return type;
 	}
 
