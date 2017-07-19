@@ -528,7 +528,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			rs = stmt.executeQuery(command);
 			rs.next();
 
-			String str = rs.getString("AchievmentFlagSet");
+			String str = rs.getString("TitleFlags");
 			if(str != null){
 				flagSet = Converter.toBitSet(str);
 

@@ -2,6 +2,7 @@ package com.github.unchama.command;
 
 import org.bukkit.command.TabExecutor;
 
+import com.github.unchama.command.commands.AchieveCommand;
 import com.github.unchama.command.commands.DebugCommand;
 import com.github.unchama.command.commands.EnchantmentCommand;
 import com.github.unchama.command.commands.FlyCommand;
@@ -31,6 +32,7 @@ public enum CommandType {
 	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
 	LASTQUIT(new LastquitCommand()),
+	ACHIEVE(new AchieveCommand()),
 	;
 
 

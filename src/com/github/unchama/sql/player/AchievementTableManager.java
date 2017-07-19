@@ -3,7 +3,10 @@ package com.github.unchama.sql.player;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.BitSet;
-import java.util.UUID;
+
+import net.md_5.bungee.api.ChatColor;
+
+import org.bukkit.entity.Player;
 
 import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.achievement.AnotherNameParts;
@@ -25,8 +28,8 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 	@Override
 	protected String addColumnCommand() {
 		String command = "";
-		command += "add column if not exists AchievmentFlagSet text default null,"
-				+ "add column if not exists AchievmentGivenFlagSet text default null,"
+		command += "add column if not exists AchievementFlagSet text default null,"
+				+ "add column if not exists AchievementGivenFlagSet text default null,"
 				+ "add column if not exists AnotherNameTopID int default 0,"
 				+ "add column if not exists AnotherNameMiddleID int default 0,"
 				+ "add column if not exists AnotherNameBottomID int default 0,"
@@ -39,7 +42,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		AchievementManager m = gp.getManager(AchievementManager.class);
 		String command = "";
 		BitSet flagSet = m.getAchivFlagSet();
-		command += "AchievmentFlagSet = '" + Converter.toString(flagSet) + "',"
+		command += "AchievementFlagSet = '" + Converter.toString(flagSet) + "',"
 				+ "AnotherNameTopID = '" + m.getAnotherNamePartsID(AnotherNameParts.TOP) + "',"
 				+ "AnotherNameMiddleID = '" + m.getAnotherNamePartsID(AnotherNameParts.MIDDLE) + "',"
 				+ "AnotherNameBottomID = '" + m.getAnotherNamePartsID(AnotherNameParts.BOTTOM) + "',"
@@ -75,12 +78,12 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		AchievementManager m = gp.getManager(AchievementManager.class);
-		String str = rs.getString("AchievmentFlagSet");
+		String str = rs.getString("AchievementFlagSet");
 		if (str != null) {
 			BitSet flagSet = Converter.toBitSet(str);
 			m.setAchivFlagSet(flagSet);
 		}
-		str = rs.getString("AchievmentGivenFlagSet");
+		str = rs.getString("AchievementGivenFlagSet");
 		if (str != null) {
 			BitSet flagSet = Converter.toBitSet(str);
 			m.setAchivGivenFlagSet(flagSet);
@@ -96,19 +99,21 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		}
 	}
 
-	public void giveFlag(UUID uuid, int id) {
+	public void giveFlag(Player player,String name, int id) {
 		if (id < 7000 || id >= 8000) {
+			player.sendMessage(ChatColor.RED + "idは7001~8000から指定してください．");
 			return;
 		}
 		this.checkStatement();
-		String command = "select * from " + db + "." + table + " where uuid = '" + uuid + "'";
+		String command = "select * from " + db + "." + table + " where name = '" + name + "'";
 		try {
 			rs = stmt.executeQuery(command);
 			if (rs.isLast()) {
+				player.sendMessage(ChatColor.RED + "指定されたプレイヤーは見つかりません");
 				return;
 			}
 			rs.next();
-			String str = rs.getString("AchievmentGivenFlagSet");
+			String str = rs.getString("AchievementGivenFlagSet");
 			BitSet flagSet;
 			if (str == null) {
 				flagSet = new BitSet(1000);
@@ -118,6 +123,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 			flagSet.set(id - 7000);
 			rs.updateString("AchievementGivenFlagSet", Converter.toString(flagSet));
 			rs.updateRow();
+			player.sendMessage(ChatColor.GREEN + "正常に送信されました．");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
