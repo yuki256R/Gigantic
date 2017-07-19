@@ -58,7 +58,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		AchievementManager m = gp.getManager(AchievementManager.class);
 		m.setAchivFlagSet(tm.getAchivFlagSet(gp));
 		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
-			if(FirstAchievement.class.isAssignableFrom(ga.getClass())){
+			if (FirstAchievement.class.isAssignableFrom(ga.getClass())) {
 				m.setFlag(ga.getID());
 			}
 		}
@@ -69,7 +69,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 	protected void firstjoinPlayer(GiganticPlayer gp) {
 		AchievementManager m = gp.getManager(AchievementManager.class);
 		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
-			if(FirstAchievement.class.isAssignableFrom(ga.getClass())){
+			if (FirstAchievement.class.isAssignableFrom(ga.getClass())) {
 				m.setFlag(ga.getID());
 			}
 		}
@@ -93,13 +93,13 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		m.setAnotherNamePartsID(AnotherNameParts.BOTTOM, rs.getInt("AnotherNameBottomID"));
 		m.setExchangeNum(rs.getInt("exchangeNum"));
 		for (GiganticAchievement ga : AchievementEnum.getAchievements()) {
-			if(FirstAchievement.class.isAssignableFrom(ga.getClass())){
+			if (FirstAchievement.class.isAssignableFrom(ga.getClass())) {
 				m.setFlag(ga.getID());
 			}
 		}
 	}
 
-	public void giveFlag(Player player,String name, int id) {
+	public void giveFlag(Player player, String name, int id) {
 		if (id < 7000 || id >= 8000) {
 			player.sendMessage(ChatColor.RED + "idは7001~8000から指定してください．");
 			return;
