@@ -6,7 +6,7 @@ import java.util.BitSet;
 
 import net.md_5.bungee.api.ChatColor;
 
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.achievement.AnotherNameParts;
@@ -99,9 +99,9 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		}
 	}
 
-	public void giveFlag(Player player, String name, int id) {
+	public void giveFlag(CommandSender sender, String name, int id) {
 		if (id < 7000 || id >= 8000) {
-			player.sendMessage(ChatColor.RED + "idは7001~8000から指定してください．");
+			sender.sendMessage(ChatColor.RED + "idは7001~8000から指定してください．");
 			return;
 		}
 		this.checkStatement();
@@ -109,7 +109,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 		try {
 			rs = stmt.executeQuery(command);
 			if (rs.isLast()) {
-				player.sendMessage(ChatColor.RED + "指定されたプレイヤーは見つかりません");
+				sender.sendMessage(ChatColor.RED + "指定されたプレイヤーは見つかりません");
 				return;
 			}
 			rs.next();
@@ -123,7 +123,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 			flagSet.set(id - 7000);
 			rs.updateString("AchievementGivenFlagSet", Converter.toString(flagSet));
 			rs.updateRow();
-			player.sendMessage(ChatColor.GREEN + "正常に送信されました．");
+			sender.sendMessage(ChatColor.GREEN + "正常に送信されました．");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
