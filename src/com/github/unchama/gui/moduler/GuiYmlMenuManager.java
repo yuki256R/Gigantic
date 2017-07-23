@@ -163,6 +163,9 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			case "dimensionalinventory":
 				methodmap.put(i, "openDimensionalInventory");
 				break;
+			case "enderchest":
+				methodmap.put(i, "openEnderChest");
+				break;
 			default:
 				break;
 			}
@@ -207,6 +210,10 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			return true;
 		case "openDimensionalInventory":
 			gp.getManager(DimensionalInventoryManager.class).open(player);
+			return true;
+		case "openEnderChest":
+			player.playSound(player.getLocation(), Sound.BLOCK_ENDERCHEST_OPEN, 1, (float) 1.0);
+			player.openInventory(player.getEnderChest());
 			return true;
 		case "commandFastCraft":
 			player.closeInventory();

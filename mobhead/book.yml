@@ -30,3 +30,9 @@ mobhead:
   gold_chest:
     dispname: 'ゴールドチェスト'
     url: 'http://textures.minecraft.net/texture/e1daee3f453a38e35d8cab8353c5d28cce1b675ff94b92e5c4af2d6452031a0'
+  ender_chest:
+    dispname: 'エンダーチェスト'
+    url: 'http://textures.minecraft.net/texture/a6cc486c2be1cb9dfcb2e53dd9a3e9a883bfadb27cb956f1896d602b4067'
+  stack_paper:
+    dispname: '紙'
+    url: 'http://textures.minecraft.net/texture/4883d656e49c38c6b5378572f31c63c4c7a5dd4375b6ecbca43f5971c2cc4ff'

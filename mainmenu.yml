@@ -75,7 +75,7 @@ name: '&5&lメインメニュー'
       - '&r&a共有されます'
   isSkullofOwner: true
   invoke: 'statistics'
-1:
+35:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: SKULL_ITEM
@@ -90,7 +90,7 @@ name: '&5&lメインメニュー'
   mobhead: 'mechanic_box'
   openmenu: 'admintypemenu'
   onlyop: yes
-2:
+34:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: TRIPWIRE_HOOK
@@ -102,7 +102,7 @@ name: '&5&lメインメニュー'
       - '&r&7細かな設定が行えます'
       - '&r&2&l&nクリックで開く'
   openmenu: 'playersettingsmenu'
-4:
+9:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: DIAMOND_AXE
@@ -148,7 +148,7 @@ name: '&5&lメインメニュー'
       - '&r&4&nクリックするとワープします'
       - '&r&8command->[/spawn]'
   command: 'spawn'
-9:
+4:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: FISHING_ROD
@@ -161,7 +161,7 @@ name: '&5&lメインメニュー'
       - '&r&7クーラーボックスを確認できます'
       - '&r&2&l&nクリックで開く'
   openmenu: 'fishingmainmenu'
-10:
+3:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: IRON_SWORD
@@ -204,7 +204,7 @@ name: '&5&lメインメニュー'
       - '&r&2&l&nクリックで開く'
   mobhead: 'e_book'
   openmenu: 'activeskilltypemenu'
-15:
+19:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: ENDER_PORTAL_FRAME
@@ -219,7 +219,7 @@ name: '&5&lメインメニュー'
       - '&r&8※四次元ポケットは'
       - '&r&8サーバー間で共有されます'
   openinventory: 'dimensionalinventory'
-16:
+22:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: SKULL_ITEM
@@ -237,7 +237,7 @@ name: '&5&lメインメニュー'
       - '&r&8サーバー間で共有されます'
   mobhead: 'pouch'
   openinventory: 'toolpouch'
-17:
+26:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: WORKBENCH
@@ -252,7 +252,7 @@ name: '&5&lメインメニュー'
       - '&r&2&l&nクリックで開く'
       - '&r&8command->[/fc craft]'
   command: 'fastcraft'
-18:
+10:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: BED
@@ -267,7 +267,7 @@ name: '&5&lメインメニュー'
       - '&r&7が出来ます．'
       - '&r&2&n&lクリックで開く'
   openmenu: 'homemenu'
-19:
+2:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: NAME_TAG
@@ -280,7 +280,7 @@ name: '&5&lメインメニュー'
       - '&r&7閲覧，設定できます'
       - '&r&2&l&nクリックで開く'
   openmenu: 'achievementmenu'
-21:
+29:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: HOPPER
@@ -293,7 +293,7 @@ name: '&5&lメインメニュー'
       - '&r&7交換できます!!'
       - '&r&2&n&lクリックで開く'
   openmenu: 'exchangemenu'
-22:
+25:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: ANVIL
@@ -306,7 +306,7 @@ name: '&5&lメインメニュー'
       - '&r&7修繕ツールを修理'
       - '&r&2&l&nクリックで修理'
   invoke: 'ToolRepair'
-24:
+20:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: SKULL_ITEM
@@ -314,7 +314,7 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&e&n&lM i n e S t a c k'
+      display-name: '&e&n&lMineStack'
       lore:
       - '&r&7説明しよう!MineStackとは…'
       - '&r&7主要ブロックを無限にスタック出来る!'
@@ -323,7 +323,7 @@ name: '&5&lメインメニュー'
       - '&r&8サーバー間で共有されます'
   openmenu: 'minestackcategorymenu'
   mobhead: 'gold_chest'
-25:
+21:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: SKULL_ITEM
@@ -340,7 +340,7 @@ name: '&5&lメインメニュー'
       - '&r&8サーバー間で共有されます'
   mobhead: 'white_chest'
   openmenu: 'gachastackmainmenu'
-26:
+24:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: BUCKET
@@ -383,7 +383,7 @@ name: '&5&lメインメニュー'
       - '&r&2&l&nクリックで開く'
   mobhead: 'green_present'
   openmenu: 'presentbox'
-29:
+17:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: GOLDEN_APPLE
@@ -420,15 +420,35 @@ name: '&5&lメインメニュー'
       - '&r&7※それでも解決しない場合はお問い合わせください。'
       - '&r&2&l&nクリックで開く'
   openmenu: 'donatehistorymenu'
-35:
+1:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: BOOK
+    type: SKULL_ITEM
+    damage: 3
     meta:
       ==: ItemMeta
-      meta-type: UNSPECIFIC
+      meta-type: SKULL
       display-name: '&e&n&lヘルプメニュー'
       lore:
       - '&r&7困ったときはとりあえずここを！！'
       - '&r&2&l&nクリックで開く'
+  mobhead: 'stack_paper'
   openmenu: 'helpmenu'
+18:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lどこでもエンダーチェスト'
+      lore:
+      - '&r&7いつでもどこでも'
+      - '&r&7エンダーチェストを開けます'
+      - '&r&2&l&nクリックで開く'
+      - '&r&8エンダーチェストは'
+      - '&r&8各サーバーで別々に'
+      - '&r&8保存されます．'
+  mobhead: 'ender_chest'
+  openinventory: 'enderchest'

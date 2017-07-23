@@ -1,5 +1,7 @@
 package com.github.unchama.exchange;
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,13 +10,11 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-
 /**
  * Created by Mon_chi on 2017/06/17.
  */
 public enum ExchangeType implements InventoryHolder {
-    ORE(ChatColor.YELLOW + "不要鉱石景品交換システム", new String[]{ChatColor.GREEN + "不要な各種鉱石を", ChatColor.GREEN + "交換券と交換します"}, new ItemStack(Material.DIAMOND_PICKAXE), new OreExchanger());
+    ORE(ChatColor.YELLOW + "不要鉱石景品交換システム", new String[]{ChatColor.GREEN + "不要な各種鉱石を", ChatColor.GREEN + "交換券と交換します"}, new ItemStack(Material.DIAMOND_ORE), new OreExchanger());
 
     //メニュー用アイコン
     private ItemStack icon;
@@ -40,6 +40,6 @@ public enum ExchangeType implements InventoryHolder {
 
     @Override
     public Inventory getInventory() {
-        return Bukkit.createInventory(this, 9*6);
+        return Bukkit.createInventory(this,9*6,"交換したいアイテムを入れてください");
     }
 }

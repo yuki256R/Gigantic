@@ -33,6 +33,8 @@ public abstract class GachaManager {
 
 	private static final String GACHAITEMIDNBT = "gachaItemID";
 
+	private static final String GACHARARITYNBT = "gachaRarity";
+
 
 	//**********************************************
 
@@ -195,6 +197,7 @@ public abstract class GachaManager {
 		NBTItem nbti = new NBTItem(is);
 		nbti.setInteger(GACHAITEMIDNBT, i);
 		nbti.setString(GACHATYPENBT, this.getGachaNBT());
+		nbti.setObject(GACHARARITYNBT, r);
 		is = nbti.getItem();
 
 		items.put(i, new GachaItem(i, is, amount, r, probability, false));
