@@ -1,8 +1,16 @@
 package com.github.unchama.listener.listeners;
 
+import com.github.unchama.growthtool.GrowthTool;
+import com.github.unchama.growthtool.detail.Mebius;
+import com.github.unchama.growthtool.moduler.GrowthToolManager;
+import com.github.unchama.growthtool.moduler.equiptype.Helmet;
+import com.github.unchama.growthtool.moduler.status.GrwStatus;
+import com.github.unchama.growthtool.moduler.tool.GrwTool;
+import com.github.unchama.yml.GrowthToolDataManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,6 +57,9 @@ public class PlayerFirstJoinListener implements Listener {
 		player.getInventory().addItem(new ItemStack(Material.DIAMOND_SPADE));
 		player.getInventory().addItem(new ItemStack(Material.LOG,64));
 		//MebiusListener.give(p);
+		//メビウス配布処理
+		Helmet mebius = new Helmet(GrowthTool.GrowthToolType.MEBIUS);
+		mebius.giveDefaultEquipment(player, GrowthToolManager.EquipmentType.HELMET);
 	}
 
 }

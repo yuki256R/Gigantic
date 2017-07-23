@@ -160,6 +160,58 @@ public abstract class GrowthToolManager {
 	}
 
 	/**
+	 * このクラスのGrowth Toolをプレイヤーに配布。
+	 * 基本的にはgiveDefaultと同じだが、装備として装着させた状態で配布する。
+	 * 初参加時に呼び出されることを想定。
+	 * @param player 与えるプレイヤー
+	 */
+	public void giveDefaultEquipment(Player player, EquipmentType type) {
+		ItemStack tool = (ItemStack) new GrwTool(player, name, identLore, status, enchant);
+
+		//初参加時、アイテムはないはずだが念のためチェックしてから配置
+		switch (type) {
+			case HELMET:
+				if (player.getInventory().getHelmet() == null) {
+					player.getInventory().setHelmet(tool);
+					break;
+				} else sendWarn(player);
+				break;
+			case CHESTPLATE:
+				if (player.getInventory().getChestplate() == null) {
+					player.getInventory().setChestplate(tool);
+					break;
+				} else sendWarn(player);
+				break;
+			case LEGGIGS:
+				if (player.getInventory().getLeggings() == null) {
+					player.getInventory().setLeggings(tool);
+					break;
+				} else sendWarn(player);
+				break;
+			case BOOTS:
+				if (player.getInventory().getBoots() == null) {
+					player.getInventory().setLeggings(tool);
+					break;
+				} else sendWarn(player);
+				break;
+		}
+	}
+
+	private void sendWarn(Player player) {
+		player.sendMessage(ChatColor.RED + "何らかの原因でスロットが埋まっているため、");
+		player.sendMessage(ChatColor.RED + "Growth Toolをインベントリに直接追加しました。");
+		this.giveDefault(player);
+	}
+
+	public enum EquipmentType {
+		HELMET,
+		CHESTPLATE,
+		LEGGIGS,
+		BOOTS,
+		;
+	}
+
+	/**
 	 * Growth Toolの表示名を変更する。コマンドによる命名で呼び出される。<br />
 	 * 名前は正規化の上で命名される。emptyを命名した場合は初期名称となる。<br />
 	 *

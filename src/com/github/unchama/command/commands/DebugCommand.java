@@ -3,6 +3,8 @@ package com.github.unchama.command.commands;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.unchama.event.PlayerFirstJoinEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
@@ -33,7 +35,10 @@ public class DebugCommand implements TabExecutor {
 			String label, String[] args) {
 
 		if (args.length <= 0) {
-			return false;
+			Player player = (Player) sender;
+			Bukkit.getServer().getPluginManager()
+					.callEvent(new PlayerFirstJoinEvent(Bukkit.getServer().getPlayer(player.getUniqueId())));
+			return true;//TODO:DEBUG
 		}
 
 		if (args[0].equalsIgnoreCase("set")) {
