@@ -61,7 +61,6 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	 * 現在マナをマナバーに表示します
 	 *
 	 * @param player
-	 * @param level
 	 */
 	public void display(Player player) {
 		if (manabar != null)

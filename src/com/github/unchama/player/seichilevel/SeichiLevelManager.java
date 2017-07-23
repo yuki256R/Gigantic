@@ -158,4 +158,9 @@ public class SeichiLevelManager extends DataManager{
 		m.setDebugBlock(dif);
 		this.level = level;
 	}
+
+
+	public SeichiLevel getSeichiLevel() {
+		return levelmap.get(this.level);
+	}
 }
