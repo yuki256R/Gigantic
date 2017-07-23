@@ -117,7 +117,8 @@ public final class AchievementMenuManager extends GuiMenuManager {
 						AnotherName aN = ga.getAnotherName();
 						if (aM.getFlag(ga.getID())) {
 							is = head.getMobHead("pickel_chalice");
-							Util.setDisplayName(is, "" + ChatColor.GREEN + ChatColor.BOLD + aN.getName());
+							Util.setDisplayName(is,"" + ChatColor.DARK_GREEN + ChatColor.BOLD + "実績No." + ga.getID());
+							lore.add("" + ChatColor.GREEN + ChatColor.BOLD + aN.getName());
 							lore.add("" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "獲得条件");
 							lore.add(ChatColor.WHITE + ga.getUnlockInfo());
 							lore.add(ChatColor.GRAY + "-----------------");
@@ -127,9 +128,14 @@ public final class AchievementMenuManager extends GuiMenuManager {
 							Util.setLore(is, lore);
 						} else {
 							is = head.getMobHead("n_question");
-							Util.setDisplayName(is, "" + ChatColor.RED + ChatColor.BOLD + aN.getName());
+							Util.setDisplayName(is,"" + ChatColor.DARK_RED + ChatColor.BOLD + "実績No." + ga.getID());
+							lore.add( "" + ChatColor.RED + ChatColor.BOLD + aN.getName());
 							lore.add("" + ChatColor.WHITE + ChatColor.BOLD + ChatColor.UNDERLINE + "獲得条件");
 							lore.add(ChatColor.WHITE + ga.getLockInfo());
+							lore.add(ChatColor.GRAY + "-----------------");
+							lore.add(ChatColor.GRAY + "前パーツ：" + aN.getTopName());
+							lore.add(ChatColor.GRAY + "中パーツ：" + aN.getMiddleName());
+							lore.add(ChatColor.GRAY + "後パーツ：" + aN.getBottomName());
 							Util.setLore(is, lore);
 						}
 					}
