@@ -6,10 +6,13 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.BukkitSerialization;
@@ -22,21 +25,7 @@ import de.tr7zw.itemnbtapi.NBTItem;
  */
 public abstract class GachaManager {
 
-	//**************絶対に変更しないでください************
-	// ガチャの種類
-	private static final String GACHATYPENBT = "gachaType";
-	// チケットを保存しているid
-	private static final int TICKETID = 0;
-	private static final String TICKETNBT = "ticket";
-	// ガチャリンゴを保存しているid
-	private static final int APPLEID = 1;
 
-	private static final String GACHAITEMIDNBT = "gachaItemID";
-
-	private static final String GACHARARITYNBT = "gachaRarity";
-
-
-	//**********************************************
 
 	private Random rnd;
 	// ガチャアイテムリスト
@@ -68,7 +57,7 @@ public abstract class GachaManager {
 	 * @return
 	 */
 	public ItemStack getGachaTypeInfo() {
-		ItemStack is = this.getGachaTicket();
+		ItemStack is = this.getGachaTicketSample();
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(this.getGachaName());
 		im.setLore(this.getLore());
@@ -77,15 +66,23 @@ public abstract class GachaManager {
 	}
 
 	/**
+	 * ガチャ券に使われるItemStackSampleを取得します．
+	 *
+	 * @return
+	 */
+	public ItemStack getGachaTicketSample() {
+		GachaItem gi = items.get(Gacha.TICKETID);
+		return gi == null ? head.getMobHead("grass") : gi.getItemSample();
+	}
+	/**
 	 * ガチャ券に使われるItemStackを取得します．
 	 *
 	 * @return
 	 */
-	public ItemStack getGachaTicket() {
-		GachaItem gi = items.get(TICKETID);
-		return gi == null ? head.getMobHead("grass") : gi.getItem();
+	public ItemStack getGachaTicket(Player player) {
+		GachaItem gi = items.get(Gacha.TICKETID);
+		return gi == null ? head.getMobHead("grass") : gi.getItem(player);
 	}
-
 	/**
 	 * ガチャデータをロードする．
 	 *
@@ -149,13 +146,13 @@ public abstract class GachaManager {
 	public void updateGachaApple(ItemStack apple) {
 		// ガチャID,ガチャの種類をNBTタグに追加
 		NBTItem nbti = new NBTItem(apple);
-		nbti.setInteger(GACHAITEMIDNBT, APPLEID);
-		nbti.setString(GACHATYPENBT, this.getGachaNBT());
+		nbti.setInteger(Gacha.GACHAITEMIDNBT, Gacha.APPLEID);
+		nbti.setString(Gacha.GACHATYPENBT, this.getGachaNBT());
 		apple = nbti.getItem();
 
 		Rarity r = Rarity.APPLE;
 
-		items.put(APPLEID, new GachaItem(APPLEID, apple, r));
+		items.put(Gacha.APPLEID, new GachaItem(Gacha.APPLEID, apple, r));
 	}
 
 	private String getGachaNBT() {
@@ -170,13 +167,13 @@ public abstract class GachaManager {
 	public void updateGachaTicket(ItemStack ticket) {
 		// ガチャID,ガチャの種類をNBTタグに追加
 		NBTItem nbti = new NBTItem(ticket);
-		nbti.setInteger(TICKETNBT, TICKETID);
-		nbti.setString(GACHATYPENBT, this.getGachaNBT());
+		nbti.setInteger(Gacha.TICKETNBT, Gacha.TICKETID);
+		nbti.setString(Gacha.GACHATYPENBT, this.getGachaNBT());
 		ticket = nbti.getItem();
 
 		Rarity r = Rarity.TICKET;
 
-		items.put(TICKETID, new GachaItem(TICKETID, ticket, r));
+		items.put(Gacha.TICKETID, new GachaItem(Gacha.TICKETID, ticket, r));
 	}
 
 	/**
@@ -190,14 +187,14 @@ public abstract class GachaManager {
 	public void addGachaItem(ItemStack is, Rarity r, double probability,
 			int amount) {
 		int i = 0;
-		while (items.containsKey(i) || i == TICKETID || i == APPLEID) {
+		while (items.containsKey(i) || i == Gacha.TICKETID || i == Gacha.APPLEID) {
 			i++;
 		}
 		// ガチャID,ガチャの種類をNBTタグに追加
 		NBTItem nbti = new NBTItem(is);
-		nbti.setInteger(GACHAITEMIDNBT, i);
-		nbti.setString(GACHATYPENBT, this.getGachaNBT());
-		nbti.setObject(GACHARARITYNBT, r);
+		nbti.setInteger(Gacha.GACHAITEMIDNBT, i);
+		nbti.setString(Gacha.GACHATYPENBT, this.getGachaNBT());
+		nbti.setObject(Gacha.GACHARARITYNBT, r);
 		is = nbti.getItem();
 
 		items.put(i, new GachaItem(i, is, amount, r, probability, false));
@@ -219,7 +216,7 @@ public abstract class GachaManager {
 	 * @param id
 	 */
 	public boolean lock(int id) {
-		if (id == TICKETID || id == APPLEID)
+		if (id == Gacha.TICKETID || id == Gacha.APPLEID)
 			return false;
 		items.get(id).lock();
 		return true;
@@ -239,7 +236,7 @@ public abstract class GachaManager {
 			if (gi.isLocked())
 				continue;
 			int id = gi.getID();
-			if (id == TICKETID || id == APPLEID)
+			if (id == Gacha.TICKETID || id == Gacha.APPLEID)
 				continue;
 			p -= gi.getProbability();
 			if (r > p) {
@@ -247,18 +244,18 @@ public abstract class GachaManager {
 				break;
 			}
 		}
-		return ans == null ? this.getGachaItem(APPLEID) : ans;
+		return ans == null ? this.getGachaItem(Gacha.APPLEID) : ans;
 	}
 
 	public static boolean isTicket(NBTItem nbti){
-		return nbti.hasKey(TICKETNBT);
+		return nbti.hasKey(Gacha.TICKETNBT);
 
 	}
 
 	public static GachaType getGachaType(NBTItem nbti) {
 		GachaType ret = null;
 		try {
-			ret = GachaType.valueOf(nbti.getString(GACHATYPENBT));
+			ret = GachaType.valueOf(nbti.getString(Gacha.GACHATYPENBT));
 		} catch(IllegalArgumentException e) {
 			return null;
 		}
@@ -268,7 +265,7 @@ public abstract class GachaManager {
 	public static int getGachaID(NBTItem nbti) {
 		int ret = 0;
 		try {
-			ret = nbti.getInteger(GACHAITEMIDNBT);
+			ret = nbti.getInteger(Gacha.GACHAITEMIDNBT);
 		} catch(IllegalArgumentException e) {
 			return 0;
 		}
@@ -282,11 +279,31 @@ public abstract class GachaManager {
 	protected abstract List<String> getLore();
 
 	public static boolean isTicket(int i) {
-		return i == TICKETID;
+		return i == Gacha.TICKETID;
 	}
 
 	public static boolean isApple(int i) {
-		return i == APPLEID;
+		return i == Gacha.APPLEID;
+	}
+
+	public static Rarity getGachaRarity(NBTItem nbti) {
+		Rarity r;
+		try {
+			r = nbti.getObject(Gacha.GACHARARITYNBT,Rarity.class);
+		} catch(IllegalArgumentException e) {
+			return Rarity.OTHER;
+		}
+		return r;
+	}
+
+	public static UUID getUUID(NBTItem nbti) {
+		UUID uuid;
+		try {
+			uuid = nbti.getObject(Gacha.ROLLPLAYERUUIDNBT,UUID.class);
+		} catch(IllegalArgumentException e) {
+			return null;
+		}
+		return uuid;
 	}
 
 }

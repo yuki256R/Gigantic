@@ -106,7 +106,7 @@ public abstract class GachaTableManager extends TableManager {
 				.entrySet()) {
 			int id = entry.getKey();
 			GachaItem gi = entry.getValue();
-			ItemStack is = gi.getItem();
+			ItemStack is = gi.getItemSample();
 			command += "(" + Integer.toString(id) + "," + "'"
 					+ BukkitSerialization.toBase64(is) + "'," + gi.getAmount()
 					+ "," + gi.getRarity().getId() + "," + gi.getProbability()
