@@ -66,7 +66,7 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&e&n&l%gp_name%'
+      display-name: '&b&n&l%gp_name%'
       lore:
       - '&r&c整地ワールド以外では'
       - '&r&c整地量とガチャ券は増えません'
@@ -75,7 +75,7 @@ name: '&5&lメインメニュー'
       - '&r&a共有されます'
   isSkullofOwner: true
   invoke: 'statistics'
-1:
+35:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: SKULL_ITEM
@@ -83,13 +83,14 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&b&n&l管理メニュー'
+      display-name: '&e&n&l管理メニュー'
       lore:
       - '&r&a権限を持つ人のみ閲覧できます．'
+      - '&r&2&l&nクリックで開く'
   mobhead: 'mechanic_box'
   openmenu: 'admintypemenu'
   onlyop: yes
-2:
+34:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: TRIPWIRE_HOOK
@@ -99,23 +100,9 @@ name: '&5&lメインメニュー'
       display-name: '&e&n&l各種設定'
       lore:
       - '&r&7細かな設定が行えます'
-      - '&r&4&nクリックで開く'
+      - '&r&2&l&nクリックで開く'
   openmenu: 'playersettingsmenu'
-3:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: NAME_TAG
-    meta:
-      ==: ItemMeta
-      meta-type: UNSPECIFIC
-      display-name: '&e&n&l実績・二つ名'
-      lore:
-      - '&r&7実績関連メニュー'
-      - '&r&7取得可能な実績や二つ名を'
-      - '&r&7閲覧，設定できます．'
-      - '&r&4&nクリックで開く'
-  openmenu: 'achievementmenu'
-4:
+9:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: DIAMOND_AXE
@@ -125,7 +112,7 @@ name: '&5&lメインメニュー'
       display-name: '&e&n&l土地保護メニュー'
       lore:
       - '&r&7土地の保護が行えます'
-      - '&r&4&nクリックで開く'
+      - '&r&2&l&nクリックで開く'
   openmenu: 'regionmenu'
 6:
   itemstack:
@@ -140,7 +127,7 @@ name: '&5&lメインメニュー'
       - '&r&7・第一ベータ鯖'
       - '&r&7・第二ベータ鯖'
       - '&r&7間を移動する時に使います'
-      - '&r&4&nクリックで開く'
+      - '&r&2&l&nクリックで開く'
   mobhead: 'weighted_cube'
   openmenu: 'serverswitchmenu'
 8:
@@ -161,7 +148,7 @@ name: '&5&lメインメニュー'
       - '&r&4&nクリックするとワープします'
       - '&r&8command->[/spawn]'
   command: 'spawn'
-9:
+4:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: FISHING_ROD
@@ -170,36 +157,54 @@ name: '&5&lメインメニュー'
       meta-type: UNSPECIFIC
       display-name: '&e&n&l釣りメニュー'
       lore:
-      - '&r&7釣り関連メニュー'
       - '&r&7統計の確認、専用インベントリの'
       - '&r&7クーラーボックスを確認できます'
-      - '&r&4&nクリックで開く'
+      - '&r&2&l&nクリックで開く'
   openmenu: 'fishingmainmenu'
+3:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: IRON_SWORD
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l狩猟メニュー'
+      lore:
+      - '&r&7統計の確認や狩猟Pを使って'
+      - '&r&7アイテム購入ができます'
+      - '&r&2&l&nクリックで開く'
+  openmenu: 'huntmainmenu'
 12:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: ENCHANTED_BOOK
+    type: SKULL_ITEM
+    damage: 3
     meta:
       ==: ItemMeta
-      meta-type: UNSPECIFIC
+      meta-type: SKULL
       display-name: '&e&n&lパッシブスキルブック'
       lore:
-      - '&r&7スキルを使って整地の効率を上げよう'
+      - '&r&7自動スキルを使って'
+      - '&r&7整地の効率を上げよう！'
       - '&r&2&l&nクリックで開く'
+  mobhead: 'a_book'
   openmenu: 'passiveskilltypemenu'
-14:
+13:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: ENCHANTED_BOOK
+    type: SKULL_ITEM
+    damage: 3
     meta:
       ==: ItemMeta
-      meta-type: UNSPECIFIC
+      meta-type: SKULL
       display-name: '&e&n&lアクティブスキルブック'
       lore:
-      - '&r&7スキルを使って整地の効率を上げよう'
+      - '&r&7一括破壊スキルを使って'
+      - '&r&7整地の効率を上げよう！'
       - '&r&2&l&nクリックで開く'
+  mobhead: 'e_book'
   openmenu: 'activeskilltypemenu'
-15:
+19:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: ENDER_PORTAL_FRAME
@@ -208,69 +213,12 @@ name: '&5&lメインメニュー'
       meta-type: UNSPECIFIC
       display-name: '&e&n&l四次元ポケット'
       lore:
-      - '&r&7※保存したアイテムは'
-      - '&r&7サーバー間で共有されます'
+      - '&r&7整地レベルに応じて'
+      - '&r&7容量が増えます'
       - '&r&2&l&nクリックで開く'
+      - '&r&8※四次元ポケットは'
+      - '&r&8サーバー間で共有されます'
   openinventory: 'dimensionalinventory'
-16:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: SKULL_ITEM
-    damage: 3
-    meta:
-      ==: ItemMeta
-      meta-type: SKULL
-      display-name: '&b&n&lツールポーチ'
-      lore:
-      - '&r&a整地で使用するツールを保管できます．'
-      - '&r保管されたツールはスキル使用時に'
-      - '&r前から順番に使用されます．'
-      - '&r&2&l&nクリックで開く'
-      - '&r&8※ツールポーチは'
-      - '&r&8各サバイバルサーバー間で'
-      - '&r&8共有されます'
-  mobhead: 'pouch'
-  openinventory: 'toolpouch'
-17:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: SKULL_ITEM
-    damage: 3
-    meta:
-      ==: ItemMeta
-      meta-type: SKULL
-      display-name: '&e&n&l狩猟ポイント'
-      lore:
-      - '&r&aMobの狩猟ポイントです．'
-      - '&r対象の狩猟ポイントを使用して'
-      - '&r専用ショップで購入ができます'
-  mobhead: 'pc'
-  openmenu: 'huntmainmenu'
-18:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: BED
-    meta:
-      ==: ItemMeta
-      meta-type: UNSPECIFIC
-      display-name: '&e&n&lホームメニュー'
-      lore:
-      - '&rホームに関することはこちら'
-      - '&r&2&n&lクリックで開く'
-  openmenu: 'homemenu'
-21:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: HOPPER
-    meta:
-      ==: ItemMeta
-      meta-type: UNSPECIFIC
-      display-name: '&e&n&lアイテム交換システム'
-      lore:
-      - '&r&4&nクリックで開く'
-      - '&r&c不要な鉱石やガチャ景品を'
-      - '&r&e交換できます!!'
-  openmenu: 'exchangemenu'
 22:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -279,43 +227,72 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: SKULL
-      display-name: '&b&n&lGacha Stack'
+      display-name: '&e&n&lツールポーチ'
       lore:
-      - '&r&aガチャアイテムを保管しています．'
+      - '&r&7整地で使用するツールを保管できます．'
+      - '&r&7保管されたツールはスキル使用時に'
+      - '&r&7前から順番に使用されます．'
       - '&r&2&l&nクリックで開く'
+      - '&r&8※ツールポーチは'
+      - '&r&8サーバー間で共有されます'
   mobhead: 'pouch'
-  openmenu: 'gachastackmainmenu'
-23:
+  openinventory: 'toolpouch'
+26:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: WORKBENCH
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&lFastCraft機能'
+      display-name: '&b&n&lFastCraft機能'
       lore:
-      - '&r&4&nクリックで開く'
-      - '&r&cただの作業台じゃないんです…'
-      - '&r&e自動レシピ補完機能付きの'
-      - '&r&e最強な作業台はこちら'
+      - '&r&7ただの作業台じゃないんです…'
+      - '&r&7自動レシピ補完機能付きの'
+      - '&r&7最強な作業台はこちら'
+      - '&r&2&l&nクリックで開く'
       - '&r&8command->[/fc craft]'
   command: 'fastcraft'
-24:
+10:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: CHEST
+    type: BED
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&lM i n e S t a c k'
+      display-name: '&e&n&lホームメニュー'
       lore:
-      - '&r&a説明しよう!MineStackとは…'
-      - '&r主要ブロックを無限にスタック出来る!'
+      - '&r&7- 現在位置の登録'
+      - '&r&7- ホームポイントへワープ'
+      - '&r&7- ホーム名の変更'
+      - '&r&7が出来ます．'
+      - '&r&2&n&lクリックで開く'
+  openmenu: 'homemenu'
+2:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: NAME_TAG
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&l実績・二つ名メニュー'
+      lore:
+      - '&r&7取得可能な実績や二つ名を'
+      - '&r&7閲覧，設定できます'
       - '&r&2&l&nクリックで開く'
-      - '&r&8※スタックしたブロックは'
-      - '&r&8各サバイバルサーバー間で'
-      - '&r&8共有されます'
-  openmenu: 'minestackcategorymenu'
+  openmenu: 'achievementmenu'
+29:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: HOPPER
+    meta:
+      ==: ItemMeta
+      meta-type: UNSPECIFIC
+      display-name: '&e&n&lアイテム交換システム'
+      lore:
+      - '&r&7不要な鉱石やガチャ景品を'
+      - '&r&7交換できます!!'
+      - '&r&2&n&lクリックで開く'
+  openmenu: 'exchangemenu'
 25:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
@@ -323,13 +300,47 @@ name: '&5&lメインメニュー'
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&lツール修繕'
+      display-name: '&b&n&lツール修繕'
       lore:
       - '&r&7所持経験値を消費して'
       - '&r&7修繕ツールを修理'
       - '&r&2&l&nクリックで修理'
   invoke: 'ToolRepair'
-26:
+20:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lMineStack'
+      lore:
+      - '&r&7説明しよう!MineStackとは…'
+      - '&r&7主要ブロックを無限にスタック出来る!'
+      - '&r&2&l&nクリックで開く'
+      - '&r&8※MineStackは'
+      - '&r&8サーバー間で共有されます'
+  openmenu: 'minestackcategorymenu'
+  mobhead: 'gold_chest'
+21:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lGacha Stack'
+      lore:
+      - '&r&7ガチャで獲得したアイテムを'
+      - '&r&7スタックして保存します'
+      - '&r&2&l&nクリックで開く'
+      - '&r&8※GachaStackは'
+      - '&r&8サーバー間で共有されます'
+  mobhead: 'white_chest'
+  openmenu: 'gachastackmainmenu'
+24:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: BUCKET
@@ -338,9 +349,9 @@ name: '&5&lメインメニュー'
       meta-type: UNSPECIFIC
       display-name: '&e&n&lゴミ箱を開く'
       lore:
-      - '&r&a不用品の大量処分にドウゾ！'
-      - '&r&c復活しないので取扱注意'
-      - '&r&4&nクリックで開く'
+      - '&r&7不用品の大量処分にドウゾ！'
+      - '&r&7復活しないので取扱注意'
+      - '&r&2&l&nクリックで開く'
   openinventory: 'garbagecan'
 27:
   itemstack:
@@ -352,8 +363,9 @@ name: '&5&lメインメニュー'
       meta-type: SKULL
       display-name: '&e&n&l整地報酬を受け取る'
       lore:
-      - '&r整地で得られる報酬を'
-      - '&r受け取ることができます．'
+      - '&r&7整地で得られる報酬を'
+      - '&r&7受け取ることができます．'
+      - '&r&2&l&nクリックで開く'
   mobhead: 'red_present'
   openmenu: 'seichirewardmenu'
 28:
@@ -366,18 +378,19 @@ name: '&5&lメインメニュー'
       meta-type: SKULL
       display-name: '&e&n&lプレゼントを受け取る'
       lore:
-      - '&r運営からのプレゼントを'
-      - '&r受け取ることができます．'
+      - '&r&7運営からのプレゼントを'
+      - '&r&7受け取ることができます'
+      - '&r&2&l&nクリックで開く'
   mobhead: 'green_present'
   openmenu: 'presentbox'
-29:
+17:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
     type: GOLDEN_APPLE
     meta:
       ==: ItemMeta
       meta-type: UNSPECIFIC
-      display-name: '&e&n&lマナ全回復'
+      display-name: '&b&n&lマナ全回復'
       lore:
       - '&r&aβ専用機能'
   invoke: "betamanacure"
@@ -391,7 +404,7 @@ name: '&5&lメインメニュー'
       meta-type: SKULL
       display-name: '&e&n&l各種ランキング'
       lore:
-      - '&r※毎分更新されます．'
+      - '&r&7※毎分更新されます．'
   mobhead: 'crown'
   openmenu: 'rankingselectmenu'
 33:
@@ -403,18 +416,39 @@ name: '&5&lメインメニュー'
       meta-type: UNSPECIFIC
       display-name: '&e&n&l寄付履歴'
       lore:
-      - '&r※更新されない場合は再ログインをしてみてください。'
-      - '&r※それでも解決しない場合はお問い合わせください。'
+      - '&r&7※更新されない場合は再ログインをしてみてください。'
+      - '&r&7※それでも解決しない場合はお問い合わせください。'
+      - '&r&2&l&nクリックで開く'
   openmenu: 'donatehistorymenu'
-35:
+1:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
-    type: BOOK
+    type: SKULL_ITEM
+    damage: 3
     meta:
       ==: ItemMeta
-      meta-type: UNSPECIFIC
+      meta-type: SKULL
       display-name: '&e&n&lヘルプメニュー'
       lore:
       - '&r&7困ったときはとりあえずここを！！'
-      - '&r&4&nクリックで開く'
+      - '&r&2&l&nクリックで開く'
+  mobhead: 'stack_paper'
   openmenu: 'helpmenu'
+18:
+  itemstack:
+    ==: org.bukkit.inventory.ItemStack
+    type: SKULL_ITEM
+    damage: 3
+    meta:
+      ==: ItemMeta
+      meta-type: SKULL
+      display-name: '&e&n&lどこでもエンダーチェスト'
+      lore:
+      - '&r&7いつでもどこでも'
+      - '&r&7エンダーチェストを開けます'
+      - '&r&2&l&nクリックで開く'
+      - '&r&8エンダーチェストは'
+      - '&r&8各サーバーで別々に'
+      - '&r&8保存されます．'
+  mobhead: 'ender_chest'
+  openinventory: 'enderchest'

@@ -1,8 +1,7 @@
 package com.github.unchama.gui.exchanger;
 
-import com.github.unchama.exchange.ExchangeType;
-import com.github.unchama.gui.GuiMenu;
-import com.github.unchama.gui.moduler.GuiMenuManager;
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,7 +10,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
+import com.github.unchama.exchange.ExchangeType;
+import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.moduler.GuiMenuManager;
 
 /**
  * Created by Mon_chi on 2017/06/18.
@@ -42,6 +43,7 @@ public class ExchangerMenuManager extends GuiMenuManager {
     @Override
     public boolean invoke(Player player, String identifier) {
         ExchangeType type = ExchangeType.valueOf(identifier);
+        player.playSound(player.getLocation(), this.getSoundName(), this.getVolume(), this.getPitch());
         player.openInventory(type.getInventory());
         return true;
     }
@@ -68,7 +70,7 @@ public class ExchangerMenuManager extends GuiMenuManager {
 
     @Override
     public String getInventoryName(Player player) {
-        return ChatColor.GOLD + "アイテム交換システム";
+        return "" + ChatColor.GOLD + ChatColor.BOLD + "アイテム交換システム";
     }
 
     @Override
@@ -88,16 +90,16 @@ public class ExchangerMenuManager extends GuiMenuManager {
 
     @Override
     public Sound getSoundName() {
-        return null;
+        return Sound.ITEM_ARMOR_EQUIP_IRON;
     }
 
     @Override
     public float getVolume() {
-        return 0;
+        return 1.0F;
     }
 
     @Override
     public float getPitch() {
-        return 0;
+        return 1.0F;
     }
 }

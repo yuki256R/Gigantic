@@ -93,7 +93,7 @@ public abstract class AdminGachaMenuManager extends AdminMenuManager {
 		case INFO:
 			break;
 		case GIVE:
-			ItemStack gacha = gm.getGachaTicket();
+			ItemStack gacha = gm.getGachaTicket(player);
 			gacha.setAmount(64);
 			Util.giveItem(player, gacha, false);
 			break;

@@ -61,7 +61,6 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	 * 現在マナをマナバーに表示します
 	 *
 	 * @param player
-	 * @param level
 	 */
 	public void display(Player player) {
 		if (manabar != null)
@@ -72,9 +71,10 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 
 		double progress = 0;
 		if (m / max > 1.0) {
-			m = max;
+			progress = 1.0;
+		}else{
+			progress = m / max;
 		}
-		progress = m / max;
 
 		BarColor bc = getColor(progress);
 
@@ -94,11 +94,7 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
 				+ "/" + max + ")");
 		BarColor bc = getColor(progress);
-
 		manabar.setColor(bc);
-
-
-
 	}
 	private BarColor getColor(double progress) {
 		if(progress > 0.99){
@@ -123,7 +119,6 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	 */
 	public void increase(double i){
 		this.m += i;
-		if(m > max) m = max;
 		this.updateBar();
 	}
 	/**dだけマナを減少させます．０以下にはなりません．
@@ -191,7 +186,7 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	 */
 	public void Levelup(int level){
 		this.updateMaxMana(level);
-		this.fullMana();
+		this.m += SeichiLevelManager.levelmap.get(level).getMaxMana();
 		Player player = PlayerManager.getPlayer(gp);
 		this.display(player);
 	}

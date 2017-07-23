@@ -227,7 +227,7 @@ public class SecureBreakManager extends PassiveSkillManager{
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "周囲の液体を凝固させます");
 			lore.add("" + ChatColor.RESET + ChatColor.RED + ChatColor.UNDERLINE
-					+ "レベル60で自動解放されます．");
+					+ "レベル" + config.getSecureBreakUnlockLevel() + "で自動解放されます．");
 			meta.setLore(lore);
 			is.setItemMeta(meta);
 		} else if (this.getToggle()) {

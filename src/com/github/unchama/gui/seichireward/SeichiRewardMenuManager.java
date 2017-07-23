@@ -117,7 +117,7 @@ public class SeichiRewardMenuManager extends GuiMenuManager {
 		ItemStack is = null;
 		switch (slot) {
 		case 0:
-			is = gacha.getManager(GiganticGachaManager.class).getGachaTicket();
+			is = gacha.getManager(GiganticGachaManager.class).getGachaTicket(player);
 			break;
 		default:
 			break;

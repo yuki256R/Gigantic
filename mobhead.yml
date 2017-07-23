@@ -1,4 +1,7 @@
 ﻿category:
+  book:
+    dispname: '本・小物'
+    mainhead: 'e_book'
   other:
     dispname: 'その他'
     mainhead: 'letterbox'

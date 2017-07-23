@@ -47,7 +47,7 @@ public class AG_EditGachaMenuManager extends AdminMenuManager {
 			ItemMeta im;
 			List<String> lore;
 			if (gi != null) {
-				is = gi.getItem();
+				is = gi.getItemSample();
 				im = is.getItemMeta();
 				if (im.hasLore()) {
 					lore = im.getLore();
