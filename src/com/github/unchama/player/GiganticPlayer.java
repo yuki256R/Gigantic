@@ -17,6 +17,7 @@ import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.player.fishing.FishingManager;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.fly.FlyManager;
@@ -115,6 +116,7 @@ public class GiganticPlayer {
 		GIGANTICPOINT(GiganticPointManager.class),
 		ACHIEVEMENT(AchievementManager.class),
 		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
+		EXP(ExpManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

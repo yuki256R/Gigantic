@@ -582,5 +582,24 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return point;
 	}
 
+	public float getExp(GiganticPlayer gp) {
+		String command = "select totalexp from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		long exp = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			exp = rs.getLong("totalexp");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load exp player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return (float)exp;
+	}
+
 
 }

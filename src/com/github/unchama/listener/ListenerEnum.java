@@ -28,6 +28,7 @@ import com.github.unchama.listener.listeners.MenuClickListener;
 import com.github.unchama.listener.listeners.MineBlockIncrementListener;
 import com.github.unchama.listener.listeners.MinuteListener;
 import com.github.unchama.listener.listeners.PlayerChatListener;
+import com.github.unchama.listener.listeners.PlayerExpChangeListener;
 import com.github.unchama.listener.listeners.PlayerFirstJoinListener;
 import com.github.unchama.listener.listeners.PlayerInteractListener;
 import com.github.unchama.listener.listeners.PlayerJoinListener;
@@ -82,6 +83,7 @@ public enum ListenerEnum {
     ENTITYLISTENER(new EntityListener()),
     PLAYERTIMEINCREMENT(new PlayerTimeIncrementListener()),
     GIGANTICPLAYERAVAILABLE(new GiganticPlayerAvailableListener()),
+    PLAYEREXPCHANGE(new PlayerExpChangeListener()),
 	;
 	private Listener listener;
 
