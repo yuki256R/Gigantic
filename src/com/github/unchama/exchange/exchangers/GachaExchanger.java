@@ -1,4 +1,4 @@
-package com.github.unchama.exchange;
+package com.github.unchama.exchange.exchangers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.github.unchama.exchange.Exchanger;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaManager;

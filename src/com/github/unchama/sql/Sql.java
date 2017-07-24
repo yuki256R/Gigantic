@@ -127,7 +127,6 @@ public class Sql {
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
 		HOME(HomeTableManager.class, HomeManager.class),//
-		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
 		FISHINGEXPRANKING(FishingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
@@ -135,7 +134,7 @@ public class Sql {
 		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),//
 		FISHING(FishingTableManager.class, FishingManager.class),//
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
-		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
+		UNCHAMAePOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		EXP(ExpTableManager.class,ExpManager.class),
