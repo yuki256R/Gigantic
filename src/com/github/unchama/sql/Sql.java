@@ -134,7 +134,7 @@ public class Sql {
 		FISHINGLEVEL(FishingLevelTableManager.class, FishingLevelManager.class),//
 		FISHING(FishingTableManager.class, FishingManager.class),//
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
-		UNCHAMAePOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
+		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		EXP(ExpTableManager.class,ExpManager.class),
