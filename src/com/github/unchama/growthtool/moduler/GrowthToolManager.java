@@ -6,7 +6,7 @@ import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -28,6 +28,7 @@ import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.GrowthToolDataManager;
+import org.bukkit.projectiles.ProjectileSource;
 
 /**
  * Growth Tool内の基本挙動を示す抽象クラス。<br />
@@ -333,7 +334,23 @@ public abstract class GrowthToolManager {
 				// 破損警告時メッセージ（強制）
 				GrowthTool.talk(player, onWarnItemMsg.talk(tool, player, ((EntityDamageByEntityEvent) event).getDamager()), true);
 			} else {
-				ret = onGetDamageMsg.talk(tool, player, ((EntityDamageByEntityEvent) event).getDamager());
+				/*
+				 * EntityDamageByEntityEvent#getDamager()だとスケルトンなどで攻撃された際、Arrow(矢)が出力されてしまうので
+				 * 以下の手順を踏む必要がある。
+				 */
+				//1.EntityDamageByEntitiyEventにキャストする(instaceofで安全性は確保されている。)
+				EntityDamageByEntityEvent cause = (EntityDamageByEntityEvent) event;
+				//2.ダメージを与えたエンティティを取得
+				Entity entity = cause.getDamager();
+				//3.矢・ポーションについてはモンスターを取得。
+				if (entity instanceof Arrow) {
+					Arrow arrow = (Arrow) entity;
+					LivingEntity shooter = (LivingEntity) arrow.getShooter();
+					ret = onGetDamageMsg.talk(tool, player, shooter);
+				} else if (entity instanceof Projectile) {
+					ProjectileSource shooter = ((Projectile) entity).getShooter();
+					ret = onGetDamageMsg.talk(tool, player, (Entity) shooter);
+				}
 			}
 		}
 		return ret;
