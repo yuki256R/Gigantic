@@ -1,6 +1,16 @@
 package com.github.unchama.gacha.moduler;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import com.github.unchama.gacha.Gacha;
+import com.github.unchama.util.Util;
+
+import de.tr7zw.itemnbtapi.NBTItem;
 /**
  * @author tar0ss
  *
@@ -30,9 +40,18 @@ public class GachaItem {
 	}
 
 
-
-	public ItemStack getItem() {
-		ItemStack c = this.item.clone();
+	/**プレイヤー用ガチャアイテムの取得
+	 *
+	 * @return
+	 */
+	public ItemStack getItem(Player player) {
+		NBTItem nbti = new NBTItem(this.item.clone());
+		//UUIDを保存
+		nbti.setObject(Gacha.ROLLPLAYERUUIDNBT, player.getUniqueId());
+		ItemStack c = nbti.getItem();
+		List<String> lore = new ArrayList<String>();
+		lore.add("" + ChatColor.RESET + ChatColor.GREEN + "獲得者:" + player.getName());
+		Util.addLore(c,lore);
 		c.setAmount(amount);
 		return c;
 	}
@@ -62,6 +81,24 @@ public class GachaItem {
 
 	public int getID() {
 		return this.id;
+	}
+
+	public String getDisplayName() {
+		return this.item.getItemMeta().getDisplayName();
+	}
+
+	public short getDurability() {
+		return this.item.getDurability();
+	}
+
+	/**ガチャアイテムのサンプルを取得
+	 *
+	 * @return
+	 */
+	public ItemStack getItemSample() {
+		ItemStack c = this.item.clone();
+		c.setAmount(amount);
+		return c;
 	}
 
 }

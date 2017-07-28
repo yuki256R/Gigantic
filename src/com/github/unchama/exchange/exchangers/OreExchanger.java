@@ -1,18 +1,18 @@
-package com.github.unchama.exchange;
-
-import com.github.unchama.util.Util;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+package com.github.unchama.exchange.exchangers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import com.github.unchama.exchange.Exchanger;
+import com.github.unchama.item.GiganticItem;
+import com.github.unchama.util.Util;
 
 /**
  * Created by Mon_chi on 2017/06/18.
@@ -32,15 +32,18 @@ public class OreExchanger implements Exchanger {
         requireMap.put(Material.GOLD_ORE, 8);
         requireMap.put(Material.LAPIS_ORE, 8);
         requireMap.put(Material.DIAMOND_ORE, 4);
-        requireMap.put(Material.EMERALD_ORE, 4);
+        requireMap.put(Material.EMERALD_ORE, 2);
+        requireMap.put(Material.QUARTZ_ORE, 16);
+        requireMap.put(Material.COAL_BLOCK,48);
+        requireMap.put(Material.IRON_INGOT,64);
+        requireMap.put(Material.IRON_BLOCK, 7);
+        requireMap.put(Material.REDSTONE_BLOCK,32);
+        requireMap.put(Material.LAPIS_BLOCK,7);
+        requireMap.put(Material.GOLD_INGOT,8);
+        requireMap.put(Material.DIAMOND,8);
+        requireMap.put(Material.QUARTZ,64);
 
-        //SeichiAssistから持ってきたので適宜変えてください
-        this.ticket = new ItemStack(Material.PAPER);
-        ItemMeta itemmeta = ticket.getItemMeta();
-        itemmeta.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "交換券");
-        itemmeta.addEnchant(Enchantment.PROTECTION_FIRE, 1, false);
-        itemmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        ticket.setItemMeta(itemmeta);
+        this.ticket = GiganticItem.ORE_TICKET.getItemStack();
     }
 
     @Override

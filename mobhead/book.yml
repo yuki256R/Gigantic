@@ -1,0 +1,38 @@
+﻿#
+mobhead: 
+  e_book:
+    dispname: '魔法の書'
+    url: 'http://textures.minecraft.net/texture/8ce4c87eb4dde27459e3e7f85921e7e57b11199260caa5ce63f139ee3d188c'
+  a_book:
+    dispname: '魔法の書（刻印）'
+    url: 'http://textures.minecraft.net/texture/a683dae6d132f52efa55e98c181def5403672fdec2cbcf4793142cb0e59bd0'
+  letterbox:
+    dispname: 'レターボックス'
+    url: 'http://textures.minecraft.net/texture/70799f5effc891e334faa7f45d0bdd956d4e215d8a7ad55c310941aa96723'
+  pouch:
+    dispname: 'ポーチ'
+    url: 'http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3'
+  red_present:
+    dispname: 'プレゼント箱(赤)'
+    url: 'http://textures.minecraft.net/texture/f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca'
+  green_present:
+    dispname: 'プレゼント箱(緑)'
+    url: 'http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d'
+  blue_present:
+    dispname: 'プレゼント箱(青)'
+    url: 'http://textures.minecraft.net/texture/b5651a18f54714b0b8f7f011c018373b33fd1541ca6f1cfe7a6c97b65241f5'
+  spruce_log:
+    dispname: '松の木（円筒型）'
+    url: 'http://textures.minecraft.net/texture/427eeab6b01c61c80b4449a05e92d35cb05d336544c9cbaf48c1614e84920'
+  white_chest:
+    dispname: '白いチェスト'
+    url: 'http://textures.minecraft.net/texture/2060ff2fe936cd9a7f42d1d7032681c608a614d2e40d4d194dee99545904e'
+  gold_chest:
+    dispname: 'ゴールドチェスト'
+    url: 'http://textures.minecraft.net/texture/e1daee3f453a38e35d8cab8353c5d28cce1b675ff94b92e5c4af2d6452031a0'
+  ender_chest:
+    dispname: 'エンダーチェスト'
+    url: 'http://textures.minecraft.net/texture/a6cc486c2be1cb9dfcb2e53dd9a3e9a883bfadb27cb956f1896d602b4067'
+  stack_paper:
+    dispname: '紙'
+    url: 'http://textures.minecraft.net/texture/4883d656e49c38c6b5378572f31c63c4c7a5dd4375b6ecbca43f5971c2cc4ff'

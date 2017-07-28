@@ -4,6 +4,46 @@ import com.github.unchama.listener.listeners.*;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
+<<<<<<< HEAD
+=======
+import com.github.unchama.listener.listeners.BlockBreakListener;
+import com.github.unchama.listener.listeners.BlockColoringSkillListener;
+import com.github.unchama.listener.listeners.BlockLineUpListener;
+import com.github.unchama.listener.listeners.BlockPlaceEventListener;
+import com.github.unchama.listener.listeners.BuildBlockIncrementListener;
+import com.github.unchama.listener.listeners.BuildLevelListener;
+import com.github.unchama.listener.listeners.ConvertPlacementListener;
+import com.github.unchama.listener.listeners.EnchantmentListener;
+import com.github.unchama.listener.listeners.EntityListener;
+import com.github.unchama.listener.listeners.ExchangeInventoryListener;
+import com.github.unchama.listener.listeners.FishingLevelListener;
+import com.github.unchama.listener.listeners.FishingListener;
+import com.github.unchama.listener.listeners.GachaAppleListener;
+import com.github.unchama.listener.listeners.GeneralBreakListener;
+import com.github.unchama.listener.listeners.GiganticInteractListener;
+import com.github.unchama.listener.listeners.GiganticPlayerAvailableListener;
+import com.github.unchama.listener.listeners.HeadPlaceCancelListener;
+import com.github.unchama.listener.listeners.HuntingExpIncrementListener;
+import com.github.unchama.listener.listeners.HuntingLevelListener;
+import com.github.unchama.listener.listeners.HuntingPointEventListener;
+import com.github.unchama.listener.listeners.InventoryClickListener;
+import com.github.unchama.listener.listeners.MenuClickListener;
+import com.github.unchama.listener.listeners.MineBlockIncrementListener;
+import com.github.unchama.listener.listeners.MinuteListener;
+import com.github.unchama.listener.listeners.PlayerChatListener;
+import com.github.unchama.listener.listeners.PlayerExpChangeListener;
+import com.github.unchama.listener.listeners.PlayerFirstJoinListener;
+import com.github.unchama.listener.listeners.PlayerInteractListener;
+import com.github.unchama.listener.listeners.PlayerJoinListener;
+import com.github.unchama.listener.listeners.PlayerPickupItemListener;
+import com.github.unchama.listener.listeners.PlayerQuitListener;
+import com.github.unchama.listener.listeners.PlayerStatisticListener;
+import com.github.unchama.listener.listeners.PlayerSwapHandItemsListener;
+import com.github.unchama.listener.listeners.PlayerTimeIncrementListener;
+import com.github.unchama.listener.listeners.RankingUpdateListener;
+import com.github.unchama.listener.listeners.SecondListener;
+import com.github.unchama.listener.listeners.SeichiLevelListener;
+>>>>>>> fork_master/master
 
 /**リスナーを追加するときはここに必ず追記すること．
  *
@@ -47,9 +87,13 @@ public enum ListenerEnum {
     ENTITYLISTENER(new EntityListener()),
     PLAYERTIMEINCREMENT(new PlayerTimeIncrementListener()),
     GIGANTICPLAYERAVAILABLE(new GiganticPlayerAvailableListener()),
+<<<<<<< HEAD
 	ENTITYDEATH(new EntityDeathListener()),
 	ENTITYDAMAGEBYENITIY(new EntityDamageByEntityListener()),
 
+=======
+    PLAYEREXPCHANGE(new PlayerExpChangeListener()),
+>>>>>>> fork_master/master
 	;
 	private Listener listener;
 

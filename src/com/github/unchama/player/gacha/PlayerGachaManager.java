@@ -71,7 +71,7 @@ public class PlayerGachaManager extends DataManager implements UsingSql{
 	 */
 	public void give(Player player, GachaType gt, int i) {
 		if(i > 64)return;
-		ItemStack ts = gacha.getManager(gt.getManagerClass()).getGachaTicket();
+		ItemStack ts = gacha.getManager(gt.getManagerClass()).getGachaTicket(player);
 		ts.setAmount(i);
 		Util.giveItem(player, ts,true);
 		dataMap.get(gt).remove(i);

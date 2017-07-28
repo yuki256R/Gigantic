@@ -24,15 +24,6 @@ public class GachaAppleListener implements Listener{
         GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 
         ManaManager manaManager = gp.getManager(ManaManager.class);
-
-     // デッドコードのためコメントアウト
-//        if (gp == null) {
-//            p.sendMessage(ChatColor.RED + "PlayerItemConsumeEvent内でPlayerDataがnull。管理者に報告してください。");
-//            Bukkit.getLogger().warning(p.getName() + " -> PlayerData not found.");
-//            Bukkit.getLogger().warning("GachaItemListener.onPlayerItemConsumeEvent");
-//            return;
-//        }
-
         ItemStack itemStack = e.getItem();
 
         if (ManaPotion.GachaAppleNBTContains(itemStack, ManaEffect.MANA_FULL)) {

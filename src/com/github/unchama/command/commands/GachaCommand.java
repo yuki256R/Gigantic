@@ -241,7 +241,7 @@ public class GachaCommand implements TabExecutor {
 			}
 
 			GachaManager m = gacha.getManager(gt.getManagerClass());
-			ItemStack is = m.getGachaItem(id).getItem();
+			ItemStack is = m.getGachaItem(id).getItemSample();
 
 			if (is == null) {
 				sender.sendMessage(ChatColor.RED + "指定されたIDは登録されていません．");
@@ -353,7 +353,7 @@ public class GachaCommand implements TabExecutor {
 			sender.sendMessage(ChatColor.GREEN + "id|名前|確率|排出");
 			items.forEach((id, gi) -> {
 				sender.sendMessage("" + ChatColor.GREEN + id + "|"
-						+ gi.getItem().getItemMeta().getDisplayName()
+						+ gi.getDisplayName()
 						+ ChatColor.RESET + ChatColor.GREEN + "|"
 						+ Util.Decimal(gi.getProbability()) + "|"
 						+ gi.isLocked());

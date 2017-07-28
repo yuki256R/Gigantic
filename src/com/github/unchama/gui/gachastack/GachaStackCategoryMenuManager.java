@@ -57,7 +57,7 @@ public class GachaStackCategoryMenuManager extends GuiMenuManager{
 
 		for (GachaItem gi : gm.getGachaItemMap().values()) {
 			int id = gi.getID();
-			ItemStack itemStack = gi.getItem();
+			ItemStack itemStack = gi.getItemSample();
             ItemMeta itemMeta = itemStack.getItemMeta();
             int amount = manager.getAmount(type, id);
             itemMeta.setLore(Arrays.asList(ChatColor.RESET + "" + ChatColor.GREEN + amount +"個"
@@ -75,7 +75,7 @@ public class GachaStackCategoryMenuManager extends GuiMenuManager{
 		GachaType type = getGachaType(player);
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GachaStackManager manager = gp.getManager(GachaStackManager.class);
-		boolean isSuccess = manager.takeOutGachaItem(type, id);
+		boolean isSuccess = manager.takeOutGachaItem(player,type, id);
 		if(isSuccess){
 			player.openInventory(getInventory(player, 0));
 		}

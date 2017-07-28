@@ -10,6 +10,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
@@ -89,6 +90,12 @@ public final class GiganticPlayerAvailableListener implements Listener {
 	public void refreshSeichiLevelonAvailable(GiganticPlayerAvailableEvent event){
 		GiganticPlayer gp = event.getGiganticPlayer();
 		SeichiLevelManager mm = gp.getManager(SeichiLevelManager.class);
+		mm.onAvailable();
+	}
+	@EventHandler
+	public void refreshMineBlockAvailable(GiganticPlayerAvailableEvent event){
+		GiganticPlayer gp = event.getGiganticPlayer();
+		MineBlockManager mm = gp.getManager(MineBlockManager.class);
 		mm.onAvailable();
 	}
 }

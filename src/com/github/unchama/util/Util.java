@@ -172,7 +172,13 @@ public class Util {
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 	}
-
+	public static void addLore(ItemStack item, List<String> lore) {
+		ItemMeta meta = item.getItemMeta();
+		List<String> n_lore = meta.getLore();
+		n_lore.addAll(lore);
+		meta.setLore(n_lore);
+		item.setItemMeta(meta);
+	}
 	/**エンチャント状態にします．
 	 *
 	 * @param item
@@ -299,4 +305,6 @@ public class Util {
 	public static Set<Material> getFluidMaterials(){
 		return tpm;
 	}
+
+
 }
