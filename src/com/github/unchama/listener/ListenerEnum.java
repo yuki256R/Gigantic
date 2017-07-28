@@ -4,8 +4,6 @@ import com.github.unchama.listener.listeners.*;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
-<<<<<<< HEAD
-=======
 import com.github.unchama.listener.listeners.BlockBreakListener;
 import com.github.unchama.listener.listeners.BlockColoringSkillListener;
 import com.github.unchama.listener.listeners.BlockLineUpListener;
@@ -43,7 +41,6 @@ import com.github.unchama.listener.listeners.PlayerTimeIncrementListener;
 import com.github.unchama.listener.listeners.RankingUpdateListener;
 import com.github.unchama.listener.listeners.SecondListener;
 import com.github.unchama.listener.listeners.SeichiLevelListener;
->>>>>>> fork_master/master
 
 /**リスナーを追加するときはここに必ず追記すること．
  *
@@ -87,13 +84,9 @@ public enum ListenerEnum {
     ENTITYLISTENER(new EntityListener()),
     PLAYERTIMEINCREMENT(new PlayerTimeIncrementListener()),
     GIGANTICPLAYERAVAILABLE(new GiganticPlayerAvailableListener()),
-<<<<<<< HEAD
+    PLAYEREXPCHANGE(new PlayerExpChangeListener()),
 	ENTITYDEATH(new EntityDeathListener()),
 	ENTITYDAMAGEBYENITIY(new EntityDamageByEntityListener()),
-
-=======
-    PLAYEREXPCHANGE(new PlayerExpChangeListener()),
->>>>>>> fork_master/master
 	;
 	private Listener listener;
 
