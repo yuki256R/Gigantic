@@ -15,7 +15,6 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.sql.player.ManaTableManager;
-import com.github.unchama.util.Util;
 
 /**
  * @author tar0ss
@@ -79,8 +78,8 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 		BarColor bc = getColor(progress);
 
 		manabar = Bukkit.getServer().createBossBar(
-				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
-						+ "/" + max + ")", bc, BarStyle.SOLID);
+				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long)m
+						+ "/" + (long)max + ")", bc, BarStyle.SOLID);
 		manabar.setProgress(progress);
 		manabar.addPlayer(player);
 	}
@@ -91,8 +90,8 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	private void updateBar(){
 		double progress =  m / max > 1.0 ? 1.0 : m / max;
 		manabar.setProgress(progress);
-		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + Util.Decimal(m)
-				+ "/" + max + ")");
+		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long)m
+				+ "/" + (long)max + ")");
 		BarColor bc = getColor(progress);
 		manabar.setColor(bc);
 	}
