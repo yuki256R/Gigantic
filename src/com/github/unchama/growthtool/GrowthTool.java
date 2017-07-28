@@ -153,7 +153,7 @@ public final class GrowthTool {
 				balance.add(manager.getDropBalance());
 			}
 			GrwRandomList<GrowthToolManager> managerlist = new GrwRandomList<GrowthToolManager>(new ArrayList<GrowthToolManager>(managermap.values()));
-			managerlist.getRandom(balance).giveDefault(player);
+			managerlist.getRandom(balance).giveDefault(player, false);
 		}
 	}
 
@@ -240,7 +240,7 @@ public final class GrowthTool {
 	 * @return (true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ)
 	 */
 	public static final boolean giveDefault(GrowthToolType gt, Player player) {
-		return managermap.get(gt.getManagerClass()).giveDefault(player);
+		return managermap.get(gt.getManagerClass()).giveDefault(player, false);
 	}
 
 	/**

@@ -59,7 +59,7 @@ public class PlayerFirstJoinListener implements Listener {
 		//MebiusListener.give(p);
 		//メビウス配布処理
 		Helmet mebius = new Helmet(GrowthTool.GrowthToolType.MEBIUS);
-		mebius.giveDefaultEquipment(player, GrowthToolManager.EquipmentType.HELMET);
+		mebius.giveDefaultEquipment(player, GrowthToolManager.EquipmentType.HELMET, false);
 	}
 
 }
