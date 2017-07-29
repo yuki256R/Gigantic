@@ -344,7 +344,7 @@ public abstract class GrowthToolManager {
 		} else if (event instanceof SecondEvent) {
 			ret = customMsg.talk(tool, player, null);
 		} else if (event instanceof EntityDeathEvent) {
-			ret = onMonsterKillMsg.talk(tool, player, ((EntityDeathEvent) event).getEntity().getKiller());
+			ret = onMonsterKillMsg.talk(tool, player, ((EntityDeathEvent) event).getEntity());
 		} else if (event instanceof PlayerQuitEvent) {
 			ret = onPlayerQuitMsg.talk(getTool(player), player, null);
 		} else if (event instanceof BlockBreakEvent) {
@@ -373,6 +373,8 @@ public abstract class GrowthToolManager {
 				} else if (entity instanceof Projectile) {
 					ProjectileSource shooter = ((Projectile) entity).getShooter();
 					ret = onGetDamageMsg.talk(tool, player, (Entity) shooter);
+				} else {
+					ret = onGetDamageMsg.talk(tool, player, entity);
 				}
 			}
 		}

@@ -3,10 +3,8 @@ package com.github.unchama.growthtool.moduler.message;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
-import org.bukkit.entity.Player;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftSlime;
+import org.bukkit.entity.*;
 
 import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
@@ -58,7 +56,7 @@ public class GrwMessage extends GrwRandomList<String> {
 			message = GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getDisplayName()));
 		}
 		// MonsterNameタグの置換
-		if (entity != null && entity instanceof Monster) {
+		if (entity != null && (entity instanceof Monster || entity instanceof CraftSlime)) {
 			//entity.getCustomName()でヌルポ発生→おそらくだけど普通にスポーンするモンスターはcustomnameがnull
 			message = GrwTag.MonsterName.replace(message, entity.getName());
 		}
