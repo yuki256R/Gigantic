@@ -383,17 +383,17 @@ name: '&5&lメインメニュー'
       - '&r&2&l&nクリックで開く'
   mobhead: 'green_present'
   openmenu: 'presentbox'
-17:
-  itemstack:
-    ==: org.bukkit.inventory.ItemStack
-    type: GOLDEN_APPLE
-    meta:
-      ==: ItemMeta
-      meta-type: UNSPECIFIC
-      display-name: '&b&n&lマナ全回復'
-      lore:
-      - '&r&aβ専用機能'
-  invoke: "betamanacure"
+#17:
+#  itemstack:
+#    ==: org.bukkit.inventory.ItemStack
+#    type: GOLDEN_APPLE
+#    meta:
+#      ==: ItemMeta
+#      meta-type: UNSPECIFIC
+#      display-name: '&b&n&lマナ全回復'
+#      lore:
+#      - '&r&aβ専用機能'
+#  invoke: "betamanacure"
 31:
   itemstack:
     ==: org.bukkit.inventory.ItemStack
