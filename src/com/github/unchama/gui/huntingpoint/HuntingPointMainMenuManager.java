@@ -12,6 +12,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -49,6 +50,9 @@ public class HuntingPointMainMenuManager extends GuiMenuManager {
 		// 狩猟レベルの表示
 		levelViewerButton = new ItemStack(Material.DIAMOND_SWORD);
 		Util.setDisplayName(levelViewerButton, ChatColor.YELLOW + "統計");
+		ItemMeta meta = levelViewerButton.getItemMeta();
+		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		levelViewerButton.setItemMeta(meta);
 
 		// 各Mobボタン
 		Map<String, HuntMobData> mobNames = Gigantic.yml.getManager(

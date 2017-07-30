@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
@@ -132,11 +133,13 @@ public class CondensationManager extends ActiveSkillManager {
 			return false;
 		}
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		SkillBreakBlockManager bbm = gp.getManager(SkillBreakBlockManager.class);
 		// condens直前の処理
 		liquidlist.forEach(b -> {
 			Material m = b.getType();
 			if (isLiquid(m)) {
 				mb.increase(m);
+				bbm.increase(ActiveSkillType.CONDENSATION, 1.0);
 			}
 			});
 

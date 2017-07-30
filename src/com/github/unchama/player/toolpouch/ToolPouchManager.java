@@ -10,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
@@ -20,8 +19,7 @@ import com.github.unchama.sql.player.ToolPouchTableManager;
  * @author tar0ss
  *
  */
-public class ToolPouchManager extends DataManager implements UsingSql,
-		Initializable {
+public class ToolPouchManager extends DataManager implements UsingSql{
 	ToolPouchTableManager tm;
 
 	private Inventory pouch;
@@ -31,8 +29,8 @@ public class ToolPouchManager extends DataManager implements UsingSql,
 		tm = sql.getManager(ToolPouchTableManager.class);
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		this.resize();
 	}
 

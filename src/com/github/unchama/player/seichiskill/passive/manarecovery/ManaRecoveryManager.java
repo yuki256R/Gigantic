@@ -20,7 +20,6 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.minestack.StackType;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 
@@ -30,8 +29,7 @@ import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
  * @author tar0ss
  *
  */
-public class ManaRecoveryManager extends PassiveSkillManager implements
-		Initializable {
+public class ManaRecoveryManager extends PassiveSkillManager {
 	private static Random rnd = new Random();
 
 	// マナ回復レベルとマナ回復量のマップ
@@ -66,8 +64,7 @@ public class ManaRecoveryManager extends PassiveSkillManager implements
 		this.recoverylevel = 0;
 	}
 
-	@Override
-	public void init() {
+	public void onAvailable() {
 		this.refresh(false);
 	}
 
@@ -145,13 +142,12 @@ public class ManaRecoveryManager extends PassiveSkillManager implements
 			}
 		}
 		if (messageflag) {
-			if (this.recoverylevel != manaLevelMap.get(tmp).intValue()) {
+			if (this.recoverylevel != manaLevelMap.get(tmp).intValue() && manaLevelMap.get(tmp).intValue() != 0) {
 				Player player = PlayerManager.getPlayer(gp);
 				player.sendMessage("マナリカバリーのレベルが" + manaLevelMap.get(tmp)
 						+ "になりました！");
 			}
 		}
-
 		this.recoverylevel = manaLevelMap.get(tmp);
 		return;
 	}
@@ -178,10 +174,9 @@ public class ManaRecoveryManager extends PassiveSkillManager implements
 	 * @param block
 	 */
 	public void recover(Player player, Block block) {
-		if(this.getRecoveryMana() == 0){
+		if (this.getRecoveryMana() == 0) {
 			return;
 		}
-
 
 		double r = rnd.nextDouble();
 

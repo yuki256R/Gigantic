@@ -11,7 +11,6 @@ import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
@@ -78,7 +77,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 		}
 		GachaItem gi = gm.getGachaItem(id);
 		// 耐久度が減ったりしてたらアウト
-		if(gi.getItem().getDurability() != itemstack.getDurability()){
+		if(gi.getDurability() != itemstack.getDurability()){
 			return false;
 		}
 
@@ -107,7 +106,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 	}
 
 	// アイテムの取り出し
-	public boolean takeOutGachaItem(GachaType type, int id){
+	public boolean takeOutGachaItem(Player player,GachaType type, int id){
 		if(!itemMap.containsKey(type)){
 			return false;
 		}
@@ -126,7 +125,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 
 		// 一度にスタックできる限り取り出す
 		GachaItem gi = gm.getGachaItem(id);
-		ItemStack item = gi.getItem().clone();
+		ItemStack item = gi.getItem(player);
 		int stackSize = item.getMaxStackSize();
 		if(stackSize > amount){
 			stackSize = amount;
@@ -135,7 +134,6 @@ public class GachaStackManager extends DataManager implements UsingSql{
 		item.setAmount(stackSize);
 
 		// アイテムの付与とスタックの減算
-		Player player = PlayerManager.getPlayer(gp);
 		Util.giveItem(player, item, true);
 		map.put(id, amount);
 

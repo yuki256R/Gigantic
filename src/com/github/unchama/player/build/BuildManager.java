@@ -108,8 +108,8 @@ public class BuildManager extends DataManager implements UsingSql, Finalizable{
             this.build_num_1min = this.build_num_1min.add(addnum);
             this.totalbuildnum = this.totalbuildnum.add(addnum);
 
-            if (build_num_1min.doubleValue() != this.build_num_1min.doubleValue()) {
-                Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,addnum,this.totalbuildnum));
+            if (addnum.doubleValue() != 0) {
+                Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,addnum.doubleValue(),this.totalbuildnum.doubleValue()));
             }
 
         } else {
@@ -123,9 +123,9 @@ public class BuildManager extends DataManager implements UsingSql, Finalizable{
             this.totalbuildnum = this.totalbuildnum.add(inc);
             this.build_num_1min = this.build_num_1min.add(addnum);
 
-            if (inc.compareTo(BigDecimal.ZERO) != 0) {
+            if (inc.doubleValue() != 0) {
                 Bukkit.getPluginManager().callEvent(new BuildBlockIncrementEvent(gp,
-                        inc,this.totalbuildnum));
+                        inc.doubleValue(),this.totalbuildnum.doubleValue()));
             }
         }
     }

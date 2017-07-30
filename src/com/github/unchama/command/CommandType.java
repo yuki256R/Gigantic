@@ -1,6 +1,20 @@
 package com.github.unchama.command;
 
 import org.bukkit.command.TabExecutor;
+
+import com.github.unchama.command.commands.AchieveCommand;
+import com.github.unchama.command.commands.DebugCommand;
+import com.github.unchama.command.commands.EnchantmentCommand;
+import com.github.unchama.command.commands.FlyCommand;
+import com.github.unchama.command.commands.GachaCommand;
+import com.github.unchama.command.commands.GrowthCommand;
+import com.github.unchama.command.commands.HomeCommand;
+import com.github.unchama.command.commands.LastquitCommand;
+import com.github.unchama.command.commands.ListenCommand;
+import com.github.unchama.command.commands.MineBoostCommand;
+import com.github.unchama.command.commands.PresentBoxCommand;
+import com.github.unchama.command.commands.StickCommand;
+import com.github.unchama.command.commands.TakeoverCommand;
 /**
  * @author tar0ss
  *
@@ -18,6 +32,7 @@ public enum CommandType {
 	LISTEN(new ListenCommand()),
 	TAKEOVER(new TakeoverCommand()),
 	LASTQUIT(new LastquitCommand()),
+	ACHIEVE(new AchieveCommand()),
 	;
 
 

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.github.unchama.command.PresentBoxCommand;
+import com.github.unchama.command.commands.PresentBoxCommand;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 

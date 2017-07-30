@@ -45,21 +45,9 @@ mobhead:
   grass:
     dispname: '芝'
     url: 'http://textures.minecraft.net/texture/349c63bc508723328a19e597f40862d27ad5c1d545663ac24466582f568d9'
-  letterbox:
-    dispname: 'レターボックス'
-    url: 'http://textures.minecraft.net/texture/70799f5effc891e334faa7f45d0bdd956d4e215d8a7ad55c310941aa96723'
-  pouch:
-    dispname: 'ポーチ'
-    url: 'http://textures.minecraft.net/texture/c6e69b1c7e69bcd49ed974f5ac36ea275efabb8c649cb2b1fe9d6ea6166ec3'
   pc:
     dispname: 'パソコン'
     url: 'http://textures.minecraft.net/texture/8d19c68461666aacd7628e34a1e2ad39fe4f2bde32e231963ef3b35533'
-  red_present:
-    dispname: 'プレゼント箱(赤)'
-    url: 'http://textures.minecraft.net/texture/f0afa4fffd10863e76c698da2c9c9e799bcf9ab9aa37d8312881734225d3ca'
-  green_present:
-    dispname: 'プレゼント箱(緑)'
-    url: 'http://textures.minecraft.net/texture/5a646f3ed5423b68b47b858c33331c982065ea1dd6272952184b64584f5191d'
   blue_bottle:
     dispname: 'ボトル(青)'
     url: 'http://textures.minecraft.net/texture/d5f3602ec661c7f4beec88c12a5297d877822b8861920bacf49ae2077bb2b3'
@@ -111,9 +99,6 @@ mobhead:
   purple_chalice:
     dispname: '聖杯（パープルジェム）'
     url: 'http://textures.minecraft.net/texture/cd404270c6ebeb8fc94a3946af5334e4a5b657a9bf25e7335e74ab185'
-  spruce_log:
-    dispname: '松の木（円筒型）'
-    url: 'http://textures.minecraft.net/texture/427eeab6b01c61c80b4449a05e92d35cb05d336544c9cbaf48c1614e84920'
   light_bulb:
     dispname: '電球'
     url: 'http://textures.minecraft.net/texture/366335847cba9aeaffc95cb109fdf55da13c95c97326a3bf5ddc7c99ee3'
@@ -132,7 +117,15 @@ mobhead:
   g_question:
     dispname: 'ギガ？'
     url: 'http://textures.minecraft.net/texture/9d9cc58ad25a1ab16d36bb5d6d493c8f5898c2bf302b64e325921c41c35867'
-    
-    
-    
-    
+  pickel_chalice:
+    dispname: '聖杯（ピッケル）'
+    url: 'http://textures.minecraft.net/texture/bf6464a5ba11e1e59f0948a3d95846654253bf2822c6b1c1b3a4a3fd31ba4f'
+  purple_cmd:
+    dispname: 'コマンドブロック（紫）'
+    url: 'http://textures.minecraft.net/texture/9e31f33796a485cb4a1d78bf569aff815bf93f97b9c4a4c5d9def7d9060'
+  green_cmd:
+    dispname: 'コマンドブロック（緑）'
+    url: 'http://textures.minecraft.net/texture/9dcf2962878cbf7e145c92efcc1c63bfd24dc126fc519d08b18318e4b1a4e'
+  cmd:
+    dispname: 'コマンドブロック'
+    url: 'http://textures.minecraft.net/texture/5f4c21d17ad636387ea3c736bff6ade897317e1374cd5d9b1c15e6e8953432'
