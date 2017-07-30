@@ -601,5 +601,24 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return (float)exp;
 	}
 
+	public int getPremiumPoint(GiganticPlayer gp) {
+		String command = "select premiumeffectpoint from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("premiumeffectpoint");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load premiumeffectpoint player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
+	}
+
 
 }
