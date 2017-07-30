@@ -4,6 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.player.point.GiganticPointManager;
+import com.github.unchama.player.point.UnchamaPointManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -98,6 +100,8 @@ public class GiganticPlayer {
 		FISHINGLEVEL(FishingLevelManager.class),
 		FISHING(FishingManager.class),
 		EFFECT(SkillEffectManager.class),
+		UNCHAMAPOINT(UnchamaPointManager.class),
+		GIGANTICPOINT(GiganticPointManager.class),
 		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
 		;
 

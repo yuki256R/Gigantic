@@ -2,6 +2,8 @@ package com.github.unchama.player.seichiskill.moduler;
 
 import java.util.LinkedHashMap;
 
+import net.md_5.bungee.api.ChatColor;
+
 import com.github.unchama.gui.moduler.ActiveSkillMenuManager;
 import com.github.unchama.gui.seichiskill.active.condensation.CondensationMenuManager;
 import com.github.unchama.gui.seichiskill.active.explosion.ExplosionMenuManager;
@@ -84,6 +86,27 @@ public enum ActiveSkillType {
 
 	public Information getInformation() {
 		return this.info;
+	}
+
+	public String getSkillName(boolean flag) {
+		switch(this){
+		case CONDENSATION:
+			if(flag)return ChatColor.RED + "コンデンセーション";
+			else return ChatColor.DARK_GRAY + "コンデンセーション";
+		case EXPLOSION:
+			if(flag)return ChatColor.YELLOW + "エクスプロージョン";
+			else return ChatColor.DARK_GRAY + "エクスプロージョン";
+		case FAIRYAEGIS:
+			if(flag)return ChatColor.GREEN + "フェアリーエイジス";
+			else return ChatColor.DARK_GRAY + "フェアリーエイジス";
+		case MAGICDRIVE:
+			if(flag)return ChatColor.BLUE + "マジックドライブ";
+			else return ChatColor.DARK_GRAY + "マジックドライブ";
+		case RUINFIELD:
+			if(flag)return ChatColor.DARK_PURPLE + "ルインフィールド";
+			else return ChatColor.DARK_GRAY + "ルインフィールド";
+		}
+		return "????";
 	}
 
 }

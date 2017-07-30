@@ -226,6 +226,30 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return ans;
 	}
 
+	//指定プレイヤーのlastquitを取得
+	public String getLastQuit(GiganticPlayer gp){
+		String command;
+		final String struuid = gp.uuid.toString().toLowerCase();
+		String ans = "";
+
+		command = "select lastquit from " + db + "." + table
+				+ " where name = '" + struuid + "'";
+
+		this.checkStatement();
+		try{
+			rs = stmt.executeQuery(command);
+			while (rs.next()) {
+				ans = rs.getString("lastquit");
+			  }
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load lastquit player:" + gp.name);
+			e.printStackTrace();
+		}
+		return ans;
+	}
+
 	public String getLastCheckDate(GiganticPlayer gp) {
 		String command = "";
 		final String struuid = gp.uuid.toString().toLowerCase();
@@ -264,8 +288,8 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			plugin.getLogger()
-					.warning("Failed to load rgnum player:" + gp.name);
+			plugin.getLogger().warning(
+					"Failed to load rgnum player:" + gp.name);
 			e.printStackTrace();
 		}
 		return ans;
@@ -449,6 +473,25 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			e.printStackTrace();
 		}
 		return map;
+	}
+
+	public int getVoteEffect(GiganticPlayer gp) {
+		String command = "select p_vote from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("p_vote");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load p_vote player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
 	}
 
 
