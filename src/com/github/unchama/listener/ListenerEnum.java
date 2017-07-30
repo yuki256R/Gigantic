@@ -83,7 +83,6 @@ public enum ListenerEnum {
     ENTITYLISTENER(new EntityListener()),
     PLAYERTIMEINCREMENT(new PlayerTimeIncrementListener()),
     GIGANTICPLAYERAVAILABLE(new GiganticPlayerAvailableListener()),
-    PLAYEREXPCHANGE(new PlayerExpChangeListener()),
 	ENTITYDEATH(new EntityDeathListener()),
 	ENTITYDAMAGEBYENITIY(new EntityDamageByEntityListener()),
 	;
