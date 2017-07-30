@@ -27,8 +27,8 @@ public final class ExpTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	protected String saveCommand(GiganticPlayer gp) {
 		String command = "";
-		ExpManager m = gp.getManager(ExpManager.class);
-		command += "exp = '" + m.getExp() + "',";
+		ExpManager eM = gp.getManager(ExpManager.class);
+		command += "exp = '" + eM.getExp() + "',";
 		return command;
 	}
 

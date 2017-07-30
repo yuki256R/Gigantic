@@ -15,6 +15,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.util.ExperienceManager;
 
 /**
@@ -33,7 +34,8 @@ public class ToolRepair {
 	static public void RepairTool(Player player, RepairType type) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		// 経験値データを取得
-		ExperienceManager expmanager = gp.getExpManager();
+		ExpManager eM = gp.getManager(ExpManager.class);
+		ExperienceManager expmanager = eM.getExperienceManager();
 		int beforeExp = expmanager.getCurrentExp();
 
 		PlayerInventory playerInventory = player.getInventory();
@@ -144,7 +146,12 @@ public class ToolRepair {
 		item.setDurability((short) (item.getDurability() - curePoint));
 	}
 
-	// 直接付与の経験値をバニラの修繕エンチャントを模倣した動作で消費する
+	/**
+	 *  直接付与の経験値をバニラの修繕エンチャントを模倣した動作で消費する
+	 * @param player
+	 * @param addExp
+	 * @return
+	 */
 	static public int VanillaMending(Player player, int addExp) {
 		PlayerInventory playerInventory = player.getInventory();
 		List<ItemStack> mendingSlots = new ArrayList<ItemStack>();

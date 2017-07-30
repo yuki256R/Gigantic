@@ -15,7 +15,7 @@ public class WeekMineBlockRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
-		return "総整地量:" + (int)value;
+		return "総整地量:" + (long)value;
 	}
 
 

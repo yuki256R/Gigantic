@@ -1,13 +1,9 @@
 package com.github.unchama.gui.admin.build;
 
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.GuiMenu;
-import com.github.unchama.gui.moduler.GuiMenuManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mana.ManaManager;
-import com.github.unchama.util.ManaPotion;
-import com.github.unchama.util.ManaPotion.ManaEffect;
-import com.github.unchama.util.Util;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -16,7 +12,13 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.gui.GuiMenu;
+import com.github.unchama.gui.moduler.GuiMenuManager;
+import com.github.unchama.item.GiganticItem;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.util.Util;
 
 /**
  * @author karayuu
@@ -37,23 +39,23 @@ public class AdminBuildMenuManager extends GuiMenuManager{
         switch (identifier) {
 
             case "MAX":
-                Util.addItem(player, ManaPotion.getDebugGachaApple(ManaEffect.MANA_FULL, 5));
+                Util.addItem(player, GiganticItem.MANA_FULL.getItemStack());
                 player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 1,(float) 0.5);
                 break;
             case "300":
-                Util.addItem(player, ManaPotion.getDebugGachaApple(ManaEffect.MANA_SMALL, 5));
+                Util.addItem(player, GiganticItem.MANA_SMALL.getItemStack());
                 player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 1,(float) 0.5);
                 break;
             case "1500":
-                Util.addItem(player, ManaPotion.getDebugGachaApple(ManaEffect.MANA_MEDIUM, 5));
+                Util.addItem(player, GiganticItem.MANA_MEDIUM.getItemStack());
                 player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 1,(float) 0.5);
                 break;
             case "10000":
-                Util.addItem(player, ManaPotion.getDebugGachaApple(ManaEffect.MANA_LARGE, 5));
+                Util.addItem(player, GiganticItem.MANA_LARGE.getItemStack());
                 player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 1,(float) 0.5);
                 break;
             case "100000":
-                Util.addItem(player, ManaPotion.getDebugGachaApple(ManaEffect.MANA_TINY, 5));
+                Util.addItem(player, GiganticItem.MANA_HUGE.getItemStack());
                 player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 1,(float) 0.5);
                 break;
             case "Mana":
