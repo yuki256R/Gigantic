@@ -139,9 +139,10 @@ public class CondensationManager extends ActiveSkillManager {
 			Material m = b.getType();
 			if (isLiquid(m)) {
 				mb.increase(m);
-				bbm.increase(ActiveSkillType.CONDENSATION, 1.0);
 			}
 			});
+		//スキル別の破壊量に追加
+		bbm.increase(ActiveSkillType.CONDENSATION, (double) liquidlist.size());
 
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logPlacement(player, liquidlist.get(0));
