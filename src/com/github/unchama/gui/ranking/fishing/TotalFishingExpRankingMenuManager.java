@@ -14,7 +14,7 @@ public class TotalFishingExpRankingMenuManager extends TotalRankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
-		return "総釣り経験値:" + (int)value;
+		return "総釣り経験値:" + (long)value;
 	}
 
 	@Override

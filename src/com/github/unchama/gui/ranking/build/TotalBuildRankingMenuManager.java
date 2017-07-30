@@ -17,7 +17,7 @@ public final class TotalBuildRankingMenuManager extends TotalRankingMenuManager 
 
 	@Override
 	protected String getLore(double value) {
-		return "総建築量:" + (int)value;
+		return "総建築量:" + (long)value;
 	}
 
 	@Override

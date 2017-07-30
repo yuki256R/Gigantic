@@ -22,7 +22,6 @@ import com.github.unchama.player.seichilevel.SeichiLevel;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.sql.player.MineBlockTableManager;
-import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
@@ -80,8 +79,8 @@ public class MineBlockManager extends DataManager implements UsingSql,
 		BarColor bc = getColor(progress);
 
 		minebar = Bukkit.getServer().createBossBar(
-				ChatColor.GREEN + "" + ChatColor.BOLD + "整地量(" + Util.Decimal(now - min)
-						+ "/" + Util.Decimal(max - min) + ")", bc, BarStyle.SOLID);
+				ChatColor.GREEN + "" + ChatColor.BOLD + "整地量(" + (long)(now - min)
+						+ "/" + (long)(max - min) + ")", bc, BarStyle.SOLID);
 		minebar.setProgress(progress);
 		if (!minebar.getPlayers().contains(player))
 			minebar.addPlayer(player);

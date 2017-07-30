@@ -69,7 +69,7 @@ public class GeneralBreakListener implements Listener {
 	 *
 	 * @param event
 	 */
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void addMineStack(ItemSpawnEvent event) {
 		if (event.isCancelled())
 			return;
@@ -125,7 +125,7 @@ public class GeneralBreakListener implements Listener {
 	 *
 	 * @param event
 	 */
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void giveExp(BlockBreakEvent event) {
 		if (event.isCancelled())
 			return;
@@ -139,7 +139,7 @@ public class GeneralBreakListener implements Listener {
 		event.setExpToDrop(0);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(priority = EventPriority.HIGH)
 	public void calcGravity(BlockBreakEvent event) {
 		if (event.isCancelled())
 			return;
