@@ -20,7 +20,7 @@ import com.github.unchama.sql.player.ManaTableManager;
  * @author tar0ss
  *
  */
-public class ManaManager extends DataManager implements UsingSql, Finalizable{
+public class ManaManager extends DataManager implements UsingSql, Finalizable {
 
 	private double m;
 	private double max;
@@ -32,10 +32,9 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	private double debugmana = -1;
 
 	public ManaManager(GiganticPlayer gp) {
-	    super(gp);
-        tm = sql.getManager(ManaTableManager.class);
+		super(gp);
+		tm = sql.getManager(ManaTableManager.class);
 	}
-
 
 	public void onAvailable() {
 		Sm = gp.getManager(SeichiLevelManager.class);
@@ -51,11 +50,12 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 
 	@Override
 	public void fin() {
-		if(this.debugmana != -1){
+		if (this.debugmana != -1) {
 			this.m = this.debugmana;
 		}
 		this.removeBar();
 	}
+
 	/**
 	 * 現在マナをマナバーに表示します
 	 *
@@ -71,41 +71,43 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 		double progress = 0;
 		if (m / max > 1.0) {
 			progress = 1.0;
-		}else{
+		} else {
 			progress = m / max;
 		}
 
 		BarColor bc = getColor(progress);
 
 		manabar = Bukkit.getServer().createBossBar(
-				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long)m
-						+ "/" + (long)max + ")", bc, BarStyle.SOLID);
+				ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long) m
+						+ "/" + (long) max + ")", bc, BarStyle.SOLID);
 		manabar.setProgress(progress);
 		manabar.addPlayer(player);
 	}
+
 	/**最大マナに占める現在マナの割り合いを更新します．
 	 * 現在マナが最大マナを超えている場合1となります．
 	 * @return
 	 */
-	private void updateBar(){
-		double progress =  m / max > 1.0 ? 1.0 : m / max;
+	private void updateBar() {
+		double progress = m / max > 1.0 ? 1.0 : m / max;
 		manabar.setProgress(progress);
-		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long)m
-				+ "/" + (long)max + ")");
+		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long) m
+				+ "/" + (long) max + ")");
 		BarColor bc = getColor(progress);
 		manabar.setColor(bc);
 	}
+
 	private BarColor getColor(double progress) {
-		if(progress > 0.99){
+		if (progress > 0.99) {
 			//マックス表示
 			return BarColor.PURPLE;
-		}else if(progress > 0.1){
+		} else if (progress > 0.1) {
 			//通常表示
 			return BarColor.BLUE;
-		}else if(progress > 0.01){
+		} else if (progress > 0.01) {
 			//ピンク表示
 			return BarColor.PINK;
-		}else{
+		} else {
 			//赤表示
 			return BarColor.RED;
 		}
@@ -116,27 +118,37 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	 * @param i
 	 * @param level
 	 */
-	public void increase(double i){
+	public void increase(double i) {
+		if(this.m > this.max){
+			return;
+		}
 		this.m += i;
+		if(this.m > this.max){
+			this.m = this.max;
+		}
 		this.updateBar();
 	}
+
 	/**dだけマナを減少させます．０以下にはなりません．
 	 *
 	 * @param d
 	 */
-	public void decrease(double d){
+	public void decrease(double d) {
 		this.m -= d;
-		if(m < 0) m = 0;
+		if (m < 0)
+			m = 0;
 		this.updateBar();
 	}
+
 	/**hのマナを持っている時はtrueを出力します．
 	 *
 	 * @param h
 	 * @return
 	 */
-	public boolean hasMana(double h){
+	public boolean hasMana(double h) {
 		return m >= h ? true : false;
 	}
+
 	/**
 	 * 現在のバーを削除します
 	 */
@@ -168,8 +180,11 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	/**マナ値を最大マナにします．（全回復）
 	 *
 	 */
-	public void fullMana(){
-		this.m = this.max;
+	public void fullMana() {
+		if (this.m < this.max){
+			this.m = this.max;
+			this.updateBar();
+		}
 	}
 
 	/**
@@ -183,25 +198,22 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable{
 	/**ユーザーのレベルアップ時に実行します．
 	 *
 	 */
-	public void Levelup(int level){
+	public void Levelup(int level) {
 		this.updateMaxMana(level);
 		this.m += SeichiLevelManager.levelmap.get(level).getMaxMana();
-		Player player = PlayerManager.getPlayer(gp);
-		this.display(player);
+		this.updateBar();
 	}
 
 	/**デバッグ用マナ保存メソッドです．
 	 *
 	 */
-	public void setDebugMana(){
+	public void setDebugMana() {
 		this.updateMaxMana(Sm.getLevel());
-		if(this.debugmana == -1){
+		if (this.debugmana == -1) {
 			this.debugmana = m;
 		}
 		this.fullMana();
-		Player player = PlayerManager.getPlayer(gp);
-		this.display(player);
+		this.updateBar();
 	}
-
 
 }

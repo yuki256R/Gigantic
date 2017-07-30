@@ -1,6 +1,5 @@
 package com.github.unchama.listener.listeners;
 
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,44 +7,31 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.item.items.ManaApple;
+import com.github.unchama.item.moduler.ManaEffect;
+import com.github.unchama.item.moduler.NBTTag;
 import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mana.ManaManager;
-import com.github.unchama.util.ManaPotion;
-import com.github.unchama.util.ManaPotion.ManaEffect;
 
 /**
  * @author karayuu
  */
-public class GachaAppleListener implements Listener{
+public class GachaAppleListener implements Listener, NBTTag {
 
-    @EventHandler
-    public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent e){
-        Player p = e.getPlayer();
-        GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
+	@EventHandler
+	public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent event) {
+		Player p = event.getPlayer();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 
-        ManaManager manaManager = gp.getManager(ManaManager.class);
-        ItemStack itemStack = e.getItem();
+		if(gp == null){
+			event.setCancelled(true);
+			return;
+		}
+		ItemStack is = event.getItem();
+		if (this.containNBTTag(is, ManaApple.MANAAPPLENBT)) {
+			ManaEffect effect = this.getNBTTagValue(is, ManaApple.MANAAPPLENBT,
+					ManaEffect.class);
+			effect.run(p);
 
-        if (ManaPotion.GachaAppleNBTContains(itemStack, ManaEffect.MANA_FULL)) {
-            manaManager.fullMana();
-            manaManager.display(p);
-            p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
-        }
-        if (ManaPotion.GachaAppleNBTContains(itemStack, ManaEffect.MANA_SMALL)) {
-            manaManager.increase(300);
-            p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
-        }
-        if (ManaPotion.GachaAppleNBTContains(itemStack, ManaEffect.MANA_MEDIUM)) {
-            manaManager.increase(1500);
-            p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
-        }
-        if (ManaPotion.GachaAppleNBTContains(itemStack, ManaEffect.MANA_LARGE)) {
-            manaManager.increase(10000);
-            p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
-        }
-        if (ManaPotion.GachaAppleNBTContains(itemStack, ManaEffect.MANA_TINY)) {
-            manaManager.increase(100000);
-            p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
-        }
-    }
+		}
+	}
 }
