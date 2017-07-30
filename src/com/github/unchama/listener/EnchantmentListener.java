@@ -1,7 +1,6 @@
 package com.github.unchama.listener;
 
 import com.github.unchama.enchantment.EnchantmentEnum;
-import com.github.unchama.enchantment.GiganticEnchantment;
 import com.github.unchama.gigantic.Gigantic;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;

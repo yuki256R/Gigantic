@@ -56,6 +56,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 		// 整地量が2倍になるワールドなら2倍
 		Player player = PlayerManager.getPlayer(gp);
 		String worldName = player.getWorld().getName();
+
 		if (config.getBonusWorldList().contains(worldName)) {
 			breaknum *= 2;
 		}

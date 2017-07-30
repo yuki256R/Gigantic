@@ -16,6 +16,11 @@ import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 
+/**
+*
+* @author ten_niti
+*
+*/
 public class PresentBoxMenuManager extends GuiMenuManager{
 
 	public PresentBoxMenuManager(){

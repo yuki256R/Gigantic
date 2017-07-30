@@ -1,7 +1,5 @@
 package com.github.unchama.listener;
 
-import net.md_5.bungee.api.ChatColor;
-
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -13,10 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import zedly.zenchantments.Zenchantments;
-
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.GiganticStatus;
 import com.github.unchama.player.seichiskill.active.ExplosionManager;
@@ -26,6 +23,9 @@ import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
 import com.github.unchama.yml.DebugManager.DebugEnum;
+
+import net.md_5.bungee.api.ChatColor;
+import zedly.zenchantments.Zenchantments;
 
 /**
  * @author tar0ss
@@ -87,21 +87,18 @@ public class BlockBreakListener implements Listener {
 		if (!player.getGameMode().equals(GameMode.SURVIVAL)) {
 			debug.sendMessage(player, DebugEnum.SKILL,
 					"サバイバルではないのでスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// フライ中に使用していた時終了
 		if (player.isFlying()) {
 			player.sendMessage("フライ中はスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// 使用可能ワールドではないとき終了
 		if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
 			player.sendMessage("このワールドではスキルの発動ができません．");
-			skill.setToggle(false);
 			return;
 		}
 
@@ -112,14 +109,12 @@ public class BlockBreakListener implements Listener {
 		// スキルを発動できるツールでないとき終了
 		if (!ActiveSkillManager.canBreak(tool)) {
 			player.sendMessage("スキルの発動ができるツールではありません．");
-			skill.setToggle(false);
 			return;
 		}
 
 		// 木こりエンチャントがある時終了
 		if (Ze.isCompatible("木こり", tool)) {
 			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
-			skill.setToggle(false);
 			return;
 		}
 
@@ -147,5 +142,15 @@ public class BlockBreakListener implements Listener {
 			gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
 		}
 
+	}
+
+	/**
+	 * Growth Toolイベント処理<br />
+	 *
+	 * @param event ブロック破壊Bukkitイベント
+	 */
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void growthToolEvent(BlockBreakEvent event) {
+		GrowthTool.onEvent(event);
 	}
 }

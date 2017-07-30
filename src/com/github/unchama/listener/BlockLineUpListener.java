@@ -1,5 +1,20 @@
 package com.github.unchama.listener;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
@@ -7,27 +22,12 @@ import com.github.unchama.player.build.BuildData;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
-import com.github.unchama.player.buildskill.BuildSkillManager.LineUpMode;
 import com.github.unchama.player.buildskill.BuildSkillManager.HalfLineUpMode;
+import com.github.unchama.player.buildskill.BuildSkillManager.LineUpMode;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.Block;
-import org.bukkit.event.block.Action;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
-
-import java.math.BigDecimal;
-import java.util.Collection;
 
 /**
  * @author karayuu
@@ -57,10 +57,11 @@ public class BlockLineUpListener implements Listener{
         Boolean line_up_des_flg = gp.getManager(BuildSkillManager.class).isBlockbreak_flag();
 
 
-        //プレイヤーデータが無い場合は処理終了
-        if (gp == null) {
-            return;
-        }
+        // デッドコードのためコメントアウト
+//        //プレイヤーデータが無い場合は処理終了
+//        if (gp == null) {
+//            return;
+//        }
 
         //スキルOFFなら終了
         if (line_up_flg == LineUpMode.NONE) {

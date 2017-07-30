@@ -1,6 +1,7 @@
 package com.github.unchama.player.seichiskill.active;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -11,18 +12,21 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.listener.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.task.CoolDownTaskRunnable;
+import com.github.unchama.util.SeichiSkillAutoAllocation;
 import com.github.unchama.util.Util;
 import com.github.unchama.util.breakblock.BreakUtil;
 import com.github.unchama.yml.DebugManager.DebugEnum;
@@ -52,6 +56,8 @@ public class MagicDriveManager extends ActiveSkillManager{
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
+		//液体と固体合わせた全てのリストデータ
+		List<Block> alllist = new ArrayList<Block>();
 
 		// プレイヤーの向いている方角の破壊ブロック座標リストを取得
 		List<Coordinate> breakcoord = this.getRange().getBreakCoordList(player);
@@ -76,6 +82,8 @@ public class MagicDriveManager extends ActiveSkillManager{
 				}
 			});
 
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
 
 		if (breaklist.isEmpty()) {
 			player.sendMessage(this.getJPName() + ChatColor.RED
@@ -127,7 +135,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 		if (!fm.run(player,tool,this,block,useDurability,usemana,true)) {
 			// 重力値を計算
 			GravityManager gm = gp.getManager(GravityManager.class);
-			short gravity = gm.calc(1, breaklist);
+			short gravity = gm.calc(1, alllist);
 
 			// 重力値が０より大きければ終了
 			if (gravity > 0) {
@@ -152,9 +160,6 @@ public class MagicDriveManager extends ActiveSkillManager{
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					// スキルで使用するブロックに設定
-					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
-							true));
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -167,10 +172,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 					}, 1);
 				});
 
-		liquidlist.forEach(b -> {
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
-			});
+
 
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
@@ -188,29 +190,10 @@ public class MagicDriveManager extends ActiveSkillManager{
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logRemoval(player, block);
 
-		// breakの処理
-		liquidlist.forEach(b -> {
-			b.setType(Material.AIR);
-		});
-		breaklist.forEach(b -> {
-			if (ActiveSkillManager.canBreak(b.getType())) {
-				// 通常エフェクトの表示
-				/*
-				 * if (!b.equals(block)) w.playEffect(b.getLocation(),
-				 * Effect.STEP_SOUND, b.getType());
-				 */
-				// ブロックを削除
-				b.setType(Material.AIR);
-			}
-		});
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		// break後の処理
-		liquidlist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
-		breaklist.forEach(b -> {
-			b.removeMetadata("Skilled", plugin);
-		});
+		effm.createRunner(st).magicdriveEffect(gp,block,breaklist, liquidlist, alllist, this.getRange());
 
 		int cooltime = this.getCoolTime(breaklist.size());
 
@@ -286,6 +269,60 @@ public class MagicDriveManager extends ActiveSkillManager{
 	@Override
 	public int getMaxDepth() {
 		return 20;
+	}
+
+	@Override
+	public void rangeReset(){
+		Volume v = getRange().getVolume();
+		Volume dv = getDefaultVolume();
+		v.setDepth(dv.getDepth());
+		v.setWidth(dv.getWidth());
+		v.setHeight(dv.getHeight());
+		zeroPointReset();
+	}
+
+	@Override
+	public void zeroPointReset(){
+		Coordinate zero = getRange().getZeropoint();
+		Volume v = getRange().getVolume();
+		zero.setY(1);
+		zero.setX((v.getWidth() - 1) / 2);
+		zero.setZ(0);
+		getRange().refresh();
+	}
+
+	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		long allocationAP = 0;
+		ActiveSkillManager nextSkill = (ActiveSkillManager) gp
+				.getManager(ActiveSkillType.CONDENSATION.getSkillClass());
+		if (isFirst || !nextSkill.isunlocked()) {
+			int level = seichiLevelManager.getLevel();
+			// 解放条件を満たしているか
+			if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+				return leftPoint;
+			}
+			leftPoint -= getUnlockAP();
+
+			// このスキルで使用可能なスキルポイント
+			allocationAP = SeichiSkillAutoAllocation.getAllocationAP(level,
+					leftPoint, nextSkill);
+		}else{
+			allocationAP = leftPoint;
+		}
+
+		List<Volume> incVolumes = new LinkedList<Volume>();
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+		incVolumes.add(new Volume(2, 0, 0));
+		incVolumes.add(new Volume(0, 0, 1));
+		incVolumes.add(new Volume(0, 1, 0));
+
+		leftPoint -= SeichiSkillAutoAllocation.VolumeAllocation(this, incVolumes, allocationAP);
+
+		return leftPoint;
 	}
 
 	@Override

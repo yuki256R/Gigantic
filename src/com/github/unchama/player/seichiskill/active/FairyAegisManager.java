@@ -15,7 +15,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -26,6 +25,7 @@ import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
@@ -134,6 +134,11 @@ public class FairyAegisManager extends ActiveSkillManager {
 	 */
 	public void setBreakNum(int breakNum) {
 		this.breakNum = breakNum;
+	}
+
+	@Override
+	public void rangeReset(){
+		setBreakNum(0);
 	}
 
 	/**
@@ -257,6 +262,36 @@ public class FairyAegisManager extends ActiveSkillManager {
 	}
 
 	@Override
+	public long AutoAllocation(long leftPoint, boolean isFirst) {
+		if(!isFirst){
+			return leftPoint;
+		}
+		SeichiLevelManager seichiLevelManager = gp
+				.getManager(SeichiLevelManager.class);
+		int level = seichiLevelManager.getLevel();
+		// 解放条件を満たしているか
+		if (level < getUnlockLevel() || leftPoint - getUnlockAP() < 0) {
+			return leftPoint;
+		}
+		leftPoint -= getUnlockAP();
+
+		// 破壊数
+		int rate = (int) (getSpendAP((int)leftPoint) / leftPoint);
+		int breakNum = (int)leftPoint / rate;
+		if(breakNum > getMaxBreakNum()){
+			breakNum = getMaxBreakNum();
+		}else{
+			// 端数を落とす
+			breakNum -= breakNum % 10;
+		}
+
+		setBreakNum(breakNum);
+		leftPoint -= getSpendAP(breakNum);
+
+		return leftPoint;
+	}
+
+	@Override
 	public long getUsedAp() {
 		return this.getSpendAP(this.getBreakNum() - this.getDefaultBreakNum());
 	}
@@ -328,6 +363,9 @@ public class FairyAegisManager extends ActiveSkillManager {
 		// 壊される液体のリストデータ
 		List<Block> liquidlist = new ArrayList<Block>();
 
+		//全ての破壊されるデータ
+		List<Block> alllist = new ArrayList<Block>();
+
 		// 壊されるブロックデータをÝ軸でまとめたもの
 		HashMap<Integer, List<Block>> breakMap = new HashMap<Integer, List<Block>>();
 
@@ -360,11 +398,14 @@ public class FairyAegisManager extends ActiveSkillManager {
 			}
 		});
 
-		if (breaklist.isEmpty()) {
+		alllist.addAll(breaklist);
+		alllist.addAll(liquidlist);
+
+		if (alllist.isEmpty()) {
 			return false;
 		}
 
-		int breakNum = breaklist.size() + liquidlist.size();
+		int breakNum = alllist.size();
 		if (breakNum > this.getBreakNum()) {
 			debug.sendMessage(player, DebugEnum.SKILL, "追加破壊ブロック数が規定値を超えました："
 					+ breakNum);
@@ -392,7 +433,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 			}
 			useDurability = (short) (BreakUtil.calcDurability(
 					tool.getEnchantmentLevel(Enchantment.DURABILITY),
-					breaklist.size() + liquidlist.size()));
+					alllist.size()));
 			// ツールの耐久が足りない時
 			if (tool.getType().getMaxDurability() <= (durability
 					+ useDurability + pre_useDurability)) {
@@ -433,9 +474,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					// スキルで使用するブロックに設定
-					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
-							true));
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -447,12 +485,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 						}
 					}, 1);
 				});
-
-		liquidlist.forEach(b -> {
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
-			});
-
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		droplist.forEach((dropitem) -> {
@@ -466,28 +498,10 @@ public class FairyAegisManager extends ActiveSkillManager {
 			}
 		});
 
-		// 最初のブロックのみコアプロテクトに保存する．
-		// ActiveSkillManager.logRemoval(player, block);
+		//エフェクトマネージャでブロックを処理
+		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		liquidlist.forEach(b -> {
-			double r = rnd.nextDouble();
-			if (r < 0.5) {
-				b.setType(Material.EMERALD_ORE);
-			} else {
-				b.setType(Material.MOSSY_COBBLESTONE);
-			}
-		});
-		breaklist.forEach(b -> {
-			double r = rnd.nextDouble();
-			if (r < 0.5) {
-				b.setType(Material.EMERALD_ORE);
-			} else {
-				b.setType(Material.MOSSY_COBBLESTONE);
-			}
-		});
-
-		skilledblocklist.addAll(liquidlist);
-		skilledblocklist.addAll(breaklist);
+		effm.createRunner(st).fairyaegisEffectonSet(gp,block,breaklist, liquidlist,alllist, breakMap);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));
