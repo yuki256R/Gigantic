@@ -79,7 +79,7 @@ public class HomeCommand implements TabExecutor{
 			}
 
 			if(args[0].equalsIgnoreCase("set")){
-				sender.sendMessage(ChatColor.GREEN + "test:" + Integer.parseInt(args[1]) + "番のホームがセットされたよ！");
+				//sender.sendMessage(ChatColor.GREEN + "test:" + Integer.parseInt(args[1]) + "番のホームがセットされたよ！");
 				gp.getManager(HomeManager.class).setHomePoint(player.getLocation(), (Integer.parseInt(args[1])-1));
 
 			}else if(args[0].equalsIgnoreCase("tp")){

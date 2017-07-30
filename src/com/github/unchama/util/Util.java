@@ -172,21 +172,23 @@ public class Util {
 		meta.setLore(lore);
 		item.setItemMeta(meta);
 	}
+
 	public static void addLore(ItemStack item, List<String> lore) {
 		ItemMeta meta = item.getItemMeta();
-		List<String> n_lore = meta.getLore();
+		List<String> n_lore = meta.getLore() == null ? new ArrayList<String>() : meta.getLore();
 		n_lore.addAll(lore);
 		meta.setLore(n_lore);
 		item.setItemMeta(meta);
 	}
+
 	/**エンチャント状態にします．
 	 *
 	 * @param item
 	 */
-	public static void addEnchant(ItemStack item){
+	public static void addEnchant(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		meta.addEnchant(Enchantment.DIG_SPEED, 10, false);
-		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 		item.setItemMeta(meta);
 	}
 
@@ -302,9 +304,9 @@ public class Util {
 	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
 			Material.AIR, Material.WATER, Material.LAVA,
 			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
-	public static Set<Material> getFluidMaterials(){
+
+	public static Set<Material> getFluidMaterials() {
 		return tpm;
 	}
-
 
 }
