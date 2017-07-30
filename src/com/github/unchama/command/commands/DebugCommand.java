@@ -35,10 +35,7 @@ public class DebugCommand implements TabExecutor {
 			String label, String[] args) {
 
 		if (args.length <= 0) {
-			Player player = (Player) sender;
-			Bukkit.getServer().getPluginManager()
-					.callEvent(new PlayerFirstJoinEvent(Bukkit.getServer().getPlayer(player.getUniqueId())));
-			return true;//TODO:DEBUG
+			return false;
 		}
 
 		if (args[0].equalsIgnoreCase("set")) {
