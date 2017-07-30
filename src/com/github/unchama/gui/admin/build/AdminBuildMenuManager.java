@@ -108,31 +108,31 @@ public class AdminBuildMenuManager extends GuiMenuManager{
 
         switch (slot) {
             case 0:
-                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ完全回復) 5個付与");
+                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ完全回復) 1個付与");
                 lore = new ArrayList<>();
                 lore.add(ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで付与");
                 itemmeta.setLore(lore);
                 break;
             case 1:
-                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ300回復) 5個付与");
+                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ300回復) 1個付与");
                 lore = new ArrayList<>();
                 lore.add(ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで付与");
                 itemmeta.setLore(lore);
                 break;
             case 2:
-                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ1500回復) 5個付与");
+                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ1500回復) 1個付与");
                 lore = new ArrayList<>();
                 lore.add(ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで付与");
                 itemmeta.setLore(lore);
                 break;
             case 3:
-                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ10000回復) 5個付与");
+                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ10000回復) 1個付与");
                 lore = new ArrayList<>();
                 lore.add(ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで付与");
                 itemmeta.setLore(lore);
                 break;
             case 4:
-                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ100000回復) 5個付与");
+                itemmeta.setDisplayName(ChatColor.AQUA + "ガチャりんご(マナ100000回復) 1個付与");
                 lore = new ArrayList<>();
                 lore.add(ChatColor.DARK_RED + "" + ChatColor.UNDERLINE + "クリックで付与");
                 itemmeta.setLore(lore);

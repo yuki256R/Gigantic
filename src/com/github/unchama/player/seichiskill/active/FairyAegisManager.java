@@ -477,7 +477,6 @@ public class FairyAegisManager extends ActiveSkillManager {
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					bbm.increase(ActiveSkillType.FAIRYAEGIS, 1.0);
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -489,6 +488,9 @@ public class FairyAegisManager extends ActiveSkillManager {
 						}
 					}, 1);
 				});
+		//スキル別破壊量に追加
+		bbm.increase(ActiveSkillType.FAIRYAEGIS, (double) breaklist.size());
+
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		droplist.forEach((dropitem) -> {

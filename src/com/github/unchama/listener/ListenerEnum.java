@@ -1,5 +1,6 @@
 package com.github.unchama.listener;
 
+import com.github.unchama.listener.listeners.*;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.gigantic.Gigantic;
@@ -82,6 +83,8 @@ public enum ListenerEnum {
     ENTITYLISTENER(new EntityListener()),
     PLAYERTIMEINCREMENT(new PlayerTimeIncrementListener()),
     GIGANTICPLAYERAVAILABLE(new GiganticPlayerAvailableListener()),
+	ENTITYDEATH(new EntityDeathListener()),
+	ENTITYDAMAGEBYENITIY(new EntityDamageByEntityListener()),
 	;
 	private Listener listener;
 
