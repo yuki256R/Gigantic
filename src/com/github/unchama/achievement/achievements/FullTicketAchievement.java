@@ -35,6 +35,7 @@ public final class FullTicketAchievement extends GiganticAchievement implements 
 			PlayerInventory pinv = p.getInventory();
 			for(int s = 0 ; s < 36 ; s ++){
 				ItemStack is = pinv.getItem(s);
+				if(is == null)continue;
 				NBTItem nbti = new NBTItem(is);
 				// gacha券tagを判定
 				if (!GachaManager.isTicket(nbti)) {
