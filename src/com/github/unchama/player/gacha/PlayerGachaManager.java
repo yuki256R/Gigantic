@@ -14,7 +14,6 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.PlayerGachaTableManager;
 import com.github.unchama.util.Util;
@@ -23,11 +22,10 @@ import com.github.unchama.util.Util;
  * @author tar0ss
  *
  */
-public class PlayerGachaManager extends DataManager implements Initializable,UsingSql{
+public class PlayerGachaManager extends DataManager implements UsingSql{
 	Gacha gacha = Gigantic.gacha;
 	PlayerGachaTableManager ptm;
 	private LinkedHashMap<GachaType,GachaData> dataMap;
-	MineBlockManager Mm;
 
 	public PlayerGachaManager(GiganticPlayer gp) {
 		super(gp);
@@ -73,7 +71,7 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 	 */
 	public void give(Player player, GachaType gt, int i) {
 		if(i > 64)return;
-		ItemStack ts = gacha.getManager(gt.getManagerClass()).getGachaTicket();
+		ItemStack ts = gacha.getManager(gt.getManagerClass()).getGachaTicket(player);
 		ts.setAmount(i);
 		Util.giveItem(player, ts,true);
 		dataMap.get(gt).remove(i);
@@ -85,13 +83,10 @@ public class PlayerGachaManager extends DataManager implements Initializable,Usi
 	 * @return
 	 */
 	public int getRemainingBlock(GachaType gt) {
-		return 1000 - (int)(Mm.getAll(TimeType.UNLIMITED) % 1000);
+		return 1000 - (int)(gp.getManager(MineBlockManager.class).getAll(TimeType.UNLIMITED) % 1000);
 	}
 
-	@Override
-	public void init() {
-		Mm = gp.getManager(MineBlockManager.class);
-	}
+
 
 	/**ガチャを回します．
 	 *

@@ -3,6 +3,7 @@ package com.github.unchama.gui;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 
+import com.github.unchama.gui.achievement.AchievementMenuManager;
 import com.github.unchama.gui.admin.AdminTypeMenuManager;
 import com.github.unchama.gui.admin.build.AdminBuildMenuManager;
 import com.github.unchama.gui.admin.customhead.AdminCustomHeadGiveMenuManager;
@@ -94,6 +95,8 @@ import com.github.unchama.gui.seichiskill.active.ruinfield.R_RangeMenuManager;
 import com.github.unchama.gui.seichiskill.active.ruinfield.RuinFieldMenuManager;
 import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.gui.settings.PlayerSettingsMenuManager;
+import com.github.unchama.gui.subhome.HomeMenuManager;
+import com.github.unchama.gui.subhome.HomeProtectMenuManager;
 
 
 /**
@@ -108,7 +111,7 @@ public final class GuiMenu {
 		ADMINGACHATYPEMENU(AdminGachaTypeMenuManager.class),
 		ADMINGIGANTICGACHAMENU(AdminGiganticGachaMenuManager.class),
 		ADMINCUSTOMHEADMAINMENU(AdminCustomHeadMainMenuManager.class),
-		ADMINCUSTOMHEADGIBEMENU(AdminCustomHeadGiveMenuManager.class),
+		ADMINCUSTOMHEADGIVEMENU(AdminCustomHeadGiveMenuManager.class),
 		ADMINPREMIUMGACHAMENU(AdminPremiumGachaMenuManager.class),
 		ADMINTOOLREPAIRMENU(AdminToolRepairMenuManager.class),
         ADMINBUILDMENU(AdminBuildMenuManager.class),
@@ -195,6 +198,9 @@ public final class GuiMenu {
         YEARFISHINGEXPRANKINGMENU(YearFishingExpRankingMenuManager.class),
         FISHINGMAINMENU(FishingMainMenuManager.class),
         HELPMENU(HelpMenuManager.class),
+        HOMEMENU(HomeMenuManager.class),
+        HOMEPROTECTMENU(HomeProtectMenuManager.class),
+        ACHIEVEMENTMENU(AchievementMenuManager.class),
 		;
 
 		// 使用するManagerClass

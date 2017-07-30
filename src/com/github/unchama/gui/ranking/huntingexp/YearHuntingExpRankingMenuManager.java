@@ -6,7 +6,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
-import com.github.unchama.util.Util;
 
 /**
  * @author ten_niti
@@ -16,7 +15,7 @@ public class YearHuntingExpRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
-		return "総狩猟経験値:" + Util.Decimal(value);
+		return "総狩猟経験値:" + (long)value;
 	}
 
 	@Override

@@ -84,7 +84,7 @@ public class LoginTimeRankingTableManager extends RankingTableManager {
 	@Override
 	protected double getValue(GiganticPlayer gp) {
 		PlayerTimeManager m = gp.getManager(PlayerTimeManager.class);
-		double value = (double)m.GetValidLoginTime();
+		double value = (double)m.getPlaytick();
 		return value;
 	}
 

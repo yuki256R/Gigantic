@@ -18,15 +18,17 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.listener.GeneralBreakListener;
+import com.github.unchama.listener.listeners.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
+import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
 import com.github.unchama.player.seichiskill.moduler.Coordinate;
 import com.github.unchama.player.seichiskill.moduler.Volume;
@@ -138,7 +140,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 
 	@Override
 	public void rangeReset(){
-		setBreakNum(0);
+		setBreakNum(this.getDefaultBreakNum());
 	}
 
 	/**
@@ -460,6 +462,7 @@ public class FairyAegisManager extends ActiveSkillManager {
 		}
 
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		SkillBreakBlockManager bbm = gp.getManager(SkillBreakBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
 		breaklist
@@ -485,6 +488,9 @@ public class FairyAegisManager extends ActiveSkillManager {
 						}
 					}, 1);
 				});
+		//スキル別破壊量に追加
+		bbm.increase(ActiveSkillType.FAIRYAEGIS, (double) breaklist.size());
+
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		droplist.forEach((dropitem) -> {

@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
@@ -132,6 +133,7 @@ public class CondensationManager extends ActiveSkillManager {
 			return false;
 		}
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		SkillBreakBlockManager bbm = gp.getManager(SkillBreakBlockManager.class);
 		// condens直前の処理
 		liquidlist.forEach(b -> {
 			Material m = b.getType();
@@ -139,6 +141,8 @@ public class CondensationManager extends ActiveSkillManager {
 				mb.increase(m);
 			}
 			});
+		//スキル別の破壊量に追加
+		bbm.increase(ActiveSkillType.CONDENSATION, (double) liquidlist.size());
 
 		// 最初のブロックのみコアプロテクトに保存する．
 		ActiveSkillManager.logPlacement(player, liquidlist.get(0));

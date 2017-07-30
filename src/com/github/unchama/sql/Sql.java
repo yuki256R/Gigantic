@@ -12,18 +12,22 @@ import java.util.UUID;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.player.fishing.FishingManager;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
+import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.point.GiganticPointManager;
@@ -47,15 +51,18 @@ import com.github.unchama.sql.moduler.PlayerTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.sql.moduler.TableManager;
+import com.github.unchama.sql.player.AchievementTableManager;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
+import com.github.unchama.sql.player.ExpTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.sql.player.FishingLevelTableManager;
 import com.github.unchama.sql.player.FishingTableManager;
 import com.github.unchama.sql.player.GachaStackTableManager;
 import com.github.unchama.sql.player.GiganticTableManager;
+import com.github.unchama.sql.player.HomeTableManager;
 import com.github.unchama.sql.player.HuntingLevelTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
@@ -68,15 +75,16 @@ import com.github.unchama.sql.player.PlayerTimeTableManager;
 import com.github.unchama.sql.player.PresentBoxTableManager;
 import com.github.unchama.sql.player.RegionTableManager;
 import com.github.unchama.sql.player.RuinFieldTableManager;
+import com.github.unchama.sql.player.SkillBreakBlockTableManager;
 import com.github.unchama.sql.player.SkillEffectTableManager;
 import com.github.unchama.sql.player.ToolPouchTableManager;
 import com.github.unchama.sql.point.GiganticPointTableManager;
+import com.github.unchama.sql.point.UnchamaPointTableManager;
 import com.github.unchama.sql.ranking.BuildRankingTableManager;
 import com.github.unchama.sql.ranking.FishingExpRankingTableManager;
 import com.github.unchama.sql.ranking.HuntingExpRankingTableManager;
 import com.github.unchama.sql.ranking.LoginTimeRankingTableManager;
 import com.github.unchama.sql.ranking.MineBlockRankingTableManager;
-import com.github.unchama.sql.point.UnchamaPointTableManager;
 import com.github.unchama.task.LimitedRankingLoadTaskRunnable;
 import com.github.unchama.task.RankingLoadTaskRunnable;
 import com.github.unchama.task.RankingSendTaskRunnable;
@@ -97,6 +105,7 @@ public class Sql {
 		PLAYERSETTINGS(PlayerSettingsTableManager.class,
 				PlayerSettingsManager.class), //
 		MINEBLOCK(MineBlockTableManager.class, MineBlockManager.class), //
+		SKILLBREAKBLOCK(SkillBreakBlockTableManager.class, SkillBreakBlockManager.class),
 		MANA(ManaTableManager.class, ManaManager.class), //
 		MINESTACK(MineStackTableManager.class, MineStackManager.class), //
 		TOOLPOUCH(ToolPouchTableManager.class, ToolPouchManager.class), //
@@ -117,6 +126,7 @@ public class Sql {
 		MINEBLOCKRANKING(MineBlockRankingTableManager.class), //
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
+		HOME(HomeTableManager.class, HomeManager.class),//
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
 		FISHINGEXPRANKING(FishingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
@@ -126,6 +136,8 @@ public class Sql {
 		PLAYEREFFECT(SkillEffectTableManager.class, SkillEffectManager.class), //
 		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
+		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		EXP(ExpTableManager.class,ExpManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -530,6 +542,13 @@ public class Sql {
 	public void update() {
 		int delay = 1;
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
+			if(GiganticTableManager.class.isAssignableFrom(mt)){
+				GiganticTableManager tm = (GiganticTableManager) managermap.get(mt);
+				tm.updateNameMap();
+			}
+		}
+		delay++;
+		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
@@ -539,36 +558,22 @@ public class Sql {
 				new RankingUpdateTaskRunnable(rtm).runTaskLaterAsynchronously(
 						plugin, delay);
 				delay++;
-
-			}
-		}
-
-	}
-
-	/**期間式ランキングのアップデート
-	 *
-	 * @param timeType
-	 */
-	public void update(TimeType tt) {
-		int delay = 1;
-		for (Class<? extends TableManager> mt : managermap.keySet()) {
-			if (RankingTableManager.class.isAssignableFrom(mt)) {
-				RankingTableManager rtm = (RankingTableManager) managermap
-						.get(mt);
-				new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
-						plugin, delay);
-				delay++;
-
+				for(TimeType tt : TimeType.values()){
+					new LimitedRankingLoadTaskRunnable(rtm, tt).runTaskLaterAsynchronously(
+							plugin, delay);
+					delay++;
+				}
 			}
 		}
 	}
+
 
 	/**
 	 * gpが初期化を終了した後に処理される
 	 *
 	 * @param gp
 	 */
-	public void onAvailavle(GiganticPlayer gp) {
+	public void onAvailable(GiganticPlayer gp) {
 		for (Class<? extends TableManager> mt : managermap.keySet()) {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap

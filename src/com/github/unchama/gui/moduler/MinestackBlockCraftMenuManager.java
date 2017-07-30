@@ -88,18 +88,17 @@ public abstract class MinestackBlockCraftMenuManager extends GuiMenuManager {
 
             if (furnessType == FurnessType.NONE) {
                 itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
-                        + "" + ChatColor.BOLD + need_name + "を" + produce_name + "に変換します");
+                        + "" + ChatColor.BOLD + produce_name);
                 lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
                         + "個→" + produce_name + produce_amount + "個");
             } else if (furnessType == FurnessType.NETHER_BRICK) {
                 itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
-                        + "" + ChatColor.BOLD + need_name + "と" + furnessType.getJPname() + "を" + produce_name + "に変換します");
+                        + "" + ChatColor.BOLD + produce_name);
                 lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
                         + "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
             } else {
                 itemmeta.setDisplayName(ChatColor.RESET + "" + ChatColor.YELLOW + "" + ChatColor.UNDERLINE
-                        + "" + ChatColor.BOLD + furnessType.getJPname() + "を消費して" + need_name
-                        + "を" + produce_name + "に変換します");
+                        + "" + ChatColor.BOLD + produce_name);
                 lore.add(ChatColor.RESET + "" + ChatColor.GRAY + need_name + need_amount
                         + "個+" + furnessType.getJPname() + ct.getFuel() + "個→" + produce_name + produce_amount + "個");
             }

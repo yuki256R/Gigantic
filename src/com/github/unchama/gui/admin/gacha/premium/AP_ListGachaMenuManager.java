@@ -38,7 +38,7 @@ public class AP_ListGachaMenuManager  extends AdminMenuManager{
 
 		for (GachaItem gi : gm.getGachaItemMap().values()) {
 			int i = gi.getID();
-			ItemStack is = gi.getItem();
+			ItemStack is = gi.getItemSample();
 			ItemMeta im = is.getItemMeta();
 			List<String> lore = im.getLore();
 			lore.add("" + ChatColor.GREEN + ChatColor.UNDERLINE + "<クリックで取得します>");
@@ -74,7 +74,7 @@ public class AP_ListGachaMenuManager  extends AdminMenuManager{
 		int id = Converter.toInt(identifier);
 		GachaItem gi = gm.getGachaItem(id);
 		if(gi != null){
-			Util.giveItem(player, gi.getItem(),true);
+			Util.giveItem(player, gi.getItemSample(),true);
 			return true;
 		}
 		return false;

@@ -25,7 +25,6 @@ import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.BreakRange;
@@ -43,8 +42,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
  * @author tar0ss
  *
  */
-public class SecureBreakManager extends PassiveSkillManager implements
-		Initializable {
+public class SecureBreakManager extends PassiveSkillManager{
 	private GuiMenu guimenu = Gigantic.guimenu;
 	protected static WorldGuardPlugin Wg;
 	protected static CoreProtectAPI Cp;
@@ -62,8 +60,8 @@ public class SecureBreakManager extends PassiveSkillManager implements
 		toggle = true;
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		this.Mm = gp.getManager(ManaManager.class);
 		this.Sm = gp.getManager(SideBarManager.class);
 		this.Pm = gp.getManager(ToolPouchManager.class);
@@ -229,7 +227,7 @@ public class SecureBreakManager extends PassiveSkillManager implements
 			lore.add("" + ChatColor.RESET + ChatColor.DARK_GRAY
 					+ "周囲の液体を凝固させます");
 			lore.add("" + ChatColor.RESET + ChatColor.RED + ChatColor.UNDERLINE
-					+ "レベル60で自動解放されます．");
+					+ "レベル" + config.getSecureBreakUnlockLevel() + "で自動解放されます．");
 			meta.setLore(lore);
 			is.setItemMeta(meta);
 		} else if (this.getToggle()) {
