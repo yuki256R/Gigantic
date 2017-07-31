@@ -16,6 +16,7 @@ import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
+import com.github.unchama.yml.ConfigManager;
 
 /**
 *
@@ -33,9 +34,15 @@ public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 		String command = "";
 		for(GachaType type : GachaType.values()){
 			String typeName = type.name();
+			/*毎度再起動は大変なので上限設けて大量に作成します．
 			GachaManager gm = Gigantic.gacha.getManager(type.getManagerClass());
 			for(GachaItem gi : gm.getGachaItemMap().values()){
 				int i = gi.getID();
+				command += "add column if not exists " +
+						typeName + "_" + i + " int default 0,";
+			}
+			*/
+			for(int i = 0; i < Gigantic.yml.getManager(ConfigManager.class).getMaxGachaSize() ;i++){
 				command += "add column if not exists " +
 						typeName + "_" + i + " int default 0,";
 			}

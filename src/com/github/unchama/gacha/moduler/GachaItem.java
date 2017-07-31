@@ -11,47 +11,56 @@ import com.github.unchama.gacha.Gacha;
 import com.github.unchama.util.Util;
 
 import de.tr7zw.itemnbtapi.NBTItem;
+
 /**
  * @author tar0ss
  *
  */
 public class GachaItem {
-	private int id;
-	private ItemStack item;
-	private int amount;
-	private Rarity rarity;
-	private double probability;
+	private final int id;
+	private final ItemStack item;
+	private final int amount;
+	private final Rarity rarity;
+	private final double probability;
 	private boolean locked;
-
+	private final boolean pnameflag;
 
 	//ガチャ券,りんご用コンストラクタ
-	public GachaItem(int id, ItemStack is,Rarity r) {
-		this(id,is,1,r,-1.0D,false);
+	public GachaItem(int id, ItemStack is, Rarity r) {
+		this(id, is, 1, r, -1.0D, false, true);
 	}
 
-	public GachaItem(int id,ItemStack item,int amount,Rarity rarity,double probability,boolean locked){
+	public GachaItem(int id, ItemStack is, int amount, Rarity rarity, double probability, boolean locked) {
+		this(id, is, amount, rarity, probability, locked, true);
+	}
+
+	public GachaItem(int id, ItemStack is, int amount, Rarity rarity, double probability, boolean locked,
+			boolean pnameflag) {
+		this.item = is;
 		item.setAmount(amount);
 		this.id = id;
-		this.item = item;
 		this.amount = amount;
 		this.rarity = rarity;
 		this.probability = probability;
 		this.locked = locked;
+		this.pnameflag = pnameflag;
 	}
-
 
 	/**プレイヤー用ガチャアイテムの取得
 	 *
 	 * @return
 	 */
 	public ItemStack getItem(Player player) {
-		NBTItem nbti = new NBTItem(this.item.clone());
-		//UUIDを保存
-		nbti.setObject(Gacha.ROLLPLAYERUUIDNBT, player.getUniqueId());
-		ItemStack c = nbti.getItem();
-		List<String> lore = new ArrayList<String>();
-		lore.add("" + ChatColor.RESET + ChatColor.GREEN + "獲得者:" + player.getName());
-		Util.addLore(c,lore);
+		ItemStack c = this.item.clone();
+		NBTItem nbti = new NBTItem(c);
+		if (this.isPlayerNameflag()) {
+			//UUIDを保存
+			nbti.setObject(Gacha.ROLLPLAYERUUIDNBT, player.getUniqueId());
+			c = nbti.getItem();
+			List<String> lore = new ArrayList<String>();
+			lore.add("" + ChatColor.RESET + ChatColor.GREEN + "獲得者:" + player.getName());
+			Util.addLore(c, lore);
+		}
 		c.setAmount(amount);
 		return c;
 	}
@@ -67,6 +76,7 @@ public class GachaItem {
 	public void lock() {
 		this.locked = true;
 	}
+
 	public void unlock() {
 		this.locked = false;
 	}
@@ -99,6 +109,13 @@ public class GachaItem {
 		ItemStack c = this.item.clone();
 		c.setAmount(amount);
 		return c;
+	}
+
+	/**
+	 * @return pnameflag
+	 */
+	public boolean isPlayerNameflag() {
+		return pnameflag;
 	}
 
 }

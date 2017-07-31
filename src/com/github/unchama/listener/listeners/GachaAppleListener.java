@@ -11,6 +11,7 @@ import com.github.unchama.item.items.ManaApple;
 import com.github.unchama.item.moduler.ManaEffect;
 import com.github.unchama.item.moduler.NBTTag;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.util.OldUtil;
 
 /**
  * @author karayuu
@@ -18,20 +19,26 @@ import com.github.unchama.player.GiganticPlayer;
 public class GachaAppleListener implements Listener, NBTTag {
 
 	@EventHandler
-	public void onPlayerItemConsumeEvent(PlayerItemConsumeEvent event) {
+	public void onPlayerGachaAppleConsumeEvent(PlayerItemConsumeEvent event) {
 		Player p = event.getPlayer();
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 
-		if(gp == null){
+		if (gp == null) {
 			event.setCancelled(true);
 			return;
 		}
 		ItemStack is = event.getItem();
+		ManaEffect effect = null;
 		if (this.containNBTTag(is, ManaApple.MANAAPPLENBT)) {
-			ManaEffect effect = this.getNBTTagValue(is, ManaApple.MANAAPPLENBT,
+			effect = this.getNBTTagValue(is, ManaApple.MANAAPPLENBT,
 					ManaEffect.class);
 			effect.run(p);
-
+		} else {
+			effect = OldUtil.getOldGachaAppleManaEffect(event);
+			if (effect != null)
+				ManaEffect.run(p, effect);
 		}
 	}
+
+
 }

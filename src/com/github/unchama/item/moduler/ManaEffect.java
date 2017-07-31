@@ -68,12 +68,16 @@ public enum ManaEffect {
 	}
 
 	public void run(Player p) {
+		run(p, this);
+	}
+
+	public static void run(Player p,ManaEffect effect){
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 		ManaManager mM = gp.getManager(ManaManager.class);
-		if(this.equals(MANA_FULL)){
+		if(effect.equals(MANA_FULL)){
 			mM.fullMana();
 		}else{
-			mM.increase((double)this.getRecoverNum());
+			mM.increase((double)effect.getRecoverNum());
 		}
 		p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
 	}
