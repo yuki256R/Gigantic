@@ -435,7 +435,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		// 経験値ボトル
 		columns.put(2, "stack_exp_bottle");
 		// その他のガチャアイテム
-		for (int i = 0; i <= 38; i++) {
+		for (int i = 0; i <= 39; i++) {
 			// IDはガチャ券、ガチャリンゴ、経験値ボトルの3つをゲタに履かせる
 			columns.put(i + 3, "stack_gachadata0_" + i);
 		}
@@ -599,6 +599,25 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 
 		return (float)exp;
+	}
+
+	public int getPremiumPoint(GiganticPlayer gp) {
+		String command = "select premiumeffectpoint from " + db + "." + table
+				+ " where uuid = '" + gp.uuid.toString() + "';";
+
+		int point = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			point = rs.getInt("premiumeffectpoint");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load premiumeffectpoint player:" + gp.name);
+			e.printStackTrace();
+		}
+
+		return point;
 	}
 
 

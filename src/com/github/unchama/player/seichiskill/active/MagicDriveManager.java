@@ -162,7 +162,6 @@ public class MagicDriveManager extends ActiveSkillManager{
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					bbm.increase(ActiveSkillType.MAGICDRIVE, 1.0);
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -174,8 +173,8 @@ public class MagicDriveManager extends ActiveSkillManager{
 						}
 					}, 1);
 				});
-
-
+		//スキル別破壊量に追加
+		bbm.increase(ActiveSkillType.MAGICDRIVE, (double) breaklist.size());
 
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);

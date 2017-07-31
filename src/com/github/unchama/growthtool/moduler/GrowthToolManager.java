@@ -3,10 +3,11 @@ package com.github.unchama.growthtool.moduler;
 import java.util.List;
 import java.util.Map;
 
+import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -28,6 +29,7 @@ import com.github.unchama.growthtool.moduler.tool.GrwDefine;
 import com.github.unchama.growthtool.moduler.tool.GrwTool;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.GrowthToolDataManager;
+import org.bukkit.projectiles.ProjectileSource;
 
 /**
  * Growth Tool内の基本挙動を示す抽象クラス。<br />
@@ -153,10 +155,84 @@ public abstract class GrowthToolManager {
 	 * 整地により入手条件を満たす、またはdebug用getコマンドにより呼び出される。<br />
 	 *
 	 * @param player Growth Toolを配布するプレイヤー
+	 * @param canRepair 金床使用可能か否か(true: 可能 / false: 不可能)
 	 * @return (true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ)
 	 */
-	public boolean giveDefault(Player player) {
-		return !Util.giveItem(player, (ItemStack) new GrwTool(player, name, identLore, status, enchant), false);
+	public boolean giveDefault(Player player, Boolean canRepair) {
+		NBTItem growthTool = new NBTItem(new GrwTool(player, name, identLore, status, enchant));
+		if (!canRepair) {
+			//NBTを編集することで金床使用を阻止する。
+			//RepairCostを適当に大きくしてあげればよい。
+			growthTool.setInteger("RepairCost", 10000);
+		}
+		return !Util.giveItem(player, growthTool.getItem(), false);
+	}
+
+	/**
+	 * このクラスのGrowth Toolをプレイヤーに配布。
+	 * 基本的にはgiveDefaultと同じだが、装備として装着させた状態で配布する。
+	 * 初参加時に呼び出されることを想定。
+	 * @param player 与えるプレイヤー
+	 * @param type 装備の位置
+	 * @param canRepair 金床使用可能か否か(true: 可能 / false: 不可能)
+	 */
+	public void giveDefaultEquipment(Player player, EquipmentType type, Boolean canRepair) {
+		NBTItem item =  new NBTItem(new GrwTool(player, name, identLore, status, enchant));
+		if (!canRepair) {
+			//NBTを編集することで金床使用を阻止する。
+			//RepairCostを適当に大きくしてあげればよい。
+			item.setInteger("RepairCost", 10000);
+		}
+		//初参加時、アイテムはないはずだが念のためチェックしてから配置
+		switch (type) {
+			case HELMET:
+				if (player.getInventory().getHelmet() == null) {
+					player.getInventory().setHelmet(item.getItem());
+					break;
+				} else sendWarn(player, canRepair);
+				break;
+			case CHESTPLATE:
+				if (player.getInventory().getChestplate() == null) {
+					player.getInventory().setChestplate(item.getItem());
+					break;
+				} else sendWarn(player, canRepair);
+				break;
+			case LEGGIGS:
+				if (player.getInventory().getLeggings() == null) {
+					player.getInventory().setLeggings(item.getItem());
+					break;
+				} else sendWarn(player, canRepair);
+				break;
+			case BOOTS:
+				if (player.getInventory().getBoots() == null) {
+					player.getInventory().setLeggings(item.getItem());
+					break;
+				} else sendWarn(player, canRepair);
+				break;
+		}
+	}
+
+	/**
+	 * プレイヤーにアイテム欄が埋まっていることを警告し、直接インベントリにアイテムを追加します。
+	 * 初期配布処理で使用されることを想定。
+	 * @param player 警告を表示するプレイヤー
+	 * @param canRepair アイテムが金床で修繕可能か否か(true: 可能 / false: 不可能)
+	 */
+	private void sendWarn(Player player, Boolean canRepair) {
+		player.sendMessage(ChatColor.RED + "何らかの原因でスロットが埋まっているため、");
+		player.sendMessage(ChatColor.RED + "Growth Toolをインベントリに直接追加しました。");
+		this.giveDefault(player, canRepair);
+	}
+
+	/**
+	 * 装備の場所を指定するためのenum
+	 */
+	public enum EquipmentType {
+		HELMET,
+		CHESTPLATE,
+		LEGGIGS,
+		BOOTS,
+		;
 	}
 
 	/**
@@ -268,7 +344,7 @@ public abstract class GrowthToolManager {
 		} else if (event instanceof SecondEvent) {
 			ret = customMsg.talk(tool, player, null);
 		} else if (event instanceof EntityDeathEvent) {
-			ret = onMonsterKillMsg.talk(tool, player, ((EntityDeathEvent) event).getEntity().getKiller());
+			ret = onMonsterKillMsg.talk(tool, player, ((EntityDeathEvent) event).getEntity());
 		} else if (event instanceof PlayerQuitEvent) {
 			ret = onPlayerQuitMsg.talk(getTool(player), player, null);
 		} else if (event instanceof BlockBreakEvent) {
@@ -281,7 +357,25 @@ public abstract class GrowthToolManager {
 				// 破損警告時メッセージ（強制）
 				GrowthTool.talk(player, onWarnItemMsg.talk(tool, player, ((EntityDamageByEntityEvent) event).getDamager()), true);
 			} else {
-				ret = onGetDamageMsg.talk(tool, player, ((EntityDamageByEntityEvent) event).getDamager());
+				/*
+				 * EntityDamageByEntityEvent#getDamager()だとスケルトンなどで攻撃された際、Arrow(矢)が出力されてしまうので
+				 * 以下の手順を踏む必要がある。
+				 */
+				//1.EntityDamageByEntitiyEventにキャストする(instaceofで安全性は確保されている。)
+				EntityDamageByEntityEvent cause = (EntityDamageByEntityEvent) event;
+				//2.ダメージを与えたエンティティを取得
+				Entity entity = cause.getDamager();
+				//3.矢・ポーションについてはモンスターを取得。
+				if (entity instanceof Arrow) {
+					Arrow arrow = (Arrow) entity;
+					LivingEntity shooter = (LivingEntity) arrow.getShooter();
+					ret = onGetDamageMsg.talk(tool, player, shooter);
+				} else if (entity instanceof Projectile) {
+					ProjectileSource shooter = ((Projectile) entity).getShooter();
+					ret = onGetDamageMsg.talk(tool, player, (Entity) shooter);
+				} else {
+					ret = onGetDamageMsg.talk(tool, player, entity);
+				}
 			}
 		}
 		return ret;

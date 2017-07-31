@@ -11,6 +11,7 @@ import java.util.List;
 import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.growthtool.GrowthTool.GrowthToolType;
 import com.github.unchama.growthtool.moduler.equiptype.Helmet;
+import org.bukkit.entity.Player;
 
 /**
  * MEBIUS専用クラス。MEBIUS固有の処理を持つ。<br />
