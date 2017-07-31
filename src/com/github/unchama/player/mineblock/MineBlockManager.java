@@ -64,7 +64,7 @@ public class MineBlockManager extends DataManager implements UsingSql,
 		SeichiLevel sl = m.getSeichiLevel();
 		double max = sl.getNextMineBlock() + 1;
 		double now = this.all.getNum(TimeType.UNLIMITED);
-		double min = sl.getNeedMineBlock() + 1;
+		double min = sl.getNeedMineBlock();
 		double progress = (now - min) / (max - min);
 
 		if(progress > 1.0)progress = 1.0;

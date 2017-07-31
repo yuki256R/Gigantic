@@ -115,7 +115,7 @@ public class BlockBreakListener implements Listener {
 
 		// 木こりエンチャントがある時終了
 		if (Ze.isCompatible("木こり", tool)) {
-			player.sendMessage("木こりエンチャントがあるためスキルが発動できません");
+			debug.sendMessage(player, DebugEnum.SKILL, "木こりエンチャントがあるためスキルが発動できません");
 			return;
 		}
 

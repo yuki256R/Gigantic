@@ -145,4 +145,8 @@ public enum EffectType {
 		return is;
 	}
 
+	public static EffectType getbyID(int effect_id) {
+		return idMap.get(effect_id);
+	}
+
 }

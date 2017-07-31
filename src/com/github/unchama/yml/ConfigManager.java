@@ -406,4 +406,8 @@ public class ConfigManager extends YmlManager {
     public int getBlockWashingLevel() {
         return fc.getInt("BlockWashingSkill.level");
     }
+
+	public int getMaxGachaSize() {
+		return fc.getInt("Gacha.maxSize");
+	}
 }

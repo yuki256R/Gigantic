@@ -15,6 +15,7 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.GachaStackTableManager;
+import com.github.unchama.util.OldUtil;
 import com.github.unchama.util.Util;
 
 import de.tr7zw.itemnbtapi.NBTItem;
@@ -50,7 +51,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 	// NBTタグを見てガチャアイテムならスタックする
 	public boolean add(ItemStack itemstack){
 		// SeichiAssist時代のガチャ券ならギガンティックガチャチケットにスタック
-		if(Util.isOldGachaTicket(itemstack)){
+		if(OldUtil.isOldGachaTicket(itemstack)){
 			return addItem(itemstack, GachaType.GIGANTIC, 0);
 		}
 

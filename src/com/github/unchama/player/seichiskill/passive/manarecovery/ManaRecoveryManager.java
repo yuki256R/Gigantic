@@ -19,7 +19,6 @@ import org.inventivetalent.particle.ParticleEffect;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
-import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 
@@ -90,10 +89,10 @@ public class ManaRecoveryManager extends PassiveSkillManager {
 			meta = is.getItemMeta();
 			meta.addEnchant(Enchantment.DIG_SPEED, 100, false);
 		} else if (this.recoverylevel < 25) {
-			is = StackType.ENCHANTED_GOLDEN_APPLE.getItemStack();
+			is = new ItemStack(Material.GOLDEN_APPLE,1,(short) 1);
 			meta = is.getItemMeta();
 		} else {
-			is = StackType.ENCHANTED_GOLDEN_APPLE.getItemStack();
+			is = new ItemStack(Material.GOLDEN_APPLE,1,(short) 1);
 			meta = is.getItemMeta();
 			meta.addEnchant(Enchantment.DIG_SPEED, 100, false);
 		}

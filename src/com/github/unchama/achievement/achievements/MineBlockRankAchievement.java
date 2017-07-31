@@ -1,15 +1,8 @@
 package com.github.unchama.achievement.achievements;
 
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.github.unchama.achievement.GiganticAchievement;
-import com.github.unchama.event.updateRankEvent;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.ranking.mineblock.TotalMineBlockRankingMenuManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**整地ランキングに応じた実績クラス
 *
@@ -35,6 +28,7 @@ public final class MineBlockRankAchievement extends GiganticAchievement implemen
 		return unlock_rank;
 	}
 
+	/**ランキングリセットのため一度保留
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void updateRankListener(updateRankEvent event) {
 		if (TotalMineBlockRankingMenuManager.class.isAssignableFrom(event.getRankClass())) {
@@ -43,12 +37,10 @@ public final class MineBlockRankAchievement extends GiganticAchievement implemen
 			int rank = event.getRank();
 			if (gp != null && rank <= this.getUnlockRank()) {
 				this.unlockAchievement(gp);
-			} else {
-				debug.info(DebugEnum.ACHIEVEMENT, "locked");
 			}
 		}
 	}
-
+	*/
 	@Override
 	public String getUnlockInfo() {
 		return "累計整地量ランキングで" + this.getUnlockRank() + "位になる";
