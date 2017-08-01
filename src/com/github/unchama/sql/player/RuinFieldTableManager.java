@@ -58,7 +58,7 @@ public class RuinFieldTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		String command = "";
 		RuinFieldManager m = gp.getManager(RuinFieldManager.class);
 		BreakRange range = m.getRange();

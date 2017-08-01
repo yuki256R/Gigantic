@@ -41,7 +41,7 @@ public class FishingLevelTableManager extends PlayerTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		FishingLevelManager m = gp.getManager(FishingLevelManager.class);
 		String command = "";
 		command += "exp = '" + m.getExp() + "',";

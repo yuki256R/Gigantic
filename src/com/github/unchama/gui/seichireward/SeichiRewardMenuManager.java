@@ -45,8 +45,6 @@ public class SeichiRewardMenuManager extends GuiMenuManager {
 			PlayerGachaManager pgm = gp.getManager(PlayerGachaManager.class);
 			long ticket = pgm.getTicket(GachaType.GIGANTIC);
 
-			GachaManager gM = gacha.getManager(GiganticGachaManager.class);
-
 			if (ticket >= 64) {
 				pgm.give(player, GachaType.GIGANTIC, 64);
 			} else if (ticket > 0) {

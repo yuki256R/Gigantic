@@ -64,9 +64,10 @@ public abstract class PlayerTableManager extends TableManager implements
 	 * }
 	 *
 	 * @param gp
+	 * @param loginflag
 	 * @return
 	 */
-	protected abstract String saveCommand(GiganticPlayer gp);
+	protected abstract String saveCommand(GiganticPlayer gp, boolean loginflag);
 
 	/**
 	 * このクラスで使われるDataManagerClassを返します．
@@ -197,7 +198,7 @@ public abstract class PlayerTableManager extends TableManager implements
 		command = "update " + db + "." + table + " set name = '" + gp.name
 				+ "',loginflag = " + Boolean.toString(loginflag) + ",";
 
-		String tmp = this.saveCommand(gp);
+		String tmp = this.saveCommand(gp,loginflag);
 		if(tmp != null)command += tmp;
 
 		command += " where uuid = '" + struuid + "'";

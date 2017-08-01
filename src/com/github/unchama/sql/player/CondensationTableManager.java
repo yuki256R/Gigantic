@@ -58,7 +58,7 @@ public class CondensationTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		String command = "";
 		// Condensation
 		CondensationManager m = gp.getManager(CondensationManager.class);

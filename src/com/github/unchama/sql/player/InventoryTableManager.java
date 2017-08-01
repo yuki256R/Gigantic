@@ -29,12 +29,14 @@ public final class InventoryTableManager extends PlayerTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp, boolean loginflag) {
 		InventoryManager m = gp.getManager(InventoryManager.class);
 		String command = "";
 		command += "itemlist = '"
 				+ BukkitSerialization.toBase64(m.getItemList()) + "',";
-		m.resetPlayerInventory();
+		if (!loginflag)
+			m.resetPlayerInventory();
+		debug.sendMessage(PlayerManager.getPlayer(gp), DebugEnum.SQL, "インベントリをセーブしました．");
 		return command;
 	}
 
@@ -45,7 +47,7 @@ public final class InventoryTableManager extends PlayerTableManager {
 		itemlist = BukkitSerialization.getItemStackListfromBase64(rs
 				.getString("itemlist").toString());
 		m.setPlayerInventory(itemlist);
-		debug.sendMessage(PlayerManager.getPlayer(gp), DebugEnum.SQL, "インベントリーをロードしました．");
+		debug.sendMessage(PlayerManager.getPlayer(gp), DebugEnum.SQL, "インベントリをロードしました．");
 	}
 
 	@Override

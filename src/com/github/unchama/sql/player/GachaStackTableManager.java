@@ -52,7 +52,7 @@ public class GachaStackTableManager extends PlayerFromSeichiTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		GachaStackManager m = gp.getManager(GachaStackManager.class);
 		String command = "";
 		Map<GachaType, Map<Integer, Integer>> itemMap = m.getMap();

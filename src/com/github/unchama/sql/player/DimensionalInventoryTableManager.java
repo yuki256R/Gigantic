@@ -33,7 +33,7 @@ public class DimensionalInventoryTableManager extends PlayerFromSeichiTableManag
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		DimensionalInventoryManager m = gp.getManager(DimensionalInventoryManager.class);
 		String command = "";
 

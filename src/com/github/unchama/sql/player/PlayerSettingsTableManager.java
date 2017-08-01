@@ -46,7 +46,7 @@ public class PlayerSettingsTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		PlayerSettingsManager settingManager = gp.getManager(PlayerSettingsManager.class);
 		String command = "";
 		command += "gigantic_rare_notification_send = " + Boolean.toString(settingManager.getGiganticRareNotificationSend()) + ",";

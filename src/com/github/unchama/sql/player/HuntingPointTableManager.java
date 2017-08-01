@@ -58,7 +58,7 @@ public class HuntingPointTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		HuntingPointManager m = gp.getManager(HuntingPointManager.class);
 		String command = "";
 		Map<String, HuntMobData> names = Gigantic.yml.getManager(

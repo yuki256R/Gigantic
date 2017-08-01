@@ -38,7 +38,7 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		AchievementManager m = gp.getManager(AchievementManager.class);
 		String command = "";
 		BitSet flagSet = m.getAchivFlagSet();
@@ -128,4 +128,5 @@ public final class AchievementTableManager extends PlayerFromSeichiTableManager 
 			e.printStackTrace();
 		}
 	}
+
 }

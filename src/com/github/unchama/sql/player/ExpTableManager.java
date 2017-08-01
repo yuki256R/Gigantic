@@ -8,6 +8,7 @@ import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
+import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public final class ExpTableManager extends PlayerFromSeichiTableManager {
 
@@ -25,10 +26,12 @@ public final class ExpTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		String command = "";
 		ExpManager eM = gp.getManager(ExpManager.class);
 		command += "exp = '" + eM.getExp() + "',";
+
+		debug.sendMessage(DebugEnum.SQL, "セーブexp:" + eM.getExp());
 		return command;
 	}
 
@@ -47,6 +50,7 @@ public final class ExpTableManager extends PlayerFromSeichiTableManager {
 	@Override
 	public void loadPlayer(GiganticPlayer gp, ResultSet rs) throws SQLException {
 		ExpManager m = gp.getManager(ExpManager.class);
+		debug.sendMessage(DebugEnum.SQL, "ロードexp:" + rs.getFloat("exp"));
 		m.setExp(rs.getFloat("exp"));
 	}
 
