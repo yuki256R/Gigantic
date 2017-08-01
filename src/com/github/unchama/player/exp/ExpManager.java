@@ -14,7 +14,6 @@ public final class ExpManager extends DataManager implements UsingSql,Initializa
 
 	ExpTableManager tm;
 
-	private ExperienceManager eM;
 	private double exp = 0.0;
 
 	public ExpManager(GiganticPlayer gp) {
@@ -31,7 +30,7 @@ public final class ExpManager extends DataManager implements UsingSql,Initializa
 	public void init() {
 		Player player = PlayerManager.getPlayer(gp);
 		if(player == null)return;
-		eM = new ExperienceManager(player);
+		ExperienceManager eM = new ExperienceManager(player);
 		eM.setExp(exp);
 	}
 
@@ -41,15 +40,31 @@ public final class ExpManager extends DataManager implements UsingSql,Initializa
 	}
 
 	public int getExp() {
+		Player player = PlayerManager.getPlayer(gp);
+		if(player == null)return 0;
+		ExperienceManager eM = new ExperienceManager(player);
 		return eM.getCurrentExp();
 	}
 
 
 	public void changeExp(double exp){
+		Player player = PlayerManager.getPlayer(gp);
+		if(player == null)return;
+		ExperienceManager eM = new ExperienceManager(player);
 		eM.changeExp(exp);
 	}
 
 	public ExperienceManager getExperienceManager() {
+		Player player = PlayerManager.getPlayer(gp);
+		if(player == null)return null;
+		ExperienceManager eM = new ExperienceManager(player);
 		return eM;
+	}
+
+	public boolean hasExp(int i) {
+		Player player = PlayerManager.getPlayer(gp);
+		if(player == null)return false;
+		ExperienceManager eM = new ExperienceManager(player);
+		return eM.hasExp(i);
 	}
 }

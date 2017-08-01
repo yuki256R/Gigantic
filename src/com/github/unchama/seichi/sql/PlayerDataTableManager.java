@@ -582,15 +582,15 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return point;
 	}
 
-	public float getExp(GiganticPlayer gp) {
+	public int getExp(GiganticPlayer gp) {
 		String command = "select totalexp from " + db + "." + table
 				+ " where uuid = '" + gp.uuid.toString() + "';";
 
-		long exp = 0;
+		int exp = 0;
 		try {
 			rs = stmt.executeQuery(command);
 			rs.next();
-			exp = rs.getLong("totalexp");
+			exp = rs.getInt("totalexp");
 			rs.close();
 		} catch (SQLException e) {
 			plugin.getLogger().warning(
@@ -598,7 +598,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			e.printStackTrace();
 		}
 
-		return (float)exp;
+		return exp;
 	}
 
 	public int getPremiumPoint(GiganticPlayer gp) {

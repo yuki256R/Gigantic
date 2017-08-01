@@ -37,4 +37,5 @@ public class GiganticPointTableManager extends PointTableManager {
         DonateDataManager manager = gp.getManager(DonateDataManager.class);
         manager.putDonateData(new DonateData(LocalDateTime.now(), money, point));
     }
+
 }

@@ -48,7 +48,7 @@ public class PlayerGachaTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		PlayerGachaManager m = gp.getManager(PlayerGachaManager.class);
 		LinkedHashMap<GachaType, GachaData> dataMap = m.getDataMap();
 		String command = "";

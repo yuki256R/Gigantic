@@ -44,7 +44,7 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		PlayerTimeManager m = gp.getManager(PlayerTimeManager.class);
 		String command = "";
 		command += "playtick = '" + m.getPlaytick() + "',"

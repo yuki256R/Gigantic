@@ -66,7 +66,7 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		LinkedHashMap<BlockType, MineBlock> breakMap = m.getBreakMap();
 		LinkedHashMap<Material, MineBlock> condensMap = m.getCondensMap();
