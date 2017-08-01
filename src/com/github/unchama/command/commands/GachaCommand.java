@@ -263,7 +263,7 @@ public class GachaCommand implements TabExecutor {
 			}
 
 			Player player = (Player) sender;
-			if (args.length < 4 || args.length >= 6) {
+			if (args.length < 4 || args.length > 6) {
 				// 引数が5か6でない時の処理
 				sender.sendMessage(ChatColor.RED
 						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
