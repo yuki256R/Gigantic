@@ -9,7 +9,6 @@ import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.ExpTableManager;
 import com.github.unchama.util.ExperienceManager;
-import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public final class ExpManager extends DataManager implements UsingSql,Initializable{
 
@@ -32,7 +31,6 @@ public final class ExpManager extends DataManager implements UsingSql,Initializa
 		Player player = PlayerManager.getPlayer(gp);
 		if(player == null)return;
 		ExperienceManager eM = new ExperienceManager(player);
-		debug.sendMessage(DebugEnum.SQL, "初期化exp:" + exp);
 		eM.setExp(exp);
 	}
 
@@ -61,5 +59,12 @@ public final class ExpManager extends DataManager implements UsingSql,Initializa
 		if(player == null)return null;
 		ExperienceManager eM = new ExperienceManager(player);
 		return eM;
+	}
+
+	public boolean hasExp(int i) {
+		Player player = PlayerManager.getPlayer(gp);
+		if(player == null)return false;
+		ExperienceManager eM = new ExperienceManager(player);
+		return eM.hasExp(i);
 	}
 }
