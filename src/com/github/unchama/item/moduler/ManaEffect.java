@@ -86,9 +86,9 @@ public enum ManaEffect {
 	}
 
 	public static void init(){
-		addShapelessRecipe(GiganticItem.MANA_SMALL,4,GiganticItem.MANA_MEDIUM);
-		addShapelessRecipe(GiganticItem.MANA_MEDIUM,9,GiganticItem.MANA_LARGE);
-		addShapelessRecipe(GiganticItem.MANA_LARGE,9,GiganticItem.MANA_HUGE);
+		//addShapelessRecipe(GiganticItem.MANA_SMALL,4,GiganticItem.MANA_MEDIUM);
+		//addShapelessRecipe(GiganticItem.MANA_MEDIUM,9,GiganticItem.MANA_LARGE);
+		//addShapelessRecipe(GiganticItem.MANA_LARGE,9,GiganticItem.MANA_HUGE);
 	}
 
 	private static void addShapelessRecipe(GiganticItem ingredient, int num, GiganticItem gi) {
