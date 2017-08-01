@@ -30,6 +30,7 @@ import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.home.HomeProtectManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
+import com.github.unchama.player.inventory.InventoryManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
@@ -116,6 +117,7 @@ public class GiganticPlayer {
 		ACHIEVEMENT(AchievementManager.class),
 		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
 		EXP(ExpManager.class),
+		INVENTORY(InventoryManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
