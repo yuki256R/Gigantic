@@ -140,4 +140,8 @@ public enum GiganticEffectType {
 		Util.setLore(is, lore);
 		return is;
 	}
+
+	public static GiganticEffectType getbyID(int effect_id) {
+		return idMap.get(effect_id);
+	}
 }

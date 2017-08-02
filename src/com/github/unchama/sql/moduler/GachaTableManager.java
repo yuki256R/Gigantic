@@ -72,6 +72,7 @@ public abstract class GachaTableManager extends TableManager {
 		command += "add column if not exists rarity int default 0,";
 		command += "add column if not exists probability double default 0.0,";
 		command += "add column if not exists locked bit default false,";
+		command += "add column if not exists pnameflag bit default true,";
 
 		// index add
 		command += "add index if not exists id_index(id)";
@@ -99,7 +100,7 @@ public abstract class GachaTableManager extends TableManager {
 		}
 
 		command = "insert into " + db + "." + table
-				+ " (id,itemstack,amount,rarity,probability,locked)"
+				+ " (id,itemstack,amount,rarity,probability,locked,pnameflag)"
 				+ " values";
 		// 次に現在のgachadatalistでmysqlを更新
 		for (Map.Entry<Integer, GachaItem> entry : gm.getGachaItemMap()
@@ -110,7 +111,7 @@ public abstract class GachaTableManager extends TableManager {
 			command += "(" + Integer.toString(id) + "," + "'"
 					+ BukkitSerialization.toBase64(is) + "'," + gi.getAmount()
 					+ "," + gi.getRarity().getId() + "," + gi.getProbability()
-					+ "," + gi.isLocked() + "),";
+					+ "," + gi.isLocked() + "," + gi.isPlayerNameflag() + "),";
 		}
 
 		command += "last";

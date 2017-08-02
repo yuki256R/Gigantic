@@ -46,7 +46,7 @@ public final class SkillEffectTableManager extends PlayerFromSeichiTableManager 
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		SkillEffectManager m = gp.getManager(SkillEffectManager.class);
 		String command = "";
 		for (ActiveSkillType st : ActiveSkillType.values()) {

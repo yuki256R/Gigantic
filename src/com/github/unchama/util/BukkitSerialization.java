@@ -43,22 +43,24 @@ public class BukkitSerialization {
 		}
 	}
 
-    public static Inventory getInventoryfromBase64(String data) throws IOException {
-        try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
-            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
-            Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt(),(String)dataInput.readObject());
+	public static Inventory getInventoryfromBase64(String data) throws IOException {
+		try {
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+			BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+			Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt(),
+					(String) dataInput.readObject());
 
-            // Read the serialized inventory
-            for (int i = 0; i < inventory.getSize(); i++) {
-                inventory.setItem(i, (ItemStack) dataInput.readObject());
-            }
-            dataInput.close();
-            return inventory;
-        } catch (ClassNotFoundException | IOException e) {
-            throw new IOException("Unable to decode class type.", e);
-        }
-    }
+			// Read the serialized inventory
+			for (int i = 0; i < inventory.getSize(); i++) {
+				inventory.setItem(i, (ItemStack) dataInput.readObject());
+			}
+			dataInput.close();
+			return inventory;
+		} catch (ClassNotFoundException | IOException e) {
+			throw new IOException("Unable to decode class type.", e);
+		}
+	}
+
 	public static String toBase64(ItemStack itemstack) {
 		try {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -75,40 +77,70 @@ public class BukkitSerialization {
 		}
 	}
 
-    public static ItemStack getItemStackfromBase64(String data) throws IOException {
-        try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
-            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+	public static ItemStack getItemStackfromBase64(String data) throws IOException {
+		try {
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+			BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
 
-            ItemStack is = (ItemStack) dataInput.readObject();
-            dataInput.close();
-            return is;
-        } catch (ClassNotFoundException | IOException e) {
-            throw new IOException("Unable to decode class type.", e);
-        }
-    }
+			ItemStack is = (ItemStack) dataInput.readObject();
+			dataInput.close();
+			return is;
+		} catch (ClassNotFoundException | IOException e) {
+			throw new IOException("Unable to decode class type.", e);
+		}
+	}
 
-    public static Inventory fromBase64(String data) throws IOException {
-    	if(data.length() == 0|| data.equals(null)){
+	public static Inventory fromBase64(String data) throws IOException {
+		if (data.length() == 0 || data.equals(null)) {
 			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.RED + "SeichiAssist[四次元ポケットロード処理]でエラー発生");
 			Bukkit.getLogger().warning("四次元ポケットのデータがnullです。開発者に報告してください");
-    		return null;
-    	}
-        try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
-            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
-            Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt(),ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "4次元ポケット");
+			return null;
+		}
+		try {
+			ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+			BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
+			Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt(),
+					ChatColor.DARK_PURPLE + "" + ChatColor.BOLD + "4次元ポケット");
 
-            // Read the serialized inventory
-            for (int i = 0; i < inventory.getSize(); i++) {
-                inventory.setItem(i, (ItemStack) dataInput.readObject());
-            }
-            dataInput.close();
-            return inventory;
-        } catch (ClassNotFoundException | IOException e) {
-            throw new IOException("Unable to decode class type.", e);
-        }
-    }
+			// Read the serialized inventory
+			for (int i = 0; i < inventory.getSize(); i++) {
+				inventory.setItem(i, (ItemStack) dataInput.readObject());
+			}
+			dataInput.close();
+			return inventory;
+		} catch (ClassNotFoundException | IOException e) {
+			throw new IOException("Unable to decode class type.", e);
+		}
+	}
+
+	public static String toBase64(List<ItemStack> items) {
+		String serial = "";
+		try {
+			// List検査
+			if (!items.isEmpty()) {
+				// ByteArray出力ストリーム
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+				// Object出力ストリーム
+				BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(outputStream);
+
+				// 要素数格納
+				dataOutput.writeInt(items.size());
+				// アイテム実態格納
+				for (ItemStack item : items) {
+					dataOutput.writeObject(item);
+				}
+
+				// ストリームを閉じる
+				dataOutput.close();
+				// 変換後のシリアルデータを取得
+				serial = Base64Coder.encodeLines(outputStream.toByteArray());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			serial = "";
+		}
+		return serial;
+	}
 
 	public static List<ItemStack> getItemStackListfromBase64(String serial) {
 		List<ItemStack> items = new ArrayList<ItemStack>();

@@ -1,10 +1,13 @@
 package com.github.unchama.item.moduler;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ShapelessRecipe;
 
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.item.GiganticItem;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mana.ManaManager;
 
@@ -21,7 +24,7 @@ public enum ManaEffect {
 	/** マナ回復(小) */
 	MANA_SMALL(2, "マナ回復(小)", 300),
 	/** マナ回復(中) */
-	MANA_MEDIUM(3, "マナ回復(中)", 1500),
+	MANA_MEDIUM(3, "マナ回復(中)", 1200),
 	/** マナ回復(大) */
 	MANA_LARGE(4, "マナ回復(大)", 10000),
 	/** マナ回復(極) */
@@ -68,13 +71,29 @@ public enum ManaEffect {
 	}
 
 	public void run(Player p) {
+		run(p, this);
+	}
+
+	public static void run(Player p,ManaEffect effect){
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 		ManaManager mM = gp.getManager(ManaManager.class);
-		if(this.equals(MANA_FULL)){
+		if(effect.equals(MANA_FULL)){
 			mM.fullMana();
 		}else{
-			mM.increase((double)this.getRecoverNum());
+			mM.increase((double)effect.getRecoverNum());
 		}
 		p.playSound(p.getLocation(), Sound.ENTITY_WITCH_DRINK, 1.0F, 1.2F);
+	}
+
+	public static void init(){
+		//addShapelessRecipe(GiganticItem.MANA_SMALL,4,GiganticItem.MANA_MEDIUM);
+		//addShapelessRecipe(GiganticItem.MANA_MEDIUM,9,GiganticItem.MANA_LARGE);
+		//addShapelessRecipe(GiganticItem.MANA_LARGE,9,GiganticItem.MANA_HUGE);
+	}
+
+	private static void addShapelessRecipe(GiganticItem ingredient, int num, GiganticItem gi) {
+		ShapelessRecipe Recipe = new ShapelessRecipe(gi.getItemStack());
+		Recipe.addIngredient(num,ingredient.getItemStack().getData());
+		Bukkit.getServer().addRecipe(Recipe);
 	}
 }

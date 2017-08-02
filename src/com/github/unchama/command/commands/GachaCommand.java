@@ -64,7 +64,7 @@ public class GachaCommand implements TabExecutor {
 			sender.sendMessage(ChatColor.RED + "/gacha get <ガチャの種類> <ID>");
 			sender.sendMessage("指定したガチャリストのIDを入手 ");
 			sender.sendMessage(ChatColor.RED
-					+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+					+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 			sender.sendMessage("現在のメインハンドをガチャリストに追加。確率は1.0までで指定");
 			// sender.sendMessage(ChatColor.RED +
 			// "/gacha addms2 <確率> <名前> <レベル>");
@@ -263,10 +263,10 @@ public class GachaCommand implements TabExecutor {
 			}
 
 			Player player = (Player) sender;
-			if (args.length < 4 || args.length > 5) {
-				// 引数が4か5でない時の処理
+			if (args.length < 4 || args.length > 6) {
+				// 引数が5か6でない時の処理
 				sender.sendMessage(ChatColor.RED
-						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 				sender.sendMessage("手に持っているアイテムをガチャに追加します．");
 				return true;
 			}
@@ -274,6 +274,7 @@ public class GachaCommand implements TabExecutor {
 			Rarity r;
 			double probability;
 			int amount = 1;
+			boolean pnameflag = true;
 
 			// ガチャの種類を取得
 			try {
@@ -281,7 +282,7 @@ public class GachaCommand implements TabExecutor {
 			} catch (IllegalArgumentException e) {
 				sender.sendMessage(ChatColor.RED + "指定された種類のガチャは存在しません");
 				sender.sendMessage(ChatColor.RED
-						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 				return true;
 			}
 			try {
@@ -290,7 +291,7 @@ public class GachaCommand implements TabExecutor {
 			} catch (IllegalArgumentException e) {
 				sender.sendMessage(ChatColor.RED + "指定されたレアリティが間違っています");
 				sender.sendMessage(ChatColor.RED
-						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 				return true;
 			}
 			try {
@@ -299,7 +300,7 @@ public class GachaCommand implements TabExecutor {
 			} catch (NumberFormatException e) {
 				sender.sendMessage(ChatColor.RED + "指定された確率の値が不正です");
 				sender.sendMessage(ChatColor.RED
-						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+						+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 				return true;
 			}
 
@@ -315,18 +316,35 @@ public class GachaCommand implements TabExecutor {
 				} catch (NumberFormatException e) {
 					sender.sendMessage(ChatColor.RED + "指定された個数の値が不正です");
 					sender.sendMessage(ChatColor.RED
-							+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>)");
+							+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 					return true;
 				}
 			}
+
+			if(args.length == 6){
+				try {
+					// pnameflag
+					pnameflag = Converter.toInt(args[5]) == 0 ? false : true;
+				} catch (NumberFormatException e) {
+					sender.sendMessage(ChatColor.RED + "指定されたフラグ値が不正です．0かそれ以外の値を入力してください");
+					sender.sendMessage(ChatColor.RED
+							+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
+					return true;
+				}
+			}
+
+
 			ItemStack is = player.getInventory().getItemInMainHand();
 
 			if (is == null)
 				return true;
 
 			GachaManager m = gacha.getManager(gt.getManagerClass());
-			m.addGachaItem(is, r, probability, amount);
-			sender.sendMessage(ChatColor.GREEN + "正常に追加されました．");
+			if(m.addGachaItem(is, r, probability, amount,pnameflag)){
+				sender.sendMessage(ChatColor.GREEN + "正常に追加されました．");
+			}else{
+				sender.sendMessage(ChatColor.RED + "意図しないエラーにより追加されませんでした．開発者に連絡してください．");
+			}
 			return true;
 
 		} else if (args[0].equalsIgnoreCase("list")) {
@@ -355,7 +373,7 @@ public class GachaCommand implements TabExecutor {
 				sender.sendMessage("" + ChatColor.GREEN + id + "|"
 						+ gi.getDisplayName()
 						+ ChatColor.RESET + ChatColor.GREEN + "|"
-						+ Util.Decimal(gi.getProbability()) + "|"
+						+ Converter.Decimal(gi.getProbability()) + "|"
 						+ gi.isLocked());
 			});
 			return true;

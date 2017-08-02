@@ -27,7 +27,7 @@ public class ManaTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		ManaManager m = gp.getManager(ManaManager.class);
 		String command = "";
 		command += "mana = '" + m.getMana() + "',";

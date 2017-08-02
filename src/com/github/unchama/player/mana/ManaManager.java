@@ -89,6 +89,8 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable {
 	 * @return
 	 */
 	private void updateBar() {
+		if(max == 0)return;
+
 		double progress = m / max > 1.0 ? 1.0 : m / max;
 		manabar.setProgress(progress);
 		manabar.setTitle(ChatColor.AQUA + "" + ChatColor.BOLD + "マナ(" + (long) m
@@ -201,7 +203,7 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable {
 	public void Levelup(int level) {
 		this.updateMaxMana(level);
 		this.m += SeichiLevelManager.levelmap.get(level).getMaxMana();
-		this.updateBar();
+		this.display(PlayerManager.getPlayer(gp));;
 	}
 
 	/**デバッグ用マナ保存メソッドです．
@@ -212,8 +214,7 @@ public class ManaManager extends DataManager implements UsingSql, Finalizable {
 		if (this.debugmana == -1) {
 			this.debugmana = m;
 		}
-		this.fullMana();
-		this.updateBar();
+		this.display(PlayerManager.getPlayer(gp));
 	}
 
 }

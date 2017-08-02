@@ -19,7 +19,7 @@ import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
-import com.github.unchama.util.Util;
+import com.github.unchama.util.Converter;
 
 public class SideBarManager extends DataManager implements Finalizable {
 
@@ -51,7 +51,7 @@ public class SideBarManager extends DataManager implements Finalizable {
 		// 情報を更新
 		updateInfo(Information.SEICHI_LEVEL,
 				gp.getManager(SeichiLevelManager.class).getLevel());
-		updateInfo(Information.MINE_BLOCK, Util.Decimal(gp.getManager(
+		updateInfo(Information.MINE_BLOCK, Converter.Decimal(gp.getManager(
 				SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
 				gp.getManager(MineBoostManager.class).getBoostLv());

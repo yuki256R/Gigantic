@@ -19,7 +19,7 @@ import com.github.unchama.player.point.UnchamaPointManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.sql.player.AchievementTableManager;
-import com.github.unchama.util.Util;
+import com.github.unchama.util.Converter;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 public final class AchievementManager extends DataManager implements UsingSql {
@@ -188,7 +188,7 @@ public final class AchievementManager extends DataManager implements UsingSql {
 	 */
 	public void updateDisplayName() {
 		Player p = PlayerManager.getPlayer(gp);
-		String name = Util.getName(p);
+		String name = Converter.getName(p);
 		String displayname = "[" + this.getAnotherName() + "]" + ChatColor.WHITE + name;
 		PlayerTimeManager tM = gp.getManager(PlayerTimeManager.class);
 

@@ -35,7 +35,7 @@ public abstract class PointTableManager extends PlayerFromSeichiTableManager {
     }
 
     @Override
-    protected String saveCommand(GiganticPlayer gp) {
+    protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
         return "";
     }
 

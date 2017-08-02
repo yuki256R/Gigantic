@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import com.github.unchama.gui.ranking.RankingMenuManager;
 import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 import com.github.unchama.util.Converter;
-import com.github.unchama.util.Util;
 
 /**
  * @author yuuki
@@ -19,7 +18,7 @@ import com.github.unchama.util.Util;
 public final class WeekLoginTimeRankingMenuManager extends RankingMenuManager {
 	@Override
 	protected String getLore(double value) {
-		return "総接続時間:" + Converter.toTimeString((long)Util.Decimal(value));
+		return "総接続時間:" + Converter.toTimeString((long)Converter.Decimal(value));
 	}
 
 

@@ -1,5 +1,6 @@
 package com.github.unchama.util;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.BitSet;
 
@@ -71,6 +72,16 @@ public class Converter {
 		return DaytoTick(y * 365);
 	}
 
+	// double -> .1double
+	public static double Decimal(double d) {
+		BigDecimal bi = new BigDecimal(String.valueOf(d));
+		return bi.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+
+	// tick数を秒数に直す
+	public static int toSecond(int _tick) {
+		return _tick / 20;
+	}
 
 	/**与えられたtick数から時間表示を返します
 	 *

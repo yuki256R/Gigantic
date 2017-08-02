@@ -40,7 +40,7 @@ public class GiganticTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		// TODO 自動生成されたメソッド・スタブ
 		return "";
 	}

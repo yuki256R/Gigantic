@@ -235,9 +235,9 @@ public enum StackType {
 	//POTATO(StackCategory.ITEM),
 	WOOD_BUTTON(StackCategory.REDSTONE),
 	//SKULL(StackCategory.OTHERWISE),
-	ANVIL(StackCategory.BUILD),
-	ANVIL_2(Material.ANVIL,1,StackCategory.BUILD),
-	ANVIL_3(Material.ANVIL,2,StackCategory.BUILD),
+	//ANVIL(StackCategory.BUILD),
+	//ANVIL_2(Material.ANVIL,1,StackCategory.BUILD),
+	//ANVIL_3(Material.ANVIL,2,StackCategory.BUILD),
 	TRAPPED_CHEST(StackCategory.REDSTONE),
 	GOLD_PLATE(StackCategory.REDSTONE),
 	IRON_PLATE(StackCategory.REDSTONE),
@@ -287,7 +287,7 @@ public enum StackType {
 	BLACK_STAINED_GLASS_PANE(Material.STAINED_GLASS_PANE,15,StackCategory.BUILD),
 	LEAVES_2(StackCategory.ITEM),
 	DARK_OAK_LEAVES(Material.LEAVES_2,1,StackCategory.ITEM),
-	ACACIA_WOOD(Material.LOG_2,1,StackCategory.BUILD),
+	ACACIA_WOOD(Material.LOG_2,0,StackCategory.BUILD),
 	DARK_OAK_WOOD(Material.LOG_2,1,StackCategory.BUILD),
 	ACACIA_STAIRS(StackCategory.BUILD),
 	DARK_OAK_STAIRS(StackCategory.BUILD),
@@ -366,7 +366,7 @@ public enum StackType {
 	//IRON_SPADE(StackCategory.ITEM),
 	//IRON_PICKAXE(StackCategory.ITEM),
 	//IRON_AXE(StackCategory.ITEM),
-	FLINT_AND_STEEL(StackCategory.ITEM),
+	//FLINT_AND_STEEL(StackCategory.ITEM),
 	APPLE(StackCategory.ITEM),
 	//BOW(StackCategory.ITEM),
 	ARROW(StackCategory.ITEM),
@@ -434,8 +434,8 @@ public enum StackType {
 	PORK(StackCategory.OTHERWISE),
 	GRILLED_PORK(StackCategory.OTHERWISE),
 	PAINTING(StackCategory.BUILD),
-	GOLDEN_APPLE(StackCategory.OTHERWISE),
-	ENCHANTED_GOLDEN_APPLE(Material.GOLDEN_APPLE,1,StackCategory.MATERIAL),
+	//GOLDEN_APPLE(StackCategory.OTHERWISE),
+	//ENCHANTED_GOLDEN_APPLE(Material.GOLDEN_APPLE,1,StackCategory.MATERIAL),
 	SIGN(StackCategory.BUILD),
 	WOOD_DOOR(StackCategory.REDSTONE),
 	BUCKET(StackCategory.OTHERWISE),
@@ -572,13 +572,13 @@ public enum StackType {
 	POISONOUS_POTATO(StackCategory.ITEM),
 	EMPTY_MAP(StackCategory.OTHERWISE),
 	GOLDEN_CARROT(StackCategory.MATERIAL),
-	SKULL_ITEM(StackCategory.BUILD),
-	MOB_HEAD_WITHER_SKELETON(Material.SKULL_ITEM,1,StackCategory.BUILD),
-	MOB_HEAD_ZOMBIE(Material.SKULL_ITEM,2,StackCategory.BUILD),
+	//SKULL_ITEM(StackCategory.BUILD),
+	//MOB_HEAD_WITHER_SKELETON(Material.SKULL_ITEM,1,StackCategory.BUILD),
+	//MOB_HEAD_ZOMBIE(Material.SKULL_ITEM,2,StackCategory.BUILD),
 	//MOB_HEAD_HUMAN(Material.SKULL_ITEM,3,StackCategory.BUILD),
-	MOB_HEAD_CREEPER(Material.SKULL_ITEM,4,StackCategory.BUILD),
-	MOB_HEAD_DRAGON(Material.SKULL_ITEM,5,StackCategory.BUILD),
-	CARROT_STICK(StackCategory.REDSTONE),
+	//MOB_HEAD_CREEPER(Material.SKULL_ITEM,4,StackCategory.BUILD),
+	//MOB_HEAD_DRAGON(Material.SKULL_ITEM,5,StackCategory.BUILD),
+	//CARROT_STICK(StackCategory.REDSTONE),
 	NETHER_STAR(StackCategory.MATERIAL),
 	PUMPKIN_PIE(StackCategory.OTHERWISE),
 	//FIREWORK(StackCategory.OTHERWISE),
@@ -622,8 +622,8 @@ public enum StackType {
 	SPECTRAL_ARROW(StackCategory.OTHERWISE),
 	//TIPPED_ARROW(StackCategory.OTHERWISE),
 	//LINGERING_POTION(StackCategory.MATERIAL),
-	SHIELD(StackCategory.ITEM),
-	ELYTRA(StackCategory.REDSTONE),
+	//SHIELD(StackCategory.ITEM),
+	//ELYTRA(StackCategory.REDSTONE),
 	BOAT_SPRUCE(StackCategory.REDSTONE),
 	BOAT_BIRCH(StackCategory.REDSTONE),
 	BOAT_JUNGLE(StackCategory.REDSTONE),
@@ -700,7 +700,6 @@ public enum StackType {
 				return m;
 			}
 		}
-		//return this.material != null ? this.material : Material.getMaterial(this.name().toUpperCase());
 	}
 
 	/**maxStackAmountを返します．
@@ -757,47 +756,5 @@ public enum StackType {
 		int i = m_s_map.get(m).ordinal();
 		return i_s_map.get(i + durability);
 	}
-
-
-
-	/*
-	//Material
-	private Material material;
-
-	//オブジェクトマテリアル名
-	private String name;
-	//日本語名
-	private String jpname;
-	//解禁レベル
-	private Integer level;
-
-	//耐久値
-	private Integer durability;
-	//説明文の有無
-	private Boolean nameloreflag;
-	//ガチャで使用されるかどうか
-	private Boolean gachaflag;
-	//説明文
-	private List<String> lore;
-	//アイテムスタック型
-	private ItemStack itemstack;
-	//マテリアルの種類
-	private Integer type;
-
-	//スキルで適用するか
-	private Boolean skillflag;
-	//幸運が適用されるか
-	private Boolean luckflag;
-	//スキルで使うツールか
-	private Boolean toolflag;
-	//棒を右クリック時に無視されるか
-	private Boolean cancelflag;
-	//スキル条件：透過するか
-	private Boolean transflag;
-	//重力値条件：無視されるか
-	private Boolean ignoreflag;
-*/
-
-
 }
 
