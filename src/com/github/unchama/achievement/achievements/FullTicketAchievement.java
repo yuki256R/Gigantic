@@ -19,7 +19,7 @@ import com.github.unchama.player.GiganticPlayer;
 import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
- * 
+ *
  * @author tar0ss
  *
  */
@@ -29,24 +29,25 @@ public final class FullTicketAchievement extends GiganticAchievement implements 
 		super(id);
 	}
 
-
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void InventoryOpenListener(InventoryOpenEvent event){
+	public void InventoryOpenListener(InventoryOpenEvent event) {
 		HumanEntity he = event.getPlayer();
-		if(he instanceof Player){
+		if (he instanceof Player) {
 			Player p = (Player) he;
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
 
 			PlayerInventory pinv = p.getInventory();
-			for(int s = 0 ; s < 36 ; s ++){
+			for (int s = 0; s < 36; s++) {
 				ItemStack is = pinv.getItem(s);
-				if(is == null)continue;
+				if (is == null)
+					return;
 				NBTItem nbti = new NBTItem(is);
 				// gacha券tagを判定
 				if (!GachaManager.isTicket(nbti)) {
 					return;
 				}
 			}
+
 			this.unlockAchievement(gp);
 		}
 	}
