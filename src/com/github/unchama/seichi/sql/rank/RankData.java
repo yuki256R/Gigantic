@@ -2,6 +2,11 @@ package com.github.unchama.seichi.sql.rank;
 
 import java.util.UUID;
 
+/**
+ *
+ * @author tar0ss
+ *
+ */
 public class RankData {
 	private final UUID uuid;
 	private final String name;

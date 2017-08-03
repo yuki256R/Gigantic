@@ -452,7 +452,7 @@ public enum StackType {
 	CLAY_BRICK(StackCategory.BUILD),
 	CLAY_BALL(StackCategory.BUILD),
 	SUGAR_CANE(StackCategory.ITEM),
-	PAPER(StackCategory.OTHERWISE),
+	//PAPER(StackCategory.OTHERWISE),
 	BOOK(StackCategory.OTHERWISE),
 	SLIME_BALL(StackCategory.OTHERWISE),
 	STORAGE_MINECART(StackCategory.REDSTONE),

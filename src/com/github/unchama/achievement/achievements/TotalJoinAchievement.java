@@ -7,6 +7,11 @@ import org.bukkit.event.Listener;
 import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.TotalJoinIncrementEvent;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public final class TotalJoinAchievement extends GiganticAchievement implements Listener{
 	/**合計ログイン日数がこの値以上の時に実績を解除します
 	 *

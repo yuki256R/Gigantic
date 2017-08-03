@@ -9,6 +9,11 @@ import org.bukkit.event.Listener;
 import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.MineBlockIncrementEvent;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public final class MineBlockLuckyNumberAchievement extends GiganticAchievement implements Listener {
 	/**整地量がこの時に実績を解除します
 	 *

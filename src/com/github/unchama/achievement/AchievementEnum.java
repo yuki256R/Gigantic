@@ -25,6 +25,11 @@ import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public enum AchievementEnum {
 	MINEBLOCKRANK_1(1001, new MineBlockRankAchievement(1001, 3000)),
 	MINEBLOCKRANK_2(1002, new MineBlockRankAchievement(1002, 1000)),

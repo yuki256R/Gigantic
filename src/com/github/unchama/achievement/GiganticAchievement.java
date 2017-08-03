@@ -6,6 +6,11 @@ import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.yml.AnotherNameManager;
 import com.github.unchama.yml.DebugManager;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public abstract class GiganticAchievement {
 	protected AnotherNameManager ANMng = Gigantic.yml.getManager(AnotherNameManager.class);
 	protected DebugManager debug = Gigantic.yml.getManager(DebugManager.class);

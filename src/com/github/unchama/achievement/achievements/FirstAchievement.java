@@ -2,6 +2,11 @@ package com.github.unchama.achievement.achievements;
 
 import com.github.unchama.achievement.GiganticAchievement;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public final class FirstAchievement extends GiganticAchievement {
 
 	public FirstAchievement(int id) {

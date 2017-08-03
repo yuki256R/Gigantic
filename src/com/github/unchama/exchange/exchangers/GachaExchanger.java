@@ -23,6 +23,11 @@ import com.github.unchama.util.Util;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
+/**
+ *
+ * @author tar0ss
+ *
+ */
 public final class GachaExchanger implements Exchanger {
 
 	private static final List<GachaType> canExchangeType = new ArrayList<>(Arrays.asList(GachaType.GIGANTIC,
