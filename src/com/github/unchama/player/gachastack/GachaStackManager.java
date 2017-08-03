@@ -52,10 +52,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 	public boolean add(ItemStack itemstack){
 		NBTItem nbti = new NBTItem(itemstack);
 		GachaType type = GachaManager.getGachaType(nbti);
-		if(type != null){
-			int id = GachaManager.getGachaID(nbti);
-			return addItem(itemstack, type, id);
-		}else if(OldUtil.isOldGachaTicket(itemstack)){
+		if(OldUtil.isOldGachaTicket(itemstack)){
 			return addItem(itemstack, GachaType.GIGANTIC, 0);
 		}else if(OldUtil.isOldGachaApple(itemstack)){
 			return addItem(itemstack, GachaType.GIGANTIC, 1);
@@ -65,7 +62,10 @@ public class GachaStackManager extends DataManager implements UsingSql{
 			return addItem(itemstack, GachaType.GIGANTIC, config.getNewCatalogGiftID());
 		}else if(OldUtil.isOldShiinaRingo(itemstack)){
 			return addItem(itemstack, GachaType.GIGANTIC, config.getNewShiinaRingoID());
-		}else{
+		}else if(type != null){
+			int id = GachaManager.getGachaID(nbti);
+			return addItem(itemstack, type, id);
+		}else {
 			int seichiid = OldUtil.getSeichiID(itemstack);
 			if(seichiid != -1){
 				return addItem(itemstack, GachaType.OLD, seichiid + 2);

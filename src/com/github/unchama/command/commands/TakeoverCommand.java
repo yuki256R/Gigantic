@@ -18,37 +18,49 @@ import com.github.unchama.sql.player.MineBlockTableManager;
  */
 public class TakeoverCommand implements TabExecutor {
 
+	public TakeoverCommand() {
+	}
 
-    public TakeoverCommand() {
-    }
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+		if (args.length < 1)
+			return false;
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (args.length < 1)
-            return false;
+		if (args[0].equalsIgnoreCase("ranking")) {
+			if (Gigantic.seichisql == null) {
+				sender.sendMessage(ChatColor.RED + "SeichiAssistのSQLにアクセスできません。olddatabaseフラグを確認してください。");
+				return true;
+			}
+			Bukkit.getServer().getScheduler().runTaskAsynchronously(Gigantic.plugin, () -> {
+				sender.sendMessage(ChatColor.RED + "引き継ぎ中");
+				PlayerDataTableManager pm = Gigantic.seichisql.getManager(PlayerDataTableManager.class);
+				MineBlockTableManager rm = Gigantic.sql.getManager(MineBlockTableManager.class);
+				int allnum = pm.getAllRecordNum();
+				if (allnum > 10000) {
+					int i;
+					for (i = 0; i < allnum; i += 100) {
+						List<RankData> ranklist = pm.getAllRankData(100, i);
+						rm.sendTakeOverData(ranklist);
+						sender.sendMessage(ChatColor.RED + "引き継ぎ(" + (i+100) + "人)完了");
+					}
+					List<RankData> ranklist = pm.getAllRankData(100, i);
+					sender.sendMessage(ChatColor.RED + "引き継ぎ(" + allnum + "人)完了");
+					rm.sendTakeOverData(ranklist);
+				} else {
+					List<RankData> ranklist = pm.getAllRankData();
+					rm.sendTakeOverData(ranklist);
+				}
+				sender.sendMessage(ChatColor.RED + "引き継ぎ完了");
+			});
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
 
-        if (args[0].equalsIgnoreCase("ranking")) {
-            if (Gigantic.seichisql == null) {
-                sender.sendMessage(ChatColor.RED + "SeichiAssistのSQLにアクセスできません。olddatabaseフラグを確認してください。");
-                return true;
-            }
-            Bukkit.getServer().getScheduler().runTaskAsynchronously(Gigantic.plugin, () -> {
-                sender.sendMessage(ChatColor.RED + "引き継ぎ中");
-                PlayerDataTableManager pm = Gigantic.seichisql.getManager(PlayerDataTableManager.class);
-                List<RankData> ranklist =  pm.getAllRankData();
-                MineBlockTableManager rm = Gigantic.sql.getManager(MineBlockTableManager.class);
-                rm.sendTakeOverData(ranklist);
-                sender.sendMessage(ChatColor.RED + "引き継ぎ完了");
-            });
-        }
-        else {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        return null;
-    }
+	@Override
+	public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+		return null;
+	}
 }
