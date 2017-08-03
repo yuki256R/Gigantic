@@ -7,6 +7,12 @@ import org.bukkit.event.Listener;
 import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.ChainJoinIncrementEvent;
 
+
+/**
+ *
+ * @author tar0ss
+ *
+ */
 public final class ChainJoinAchievement extends GiganticAchievement implements Listener{
 	/**連続ログイン日数がこの値以上の時に実績を解除します
 	 *

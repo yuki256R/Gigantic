@@ -5,6 +5,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public enum AchievementCategory {
 	MINEBLOCKRANK("整地量関連", 1001, 3999),
 	PLAYTICK("接続時間・日数", 4001,5199),

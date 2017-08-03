@@ -1,6 +1,11 @@
 package com.github.unchama.achievement;
 
 
+/**
+ *
+ * @author tar0ss
+ *
+ */
 public final class OnlyforSaleAchievement extends GiganticAchievement {
 
 	private final int usePoint;

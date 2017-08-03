@@ -156,3 +156,7 @@ subhomemax: 5
 #ガチャ関連の設定
 Gacha:
   maxSize: 300
+Gachaold:
+  giganticgift: 41
+  cataloggift: 3
+  siinaringo: 40

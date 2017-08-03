@@ -18,6 +18,11 @@ import com.github.unchama.player.GiganticPlayer;
 
 import de.tr7zw.itemnbtapi.NBTItem;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public final class FullTicketAchievement extends GiganticAchievement implements Listener {
 
 	public FullTicketAchievement(int id) {

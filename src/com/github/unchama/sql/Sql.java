@@ -581,7 +581,7 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				rtm.join(gp);
+				rtm.onAvailable(gp);
 			}
 		}
 	}

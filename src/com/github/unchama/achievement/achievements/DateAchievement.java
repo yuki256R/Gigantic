@@ -15,6 +15,11 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.util.TimeUtil;
 
+/**
+ *
+ * @author tar0ss
+ *
+ */
 public final class DateAchievement extends GiganticAchievement implements Listener {
 
 	/**整地量がこの値を超えた時に実績を解除します

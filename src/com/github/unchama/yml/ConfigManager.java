@@ -410,4 +410,16 @@ public class ConfigManager extends YmlManager {
 	public int getMaxGachaSize() {
 		return fc.getInt("Gacha.maxSize");
 	}
+
+	public int getNewGiganticGiftID() {
+		return fc.getInt("Gachaold.giganticgift");
+	}
+
+	public int getNewCatalogGiftID() {
+		return fc.getInt("Gachaold.cataloggift");
+	}
+
+	public int getNewShiinaRingoID() {
+		return fc.getInt("Gachaold.shiinaringo");
+	}
 }
