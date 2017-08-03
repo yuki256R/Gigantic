@@ -23,7 +23,7 @@ import com.github.unchama.player.toolpouch.ToolPouchManager;
 
 public final class GiganticPlayerAvailableListener implements Listener {
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void runSQLonAvailable(GiganticPlayerAvailableEvent event) {
 		Gigantic.sql.onAvailable(event.getGiganticPlayer());
 	}

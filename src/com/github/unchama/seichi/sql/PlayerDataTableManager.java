@@ -7,6 +7,7 @@ import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -18,6 +19,7 @@ import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.player.seichiskill.effect.EffectType;
 import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
+import com.github.unchama.seichi.sql.rank.RankData;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.util.Converter;
@@ -618,6 +620,26 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 
 		return point;
+	}
+
+	public List<RankData> getAllRankData(){
+		List<RankData> ranklist = new ArrayList<RankData>();
+        String command = "select uuid,name,totalbreaknum from " + db + "." + table;
+        this.checkStatement();
+
+        try {
+            rs = stmt.executeQuery(command);
+            while (rs.next()) {
+                UUID uuid = UUID.fromString(rs.getString("uuid"));
+                Long l = rs.getLong("totalbreaknum");
+                String name = rs.getString("name");
+                ranklist.add(new RankData(uuid,name,l));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ranklist;
 	}
 
 
