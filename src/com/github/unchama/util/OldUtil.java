@@ -22,15 +22,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import com.github.unchama.gacha.Gacha.GachaType;
-import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.item.moduler.ManaEffect;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.seichi.sql.MineStackGachaDataTableManager;
-
-import de.tr7zw.itemnbtapi.NBTItem;
 
 /**SeichiAssist時代の様々な遺品
  *
@@ -58,12 +54,14 @@ public final class OldUtil {
 			return false;
 		}
 
+		/*
 		// NBTタグにGachaTypeがあれば現在のガチャなので終了
 		NBTItem nbti = new NBTItem(itemstack);
 		GachaType type = GachaManager.getGachaType(nbti);
 		if (type != null) {
 			return false;
 		}
+		*/
 
 		return true;
 	}
@@ -124,10 +122,10 @@ public final class OldUtil {
 											.getBlockState())).getPatterns();
 									List<Pattern> ipat = ((Banner) (((BlockStateMeta) imeta)
 											.getBlockState())).getPatterns();
-									if(gpat.containsAll(ipat)){
+									if (gpat.containsAll(ipat)) {
 										return i;
 									}
-								}else{
+								} else {
 									return i;
 								}
 							}
@@ -143,11 +141,14 @@ public final class OldUtil {
 	public static boolean isOldGachaApple(ItemStack itemstack) {
 		if (itemstack.hasItemMeta()) {
 			ItemMeta meta = itemstack.getItemMeta();
-			for (String lore : meta.getLore()) {
-				if (lore.contains("マナ回復（小）")) {
-					return true;
+			if (meta.hasLore()) {
+				for (String lore : meta.getLore()) {
+					if (lore.contains("マナ回復") && lore.contains("小")) {
+						return true;
+					}
 				}
 			}
+
 		}
 		return false;
 	}
@@ -155,7 +156,7 @@ public final class OldUtil {
 	public static boolean isOldGiganticGift(ItemStack itemstack) {
 		if (itemstack.hasItemMeta() && itemstack.getType().equals(Material.PAPER)) {
 			ItemMeta meta = itemstack.getItemMeta();
-			if (meta.getDisplayName().contains("ギガンティック・ギフト券")) {
+			if (meta.hasLore() && meta.hasDisplayName() && meta.getDisplayName().contains("ギガンティック・ギフト券")) {
 				for (String lore : meta.getLore()) {
 					if (lore.contains("公共施設鯖にある")) {
 						return true;
@@ -170,7 +171,7 @@ public final class OldUtil {
 	public static boolean isOldCatalogGift(ItemStack itemstack) {
 		if (itemstack.hasItemMeta() && itemstack.getType().equals(Material.PAPER)) {
 			ItemMeta meta = itemstack.getItemMeta();
-			if (meta.getDisplayName().contains("カタログギフト券")) {
+			if (meta.hasLore() && meta.hasDisplayName() && meta.getDisplayName().contains("カタログギフト券")) {
 				for (String lore : meta.getLore()) {
 					if (lore.contains("スポーン地点に")) {
 						return true;
@@ -233,9 +234,11 @@ public final class OldUtil {
 	public static boolean isOldShiinaRingo(ItemStack itemstack) {
 		if (itemstack.hasItemMeta()) {
 			ItemMeta meta = itemstack.getItemMeta();
-			for (String lore : meta.getLore()) {
-				if (lore.contains("マナ完全回復")) {
-					return true;
+			if (meta.hasLore()){
+				for (String lore : meta.getLore()) {
+					if (lore.contains("マナ完全回復")) {
+						return true;
+					}
 				}
 			}
 		}
