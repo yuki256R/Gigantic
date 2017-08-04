@@ -140,6 +140,7 @@ public class BlockBreakListener implements Listener {
 
 		// スキル処理
 		if(skill.run(player, tool, block)){
+			//スキル破壊成功
 			gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
 		}
 

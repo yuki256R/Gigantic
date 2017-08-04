@@ -94,7 +94,7 @@ public class GachaItem {
 	}
 
 	public String getDisplayName() {
-		return this.item.getItemMeta().getDisplayName();
+		return this.item.getItemMeta().hasDisplayName() ? this.item.getItemMeta().getDisplayName() : this.item.getType().name();
 	}
 
 	public short getDurability() {
@@ -116,6 +116,10 @@ public class GachaItem {
 	 */
 	public boolean isPlayerNameflag() {
 		return pnameflag;
+	}
+
+	public boolean isUnBreakable() {
+		return this.item.getItemMeta().spigot().isUnbreakable();
 	}
 
 }

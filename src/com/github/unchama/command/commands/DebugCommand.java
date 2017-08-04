@@ -186,22 +186,32 @@ public class DebugCommand implements TabExecutor {
 
             String prefix = args[0].toLowerCase();
             ArrayList<String> commands = new ArrayList<String>();
-            for ( String c : new String[]{"set"} ) {
+            for ( String c : new String[]{"set","seichiassist"} ) {
                 if ( c.startsWith(prefix) ) {
                     commands.add(c);
                 }
             }
             return commands;
-        }else if( args.length == 2 && args[0].equalsIgnoreCase("set")) {
-
-        	String prefix = args[1].toLowerCase();
-            ArrayList<String> commands = new ArrayList<String>();
-            for ( String c : new String[]{"seichilevel", "buildlevel"} ) {
-                if ( c.startsWith(prefix) ) {
-                    commands.add(c);
-                }
-            }
-            return commands;
+        }else if( args.length == 2) {
+        	if(args[0].equalsIgnoreCase("set")){
+	        	String prefix = args[1].toLowerCase();
+	            ArrayList<String> commands = new ArrayList<String>();
+	            for ( String c : new String[]{"seichilevel", "buildlevel"} ) {
+	                if ( c.startsWith(prefix) ) {
+	                    commands.add(c);
+	                }
+	            }
+	            return commands;
+        	}else if(args[0].equalsIgnoreCase("seichiassist")){
+	        	String prefix = args[1].toLowerCase();
+	            ArrayList<String> commands = new ArrayList<String>();
+	            for ( String c : new String[]{"givems", "gachaimo"} ) {
+	                if ( c.startsWith(prefix) ) {
+	                    commands.add(c);
+	                }
+	            }
+	            return commands;
+        	}
         }else if( args.length == 3 && args[1].equalsIgnoreCase("seichilevel")){
         	String prefix = "";
         	ArrayList<String> commands = new ArrayList<String>();
