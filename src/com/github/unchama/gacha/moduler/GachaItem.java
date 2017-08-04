@@ -118,4 +118,8 @@ public class GachaItem {
 		return pnameflag;
 	}
 
+	public boolean isUnBreakable() {
+		return this.item.getItemMeta().spigot().isUnbreakable();
+	}
+
 }

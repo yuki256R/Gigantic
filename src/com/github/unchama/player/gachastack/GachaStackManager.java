@@ -95,7 +95,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 		}
 		GachaItem gi = gm.getGachaItem(id);
 		// 耐久度が減ったりしてたらアウト
-		if(gi.getDurability() != itemstack.getDurability()){
+		if(!gi.isUnBreakable()  && gi.getDurability() != itemstack.getDurability()){
 			//debug.sendMessage(DebugEnum.SQL, "耐久値が減っています．スタックできません．");
 			return false;
 		}
