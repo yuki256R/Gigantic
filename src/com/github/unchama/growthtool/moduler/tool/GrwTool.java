@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.github.unchama.gigantic.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -89,7 +90,7 @@ public final class GrwTool extends ItemStack {
 		identify = identLore;
 		itemlv = 1;
 		enchantTable = enchants;
-		owner = player.getDisplayName();
+		owner = player.getName();
 		this.status = status;
 		playerName = "";
 		playerUuid = player.getUniqueId();
@@ -121,15 +122,8 @@ public final class GrwTool extends ItemStack {
 			}
 			name = itemmeta.hasDisplayName() ? itemmeta.getDisplayName() : "";
 			identify = Collections.unmodifiableList(identLore);
-			itemlv = getNBT(GrwNbti.ItemLv, Integer.class);
-			enchantTable = enchants;
-			owner = getNBT(GrwNbti.PlayerMcid, String.class);
-			this.status = status;
-			playerName = getNBT(GrwNbti.PlayerName, String.class);
-			playerUuid = getNBT(GrwNbti.PlayerUuid, UUID.class);
-			currentExp = getNBT(GrwNbti.CurrentExp, Integer.class);
-			// [移行用] アイテムレベルがNBTに登録されていない場合は取得する
-			if (itemlv < 1) {
+			if (!hasNBT(GrwNbti.ItemLv)) {
+				// [移行用] アイテムレベルがNBTに登録されていない場合は取得する
 				itemlv = 1;
 				for (String s : itemlore) {
 					if (s.startsWith(GrwDefine.ILHEAD)) {
@@ -145,9 +139,12 @@ public final class GrwTool extends ItemStack {
 						break;
 					}
 				}
+			} else {
+				itemlv = getNBT(GrwNbti.ItemLv, Integer.class);
 			}
+			enchantTable = enchants;
 			// [移行用] 所有者がNBTに登録されていない場合は取得する
-			if (owner.isEmpty()) {
+			if (!hasNBT(GrwNbti.PlayerMcid)) {
 				for (String s : itemlore) {
 					if (s.startsWith(GrwDefine.OWNERHEAD)) {
 						owner = s.replace(GrwDefine.OWNERHEAD, "");
@@ -158,6 +155,26 @@ public final class GrwTool extends ItemStack {
 					GrowthTool.GrwDebugWarning("ownerがemptyのためunchamaとして扱います。");
 					owner = "unchama";
 				}
+			} else {
+				owner = getNBT(GrwNbti.PlayerMcid, String.class);
+			}
+			this.status = status;
+			playerName = getNBT(GrwNbti.PlayerName, String.class);
+			if (playerUuid == null) {
+				//[移行用]
+				playerUuid = PlayerManager.getUUID(owner);
+			} else {
+				playerUuid = getNBT(GrwNbti.PlayerUuid, UUID.class);
+			}
+			if (!hasNBT(GrwNbti.CurrentExp)) {
+				//[移行用]
+				if (itemlv == 1) {
+					currentExp = 0;
+				} else {
+					currentExp = this.status.get(itemlv - 2).getNextExp();
+				}
+			} else {
+				currentExp = getNBT(GrwNbti.CurrentExp, Integer.class);
 			}
 		} catch (NullPointerException e) {
 			GrowthTool.GrwDebugWarning("ItemStackコンストラクタにGrowth Tool以外が渡されました。");
@@ -235,6 +252,17 @@ public final class GrwTool extends ItemStack {
 	private <T> T getNBT(GrwNbti tag, Class<T> type) {
 		NBTItem nbti = new NBTItem(this);
 		return nbti.getObject(tag.toString(), type);
+	}
+
+	/**
+	 * NBTが存在するか確認する
+	 *
+	 * @param tag NBTに対応するenum
+	 * @return 成否(true: 存在する / false: 存在しない)
+	 */
+	private boolean hasNBT(GrwNbti tag) {
+		NBTItem nbtItem = new NBTItem(this);
+		return nbtItem.hasKey(tag.toString());
 	}
 
 	/**
@@ -349,7 +377,7 @@ public final class GrwTool extends ItemStack {
 			return true;
 		}
 		// [移行用] ItemStackの所有者欄にtoLowerCaseが登録されている場合
-		if (itemlore.contains(GrwDefine.OWNERHEAD + player.getDisplayName().toLowerCase())) {
+		if (itemlore.contains(GrwDefine.OWNERHEAD + player.getName().toLowerCase())) {
 			return true;
 		}
 		return false;
