@@ -109,7 +109,7 @@ public class GachaNotification {
 		if(!isGtOnly){
 			// 個人宛
 			String message = gachaItem.getDisplayName()
-					+ " " + gachaItem.getRarity().getRarityName();
+					+ " " + ChatColor.AQUA +  gachaItem.getRarity().getRarityName();
 			player.sendMessage(message);
 		}
 	}

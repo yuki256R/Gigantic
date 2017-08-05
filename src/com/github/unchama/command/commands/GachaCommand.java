@@ -7,8 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
@@ -66,6 +69,14 @@ public class GachaCommand implements TabExecutor {
 			sender.sendMessage(ChatColor.RED
 					+ "/gacha add <ガチャの種類> <レアリティ> <確率> (<個数>) (<獲得者出力フラグ>)");
 			sender.sendMessage("現在のメインハンドをガチャリストに追加。確率は1.0までで指定");
+			sender.sendMessage(ChatColor.RED + "/gacha set durability <durability>");
+			sender.sendMessage("現在の手に持っているアイテムの耐久値を変更する");
+			sender.sendMessage(ChatColor.RED + "/gacha set unbreakable");
+			sender.sendMessage("現在の手に持っているアイテムに耐久無限を付与する");
+			sender.sendMessage(ChatColor.RED + "/gacha remove unbreakable");
+			sender.sendMessage("現在の手に持っているアイテムの耐久無限を削除する");
+			sender.sendMessage(ChatColor.RED + "/gacha remove unbreaking");
+			sender.sendMessage("現在の手に持っているアイテムの耐久エンチャントを削除する");
 			// sender.sendMessage(ChatColor.RED +
 			// "/gacha addms2 <確率> <名前> <レベル>");
 			// sender.sendMessage("現在のメインハンドをMineStack用ガチャリストに追加。確率は1.0までで指定");
@@ -509,6 +520,123 @@ public class GachaCommand implements TabExecutor {
 				return true;
 			}
 			return true;
+		} else if (args[0].equalsIgnoreCase("set")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内で実行して下さい");
+				return true;
+			}
+
+			Player player = (Player) sender;
+
+			if(args[1].equalsIgnoreCase("durability")){
+
+				if(args.length != 3){
+					sender.sendMessage(ChatColor.RED + "引数の個数が不正です．");
+					sender.sendMessage(ChatColor.RED + "/gacha set durability <durability>");
+					return true;
+				}
+
+				int durability;
+				int maxdurability;
+				try{
+					durability = Converter.toInt(args[2]);
+				}catch(NumberFormatException e){
+					sender.sendMessage(ChatColor.RED + "耐久値が不正です．");
+					sender.sendMessage(ChatColor.RED + "/gacha set durability <durability>");
+					return true;
+				}
+
+				ItemStack is = player.getInventory().getItemInMainHand();
+
+				if (is == null)
+					return true;
+				maxdurability = is.getType().getMaxDurability();
+
+				if(maxdurability < durability){
+					sender.sendMessage(ChatColor.RED + "耐久値が不正です．");
+					sender.sendMessage(ChatColor.RED + "/gacha set durability <durability>");
+					return true;
+				}
+
+				is.setDurability((short)durability);
+				sender.sendMessage(ChatColor.GREEN + "正しく耐久値が変更されました");
+				return true;
+
+			}else if(args[1].equalsIgnoreCase("unbreakable")){
+
+				ItemStack is = player.getInventory().getItemInMainHand();
+
+				if (is == null)
+					return true;
+				ItemMeta meta = is.getItemMeta();
+				meta.spigot().setUnbreakable(true);
+				if(meta.hasEnchants()){
+					if(meta.hasEnchant(Enchantment.DURABILITY)){
+						meta.removeEnchant(Enchantment.DURABILITY);
+					}
+
+					if(meta.hasEnchant(Enchantment.MENDING)){
+						meta.removeEnchant(Enchantment.MENDING);
+					}
+				}
+
+				List<String> lore = meta.getLore();
+				for(int index = 0 ; index < lore.size() ; index++){
+					String l = lore.get(index);
+					if(l.contains("耐久無限") || l.contains("金床") || l.contains("修繕")){
+						lore.remove(index);
+						if(l.contains("金床")){
+							lore.remove(index-1);
+							index--;
+						}
+						index--;
+					}
+				}
+				lore.add(0, ChatColor.GRAY + "耐久無限");
+				meta.setLore(lore);
+				meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+				is.setItemMeta(meta);
+				sender.sendMessage(ChatColor.GREEN + "正しく耐久無限に設定されました");
+				return true;
+			}
+		} else if (args[0].equalsIgnoreCase("remove")) {
+			if (!(sender instanceof Player)) {
+				sender.sendMessage(ChatColor.RED + "このコマンドはゲーム内で実行して下さい");
+				return true;
+			}
+
+			Player player = (Player) sender;
+
+			if(args[1].equalsIgnoreCase("unbreakable")){
+
+				ItemStack is = player.getInventory().getItemInMainHand();
+
+				if (is == null)
+					return true;
+				ItemMeta meta = is.getItemMeta();
+				meta.spigot().setUnbreakable(false);
+				is.setItemMeta(meta);
+				sender.sendMessage(ChatColor.GREEN + "正しく耐久無限を解除しました");
+				return true;
+			}else if(args[1].equalsIgnoreCase("unbreaking")){
+
+				ItemStack is = player.getInventory().getItemInMainHand();
+
+				if (is == null)
+					return true;
+				ItemMeta meta = is.getItemMeta();
+				if(!meta.hasEnchants()){
+					return true;
+				}
+				if(!meta.hasEnchant(Enchantment.DURABILITY)){
+					return true;
+				}
+				meta.removeEnchant(Enchantment.DURABILITY);
+
+				is.setItemMeta(meta);
+				sender.sendMessage(ChatColor.GREEN + "正しく耐久エンチャントを解除しました");
+				return true;
+			}
 		}
 		/*
 		 * sender.sendMessage(ChatColor.RED + "/gacha remove <ガチャの種類> <ID>");

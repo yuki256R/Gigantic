@@ -88,4 +88,6 @@ public class MineBlockRankingTableManager extends RankingTableManager {
 		return "allmineblock";
 	}
 
+
+
 }

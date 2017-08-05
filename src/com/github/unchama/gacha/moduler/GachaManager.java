@@ -312,4 +312,19 @@ public abstract class GachaManager {
 		return uuid;
 	}
 
+	/**このアイテムがプレイヤー個人の所有物であればそのプレイヤーと一致しているか返す．
+	 * 所有者不明の場合常にTRUE
+	 *
+	 * @param nbti
+	 * @param player
+	 * @return
+	 */
+	public static boolean isIndividual(NBTItem nbti, Player player) {
+		if(nbti.hasKey(Gacha.ROLLPLAYERUUIDNBT)){
+			return nbti.getObject(Gacha.ROLLPLAYERUUIDNBT, UUID.class).equals(player.getUniqueId());
+		}else{
+			return true;
+		}
+	}
+
 }

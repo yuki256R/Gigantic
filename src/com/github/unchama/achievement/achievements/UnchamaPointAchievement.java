@@ -9,6 +9,11 @@ import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.point.UnchamaPointManager;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public class UnchamaPointAchievement extends GiganticAchievement implements Listener {
 	/**整地量がこの値を超えた時に実績を解除します
 	 *

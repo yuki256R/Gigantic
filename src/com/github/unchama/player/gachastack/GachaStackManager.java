@@ -50,19 +50,35 @@ public class GachaStackManager extends DataManager implements UsingSql{
 
 	// NBTタグを見てガチャアイテムならスタックする
 	public boolean add(ItemStack itemstack){
-		// SeichiAssist時代のガチャ券ならギガンティックガチャチケットにスタック
+		NBTItem nbti = new NBTItem(itemstack);
+		GachaType type = GachaManager.getGachaType(nbti);
+		if(OldUtil.isOldGachaTicket(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, 0);
+		}else if(OldUtil.isOldGachaApple(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, 1);
+		}else if(OldUtil.isOldGiganticGift(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, config.getNewGiganticGiftID());
+		}else if(OldUtil.isOldCatalogGift(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, config.getNewCatalogGiftID());
+		}else if(OldUtil.isOldShiinaRingo(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, config.getNewShiinaRingoID());
+		}else if(type != null){
+			int id = GachaManager.getGachaID(nbti);
+			return addItem(itemstack, type, id);
+		}else {
+			int seichiid = OldUtil.getSeichiID(itemstack);
+			if(seichiid != -1){
+				return addItem(itemstack, GachaType.OLD, seichiid + 2);
+			}else{
+				return false;
+			}
+		}
+		/**
+		 * // SeichiAssist時代のガチャ券ならギガンティックガチャチケットにスタック
 		if(OldUtil.isOldGachaTicket(itemstack)){
 			return addItem(itemstack, GachaType.GIGANTIC, 0);
 		}
-
-		NBTItem nbti = new NBTItem(itemstack);
-		GachaType type = GachaManager.getGachaType(nbti);
-		if(type != null){
-			int id = GachaManager.getGachaID(nbti);
-			return addItem(itemstack, type, id);
-		}else{
-			return false;
-		}
+		 */
 	}
 
 	private boolean addItem(ItemStack itemstack, GachaType type, int id){
@@ -74,11 +90,13 @@ public class GachaStackManager extends DataManager implements UsingSql{
 		// 参考のガチャアイテムを取得
 		GachaManager gm = gacha.getManager(type.getManagerClass());
 		if(!gm.getGachaItemMap().containsKey(id)){
+			//debug.sendMessage(DebugEnum.SQL, "対応するID:" + id + "が存在しません．");
 			return false;
 		}
 		GachaItem gi = gm.getGachaItem(id);
 		// 耐久度が減ったりしてたらアウト
-		if(gi.getDurability() != itemstack.getDurability()){
+		if(!gi.isUnBreakable()  && gi.getDurability() != itemstack.getDurability()){
+			//debug.sendMessage(DebugEnum.SQL, "耐久値が減っています．スタックできません．");
 			return false;
 		}
 
