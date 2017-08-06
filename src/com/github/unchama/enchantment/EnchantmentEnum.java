@@ -1,28 +1,52 @@
 package com.github.unchama.enchantment;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import com.github.unchama.enchantment.enchantments.*;
+import com.github.unchama.util.MaterialUtil;
+import org.bukkit.Material;
 
-import com.github.unchama.enchantment.enchantments.TestEnchantment;
+import java.util.*;
 
 /**
  * Created by Mon_chi on 2017/06/04.
  */
 public enum EnchantmentEnum {
 
-    TEST("てすとのえんちゃんと", new TestEnchantment()),
+    //コメントアウトは保留案件
+    HAHUU("覇風", new HahuuEnchantment(), MaterialUtil.getPickaxes(), 1),
+    //DENSEN("伝染", new DensenEnchantment(), MaterialUtil.getAxes()),
+    HYOKA("氷華", new HyokaEnchantment(), MaterialUtil.getShovels(), 1),
+    WAIKYOKU("歪曲", new WaikyokuEnchantment(), MaterialUtil.getSwords()),
+    //WALLJUMP("壁ジャンプ", new WallJumpEnchantment()),
+    DOTON("土遁", new DotonEnchantment(), MaterialUtil.getHelmets()),
+    RAITEI("雷霆", new RaiteiEnchantment(), MaterialUtil.getLeggings()),
+    AMATERASU("天照", new AmaterasuEnchant(), Material.ELYTRA),
+    HAKUGEI("白鯨", new HakugeiEnchantment(), Material.SHIELD)
+
     ;
 
-    private static Map<String, GiganticEnchantment> enchantmentMap = new HashMap<>();
+    private static Map<String, EnchantmentEnum> enchantmentMap = new HashMap<>();
     //アイテムのLoreに表示される名前
     private String name;
     //GiganticEnchantmentを継承したやつ
     private GiganticEnchantment enchantment;
+    //実行するアイテムのMaterial
+    private List<Material> itemTypes;
+    //クールダウン秒数
+    private int coolDown;
 
-    EnchantmentEnum(String name, GiganticEnchantment enchantment) {
+    EnchantmentEnum(String name, GiganticEnchantment enchantment, Material itemType) {
+        this(name, enchantment, new Material[]{itemType}, 0);
+    }
+
+    EnchantmentEnum(String name, GiganticEnchantment enchantment, Material[] itemTypes) {
+        this(name, enchantment, itemTypes, 0);
+    }
+
+    EnchantmentEnum(String name, GiganticEnchantment enchantment, Material[] itemTypes, int coolDown) {
         this.name = name;
         this.enchantment = enchantment;
+        this.itemTypes = Arrays.asList(itemTypes);
+        this.coolDown = coolDown;
     }
 
     public String getName() {
@@ -33,13 +57,21 @@ public enum EnchantmentEnum {
         return enchantment;
     }
 
-    public static void register(String name, GiganticEnchantment enchantment){
+    public int getCoolDown() {
+        return coolDown;
+    }
+
+    public boolean isAllowedItem(Material type) {
+        return itemTypes.contains(type);
+    }
+
+    public static void register(String name, EnchantmentEnum enchantment){
         enchantmentMap.put(name, enchantment);
     }
 
     public static void registerAll() {
         for (EnchantmentEnum element : EnchantmentEnum.values()) {
-            register(element.getName(), element.getEnchantment());
+            register(element.getName(), element);
         }
     }
 
@@ -49,7 +81,7 @@ public enum EnchantmentEnum {
      * @param name 表示名
      * @return GiganticEnchantment(Nullable)
      */
-    public static Optional<GiganticEnchantment> getEnchantmentByDisplayName(String name) {
+    public static Optional<EnchantmentEnum> getEnchantmentByDisplayName(String name) {
         return Optional.ofNullable(enchantmentMap.get(name));
     }
 

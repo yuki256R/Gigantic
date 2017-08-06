@@ -40,11 +40,11 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		m.setTotalJoin(rs.getInt("totaljoin"));
 		m.setChainJoin(rs.getInt("chainjoin"));
 		m.lastQuitNum(rs.getString("lastquit"));
-		m.checkJoinNum(rs.getString("lastcheckdate"));
+		m.setLastCheckDate(rs.getString("lastcheckdate"));
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		PlayerTimeManager m = gp.getManager(PlayerTimeManager.class);
 		String command = "";
 		command += "playtick = '" + m.getPlaytick() + "',"
@@ -64,7 +64,7 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		m.setTotalJoin(tm.getTotalJoin(gp));
 		m.setChainJoin(tm.getChainJoin(gp));
 		m.lastQuitNum(tm.getLastQuit(gp));
-		m.checkJoinNum(tm.getLastCheckDate(gp));
+		m.setLastCheckDate(tm.getLastCheckDate(gp));
 	}
 
 	@Override
@@ -77,7 +77,6 @@ public class PlayerTimeTableManager extends PlayerFromSeichiTableManager {
 		m.setTotalJoin(0);
 		m.setChainJoin(0);
 		m.lastQuitNum(null);
-		m.checkJoinNum(null);
 	}
 
 	// 指定nameのプレイヤーのlastquitをセレクト

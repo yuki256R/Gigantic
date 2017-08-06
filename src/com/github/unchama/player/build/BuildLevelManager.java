@@ -8,12 +8,11 @@ import org.bukkit.Bukkit;
 import com.github.unchama.event.BuildLevelUpEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.moduler.Initializable;
 
 /**
  * @author karayuu
  */
-public class BuildLevelManager extends DataManager implements Initializable{
+public class BuildLevelManager extends DataManager{
 
 	//建築レベル
 	private int buildlevel;
@@ -29,8 +28,8 @@ public class BuildLevelManager extends DataManager implements Initializable{
 	public BuildLevelManager(GiganticPlayer gp) {
 		super(gp);
 	}
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		this.calcLevel();
 	}
 

@@ -15,7 +15,9 @@ import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.gui.moduler.GuiMenuManager;
 import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.toolrepair.ToolRepair;
+import com.github.unchama.util.ExperienceManager;
 import com.github.unchama.util.Util;
 
 /**
@@ -95,7 +97,9 @@ public class AdminToolRepairMenuManager extends GuiMenuManager{
 		}else if(slot == VanillaMendingDamageSlot){
 			int exp = ToolRepair.VanillaMending(player, MendingAddExp);
 			GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
-			gp.getExpManager().changeExp(exp);
+			ExpManager eM = gp.getManager(ExpManager.class);
+			ExperienceManager expmanager = eM.getExperienceManager();
+			expmanager.changeExp(exp);
 			player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP,
 					(float) 1.0, (float) 4.0);
 		}

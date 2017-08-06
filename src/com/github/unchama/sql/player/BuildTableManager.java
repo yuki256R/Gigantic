@@ -1,14 +1,14 @@
 package com.github.unchama.sql.player;
 
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
-
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class BuildTableManager extends PlayerFromSeichiTableManager{
     public BuildTableManager(Sql sql) {
@@ -29,7 +29,7 @@ public class BuildTableManager extends PlayerFromSeichiTableManager{
     }
 
     @Override
-    protected String saveCommand(GiganticPlayer gp) {
+    protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
         BuildManager m = gp.getManager(BuildManager.class);
         String command = "";
         command += "totalbuildnum = '" + m.getTotalbuildnum() + "',";

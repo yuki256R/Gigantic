@@ -286,7 +286,7 @@ public class MineStackTableManager extends PlayerFromSeichiTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		MineStackManager m = gp.getManager(MineStackManager.class);
 		LinkedHashMap<StackType,MineStack> datamap = m.datamap;
 		String command = "";

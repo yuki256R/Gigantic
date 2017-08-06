@@ -17,13 +17,11 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gacha.PlayerGachaManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
-import com.github.unchama.util.Util;
+import com.github.unchama.util.Converter;
 
-public class SideBarManager extends DataManager implements Initializable,
-		Finalizable {
+public class SideBarManager extends DataManager implements Finalizable {
 
 	private static ScoreboardManager manager = Bukkit.getScoreboardManager();
 	private Scoreboard sidebar;
@@ -48,12 +46,12 @@ public class SideBarManager extends DataManager implements Initializable,
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		// 情報を更新
 		updateInfo(Information.SEICHI_LEVEL,
 				gp.getManager(SeichiLevelManager.class).getLevel());
-		updateInfo(Information.MINE_BLOCK, Util.Decimal(gp.getManager(
+		updateInfo(Information.MINE_BLOCK, Converter.Decimal(gp.getManager(
 				SeichiLevelManager.class).getRemainingBlock()));
 		updateInfo(Information.MINING_SPEED,
 				gp.getManager(MineBoostManager.class).getBoostLv());

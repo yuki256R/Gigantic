@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.util.TimeUtil;
@@ -49,7 +50,7 @@ public abstract class RankingTableManager extends TableManager {
 
 	//列名
 	private String columnName;
-	//テーブル名
+	//トータル側のテーブル名
 	private String tableName;
 	//常に更新されるべきマップ
 	private HashMap<UUID, Double> map;
@@ -60,7 +61,6 @@ public abstract class RankingTableManager extends TableManager {
 
 	private HashMap<TimeType,LinkedHashMap<String, Double>> timeMap;
 
-	private HashMap<UUID,String> nameMap;
 
 	public RankingTableManager(Sql sql) {
 		super(sql);
@@ -71,7 +71,6 @@ public abstract class RankingTableManager extends TableManager {
 		for(TimeType tt : TimeType.values()){
 			timeMap.put(tt, new LinkedHashMap<String, Double>());
 		}
-		nameMap = new HashMap<UUID,String>();
 	}
 
 	/**TimeTypeごとのランキングを更新します．
@@ -79,36 +78,29 @@ public abstract class RankingTableManager extends TableManager {
 	 * @param tt
 	 */
 	public void updateLimitMap(TimeType tt) {
-		updateNameMap();
 		String command = "";
 		LinkedHashMap<String, Double> map = timeMap.get(tt);
 		map.clear();
 		/**SELECT * FROM `mineblockranking` WHERE datetime BETWEEN '2017-05-18 00:00:00' and '2017-05-20 00:00:00'
-		 *
+		 *SELECT uuid,SUM(allmineblock) as allnum FROM `mineblockranking` WHERE datetime BETWEEN '2016-05-18 00:00:00' and '2017-07-20 00:00:00'
+		 *GROUP BY uuid ORDER BY allnum DESC LIMIT 150
 		 */
 		String startDatetime = TimeUtil.getDateTimeOnString(tt, 0);
 		String endDatetime = TimeUtil.getDateTimeOnString(tt, 1);
 
-		command = "SELECT uuid," + columnName + " FROM " + db + "." + table + " "
+		command = "SELECT uuid,SUM(" + columnName + ") AS sum_num FROM " + db + "." + table + " "
 				+ "WHERE datetime BETWEEN '" + startDatetime + "' and '" + endDatetime + "' "
-				+ "ORDER BY " + columnName + " DESC LIMIT 150";
+				+ "GROUP BY uuid ORDER BY sum_num DESC LIMIT 150";
 		UUID uuid;
 		String name;
-		double value;
 		// ロード
 		try {
 			rs = stmt.executeQuery(command);
 			while (rs.next()) {
 				// nameを取得
 				uuid = UUID.fromString(rs.getString("uuid"));
-				name = nameMap.get(uuid);
-				if(map.containsKey(name)){
-					value = rs.getDouble(columnName) + map.get(name);
-				}else{
-					value = rs.getDouble(columnName);
-				}
-
-				map.put(name, value);
+				name = PlayerManager.getName(uuid);
+				map.put(name, rs.getDouble("sum_num"));
 			}
 			rs.close();
 		} catch (SQLException e) {
@@ -117,28 +109,6 @@ public abstract class RankingTableManager extends TableManager {
 			e.printStackTrace();
 		}
 		updateMenu(tt,map);
-	}
-	private void updateNameMap() {
-		nameMap.clear();
-		String command = "";
-		command = "SELECT uuid,name FROM " + db + ".gigantic" + " WHERE 1";
-		UUID uuid;
-		String name;
-		// ロード
-		try {
-			rs = stmt.executeQuery(command);
-			while (rs.next()) {
-				// nameを取得
-				uuid = UUID.fromString(rs.getString("uuid"));
-				name = rs.getString("name");
-				nameMap.put(uuid, name);
-			}
-			rs.close();
-		} catch (SQLException e) {
-			plugin.getLogger().warning(
-					"Failed to loadTotalMap in " + table + " Table");
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -265,6 +235,7 @@ public abstract class RankingTableManager extends TableManager {
 		command = command.replace(",last", "");
 
 		if (command.contains("last")) {
+			debug.info(DebugEnum.SQL, "Table:" + table + " no Player");
 			return;
 		}
 
@@ -328,7 +299,7 @@ public abstract class RankingTableManager extends TableManager {
 	 *
 	 * @param gp
 	 */
-	public void join(GiganticPlayer gp) {
+	public void onAvailable(GiganticPlayer gp) {
 		double a = getValue(gp);
 		map.put(gp.uuid, a);
 		minuteMap.put(gp.uuid, a);

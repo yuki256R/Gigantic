@@ -98,8 +98,7 @@ public class GachaNotification {
 			// 設定ONなら通知
 			if(manager.getGiganticRareNotificationSend()){
 				// GTなら全体通知
-				String str = gachaItem.getItem().getItemMeta()
-						.getDisplayName();
+				String str = gachaItem.getDisplayName();
 				Util.sendEveryMessage(ChatColor.GOLD
 						+ player.getDisplayName() + "がガチャでGigantic☆大当たり！\n"
 						+ ChatColor.AQUA + str + ChatColor.GOLD
@@ -109,8 +108,8 @@ public class GachaNotification {
 
 		if(!isGtOnly){
 			// 個人宛
-			String message = gachaItem.getItem().getItemMeta().getDisplayName()
-					+ " " + gachaItem.getRarity().getRarityName();
+			String message = gachaItem.getDisplayName()
+					+ " " + ChatColor.AQUA +  gachaItem.getRarity().getRarityName();
 			player.sendMessage(message);
 		}
 	}

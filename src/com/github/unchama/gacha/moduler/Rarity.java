@@ -12,7 +12,7 @@ public enum Rarity {
 	LOSE(1,"はずれ",0.05, null),//
 	OTHER(0,"おまけ",0.05, null),//
 	TICKET(-1),//
-	APPLE(-2)
+	APPLE(-2,"はずれ"),
 	;
 
 	private int id;
@@ -22,6 +22,9 @@ public enum Rarity {
 
 	Rarity(int id){
 		this(id,"",-1,null);
+	}
+	Rarity(int id ,String rarityname){
+		this(id,rarityname,-1,null);
 	}
 	Rarity(int id ,String rarityname,double probability, Sound sound_){
 		this.id = id;

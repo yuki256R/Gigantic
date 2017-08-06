@@ -13,10 +13,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.unchama.listener.GeneralBreakListener;
+import com.github.unchama.listener.listeners.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
@@ -147,6 +148,7 @@ public class ExplosionManager extends ActiveSkillManager {
 		}
 
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		SkillBreakBlockManager bbm = gp.getManager(SkillBreakBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
 		breaklist
@@ -172,6 +174,8 @@ public class ExplosionManager extends ActiveSkillManager {
 						}
 					}, 1);
 				});
+		//スキル別破壊量に追加
+		bbm.increase(ActiveSkillType.EXPLOSION, (double) breaklist.size());
 
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);

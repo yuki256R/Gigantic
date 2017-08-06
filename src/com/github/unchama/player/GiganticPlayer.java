@@ -4,16 +4,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.player.fishing.FishingManager;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.fly.FlyManager;
@@ -26,9 +30,11 @@ import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.home.HomeProtectManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
+import com.github.unchama.player.inventory.InventoryManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
@@ -56,7 +62,6 @@ import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.util.ClassUtil;
 import com.github.unchama.util.Converter;
-import com.github.unchama.util.ExperienceManager;
 
 /**各プレイヤーにデータを保存したい時はここにマネージャーを追加します．
  *
@@ -69,6 +74,7 @@ public class GiganticPlayer {
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
+		SIDEBAR(SideBarManager.class),
 		GIGANTIC(GiganticManager.class),
 		SETTINGS(PlayerSettingsManager.class),
 		GUISTATUS(GuiStatusManager.class),
@@ -89,7 +95,7 @@ public class GiganticPlayer {
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
-        SKYWALK(SkyWalkManager.class),
+		SKYWALK(SkyWalkManager.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
@@ -101,7 +107,6 @@ public class GiganticPlayer {
 		PRESENTBOX(PresentBoxManager.class),
 		HOMEPROTECT(HomeProtectManager.class),
 		HOME(HomeManager.class),
-		//EFFECT(SkillEffectManager.class),
 		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
 		FISHINGLEVEL(FishingLevelManager.class),
@@ -109,7 +114,10 @@ public class GiganticPlayer {
 		EFFECT(SkillEffectManager.class),
 		UNCHAMAPOINT(UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointManager.class),
-		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
+		ACHIEVEMENT(AchievementManager.class),
+		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
+		EXP(ExpManager.class),
+		INVENTORY(InventoryManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -130,7 +138,6 @@ public class GiganticPlayer {
 	public final String name;
 	public final UUID uuid;
 	private GiganticStatus gs;
-	private ExperienceManager expManager;
 	// Player型は突然消えることがあるため保持しない
 
 	private LinkedHashMap<Class<? extends DataManager>, DataManager> managermap = new LinkedHashMap<Class<? extends DataManager>, DataManager>();
@@ -138,32 +145,23 @@ public class GiganticPlayer {
 	public GiganticPlayer(Player player) {
 		this.name = Converter.getName(player);
 		this.uuid = player.getUniqueId();
-		this.expManager = new ExperienceManager(player);
 		this.setStatus(GiganticStatus.LODING);
-		for (ManagerType mt : ManagerType.values()) {
-			try {
+		try {
+			for (ManagerType mt : ManagerType.values()) {
 				this.managermap.put(mt.getManagerClass(), mt.getManagerClass().getConstructor(GiganticPlayer.class)
 						.newInstance(this));
-			} catch (InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException
-					| NoSuchMethodException | SecurityException e) {
-				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
-				plugin.getLogger().warning("managertype:" + mt.name());
-				e.printStackTrace();
 			}
-		}
-		//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
-				try {
+
+			//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
 					mc.getMethod("setLoaded", Boolean.class).invoke(this.managermap.get(mc), true);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to setloaded of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+		} catch (Exception e) {
+			plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
 	}
 
@@ -173,22 +171,24 @@ public class GiganticPlayer {
 	}
 
 	public boolean isloaded() {
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 					boolean loaded = (Boolean) mc.getMethod("isLoaded").invoke(this.managermap.get(mc));
 					if (loaded == false) {
 						return false;
 					}
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to save data of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+			return true;
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
+			plugin.getLogger().warning("Failed to check \"isloaded\" of player:" + this.name);
+			e.printStackTrace();
+			return false;
 		}
-		return true;
+
 	}
 
 	public boolean isOffline() {
@@ -196,39 +196,46 @@ public class GiganticPlayer {
 	}
 
 	public void init() {
+		Player player = PlayerManager.getPlayer(this);
 		this.setStatus(GiganticStatus.INITIALIZE);
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, Initializable.class)) {
-				try {
+
+		player.sendMessage(ChatColor.GREEN
+				+ "データ更新中");
+
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, Initializable.class)) {
 					mc.getMethod("init").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+			Bukkit.getServer().getPluginManager().callEvent(new GiganticPlayerAvailableEvent(this));
+			this.setStatus(GiganticStatus.AVAILABLE);
+			player.sendMessage(ChatColor.GREEN
+					+ "ロードが完了しました");
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
+			plugin.getLogger().warning("Failed to run init() of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
-		this.setStatus(GiganticStatus.AVAILABLE);
-		Player player = PlayerManager.getPlayer(this);
-		player.sendMessage(ChatColor.GREEN
-				+ "ロードが完了しました．");
-		sql.onAvailavle(this);
+
 	}
 
 	public void fin() {
 		this.setStatus(GiganticStatus.FINALIZE);
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, Finalizable.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, Finalizable.class)) {
 					mc.getMethod("fin").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
+			plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
 	}
 
@@ -248,9 +255,10 @@ public class GiganticPlayer {
 					mc.getMethod("save", Boolean.class).invoke(this.managermap.get(mc), loginflag);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
+						| SecurityException | NullPointerException e) {
 					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
+					this.setStatus(GiganticStatus.ERROR);
 				}
 			}
 		}
@@ -271,98 +279,4 @@ public class GiganticPlayer {
 	public GiganticStatus getStatus() {
 		return this.gs;
 	}
-
-	/**経験値マネージャーを取得します．
-	 *
-	 * @return ステータス
-	 */
-	public ExperienceManager getExpManager(){
-		return this.expManager;
-	}
-
-
-
-	/*
-	//３０分間のデータを保存する．
-	public MineBlock halfhourblock;
-
-
-
-
-	//MineStack
-	//public MineStack minestack;
-
-	//public MineStack minestack = new MineStack();
-	//MineStackFlag
-
-	public boolean minestackflag;
-	//プレイ時間差分計算用int
-	public int servertick;
-	//プレイ時間
-	public int playtick;
-	//キルログ表示トグル
-	public boolean dispkilllogflag;
-	//全体通知音消音トグル
-	public boolean everysoundflag;
-	//ワールドガード保護ログ表示トグル
-	public boolean dispworldguardlogflag;
-	//複数種類破壊トグル
-	public boolean multipleidbreakflag;
-
-	//PvPトグル
-	public boolean pvpflag;
-
-	//放置時間
-	public int idletime;
-	//トータル破壊ブロック
-	public int totalbreaknum;
-	//整地量バー
-	public ExpBar expbar;
-	//合計経験値
-	public int totalexp;
-	//経験値マネージャ
-	public ExperienceManager expmanager;
-	//合計経験値統合済みフラグ
-	public byte expmarge;
-	//各統計値差分計算用配列
-	private List<Integer> staticdata;
-	//特典受け取り済み投票数
-	public int p_givenvote;
-	//投票受け取りボタン連打防止用
-	public boolean votecooldownflag;
-
-	//アクティブスキル関連データ
-	public ActiveSkillData activeskilldata;
-
-	//MebiusTask
-	public MebiusTaskRunnable mebius;
-
-	//ガチャボタン連打防止用
-	public boolean gachacooldownflag;
-
-	//インベントリ共有トグル
-	public boolean shareinv;
-	//インベントリ共有ボタン連打防止用
-	public boolean shareinvcooldownflag;
-
-	//サブのホームポイント
-	private Location[] sub_home = new Location[SeichiAssist.config.getSubHomeMax()];
-
-	//LV・二つ名表示切替用
-	public boolean displayTypeLv;
-	//表示二つ名の指定用
-	public int displayTitleNo;
-	//二つ名解禁フラグ保存用
-	public BitSet TitleFlags;
-	//二つ名関連用にp_vote(投票数)を引っ張る。(予期せぬエラー回避のため名前を複雑化)
-	public int p_vote_forT ;
-
-
-	//建築LV
-	private int build_lv;
-	//設置ブロック数
-	private int build_count;
-	//設置ブロックサーバー統合フラグ
-	private byte build_count_flg;
-	*/
 }

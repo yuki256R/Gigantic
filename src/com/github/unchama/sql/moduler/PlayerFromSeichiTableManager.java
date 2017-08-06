@@ -36,7 +36,7 @@ public abstract class PlayerFromSeichiTableManager extends PlayerTableManager {
 	 * @param gp
 	 * @return
 	 */
-	protected abstract String saveCommand(GiganticPlayer gp);
+	protected abstract String saveCommand(GiganticPlayer gp,boolean loginflag);
 
 	/*
 	 * SeichiAssistのsqlからデータを引き継ぐメソッド

@@ -3,7 +3,6 @@ package com.github.unchama.util;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,60 +21,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.Plugin;
 
 import zedly.zenchantments.Zenchantments;
 
-import com.github.unchama.gacha.Gacha.GachaType;
-import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-
-import de.tr7zw.itemnbtapi.NBTItem;
 
 /**
  * @author tar0ss
  *
  */
 public class Util {
-	// double -> .1double
-	public static double Decimal(double d) {
-		BigDecimal bi = new BigDecimal(String.valueOf(d));
-		return bi.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-	}
-
-	// tick数を秒数に直す
-	public static int toSecond(int _tick) {
-		return _tick / 20;
-	}
-
-	// 秒数を「HH時間MM分」の文字列で返す
-	public static String toTimeString(int _second) {
-		int second = _second;
-		int minute = 0;
-		int hour = 0;
-		String time = "";
-		while (second >= 60) {
-			second -= 60;
-			minute++;
-		}
-		while (minute >= 60) {
-			minute -= 60;
-			hour++;
-		}
-		if (hour != 0) {
-			time = hour + "時間";
-		}
-		if (minute != 0) {
-			time = time + minute + "分";
-		}
-		/*
-		 * if(second != 0){ time = time + second + "秒"; }
-		 */
-		return time;
-	}
 
 	// 指定した文字列をクリップボードにコピーする
 	public static void setClipboard(String str) {
@@ -86,10 +44,6 @@ public class Util {
 		clip.setContents(ss, ss);
 	}
 
-	// プレイヤーネームを格納（toLowerCaseで全て小文字にする。)
-	public static String getName(Player p) {
-		return p.getName().toLowerCase();
-	}
 
 	// プレイヤーにインベントリ状況を見ながらアイテムを付与する
 	public static void giveItem(Player player, String itemName) {
@@ -173,14 +127,22 @@ public class Util {
 		item.setItemMeta(meta);
 	}
 
+	public static void addLore(ItemStack item, List<String> lore) {
+		ItemMeta meta = item.getItemMeta();
+		List<String> n_lore = meta.getLore() == null ? new ArrayList<String>() : meta.getLore();
+		n_lore.addAll(lore);
+		meta.setLore(n_lore);
+		item.setItemMeta(meta);
+	}
+
 	/**エンチャント状態にします．
 	 *
 	 * @param item
 	 */
-	public static void addEnchant(ItemStack item){
+	public static void addEnchant(ItemStack item) {
 		ItemMeta meta = item.getItemMeta();
 		meta.addEnchant(Enchantment.DIG_SPEED, 10, false);
-		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_ATTRIBUTES);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ATTRIBUTES);
 		item.setItemMeta(meta);
 	}
 
@@ -266,37 +228,15 @@ public class Util {
 		}
 	}
 
-	// SeichiAssist時代のガチャチケットか否か
-	public static boolean isOldGachaTicket(ItemStack itemstack) {
-		if (!itemstack.getType().equals(Material.SKULL_ITEM)) {
-			return false;
-		}
-		SkullMeta skullmeta = (SkullMeta) itemstack.getItemMeta();
 
-		// ownerがいない場合処理終了
-		if (!skullmeta.hasOwner()) {
-			return false;
-		}
-		// ownerがうんちゃまじゃない時の処理
-		if (!skullmeta.getOwner().equals("unchama")) {
-			return false;
-		}
-
-		// NBTタグにGachaTypeがあれば現在のガチャなので終了
-		NBTItem nbti = new NBTItem(itemstack);
-		GachaType type = GachaManager.getGachaType(nbti);
-		if (type != null) {
-			return false;
-		}
-
-		return true;
-	}
 
 	// 固体ではないブロック類を返す
 	public static Set<Material> tpm = new HashSet<Material>(Arrays.asList(
 			Material.AIR, Material.WATER, Material.LAVA,
 			Material.STATIONARY_WATER, Material.STATIONARY_LAVA));
-	public static Set<Material> getFluidMaterials(){
+
+	public static Set<Material> getFluidMaterials() {
 		return tpm;
 	}
+
 }

@@ -20,6 +20,24 @@ import com.github.unchama.sql.moduler.GachaTableManager;
  *
  */
 public class Gacha {
+	//**************絶対に変更しないでください************
+	// ガチャの種類
+	public static final String GACHATYPENBT = "gachaType";
+	// チケットを保存しているid
+	public static final int TICKETID = 0;
+	public static final String TICKETNBT = "ticket";
+	// ガチャリンゴを保存しているid
+	public static final int APPLEID = 1;
+	//ガチャのID
+	public static final String GACHAITEMIDNBT = "gachaItemID";
+	//ガチャのレアリティ
+	public static final String GACHARARITYNBT = "gachaRarity";
+	//ガチャを引いたプレイヤー
+	public static final String ROLLPLAYERUUIDNBT = "rollPlayerUUID";
+
+
+	//**********************************************
+
 	public static enum GachaType{
 		OLD(OldGachaManager.class, OldGachaTableManager.class,AdminOldGachaMenuManager.class),
 		GIGANTIC(GiganticGachaManager.class,GiganticGachaTableManager.class,AdminGiganticGachaMenuManager.class),

@@ -51,7 +51,7 @@ public enum CraftType {
 	NETHER_BRICK_BLOCK2(1,42,Material.NETHER_BRICK,(short)0,2,StackType.NETHER_BRICK,400,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,100,"ネザーレンガブロック",2),
 	NETHER_BRICK_BLOCK3(1,43,Material.NETHER_BRICK,(short)0,3,StackType.NETHER_BRICK,4000,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,1000,"ネザーレンガブロック",2),
 	NETHER_BRICK_BLOCK4(1,44,Material.NETHER_BRICK,(short)0,4,StackType.NETHER_BRICK,40000,"ネザーレンガ",StackType.NETHER_BRICK_ITEM,10000,"ネザーレンガブロック",2),
-	
+
 	//2ページ目
 	SNOW_BLOCK1(2,0,Material.SNOW_BLOCK,(short)0,1,StackType.SNOW_BALL,40,"雪玉",StackType.SNOW_BLOCK,10,"雪(ブロック)",2),
 	SNOW_BLOCK2(2,1,Material.SNOW_BLOCK,(short)0,2,StackType.SNOW_BALL,400,"雪玉",StackType.SNOW_BLOCK,100,"雪(ブロック)",2),
@@ -85,14 +85,14 @@ public enum CraftType {
     GLASS_6(2,33,Material.GLASS,(short)0,2,StackType.SAND,500,"砂",StackType.GLASS,500,"ガラス",3,FurnessType.LAVA_BUCKET,10),
     GLASS_7(2,34,Material.GLASS,(short)0,3,StackType.SAND,5000,"砂",StackType.GLASS,5000,"ガラス",3,FurnessType.LAVA_BUCKET,100),
     GLASS_8(2,35,Material.GLASS,(short)0,4,StackType.SAND,50000,"砂",StackType.GLASS,50000,"ガラス",3,FurnessType.LAVA_BUCKET,1000),
-    NETHER_BRICK1(2,36,Material.NETHERRACK,(short)0,1,StackType.NETHERRACK,4,"ネザーラック",StackType.NETHER_BRICK_ITEM,4,"ネザーレンガ",3,FurnessType.COAL,1),
-    NETHER_BRICK2(2,37,Material.NETHERRACK,(short)0,2,StackType.NETHERRACK,40,"ネザーラック",StackType.NETHER_BRICK_ITEM,40,"ネザーレンガ",3,FurnessType.COAL,10),
-    NETHER_BRICK3(2,38,Material.NETHERRACK,(short)0,3,StackType.NETHERRACK,400,"ネザーラック",StackType.NETHER_BRICK_ITEM,400,"ネザーレンガ",3,FurnessType.COAL,100),
-    NETHER_BRICK4(2,39,Material.NETHERRACK,(short)0,4,StackType.NETHERRACK,4000,"ネザーラック",StackType.NETHER_BRICK_ITEM,4000,"ネザーレンガ",3,FurnessType.COAL,1000),
-    NETHER_BRICK5(2,41,Material.NETHERRACK,(short)0,1,StackType.NETHERRACK,50,"ネザーラック",StackType.NETHER_BRICK_ITEM,50,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,1),
-    NETHER_BRICK6(2,42,Material.NETHERRACK,(short)0,2,StackType.NETHERRACK,500,"ネザーラック",StackType.NETHER_BRICK_ITEM,500,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,10),
-    NETHER_BRICK7(2,43,Material.NETHERRACK,(short)0,3,StackType.NETHERRACK,5000,"ネザーラック",StackType.NETHER_BRICK_ITEM,5000,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,100),
-    NETHER_BRICK8(2,44,Material.NETHERRACK,(short)0,4,StackType.NETHERRACK,50000,"ネザーラック",StackType.NETHER_BRICK_ITEM,50000,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,1000),
+    NETHER_BRICK1(2,36,Material.NETHER_BRICK,(short)0,1,StackType.NETHERRACK,4,"ネザーラック",StackType.NETHER_BRICK_ITEM,4,"ネザーレンガ",3,FurnessType.COAL,1),
+    NETHER_BRICK2(2,37,Material.NETHER_BRICK,(short)0,2,StackType.NETHERRACK,40,"ネザーラック",StackType.NETHER_BRICK_ITEM,40,"ネザーレンガ",3,FurnessType.COAL,10),
+    NETHER_BRICK3(2,38,Material.NETHER_BRICK,(short)0,3,StackType.NETHERRACK,400,"ネザーラック",StackType.NETHER_BRICK_ITEM,400,"ネザーレンガ",3,FurnessType.COAL,100),
+    NETHER_BRICK4(2,39,Material.NETHER_BRICK,(short)0,4,StackType.NETHERRACK,4000,"ネザーラック",StackType.NETHER_BRICK_ITEM,4000,"ネザーレンガ",3,FurnessType.COAL,1000),
+    NETHER_BRICK5(2,41,Material.NETHER_BRICK,(short)0,1,StackType.NETHERRACK,50,"ネザーラック",StackType.NETHER_BRICK_ITEM,50,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,1),
+    NETHER_BRICK6(2,42,Material.NETHER_BRICK,(short)0,2,StackType.NETHERRACK,500,"ネザーラック",StackType.NETHER_BRICK_ITEM,500,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,10),
+    NETHER_BRICK7(2,43,Material.NETHER_BRICK,(short)0,3,StackType.NETHERRACK,5000,"ネザーラック",StackType.NETHER_BRICK_ITEM,5000,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,100),
+    NETHER_BRICK8(2,44,Material.NETHER_BRICK,(short)0,4,StackType.NETHERRACK,50000,"ネザーラック",StackType.NETHER_BRICK_ITEM,50000,"ネザーレンガ",3,FurnessType.LAVA_BUCKET,1000),
 
     //3ページ目
     BRICK1(3,0,Material.CLAY_BRICK,(short)0,1,StackType.CLAY_BALL,4,"粘土",StackType.CLAY_BRICK,4,"レンガ",3,FurnessType.COAL,1),
@@ -104,7 +104,7 @@ public enum CraftType {
     BRICK7(3,7,Material.CLAY_BRICK,(short)0,3,StackType.CLAY_BALL,5000,"粘土",StackType.CLAY_BRICK,5000,"レンガ",3,FurnessType.LAVA_BUCKET,100),
     BRICK8(3,8,Material.CLAY_BRICK,(short)0,4,StackType.CLAY_BALL,50000,"粘土",StackType.CLAY_BRICK,50000,"レンガ",3,FurnessType.LAVA_BUCKET,1000),
 	;
-	
+
 	//メニュー番号
 	private final int menunum;
 	//スロット番号
@@ -134,7 +134,7 @@ public enum CraftType {
 	private final FurnessType furnessType;
 	//燃料消費量
 	private final int fuel;
-	
+
 	//コンストラクタ
 	private CraftType(int menunum,int slot,Material menu_icon,short durability,int menu_icon_amount,
 			StackType need_stacktype,int need_amount,String need_jpname,StackType produce_stacktype,
@@ -153,9 +153,9 @@ public enum CraftType {
 		this.config_num = config_num;
 		this.furnessType = FurnessType.NONE;
 		this.fuel = 0;
-		
+
 	}
-	
+
 	private CraftType(int menunum,int slot,Material menu_icon,short durability,int menu_icon_amount,
 			StackType need_stacktype,int need_amount,String need_jpname,StackType produce_stacktype,
 			int produce_amount,String produce_jpname,int config_num,FurnessType furnessType,int fuel) {
@@ -174,7 +174,7 @@ public enum CraftType {
 		this.furnessType = furnessType;
 		this.fuel = fuel;
 	}
-	
+
 	/**
 	 * メニュー番号を返します
 	 * @return メニュー番号
@@ -182,7 +182,7 @@ public enum CraftType {
 	public int getMenunum() {
 		return this.menunum;
 	}
-	
+
 	/**
 	 * スロット番号を返します
 	 * @return スロット番号
@@ -194,7 +194,7 @@ public enum CraftType {
 			return this.slot;
 		}
 	}
-	
+
 	/**
 	 * メニューアイコンを返します
 	 * @return メニューアイコン(Material)
@@ -202,7 +202,7 @@ public enum CraftType {
 	public Material getMenu_icon() {
 		return this.menu_icon;
 	}
-	
+
 	/**
 	 * メニューアイコンのダメージ値を返します
 	 * @return メニューアイコンダメージ値
@@ -210,7 +210,7 @@ public enum CraftType {
 	public short getDurability() {
 		return this.durability;
 	}
-	
+
 	/**
 	 * メニューアイコンのブロック個数を返します
 	 * @return メニューアイコン個数
@@ -218,7 +218,7 @@ public enum CraftType {
 	public int getMenu_icon_amount() {
 		return this.menu_icon_amount;
 	}
-	
+
 	/**
 	 * 必要素材のStackTypeを返します
 	 * @return 必要素材StackType
@@ -227,7 +227,7 @@ public enum CraftType {
 	public StackType getNeed_stacktype() {
 		return this.need_stacktype;
 	}
-	
+
 	/**
 	 * 必要素材の個数を返します
 	 * @return 必要素材個数
@@ -235,7 +235,7 @@ public enum CraftType {
 	public int getNeed_amount() {
 		return this.need_amount;
 	}
-	
+
 	/**
 	 * 必要素材の日本語名を返します
 	 * @return 必要素材日本語名
@@ -243,7 +243,7 @@ public enum CraftType {
 	public String getNeed_JPname() {
 		return this.need_jpname;
 	}
-	
+
 	/**
 	 * 生成物のStackTypeを返します
 	 * @return 生成物StackType
@@ -252,7 +252,7 @@ public enum CraftType {
 	public StackType getProduce_stacktype() {
 		return this.produce_stacktype;
 	}
-	
+
 	/**
 	 * 生成物の個数を返します
 	 * @return 生成物個数
@@ -260,7 +260,7 @@ public enum CraftType {
 	public int getProduce_amount() {
 		return this.produce_amount;
 	}
-	
+
 	/**
 	 * 生成物の日本語名を返します
 	 * @return 生成物日本語名
@@ -268,7 +268,7 @@ public enum CraftType {
 	public String getProduce_JPname() {
 		return this.produce_jpname;
 	}
-	
+
 	/**
 	 * コンフィグナンバーを返します
 	 * @return コンフィグナンバー
@@ -276,7 +276,7 @@ public enum CraftType {
 	public int getConfig_Num() {
 		return this.config_num;
 	}
-	
+
 	/**
 	 * メニューアイコンをアイテムスタックで返します
 	 * @return メニューアイコン(ItemStack)
@@ -294,7 +294,7 @@ public enum CraftType {
     public FurnessType getFurnessType() {
         return furnessType;
     }
-    
+
     /**
      * 燃料消費量を返します
      * @return 燃料消費量

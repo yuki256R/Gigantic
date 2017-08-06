@@ -8,7 +8,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.TotalRankingMenuManager;
-import com.github.unchama.util.Util;
+import com.github.unchama.util.Converter;
 
 /**
  * @author ten_niti
@@ -18,7 +18,7 @@ public final class TotalLoginTimeRankingMenuManager extends TotalRankingMenuMana
 
 	@Override
 	protected String getLore(double value) {
-		return "総接続時間:" + Util.Decimal(value);
+		return "総接続時間:" + Converter.toTimeString((long)Converter.Decimal(value));
 	}
 
 	@Override

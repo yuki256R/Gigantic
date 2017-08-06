@@ -11,12 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.command.CommandType;
 import com.github.unchama.enchantment.EnchantmentEnum;
 import com.github.unchama.gacha.Gacha;
 import com.github.unchama.growthtool.GrowthTool;
 import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.hook.GiganticPlaceholders;
+import com.github.unchama.item.moduler.ManaEffect;
 import com.github.unchama.listener.ListenerEnum;
 import com.github.unchama.seichi.sql.SeichiAssistSql;
 import com.github.unchama.sql.Sql;
@@ -89,6 +91,9 @@ public final class Gigantic extends JavaPlugin {
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
 
+		// 実績を登録
+		AchievementEnum.registerAll(plugin);
+
 		//エンチャントを登録
 		EnchantmentEnum.registerAll();
 
@@ -100,8 +105,10 @@ public final class Gigantic extends JavaPlugin {
 		// GrowthTool関連の有効化
 		new GrowthTool();
 
-		getLogger().info("Gigantic is Enabled!");
+		//マナ林檎のクラフトレシピ作成
+		ManaEffect.init();
 
+		getLogger().info("Gigantic is Enabled!");
 	}
 
 	@Override

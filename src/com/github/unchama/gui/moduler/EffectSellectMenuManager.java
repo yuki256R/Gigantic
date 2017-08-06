@@ -21,6 +21,7 @@ import com.github.unchama.player.gui.GuiStatusManager;
 import com.github.unchama.player.seichiskill.EffectCategory;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
+import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.util.Util;
 
 public abstract class EffectSellectMenuManager extends GuiMenuManager {
@@ -124,7 +125,7 @@ public abstract class EffectSellectMenuManager extends GuiMenuManager {
 		});
 		ItemStack info = ec.getMenuItem();
 		inv.setItem(0, info);
-		ItemStack effect_info = ec.getSellectButton(effect_id,false);
+		ItemStack effect_info = ec.getSellectButton(effect_id, false);
 		inv.setItem(31, effect_info);
 
 		return inv;
@@ -134,35 +135,40 @@ public abstract class EffectSellectMenuManager extends GuiMenuManager {
 
 	private void setEffectMenuButtons(Inventory inv, SkillEffectManager Em, int page, EffectCategory ec) {
 		int current_id = Em.getId(this.getActiveSkillType());
-		Em.getEffectFlagMap().forEach((id, unlock_flag) -> {
-			EffectCategory idc = EffectCategory.getCategory(id);
-			int slot = idc.getSlot(id);
-			int spage = (int) (slot / 45) + 1;
-			if (idc == ec && spage == page) {
-				try {
-					ItemStack is = idc.getSellectButton(id,unlock_flag);
-					List<String> lore = is.getItemMeta().getLore();
-					boolean breakable_flag = EffectCategory.getRunnerClass(id).newInstance().isImproved(this.getActiveSkillType());
-					lore.add(ChatColor.GRAY + "----------------");
-					if (current_id == id) {
-						lore.add(ChatColor.YELLOW + "選択中");
-					} else if (!breakable_flag) {
-						lore.add(ChatColor.RED + "このスキルでは使えません");
-					} else if (unlock_flag) {
-						lore.add(ChatColor.AQUA + "選択可能");
-					} else {
-						lore.add(ChatColor.GREEN + "クリックで購入します");
+		Em.getEffectFlagMap().forEach(
+				(id, unlock_flag) -> {
+					EffectCategory idc = EffectCategory.getCategory(id);
+					int slot = idc.getSlot(id);
+					int spage = (int) (slot / 45) + 1;
+					if (idc == ec && spage == page) {
+						try {
+							ItemStack is = idc.getSellectButton(id, unlock_flag);
+							List<String> lore = is.getItemMeta().getLore();
+							boolean breakable_flag = EffectCategory.getRunnerClass(id).newInstance()
+									.isImproved(this.getActiveSkillType());
+							lore.add(ChatColor.GRAY + "----------------");
+							if (current_id == id) {
+								lore.add(ChatColor.YELLOW + "選択中");
+							} else if (!breakable_flag) {
+								lore.add(ChatColor.RED + "このスキルでは使えません");
+							} else if (unlock_flag) {
+								lore.add(ChatColor.AQUA + "選択可能");
+							} else if (Em.canBuyEffect(id, ec)) {
+								lore.add(ChatColor.YELLOW + Em.getCurrentPointString(idc));
+								lore.add(ChatColor.GREEN + "クリックで購入します");
+							} else {
+								lore.add(ChatColor.YELLOW + Em.getCurrentPointString(idc));
+								lore.add(ChatColor.RED + "ポイントが足りないため，購入できません");
+							}
+							Util.setLore(is, lore);
+							inv.setItem(slot, is);
+						} catch (Exception e) {
+							Bukkit.getLogger().warning("予期せぬ例外が発生:EffectSellectMenuManager.setEffectMenuButtons()");
+							e.printStackTrace();
+						}
+
 					}
-					Util.setLore(is, lore);
-
-					inv.setItem(slot, is);
-				} catch (Exception e) {
-					Bukkit.getLogger().warning("予期せぬ例外が発生:EffectSellectMenuManager.setEffectMenuButtons()");
-					e.printStackTrace();
-				}
-
-			}
-		});
+				});
 	}
 
 	@Override
@@ -184,7 +190,7 @@ public abstract class EffectSellectMenuManager extends GuiMenuManager {
 			int effect_id = page;
 			switch (slot) {
 			case yesButtonSlot:
-				Em.unlock(effect_id);
+				Em.unlockonShop(effect_id, ec);
 				player.playSound(player.getLocation(), Sound.BLOCK_IRON_DOOR_OPEN, 1.0F, 1.5F);
 				player.playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1.0F, 0.7F);
 				player.openInventory(this.getInventory(player, slot, ec.getPage(effect_id), ec));
@@ -231,7 +237,8 @@ public abstract class EffectSellectMenuManager extends GuiMenuManager {
 				boolean unlock_flag = Em.getEffectFlagMap().get(effect_id);
 				boolean breakable_flag;
 				try {
-					breakable_flag = EffectCategory.getRunnerClass(effect_id).newInstance().isImproved(this.getActiveSkillType());
+					EffectRunner runner = EffectCategory.getRunnerClass(effect_id).newInstance();
+					breakable_flag = runner.isImproved(this.getActiveSkillType());
 					if (unlock_flag) {
 						//選択中にセット
 						if (breakable_flag && Em.getId(this.getActiveSkillType()) != effect_id) {
@@ -242,9 +249,13 @@ public abstract class EffectSellectMenuManager extends GuiMenuManager {
 							player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
 						}
 					} else if (breakable_flag) {
-						//購入メニューに遷移
-						player.openInventory(this.getPurchaseInventory(player, effect_id));
-						player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 0.7F, 1.4F);
+						if (Em.canBuyEffect(effect_id, ec)) {
+							//購入メニューに遷移
+							player.openInventory(this.getPurchaseInventory(player, effect_id));
+							player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_YES, 0.7F, 1.4F);
+						} else {
+							player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
+						}
 					} else {
 						player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0F, 1.5F);
 					}
