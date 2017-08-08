@@ -160,7 +160,7 @@ public final class GrwTool extends ItemStack {
 			}
 			this.status = status;
 			playerName = getNBT(GrwNbti.PlayerName, String.class);
-			if (playerUuid == null) {
+			if (!hasNBT(GrwNbti.PlayerUuid)) {
 				//[移行用]
 				playerUuid = PlayerManager.getUUID(owner);
 			} else {
@@ -168,11 +168,7 @@ public final class GrwTool extends ItemStack {
 			}
 			if (!hasNBT(GrwNbti.CurrentExp)) {
 				//[移行用]
-				if (itemlv == 1) {
 					currentExp = 0;
-				} else {
-					currentExp = this.status.get(itemlv - 2).getNextExp();
-				}
 			} else {
 				currentExp = getNBT(GrwNbti.CurrentExp, Integer.class);
 			}
