@@ -1,19 +1,14 @@
 package com.github.unchama.player.seichiskill.passive.skywalk;
 
-import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
-import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mana.ManaManager;
-import com.github.unchama.player.moduler.Initializable;
-import com.github.unchama.player.seichilevel.SeichiLevelManager;
-import com.github.unchama.player.seichiskill.moduler.CardinalDirection;
-import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
-import com.github.unchama.util.Util;
-import com.github.unchama.yml.ConfigManager;
-import com.github.unchama.yml.DebugManager;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
-import org.bukkit.*;
+import static com.github.unchama.gigantic.Gigantic.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -22,15 +17,23 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.github.unchama.gigantic.Gigantic.guimenu;
+import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
+import com.github.unchama.player.GiganticPlayer;
+import com.github.unchama.player.mana.ManaManager;
+import com.github.unchama.player.moduler.Finalizable;
+import com.github.unchama.player.seichilevel.SeichiLevelManager;
+import com.github.unchama.player.seichiskill.moduler.CardinalDirection;
+import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
+import com.github.unchama.util.Util;
+import com.github.unchama.yml.ConfigManager;
+import com.github.unchama.yml.DebugManager;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 /**
  * @author karayuu
  */
-public class SkyWalkManager extends PassiveSkillManager implements Initializable{
+public class SkyWalkManager extends PassiveSkillManager implements Finalizable{
 
     /** スキルのON/OFFトグル */
     private boolean toggle;
@@ -40,6 +43,7 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
     private static WorldGuardPlugin Wg;
     private ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
     private ManaManager Mm;
+    private final Material footBlock = Material.GLASS;//あくまでテスト用(TODO)
 
     public SkyWalkManager(GiganticPlayer gp) {
         super(gp);
@@ -47,8 +51,8 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
         this.toggle = false;
     }
 
-    @Override
-    public void init() {
+
+    public void onAvailable() {
         Mm = gp.getManager(ManaManager.class);
     }
     /**
@@ -61,6 +65,7 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
     }
 
     public void run(Player player) {
+
         new BukkitRunnable() {
 
             @Override
@@ -68,6 +73,7 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                 //スキルトグルがOFFの時終了
                 if (!getToggle()) {
                     cancel();
+                    fin();
                     return;
                 }
 
@@ -76,6 +82,8 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                     debug.sendMessage(player, DebugManager.DebugEnum.SKILL,
                             "サバイバルではないのでスキルの発動ができません．");
                     cancel();
+                    fin();
+                    toggle = false;
                     return;
                 }
 
@@ -83,6 +91,8 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                 if (player.isFlying()) {
                     player.sendMessage("フライ中はスキルの発動ができません．");
                     cancel();
+                    fin();
+                    toggle = false;
                     return;
                 }
 
@@ -90,6 +100,8 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                 if (!config.getSkillWorldList().contains(player.getWorld().getName())) {
                     player.sendMessage("このワールドではスキルの発動ができません．");
                     cancel();
+                    fin();
+                    toggle = false;
                     return;
                 }
 
@@ -98,10 +110,11 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                     debug.sendMessage(player, DebugManager.DebugEnum.SKILL,
                             "マナが不足しているためスキルの発動不可．");
                     cancel();
+                    fin();
+                    toggle = false;
                     return;
                 }
 
-                Bukkit.getServer().getLogger().info("run");
                 //方角を取得
                 CardinalDirection direction = CardinalDirection.getCardinalDirection(player);
 
@@ -112,31 +125,54 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                  * ここより、ブロックを消す作業。
                  * ブロックそれぞれに対して、ブロック消去作業する。
                 */
-                for (Block delete : build) {
-                    delete.setType(Material.AIR);
-                    build.remove(delete);
+                /*
+                if (build.size() != 0) {
+                	Bukkit.getServer().getLogger().info("size:" + build.size());
+                	for (int i = 0; i < build.size(); i++) {
+                		Block block = build.get(i);
+                		block.setType(Material.AIR);
+                		block.removeMetadata("FootBlock", plugin);
+                		Bukkit.getServer().getLogger().info("足場ブロック破壊処理:x:" + block.getX() + "y:" + block.getY() + "z:" + block.getZ() + "i=" + i);
+                		build.remove(i);
+                	}
                 }
+                */
+
+                build.forEach((b) -> {
+                	b.setType(Material.AIR);
+                	b.removeMetadata("FootBlock", plugin);
+                });
+                build.clear();
 
                 //ここから処理部分。
                 /*
-                * ブロックをループで1つずつ取り出す
-                * 1.ブロックにメタデータ(フラグ)があるかどうか・Wgで設置可能か・空気ブロックか
+                 * ブロックをループで1つずつ取り出す
+                 * 1.ブロックにメタデータ(フラグ)があるかどうか・Wgで設置可能か・空気ブロックか
                  *   判断。それぞれ判断し、2へ。
                  * 2.メタデータをつけて足場設置する。
                  * 3.足場設置したことをリストに追加する。
                  * 以上繰り返し。
-                 */
+                */
+                /*
                 for (Block check : footlist) {
                     if (!check.hasMetadata("FootBlock")
                             && Wg.canBuild(player, check)
                             && check.getType().equals(Material.AIR)) {
-                        check.setType(Material.BARRIER);
+                        check.setType(footBlock);
                         check.setMetadata("FootBlock", new FixedMetadataValue(plugin, true));
+                        Bukkit.getServer().getLogger().info("足場ブロック設置処理:x:" + check.getX() + "y:" + check.getY() + "z:" + check.getZ());
                         build.add(check);
                     }
                 }
+                */
 
-
+                footlist.forEach((b) -> {
+                	if (!b.hasMetadata("FootBlock") && Wg.canBuild(player, b) && b.getType().equals(Material.AIR)) {
+                		b.setType(footBlock);
+                		b.setMetadata("FootBlock", new FixedMetadataValue(plugin, true));
+                		build.add(b);
+                	}
+                });
 
                 Mm.decrease(config.getSkywalkMana());
             }
@@ -150,20 +186,20 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
 
         final int WIDTH = 5;
         final int HALF_WIDTH = (WIDTH - 1) / 2;
-        final int LENGTH = 20;
+        final int LENGTH = 30;
 
         //プレイヤーの1マスしたの各座標を取得しておく
         int x = player.getLocation().getBlockX();
         int y = player.getLocation().getBlockY() - 1;
         int z = player.getLocation().getBlockZ();
 
-        for (int i = 0; i <= x - WIDTH; i++) {
+        for (int i = 0; i <= WIDTH - 1; i++) {
             for (int j = 0; j <= LENGTH - 1; j++) {
                 switch (direction) {
-                    case NORTH: list.add(world.getBlockAt(x - HALF_WIDTH + i, y, z + j)); break;
-                    case SOUTH: list.add(world.getBlockAt(x - HALF_WIDTH + i, y, z - j)); break;
-                    case EAST: list.add(world.getBlockAt(x + j, y, z - HALF_WIDTH + 1)); break;
-                    case WEST: list.add(world.getBlockAt(x - j, y, z - HALF_WIDTH + 1)); break;
+                    case NORTH: list.add(world.getBlockAt(x - HALF_WIDTH + i, y, z - j)); break;
+                    case SOUTH: list.add(world.getBlockAt(x - HALF_WIDTH + i, y, z + j)); break;
+                    case EAST: list.add(world.getBlockAt(x + j, y, z - HALF_WIDTH + i)); break;
+                    case WEST: list.add(world.getBlockAt(x - j, y, z - HALF_WIDTH + i)); break;
                 }
             }
         }
@@ -208,9 +244,8 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
                     + ChatColor.UNDERLINE + "クリックでトグルを切り替えます");
             meta.setLore(lore);
             is.setItemMeta(meta);
-            run(PlayerManager.getPlayer(gp));
         } else {
-            is = new ItemStack(Material.DIAMOND_ORE);
+            is = new ItemStack(Material.DIAMOND);
             meta = is.getItemMeta();
             meta.setDisplayName(this.getJPName());
             List<String> lore = new ArrayList<String>();
@@ -244,8 +279,25 @@ public class SkyWalkManager extends PassiveSkillManager implements Initializable
 
     @Override
     public void onClickTypeMenu(Player player) {
-        this.toggle();
+    	if (gp.getManager(SeichiLevelManager.class).getLevel() >= config.getSkywalkUnlockLevel()) {
+    		this.toggle();
+    		run(player);
+    	}
+
+    	if (!this.toggle) {
+    		this.fin();
+    	}
+
         guimenu.getManager(PassiveSkillTypeMenuManager.class).open(player, 0,
                 true);
     }
+
+	@Override
+	public void fin() {
+		build.forEach((b) -> {
+        	b.setType(Material.AIR);
+        	b.removeMetadata("FootBlock", plugin);
+        });
+		build.clear();
+	}
 }

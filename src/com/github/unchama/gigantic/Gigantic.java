@@ -8,8 +8,10 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.unchama.achievement.AchievementEnum;
 import com.github.unchama.command.CommandType;
 import com.github.unchama.enchantment.EnchantmentEnum;
 import com.github.unchama.gacha.Gacha;
@@ -48,7 +50,10 @@ public final class Gigantic extends JavaPlugin {
 	// SeichiAssistSql用クラス
 	public static SeichiAssistSql seichisql;
 
+	// スキルで使用するブロックの保存用
 	public static List<Block> skilledblocklist = new ArrayList<Block>();
+	// スキルで使用するエンティティの保存用
+	public static List<Entity> skilledEntityList = new ArrayList<Entity>();
 
 	private String pluginChannel = "BungeeCord";
 
@@ -85,6 +90,9 @@ public final class Gigantic extends JavaPlugin {
 		// リスナーを登録
 		ListenerEnum.registEvents(plugin);
 
+		// 実績を登録
+		AchievementEnum.registerAll(plugin);
+
 		//エンチャントを登録
 		EnchantmentEnum.registerAll();
 
@@ -116,7 +124,7 @@ public final class Gigantic extends JavaPlugin {
 			b.removeMetadata("Skilled", plugin);
 		});
 
-		getLogger().info("SeichiAssist is Disabled!");
+		getLogger().info("Gigantic is Disabled!");
 	}
 
 	@Override

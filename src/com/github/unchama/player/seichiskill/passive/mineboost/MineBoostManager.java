@@ -20,7 +20,6 @@ import com.github.unchama.gui.seichiskill.passive.PassiveSkillTypeMenuManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichiskill.moduler.PassiveSkillManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
@@ -31,7 +30,7 @@ import com.github.unchama.yml.DebugManager.DebugEnum;
  * @author tar0ss
  *
  */
-public class MineBoostManager extends PassiveSkillManager implements Initializable {
+public class MineBoostManager extends PassiveSkillManager{
 	private DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	private GuiMenu guimenu = Gigantic.guimenu;
 
@@ -47,8 +46,8 @@ public class MineBoostManager extends PassiveSkillManager implements Initializab
 		toggle = true;
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		this.updata(BoostType.NUMBER_OF_PEOPLE);
 	}
 

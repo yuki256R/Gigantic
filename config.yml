@@ -3,7 +3,7 @@
 
 # サーバ識別設定
 # 複数サーバ構成にする場合はこの値をサーバごとに変更します
-servernum: '1'
+servernum: 1
 
 # MySQLデータベースへの接続設定
 # xamppの設定を変えていなければデフォルトの値で問題ありません
@@ -70,7 +70,7 @@ BuildNum1minLimit: 100
 minestack_BlockCraft:
   level1: 25
   level2: 35
-  level3: 45 
+  level3: 45
 
 #範囲設置スキル
 ZoneSetSkill:
@@ -108,7 +108,7 @@ skillworld:
 #整地経験値が2倍になるワールド
 bonusworld:
   - world_SW_zero
-  
+
 #重力値設定
 #通常破壊時に許容する高さ
 generalgravityheight: 10
@@ -122,7 +122,7 @@ skywalk:
   Unlocklevel: 170
   Mana: 100
   #足場ブロック消失時間(単位:秒)あまり短くしすぎると、鯖負荷が増大するかも
-  BreakSec: 5
+  BreakSec: 2
 
 # 色々な設定、説明は割愛
 defaultmineamount: '3'
@@ -257,9 +257,8 @@ lv167message: "MineStack機能の対象ブロックが増えました！\n新た
 lv172message: "MineStack機能の対象ブロックが増えました！\n新たに菌糸がスタックされるようになります。"
 lv177message: "MineStack機能の対象ブロックが増えました！\n新たに各種苗木がスタックされるようになります。"
 
-# サブホームポイント数の設定
-# 3から変更しないで！！
-subhomemax: 3
+# ホームポイント数の設定
+subhomemax: 5
 
 # 実績名の名称設定
 Achv1001: "整地神"

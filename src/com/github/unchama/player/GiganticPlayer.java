@@ -4,12 +4,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
-import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
+import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildLevelManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.buildskill.BuildSkillManager;
@@ -23,16 +25,21 @@ import com.github.unchama.player.gachastack.GachaStackManager;
 import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.gui.GuiStatusManager;
+import com.github.unchama.player.home.HomeManager;
+import com.github.unchama.player.home.HomeProtectManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.point.GiganticPointManager;
+import com.github.unchama.player.point.UnchamaPointManager;
 import com.github.unchama.player.presentbox.PresentBoxManager;
 import com.github.unchama.player.region.RegionManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
@@ -45,6 +52,7 @@ import com.github.unchama.player.seichiskill.active.RuinFieldManager;
 import com.github.unchama.player.seichiskill.passive.manarecovery.ManaRecoveryManager;
 import com.github.unchama.player.seichiskill.passive.mineboost.MineBoostManager;
 import com.github.unchama.player.seichiskill.passive.securebreak.SecureBreakManager;
+import com.github.unchama.player.seichiskill.passive.skywalk.SkyWalkManager;
 import com.github.unchama.player.settings.PlayerSettingsManager;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.time.PlayerTimeManager;
@@ -65,6 +73,7 @@ public class GiganticPlayer {
 		/**
 		 * Managerを追加するときはここに書く．
 		 */
+		SIDEBAR(SideBarManager.class),
 		GIGANTIC(GiganticManager.class),
 		SETTINGS(PlayerSettingsManager.class),
 		GUISTATUS(GuiStatusManager.class),
@@ -85,7 +94,7 @@ public class GiganticPlayer {
 		FAIRYAEGIS(FairyAegisManager.class),
 		GRAVITY(GravityManager.class),
 		SECUREBREAK(SecureBreakManager.class),
-        SKYWALK(SkyWalkManager.class),
+		SKYWALK(SkyWalkManager.class),
 		FLY(FlyManager.class),
 		REGION(RegionManager.class),
 		PLAYERTIME(PlayerTimeManager.class),
@@ -95,12 +104,17 @@ public class GiganticPlayer {
 		BUILDSKILL(BuildSkillManager.class),
 		DIMENSIONALINVENTORY(DimensionalInventoryManager.class),
 		PRESENTBOX(PresentBoxManager.class),
+		HOMEPROTECT(HomeProtectManager.class),
+		HOME(HomeManager.class),
 		DONATEDATA(DonateDataManager.class),
 		GACHASTACK(GachaStackManager.class),
 		FISHINGLEVEL(FishingLevelManager.class),
 		FISHING(FishingManager.class),
 		EFFECT(SkillEffectManager.class),
-		SIDEBAR(SideBarManager.class),//サイドバー表示は必ず最後に，
+		UNCHAMAPOINT(UnchamaPointManager.class),
+		GIGANTICPOINT(GiganticPointManager.class),
+		ACHIEVEMENT(AchievementManager.class),
+		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
 		;
 
 		private Class<? extends DataManager> managerClass;
@@ -131,30 +145,22 @@ public class GiganticPlayer {
 		this.uuid = player.getUniqueId();
 		this.expManager = new ExperienceManager(player);
 		this.setStatus(GiganticStatus.LODING);
-		for (ManagerType mt : ManagerType.values()) {
-			try {
+		try {
+			for (ManagerType mt : ManagerType.values()) {
 				this.managermap.put(mt.getManagerClass(), mt.getManagerClass().getConstructor(GiganticPlayer.class)
 						.newInstance(this));
-			} catch (InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException
-					| NoSuchMethodException | SecurityException e) {
-				plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
-				plugin.getLogger().warning("managertype:" + mt.name());
-				e.printStackTrace();
 			}
-		}
-		//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
-				try {
+
+			//Sqlを使用しないクラスに関してloadedFlagをtrueに変更
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (!ClassUtil.isImplemented(mc, UsingSql.class)) {
 					mc.getMethod("setLoaded", Boolean.class).invoke(this.managermap.get(mc), true);
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to setloaded of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+		} catch (Exception e) {
+			plugin.getLogger().warning("Failed to create new Instance of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
 	}
 
@@ -164,22 +170,24 @@ public class GiganticPlayer {
 	}
 
 	public boolean isloaded() {
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, UsingSql.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, UsingSql.class)) {
 					boolean loaded = (Boolean) mc.getMethod("isLoaded").invoke(this.managermap.get(mc));
 					if (loaded == false) {
 						return false;
 					}
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to save data of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+			return true;
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
+			plugin.getLogger().warning("Failed to check \"isloaded\" of player:" + this.name);
+			e.printStackTrace();
+			return false;
 		}
-		return true;
+
 	}
 
 	public boolean isOffline() {
@@ -187,39 +195,46 @@ public class GiganticPlayer {
 	}
 
 	public void init() {
+		Player player = PlayerManager.getPlayer(this);
 		this.setStatus(GiganticStatus.INITIALIZE);
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, Initializable.class)) {
-				try {
+
+		player.sendMessage(ChatColor.GREEN
+				+ "データ更新中");
+
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, Initializable.class)) {
 					mc.getMethod("init").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to run init() of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+			Bukkit.getServer().getPluginManager().callEvent(new GiganticPlayerAvailableEvent(this));
+			this.setStatus(GiganticStatus.AVAILABLE);
+			player.sendMessage(ChatColor.GREEN
+					+ "ロードが完了しました");
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
+			plugin.getLogger().warning("Failed to run init() of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
-		this.setStatus(GiganticStatus.AVAILABLE);
-		Player player = PlayerManager.getPlayer(this);
-		player.sendMessage(ChatColor.GREEN
-				+ "ロードが完了しました．");
-		sql.onAvailavle(this);
+
 	}
 
 	public void fin() {
 		this.setStatus(GiganticStatus.FINALIZE);
-		for (Class<? extends DataManager> mc : this.managermap.keySet()) {
-			if (ClassUtil.isImplemented(mc, Finalizable.class)) {
-				try {
+		try {
+			for (Class<? extends DataManager> mc : this.managermap.keySet()) {
+				if (ClassUtil.isImplemented(mc, Finalizable.class)) {
 					mc.getMethod("fin").invoke(this.managermap.get(mc));
-				} catch (IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
-					e.printStackTrace();
 				}
 			}
+		} catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException | NoSuchMethodException
+				| SecurityException | NullPointerException e) {
+			plugin.getLogger().warning("Failed to run fin() of player:" + this.name);
+			e.printStackTrace();
+			this.setStatus(GiganticStatus.ERROR);
 		}
 	}
 
@@ -239,9 +254,10 @@ public class GiganticPlayer {
 					mc.getMethod("save", Boolean.class).invoke(this.managermap.get(mc), loginflag);
 				} catch (IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
+						| SecurityException | NullPointerException e) {
 					plugin.getLogger().warning("Failed to save data of player:" + this.name);
 					e.printStackTrace();
+					this.setStatus(GiganticStatus.ERROR);
 				}
 			}
 		}
@@ -267,11 +283,9 @@ public class GiganticPlayer {
 	 *
 	 * @return ステータス
 	 */
-	public ExperienceManager getExpManager(){
+	public ExperienceManager getExpManager() {
 		return this.expManager;
 	}
-
-
 
 	/*
 	//３０分間のデータを保存する．

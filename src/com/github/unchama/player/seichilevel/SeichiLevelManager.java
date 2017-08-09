@@ -9,7 +9,6 @@ import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.moduler.DataManager;
-import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 
@@ -17,7 +16,7 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
  * @author tar0ss
  *
  */
-public class SeichiLevelManager extends DataManager implements Initializable {
+public class SeichiLevelManager extends DataManager{
 
 	// 各レベルのデータ値を格納します．
 	public static LinkedHashMap<Integer, SeichiLevel> levelmap = new LinkedHashMap<Integer, SeichiLevel>() {
@@ -44,8 +43,8 @@ public class SeichiLevelManager extends DataManager implements Initializable {
 		super(gp);
 	}
 
-	@Override
-	public void init() {
+
+	public void onAvailable() {
 		this.calcLevel();
 	}
 

@@ -390,7 +390,9 @@ public abstract class ActiveSkillManager extends DataManager implements
 	public void setToggle(boolean toggle) {
 		Player player = PlayerManager.getPlayer(gp);
 		if (player != null) {
-			if (!this.isunlocked()) {
+			if(toggle == this.toggle){
+				return;
+			}else if (!this.isunlocked()) {
 				player.sendMessage(this.getJPName() + ":" + ChatColor.RED
 						+ "アンロックされていません");
 				this.toggle = false;

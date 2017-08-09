@@ -1,13 +1,11 @@
 package com.github.unchama.seichi.sql;
 
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+
 import com.github.unchama.player.donate.DonateData;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Mon_chi on 2017/06/15.

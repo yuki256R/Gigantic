@@ -12,10 +12,10 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
@@ -133,14 +133,14 @@ public class CondensationManager extends ActiveSkillManager {
 			return false;
 		}
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		SkillBreakBlockManager bbm = gp.getManager(SkillBreakBlockManager.class);
 		// condens直前の処理
 		liquidlist.forEach(b -> {
 			Material m = b.getType();
 			if (isLiquid(m)) {
 				mb.increase(m);
+				bbm.increase(ActiveSkillType.CONDENSATION, 1.0);
 			}
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
 			});
 
 		// 最初のブロックのみコアプロテクトに保存する．
@@ -150,7 +150,7 @@ public class CondensationManager extends ActiveSkillManager {
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.createRunner(st).condensationEffect(liquidlist, range);
+		effm.createRunner(st).condensationEffect(gp,block,liquidlist, range);
 
 		Mm.decrease(usemana);
 		tool.setDurability((short) (durability + useDurability));

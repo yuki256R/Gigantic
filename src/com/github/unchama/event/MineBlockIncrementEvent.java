@@ -2,37 +2,39 @@ package com.github.unchama.event;
 
 import com.github.unchama.event.moduler.CustomEvent;
 import com.github.unchama.player.GiganticPlayer;
+
 /**
  * @author tar0ss
  *
  */
-public class MineBlockIncrementEvent extends CustomEvent{
+public class MineBlockIncrementEvent extends CustomEvent {
 
-	private GiganticPlayer gp;
-	private int increase;
-	private double pre_all,next_all;
+	private final GiganticPlayer gp;
+	private final double increase, pre_all, next_all;
 
-	public MineBlockIncrementEvent(GiganticPlayer gp, int increase, double all) {
+	public MineBlockIncrementEvent(GiganticPlayer gp, double increase, double pre_all) {
 		this.gp = gp;
-		this.pre_all = all;
-		this.next_all = all + increase;
+		this.pre_all = pre_all;
+		this.next_all = pre_all + increase;
+		this.increase = increase;
 	}
 
 	/**増加量を取得
 	 * @return increase
 	 */
-	public int getIncrease() {
+	public double getIncrease() {
 		return increase;
 	}
 
 	/**増加前の値を取得
-	 * @return all
+	 * @return pre_all
 	 */
 	public double getPreAll() {
 		return pre_all;
 	}
+
 	/**増加後の値を取得
-	 * @return all
+	 * @return next_all
 	 */
 	public double getNextAll() {
 		return next_all;
@@ -44,7 +46,5 @@ public class MineBlockIncrementEvent extends CustomEvent{
 	public GiganticPlayer getGiganticPlayer() {
 		return gp;
 	}
-
-
 
 }

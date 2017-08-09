@@ -12,12 +12,12 @@ import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.metadata.FixedMetadataValue;
 
-import com.github.unchama.listener.GeneralBreakListener;
+import com.github.unchama.listener.listeners.GeneralBreakListener;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.gravity.GravityManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.minestack.MineStackManager;
 import com.github.unchama.player.seichilevel.SeichiLevelManager;
 import com.github.unchama.player.seichiskill.SkillEffectManager;
@@ -147,6 +147,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 		}
 
 		MineBlockManager mb = gp.getManager(MineBlockManager.class);
+		SkillBreakBlockManager bbm = gp.getManager(SkillBreakBlockManager.class);
 		// break直前の処理
 		List<ItemStack> droplist = new ArrayList<ItemStack>();
 		breaklist
@@ -161,9 +162,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 							+ 1
 							+ ")for player:"
 							+ player.getName());
-					// スキルで使用するブロックに設定
-					b.setMetadata("Skilled", new FixedMetadataValue(plugin,
-							true));
+					bbm.increase(ActiveSkillType.MAGICDRIVE, 1.0);
 					// アイテムが出現するのを検知させる
 					Location droploc = GeneralBreakListener.getDropLocation(b);
 					GeneralBreakListener.breakmap.put(droploc,
@@ -176,10 +175,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 					}, 1);
 				});
 
-		liquidlist.forEach(b -> {
-			// スキルで使用するブロックに設定
-				b.setMetadata("Skilled", new FixedMetadataValue(plugin, true));
-			});
+
 
 		// MineStackに追加
 		MineStackManager m = gp.getManager(MineStackManager.class);
@@ -200,7 +196,7 @@ public class MagicDriveManager extends ActiveSkillManager{
 		//エフェクトマネージャでブロックを処理
 		SkillEffectManager effm = gp.getManager(SkillEffectManager.class);
 
-		effm.createRunner(st).magicdriveEffect(breaklist, liquidlist, alllist, this.getRange());
+		effm.createRunner(st).magicdriveEffect(gp,block,breaklist, liquidlist, alllist, this.getRange());
 
 		int cooltime = this.getCoolTime(breaklist.size());
 
