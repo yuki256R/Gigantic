@@ -15,7 +15,7 @@ public class DayHuntingExpRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
-		return "総狩猟経験値:" + (int)value;
+		return "総狩猟経験値:" + (long)value;
 	}
 
 	@Override

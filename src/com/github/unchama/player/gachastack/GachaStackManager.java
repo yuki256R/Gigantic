@@ -11,11 +11,11 @@ import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gacha.moduler.GachaItem;
 import com.github.unchama.gacha.moduler.GachaManager;
 import com.github.unchama.gigantic.Gigantic;
-import com.github.unchama.gigantic.PlayerManager;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.GachaStackTableManager;
+import com.github.unchama.util.OldUtil;
 import com.github.unchama.util.Util;
 
 import de.tr7zw.itemnbtapi.NBTItem;
@@ -50,19 +50,35 @@ public class GachaStackManager extends DataManager implements UsingSql{
 
 	// NBTタグを見てガチャアイテムならスタックする
 	public boolean add(ItemStack itemstack){
-		// SeichiAssist時代のガチャ券ならギガンティックガチャチケットにスタック
-		if(Util.isOldGachaTicket(itemstack)){
-			return addItem(itemstack, GachaType.GIGANTIC, 0);
-		}
-
 		NBTItem nbti = new NBTItem(itemstack);
 		GachaType type = GachaManager.getGachaType(nbti);
-		if(type != null){
+		if(OldUtil.isOldGachaTicket(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, 0);
+		}else if(OldUtil.isOldGachaApple(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, 1);
+		}else if(OldUtil.isOldGiganticGift(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, config.getNewGiganticGiftID());
+		}else if(OldUtil.isOldCatalogGift(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, config.getNewCatalogGiftID());
+		}else if(OldUtil.isOldShiinaRingo(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, config.getNewShiinaRingoID());
+		}else if(type != null){
 			int id = GachaManager.getGachaID(nbti);
 			return addItem(itemstack, type, id);
-		}else{
-			return false;
+		}else {
+			int seichiid = OldUtil.getSeichiID(itemstack);
+			if(seichiid != -1){
+				return addItem(itemstack, GachaType.OLD, seichiid + 2);
+			}else{
+				return false;
+			}
 		}
+		/**
+		 * // SeichiAssist時代のガチャ券ならギガンティックガチャチケットにスタック
+		if(OldUtil.isOldGachaTicket(itemstack)){
+			return addItem(itemstack, GachaType.GIGANTIC, 0);
+		}
+		 */
 	}
 
 	private boolean addItem(ItemStack itemstack, GachaType type, int id){
@@ -74,11 +90,13 @@ public class GachaStackManager extends DataManager implements UsingSql{
 		// 参考のガチャアイテムを取得
 		GachaManager gm = gacha.getManager(type.getManagerClass());
 		if(!gm.getGachaItemMap().containsKey(id)){
+			//debug.sendMessage(DebugEnum.SQL, "対応するID:" + id + "が存在しません．");
 			return false;
 		}
 		GachaItem gi = gm.getGachaItem(id);
 		// 耐久度が減ったりしてたらアウト
-		if(gi.getItem().getDurability() != itemstack.getDurability()){
+		if(!gi.isUnBreakable()  && gi.getDurability() != itemstack.getDurability()){
+			//debug.sendMessage(DebugEnum.SQL, "耐久値が減っています．スタックできません．");
 			return false;
 		}
 
@@ -107,7 +125,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 	}
 
 	// アイテムの取り出し
-	public boolean takeOutGachaItem(GachaType type, int id){
+	public boolean takeOutGachaItem(Player player,GachaType type, int id){
 		if(!itemMap.containsKey(type)){
 			return false;
 		}
@@ -126,7 +144,7 @@ public class GachaStackManager extends DataManager implements UsingSql{
 
 		// 一度にスタックできる限り取り出す
 		GachaItem gi = gm.getGachaItem(id);
-		ItemStack item = gi.getItem().clone();
+		ItemStack item = gi.getItem(player);
 		int stackSize = item.getMaxStackSize();
 		if(stackSize > amount){
 			stackSize = amount;
@@ -135,7 +153,6 @@ public class GachaStackManager extends DataManager implements UsingSql{
 		item.setAmount(stackSize);
 
 		// アイテムの付与とスタックの減算
-		Player player = PlayerManager.getPlayer(gp);
 		Util.giveItem(player, item, true);
 		map.put(id, amount);
 

@@ -18,7 +18,7 @@ public final class DayBuildRankingMenuManager extends RankingMenuManager {
 
 	@Override
 	protected String getLore(double value) {
-		return "総建築量:" + (int)value;
+		return "総建築量:" + (long)value;
 	}
 
 	@Override

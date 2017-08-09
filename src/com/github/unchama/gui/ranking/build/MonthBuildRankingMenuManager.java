@@ -17,7 +17,7 @@ import com.github.unchama.sql.moduler.RankingTableManager.TimeType;
 public final class MonthBuildRankingMenuManager extends RankingMenuManager {
 	@Override
 	protected String getLore(double value) {
-		return "総建築量:" + (int)value;
+		return "総建築量:" + (long)value;
 	}
 
 	@Override

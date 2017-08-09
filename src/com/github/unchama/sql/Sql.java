@@ -16,6 +16,7 @@ import com.github.unchama.player.achievement.AchievementManager;
 import com.github.unchama.player.build.BuildManager;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
 import com.github.unchama.player.donate.DonateDataManager;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.player.fishing.FishingManager;
 import com.github.unchama.player.fishinglevel.FishingLevelManager;
 import com.github.unchama.player.gacha.PlayerGachaManager;
@@ -24,6 +25,7 @@ import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
+import com.github.unchama.player.inventory.InventoryManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineblock.SkillBreakBlockManager;
@@ -54,6 +56,7 @@ import com.github.unchama.sql.player.AchievementTableManager;
 import com.github.unchama.sql.player.BuildTableManager;
 import com.github.unchama.sql.player.CondensationTableManager;
 import com.github.unchama.sql.player.DimensionalInventoryTableManager;
+import com.github.unchama.sql.player.ExpTableManager;
 import com.github.unchama.sql.player.ExplosionTableManager;
 import com.github.unchama.sql.player.FairyAegisTableManager;
 import com.github.unchama.sql.player.FishingLevelTableManager;
@@ -63,6 +66,7 @@ import com.github.unchama.sql.player.GiganticTableManager;
 import com.github.unchama.sql.player.HomeTableManager;
 import com.github.unchama.sql.player.HuntingLevelTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
+import com.github.unchama.sql.player.InventoryTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.sql.player.ManaTableManager;
 import com.github.unchama.sql.player.MineBlockTableManager;
@@ -125,7 +129,6 @@ public class Sql {
 		BUILDRANKING(BuildRankingTableManager.class),//
 		LOGINTIMERANKING(LoginTimeRankingTableManager.class),//
 		HOME(HomeTableManager.class, HomeManager.class),//
-		//PLAYEREFFECT(SkillEffectTableManager.class),//
 		HUNTINGEXPRANKING(HuntingExpRankingTableManager.class),//
 		FISHINGEXPRANKING(FishingExpRankingTableManager.class),//
 		DONATEDATA(DonateTableManager.class, DonateDataManager.class),
@@ -136,6 +139,8 @@ public class Sql {
 		UNCHAMAPOINT(UnchamaPointTableManager.class, UnchamaPointManager.class),
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
+		EXP(ExpTableManager.class,ExpManager.class),
+		INVENTORY(InventoryTableManager.class,InventoryManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -576,7 +581,7 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				rtm.join(gp);
+				rtm.onAvailable(gp);
 			}
 		}
 	}

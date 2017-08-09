@@ -143,6 +143,7 @@ public final class GrowthTool {
 	 * Growth Toolドロップ判定処理。<br />
 	 * 整地時にGrowth Toolをドロップするかどうかを判定する。<br />
 	 * ドロップ抽選に当選した場合、ドロップバランスによりどのGrowth Toolを配布するかを判定する。<br />
+	 * デフォルトでは金床の使用を許可していないので、許可したいツールを作る際には別途対応が必要。<br />
 	 *
 	 * @param player 抽選対象のプレイヤー
 	 */
@@ -153,7 +154,7 @@ public final class GrowthTool {
 				balance.add(manager.getDropBalance());
 			}
 			GrwRandomList<GrowthToolManager> managerlist = new GrwRandomList<GrowthToolManager>(new ArrayList<GrowthToolManager>(managermap.values()));
-			managerlist.getRandom(balance).giveDefault(player);
+			managerlist.getRandom(balance).giveDefault(player, false);
 		}
 	}
 
@@ -179,8 +180,8 @@ public final class GrowthTool {
 				player.add((Player) ((EntityDamageByEntityEvent) event).getEntity());
 			}
 		} else if (event instanceof EntityDeathEvent) {
-			if (((EntityDeathEvent) event).getEntity() instanceof Player) {
-				player.add((Player) ((EntityDeathEvent) event).getEntity());
+			if (((EntityDeathEvent) event).getEntity().getKiller() != null) {
+				player.add(((EntityDeathEvent) event).getEntity().getKiller());
 			}
 		} else if (event instanceof PlayerItemBreakEvent) {
 			player.add(((PlayerItemBreakEvent) event).getPlayer());
@@ -234,13 +235,14 @@ public final class GrowthTool {
 	/**
 	 * Growth Tool配布処理。デバッグ専用コマンドにより呼び出される。<br />
 	 * 引数のGrowthToolTypeに応じたGrowth Toolをplayerに配布する。<br />
+	 * デフォルトでは金床の使用を許可していないので、許可したいツールを作る際には別途対応が必要。<br />
 	 *
 	 * @param gt 配布対象のGrowth Tool
 	 * @param player Growth Toolを配布するプレイヤー
 	 * @return (true: インベントリ収納成功 / false: インベントリフルによるアイテムドロップ)
 	 */
 	public static final boolean giveDefault(GrowthToolType gt, Player player) {
-		return managermap.get(gt.getManagerClass()).giveDefault(player);
+		return managermap.get(gt.getManagerClass()).giveDefault(player, false);
 	}
 
 	/**

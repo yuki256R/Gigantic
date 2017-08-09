@@ -10,6 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.event.PlayerFirstJoinEvent;
 import com.github.unchama.gigantic.Gigantic;
+import com.github.unchama.growthtool.GrowthTool;
+import com.github.unchama.growthtool.moduler.GrowthToolManager;
+import com.github.unchama.growthtool.moduler.equiptype.Helmet;
 import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.DebugManager;
@@ -49,6 +52,9 @@ public class PlayerFirstJoinListener implements Listener {
 		player.getInventory().addItem(new ItemStack(Material.DIAMOND_SPADE));
 		player.getInventory().addItem(new ItemStack(Material.LOG,64));
 		//MebiusListener.give(p);
+		//メビウス配布処理
+		Helmet mebius = new Helmet(GrowthTool.GrowthToolType.MEBIUS);
+		mebius.giveDefaultEquipment(player, GrowthToolManager.EquipmentType.HELMET, false);
 	}
 
 }

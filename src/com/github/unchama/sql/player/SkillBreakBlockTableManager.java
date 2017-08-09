@@ -4,13 +4,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-//import org.bukkit.Bukkit;
-
-import com.github.unchama.player.GiganticPlayer;
-import com.github.unchama.player.mineblock.SkillBreakBlockManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerTableManager;
+//import org.bukkit.Bukkit;
+import com.github.unchama.player.mineblock.SkillBreakBlockManager;
+import com.github.unchama.player.GiganticPlayer;
 
 /**
  * スキル別破壊量プレイヤーデータセーブ用
@@ -57,7 +56,7 @@ public class SkillBreakBlockTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		SkillBreakBlockManager bbmanager = gp.getManager(SkillBreakBlockManager.class);
 		HashMap<ActiveSkillType, Double> savemap = bbmanager.getNumMap();
 

@@ -67,6 +67,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 	public Inventory getInventory(Player player, int slot, int page) {
 		GiganticPlayer gp = PlayerManager.getGiganticPlayer(player);
 		GuiStatusManager manager = gp.getManager(GuiStatusManager.class);
+		manager.setSelectedCategory(this, AdminCustomHeadMainMenuManager.giveCategoryNames.get(slot));
 		manager.setCurrentPage(this, page);
 
 		Inventory inv = Bukkit.getServer().createInventory(player,
@@ -74,7 +75,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 				this.getInventoryName(player) + "- " + page + "ページ");
 
 		String categoryName = gp.getManager(GuiStatusManager.class)
-				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+				.getSelectedCategory(this);
 		HeadCategory category = headManager.getCategoryHeads(categoryName);
 
 		// とりだしボタン
@@ -114,7 +115,7 @@ public class AdminCustomHeadGiveMenuManager extends GuiMenuManager {
 		int slot = Integer.valueOf(identifier);
 
 		String categoryName = gp.getManager(GuiStatusManager.class)
-				.getSelectedCategory("AdminCustomHeadMainMenuManager");
+				.getSelectedCategory(this);
 		HeadCategory category = headManager.getCategoryHeads(categoryName);
 
 		// ページ戻るボタン

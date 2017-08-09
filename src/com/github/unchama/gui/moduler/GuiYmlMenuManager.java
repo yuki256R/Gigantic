@@ -24,11 +24,14 @@ import com.github.unchama.gui.GuiMenu;
 import com.github.unchama.gui.GuiMenu.ManagerType;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.dimensionalinventory.DimensionalInventoryManager;
+import com.github.unchama.player.exp.ExpManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.menu.PlayerMenuManager;
 import com.github.unchama.player.time.PlayerTimeManager;
 import com.github.unchama.player.toolpouch.ToolPouchManager;
 import com.github.unchama.toolrepair.ToolRepair;
+import com.github.unchama.util.Converter;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.DebugManager.DebugEnum;
 
 /**
@@ -163,6 +166,9 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			case "dimensionalinventory":
 				methodmap.put(i, "openDimensionalInventory");
 				break;
+			case "enderchest":
+				methodmap.put(i, "openEnderChest");
+				break;
 			default:
 				break;
 			}
@@ -208,6 +214,10 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 		case "openDimensionalInventory":
 			gp.getManager(DimensionalInventoryManager.class).open(player);
 			return true;
+		case "openEnderChest":
+			player.playSound(player.getLocation(), Sound.BLOCK_ENDERCHEST_OPEN, 1, (float) 1.0);
+			player.openInventory(player.getEnderChest());
+			return true;
 		case "commandFastCraft":
 			player.closeInventory();
 			player.playSound(player.getLocation(),
@@ -233,6 +243,17 @@ public abstract class GuiYmlMenuManager extends GuiMenuManager {
 			// β専用の機能
 		case "betamanacure":
 			gp.getManager(ManaManager.class).increase(99999999);
+			return true;
+		case "exchangehead":
+			ExpManager eM = gp.getManager(ExpManager.class);
+			if(eM.hasExp(10000)){
+				eM.changeExp(-10000);
+				Util.giveItem(player, head.getPlayerHead(Converter.getName(player)), true);
+			}else{
+				player.playSound(player.getLocation(),
+						Sound.BLOCK_STONE_BUTTON_CLICK_OFF, 1, 1.5F);
+			}
+			this.update(player);
 			return true;
 		default:
 			return false;

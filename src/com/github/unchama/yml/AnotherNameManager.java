@@ -6,6 +6,11 @@ import java.util.Map;
 import com.github.unchama.achievement.AnotherName;
 import com.github.unchama.yml.moduler.YmlManager;
 
+/**
+ *
+ * @author tar0ss
+ *
+ */
 public class AnotherNameManager extends YmlManager {
 
 	private static Map<Integer,AnotherName> map = new HashMap<Integer,AnotherName>();

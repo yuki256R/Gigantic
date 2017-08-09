@@ -82,7 +82,7 @@ public class HomeTableManager extends PlayerFromSeichiTableManager {
 
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		HomeManager m = gp.getManager(HomeManager.class);
 		String command = "";
 		command += "homepoint_" + config.getServerNum() + " = '" + m.HomeToString() + "',";

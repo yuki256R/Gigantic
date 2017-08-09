@@ -1,5 +1,6 @@
 package com.github.unchama.player.fishinglevel;
 
+
 /**
  *
  * @author ten_niti
@@ -15,11 +16,12 @@ public class FishingLevel {
 	public FishingLevel(int level_) {
 		level = level_;
 		need_exp = calcNeedExp(level);
+		//Bukkit.getServer().getLogger().info("fishing" + level + " : " + need_exp);
 		next_exp = calcNeedExp(level + 1);
 	}
 
 	private double calcNeedExp(int level) {
-		return ((level - 1) ^ 3) * 10;
+		return (Math.pow((level - 1), 3)) * 10;
 	}
 
 	public int getLevel() {

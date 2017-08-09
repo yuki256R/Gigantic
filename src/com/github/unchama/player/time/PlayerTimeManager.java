@@ -18,7 +18,7 @@ import com.github.unchama.player.moduler.Finalizable;
 import com.github.unchama.player.moduler.Initializable;
 import com.github.unchama.player.moduler.UsingSql;
 import com.github.unchama.sql.player.PlayerTimeTableManager;
-import com.github.unchama.util.Util;
+import com.github.unchama.util.Converter;
 
 /**
 *
@@ -97,7 +97,7 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 
 	// 放置時間を除いた累計プレイ時間を「HH時間MM分」の文字列で返す
 	public String GetTotalLoginTimeToString() {
-		return Util.toTimeString(Util.toSecond(GetValidLoginTime()));
+		return Converter.toTimeString(Converter.toSecond(GetValidLoginTime()));
 	}
 
 	public int GetValidLoginTime() {
@@ -222,5 +222,9 @@ public class PlayerTimeManager extends DataManager implements UsingSql,
 
 	public void setLastCheckDate(String lastcheckdate) {
 		this.lastcheckdate = lastcheckdate;
+	}
+
+	public int getIdleMinutes() {
+		return this.idletime;
 	}
 }

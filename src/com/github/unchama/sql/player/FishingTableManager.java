@@ -66,7 +66,7 @@ public class FishingTableManager extends PlayerTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		FishingManager m = gp.getManager(FishingManager.class);
 		String command = "";
 

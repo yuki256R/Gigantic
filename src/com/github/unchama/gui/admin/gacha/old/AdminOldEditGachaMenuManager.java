@@ -49,7 +49,7 @@ public class AdminOldEditGachaMenuManager  extends AdminMenuManager {
 			ItemMeta im;
 			List<String> lore;
 			if (gi != null) {
-				is = gi.getItem();
+				is = gi.getItemSample();
 				im = is.getItemMeta();
 				if (im.hasLore()) {
 					lore = im.getLore();
@@ -142,7 +142,7 @@ public class AdminOldEditGachaMenuManager  extends AdminMenuManager {
 			}
 			Inventory binv = player.getOpenInventory().getBottomInventory();
 			ItemStack ans = binv.getItem(itemid).clone();
-			gm.addGachaItem(ans, r, r.getProbability(), ans.getAmount());
+			gm.addGachaItem(ans, r, r.getProbability(), ans.getAmount(),true);
 			this.update(player);
 			player.sendMessage(ChatColor.GREEN + "正常に追加されました．");
 			return true;
