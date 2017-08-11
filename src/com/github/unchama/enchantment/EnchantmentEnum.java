@@ -12,6 +12,20 @@ import java.util.*;
 public enum EnchantmentEnum {
 
     //コメントアウトは保留案件
+
+    //II
+    CHOBA("跳馬", new ChobaEnchantment(), MaterialUtil.getHelmets()),
+    TOSSHIN("突進", new TosshinEnchantment(), MaterialUtil.getHelmets()),
+    FUROFUSHI("不老不死", new FuroFushiEnchantment(), MaterialUtil.getLeggings()),
+    KOTUEI("骨影", new KotueiEnchantment(), MaterialUtil.getPickaxes()),
+    YUWAKU("誘惑", new YuwakuEnchantment(), MaterialUtil.getSwords()),
+    HANGEKI("反撃", new HangekiEnchantment(), Material.BOW),
+    ITAZURA("悪戯", new ItazuraEnchantment(), MaterialUtil.getAxes()),
+    //NIDANJUMP("二段ジャンプ", new NidanJumpEnchantment(), MaterialUtil.getBoots()),
+    SYUNPO("瞬歩", new SyunpoEnchantment(), MaterialUtil.getShovels()),
+    ANTIKNOWKBACK("ノックバック耐性", new AntiKnockbackEnchantment(), MaterialUtil.getBoots()),
+
+    //III
     HAHUU("覇風", new HahuuEnchantment(), MaterialUtil.getPickaxes(), 1),
     //DENSEN("伝染", new DensenEnchantment(), MaterialUtil.getAxes()),
     HYOKA("氷華", new HyokaEnchantment(), MaterialUtil.getShovels(), 1),
