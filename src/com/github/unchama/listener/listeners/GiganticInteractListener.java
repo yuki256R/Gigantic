@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -114,7 +113,7 @@ public class GiganticInteractListener implements Listener {
 		// gacha券tagを判定
 		if (GachaManager.isTicket(nbti)
 				//UUIDを判定
-				&& nbti.getObject(Gacha.ROLLPLAYERUUIDNBT, UUID.class).equals(player.getUniqueId())) {
+				&& GachaManager.isIndividual(nbti,player)) {
 			event.setCancelled(true);
 		} else {
 			return;

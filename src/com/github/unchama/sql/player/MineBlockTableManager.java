@@ -15,6 +15,7 @@ import com.github.unchama.player.mineblock.MineBlock;
 import com.github.unchama.player.mineblock.MineBlock.TimeType;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.seichi.sql.PlayerDataTableManager;
+import com.github.unchama.seichi.sql.rank.RankData;
 import com.github.unchama.sql.Sql;
 import com.github.unchama.sql.moduler.PlayerFromSeichiTableManager;
 
@@ -66,7 +67,7 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		MineBlockManager m = gp.getManager(MineBlockManager.class);
 		LinkedHashMap<BlockType, MineBlock> breakMap = m.getBreakMap();
 		LinkedHashMap<Material, MineBlock> condensMap = m.getCondensMap();
@@ -116,6 +117,35 @@ public class MineBlockTableManager extends PlayerFromSeichiTableManager {
 		}
 		m.setAll(new MineBlock());
 		return;
+	}
+
+	public void sendTakeOverData(List<RankData> ranklist) {
+
+		String command = "";
+		this.checkStatement();
+
+		command = "insert into " + db + "." + table + " (uuid,name,allmineblock,loginflag) values ";
+
+		for(RankData rnkdt : ranklist){
+			command += "('" + rnkdt.getUuid().toString() + "','" + rnkdt.getName() + "'," + rnkdt.getAllmineblock() + ",false),";
+		}
+
+		command += "last";
+
+		command = command.replace(",last", "");
+
+		if (command.contains("last")) {
+			return;
+		}
+
+		try {
+			stmt.executeUpdate(command);
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to insert " + table);
+			e.printStackTrace();
+			return;
+		}
 	}
 
 }

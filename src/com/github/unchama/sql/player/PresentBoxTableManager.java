@@ -36,7 +36,7 @@ public class PresentBoxTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		PresentBoxManager m = gp.getManager(PresentBoxManager.class);
 		String command = "";
 		command += "inventory = '"

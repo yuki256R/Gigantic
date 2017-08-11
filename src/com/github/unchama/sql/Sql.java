@@ -25,6 +25,7 @@ import com.github.unchama.player.gigantic.GiganticManager;
 import com.github.unchama.player.home.HomeManager;
 import com.github.unchama.player.huntinglevel.HuntingLevelManager;
 import com.github.unchama.player.huntingpoint.HuntingPointManager;
+import com.github.unchama.player.inventory.InventoryManager;
 import com.github.unchama.player.mana.ManaManager;
 import com.github.unchama.player.mineblock.MineBlockManager;
 import com.github.unchama.player.mineblock.SkillBreakBlockManager;
@@ -65,6 +66,7 @@ import com.github.unchama.sql.player.GiganticTableManager;
 import com.github.unchama.sql.player.HomeTableManager;
 import com.github.unchama.sql.player.HuntingLevelTableManager;
 import com.github.unchama.sql.player.HuntingPointTableManager;
+import com.github.unchama.sql.player.InventoryTableManager;
 import com.github.unchama.sql.player.MagicDriveTableManager;
 import com.github.unchama.sql.player.ManaTableManager;
 import com.github.unchama.sql.player.MineBlockTableManager;
@@ -138,6 +140,7 @@ public class Sql {
 		GIGANTICPOINT(GiganticPointTableManager.class, GiganticPointManager.class),
 		ACHIEVEMENT(AchievementTableManager.class,AchievementManager.class),
 		EXP(ExpTableManager.class,ExpManager.class),
+		INVENTORY(InventoryTableManager.class,InventoryManager.class),
 		;
 
 		private Class<? extends TableManager> tablemanagerClass;
@@ -578,7 +581,7 @@ public class Sql {
 			if (RankingTableManager.class.isAssignableFrom(mt)) {
 				RankingTableManager rtm = (RankingTableManager) managermap
 						.get(mt);
-				rtm.join(gp);
+				rtm.onAvailable(gp);
 			}
 		}
 	}

@@ -22,8 +22,8 @@ public enum ExchangeType implements InventoryHolder {
 					Material.DIAMOND_ORE), new OreExchanger()),
 	GIGANTICGACHA(ChatColor.AQUA + "不要ガチャ景品交換システム", new String[] { ChatColor.GREEN + "不要なガチャ品を",
 			ChatColor.GREEN + "ガチャ券と交換します" }, new ItemStack(Material.DIAMOND_PICKAXE), new GachaExchanger()),
-			
-			
+
+
 			;
 
 	//メニュー用アイコン

@@ -7,6 +7,7 @@ import java.util.BitSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
@@ -18,6 +19,7 @@ import com.github.unchama.player.minestack.MineStack;
 import com.github.unchama.player.minestack.StackType;
 import com.github.unchama.player.seichiskill.effect.EffectType;
 import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
+import com.github.unchama.seichi.sql.rank.RankData;
 import com.github.unchama.sql.player.MineStackTableManager;
 import com.github.unchama.util.BukkitSerialization;
 import com.github.unchama.util.Converter;
@@ -582,15 +584,15 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		return point;
 	}
 
-	public float getExp(GiganticPlayer gp) {
+	public int getExp(GiganticPlayer gp) {
 		String command = "select totalexp from " + db + "." + table
 				+ " where uuid = '" + gp.uuid.toString() + "';";
 
-		long exp = 0;
+		int exp = 0;
 		try {
 			rs = stmt.executeQuery(command);
 			rs.next();
-			exp = rs.getLong("totalexp");
+			exp = rs.getInt("totalexp");
 			rs.close();
 		} catch (SQLException e) {
 			plugin.getLogger().warning(
@@ -598,7 +600,7 @@ public class PlayerDataTableManager extends SeichiTableManager {
 			e.printStackTrace();
 		}
 
-		return (float)exp;
+		return exp;
 	}
 
 	public int getPremiumPoint(GiganticPlayer gp) {
@@ -618,6 +620,66 @@ public class PlayerDataTableManager extends SeichiTableManager {
 		}
 
 		return point;
+	}
+
+	public List<RankData> getAllRankData(){
+		List<RankData> ranklist = new ArrayList<RankData>();
+        String command = "select uuid,name,totalbreaknum from " + db + "." + table;
+        this.checkStatement();
+
+        try {
+            rs = stmt.executeQuery(command);
+            while (rs.next()) {
+                UUID uuid = UUID.fromString(rs.getString("uuid"));
+                Long l = rs.getLong("totalbreaknum");
+                String name = rs.getString("name");
+                ranklist.add(new RankData(uuid,name,l));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ranklist;
+	}
+
+	public int getAllRecordNum() {
+		String command = "select count(*) as num from " + db + "." + table
+				+ ";";
+
+		int num = 0;
+		try {
+			rs = stmt.executeQuery(command);
+			rs.next();
+			num = rs.getInt("num");
+			rs.close();
+		} catch (SQLException e) {
+			plugin.getLogger().warning(
+					"Failed to load AllRecordNum");
+			e.printStackTrace();
+		}
+
+		return num;
+	}
+
+	public List<RankData> getAllRankData(int i,int offset) {
+		List<RankData> ranklist = new ArrayList<RankData>();
+        String command = "select uuid,name,totalbreaknum from " + db + "." + table
+        		 + " limit " + i + " offset " + offset;
+        this.checkStatement();
+
+        try {
+            rs = stmt.executeQuery(command);
+            while (rs.next()) {
+                UUID uuid = UUID.fromString(rs.getString("uuid"));
+                Long l = rs.getLong("totalbreaknum");
+                String name = rs.getString("name");
+                ranklist.add(new RankData(uuid,name,l));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ranklist;
 	}
 
 

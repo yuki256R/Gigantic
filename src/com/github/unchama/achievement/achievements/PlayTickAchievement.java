@@ -7,6 +7,11 @@ import com.github.unchama.achievement.GiganticAchievement;
 import com.github.unchama.event.PlayerTimeIncrementEvent;
 import com.github.unchama.util.Converter;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public final class PlayTickAchievement extends GiganticAchievement implements Listener{
 	/**playtickがこの値を超えた時に実績を解除します
 	 *

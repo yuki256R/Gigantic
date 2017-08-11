@@ -11,6 +11,11 @@ import com.github.unchama.event.GiganticPlayerAvailableEvent;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.achievement.AchievementManager;
 
+/**
+ * 
+ * @author tar0ss
+ *
+ */
 public final class SpecialAchievement extends GiganticAchievement implements Listener {
 
 	private final String info;

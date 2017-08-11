@@ -57,7 +57,7 @@ public class ExplosionTableManager extends PlayerTableManager{
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		String command = "";
 		// Explosion
 		ExplosionManager m = gp.getManager(ExplosionManager.class);

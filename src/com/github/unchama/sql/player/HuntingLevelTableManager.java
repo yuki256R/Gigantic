@@ -41,7 +41,7 @@ public class HuntingLevelTableManager extends PlayerTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		HuntingLevelManager m = gp.getManager(HuntingLevelManager.class);
 		String command = "";
 		command += "exp = '" + m.getExp() + "',";

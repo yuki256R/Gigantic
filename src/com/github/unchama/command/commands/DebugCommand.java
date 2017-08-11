@@ -3,12 +3,11 @@ package com.github.unchama.command.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.unchama.event.PlayerFirstJoinEvent;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.gigantic.PlayerManager;
@@ -21,8 +20,11 @@ import com.github.unchama.player.seichiskill.moduler.ActiveSkillManager;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.sidebar.SideBarManager;
 import com.github.unchama.player.sidebar.SideBarManager.Information;
+import com.github.unchama.seichi.sql.MineStackGachaDataTableManager;
 import com.github.unchama.util.Converter;
+import com.github.unchama.util.OldUtil;
 import com.github.unchama.util.SeichiSkillAutoAllocation;
+import com.github.unchama.util.Util;
 import com.github.unchama.yml.ConfigManager;
 
 public class DebugCommand implements TabExecutor {
@@ -121,8 +123,60 @@ public class DebugCommand implements TabExecutor {
 				sender.sendMessage("建築レベルを"+ level + "に設定しました．ログアウト時に自動的に解除されます．");
 
 			}
+		}else if(args[0].equalsIgnoreCase("seichiassist")){
+			if(args[1].equalsIgnoreCase("givems")){
+				//debug seichiassist givems <ID>
+				if(!(sender instanceof Player)){
+					sender.sendMessage("ゲーム内で実行してください．");
+					return true;
+				}
+
+				if(args.length != 3){
+					sender.sendMessage("/debug seichiassist givems <ID>");
+					return true;
+				}
+
+				int id = Converter.toInt(args[2]);
+				Player player = (Player) sender;
+
+				MineStackGachaDataTableManager tm = Gigantic.seichisql.getManager(MineStackGachaDataTableManager.class);
+				ItemStack is = tm.getAllMSGachaData().get(id);
+
+				if(is == null){
+					sender.sendMessage("idが不正です．");
+					return true;
+				}
+
+				Util.giveItem(player, is, false);
+				sender.sendMessage("正常に受け取りました");
+				return true;
+			}else if(args[1].equalsIgnoreCase("gachaimo")){
+				//debug seichiassist gachaimo
+				if(!(sender instanceof Player)){
+					sender.sendMessage("ゲーム内で実行してください．");
+					return true;
+				}
+
+				if(args.length != 2){
+					sender.sendMessage("/debug seichiassist gachaimo");
+					return true;
+				}
+
+				Player player = (Player) sender;
+				ItemStack is = OldUtil.getGachaimo();
+
+				if(is == null){
+					sender.sendMessage("がちゃりんごがバグってる");
+					return true;
+				}
+
+				Util.giveItem(player, is, false);
+				sender.sendMessage("正常に受け取りました");
+				return true;
+			}
+
 		}
-		return true;
+		return false;
 	}
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command,
@@ -132,22 +186,32 @@ public class DebugCommand implements TabExecutor {
 
             String prefix = args[0].toLowerCase();
             ArrayList<String> commands = new ArrayList<String>();
-            for ( String c : new String[]{"set"} ) {
+            for ( String c : new String[]{"set","seichiassist"} ) {
                 if ( c.startsWith(prefix) ) {
                     commands.add(c);
                 }
             }
             return commands;
-        }else if( args.length == 2 && args[0].equalsIgnoreCase("set")) {
-
-        	String prefix = args[1].toLowerCase();
-            ArrayList<String> commands = new ArrayList<String>();
-            for ( String c : new String[]{"seichilevel", "buildlevel"} ) {
-                if ( c.startsWith(prefix) ) {
-                    commands.add(c);
-                }
-            }
-            return commands;
+        }else if( args.length == 2) {
+        	if(args[0].equalsIgnoreCase("set")){
+	        	String prefix = args[1].toLowerCase();
+	            ArrayList<String> commands = new ArrayList<String>();
+	            for ( String c : new String[]{"seichilevel", "buildlevel"} ) {
+	                if ( c.startsWith(prefix) ) {
+	                    commands.add(c);
+	                }
+	            }
+	            return commands;
+        	}else if(args[0].equalsIgnoreCase("seichiassist")){
+	        	String prefix = args[1].toLowerCase();
+	            ArrayList<String> commands = new ArrayList<String>();
+	            for ( String c : new String[]{"givems", "gachaimo"} ) {
+	                if ( c.startsWith(prefix) ) {
+	                    commands.add(c);
+	                }
+	            }
+	            return commands;
+        	}
         }else if( args.length == 3 && args[1].equalsIgnoreCase("seichilevel")){
         	String prefix = "";
         	ArrayList<String> commands = new ArrayList<String>();

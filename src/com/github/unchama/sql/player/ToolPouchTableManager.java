@@ -53,7 +53,7 @@ public class ToolPouchTableManager extends PlayerTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		ToolPouchManager m = gp.getManager(ToolPouchManager.class);
 		String command = "";
 

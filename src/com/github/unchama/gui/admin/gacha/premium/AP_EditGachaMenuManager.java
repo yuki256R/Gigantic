@@ -138,7 +138,7 @@ public class AP_EditGachaMenuManager  extends AdminMenuManager{
 			}
 			Inventory binv = player.getOpenInventory().getBottomInventory();
 			ItemStack ans = binv.getItem(itemid).clone();
-			gm.addGachaItem(ans, r, r.getProbability(), ans.getAmount());
+			gm.addGachaItem(ans, r, r.getProbability(), ans.getAmount(),true);
 			this.update(player);
 			player.sendMessage(ChatColor.GREEN + "正常に追加されました．");
 			return true;

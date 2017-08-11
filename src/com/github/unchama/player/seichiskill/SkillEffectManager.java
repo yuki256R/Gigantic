@@ -5,6 +5,10 @@ import java.util.HashMap;
 import com.github.unchama.player.GiganticPlayer;
 import com.github.unchama.player.moduler.DataManager;
 import com.github.unchama.player.moduler.UsingSql;
+import com.github.unchama.player.point.GiganticPointManager;
+import com.github.unchama.player.point.UnchamaPointManager;
+import com.github.unchama.player.seichiskill.effect.EffectType;
+import com.github.unchama.player.seichiskill.giganticeffect.GiganticEffectType;
 import com.github.unchama.player.seichiskill.moduler.ActiveSkillType;
 import com.github.unchama.player.seichiskill.moduler.effect.EffectRunner;
 import com.github.unchama.sql.player.SkillEffectTableManager;
@@ -99,6 +103,74 @@ public final class SkillEffectManager extends DataManager implements UsingSql {
 	 */
 	public void unlock(int effect_id) {
 		fmap.put(effect_id, true);
+	}
+
+	public boolean canBuyEffect(int effect_id) {
+		EffectCategory ec = EffectCategory.getCategory(effect_id);
+		return canBuyEffect(effect_id, ec);
+	}
+
+	public boolean canBuyEffect(int effect_id, EffectCategory ec) {
+		switch (ec) {
+		case GIGANTIC:
+			GiganticEffectType gt = GiganticEffectType.getbyID(effect_id);
+			int useDonatePoint = gt.getUseDonatePoint();
+			GiganticPointManager gM = gp.getManager(GiganticPointManager.class);
+			int gpoint = gM.getPoint();
+			if (useDonatePoint <= gpoint) {
+				return true;
+			} else {
+				return false;
+			}
+		case NORMAL:
+			EffectType t = EffectType.getbyID(effect_id);
+			int useVotePoint = t.getUseVotePoint();
+			UnchamaPointManager uM = gp.getManager(UnchamaPointManager.class);
+			int upoint = uM.getPoint();
+			if (useVotePoint <= upoint) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	public void unlockonShop(int effect_id, EffectCategory ec) {
+		switch (ec) {
+		case GIGANTIC:
+			GiganticEffectType gt = GiganticEffectType.getbyID(effect_id);
+			int useDonatePoint = gt.getUseDonatePoint();
+			GiganticPointManager gM = gp.getManager(GiganticPointManager.class);
+			int gpoint = gM.getPoint();
+			if (useDonatePoint <= gpoint) {
+				gM.addPoint(-gt.getUseDonatePoint());
+				this.unlock(effect_id);
+			}
+			return;
+		case NORMAL:
+			EffectType t = EffectType.getbyID(effect_id);
+			int useVotePoint = t.getUseVotePoint();
+			UnchamaPointManager uM = gp.getManager(UnchamaPointManager.class);
+			int upoint = uM.getPoint();
+			if (useVotePoint <= upoint) {
+				uM.addPoint(-t.getUseVotePoint());
+				this.unlock(effect_id);
+			}
+			return;
+		}
+	}
+
+	public String getCurrentPointString(EffectCategory ec) {
+		switch(ec){
+		case GIGANTIC:
+			GiganticPointManager gM = gp.getManager(GiganticPointManager.class);
+			return "保有GP:" + gM.getPoint();
+		case NORMAL:
+			UnchamaPointManager uM = gp.getManager(UnchamaPointManager.class);
+			return "保有GP:" + uM.getPoint();
+		}
+		return "";
 	}
 
 }

@@ -1,11 +1,11 @@
 package com.github.unchama.gacha.moduler;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -16,6 +16,7 @@ import com.github.unchama.gacha.Gacha;
 import com.github.unchama.gacha.Gacha.GachaType;
 import com.github.unchama.gigantic.Gigantic;
 import com.github.unchama.util.BukkitSerialization;
+import com.github.unchama.yml.ConfigManager;
 import com.github.unchama.yml.CustomHeadManager;
 
 import de.tr7zw.itemnbtapi.NBTItem;
@@ -27,7 +28,7 @@ public abstract class GachaManager {
 
 
 
-	private Random rnd;
+
 	// ガチャアイテムリスト
 	private LinkedHashMap<Integer, GachaItem> items;
 	private boolean maintenance;
@@ -35,9 +36,9 @@ public abstract class GachaManager {
 
 	protected CustomHeadManager head = Gigantic.yml
 			.getManager(CustomHeadManager.class);
+	protected ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 
 	public GachaManager(GachaType gt) {
-		rnd = new Random();
 		this.gt = gt;
 		items = new LinkedHashMap<Integer, GachaItem>();
 		// メンテナンスモードを解除
@@ -183,12 +184,16 @@ public abstract class GachaManager {
 	 * @param r
 	 * @param probability
 	 * @param amount
+	 * @return
 	 */
-	public void addGachaItem(ItemStack is, Rarity r, double probability,
-			int amount) {
+	public boolean addGachaItem(ItemStack is, Rarity r, double probability,
+			int amount,boolean pnameflag) {
 		int i = 0;
 		while (items.containsKey(i) || i == Gacha.TICKETID || i == Gacha.APPLEID) {
 			i++;
+		}
+		if(i >= config.getMaxGachaSize()){
+			return false;
 		}
 		// ガチャID,ガチャの種類をNBTタグに追加
 		NBTItem nbti = new NBTItem(is);
@@ -196,8 +201,8 @@ public abstract class GachaManager {
 		nbti.setString(Gacha.GACHATYPENBT, this.getGachaNBT());
 		nbti.setObject(Gacha.GACHARARITYNBT, r);
 		is = nbti.getItem();
-
-		items.put(i, new GachaItem(i, is, amount, r, probability, false));
+		items.put(i, new GachaItem(i, is, amount, r, probability, false,pnameflag));
+		return true;
 	}
 
 	/**
@@ -228,6 +233,7 @@ public abstract class GachaManager {
 	 * @return
 	 */
 	public GachaItem roll() {
+		SecureRandom rnd = new SecureRandom();
 		double r = rnd.nextDouble();
 		double p = 1.0;
 		GachaItem ans = null;
@@ -304,6 +310,21 @@ public abstract class GachaManager {
 			return null;
 		}
 		return uuid;
+	}
+
+	/**このアイテムがプレイヤー個人の所有物であればそのプレイヤーと一致しているか返す．
+	 * 所有者不明の場合常にTRUE
+	 *
+	 * @param nbti
+	 * @param player
+	 * @return
+	 */
+	public static boolean isIndividual(NBTItem nbti, Player player) {
+		if(nbti.hasKey(Gacha.ROLLPLAYERUUIDNBT)){
+			return nbti.getObject(Gacha.ROLLPLAYERUUIDNBT, UUID.class).equals(player.getUniqueId());
+		}else{
+			return true;
+		}
 	}
 
 }

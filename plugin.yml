@@ -78,7 +78,7 @@ commands:
       permission-message: You don't have <permission>
   takeover:
       description: This is Takeover command.
-      usage: /<command> donate
+      usage: /<command> ranking
       default: op
       permission: gigantic.takeover
       permission-message: You don't have <permission>

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.github.unchama.gui.ranking.TotalRankingMenuManager;
 import com.github.unchama.util.Converter;
-import com.github.unchama.util.Util;
 
 /**
  * @author ten_niti
@@ -19,7 +18,7 @@ public final class TotalLoginTimeRankingMenuManager extends TotalRankingMenuMana
 
 	@Override
 	protected String getLore(double value) {
-		return "総接続時間:" + Converter.toTimeString((long)Util.Decimal(value));
+		return "総接続時間:" + Converter.toTimeString((long)Converter.Decimal(value));
 	}
 
 	@Override

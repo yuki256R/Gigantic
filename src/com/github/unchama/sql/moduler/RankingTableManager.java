@@ -299,7 +299,7 @@ public abstract class RankingTableManager extends TableManager {
 	 *
 	 * @param gp
 	 */
-	public void join(GiganticPlayer gp) {
+	public void onAvailable(GiganticPlayer gp) {
 		double a = getValue(gp);
 		map.put(gp.uuid, a);
 		minuteMap.put(gp.uuid, a);

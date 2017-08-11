@@ -23,7 +23,7 @@ public class RegionTableManager extends PlayerFromSeichiTableManager {
 	}
 
 	@Override
-	protected String saveCommand(GiganticPlayer gp) {
+	protected String saveCommand(GiganticPlayer gp,boolean loginflag) {
 		RegionManager m = gp.getManager(RegionManager.class);
 		String command = "";
 		command += "rgnum = '" + m.getRgnum() + "',";
