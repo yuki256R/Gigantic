@@ -1,10 +1,9 @@
 package com.github.unchama.listener.listeners;
 
+import com.github.unchama.player.protect.HalfBlockProtectData;
 import net.md_5.bungee.api.ChatColor;
 
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -81,6 +80,8 @@ public class BlockBreakListener implements Listener {
 		// トグルがオフなら終了
 		if (!skill.getToggle()) {
 			debug.sendMessage(player, DebugEnum.SKILL, "スキルのトグルがオフなため発動できません");
+			//スキルを使っていない→そのまま加算(GrowthTool)
+			GrowthTool.onEvent(event);
 			return;
 		}
 
@@ -142,6 +143,8 @@ public class BlockBreakListener implements Listener {
 		if(skill.run(player, tool, block)){
 			//スキル破壊成功
 			gp.getManager(SecureBreakManager.class).run(player, tool, block, skill);
+			//GrowthTool用イベント
+			GrowthTool.onEvent(event);
 		}
 
 	}
@@ -151,8 +154,67 @@ public class BlockBreakListener implements Listener {
 	 *
 	 * @param event ブロック破壊Bukkitイベント
 	 */
+	/*
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void growthToolEvent(BlockBreakEvent event) {
 		GrowthTool.onEvent(event);
+	}
+	*/
+
+	/**
+	 * y5ハーフブロック破壊抑制
+	 *
+	 * @param
+	 */
+	@EventHandler(priority = EventPriority.HIGHEST)
+	@SuppressWarnings("deprecation")
+	public void onBreakHalfBlock(BlockBreakEvent event) {
+		//プレイヤー・破壊ブロック・ワールドを取得
+		Player p = event.getPlayer();
+		Block b = event.getBlock();
+		World world = p.getWorld();
+		GiganticPlayer gp = PlayerManager.getGiganticPlayer(p);
+
+		//整地ワールド名を取得しておく
+		final String SEICHIWORLDNAME = config.getSeichiWorldName();
+
+		if (b.getType().equals(Material.DOUBLE_STEP)) {
+			//重ねハーフブロックの時下面は残す
+			b.setType(Material.STEP);
+			b.setData((byte) 0);
+
+			//ドロップ処理
+			Location location = b.getLocation();
+			world.dropItemNaturally(location, new ItemStack(Material.STEP));
+		}
+
+		//ハーフブロックでない
+		if (!b.getType().equals(Material.STEP)) {
+			return;
+		}
+
+		//Y=5でない
+		if (b.getY() != 5) {
+			return;
+		}
+
+		//ハーフブロックの上面・下面のデータ値 上面:8, 下面:0(下面のみ対象)
+		if (b.getData() != 0) {
+			return;
+		}
+
+		if (!p.getWorld().getName().toLowerCase().startsWith(SEICHIWORLDNAME)) {
+			//整地系ワールドではないので解除
+			return;
+		}
+
+		if (gp.getManager(HalfBlockProtectData.class).canBreakHalfBlock()) {
+			//権限保持者なので解除
+			return;
+		}
+
+		//該当するのでキャンセル
+		event.setCancelled(true);
+		p.sendMessage(ChatColor.RED + "Y5に敷かれたハーフブロックは破壊不可能です.");
 	}
 }

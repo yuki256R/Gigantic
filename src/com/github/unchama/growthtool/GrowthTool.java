@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.github.unchama.event.GiganticInteractEvent;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -175,6 +176,9 @@ public final class GrowthTool {
 		} else if (event instanceof BlockBreakEvent) {
 			player.add(((BlockBreakEvent) event).getPlayer());
 			dropChance(((BlockBreakEvent) event).getPlayer());
+		} else if (event instanceof GiganticInteractEvent) {
+			player.add(((GiganticInteractEvent) event).getPlayer());
+			dropChance(((GiganticInteractEvent) event).getPlayer());
 		} else if (event instanceof EntityDamageByEntityEvent) {
 			if (((EntityDamageByEntityEvent) event).getEntity() instanceof Player) {
 				player.add((Player) ((EntityDamageByEntityEvent) event).getEntity());

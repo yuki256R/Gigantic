@@ -87,3 +87,8 @@ commands:
       usage: /<command> <player>
       default: op
       permission: gigantic.lastquit
+  halfguard:
+      description: This is HaldGuard command.
+      usage: /<command>
+      default: op
+      permission: gigantic.halfguard
