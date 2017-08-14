@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.github.unchama.growthtool.GrowthTool;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -352,6 +353,9 @@ public class GiganticInteractListener implements Listener {
 
 		new MagicDriveTaskRunnable(player, skill, tool, block)
 				.runTaskTimerAsynchronously(plugin, 0, 1);
+
+		//GrowthTool用イベント
+		GrowthTool.onEvent(event);
 	}
 
 	/**

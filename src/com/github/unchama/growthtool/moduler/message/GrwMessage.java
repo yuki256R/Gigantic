@@ -53,7 +53,7 @@ public class GrwMessage extends GrwRandomList<String> {
 		String message = getRandom();
 		// PlayerNameタグの置換
 		if (player != null) {
-			message = GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getDisplayName()));
+			message = GrwTag.PlayerName.replace(message, getNotEmpty(grwtool.getCall(), player.getName()));
 		}
 		// MonsterNameタグの置換
 		if (entity != null && (entity instanceof Monster || entity instanceof CraftSlime)) {

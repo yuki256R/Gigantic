@@ -12,19 +12,9 @@ import com.github.unchama.growthtool.GrowthTool;
  * @author tar0ss
  *
  */
-<<<<<<< HEAD:src/com/github/unchama/listener/SecondListener.java
-<<<<<<< HEAD
-public class SecondListener implements Listener{
-    private Gigantic plugin = Gigantic.plugin;
-
-=======
-public class SecondListener implements Listener {
->>>>>>> unchama/master
-=======
 
 public class SecondListener implements Listener {
 
->>>>>>> origin/master:src/com/github/unchama/listener/listeners/SecondListener.java
 	@EventHandler
 	public void GiganticLoadListener(SecondEvent event) {
 		// 5秒に１回実行する．
