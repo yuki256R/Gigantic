@@ -1,6 +1,7 @@
 package com.github.unchama.listener.listeners;
 
 import com.github.unchama.player.protect.HalfBlockProtectData;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.*;
@@ -36,9 +37,11 @@ public class BlockBreakListener implements Listener {
 	ConfigManager config = Gigantic.yml.getManager(ConfigManager.class);
 	DebugManager debug = Gigantic.yml.getManager(DebugManager.class);
 	Zenchantments Ze;
+	WorldGuardPlugin Wg;
 
 	public BlockBreakListener() {
 		Ze = Util.getZenchantments();
+		Wg = Util.getWorldGuard();
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST)
@@ -178,7 +181,12 @@ public class BlockBreakListener implements Listener {
 		//整地ワールド名を取得しておく
 		final String SEICHIWORLDNAME = config.getSeichiWorldName();
 
-		if (b.getType().equals(Material.DOUBLE_STEP)) {
+		//自分の保護下でない
+		if (Wg.canBuild(p, b)) {
+			return;
+		}
+
+		if (b.getType().equals(Material.DOUBLE_STEP) && b.getData() == 0) {
 			//重ねハーフブロックの時下面は残す
 			b.setType(Material.STEP);
 			b.setData((byte) 0);
