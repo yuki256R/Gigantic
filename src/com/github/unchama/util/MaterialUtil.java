@@ -30,4 +30,8 @@ public class MaterialUtil {
     public static Material[] getLeggings() {
         return new Material[]{Material.DIAMOND_LEGGINGS, Material.GOLD_LEGGINGS, Material.IRON_LEGGINGS, Material.GOLD_LEGGINGS, Material.LEATHER_LEGGINGS, Material.CHAINMAIL_LEGGINGS};
     }
+
+    public static Material[] getBoots() {
+        return new Material[]{Material.DIAMOND_BOOTS, Material.GOLD_BOOTS, Material.IRON_BOOTS, Material.GOLD_BOOTS, Material.LEATHER_BOOTS, Material.CHAINMAIL_BOOTS};
+    }
 }

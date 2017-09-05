@@ -17,9 +17,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -127,8 +129,19 @@ public class EnchantmentListener implements Listener {
     }
 
     @EventHandler
-    public void playerDamageWithArmorEvent(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof  Player) && event.getEntity() instanceof Player) {
+    public void onPlayerAttack(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player) {
+            Player attacker = (Player) event.getDamager();
+            AtomicBoolean result = new AtomicBoolean(false);
+            result.compareAndSet(false, runEnchantments(event, attacker, attacker.getInventory().getItemInMainHand()));
+            result.compareAndSet(false, runEnchantments(event, attacker, attacker.getInventory().getHelmet()));
+            if (result.get()) event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void playerDamageEvent(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
             if (player.getInventory().getHelmet() != null && player.getInventory().getHelmet().getType() != Material.AIR)
                 Bukkit.getPluginManager().callEvent(new PlayerDamageWithArmorEvent(event, player, player.getInventory().getHelmet(), PlayerDamageWithArmorEvent.ArmorType.HELMET));
@@ -138,6 +151,7 @@ public class EnchantmentListener implements Listener {
                 Bukkit.getPluginManager().callEvent(new PlayerDamageWithArmorEvent(event, player, player.getInventory().getLeggings(), PlayerDamageWithArmorEvent.ArmorType.LEGGINGS));
             if (player.getInventory().getBoots() != null && player.getInventory().getBoots().getType() != Material.AIR)
                 Bukkit.getPluginManager().callEvent(new PlayerDamageWithArmorEvent(event, player, player.getInventory().getBoots(), PlayerDamageWithArmorEvent.ArmorType.BOOTS));
+            runEnchantments(event, player, player.getInventory().getItemInMainHand());
         }
     }
 
@@ -157,10 +171,37 @@ public class EnchantmentListener implements Listener {
     @EventHandler
     public void onSecond(SecondEvent event) {
         for (Player player : event.getOnlinePlayers()) {
+            ItemStack helmet = player.getInventory().getHelmet();
+            if (helmet != null)
+                runEnchantments(event, player, helmet);
+
             ItemStack chestPlate = player.getInventory().getChestplate();
-            if (chestPlate != null && chestPlate.getType() == Material.ELYTRA) {
+            if (chestPlate != null) {
                 runEnchantments(event, player, chestPlate);
             }
+        }
+    }
+
+    @EventHandler
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        AtomicBoolean result = new AtomicBoolean(false);
+        result.compareAndSet(false, runEnchantments(event, (Player)event.getEntity(), event.getEntity().getInventory().getLeggings()));
+    }
+
+    @EventHandler
+    public void onEntityTargeted(EntityTargetLivingEntityEvent event) {
+        if (event.getTarget() instanceof Player) {
+            Player player = (Player) event.getTarget();
+            boolean result = runEnchantments(event, player, player.getInventory().getItemInMainHand());
+            if (result)
+                event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerRightClick(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            runEnchantments(event, event.getPlayer(), event.getPlayer().getInventory().getItemInMainHand());
         }
     }
 }

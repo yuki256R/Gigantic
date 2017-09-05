@@ -24,7 +24,7 @@ public class HyokaEnchantment implements GiganticEnchantment {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     livingEntity.damage(6, player);
                     if (!livingEntity.isDead())
-                        livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 10, 1));
+                        livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 10, 255));
                 }
             }
         }

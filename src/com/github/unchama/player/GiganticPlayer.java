@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 
+import com.github.unchama.player.protect.HalfBlockProtectData;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -118,6 +119,7 @@ public class GiganticPlayer {
 		SKILLBREAKBLOCK(SkillBreakBlockManager.class),
 		EXP(ExpManager.class),
 		INVENTORY(InventoryManager.class),
+		HALFBLOCKPROTECT(HalfBlockProtectData.class),
 		;
 
 		private Class<? extends DataManager> managerClass;

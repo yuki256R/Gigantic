@@ -3,6 +3,7 @@ package com.github.unchama.growthtool.moduler;
 import java.util.List;
 import java.util.Map;
 
+import com.github.unchama.event.GiganticInteractEvent;
 import de.tr7zw.itemnbtapi.NBTItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -348,6 +349,11 @@ public abstract class GrowthToolManager {
 		} else if (event instanceof PlayerQuitEvent) {
 			ret = onPlayerQuitMsg.talk(getTool(player), player, null);
 		} else if (event instanceof BlockBreakEvent) {
+			if (tool.addExp(player)) {
+				setTool(player, tool);
+			}
+			ret = onBlockBreakMsg.talk(tool, player, null);
+		} else if (event instanceof GiganticInteractEvent) {
 			if (tool.addExp(player)) {
 				setTool(player, tool);
 			}
